@@ -9,7 +9,7 @@ S = json.load(open(summ, encoding='utf-8'))['classes']
 cur, res = None, []
 for line in open(hdr, encoding='utf-8'):
     line = line.rstrip('\n')
-    m = re.match(r'^(?:class|struct) (\w+)(?: : public \w+)? \{$', line)
+    m = re.match(r'^(?:class|struct) ([\w:]+)(?: : public [\w:]+)? \{$', line)
     if m:
         cur = m.group(1)
     elif line == '};':

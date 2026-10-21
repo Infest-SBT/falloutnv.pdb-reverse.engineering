@@ -25,6 +25,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "InitializeDataComponent",
@@ -47,18 +48,18 @@
     "2": {
      "name": "CopyComponent",
      "decl": "void CopyComponent(BaseFormComponent*)",
-     "status": "stub",
-     "checked_on": "BaseFormComponent",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4739904,
      "manual": false,
      "note": ""
     },
     "3": {
      "name": "CompareComponent",
      "decl": "bool CompareComponent(BaseFormComponent*)",
-     "status": "stub",
-     "checked_on": "BaseFormComponent",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4740064,
      "manual": false,
      "note": ""
     }
@@ -136,6 +137,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "InitializeDataComponent",
@@ -1693,7 +1695,7 @@
     "pActiveFile": "confirmed",
     "listFiles": "confirmed",
     "iNumCompile": "confirmed",
-    "pFileIndex": "consistent",
+    "pFileIndex": "confirmed",
     "bMasterSave": "confirmed",
     "bSaveLoadGame": "confirmed",
     "bSaveLoad": "confirmed",
@@ -1733,7 +1735,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
+     "independent_functions": 7,
      "write_sites": 1,
      "type_verified": false
     },
@@ -1745,7 +1747,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1757,7 +1759,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1781,7 +1783,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1793,7 +1795,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1817,7 +1819,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1829,7 +1831,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1901,7 +1903,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1913,7 +1915,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1949,7 +1951,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1961,7 +1963,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1973,7 +1975,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1985,7 +1987,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -1997,7 +1999,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2009,7 +2011,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2021,7 +2023,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2045,7 +2047,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2057,7 +2059,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2069,7 +2071,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2081,7 +2083,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
+     "independent_functions": 4,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2093,7 +2095,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2105,7 +2107,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2117,7 +2119,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2129,7 +2131,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
+     "independent_functions": 4,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2141,7 +2143,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2153,7 +2155,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2165,7 +2167,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2177,7 +2179,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2189,7 +2191,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2201,7 +2203,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2213,7 +2215,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2225,7 +2227,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2237,7 +2239,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2249,7 +2251,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2261,7 +2263,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2273,7 +2275,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2285,7 +2287,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2297,7 +2299,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2309,7 +2311,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2321,7 +2323,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2357,7 +2359,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2369,7 +2371,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2381,7 +2383,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2405,7 +2407,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2441,7 +2443,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 1,
      "type_verified": false
     },
@@ -2453,7 +2455,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 7,
+     "independent_functions": 10,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2465,7 +2467,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2477,7 +2479,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 0,
      "type_verified": false
     },
@@ -2489,8 +2491,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
-     "write_sites": 5,
+     "independent_functions": 7,
+     "write_sites": 6,
      "type_verified": false
     },
     "pActiveFile": {
@@ -2501,8 +2503,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
-     "write_sites": 2,
+     "independent_functions": 5,
+     "write_sites": 3,
      "type_verified": false
     },
     "listFiles": {
@@ -2525,20 +2527,20 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 5,
-     "write_sites": 4,
+     "independent_functions": 6,
+     "write_sites": 5,
      "type_verified": false
     },
     "pFileIndex": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 0,
+     "independent_functions": 5,
+     "write_sites": 3,
      "type_verified": false
     },
     "bMasterSave": {
@@ -2561,7 +2563,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
+     "independent_functions": 5,
      "write_sites": 1,
      "type_verified": false
     },
@@ -2574,7 +2576,7 @@
       "class-method-this"
      ],
      "independent_functions": 4,
-     "write_sites": 4,
+     "write_sites": 5,
      "type_verified": false
     },
     "bAutoSaving": {
@@ -2610,7 +2612,7 @@
       "class-method-this"
      ],
      "independent_functions": 4,
-     "write_sites": 3,
+     "write_sites": 4,
      "type_verified": false
     },
     "bHasDesiredFiles": {
@@ -2633,8 +2635,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 2,
      "type_verified": false
     },
     "bLoadingFiles": {
@@ -2717,8 +2719,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 4,
+     "write_sites": 3,
      "type_verified": false
     },
     "pItemDetectedShader": {
@@ -2729,8 +2731,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 4,
+     "write_sites": 3,
      "type_verified": false
     },
     "pCateyeMobileShader": {
@@ -2741,11 +2743,12 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 3,
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -3226,7 +3229,7 @@
      "va": 4608016,
      "name": "TESDataHandler::GetCompiledFile",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 4608064,
@@ -3445,12 +3448,6 @@
      "touches_fields": true
     },
     {
-     "va": 5182128,
-     "name": "TESDataHandler::RegionList::GetSaveSize",
-     "uses_this": false,
-     "touches_fields": false
-    },
-    {
      "va": 5268368,
      "name": "TESDataHandler::GetDehydrationStages",
      "uses_this": true,
@@ -3577,10 +3574,8 @@
      "touches_fields": false
     }
    ],
-   "provisional_fields": [
-    "pFileIndex"
-   ],
-   "provisional": true
+   "provisional_fields": [],
+   "provisional": false
   },
   "BSGameSound": {
    "vtable_va": 17447268,
@@ -3637,7 +3632,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 9,
+     "independent_functions": 13,
      "write_sites": 2,
      "type_verified": false
     },
@@ -3663,7 +3658,7 @@
       "subclass-method-this"
      ],
      "independent_functions": 15,
-     "write_sites": 11,
+     "write_sites": 12,
      "type_verified": false
     },
     "iModifierFlags": {
@@ -3687,8 +3682,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 19,
-     "write_sites": 23,
+     "independent_functions": 20,
+     "write_sites": 28,
      "type_verified": false
     },
     "iDurationInMS": {
@@ -3700,8 +3695,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 9,
-     "write_sites": 7,
+     "independent_functions": 11,
+     "write_sites": 9,
      "type_verified": false
     },
     "iStaticAttenuation": {
@@ -3752,8 +3747,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 4,
-     "write_sites": 3,
+     "independent_functions": 6,
+     "write_sites": 19,
      "type_verified": false
     },
     "iFaderAttenuation": {
@@ -3778,7 +3773,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 9,
      "write_sites": 0,
      "type_verified": false
     },
@@ -3827,8 +3822,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 4,
-     "write_sites": 5,
+     "independent_functions": 5,
+     "write_sites": 6,
      "type_verified": false
     },
     "pFilename": {
@@ -3853,7 +3848,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 6,
      "write_sites": 0,
      "type_verified": false
     },
@@ -3866,7 +3861,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 4,
      "write_sites": 0,
      "type_verified": false
     },
@@ -3905,7 +3900,7 @@
       "subclass-method-this"
      ],
      "independent_functions": 5,
-     "write_sites": 5,
+     "write_sites": 6,
      "type_verified": false
     },
     "fDistanceToListener": {
@@ -3917,7 +3912,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 5,
      "write_sites": 0,
      "type_verified": false
     },
@@ -3955,8 +3950,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 6,
-     "write_sites": 5,
+     "independent_functions": 7,
+     "write_sites": 6,
      "type_verified": false
     },
     "iSynchStartTime": {
@@ -3965,10 +3960,11 @@
      "instruction_verified": true,
      "offset_verified": true,
      "base_pointer": [
-      "class-method-this"
+      "class-method-this",
+      "subclass-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "type_verified": false
     },
     "iCleanupDelayInMS": {
@@ -3977,10 +3973,11 @@
      "instruction_verified": true,
      "offset_verified": true,
      "base_pointer": [
-      "class-method-this"
+      "class-method-this",
+      "subclass-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "type_verified": false
     },
     "fnCompletionCallback": {
@@ -4040,8 +4037,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 3,
      "type_verified": false
     },
     "iLoopEnd": {
@@ -4053,8 +4050,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 3,
      "type_verified": false
     },
     "vBeamEnd": {
@@ -4094,6 +4091,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "~BSGameSound",
@@ -4487,6 +4485,803 @@
    ],
    "provisional": true
   },
+  "BSWin32GameSound": {
+   "vtable_va": 17447924,
+   "base": "BSGameSound",
+   "pc_size": 560,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pDirectSound": "confirmed",
+    "pDSBuffer": "confirmed",
+    "pDSBuffer2": "confirmed",
+    "BufferDesc": "confirmed",
+    "pc1C8": "confirmed",
+    "pc1CC": "confirmed",
+    "pc1D0": "confirmed",
+    "pDS3DBuffer": "confirmed",
+    "pc1D8": "confirmed",
+    "pc1DC": "confirmed",
+    "pc1E0": "confirmed",
+    "pc1F0": "confirmed",
+    "pc1F4": "confirmed",
+    "pc1F8": "confirmed",
+    "pc1FC": "confirmed",
+    "pc200": "confirmed",
+    "pc204": "confirmed",
+    "pc208": "confirmed",
+    "pc20C": "confirmed",
+    "pc20E": "confirmed",
+    "pc210": "confirmed",
+    "pc212": "confirmed",
+    "pc214": "confirmed",
+    "pc218": "confirmed",
+    "pc21C": "confirmed",
+    "pc220": "confirmed",
+    "pc224": "confirmed",
+    "pc228": "confirmed",
+    "pc22C": "confirmed"
+   },
+   "field_details": {
+    "pDirectSound": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 13,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pDSBuffer": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 13,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pDSBuffer2": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "BufferDesc": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 23,
+     "type_verified": false
+    },
+    "pc1C8": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pc1CC": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pc1D0": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pDS3DBuffer": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc1D8": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pc1DC": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 8,
+     "type_verified": false
+    },
+    "pc1E0": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc1F0": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc1F4": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc1F8": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc1FC": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc200": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc204": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pc208": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pc20C": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc20E": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc210": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc212": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc214": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc218": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc21C": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc220": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pc224": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pc228": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pc22C": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {
+    "0": {
+     "name": "~BSGameSound",
+     "decl": "~BSGameSound()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11476160,
+     "manual": false,
+     "note": ""
+    },
+    "1": {
+     "name": "IsPlaying",
+     "decl": "bool IsPlaying()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11443952,
+     "manual": false,
+     "note": ""
+    },
+    "2": {
+     "name": "IsInDecay",
+     "decl": "bool IsInDecay()",
+     "status": "stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11443984,
+     "manual": false,
+     "note": ""
+    },
+    "3": {
+     "name": "IsPaused",
+     "decl": "bool IsPaused()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11444016,
+     "manual": false,
+     "note": ""
+    },
+    "4": {
+     "name": "GetVolume",
+     "decl": "float GetVolume()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11444048,
+     "manual": false,
+     "note": ""
+    },
+    "5": {
+     "name": "SetInaudible",
+     "decl": "void SetInaudible(bool)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11473904,
+     "manual": false,
+     "note": ""
+    },
+    "6": {
+     "name": "SetEnvironmentType",
+     "decl": "void SetEnvironmentType(unsigned)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11444144,
+     "manual": false,
+     "note": ""
+    },
+    "7": {
+     "name": "PriorityTest",
+     "decl": "bool PriorityTest(unsigned)",
+     "status": "stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11444224,
+     "manual": false,
+     "note": ""
+    },
+    "8": {
+     "name": "PriorityTest_2",
+     "decl": "bool PriorityTest_2(BSGameSound*)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11444176,
+     "manual": false,
+     "note": ""
+    },
+    "9": {
+     "name": "Open",
+     "decl": "bool Open()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11448944,
+     "manual": false,
+     "note": ""
+    },
+    "10": {
+     "name": "Prepare",
+     "decl": "bool Prepare()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11453744,
+     "manual": false,
+     "note": ""
+    },
+    "11": {
+     "name": "Copy",
+     "decl": "void Copy(BSGameSound*, bool)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11470384,
+     "manual": false,
+     "note": ""
+    },
+    "12": {
+     "name": "Play",
+     "decl": "bool Play(bool)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11456640,
+     "manual": false,
+     "note": ""
+    },
+    "13": {
+     "name": "Pause",
+     "decl": "bool Pause()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11457568,
+     "manual": false,
+     "note": ""
+    },
+    "14": {
+     "name": "Stop",
+     "decl": "bool Stop()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11457728,
+     "manual": false,
+     "note": ""
+    },
+    "15": {
+     "name": "SetVolume",
+     "decl": "bool SetVolume(float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11458144,
+     "manual": false,
+     "note": ""
+    },
+    "16": {
+     "name": "UpdateEmitterPosition",
+     "decl": "void UpdateEmitterPosition()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11458960,
+     "manual": false,
+     "note": ""
+    },
+    "17": {
+     "name": "Update",
+     "decl": "bool Update(unsigned)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11462016,
+     "manual": false,
+     "note": ""
+    },
+    "18": {
+     "name": "ProcessDataRequest",
+     "decl": "bool ProcessDataRequest(int)",
+     "status": "stub",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11539280,
+     "manual": false,
+     "note": ""
+    },
+    "19": {
+     "name": "SetEmitterPosition",
+     "decl": "void SetEmitterPosition(NiPoint3)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468016,
+     "manual": false,
+     "note": ""
+    },
+    "20": {
+     "name": "SetEmitterPosition_2",
+     "decl": "void SetEmitterPosition_2(float, float, float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11464848,
+     "manual": false,
+     "note": ""
+    },
+    "21": {
+     "name": "GetEmitterPosition",
+     "decl": "NiPoint3 GetEmitterPosition()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468064,
+     "manual": false,
+     "note": ""
+    },
+    "22": {
+     "name": "SetEmitterOrientation",
+     "decl": "void SetEmitterOrientation(float, float, float)",
+     "status": "stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468176,
+     "manual": false,
+     "note": ""
+    },
+    "23": {
+     "name": "SetMinMax",
+     "decl": "void SetMinMax(float, float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468192,
+     "manual": false,
+     "note": ""
+    },
+    "24": {
+     "name": "SetAttenuationCurve",
+     "decl": "void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468640,
+     "manual": false,
+     "note": ""
+    },
+    "25": {
+     "name": "SetFrequency",
+     "decl": "bool SetFrequency(float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11469280,
+     "manual": false,
+     "note": ""
+    },
+    "26": {
+     "name": "GetFrequency",
+     "decl": "float GetFrequency()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11469456,
+     "manual": false,
+     "note": ""
+    },
+    "27": {
+     "name": "Seek",
+     "decl": "void Seek(unsigned)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11469600,
+     "manual": false,
+     "note": ""
+    }
+   },
+   "methods": [
+    {
+     "va": 11447328,
+     "name": "BSWin32GameSound::BSWin32GameSound",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11448944,
+     "name": "BSWin32GameSound::Open",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11452400,
+     "name": "BSWin32GameSound::OpenOgg",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11453744,
+     "name": "BSWin32GameSound::Prepare",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11456640,
+     "name": "BSWin32GameSound::Play",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11457568,
+     "name": "BSWin32GameSound::Pause",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11457728,
+     "name": "BSWin32GameSound::Stop",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11458144,
+     "name": "BSWin32GameSound::SetVolume",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11458960,
+     "name": "BSWin32GameSound::UpdateEmitterPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11462016,
+     "name": "BSWin32GameSound::Update",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11464848,
+     "name": "BSWin32GameSound::SetEmitterPositionF",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11468016,
+     "name": "BSWin32GameSound::SetEmitterPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11468064,
+     "name": "BSWin32GameSound::GetEmitterPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11468176,
+     "name": "BSWin32GameSound::SetEmitterFront",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11468192,
+     "name": "BSWin32GameSound::SetMinMaxDistance",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11468640,
+     "name": "BSWin32GameSound::SetAttenuationCurve",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11469280,
+     "name": "BSWin32GameSound::SetFrequency",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11469456,
+     "name": "BSWin32GameSound::GetFrequency",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11469600,
+     "name": "BSWin32GameSound::Seek",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11470384,
+     "name": "BSWin32GameSound::Copy",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11473904,
+     "name": "BSWin32GameSound::SetInaudible",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11473968,
+     "name": "BSWin32GameSound::PrepareReverb",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11475696,
+     "name": "BSWin32GameSound::RemoveEffects",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11475872,
+     "name": "BSWin32GameSound::SetDirectSound",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11475968,
+     "name": "BSWin32GameSound::Write",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
   "BSAudio": {
    "vtable_va": 17445436,
    "base": null,
@@ -4613,7 +5408,7 @@
       "global-singleton",
       "subclass-method-this"
      ],
-     "independent_functions": 7,
+     "independent_functions": 8,
      "write_sites": 0,
      "type_verified": false
     },
@@ -4695,6 +5490,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "~BSAudio",
@@ -5152,6 +5948,238 @@
    "provisional_fields": [],
    "provisional": false
   },
+  "BSWin32Audio": {
+   "vtable_va": 17447384,
+   "base": "BSAudio",
+   "pc_size": 164,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pDirectSound": "confirmed",
+    "pPrimaryBuffer": "confirmed",
+    "Caps": "confirmed",
+    "hWnd": "confirmed"
+   },
+   "field_details": {
+    "pDirectSound": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pPrimaryBuffer": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "Caps": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "hWnd": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {
+    "0": {
+     "name": "~BSAudio",
+     "decl": "~BSAudio()",
+     "status": "name+stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11446016,
+     "manual": false,
+     "note": ""
+    },
+    "1": {
+     "name": "Init",
+     "decl": "void Init(void*)",
+     "status": "name+stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11444784,
+     "manual": false,
+     "note": ""
+    },
+    "2": {
+     "name": "Shutdown",
+     "decl": "void Shutdown()",
+     "status": "name+stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11445456,
+     "manual": false,
+     "note": ""
+    },
+    "3": {
+     "name": "SetLoopPointCallback",
+     "decl": "void SetLoopPointCallback(void*)",
+     "status": "stub",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11160144,
+     "manual": false,
+     "note": ""
+    },
+    "4": {
+     "name": "GetLoopPointCallback",
+     "decl": "void* GetLoopPointCallback()",
+     "status": "stub",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11372480,
+     "manual": false,
+     "note": ""
+    },
+    "5": {
+     "name": "CreateNewGameSound",
+     "decl": "BSGameSound* CreateNewGameSound(const char*)",
+     "status": "stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11445696,
+     "manual": false,
+     "note": ""
+    },
+    "6": {
+     "name": "FixSoundPath",
+     "decl": "void FixSoundPath(char*)",
+     "status": "stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11445824,
+     "manual": false,
+     "note": ""
+    },
+    "7": {
+     "name": "PrintDebugInfo",
+     "decl": "void PrintDebugInfo()",
+     "status": "stub",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11171888,
+     "manual": false,
+     "note": ""
+    }
+   },
+   "methods": [
+    {
+     "va": 8592864,
+     "name": "BSWin32Audio::IsTimePaused",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11369936,
+     "name": "BSWin32Audio::SetFootstepVolumeMult",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369984,
+     "name": "BSWin32Audio::SetVoiceVolumeMult",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11370032,
+     "name": "BSWin32Audio::SetEffectsVolumeMult",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11370080,
+     "name": "BSWin32Audio::SetMusicVolumeMult",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11370128,
+     "name": "BSWin32Audio::SetRadioVolumeMult",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11372288,
+     "name": "BSWin32Audio::Pause",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444256,
+     "name": "BSWin32Audio::Create",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11444656,
+     "name": "BSWin32Audio::BSWin32Audio",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444784,
+     "name": "BSWin32Audio::Init",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11445456,
+     "name": "BSWin32Audio::Shutdown",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11445648,
+     "name": "BSWin32Audio::Error",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11445696,
+     "name": "BSWin32Audio::GetGameSound",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11445824,
+     "name": "BSWin32Audio::PrependDataSoundPath",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 16629728,
+     "name": "BSWin32Audio::Destroy",
+     "uses_this": false,
+     "touches_fields": false
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
   "BSAudioManager": {
    "vtable_va": 17445736,
    "base": null,
@@ -5250,7 +6278,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 4,
      "write_sites": 0,
      "type_verified": false
     },
@@ -5747,6 +6775,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "~BSAudioManager",
@@ -6223,7 +7252,7 @@
    "base": null,
    "pc_size": 12,
    "align": 4,
-   "size_status": "consistent",
+   "size_status": "confirmed",
    "fields": {
     "iSoundID": "confirmed",
     "bAssumeSuccess": "confirmed",
@@ -6267,6 +7296,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -6499,7 +7529,7 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": false
   },
   "HeapBlock": {
    "base": null,
@@ -6536,6 +7566,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -6615,6 +7646,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
@@ -6658,6 +7690,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
@@ -6681,11 +7714,12 @@
      "base_pointer": [
       "subclass-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 2,
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "~IMemoryHeap",
@@ -6699,9 +7733,9 @@
     "1": {
      "name": "GetName",
      "decl": "const char* GetName()",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11173456,
      "manual": false,
      "note": ""
     },
@@ -6726,45 +7760,45 @@
     "4": {
      "name": "PointerInHeap",
      "decl": "bool PointerInHeap(const void*)",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11173488,
      "manual": false,
      "note": ""
     },
     "5": {
      "name": "CheckHeapIntegrity",
      "decl": "void CheckHeapIntegrity()",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11182000,
      "manual": false,
      "note": ""
     },
     "6": {
      "name": "GetHeapStats",
      "decl": "void GetHeapStats(HeapStats*, bool)",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11182304,
      "manual": false,
      "note": ""
     },
     "7": {
      "name": "OutputBucketInfo",
      "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11182864,
      "manual": false,
      "note": ""
     },
     "8": {
      "name": "OutputBlockInfo",
      "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183152,
      "manual": false,
      "note": ""
     },
@@ -6789,13 +7823,58 @@
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
-     "status": "stub",
-     "checked_on": "IMemoryHeap",
-     "pc_func_va": 11171888,
+     "status": "stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11181328,
      "manual": false,
      "note": ""
     }
    },
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "HeapFreeSubBucket": {
+   "base": null,
+   "pc_size": 8,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "iCount": "confirmed",
+    "pFirst": "confirmed"
+   },
+   "field_details": {
+    "iCount": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "element-of-AbstractHeap.pSubBuckets",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pFirst": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "element-of-AbstractHeap.pSubBuckets",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
    "methods": [],
    "provisional_fields": [],
    "provisional": false
@@ -6823,13 +7902,13 @@
     "pBlockHead": "confirmed",
     "pBlockTail": "confirmed",
     "iNumFreeBlocks": "confirmed",
-    "pSmallFreeList": "consistent",
+    "pSmallFreeList": "confirmed",
     "pLastSmallList": "confirmed",
     "LargeFreeList.pHead": "confirmed",
     "LargeFreeList.pTail": "confirmed",
     "pDelayedFreeBlocksA": "confirmed",
     "iNextDelayedFreeIndex": "confirmed",
-    "pSubBuckets": "unverified",
+    "pSubBuckets": "confirmed",
     "CriticalSectionO": "confirmed"
    },
    "field_details": {
@@ -6878,7 +7957,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 1,
      "type_verified": false
     },
@@ -6891,7 +7970,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 2,
      "type_verified": false
     },
@@ -6916,8 +7995,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 4,
-     "write_sites": 2,
+     "independent_functions": 5,
+     "write_sites": 3,
      "type_verified": false
     },
     "iWastedMemory": {
@@ -6941,7 +8020,7 @@
       "class-method-this"
      ],
      "independent_functions": 4,
-     "write_sites": 2,
+     "write_sites": 3,
      "type_verified": false
     },
     "iMemAllocatedHigh": {
@@ -6952,8 +8031,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "type_verified": false
     },
     "iBlockMemAllocated": {
@@ -6965,7 +8044,7 @@
       "class-method-this"
      ],
      "independent_functions": 4,
-     "write_sites": 3,
+     "write_sites": 4,
      "type_verified": false
     },
     "pMemHeap": {
@@ -6977,7 +8056,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 3,
      "type_verified": false
     },
@@ -7030,14 +8109,15 @@
      "type_verified": false
     },
     "pSmallFreeList": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
+      "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 7,
      "write_sites": 0,
      "type_verified": false
     },
@@ -7104,13 +8184,16 @@
      "type_verified": false
     },
     "pSubBuckets": {
-     "status": "unverified",
+     "status": "confirmed",
      "source": "xbox_pdb",
-     "instruction_verified": false,
-     "offset_verified": false,
-     "base_pointer": [],
-     "independent_functions": 0,
-     "write_sites": 0,
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 4,
      "type_verified": false
     },
     "CriticalSectionO": {
@@ -7124,6 +8207,38 @@
      "independent_functions": 7,
      "write_sites": 0,
      "type_verified": false
+    }
+   },
+   "element_fields": {
+    "pSmallFreeList[].pHead": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 0
+    },
+    "pSubBuckets[].iCount": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 3
+    },
+    "pSubBuckets[].pFirst": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1
     }
    },
    "vslots": {
@@ -7148,18 +8263,18 @@
     "2": {
      "name": "Allocate",
      "decl": "void* Allocate(unsigned, unsigned)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172640,
      "manual": false,
      "note": ""
     },
     "3": {
      "name": "Deallocate",
      "decl": "void Deallocate(void*, unsigned)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172672,
      "manual": false,
      "note": ""
     },
@@ -7211,18 +8326,18 @@
     "9": {
      "name": "Size",
      "decl": "unsigned Size(const void*, unsigned)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172832,
      "manual": false,
      "note": ""
     },
     "10": {
      "name": "TotalSize",
      "decl": "unsigned TotalSize(const void*)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172864,
      "manual": false,
      "note": ""
     },
@@ -7238,45 +8353,45 @@
     "12": {
      "name": "DoHeapAllocation",
      "decl": "void* DoHeapAllocation(unsigned, unsigned)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172256,
      "manual": false,
      "note": ""
     },
     "13": {
      "name": "DoHeapFree",
      "decl": "void DoHeapFree(void*)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172400,
      "manual": false,
      "note": ""
     },
     "14": {
      "name": "CreateMorePages",
      "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
-     "status": "stack",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 11183696,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172432,
      "manual": false,
      "note": ""
     },
     "15": {
      "name": "CleanExtraPages",
      "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
-     "status": "stack",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 11183696,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172528,
      "manual": false,
      "note": ""
     },
     "16": {
      "name": "DecommitPages",
      "decl": "void DecommitPages(FreeHeapBlock*)",
-     "status": "stub",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 11160144,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173216,
      "manual": false,
      "note": ""
     },
@@ -7424,11 +8539,8 @@
      "touches_fields": false
     }
    ],
-   "provisional_fields": [
-    "pSmallFreeList",
-    "pSubBuckets"
-   ],
-   "provisional": true
+   "provisional_fields": [],
+   "provisional": false
   },
   "MemoryHeap": {
    "vtable_va": 17443068,
@@ -7466,6 +8578,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "~IMemoryHeap",
@@ -7786,6 +8899,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -8013,6 +9127,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -8280,6 +9395,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -8372,31 +9488,32 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
-     "status": "stub",
-     "checked_on": "BGSSaveGameBuffer",
-     "pc_func_va": 11320176,
+     "status": "stack",
+     "checked_on": "BGSSaveFormBuffer",
+     "pc_func_va": 8057904,
      "manual": false,
      "note": ""
     },
     "1": {
      "name": "GetReference",
      "decl": "TESObjectREFR* GetReference()",
-     "status": "stub",
-     "checked_on": "BGSSaveGameBuffer",
-     "pc_func_va": 11320176,
+     "status": "name+stack",
+     "checked_on": "BGSSaveFormBuffer",
+     "pc_func_va": 8805184,
      "manual": false,
      "note": ""
     },
     "2": {
      "name": "GetActor",
      "decl": "Actor* GetActor()",
-     "status": "stub",
-     "checked_on": "BGSSaveGameBuffer",
-     "pc_func_va": 11320176,
+     "status": "name+stack",
+     "checked_on": "BGSSaveFormBuffer",
+     "pc_func_va": 8805248,
      "manual": false,
      "note": ""
     }
@@ -8541,6 +9658,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "GetForm",
@@ -8713,6 +9831,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "GetVersion",
@@ -8726,27 +9845,27 @@
     "1": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
-     "status": "stub",
-     "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 11320176,
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 8799664,
      "manual": false,
      "note": ""
     },
     "2": {
      "name": "GetReference",
      "decl": "TESObjectREFR* GetReference()",
-     "status": "stub",
-     "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 11320176,
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 8799760,
      "manual": false,
      "note": ""
     },
     "3": {
      "name": "GetActor",
      "decl": "Actor* GetActor()",
-     "status": "stub",
-     "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 11320176,
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 8799840,
      "manual": false,
      "note": ""
     }
@@ -8763,12 +9882,6 @@
      "name": "BGSLoadGameBuffer::LoadBGSWorldLocation",
      "uses_this": true,
      "touches_fields": true
-    },
-    {
-     "va": 7440528,
-     "name": "BGSLoadGameBuffer::LoadInterfaceManagerHelpMenuFlags",
-     "uses_this": true,
-     "touches_fields": false
     },
     {
      "va": 8706704,
@@ -8845,7 +9958,7 @@
     "Header.FormIDIndex": "confirmed",
     "Header.iChangeFlags": "confirmed",
     "Header.FormInfo": "confirmed",
-    "Header.cVersion": "unverified",
+    "Header.cVersion": "confirmed",
     "iSize": "confirmed",
     "pForm": "confirmed",
     "iFlags": "confirmed",
@@ -8901,13 +10014,16 @@
      "type_verified": false
     },
     "Header.cVersion": {
-     "status": "unverified",
+     "status": "confirmed",
      "source": "xbox_pdb",
-     "instruction_verified": false,
-     "offset_verified": false,
-     "base_pointer": [],
-     "independent_functions": 0,
-     "write_sites": 0,
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: BGSSaveLoadFormHeader at BGSLoadFormBuffer+0x14"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
      "type_verified": false
     },
     "iSize": {
@@ -8959,6 +10075,7 @@
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {
     "0": {
      "name": "GetVersion",
@@ -9137,10 +10254,8 @@
      "touches_fields": true
     }
    ],
-   "provisional_fields": [
-    "Header.cVersion"
-   ],
-   "provisional": true
+   "provisional_fields": [],
+   "provisional": false
   },
   "BGSSaveLoadGame": {
    "base": null,
@@ -9221,7 +10336,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 1,
      "type_verified": false
     },
@@ -9257,7 +10372,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 5,
      "write_sites": 4,
      "type_verified": false
     },
@@ -9269,7 +10384,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
+     "independent_functions": 4,
      "write_sites": 1,
      "type_verified": false
     },
@@ -9342,10 +10457,11 @@
       "class-method-this"
      ],
      "independent_functions": 3,
-     "write_sites": 2,
+     "write_sites": 3,
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -9965,11 +11081,12 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 3,
+     "independent_functions": 4,
      "write_sites": 0,
      "type_verified": false
     }
    },
+   "element_fields": {},
    "vslots": {},
    "methods": [
     {
@@ -10239,6 +11356,2445 @@
    ],
    "provisional_fields": [],
    "provisional": false
+  },
+  "BGSSaveLoadChangesMap": {
+   "vtable_va": 17296744,
+   "base": null,
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed",
+    "m_uiHashSize": "confirmed",
+    "m_ppkHashTable": "unverified",
+    "m_kAllocator": "confirmed"
+   },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "m_uiHashSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "m_ppkHashTable": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "m_kAllocator": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {
+    "0": {
+     "name": "~BGSSaveLoadChangesMap",
+     "decl": "~BGSSaveLoadChangesMap()",
+     "status": "name+stack",
+     "checked_on": "BGSSaveLoadChangesMap",
+     "pc_func_va": 8672640,
+     "manual": false,
+     "note": ""
+    }
+   },
+   "methods": [
+    {
+     "va": 8672592,
+     "name": "BGSSaveLoadChangesMap::BGSSaveLoadChangesMap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8672992,
+     "name": "BGSSaveLoadChangesMap::GetChangeFlags",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673056,
+     "name": "BGSSaveLoadChangesMap::CheckChangeFlags",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673120,
+     "name": "BGSSaveLoadChangesMap::GetChangeBuffer",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673200,
+     "name": "BGSSaveLoadChangesMap::AddChangeFlags",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673456,
+     "name": "BGSSaveLoadChangesMap::SetChangeFlags_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673632,
+     "name": "BGSSaveLoadChangesMap::SetChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673824,
+     "name": "BGSSaveLoadChangesMap::RemoveChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8673920,
+     "name": "BGSSaveLoadChangesMap::RemoveChangeFlags",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10109520,
+     "name": "BGSSaveLoadChangesMap::GetChanges",
+     "uses_this": true,
+     "touches_fields": false
+    }
+   ],
+   "provisional_fields": [
+    "m_ppkHashTable"
+   ],
+   "provisional": true
+  },
+  "FalloutRadio::FORadioReceiver": {
+   "base": null,
+   "pc_size": 32,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pRadio": "confirmed",
+    "Hndl.iSoundID": "consistent",
+    "Hndl.bAssumeSuccess": "confirmed",
+    "Hndl.eState": "confirmed",
+    "StaticHndl.iSoundID": "consistent",
+    "StaticHndl.bAssumeSuccess": "confirmed",
+    "StaticHndl.eState": "confirmed",
+    "bShouldBePlaying": "confirmed",
+    "bJustStarted": "confirmed",
+    "bInRange": "unverified",
+    "bIsActor": "confirmed"
+   },
+   "field_details": {
+    "pRadio": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "Hndl.iSoundID": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "Hndl.bAssumeSuccess": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: BSSoundHandle at FalloutRadio::FORadioReceiver+0x4"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "Hndl.eState": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: BSSoundHandle at FalloutRadio::FORadioReceiver+0x4"
+     ],
+     "independent_functions": 9,
+     "write_sites": 8,
+     "type_verified": false
+    },
+    "StaticHndl.iSoundID": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "StaticHndl.bAssumeSuccess": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: BSSoundHandle at FalloutRadio::FORadioReceiver+0x10"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "StaticHndl.eState": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: BSSoundHandle at FalloutRadio::FORadioReceiver+0x10"
+     ],
+     "independent_functions": 9,
+     "write_sites": 8,
+     "type_verified": false
+    },
+    "bShouldBePlaying": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "bJustStarted": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bInRange": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "bIsActor": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 8595408,
+     "name": "FalloutRadio::FORadioReceiver::FORadioReceiver",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8609760,
+     "name": "FalloutRadio::FORadioReceiver::InitLoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [
+    "Hndl.iSoundID",
+    "StaticHndl.iSoundID",
+    "bInRange"
+   ],
+   "provisional": true
+  },
+  "FalloutRadio::StationState": {
+   "base": null,
+   "pc_size": 32,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pConvo": "confirmed",
+    "pNextConvo": "confirmed",
+    "iCurrentItemStartTime": "confirmed",
+    "iCurrentItemDuration": "confirmed",
+    "cStationPower": "confirmed",
+    "cTargetPower": "confirmed",
+    "iStationFlags": "confirmed",
+    "StationUsers": "confirmed"
+   },
+   "field_details": {
+    "pConvo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pNextConvo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iCurrentItemStartTime": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iCurrentItemDuration": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "cStationPower": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "cTargetPower": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "nested-in-FalloutRadio::FORadioStation.CurrentState",
+      "new-object"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iStationFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 19,
+     "write_sites": 19,
+     "type_verified": false
+    },
+    "StationUsers": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 8594464,
+     "name": "FalloutRadio::StationState::ShouldStartPaused",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8594496,
+     "name": "FalloutRadio::StationState::SetShouldBePlaying",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8594576,
+     "name": "FalloutRadio::StationState::SetStartPaused",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8597568,
+     "name": "FalloutRadio::StationState::IsContBroadcast",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8597600,
+     "name": "FalloutRadio::StationState::SetJustTurnedOn",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8597680,
+     "name": "FalloutRadio::StationState::SetTransmitting",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8597760,
+     "name": "FalloutRadio::StationState::SetContBroadcast",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8600512,
+     "name": "FalloutRadio::StationState::OutOfPBRange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8600544,
+     "name": "FalloutRadio::StationState::IsTransmitting",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8600576,
+     "name": "FalloutRadio::StationState::IsPlayingBreakIn",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8600608,
+     "name": "FalloutRadio::StationState::GetStationPower",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8600640,
+     "name": "FalloutRadio::StationState::SetPlayingSong",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8600720,
+     "name": "FalloutRadio::StationState::SetPlayingStatic",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8602128,
+     "name": "FalloutRadio::StationState::SetOutOfPBRange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8610368,
+     "name": "FalloutRadio::StationState::LoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "FalloutRadio::FORadioStation": {
+   "base": null,
+   "pc_size": 36,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pStation": "confirmed",
+    "CurrentState.pConvo": "confirmed",
+    "CurrentState.pNextConvo": "confirmed",
+    "CurrentState.iCurrentItemStartTime": "confirmed",
+    "CurrentState.iCurrentItemDuration": "confirmed",
+    "CurrentState.cStationPower": "confirmed",
+    "CurrentState.cTargetPower": "confirmed",
+    "CurrentState.iStationFlags": "confirmed",
+    "CurrentState.StationUsers": "confirmed"
+   },
+   "field_details": {
+    "pStation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "new-object",
+      "subclass-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "CurrentState.pConvo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "new-object",
+      "subclass-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "CurrentState.pNextConvo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "new-object"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "CurrentState.iCurrentItemStartTime": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "global-singleton",
+      "new-object"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "CurrentState.iCurrentItemDuration": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "global-singleton",
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "CurrentState.cStationPower": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "new-object"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "CurrentState.cTargetPower": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "new-object"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "CurrentState.iStationFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: FalloutRadio::StationState at FalloutRadio::FORadioStation+0x4",
+      "subclass-method-this"
+     ],
+     "independent_functions": 19,
+     "write_sites": 19,
+     "type_verified": false
+    },
+    "CurrentState.StationUsers": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "composed: FalloutRadio::StationState at FalloutRadio::FORadioStation+0x4",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 8597840,
+     "name": "RadioEntry::RadioEntry",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8611424,
+     "name": "FalloutRadio::FORadioStation::InitLoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "RadioConvTask": {
+   "vtable_va": 17288984,
+   "base": null,
+   "pc_size": 56,
+   "align": 8,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed",
+    "iRefCount": "consistent",
+    "eState": "confirmed",
+    "Key": "confirmed",
+    "eContext": "confirmed",
+    "spParent": "confirmed",
+    "pChildren": "confirmed",
+    "pAdditionalParents": "confirmed",
+    "pFileName": "confirmed",
+    "pFileEntry": "confirmed",
+    "pStation": "confirmed"
+   },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "iRefCount": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "eState": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "Key": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 6,
+     "type_verified": false
+    },
+    "eContext": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "spParent": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pChildren": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pAdditionalParents": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pFileName": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pFileEntry": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pStation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {
+    "0": {
+     "name": "~RadioConvTask",
+     "decl": "~RadioConvTask()",
+     "status": "name+stack",
+     "checked_on": "RadioConvTask",
+     "pc_func_va": 8614544,
+     "manual": false,
+     "note": ""
+    }
+   },
+   "methods": [
+    {
+     "va": 8614480,
+     "name": "RadioConvTask::RadioConvTask",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8614528,
+     "name": "RadioConvTask::GetFileIndex",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8614624,
+     "name": "RadioConvTask::Run",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8614816,
+     "name": "RadioConvTask::GetDescription",
+     "uses_this": true,
+     "touches_fields": false
+    }
+   ],
+   "provisional_fields": [
+    "iRefCount"
+   ],
+   "provisional": true
+  },
+  "UVMap": {
+   "base": null,
+   "pc_size": 8,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "fU": "confirmed",
+    "fV": "confirmed"
+   },
+   "field_details": {
+    "fU": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer",
+      "element-of-FontLetter.pMapping"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fV": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer",
+      "element-of-FontLetter.pMapping"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "FontLetter": {
+   "base": null,
+   "pc_size": 56,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "iTextureIndex": "confirmed",
+    "pMapping": "confirmed",
+    "fWidth": "confirmed",
+    "fHeight": "confirmed",
+    "fLeadingEdge": "confirmed",
+    "fSpacing": "confirmed",
+    "fTopEdge": "confirmed"
+   },
+   "field_details": {
+    "iTextureIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "element-of-FontData.pFontLetters",
+      "via-Font+0x38"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pMapping": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fLeadingEdge": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fSpacing": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fTopEdge": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {
+    "pMapping[].fU": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    },
+    "pMapping[].fV": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    }
+   },
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "TextureFile": {
+   "base": null,
+   "pc_size": 36,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "iType": "unverified",
+    "pFilename": "confirmed"
+   },
+   "field_details": {
+    "iType": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pFilename": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "element-of-FontData.pTextureFiles",
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [
+    "iType"
+   ],
+   "provisional": true
+  },
+  "FontData": {
+   "base": null,
+   "pc_size": 14632,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "fBaseLine": "confirmed",
+    "iTextureCount": "confirmed",
+    "pTextureFiles": "confirmed",
+    "pFontLetters": "confirmed"
+   },
+   "field_details": {
+    "fBaseLine": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 6,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iTextureCount": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pTextureFiles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pFontLetters": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 5,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {
+    "pFontLetters[].fHeight": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0
+    },
+    "pFontLetters[].fLeadingEdge": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    },
+    "pFontLetters[].fSpacing": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    },
+    "pFontLetters[].fTopEdge": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    },
+    "pFontLetters[].fWidth": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0
+    },
+    "pFontLetters[].iTextureIndex": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0
+    },
+    "pFontLetters[].pMapping": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    },
+    "pTextureFiles[].pFilename": {
+     "status": "confirmed",
+     "instruction_verified": true,
+     "base_pointer": [
+      "via-Font+0x38"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0
+    }
+   },
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "Font": {
+   "base": null,
+   "pc_size": 84,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "iRefCount": "confirmed",
+    "pFontFile": "confirmed",
+    "iFontNum": "confirmed",
+    "pTextureData": "confirmed",
+    "fFontHeight": "confirmed",
+    "fMaxDrop": "confirmed",
+    "iLineOverlap": "unverified",
+    "pFontData": "confirmed",
+    "IconAtlasTextureName": "confirmed",
+    "ButtonIcons": "confirmed"
+   },
+   "field_details": {
+    "iRefCount": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pFontFile": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iFontNum": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pTextureData": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fFontHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fMaxDrop": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iLineOverlap": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pFontData": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "IconAtlasTextureName": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "ButtonIcons": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 6018432,
+     "name": "Font::GetFontSize",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10559520,
+     "name": "Font::Font",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10560176,
+     "name": "Font::ConvertCharacter",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10560256,
+     "name": "Font::KillData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10560368,
+     "name": "Font::GetLineOffsets",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10560608,
+     "name": "Font::MakeString",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10561664,
+     "name": "Font::CreateText",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10563504,
+     "name": "Font::CheckForVariablesInText",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10568048,
+     "name": "Font::A14170",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10568400,
+     "name": "Font::AddChar",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10569296,
+     "name": "Font::AddIcon",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10570272,
+     "name": "Font::MakeTriShape",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10571168,
+     "name": "Font::MakeButton",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10572496,
+     "name": "Font::Unload",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10572576,
+     "name": "Font::Load",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10576064,
+     "name": "Font::LineBreakText",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10596064,
+     "name": "Font::AddTextIcon",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [
+    "iLineOverlap"
+   ],
+   "provisional": true
+  },
+  "Font::TextData": {
+   "base": null,
+   "pc_size": 40,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "xNewText": "unverified",
+    "iWidth": "confirmed",
+    "iHeight": "confirmed",
+    "iLineStart": "confirmed",
+    "iLineEnd": "confirmed",
+    "iCharCount": "confirmed",
+    "cLineSep": "confirmed",
+    "xLineWidths": "confirmed"
+   },
+   "field_details": {
+    "xNewText": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iLineStart": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iLineEnd": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iCharCount": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "cLineSep": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "xLineWidths": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [
+    "xNewText"
+   ],
+   "provisional": true
+  },
+  "FontManager": {
+   "base": null,
+   "pc_size": 36,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pFont": "confirmed",
+    "bUseNewFonts": "confirmed"
+   },
+   "field_details": {
+    "pFont": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 8,
+     "write_sites": 8,
+     "type_verified": false
+    },
+    "bUseNewFonts": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 6018480,
+     "name": "FontManager::GetSingleton",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 7458832,
+     "name": "FontManager::SetNewFonts",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10577856,
+     "name": "FontManager::Init",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 10578000,
+     "name": "FontManager::Free",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 10578096,
+     "name": "FontManager::FontManager",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10579360,
+     "name": "FontManager::GetCharType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10579616,
+     "name": "FontManager::CollectTo",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10580880,
+     "name": "FontManager::PrepHypertext",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10586672,
+     "name": "FontManager::A18A30",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10587904,
+     "name": "FontManager::CreateText",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10594304,
+     "name": "FontManager::MakeImage",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10596384,
+     "name": "FontManager::CalculateStringDimensions",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 10597280,
+     "name": "FontManager::GetLinePadding",
+     "uses_this": true,
+     "touches_fields": false
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "FontManager::CharData": {
+   "base": null,
+   "pc_size": 56,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "iFontIndex": "confirmed",
+    "cChar": "confirmed",
+    "xColor": "confirmed",
+    "iJustification": "confirmed",
+    "xFilename": "confirmed",
+    "iWidth": "confirmed",
+    "iRise": "confirmed",
+    "iDrop": "confirmed",
+    "iLeadingEdge": "confirmed",
+    "iX": "confirmed"
+   },
+   "field_details": {
+    "iFontIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "cChar": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "xColor": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iJustification": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "xFilename": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iRise": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iDrop": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iLeadingEdge": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iX": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 10597456,
+     "name": "FontManager::CharData::CharData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10597984,
+     "name": "FontManager::CharData::Copy",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10598384,
+     "name": "FontManager::CharData::SetChar",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "FontManager::TextLine": {
+   "base": null,
+   "pc_size": 48,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "xChars": "confirmed",
+    "iWidth": "confirmed",
+    "iNextSpacing": "confirmed",
+    "iRise": "confirmed",
+    "iDrop": "confirmed",
+    "iSkippedSpace": "confirmed",
+    "iJustify": "confirmed",
+    "iPageWidth": "confirmed",
+    "iY": "unverified",
+    "pPage": "confirmed"
+   },
+   "field_details": {
+    "xChars": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 9,
+     "type_verified": false
+    },
+    "iNextSpacing": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iRise": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 3,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "iDrop": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iSkippedSpace": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iJustify": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iPageWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iY": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pPage": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "new-object"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 10592112,
+     "name": "_sub_A19F70",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10599744,
+     "name": "_sub_A1BD40",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [
+    "iY"
+   ],
+   "provisional": true
+  },
+  "FontManager::TextPage": {
+   "base": null,
+   "pc_size": 68,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "xLines": "confirmed",
+    "iWidth": "unverified",
+    "iHeight": "confirmed",
+    "iPageWidth": "confirmed",
+    "iPageHeight": "confirmed",
+    "iLastFontHeight": "confirmed",
+    "pCharsPerFont": "confirmed",
+    "pDoc": "confirmed"
+   },
+   "field_details": {
+    "xLines": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iWidth": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iPageWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iPageHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iLastFontHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pCharsPerFont": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pDoc": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 10591232,
+     "name": "_sub_A19C00",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10599536,
+     "name": "_sub_A1BC70",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [
+    "iWidth"
+   ],
+   "provisional": true
+  },
+  "FontManager::TextDoc": {
+   "base": null,
+   "pc_size": 24,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "xPages": "confirmed",
+    "iPageWidth": "confirmed",
+    "iPageHeight": "confirmed",
+    "iPageNum": "confirmed"
+   },
+   "field_details": {
+    "xPages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iPageWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iPageHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iPageNum": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [
+    {
+     "va": 10588256,
+     "name": "FontManager::TextDoc::Render",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10590736,
+     "name": "FontManager::TextDoc::AddChar",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": false
+  },
+  "FontManager::TextData": {
+   "base": null,
+   "pc_size": 64,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "iDefaultFont": "confirmed",
+    "iJustification": "confirmed",
+    "xColor": "confirmed",
+    "cLineSep": "confirmed",
+    "iWidth": "confirmed",
+    "iHeight": "confirmed",
+    "iPageNum": "confirmed",
+    "iLines": "confirmed",
+    "iNumPages": "confirmed",
+    "iNumLines": "confirmed",
+    "bIsHypertext": "confirmed",
+    "xNewText": "confirmed"
+   },
+   "field_details": {
+    "iDefaultFont": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iJustification": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "xColor": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "cLineSep": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iWidth": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 2,
+     "write_sites": 6,
+     "type_verified": false
+    },
+    "iHeight": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 2,
+     "write_sites": 6,
+     "type_verified": false
+    },
+    "iPageNum": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iLines": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iNumPages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iNumLines": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "bIsHypertext": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "xNewText": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "argument-pointer"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "element_fields": {},
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": true
   }
  }
 }

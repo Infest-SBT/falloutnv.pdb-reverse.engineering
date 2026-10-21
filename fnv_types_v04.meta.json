@@ -7,6 +7,7 @@
    "base": null,
    "pc_size": 4,
    "xbox_size": 4,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -61,6 +62,7 @@
    "base": "BaseFormComponent",
    "pc_size": 24,
    "xbox_size": 24,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 4,
@@ -954,6 +956,7 @@
    "base": null,
    "pc_size": 1596,
    "xbox_size": 1596,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -1910,6 +1913,7 @@
    "base": null,
    "pc_size": 408,
    "xbox_size": 408,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -2637,10 +2641,341 @@
    "align": 4
   },
   {
+   "name": "BSWin32GameSound",
+   "base": "BSGameSound",
+   "pc_size": 560,
+   "xbox_size": null,
+   "pc_only": true,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pDirectSound",
+     "off": 408,
+     "size": 4,
+     "xbox_type": "IDirectSound8*",
+     "opaque": false,
+     "decl": "IDirectSound8* pDirectSound;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pDSBuffer",
+     "off": 412,
+     "size": 4,
+     "xbox_type": "IDirectSoundBuffer8*",
+     "opaque": false,
+     "decl": "IDirectSoundBuffer8* pDSBuffer;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pDSBuffer2",
+     "off": 416,
+     "size": 4,
+     "xbox_type": "IDirectSoundBuffer8*",
+     "opaque": false,
+     "decl": "IDirectSoundBuffer8* pDSBuffer2;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "BufferDesc",
+     "off": 420,
+     "size": 36,
+     "xbox_type": "DSBUFFERDESC",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char BufferDesc[36];",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1C8",
+     "off": 456,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned pc1C8;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1CC",
+     "off": 460,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc1CC;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1D0",
+     "off": 464,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc1D0;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pDS3DBuffer",
+     "off": 468,
+     "size": 4,
+     "xbox_type": "IDirectSound3DBuffer8*",
+     "opaque": false,
+     "decl": "IDirectSound3DBuffer8* pDS3DBuffer;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1D8",
+     "off": 472,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc1D8;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1DC",
+     "off": 476,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc1DC;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1E0",
+     "off": 480,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc1E0;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1F0",
+     "off": 496,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc1F0;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1F4",
+     "off": 500,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc1F4;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1F8",
+     "off": 504,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc1F8;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc1FC",
+     "off": 508,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc1FC;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc200",
+     "off": 512,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc200;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc204",
+     "off": 516,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned pc204;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc208",
+     "off": 520,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc208;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc20C",
+     "off": 524,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short pc20C;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc20E",
+     "off": 526,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short pc20E;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc210",
+     "off": 528,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short pc210;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc212",
+     "off": 530,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short pc212;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc214",
+     "off": 532,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short pc214;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc218",
+     "off": 536,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc218;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc21C",
+     "off": 540,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc21C;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc220",
+     "off": 544,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float pc220;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc224",
+     "off": 548,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool pc224;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc228",
+     "off": 552,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pc228;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pc22C",
+     "off": 556,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned pc22C;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
    "name": "BSAudio",
    "base": null,
    "pc_size": 56,
    "xbox_size": 56,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -2881,10 +3216,66 @@
    "align": 4
   },
   {
+   "name": "BSWin32Audio",
+   "base": "BSAudio",
+   "pc_size": 164,
+   "xbox_size": null,
+   "pc_only": true,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pDirectSound",
+     "off": 56,
+     "size": 4,
+     "xbox_type": "IDirectSound8*",
+     "opaque": false,
+     "decl": "IDirectSound8* pDirectSound;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pPrimaryBuffer",
+     "off": 60,
+     "size": 4,
+     "xbox_type": "IDirectSoundBuffer*",
+     "opaque": false,
+     "decl": "IDirectSoundBuffer* pPrimaryBuffer;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "Caps",
+     "off": 64,
+     "size": 96,
+     "xbox_type": "DSCAPS",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char Caps[96];",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "hWnd",
+     "off": 160,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* hWnd;",
+     "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
    "name": "BSAudioManager",
    "base": null,
    "pc_size": 392,
    "xbox_size": 412,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -3392,6 +3783,7 @@
    "base": null,
    "pc_size": 12,
    "xbox_size": 12,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -3435,6 +3827,7 @@
    "base": null,
    "pc_size": 16,
    "xbox_size": 16,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -3467,6 +3860,7 @@
    "base": null,
    "pc_size": 16,
    "xbox_size": 16,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -3521,6 +3915,7 @@
    "base": null,
    "pc_size": 8,
    "xbox_size": 8,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -3553,6 +3948,7 @@
    "base": null,
    "pc_size": 4,
    "xbox_size": 4,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -3702,10 +4098,44 @@
    "align": 4
   },
   {
+   "name": "HeapFreeSubBucket",
+   "base": null,
+   "pc_size": 8,
+   "xbox_size": 8,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iCount",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iCount;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pFirst",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "FreeHeapBlockList*",
+     "opaque": false,
+     "decl": "FreeHeapBlockList* pFirst;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
    "name": "AbstractHeap",
    "base": "IMemoryHeap",
    "pc_size": 8432,
    "xbox_size": 8436,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 12,
@@ -4023,11 +4453,11 @@
      "off": 8280,
      "size": 128,
      "xbox_type": "HeapFreeSubBucket[128 bytes]",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char pSubBuckets[128];",
+     "opaque": false,
+     "decl": "HeapFreeSubBucket pSubBuckets[16];",
      "source": "xbox_pdb",
      "class_type": null,
-     "class_array_of": null
+     "class_array_of": "HeapFreeSubBucket"
     },
     {
      "name": "CriticalSectionO",
@@ -4048,6 +4478,7 @@
    "base": "AbstractHeap",
    "pc_size": 8436,
    "xbox_size": 8440,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4080,6 +4511,7 @@
    "base": null,
    "pc_size": 16,
    "xbox_size": 16,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4134,6 +4566,7 @@
    "base": null,
    "pc_size": 312,
    "xbox_size": 308,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4276,6 +4709,7 @@
    "base": null,
    "pc_size": 9,
    "xbox_size": 9,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4330,6 +4764,7 @@
    "base": null,
    "pc_size": 20,
    "xbox_size": 20,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -4415,6 +4850,7 @@
    "base": "BGSSaveGameBuffer",
    "pc_size": 36,
    "xbox_size": 36,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4447,6 +4883,7 @@
    "base": null,
    "pc_size": 16,
    "xbox_size": 16,
+   "pc_only": false,
    "vslots": [
     {
      "slot": 0,
@@ -4531,6 +4968,7 @@
    "base": "BGSLoadGameBuffer",
    "pc_size": 48,
    "xbox_size": 48,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4607,6 +5045,7 @@
    "base": null,
    "pc_size": 588,
    "xbox_size": 588,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4782,6 +5221,7 @@
    "base": null,
    "pc_size": 56,
    "xbox_size": 48,
+   "pc_only": false,
    "vslots": [],
    "fields": [
     {
@@ -4990,6 +5430,1418 @@
      "opaque": true,
      "decl": "alignas(4) unsigned char sSystemSaveName[8];",
      "source": "own",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "BGSSaveLoadChangesMap",
+   "base": null,
+   "pc_size": 16,
+   "xbox_size": 16,
+   "pc_only": false,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "~BGSSaveLoadChangesMap",
+     "decl": "~BGSSaveLoadChangesMap()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    }
+   ],
+   "fields": [
+    {
+     "name": "m_uiHashSize",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned m_uiHashSize;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "m_ppkHashTable",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "NiTMapItem<unsigned int,BGSFormChanges *>**",
+     "opaque": false,
+     "decl": "void** m_ppkHashTable;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "m_kAllocator",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BGSFormChanges *>::AntiBloatAllocator",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char m_kAllocator[4];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FalloutRadio::FORadioReceiver",
+   "base": null,
+   "pc_size": 32,
+   "xbox_size": 32,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pRadio",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "TESObjectREFR*",
+     "opaque": false,
+     "decl": "TESObjectREFR* pRadio;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "Hndl",
+     "off": 4,
+     "size": 12,
+     "xbox_type": "BSSoundHandle",
+     "opaque": false,
+     "decl": "BSSoundHandle Hndl;",
+     "source": "xbox_pdb",
+     "class_type": "BSSoundHandle",
+     "class_array_of": null
+    },
+    {
+     "name": "StaticHndl",
+     "off": 16,
+     "size": 12,
+     "xbox_type": "BSSoundHandle",
+     "opaque": false,
+     "decl": "BSSoundHandle StaticHndl;",
+     "source": "xbox_pdb",
+     "class_type": "BSSoundHandle",
+     "class_array_of": null
+    },
+    {
+     "name": "bShouldBePlaying",
+     "off": 28,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bShouldBePlaying;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "bJustStarted",
+     "off": 29,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bJustStarted;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "bInRange",
+     "off": 30,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bInRange;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "bIsActor",
+     "off": 31,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bIsActor;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FalloutRadio::StationState",
+   "base": null,
+   "pc_size": 32,
+   "xbox_size": 32,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pConvo",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "Conversation*",
+     "opaque": false,
+     "decl": "Conversation* pConvo;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pNextConvo",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "Conversation*",
+     "opaque": false,
+     "decl": "Conversation* pNextConvo;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iCurrentItemStartTime",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iCurrentItemStartTime;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iCurrentItemDuration",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iCurrentItemDuration;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cStationPower",
+     "off": 16,
+     "size": 1,
+     "xbox_type": "unsigned char",
+     "opaque": false,
+     "decl": "unsigned char cStationPower;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cTargetPower",
+     "off": 17,
+     "size": 1,
+     "xbox_type": "unsigned char",
+     "opaque": false,
+     "decl": "unsigned char cTargetPower;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iStationFlags",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iStationFlags;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "StationUsers",
+     "off": 24,
+     "size": 8,
+     "xbox_type": "BSSimpleList<FalloutRadio::FORadioReceiver *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char StationUsers[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FalloutRadio::FORadioStation",
+   "base": null,
+   "pc_size": 36,
+   "xbox_size": 36,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pStation",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "TESObjectREFR*",
+     "opaque": false,
+     "decl": "TESObjectREFR* pStation;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "CurrentState",
+     "off": 4,
+     "size": 32,
+     "xbox_type": "FalloutRadio::StationState",
+     "opaque": false,
+     "decl": "FalloutRadio::StationState CurrentState;",
+     "source": "xbox_pdb",
+     "class_type": "FalloutRadio::StationState",
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "RadioConvTask",
+   "base": null,
+   "pc_size": 56,
+   "xbox_size": 56,
+   "pc_only": false,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "~RadioConvTask",
+     "decl": "~RadioConvTask()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    }
+   ],
+   "fields": [
+    {
+     "name": "iRefCount",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "volatile int",
+     "opaque": false,
+     "decl": "int iRefCount;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "eState",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "BS_TASK_STATE",
+     "opaque": false,
+     "decl": "int eState;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "Key",
+     "off": 16,
+     "size": 8,
+     "xbox_type": "__int64",
+     "opaque": false,
+     "decl": "__int64 Key;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "eContext",
+     "off": 24,
+     "size": 4,
+     "xbox_type": "MEM_CONTEXT",
+     "opaque": false,
+     "decl": "int eContext;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "spParent",
+     "off": 28,
+     "size": 4,
+     "xbox_type": "NiPointer<QueuedFile>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char spParent[4];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pChildren",
+     "off": 32,
+     "size": 4,
+     "xbox_type": "QueuedChildren*",
+     "opaque": false,
+     "decl": "QueuedChildren* pChildren;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pAdditionalParents",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "QueuedParents*",
+     "opaque": false,
+     "decl": "QueuedParents* pAdditionalParents;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pFileName",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "char*",
+     "opaque": false,
+     "decl": "char* pFileName;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pFileEntry",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "BSFileEntry*",
+     "opaque": false,
+     "decl": "BSFileEntry* pFileEntry;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pStation",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "FalloutRadio::FORadioStation*",
+     "opaque": false,
+     "decl": "FalloutRadio::FORadioStation* pStation;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 8
+  },
+  {
+   "name": "UVMap",
+   "base": null,
+   "pc_size": 8,
+   "xbox_size": 8,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "fU",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fU;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fV",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fV;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontLetter",
+   "base": null,
+   "pc_size": 56,
+   "xbox_size": 56,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iTextureIndex",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iTextureIndex;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pMapping",
+     "off": 4,
+     "size": 32,
+     "xbox_type": "UVMap[32 bytes]",
+     "opaque": false,
+     "decl": "UVMap pMapping[4];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": "UVMap"
+    },
+    {
+     "name": "fWidth",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fHeight",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fLeadingEdge",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fLeadingEdge;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fSpacing",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fSpacing;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fTopEdge",
+     "off": 52,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fTopEdge;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "TextureFile",
+   "base": null,
+   "pc_size": 36,
+   "xbox_size": 36,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iType",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iType;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pFilename",
+     "off": 4,
+     "size": 32,
+     "xbox_type": "char[32 bytes]",
+     "opaque": false,
+     "decl": "char pFilename[32];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontData",
+   "base": null,
+   "pc_size": 14632,
+   "xbox_size": 14632,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "fBaseLine",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fBaseLine;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iTextureCount",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iTextureCount;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pTextureFiles",
+     "off": 8,
+     "size": 288,
+     "xbox_type": "TextureFile[288 bytes]",
+     "opaque": false,
+     "decl": "TextureFile pTextureFiles[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": "TextureFile"
+    },
+    {
+     "name": "pFontLetters",
+     "off": 296,
+     "size": 14336,
+     "xbox_type": "FontLetter[14336 bytes]",
+     "opaque": false,
+     "decl": "FontLetter pFontLetters[256];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": "FontLetter"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "Font",
+   "base": null,
+   "pc_size": 84,
+   "xbox_size": 84,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iRefCount",
+     "off": 0,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iRefCount;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pFontFile",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "char*",
+     "opaque": false,
+     "decl": "char* pFontFile;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iFontNum",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iFontNum;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pTextureData",
+     "off": 12,
+     "size": 32,
+     "xbox_type": "NiPointer<NiTexturingProperty>[32 bytes]",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char pTextureData[32];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fFontHeight",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fFontHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "fMaxDrop",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMaxDrop;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLineOverlap",
+     "off": 52,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iLineOverlap;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pFontData",
+     "off": 56,
+     "size": 4,
+     "xbox_type": "FontData*",
+     "opaque": false,
+     "decl": "FontData* pFontData;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "IconAtlasTextureName",
+     "off": 60,
+     "size": 8,
+     "xbox_type": "BSStringT<char>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char IconAtlasTextureName[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "ButtonIcons",
+     "off": 68,
+     "size": 16,
+     "xbox_type": "BSSimpleArray<ButtonIcon,1024>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char ButtonIcons[16];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "Font::TextData",
+   "base": null,
+   "pc_size": 40,
+   "xbox_size": 40,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "xNewText",
+     "off": 0,
+     "size": 8,
+     "xbox_type": "BSStringT<char>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xNewText[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iWidth",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iHeight",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLineStart",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iLineStart;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLineEnd",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iLineEnd;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iCharCount",
+     "off": 24,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iCharCount;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cLineSep",
+     "off": 28,
+     "size": 1,
+     "xbox_type": "char",
+     "opaque": false,
+     "decl": "char cLineSep;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xLineWidths",
+     "off": 32,
+     "size": 8,
+     "xbox_type": "BSSimpleList<int>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xLineWidths[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontManager",
+   "base": null,
+   "pc_size": 36,
+   "xbox_size": 36,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pFont",
+     "off": 0,
+     "size": 32,
+     "xbox_type": "Font*[32 bytes]",
+     "opaque": false,
+     "decl": "Font* pFont[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "bUseNewFonts",
+     "off": 32,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bUseNewFonts;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontManager::CharData",
+   "base": null,
+   "pc_size": 56,
+   "xbox_size": 56,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iFontIndex",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iFontIndex;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cChar",
+     "off": 4,
+     "size": 1,
+     "xbox_type": "unsigned char",
+     "opaque": false,
+     "decl": "unsigned char cChar;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xColor",
+     "off": 8,
+     "size": 16,
+     "xbox_type": "NiColorA",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xColor[16];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iJustification",
+     "off": 24,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iJustification;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xFilename",
+     "off": 28,
+     "size": 8,
+     "xbox_type": "BSStringT<char>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xFilename[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iWidth",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iRise",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iRise;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iDrop",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iDrop;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLeadingEdge",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iLeadingEdge;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iX",
+     "off": 52,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iX;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontManager::TextLine",
+   "base": null,
+   "pc_size": 48,
+   "xbox_size": 48,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "xChars",
+     "off": 0,
+     "size": 12,
+     "xbox_type": "NiTPointerList<FontManager::CharData *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xChars[12];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iWidth",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iNextSpacing",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iNextSpacing;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iRise",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iRise;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iDrop",
+     "off": 24,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iDrop;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iSkippedSpace",
+     "off": 28,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iSkippedSpace;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iJustify",
+     "off": 32,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iJustify;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageWidth",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iY",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iY;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pPage",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "FontManager::TextPage*",
+     "opaque": false,
+     "decl": "FontManager::TextPage* pPage;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontManager::TextPage",
+   "base": null,
+   "pc_size": 68,
+   "xbox_size": 68,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "xLines",
+     "off": 0,
+     "size": 12,
+     "xbox_type": "NiTPointerList<FontManager::TextLine *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xLines[12];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iWidth",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iHeight",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageWidth",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageHeight",
+     "off": 24,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLastFontHeight",
+     "off": 28,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iLastFontHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pCharsPerFont",
+     "off": 32,
+     "size": 32,
+     "xbox_type": "int[32 bytes]",
+     "opaque": false,
+     "decl": "int pCharsPerFont[8];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "pDoc",
+     "off": 64,
+     "size": 4,
+     "xbox_type": "FontManager::TextDoc*",
+     "opaque": false,
+     "decl": "FontManager::TextDoc* pDoc;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontManager::TextDoc",
+   "base": null,
+   "pc_size": 24,
+   "xbox_size": 24,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "xPages",
+     "off": 0,
+     "size": 12,
+     "xbox_type": "NiTPointerList<FontManager::TextPage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xPages[12];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageWidth",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageHeight",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageNum",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageNum;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FontManager::TextData",
+   "base": null,
+   "pc_size": 64,
+   "xbox_size": 64,
+   "pc_only": false,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iDefaultFont",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iDefaultFont;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iJustification",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iJustification;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xColor",
+     "off": 8,
+     "size": 16,
+     "xbox_type": "NiColorA",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xColor[16];",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cLineSep",
+     "off": 24,
+     "size": 1,
+     "xbox_type": "char",
+     "opaque": false,
+     "decl": "char cLineSep;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iWidth",
+     "off": 28,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iWidth;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iHeight",
+     "off": 32,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iHeight;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageNum",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iPageNum;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLines",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iLines;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iNumPages",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iNumPages;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iNumLines",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iNumLines;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "bIsHypertext",
+     "off": 52,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bIsHypertext;",
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xNewText",
+     "off": 56,
+     "size": 8,
+     "xbox_type": "BSStringT<char>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char xNewText[8];",
+     "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null
     }

@@ -1,0 +1,10 @@
+pc_value,pc_name,xbox_value,status,branch_va,pc_calls
+0,MP_CLEAR_UNUSED_TEXTURES,0,confirmed,0x00866AD6,TES::CleanUpUnusedTextures
+1,MP_CLEAR_SCRAP_HEAP,1,confirmed,0x00866AFA,ScrapHeapManager::GetSingleton | ScrapHeapManager::FreeAllBuffers
+2,MP_CLEAR_FG_CACHE,2,confirmed,0x00866B0B,BSFaceGenManager::GetModelCache | TESGlobal::GetType | BSFaceGenManager::TryLockFaceGenAccess | BSFaceGenModelMap::GetFaceGenLockCount | BSFaceGenModelMap::UnloadAllEGMAndEGTData | BSFaceGenManager::UnlockFaceGenAccess
+3,MP_EMPTY_NIGARBAGE,3,confirmed,0x00866BE0,NiObjectGarbage::ClearAll
+4,MP_EMPTY_BSGARBAGE,4,confirmed,0x00866BBB,BSSpinLock::TryLock | GarbageCollector::ClearAll | BSSpinLock::Unlock | NiObjectGarbage::ClearAll
+5,MP_PURGE_CELL_BUFFER,5,confirmed,0x00866B55,GarbageCollector::CanRunGarbageCollector | TES::ClearOldestBufferedCell
+6,MP_FREE_UNUSED_POOL_PAGES,,PC-only,0x00866BEF,MemoryPool::FreeUnusedPagesForAllPools
+7,MP_ALLOW_OVER_HEAP,6,shifted-on-PC,0x00866C01, + запись *arg3 = 1
+8,MP_COMPLETELY_OUT,7,shifted-on-PC,0x00866C1E,IOManager::GetTaskThreadID | BSGetCurrentThreadID | IOManager::PauseThread | IOManager::WaitForThread | BSSleep

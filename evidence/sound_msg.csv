@@ -1,0 +1,68 @@
+name,value,status,calls_on_pc,examples
+MINVALID_MSG,0,not-used-on-PC,0,
+MPLAY,1,name-consistent,4,BSAudioManager::FadeInPlay; BSAudioManager::Play
+MPLAYLOOPING,2,not-used-on-PC,0,
+MPAUSE,3,name-consistent,1,BSAudioManager::Pause
+MSTOP,4,name-consistent,1,BSAudioManager::Stop
+MPLAY_AFTER,5,name-consistent,2,BSAudioManager::PlayAfter
+MSTOP_AFTER,6,not-used-on-PC,0,
+MMUTE,7,used-names-unclear,1,BSAudioManager::FadeInPlay
+MUNMUTE,8,used-names-unclear,1,bool BSAudioManager::ProcessMessage(class BSSoundMessage *)
+MFADE_OUT,9,partly-consistent,5,BSAudioManager::FadeTo
+MFADE_TO,10,used-names-unclear,3,bool BSAudioManager::ProcessMessage(class BSSoundMessage *)
+MFADE_IN,11,name-consistent,5,BSAudioManager::FadeIn; BSAudioManager::FadeInPlay
+MFADE_FROM,12,used-names-unclear,3,bool BSAudioManager::ProcessMessage(class BSSoundMessage *)
+MDIALOGUE_FADE,13,not-used-on-PC,0,
+MVOLUME_LEVELS_CHANGED,14,partly-consistent,1,BSAudioManager::VolumeChanged
+MFREE_IF_STOPPED,15,not-used-on-PC,0,
+MSET_VOLUME,16,name-consistent,2,BSAudioManager::SetVolume
+MINCREASE_VOLUME_TO,17,not-used-on-PC,0,
+MDECREASE_VOLUME_TO,18,not-used-on-PC,0,
+MSET_FREQUENCY,19,name-consistent,1,BSAudioManager::SetFrequency
+MSET_FREQUENCY_VARIANCE,20,name-consistent,1,BSAudioManager::SetFrequencyVariance
+MINCREASE_FREQUENCY_TO,21,not-used-on-PC,0,
+MDECREASE_FREQUENCY_TO,22,not-used-on-PC,0,
+MKILL_ALL_SOUNDS,23,not-used-on-PC,0,
+MMUTE_ALL_OFTYPE,24,name-consistent,1,BSAudioManager::MuteAllOfType
+MUNMUTE_ALL_OFTYPE,25,name-consistent,1,BSAudioManager::UnMuteAllOfType
+MPAUSE_ALL_OFTYPE,26,name-consistent,1,BSAudioManager::PauseAllOfType
+MUNPAUSE_ALL_OFTYPE,27,name-consistent,1,BSAudioManager::UnPauseAllOfType
+MPAUSE_ALL_OFTYPE_EXACT,28,partly-consistent,1,BSAudioManager::PauseAllOfType
+MUNPAUSE_ALL_OFTYPE_EXACT,29,partly-consistent,1,BSAudioManager::UnPauseAllOfType
+MSET_POS,30,name-consistent,1,BSAudioManager::SetPosition
+MSET_BEAM_END,31,name-consistent,2,BSAudioManager::SetBeamEnd
+MSET_ORIENT,32,not-used-on-PC,0,
+MSET_STATIC_ATTENUATION,33,name-consistent,1,BSAudioManager::SetStaticAttenuation
+MSET_REVERB_ATTENUATION,34,name-consistent,1,BSAudioManager::SetReverbAttenuation
+MSET_MINMAX_DISTANCE,35,name-consistent,2,BSAudioManager::SetMinMaxDistance
+MSET_ATTENUATION_CURVE,36,not-used-on-PC,0,
+MADD_SOUND_TO_LIST,37,partly-consistent,2,BSAudioManager::GetSoundHandleByFilePath; bool BSAudioManager::ProcessMessage(class BSSoundMessage *)
+MDELETE_SOUND,38,used-names-unclear,1,BSAudioManager::Release
+MREGISTER_MOVING_SOUND,39,used-names-unclear,1,BSAudioManager::SetObjectToFollow
+MPURGE_MOVING_SOUNDS,40,not-used-on-PC,0,
+MSTOP_MOVING_SOUNDS,41,name-consistent,1,BSAudioManager::StopMovingSounds
+MKILL_ALL_OFTYPE,42,name-consistent,1,BSAudioManager::KillAllOfType
+MMUTE_ALL_LOOPS,43,not-used-on-PC,0,
+MUNMUTE_ALL_LOOPS,44,not-used-on-PC,0,
+MFORCE_LOOP,45,used-names-unclear,1,BSAudioManager::Play
+MSET_SOUND_TYPE,46,not-used-on-PC,0,
+MSET_WEATHER_TYPES,47,not-used-on-PC,0,
+MPRECACHE_COMBAT_SOUNDS,48,not-used-on-PC,0,
+MENABLE_SOUND_CACHE,49,not-used-on-PC,0,
+MCACHE_SIZE_CHANGED,50,not-used-on-PC,0,
+MADD_SOUND_TO_CACHE,51,not-used-on-PC,0,
+MTERMINATE_THREAD,52,partly-consistent,1,BSAudioManager::StopAudioThread
+MSUSPEND_THREAD,53,partly-consistent,1,BSAudioManager::SuspendAudioThread
+MERROR_TOO_MANY_SOUNDS,54,not-used-on-PC,0,
+MSET_UNDERWATER,55,partly-consistent,1,BSAudioManager::SetListenerUnderwater
+MSET_LISTENER_POSITION,56,partly-consistent,1,BSAudioManager::PositionListener
+MDATA_REQUEST,57,used-names-unclear,1,bool BSAudioManager::ProcessMessage(class BSSoundMessage *)
+MSET_COMPLETION_CALLBACK,58,name-consistent,1,BSAudioManager::SetCompletionCallback
+MSET_PLAY_CALLBACK,59,name-consistent,1,BSAudioManager::SetPlayCallback
+MSET_SYNCH_START,60,name-consistent,2,BSAudioManager::SetSynchStartTime
+MCLEAR_SYNCH_START,61,name-consistent,2,BSAudioManager::ClearSynchStartTime
+MSET_TIME_CONSTRAINTS,62,name-consistent,1,BSAudioManager::SetTimeConstraints
+MSEEK,63,name-consistent,1,BSAudioManager::Seek
+MSET_AT_LISTENER,64,name-consistent,1,BSAudioManager::SetAtListener
+MSET_PRIORITY,65,name-consistent,1,BSAudioManager::SetPriority
+MSET_MOD_FREQUENCY,66,name-consistent,1,BSAudioManager::SetModFrequency

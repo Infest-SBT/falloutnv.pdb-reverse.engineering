@@ -1,0 +1,69 @@
+name,value,status,functions_on_pc,matching_names,examples
+MEM_CONTEXT_STATICVARS,0,name-consistent,2,2,MemoryManager::Initialize; sub_00AA3A10
+MEM_CONTEXT_EXTERNAL,1,not-used-on-PC,0,0,
+MEM_CONTEXT_DEBUG,2,not-used-on-PC,0,0,
+MEM_CONTEXT_POOL,3,name-consistent,1,1,MemoryManager::CreatePool
+MEM_CONTEXT_RENDERER_OVERHEAD,4,not-used-on-PC,0,0,
+MEM_CONTEXT_SHADER_OVERHEAD,5,name-consistent,3,3,BSShaderManager::GetShader; BSShaderManager::Initialize; BSShaderManager::RenderDebugTexture
+MEM_CONTEXT_TASK_OVERHEAD,6,name-consistent,11,10,??0?$LockFreeMap@_JV?$NiPointer@V?$BSTask@_J@@@@@@6A@; ??0?$LockFreePriorityQueue@V?$NiPointer@VIOTask@@@@@@6A@; ??0?$LockFreeQueue@V?$NiPointer@VIOTask@@@@@@6A@; ?AllocateInterface@?$LockFreeMap@_JV?$NiPointer@V?$BSTask@_J@@@@@@6A@; ?AllocateInterface@?$LockFreeQueue@V?$NiPointer@VIOTask@@@@@@6A@; ?RemoveAll@?$LockFreeMap@_JV?$NiPointer@V?$BSTask@_J@@@@@@6A@
+MEM_CONTEXT_EFFECTS_OVERHEAD,7,not-used-on-PC,0,0,
+MEM_CONTEXT_STRING_TABLES,8,not-used-on-PC,0,0,
+MEM_CONTEXT_GAMESETTING,9,not-used-on-PC,0,0,
+MEM_CONTEXT_GAME_OVERHEAD,10,not-used-on-PC,0,0,
+MEM_CONTEXT_AUDIO,11,name-consistent,21,21,BSAudio::GetAudioCacheSizeInK; BSAudio::GetCacheEnabled; BSAudio::GetSoundHandleByEditorName; BSAudio::GetSoundHandleByFilename; BSAudio::GetSoundHandleByFormID; BSAudio::Init
+MEM_CONTEXT_FONTS,12,name-consistent,3,3,Font::Font; Font::Load; FontManager::FontManager
+MEM_CONTEXT_INTERFACE,13,name-consistent,9,6,Tile::ReadFile; Tile::Release; Tile::UpdateAll; Tile::UpdateTile; Tile::Value::CalculateValue; TileImage::AddToTesTextures
+MEM_CONTEXT_LOCALMAP,14,not-used-on-PC,0,0,
+MEM_CONTEXT_GAMEBRIO,15,not-used-on-PC,0,0,
+MEM_CONTEXT_HAVOK,16,name-consistent,313,252,bhkAabbPhantom::GetViewerStrings; bhkAabbPhantom::Init; bhkAction::Add; bhkAction::Remove; bhkAngularDashpotAction::CreateCinfo; bhkAngularDashpotAction::GetViewerStrings
+MEM_CONTEXT_SAVELOAD,17,not-used-on-PC,0,0,
+MEM_CONTEXT_LOADERS,18,not-used-on-PC,0,0,
+MEM_CONTEXT_ARCHIVES,19,not-used-on-PC,0,0,
+MEM_CONTEXT_MOVIEPLAYER,20,name-consistent,6,5,BGSMoviePlayer::PlayBackground; MoviePlayer::MovieLoadingThreadWithSettings; MoviePlayer::Play; MoviePlayer::PlaySequence; MoviePlayer::Update
+MEM_CONTEXT_SCRIPTS,21,not-used-on-PC,0,0,
+MEM_CONTEXT_MASTER_FILE,22,not-used-on-PC,0,0,
+MEM_CONTEXT_BSFILE,23,name-consistent,2,2,BSFile::ChangeBufferSize; BSFile::CheckIsGood
+MEM_CONTEXT_FILESYSTEM,24,not-used-on-PC,0,0,
+MEM_CONTEXT_WORLD_SG,25,not-used-on-PC,0,0,
+MEM_CONTEXT_CELLS,26,not-used-on-PC,0,0,
+MEM_CONTEXT_LAND,27,not-used-on-PC,0,0,
+MEM_CONTEXT_GRASS,28,name-consistent,11,11,TallGrassShader::CreateShader; TallGrassShader::InitShaderConstants; TallGrassShader::Initialize; TallGrassShader::LoadShaders; TallGrassShader::LoadStagesAndPasses; TallGrassShaderProperty::AddGrass
+MEM_CONTEXT_WATER,29,name-consistent,6,6,ImageSpaceEffectWaterFFT::FillFFTUtilityTextures; ImageSpaceEffectWaterFFT::FillWaterUtilityBuffers; ImageSpaceEffectWaterFFT::FillWaterUtilityTextures; WaterShader::CreateShader; WaterShader::InitShaderConstants; WaterShaderProperty::GetRenderPasses
+MEM_CONTEXT_TREEART,30,not-used-on-PC,0,0,
+MEM_CONTEXT_TREESYSTEM,31,name-consistent,1,1,SpeedTreeFrondShader::CreateShader
+MEM_CONTEXT_SHADOWS,32,name-consistent,4,4,BSTextureManager::SetFrustumShadowTextureCount; ShadowSceneLight::CubeFaceFrustumFrustumIntersection; ShadowSceneLight::SetCastShadow; ShadowSceneNode::UpdateDynamicShadows
+MEM_CONTEXT_SKY,33,not-used-on-PC,0,0,
+MEM_CONTEXT_LODMANAGER,34,not-used-on-PC,0,0,
+MEM_CONTEXT_LODLANDSCAPE,35,not-used-on-PC,0,0,
+MEM_CONTEXT_LODBUILDINGS,36,not-used-on-PC,0,0,
+MEM_CONTEXT_LODTREES,37,not-used-on-PC,0,0,
+MEM_CONTEXT_SHADERS,38,used-names-unclear,1,0,BSBatchRenderer::BSBatchRenderer
+MEM_CONTEXT_IMAGE_SPACE,39,name-consistent,8,8,ImageSpaceManager::CreatePartialScreenGeometry; ImageSpaceManager::Initialize; ImageSpaceManager::RenderEffect_0; ImageSpaceManager::RenderEffect_1; ImageSpaceManager::RenderEffect_2; ImageSpaceManager::RenderEndOfFrameEffects
+MEM_CONTEXT_HAIRSHADER,40,name-consistent,3,2,HairShaderProperty::CreateClone; HairShaderProperty::GetRenderPasses
+MEM_CONTEXT_PRECIPITATION,41,name-consistent,2,2,PrecipitationShaderProperty::CreateClone; PrecipitationShaderProperty::GetRenderPasses
+MEM_CONTEXT_PROCESSES,42,not-used-on-PC,0,0,
+MEM_CONTEXT_COMBAT_AI,43,not-used-on-PC,0,0,
+MEM_CONTEXT_GLOBAL_LISTS,44,not-used-on-PC,0,0,
+MEM_CONTEXT_PATHING,45,not-used-on-PC,0,0,
+MEM_CONTEXT_NAVMESH,46,not-used-on-PC,0,0,
+MEM_CONTEXT_TES_DEFAULT_OBJECTS,47,not-used-on-PC,0,0,
+MEM_CONTEXT_TES_FORMS,48,not-used-on-PC,0,0,
+MEM_CONTEXT_TES_REFERENCES,49,not-used-on-PC,0,0,
+MEM_CONTEXT_TES_ACTOR,50,not-used-on-PC,0,0,
+MEM_CONTEXT_ANIMATION,51,not-used-on-PC,0,0,
+MEM_CONTEXT_PLAYER,52,not-used-on-PC,0,0,
+MEM_CONTEXT_DIALOGUE,53,not-used-on-PC,0,0,
+MEM_CONTEXT_INVENTORY,54,not-used-on-PC,0,0,
+MEM_CONTEXT_FACEGEN_SYSTEM,55,not-used-on-PC,0,0,
+MEM_CONTEXT_FACEGEN_EGM,56,not-used-on-PC,0,0,
+MEM_CONTEXT_FACEGEN_EGT,57,not-used-on-PC,0,0,
+MEM_CONTEXT_FACEGEN_GEOM,58,not-used-on-PC,0,0,
+MEM_CONTEXT_UNKNOWN,59,not-used-on-PC,0,0,
+MEM_CONTEXT_UNKNOWN_DIRECTX,60,not-used-on-PC,0,0,
+MEM_CONTEXT_DEBUG_CONTEXT_A,61,not-used-on-PC,0,0,
+MEM_CONTEXT_DEBUG_CONTEXT_B,62,not-used-on-PC,0,0,
+MEM_CONTEXT_DEBUG_CONTEXT_C,63,not-used-on-PC,0,0,
+MEM_CONTEXT_DEBUG_CONTEXT_D,64,not-used-on-PC,0,0,
+MEM_CONTEXT_TOTAL,65,not-used-on-PC,0,0,
+MEM_CONTEXT_DEFAULT,65,not-used-on-PC,0,0,
+MEM_CONTEXT_COUNT,66,not-used-on-PC,0,0,

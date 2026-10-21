@@ -4,13 +4,16 @@
   "TESForm",
   "TESDataHandler",
   "BSGameSound",
+  "BSWin32GameSound",
   "BSAudio",
+  "BSWin32Audio",
   "BSAudioManager",
   "BSSoundHandle",
   "HeapBlock",
   "FreeHeapBlock",
   "FreeHeapBlockList",
   "IMemoryHeap",
+  "HeapFreeSubBucket",
   "AbstractHeap",
   "MemoryHeap",
   "ScrapHeap",
@@ -21,7 +24,24 @@
   "BGSLoadGameBuffer",
   "BGSLoadFormBuffer",
   "BGSSaveLoadGame",
-  "BGSSaveLoadManager"
+  "BGSSaveLoadManager",
+  "BGSSaveLoadChangesMap",
+  "FalloutRadio::FORadioReceiver",
+  "FalloutRadio::StationState",
+  "FalloutRadio::FORadioStation",
+  "RadioConvTask",
+  "UVMap",
+  "FontLetter",
+  "TextureFile",
+  "FontData",
+  "Font",
+  "Font::TextData",
+  "FontManager",
+  "FontManager::CharData",
+  "FontManager::TextLine",
+  "FontManager::TextPage",
+  "FontManager::TextDoc",
+  "FontManager::TextData"
  ],
  "pc_sizeof": {
   "BSCriticalSection": 24
@@ -29,6 +49,9 @@
  "drop_vslots": {
   "BSAudio": [
    1
+  ],
+  "RadioConvTask": [
+   12
   ]
  },
  "extra_fields": {
@@ -55,6 +78,274 @@
     48,
     8,
     "own"
+   ]
+  ],
+  "BSWin32GameSound": [
+   [
+    "IDirectSound8*",
+    "pDirectSound",
+    408,
+    4,
+    "own",
+    "SetDirectSound пишет сюда аргумент; через него вызывается слот 3 (CreateSoundBuffer); Play требует != 0"
+   ],
+   [
+    "IDirectSoundBuffer8*",
+    "pDSBuffer",
+    412,
+    4,
+    "own",
+    "через него вызываются слоты 4,5,8,9,11,12,13,15,17,18,19,21,23 = GetCurrentPosition, GetFormat, GetFrequency, GetStatus, Lock, Play, SetCurrentPosition, SetVolume, SetFrequency, Stop, Unlock, SetFX, GetObjectInPath"
+   ],
+   [
+    "IDirectSoundBuffer8*",
+    "pDSBuffer2",
+    416,
+    4,
+    "own",
+    "второй буфер: тот же набор методов IDirectSoundBuffer8 (Lock/Play/Stop/Unlock/SetFX/GetObjectInPath); назначение не разобрано"
+   ],
+   [
+    "DSBUFFERDESC",
+    "BufferDesc",
+    420,
+    36,
+    "own",
+    "DSBUFFERDESC: dwSize = 0x24 пишется на +0x1A4, флаги DSBCAPS на +0x1A8, lpwfxFormat (+0x1B4) разыменовывается"
+   ],
+   [
+    "unsigned",
+    "pc1C8",
+    456,
+    4,
+    "own",
+    ""
+   ],
+   [
+    "void*",
+    "pc1CC",
+    460,
+    4,
+    "own",
+    "COM-интерфейс: вызываются слоты 0, 11, 15, 19"
+   ],
+   [
+    "void*",
+    "pc1D0",
+    464,
+    4,
+    "own",
+    "COM-интерфейс: вызывается слот 0 (QueryInterface)"
+   ],
+   [
+    "IDirectSound3DBuffer8*",
+    "pDS3DBuffer",
+    468,
+    4,
+    "own",
+    "SetMinMaxDistance вызывает через него слоты 17/16 (SetMinDistance/SetMaxDistance), позиционирование — слот 19 (SetPosition)"
+   ],
+   [
+    "void*",
+    "pc1D8",
+    472,
+    4,
+    "own",
+    "COM-интерфейс: слоты 2 (Release), 19"
+   ],
+   [
+    "void*",
+    "pc1DC",
+    476,
+    4,
+    "own",
+    "указатель (разыменовывается)"
+   ],
+   [
+    "void*",
+    "pc1E0",
+    480,
+    4,
+    "own",
+    "COM-интерфейс: слот 5, только в PrepareReverb"
+   ],
+   [
+    "float",
+    "pc1F0",
+    496,
+    4,
+    "own",
+    "float, читается в Prepare"
+   ],
+   [
+    "float",
+    "pc1F4",
+    500,
+    4,
+    "own",
+    "float"
+   ],
+   [
+    "float",
+    "pc1F8",
+    504,
+    4,
+    "own",
+    "float"
+   ],
+   [
+    "float",
+    "pc1FC",
+    508,
+    4,
+    "own",
+    "float"
+   ],
+   [
+    "float",
+    "pc200",
+    512,
+    4,
+    "own",
+    "float"
+   ],
+   [
+    "unsigned",
+    "pc204",
+    516,
+    4,
+    "own",
+    ""
+   ],
+   [
+    "void*",
+    "pc208",
+    520,
+    4,
+    "own",
+    "COM-интерфейс: слот 3, в Prepare"
+   ],
+   [
+    "unsigned short",
+    "pc20C",
+    524,
+    2,
+    "own",
+    "SetAttenuationCurve / SetEmitterPositionF"
+   ],
+   [
+    "unsigned short",
+    "pc20E",
+    526,
+    2,
+    "own",
+    ""
+   ],
+   [
+    "unsigned short",
+    "pc210",
+    528,
+    2,
+    "own",
+    ""
+   ],
+   [
+    "unsigned short",
+    "pc212",
+    530,
+    2,
+    "own",
+    ""
+   ],
+   [
+    "unsigned short",
+    "pc214",
+    532,
+    2,
+    "own",
+    ""
+   ],
+   [
+    "float",
+    "pc218",
+    536,
+    4,
+    "own",
+    "float, SetEmitterPositionF"
+   ],
+   [
+    "float",
+    "pc21C",
+    540,
+    4,
+    "own",
+    "float"
+   ],
+   [
+    "float",
+    "pc220",
+    544,
+    4,
+    "own",
+    "float"
+   ],
+   [
+    "bool",
+    "pc224",
+    548,
+    1,
+    "own",
+    "байт-флаг 0/1: SetEmitterPositionF, SetMinMaxDistance"
+   ],
+   [
+    "void*",
+    "pc228",
+    552,
+    4,
+    "own",
+    "указатель, 153 чтения в 6 функциях; Play сравнивает [pc228] с 5"
+   ],
+   [
+    "unsigned",
+    "pc22C",
+    556,
+    4,
+    "own",
+    "пишется в OpenOgg"
+   ]
+  ],
+  "BSWin32Audio": [
+   [
+    "IDirectSound8*",
+    "pDirectSound",
+    56,
+    4,
+    "own",
+    "BSWin32Audio::Init: DirectSoundCreate8, затем через него слоты 6 (SetCooperativeLevel), 4 (GetCaps), 3 (CreateSoundBuffer)"
+   ],
+   [
+    "IDirectSoundBuffer*",
+    "pPrimaryBuffer",
+    60,
+    4,
+    "own",
+    "CreateSoundBuffer с DSBUFFERDESC{dwSize 0x24, dwFlags 0x91 = PRIMARYBUFFER|CTRL3D|CTRLVOLUME} пишет сюда; затем QueryInterface(IID_IDirectSound3DListener)"
+   ],
+   [
+    "DSCAPS",
+    "Caps",
+    64,
+    96,
+    "own",
+    "DSCAPS: Init пишет dwSize = 0x60 и вызывает GetCaps"
+   ],
+   [
+    "void*",
+    "hWnd",
+    160,
+    4,
+    "own",
+    "окно: Init сохраняет аргумент и передаёт его в SetCooperativeLevel"
    ]
   ]
  },
@@ -113,21 +404,94 @@
   },
   "BGSSaveLoadFormHeader": {
    "sizeof": 9
+  },
+  "BSWin32GameSound": {
+   "sizeof": 560
+  },
+  "BSWin32Audio": {
+   "sizeof": 164
   }
  },
  "enums": [
-  "BSSoundHandle::ASSUMED_STATE"
+  "BSSoundHandle::ASSUMED_STATE",
+  "FontManager::enumCharTypes"
  ],
  "flatten": [
-  "FreeHeapBlock"
+  "FreeHeapBlock",
+  "BGSSaveLoadChangesMap",
+  "RadioConvTask"
  ],
  "packed": [
   "BGSSaveLoadFormHeader"
  ],
  "global_enums": {
-  "CHANGE_TYPE": "флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv. На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE"
+  "CHANGE_TYPE": "флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv (там же — типы форм для каждого флага). На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение); строка CHANGE_DOOR_EXTRA_TELEPORT на PC недостижима (значение совпало). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE",
+  "SOUND_MSG": "сообщения звукового потока, первый аргумент BSAudioManager::ComposeMessage (0xADB1A0). Сверено по именам вызывающих функций PC: 28 значений совпали по имени (Play=1, Stop=4, SetVolume=16 … SetModFrequency=66), 9 частично, 0 противоречий, значений вне перечисления на PC нет — evidence/sound_msg.csv",
+  "MEM_CONTEXT": "контекст памяти потока (TLS + 0x2B4), ставится при входе в функции. 17 значений из 68 согласуются с именами функций PC (16 HAVOK — 313 функций bhk*, 11 AUDIO — BSAudio, 12 FONTS — Font, 13 INTERFACE — Tile, …), 0 противоречий; остальные на PC этим способом не встречаются — evidence/mem_context.csv. Проверка по смыслу, не по строкам",
+  "MemoryPasses": "проходы освобождения памяти, MemoryManager::ProcessMemoryProblem (0x866A90). НА PC НЕ ТАК, КАК НА XBOX: 9 проходов вместо 8 — вставлен проход 6 (MemoryPool::FreeUnusedPagesForAllPools), MP_ALLOW_OVER_HEAP и MP_COMPLETELY_OUT сдвинуты с 6/7 на 7/8. Ниже — значения PC; evidence/memory_passes.csv"
  },
  "value_as": {
   "BGSChangeFlags": "unsigned"
+ },
+ "pc_enum_values": {
+  "MemoryPasses": [
+   [
+    "MP_CLEAR_UNUSED_TEXTURES",
+    0,
+    ""
+   ],
+   [
+    "MP_CLEAR_SCRAP_HEAP",
+    1,
+    ""
+   ],
+   [
+    "MP_CLEAR_FG_CACHE",
+    2,
+    ""
+   ],
+   [
+    "MP_EMPTY_NIGARBAGE",
+    3,
+    ""
+   ],
+   [
+    "MP_EMPTY_BSGARBAGE",
+    4,
+    ""
+   ],
+   [
+    "MP_PURGE_CELL_BUFFER",
+    5,
+    ""
+   ],
+   [
+    "MP_FREE_UNUSED_POOL_PAGES",
+    6,
+    "own: прохода нет на Xbox, имя наше (вызывает MemoryPool::FreeUnusedPagesForAllPools)"
+   ],
+   [
+    "MP_ALLOW_OVER_HEAP",
+    7,
+    "на Xbox 6"
+   ],
+   [
+    "MP_COMPLETELY_OUT",
+    8,
+    "на Xbox 7"
+   ]
+  ]
+ },
+ "pc_classes": {
+  "BSWin32GameSound": {
+   "base": "BSGameSound",
+   "size": 560,
+   "note": "Аналог на Xbox — BSXenonGameSound (XAudio2), раскладка другая. Тип COM-полей — по набору вызываемых слотов vtable (DirectSound API)"
+  },
+  "BSWin32Audio": {
+   "base": "BSAudio",
+   "size": 164,
+   "note": "Единственный объект — BSWin32Audio::Instance (0x011F7080)"
+  }
  }
 }

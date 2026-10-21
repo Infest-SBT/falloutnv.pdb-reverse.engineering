@@ -30,6 +30,7 @@ ENUMS = spec.get('enums', [])
 GENUMS = spec.get('global_enums', {})
 PACKED = set(spec.get('packed', []))
 VALUE_AS = spec.get('value_as', {})
+PCC = spec.get('pc_classes', {})   # классы только PC (нет в Xbox PDB): база, размер; поля — в extra_fields
 
 PRIM = {'void', 'bool', 'char', 'signed char', 'unsigned char', 'short', 'unsigned short', 'int', 'unsigned',
         'unsigned int', 'long', 'unsigned long', 'float', 'double', '__int64', 'unsigned __int64',
@@ -63,6 +64,8 @@ def c_type(t):
                 VALUE_TYPES[base] = L['size']   # класс по значению: непрозрачная структура нужного размера
             return ('const ' if const else '') + base
         return None
+    if base in declared:
+        return ('const ' if const else '') + base + suffix
     if '<' in base or '::' in base or '(' in base or ' ' in base:
         return 'void' + '*' * stars
     if base not in declared:
@@ -106,6 +109,8 @@ def mfunc_sig(ti):
 
 def vmethods(cls):
     """[(slot, name, type_index)] для виртуальных методов класса (только с vftable offset >= 0)."""
+    if cls in PCC:
+        return []
     ti = T.byname[cls]
     fl = re.search(r'field list: (0x[0-9A-F]+)', '\n'.join(rec(ti)[2]))
     out = []
@@ -221,18 +226,26 @@ blocks = []
 asserts = []
 meta_align = {}
 for cls in CLASSES:
-    L = T.layout(cls)
+    L = T.layout(cls) if cls not in PCC else {'name': cls, 'kind': 'LF_CLASS', 'size': PCC[cls]['size'],
+                                               'bases': [(PCC[cls]['base'], 0)], 'members': [], 'virtuals': []}
     base = L['bases'][0][0] if L['bases'] else None
     if cls in spec.get('flatten', []):
-        BL = T.layout(base)
-        L = dict(L, members=sorted(BL['members'] + L['members']), bases=[])
+        # поля базовых классов, которые сами не описываются (шаблоны), переносим в класс — по всей цепочке
+        # первая база переносится всегда (как в v0.3: FreeHeapBlock <- HeapBlock), дальше — пока база не описана
+        mem, b, first = list(L['members']), base, True
+        while b and (first or b not in declared):
+            BL = T.layout(b)
+            mem += BL['members']
+            b = BL['bases'][0][0] if BL['bases'] else None
+            first = False
+        L = dict(L, members=sorted(mem), bases=[])
         base = None
     bsize = pc_size.get(base, 0) if base else 0
     vptr = 0 if base else (4 if L['virtuals'] else 0)
     xb_members = [(o, n, t) for o, n, t in L['members']]
     # Xbox-смещения -> PC-смещения: накапливаем сдвиг от типов с другим размером на PC
     xb_base_end = (T.layout(base)['size'] if base else 0)
-    delta = bsize - xb_base_end
+    delta = 0 if cls in PCC else bsize - xb_base_end
     fields = []
     for k, (o, n, t) in enumerate(xb_members):
         nxt = xb_members[k + 1][0] if k + 1 < len(xb_members) else L['size']
@@ -243,20 +256,30 @@ for cls in CLASSES:
         fields.append((o + delta, n, t, sz))
         if ps is not None:
             delta += ps - xs
-    own_src = {}
+    own_src, own_note = {}, {}
     ext_end = 0
     for e in EXTRA.get(cls, []):
         ft, fn, fo = e[:3]
         esz = e[3] if len(e) > 3 else 4
         own_src[fn] = e[4] if len(e) > 4 else 'own'
+        if len(e) > 5:
+            own_note[fn] = e[5]
         fields.append((fo, fn, ft, esz))
         ext_end = max(ext_end, fo + esz)
-    size = max(L['size'] + delta, -(-ext_end // 4) * 4)
+    size = PCC[cls]['size'] if cls in PCC else max(L['size'] + delta, -(-ext_end // 4) * 4)
     pc_size[cls] = size
-    lines = [f'// {cls} (Xbox PDB): Xbox sizeof 0x{L["size"]:X}, PC sizeof 0x{size:X}']
-    kw = 'struct' if T.rec[T.byname[cls]][0] == 'LF_STRUCTURE' else 'class'
+    if cls in PCC:
+        lines = [f'// {cls} (только PC: в Xbox PDB нет): PC sizeof 0x{size:X}; поля восстановлены по коду PC, имена наши (own). '
+                 + PCC[cls].get('note', '')]
+    else:
+        lines = [f'// {cls} (Xbox PDB): Xbox sizeof 0x{L["size"]:X}, PC sizeof 0x{size:X}']
+    kw = 'class' if cls in PCC else ('struct' if T.rec[T.byname[cls]][0] == 'LF_STRUCTURE' else 'class')
     lines.append(f'{kw} {cls}' + (f' : public {base}' if base else '') + ' {')
     lines.append('public:')
+    for inner in CLASSES:          # вложенные классы, описанные ниже отдельно: объявляем внутри
+        if inner.startswith(cls + '::') and '::' not in inner[len(cls) + 2:]:
+            ik = 'struct' if T.rec[T.byname[inner]][0] == 'LF_STRUCTURE' else 'class'
+            lines.append(f'    {ik} {inner.split("::")[-1]};')
     # виртуальные методы: только новые слоты этого класса, в порядке слотов
     vs = vmethods(cls)
     base_slots = 0
@@ -277,8 +300,12 @@ for cls in CLASSES:
         byslot.setdefault(s, (n, ti))
     xb_slots = sorted(set(s for s, _, _ in vs if s >= base_slots and s not in drops))
     used = {}
-    cm = {'name': cls, 'base': base, 'pc_size': size, 'xbox_size': L['size'], 'vslots': [], 'fields': []}
+    cm = {'name': cls, 'base': base, 'pc_size': size, 'xbox_size': None if cls in PCC else L['size'],
+          'pc_only': cls in PCC, 'vslots': [], 'fields': []}
+    vdd = {s for s, n, _ in vs if n == '__vecDelDtor'}
     for s in xb_slots:
+        if s not in byslot and s in vdd:
+            byslot[s] = ('~' + cls, None)       # слот только со скалярным деструктором: это деструктор
         n, ti = byslot.get(s, (f'_vslot{s}', None))
         pcslot = s - sum(1 for d in drops if d < s)
         if n.startswith('~'):
@@ -296,6 +323,8 @@ for cls in CLASSES:
     # поля с явными заполнителями
     pos = bsize if base else vptr
     packed = cls in PACKED
+    if vptr and not packed and any(xalign(t) == 8 for _, _, t, _ in fields):
+        pos = 8   # MSVC: при выравнивании класса 8 указатель на vtable сам добивается до 8 (поля с +8)
     align = 4 if vptr else (meta_align.get(base, 1) if base else 1)
     lines.append('    // поля')
     for po, n, t, sz in sorted(fields):
@@ -307,7 +336,8 @@ for cls in CLASSES:
         if mc is None:
             continue
         decl, tsz, fa, opaque = mc
-        lines.append(f'    {decl}' + (f' // {own_src[n]}: поля нет в Xbox PDB, имя наше, найдено по PC-коду' if n in own_src else ''))
+        lines.append(f'    {decl}' + (f' // {own_src[n]}: поля нет в Xbox PDB, имя наше, найдено по PC-коду'
+                                         + (f' — {own_note[n]}' if n in own_note else '') if n in own_src else ''))
         align = 1 if packed else max(align, fa)
         asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
         cm['fields'].append({'name': n, 'off': po, 'size': tsz, 'xbox_type': t, 'opaque': opaque,
@@ -351,10 +381,26 @@ hdr = ['// Сгенерировано gen_headers.py. Источник раск�
        '// классов, упакованных и в игре (BGSSaveLoadFormHeader). alignof каждого класса следует из типов полей.',
        '// Уровни достоверности каждого поля и слота — комментарии «PC: …» и evidence/summary.json.',
        '#pragma once', '#if __has_include(<cstddef>)', '#include <cstddef>', '#endif', '#ifndef offsetof', '#define offsetof(t, m) __builtin_offsetof(t, m)', '#endif']
-hdr += [('struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class') + f' {n};' for n in sorted((fwd | declared) - set(VALUE_TYPES))]
+hdr += [('class' if n in PCC else 'struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class')
+        + f' {n};' for n in sorted((fwd | declared) - set(VALUE_TYPES)) if '::' not in n]
+# области имён вложенных классов, которые сами не описываются (FalloutRadio — класс только со статическими членами)
+for scope in sorted({n.split('::')[0] for n in declared if '::' in n} - declared):
+    sk = 'struct' if T.rec[T.byname[scope]][0] == 'LF_STRUCTURE' else 'class'
+    inner = [n for n in CLASSES if n.startswith(scope + '::')]
+    hdr.append(f'{sk} {scope} {{ // (Xbox PDB) только область имён: на PC описаны лишь вложенные типы\npublic:\n' +
+               ''.join(f"    {'struct' if T.rec[T.byname[n]][0] == 'LF_STRUCTURE' else 'class'} {n.split('::', 1)[1]};\n" for n in inner) + '};')
 hdr += [f'struct {n} {{ alignas({xalign(n)}) unsigned char _opaque[0x{sz:X}]; }}; // (Xbox PDB) передаётся по значению; поля не описаны'
         for n, sz in sorted(VALUE_TYPES.items())]
+PCENUM = spec.get('pc_enum_values', {})
 for e, note in GENUMS.items():
+    if e in PCENUM:
+        # на PC значения другие, чем на Xbox: публикуем PC-значения (своё имя — с пометкой own)
+        hdr.append(f'// {e} (Xbox PDB, значения PC): {note}')
+        items = PCENUM[e]
+        body = [f'    {a} = 0x{int(v):X}' + (',' if k + 1 < len(items) else '') + (f' // {src}' if src else '')
+                for k, (a, v, src) in enumerate(items)]
+        hdr.append(f'enum {e} : unsigned int {{\n' + '\n'.join(body) + '\n};')
+        continue
     eti = T.byname['enum ' + e]
     fl = re.search(r'field list: (0x[0-9A-F]+)', ' '.join(rec(eti)[2]))
     vals = re.findall(r'LF_ENUMERATE \[(\w+) = (-?\d+)\]', ' '.join(rec(int(fl.group(1), 16))[2]))
@@ -364,4 +410,10 @@ hdr += blocks
 hdr += sorted(set(asserts), key=asserts.index)
 open(out_path, 'w', encoding='utf-8').write('\n'.join(hdr) + '\n')
 json.dump(meta, open(re.sub(r'\.h$', '', out_path) + '.meta.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+cpp = [f'// Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.',
+       f'#include "{os.path.basename(out_path)}"']
+cpp += [f'{c}* g_ref_{ident(c)} = nullptr;' for c in CLASSES]
+cpp += [f'{e} g_ref_{ident(e)};' for e in ENUMS] + [f'{e} g_ref_{ident(e)};' for e in GENUMS]
+cpp += ['extern "C" int __stdcall _DllMainCRTStartup(void*, unsigned, void*) { return 1; }']
+open(re.sub(r'\.h$', '', out_path) + '.cpp', 'w', encoding='utf-8').write('\n'.join(cpp) + '\n')
 print('ok', out_path, {c: hex(pc_size[c]) for c in CLASSES})

@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.3.2",
+ "package": "FalloutNV_PDB_v0.4",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -14,12 +14,12 @@
   "publics": 138171
  },
  "output_pdb": {
-  "sha256": "d37f4d76fdbe329c99c1293cca09698f5b43b3e421733841e4d515c3958c6e7f",
-  "tpi_records": 297,
-  "tpi_range": "0x1000..0x1129",
-  "classes": 22,
-  "streams": 12,
-  "note": "побайтно тот же, что в v0.3.1"
+  "sha256": "db1a6a2cea88ca1918089d54583127ecacab5aeef85d1a849fff63fccbda7cc1",
+  "tpi_records": 417,
+  "tpi_range": "0x1000..0x11A1",
+  "classes": 42,
+  "enums": 6,
+  "streams": 12
  },
  "tools": {
   "python": "3.13 (нужно 3.10+)",
@@ -31,112 +31,133 @@
   "llvm-undname": "18.1.3"
  },
  "build_commands": [
-  "clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti -Wno-invalid-offsetof -I. tools/fnv_types_v032.cpp -o types.obj",
+  "clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti -Wno-invalid-offsetof -I. tools/fnv_types_v04.cpp -o types.obj",
   "lld-link /dll /noentry /nodefaultlib /debug /pdb:types.pdb /out:types.dll types.obj",
   "python3 tools/merge_tpi.py <PDB xNVSE> types.pdb FalloutNV.pdb",
   "python3 tools/scripts_src/build.py scripts"
  ],
  "check_commands": [
   "python3 tools/make_syms.py <PDB xNVSE> syms.tsv",
-  "python3 tools/evidence.py fnv_types_v032.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out",
-  "python3 tools/verify_change_flags.py fnv_types_v032.h FalloutNV.exe out/change_flags.csv",
-  "python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v032.meta.json",
+  "python3 tools/evidence.py fnv_types_v04.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out",
+  "python3 tools/verify_change_flags.py fnv_types_v04.h FalloutNV.exe out/change_flags.csv",
+  "python3 tools/verify_sound_msg.py fnv_types_v04.h syms.tsv FalloutNV.exe out/sound_msg.csv",
+  "python3 tools/verify_mem_context.py fnv_types_v04.h syms.tsv FalloutNV.exe out/mem_context.csv",
+  "python3 tools/verify_memory_passes.py fnv_types_v04.h syms.tsv FalloutNV.exe out/memory_passes.csv",
+  "python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v04.meta.json",
   "python3 tools/scripts_src/test_ghidra_mock.py evidence/summary.json scripts/fnv_apply_ghidra.py",
   "python3 tools/scripts_src/test_ida_mock.py evidence/summary.json scripts/fnv_apply_ida.py"
  ],
  "expected": {
   "make_syms": "138171 symbols",
-  "evidence_dir": "out/ побайтно равно evidence/",
+  "evidence_dir": "out/ побайтно равно evidence/ (11 файлов)",
   "pdb_vs_meta": "ИТОГ: всё совпадает",
-  "rebuilt_pdb_sha256": "d37f4d76fdbe329c99c1293cca09698f5b43b3e421733841e4d515c3958c6e7f",
+  "rebuilt_pdb_sha256": "db1a6a2cea88ca1918089d54583127ecacab5aeef85d1a849fff63fccbda7cc1",
   "rebuilt_scripts": "scripts/ побайтно равно результату build.py",
   "fields": {
-   "confirmed": 295,
-   "consistent": 5,
-   "unverified": 2,
-   "CONFLICT": 0
+   "confirmed": 446,
+   "consistent": 6,
+   "unverified": 7
   },
   "sizes": {
-   "confirmed": 16,
-   "consistent": 6
+   "confirmed": 35,
+   "consistent": 7
   },
   "vslots": {
+   "stub": 52,
+   "name+stack": 145,
    "semantics": 10,
-   "name+stack": 94,
-   "stack": 7,
-   "stub": 70,
-   "MISMATCH": 0
+   "stack": 12
   },
+  "provisional_classes": 16,
   "change_flags": {
    "confirmed": 67,
-   "renamed": 1,
-   "value-confirmed-unreachable": 1,
    "not-in-GetFlagName": 4,
-   "CONFLICT": 0
+   "renamed": 1,
+   "value-confirmed-unreachable": 1
   },
-  "header_static_asserts": 359,
+  "sound_msg": {
+   "not-used-on-PC": 22,
+   "name-consistent": 28,
+   "used-names-unclear": 8,
+   "partly-consistent": 9
+  },
+  "mem_context": {
+   "name-consistent": 17,
+   "not-used-on-PC": 50,
+   "used-names-unclear": 1
+  },
+  "memory_passes": {
+   "confirmed": 6,
+   "PC-only": 1,
+   "shifted-on-PC": 2
+  },
+  "enum_char_types": "6 из 6 по FontManager::GetCharType",
+  "header_static_asserts": 545,
+  "excluded_functions": 3,
+  "identified_functions_rows": 20,
   "apply_plan": {
-   "addresses": 750,
-   "this_candidates": 443,
+   "addresses": 847,
+   "this_candidates": 522,
    "semantics_prototypes": 10,
    "conflicts": 1
   },
-  "vslot_observations_csv": 217,
   "script_tests": {
-   "test_ghidra_mock": "15/15, ИТОГ: всё прошло",
-   "test_ida_mock": "8/8, ИТОГ: всё прошло",
-   "v0.3.1_on_same_tests": "проваливается (сценарий аудита 0x00AA7E50 воспроизводится)"
+   "test_ghidra_mock": "16/16",
+   "test_ida_mock": "8/8"
   }
  },
  "verified_here": [
-  "все expected выше — в Linux-контейнере, где собран пакет (clang/lld 18.1.3)",
-  "побайтная пересборка PDB независимо подтверждена Астрой на clang/lld 17 (для v0.3.1; типы в v0.3.2 те же)",
+  "все expected — в Linux-контейнере, где собран пакет (clang/lld 18.1.3)",
   "скрипты Ghidra/IDA — только на имитации API, не на настоящих Ghidra/IDA"
  ],
  "files": {
   "FalloutNV.pdb": {
-   "sha256": "d37f4d76fdbe329c99c1293cca09698f5b43b3e421733841e4d515c3958c6e7f",
-   "bytes": 7106560
+   "sha256": "db1a6a2cea88ca1918089d54583127ecacab5aeef85d1a849fff63fccbda7cc1",
+   "bytes": 7118848
   },
   "README_RU.md": {
-   "sha256": "da2bc571c4317376fa2bd191e30a3c247b1faafa72ac76e844e4ecfa377e3499",
-   "bytes": 22248
+   "sha256": "2f534ef6ea4e710bde1279bfc7caedf024098168e954a5f6b3eb7e60b29bf1e3",
+   "bytes": 20506
   },
-  "fnv_types_v032.h": {
-   "sha256": "5d9ec5ac520601957d6f7721908e7a6c8510330346ad639daffd44bb244578a5",
-   "bytes": 76835
+  "fnv_types_v04.h": {
+   "sha256": "a19b9b8e5a4ce7b0b81e73e9a90d1688a1fe4cf9ab08a316e10cbaf2ff10e3ef",
+   "bytes": 118570
   },
-  "fnv_types_v032.meta.json": {
-   "sha256": "e2ee8e6b0069fac93ae3072a320700f11795cafb5a5d6c69cc25b62db7125363",
-   "bytes": 112422
+  "fnv_types_v04.meta.json": {
+   "sha256": "11a36567f79716a2066c1e7f276dd33ab69ca8d8c2f0e0b72fde31b694370d54",
+   "bytes": 151422
   },
   "scripts/fnv_apply_ghidra.py": {
-   "sha256": "71d63d6e07630059bb2060544f79125b0563012f7d97c4c60453a1afe491e865",
-   "bytes": 24140
+   "sha256": "eb7d92db9c211cd489921ca0d42c21b97e18383e8ec0e5c6c87327b33b332f47",
+   "bytes": 24829
   },
   "scripts/fnv_apply_ida.py": {
-   "sha256": "7edd6a3f6ecc7c6f2750d099628d061b984d33b1d1a17a62c6fe4b44e01966c4",
-   "bytes": 19177
+   "sha256": "4584d97fd57a791beafefb25a4e96d3552dc3a4a35610799da89cae0fb0f8caa",
+   "bytes": 19221
   },
   "tools/annotate_header.py": {
-   "sha256": "1e986766ff10b97f52c06e8dcf5e3b9853b811008a3698907ed18f5ec0458f28",
-   "bytes": 2005
+   "sha256": "3346d3143be09957261578d29754513e8566c5742a94da9a941bbdba092b5cbb",
+   "bytes": 2011
   },
   "tools/evidence.py": {
-   "sha256": "c49846f6672c4c353f21f8f24d99d5e50b77fc8fbb9fba6d8c95b683e4b5c8a4",
-   "bytes": 25752
+   "sha256": "1184f6e67dead34fd9905705c467159fed30c32e5644e307d665c93f06c3fdfc",
+   "bytes": 43328
   },
   "tools/evidence_spec.json": {
-   "sha256": "5bbab2e102b1407803672620522ca97c7d72c5afa5b98354ee701a322d1a6cd0",
-   "bytes": 4186
+   "sha256": "8759c6b64b48f1126d3cb4d7f1d78d1031823cc71c774ed653e7d4e1a67c3846",
+   "bytes": 12368
   },
-  "tools/fnv_types_v032.cpp": {
-   "sha256": "8f2ccb254d1ecf689afbf253864c0409bba23aad17cbac7012d9d8c4f4fb4daf",
-   "bytes": 779
+  "tools/fnv_types_v04.cpp": {
+   "sha256": "2b4d5a70bfae8105070ce8a5943ff58ade6babaef36a2728a7259d0f9441c8c4",
+   "bytes": 2614
   },
   "tools/gen_headers.py": {
-   "sha256": "4065802873a549bd1661347a3afd1c9abd9ef7fdbe3e5356ffe4df4f700d4771",
-   "bytes": 18529
+   "sha256": "ea5c0dd842a6a4660c7870006c2b3e40296b9b80fce24d96e1b2b5579371c2da",
+   "bytes": 22869
+  },
+  "tools/infer_own_fields.py": {
+   "sha256": "07aac094a75b3357e3831908cc859d561fe93cf60a6ab1a2f1e1a9b80b8a3871",
+   "bytes": 7085
   },
   "tools/layout.py": {
    "sha256": "d7b04a5db491d4e2952405c554385ed45065a86a2366b8faaeac861c54249ba0",
@@ -163,8 +184,8 @@
    "bytes": 1694
   },
   "tools/spec.json": {
-   "sha256": "c5775900c8926022355a5c72f69dc47e131bb424470dd233124eeb3effdb03b1",
-   "bytes": 2515
+   "sha256": "6624810678cd6a57b44a0ee6b15c74bba04f115d80e0e094c239d0ec73fc17d7",
+   "bytes": 10428
   },
   "tools/verify_change_flags.py": {
    "sha256": "ef48facb6dbb0defae51b7278775ff4ed71e936cd57746b595b90bfe96710c0d",
@@ -174,73 +195,101 @@
    "sha256": "778bb6fe6d87f3f8ee07f9f83b415e9ac10625c46a66fec909c5ed0a5c3c3c10",
    "bytes": 10426
   },
+  "tools/verify_mem_context.py": {
+   "sha256": "876c5eb9cbf4f9849f1041c1ee707822dc719d22cd3f550918bdb566a38ade83",
+   "bytes": 5720
+  },
+  "tools/verify_memory_passes.py": {
+   "sha256": "1d4fc7f89c71f9931b30f7a3b8a2a76fae89be3c7e39a5a2600c354278f1e425",
+   "bytes": 4890
+  },
+  "tools/verify_sound_msg.py": {
+   "sha256": "da84e0df83fca4a0dc35c1f7e4d810c56da218b89dd2a0c3a178da0fd2857631",
+   "bytes": 4214
+  },
   "tools/scripts_src/build.py": {
    "sha256": "4e3e4bfa9340dfdc4e5cd257d9f4f4220f69e7fa8bdd6e643109e5d70d77574d",
    "bytes": 752
   },
   "tools/scripts_src/common.py": {
-   "sha256": "05fdaa240a8e8d2dd740af7a9bf0316416114b8ec6497a207bffefe63765c345",
-   "bytes": 7626
+   "sha256": "f46bad69137cc48fb394d6eaab313dd60d74b3bf3aaf52e3fb9603cd1c8cf9bc",
+   "bytes": 7676
   },
   "tools/scripts_src/ghidra_body.py": {
-   "sha256": "21b0f9465ec13a089c01cabf1def545ba86a06ae4e03b31c4909254ba09ba90e",
-   "bytes": 12028
+   "sha256": "a98d18cafdaf6b20f7cbc2c6e83a532eea14b662e7b3cbf8eccd7913043705ce",
+   "bytes": 12673
   },
   "tools/scripts_src/ghidra_head.py": {
-   "sha256": "71e1b703a468c7f10356ed75db64e5376eed48a5743005f7950f5b0a155d642c",
-   "bytes": 4403
+   "sha256": "53b8fad5af063b4a13621ec931b0869162963905f65c01a1761546156fde6af6",
+   "bytes": 4397
   },
   "tools/scripts_src/ida_body.py": {
    "sha256": "99d3cd13fd07128ff991b678c7ad174fd816174abbddf1d199d4a5d3987deaa5",
    "bytes": 8055
   },
   "tools/scripts_src/ida_head.py": {
-   "sha256": "aacc265782e8cd92be660065849cb657c4b01902ab9f9963987ccb46345c5cee",
-   "bytes": 3413
+   "sha256": "cfe304ea940120757f9be9b3e20c7bb86f9c668ff26084f5a298e7003b8220b8",
+   "bytes": 3407
   },
   "tools/scripts_src/test_ghidra_mock.py": {
-   "sha256": "403daba732a49661f2091028f302b8349cbb7ad75e522f76580b908bf7682fd4",
-   "bytes": 10122
+   "sha256": "ee82f3fc3ae7c4eb0183572ce271600646836cf6a7c6967cf467ea7bf9529d22",
+   "bytes": 10978
   },
   "tools/scripts_src/test_ida_mock.py": {
    "sha256": "37d374a7422d47f5c53d500bfe6a417d23b5b211353025eebe0d9338f9097924",
    "bytes": 5107
   },
   "tools/__pycache__/layout.cpython-313.pyc": {
-   "sha256": "0328e0cd106f98a3d077b06476ca652570625e2ca4c4a2a3ff4302db5b549551",
-   "bytes": 10715
+   "sha256": "9a3c280efa05e82bc8cfcb1889b202a778d082b1cbaae140cdd168621b865c02",
+   "bytes": 10713
   },
   "tools/__pycache__/pdbsyms.cpython-313.pyc": {
-   "sha256": "6b2953f5a958b081d95b2a060caa47ae9559a14960f8f3d19fe76da93bc84501",
-   "bytes": 3985
+   "sha256": "6a4679b207ed30c27377265b26eef481bb34be73e20879aa4e094f1c4fde9dbc",
+   "bytes": 3983
   },
   "evidence/REPORT.md": {
-   "sha256": "79063cedd6547a2b14d5ec96f1079029a237c23029515a911184d7135554351e",
-   "bytes": 3120
+   "sha256": "b30af9f61fe64bf8b8dc01a07fef08d0880c7fab909912738b3bd606ad61ba28",
+   "bytes": 5200
   },
   "evidence/change_flags.csv": {
    "sha256": "3d6765a1fa4778968f265aab98c51e7b80478834b7b0a2200d3de334f439512d",
    "bytes": 10928
   },
   "evidence/evidence_fields.csv": {
-   "sha256": "77a213bd6314caf7876d07204302a37b8d2025a1fd6cc0f5449f2a5482661367",
-   "bytes": 318245
+   "sha256": "536b8bcc9d1dca609ae47576966e08a00b6f53605ab056631ca4627db41dc45f",
+   "bytes": 615437
   },
   "evidence/evidence_sizes.csv": {
-   "sha256": "98e58b3d7b3b1aa85335e92c038f3ee7e220920138e49431491f0370ad764486",
-   "bytes": 4335
+   "sha256": "127ffa123411d4781a39909b24f247496135217d41c5bfc5f83a671a7cdd70f5",
+   "bytes": 12138
   },
   "evidence/evidence_vslots.csv": {
-   "sha256": "f9968562cad28ceb68250f8b684b44b0db81f40b2b8ab8e63a5f81eda880a64e",
-   "bytes": 26932
+   "sha256": "b35de9a49b5e542b721d1d4b816df291fb2d702f14dcbad98022daed014faafa",
+   "bytes": 37043
   },
   "evidence/excluded_functions.csv": {
-   "sha256": "6fdd49440a338653f913e7cde5c69daec538903b3e2b19cf656c04b9953a8ee8",
-   "bytes": 673
+   "sha256": "f1725ef73ff987535e3e64bd424e2bf87eb9405e9cb8f2ae7f07feb17fe45024",
+   "bytes": 1061
+  },
+  "evidence/identified_functions.csv": {
+   "sha256": "4c178572513f9d95ee78920d015cbdf31b4d491e35fd3df4c85341a026d37e10",
+   "bytes": 5613
+  },
+  "evidence/mem_context.csv": {
+   "sha256": "0c2adcf8331174bb99bdd82a809f0b79e43ffb7f771041f1666a2bac619baf09",
+   "bytes": 5526
+  },
+  "evidence/memory_passes.csv": {
+   "sha256": "47d32a533abd15b1a0b6de4d5553e27ee7016f1c6e50ba375fbf714b317e7e56",
+   "bytes": 1164
+  },
+  "evidence/sound_msg.csv": {
+   "sha256": "43d66b76aec3e83057bd2bf3ad14331c04a0a6a0d1eca024b47a9db8c51378a7",
+   "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "b7f1f7ac3f215086ebb44d420bdb3a76dffa7ce665c6a12207e7a13e90656204",
-   "bytes": 241196
+   "sha256": "3334603a70f9106a1e8f856def4c48b16aad23a95b0bc3a91ce8ad847e558565",
+   "bytes": 324519
   }
  },
  "build_commands_cwd": "корень пакета"

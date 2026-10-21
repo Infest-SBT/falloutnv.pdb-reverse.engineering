@@ -1,191 +1,193 @@
-# FalloutNV.pdb v0.3.2 — исправление защиты сигнатур в скриптах (аудит Астры v0.3.1)
+# FalloutNV.pdb v0.4 — шрифты, радио, DirectSound, добор памяти и сохранений
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`,
 GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE).
-SHA-256 этого PDB: `d37f4d76fdbe329c99c1293cca09698f5b43b3e421733841e4d515c3958c6e7f` — **побайтно тот же, что в v0.3.1**:
-типы не менялись, исправлены скрипты, `change_flags.csv` и документация.
-Хэши всех файлов пакета, версии инструментов и ожидаемые итоги — в `test_manifest.json`.
+SHA-256 этого PDB: `db1a6a2cea88ca1918089d54583127ecacab5aeef85d1a849fff63fccbda7cc1`.
+Хэши всех файлов, версии инструментов и ожидаемые итоги — в `test_manifest.json`.
 
-Номер версии: `x.y` — новый раздел типов, `x.y.z` — исправления и улучшения без нового раздела.
-Новых классов в 0.3.x нет; разделы те же: основа, звук, память, сохранения.
+Номер версии: `x.y` — новый раздел типов, `x.y.z` — исправления без нового раздела.
+Разделы: основа, звук и радио, память, сохранения, **шрифты** (новое). Дальше по плану — рендер (0.5), физика Havok (0.6).
 
 ## Что внутри
 
 | Путь | Что это |
 |---|---|
-| `FalloutNV.pdb` | 138 171 имя из PDB xNVSE (потоки символов побайтно те же) + 297 записей типов: 22 класса, перечисления `CHANGE_TYPE` и `ASSUMED_STATE`, непрозрачный `NiPoint3` |
-| `fnv_types_v032.h` | те же типы для C++ x86; у каждого поля и слота — уровень достоверности на PC, у предварительных — пометка |
-| `fnv_types_v032.meta.json` | раскладки, ровно то, что попало в PDB (вход для проверок) |
-| `evidence/` | доказательная матрица: `REPORT.md`, `evidence_fields.csv` (1897 обращений), `evidence_vslots.csv` (217 слотов), `evidence_sizes.csv`, `excluded_functions.csv`, `change_flags.csv`, `summary.json` |
-| `scripts/` | `fnv_apply_ghidra.py`, `fnv_apply_ida.py` — привязка к функциям (собраны из `tools/scripts_src`) |
-| `tools/` | всё для пересборки и повторной проверки; `tools/scripts_src` — исходники скриптов и их регрессионные тесты |
-| `test_manifest.json` | SHA-256 файлов, версии инструментов, команды и ожидаемые числа |
+| `FalloutNV.pdb` | 138 171 имя из PDB xNVSE (потоки символов побайтно те же) + 417 записей типов: **42 класса** (было 22), **6 перечислений** (было 2), непрозрачный `NiPoint3` |
+| `fnv_types_v04.h` | те же типы для C++ x86; у каждого поля и слота — уровень достоверности на PC |
+| `fnv_types_v04.meta.json` | раскладки, ровно то, что попало в PDB |
+| `evidence/` | доказательства: `REPORT.md`; `evidence_fields.csv` (3640 обращений), `evidence_vslots.csv`, `evidence_sizes.csv`; `identified_functions.csv` — функции, опознанные вручную, с обоснованием; `excluded_functions.csv` — ошибки имён в PDB xNVSE; перечисления: `change_flags.csv`, `sound_msg.csv`, `mem_context.csv`, `memory_passes.csv`; `summary.json` |
+| `scripts/` | `fnv_apply_ghidra.py`, `fnv_apply_ida.py` (собраны из `tools/scripts_src`) |
+| `tools/` | пересборка и проверка; `infer_own_fields.py` — черновик полей PC-класса по коду; `tools/scripts_src` — исходники и тесты скриптов |
 
-## Уровни достоверности — что именно проверено
+## Новое в v0.4
 
-У каждого поля в `summary.json` (`field_details`) проверки разделены, а не слиты в одно слово:
+### Шрифты — 12 классов (основа для плагина кириллицы)
 
-| Признак | Что значит |
-|---|---|
-| `instruction_verified` | на PC есть инструкция, которая обращается к этому полю (чтение или запись, `write_sites` — сколько записей) |
-| `offset_verified` | обращение попадает ровно в начало поля нужного размера |
-| `base_pointer` | через какой указатель: `global-singleton` (глобальный объект), `class-method-this` (this метода класса), `subclass-method-this` (this метода наследника) |
-| `independent_functions` | в скольких разных функциях PC это видно |
-| `type_verified` | **всегда `false`**: тип поля (int или float, указатель на что) инструкциями не доказывается — он с Xbox |
+| Класс | PC sizeof | Чем подтверждён размер |
+|---|---|---|
+| `FontManager` | 0x24 | `FontManager::Init` выделяет 0x24 перед конструктором; `FontManager::pInstance` = 0x011F33F8 |
+| `Font` | 0x54 | `FontManager::FontManager` выделяет 0x54 восемь раз — по одному на шрифт, `pFont[8]` |
+| `FontData` | 0x3928 | `Font::Load` выделяет 0x3928 и пишет указатель в `Font::pFontData` (+0x38) |
+| `FontLetter` | 0x38 | `Font::Load`: цикл 0..0x100 с шагом 0x38 от `FontData+0x128` — **256 символов, однобайтовая кодировка** |
+| `TextureFile` | 0x24 | `Font::Load`: цикл до `FontData::iTextureCount`, шаг 0x24, имя → `"Textures\Fonts\%s"` |
+| `UVMap` | 0x8 | `FontLetter::pMapping` = 4 × 8 байт, `Font::AddChar` читает все 8 float |
+| `FontManager::CharData` | 0x38 | `CharData::Copy` выделяет 0x38 перед конструктором |
+| `FontManager::TextDoc` | 0x18 | `FontManager::A18A30` выделяет 0x18 и заполняет поля сам (конструктор встроен) |
+| `FontManager::TextPage` | 0x44 | `TextDoc::AddChar` выделяет 0x44 перед конструктором (функция без имени, 0xA1BC70) |
+| `FontManager::TextLine` | 0x30 | `TextPage::AddChar` выделяет 0x30 перед конструктором (без имени, 0xA1BD40) |
+| `Font::TextData` | 0x28 | consistent: объект на стеке, подтверждено последнее поле |
+| `FontManager::TextData` | 0x40 | consistent: то же; все 12 полей подтверждены |
 
-Статусы: **поле** `confirmed` / `consistent` (обращение есть, размер другой) / `unverified` (обращений нет) /
-`CONFLICT` (обращение в заполнитель или через границу). **Размер** `confirmed` (PC выделяет ровно столько, или
-первое поле наследника стоит ровно там, или внешний источник) / `consistent` (подтверждено последнее поле, остальное —
-выравнивание). **Слот vtable** `semantics` — **ручной разбор** человеком (`manual: true`, заметка в `note`), а не
-автоматическая проверка; `name+stack` — имя PC совпало с Xbox и `ret N` = объёму аргументов; `stack` — совпал только
-`ret N`; `stub` — заглушка, ничего не доказывает. `ret N` подтверждает объём аргументов, но не их типы.
+Для кириллицы главное: `FontData` хранит ровно 256 `FontLetter` (индекс — байт символа), метрики символа —
+`fWidth` +0x24, `fHeight` +0x28, `fLeadingEdge` +0x2C, `fSpacing` +0x30, `fTopEdge` +0x34, координаты на текстуре —
+`pMapping` (4 × UV). Вся цепочка видна в одной функции PC (`TextPage::AddChar`, 0xA19C00):
+`FontManager::pInstance → pFont[CharData.iFontIndex] → pFontData → +0x128 + cChar × 0x38 → fHeight / fTopEdge`.
+Перечисление `FontManager::enumCharTypes` сверено по `FontManager::GetCharType` полностью: `<`/`{` → 1, `>`/`}` → 2,
+символы ≤ 0x20 → 4, кавычки → 8, `=` → 16, `\0` → 32.
+
+### Радио — 4 класса (для субтитров радио)
+
+`FalloutRadio::FORadioStation` (0x24), `FalloutRadio::StationState` (0x20, вложен в станцию на +4),
+`FalloutRadio::FORadioReceiver` (0x20). Размеры станции и приёмника подтверждены выделением памяти перед
+конструктором, `StationState` — как часть станции (0x24 − 4). Названия в
+PDB xNVSE другие: `RadioEntry` — это `FORadioStation` (его деструктор вызывается из `FORadioStation::`scalar deleting
+dtor'`), `RadioEntry::Data` — это `StationState` (конструктор станции инициализирует `this+4`). Флаги приёмника
+сверены по смыслу: `EnableNPCRadio` пишет `bIsActor = 1`, `ActivateRadio` — `bIsActor = 0`.
+`RadioConvTask` (0x38, задача загрузки реплики радио): размер — выделение перед конструктором, vtable 0x0107CF18;
+поля четырёх базовых классов (`QueuedFileEntry → QueuedFile → IOTask → BSTask<__int64>`) — по их методам.
+
+### Звук: PC-классы DirectSound — 2 класса (для замены звукового движка)
+
+На Xbox звук идёт через XAudio2 (`BSXenonGameSound`, 0x3A4), на PC — через DirectSound, и этих классов в Xbox PDB нет
+вовсе. Их раскладка восстановлена **по коду PC**, все поля помечены `own`, у каждого — основание в комментарии.
+Тип COM-указателя определён по набору вызываемых через него слотов vtable (это API DirectSound, а не догадка по имени):
+
+| Класс | PC sizeof | Чем подтверждено | Главное |
+|---|---|---|---|
+| `BSWin32GameSound : BSGameSound` | 0x230 | выделение перед конструктором | +0x198 `IDirectSound8*` (`SetDirectSound` пишет аргумент), +0x19C `IDirectSoundBuffer8*` (13 методов: `Lock`/`Play`/`Stop`/`Unlock`/`SetFX`…), +0x1A0 второй `IDirectSoundBuffer8*`, +0x1A4 `DSBUFFERDESC` (`dwSize` = 0x24), +0x1D4 `IDirectSound3DBuffer8*` (`SetMinMaxDistance` → `SetMin/MaxDistance`) |
+| `BSWin32Audio : BSAudio` | 0xA4 | границы: объект `Instance` 0x011F7080, по +0xA4 — флаг статической инициализации; поле +0xA0 пишется | +0x38 `IDirectSound8*` (`DirectSoundCreate8`), +0x3C первичный буфер (`DSBUFFERDESC` с `PRIMARYBUFFER\|CTRL3D\|CTRLVOLUME`), +0x40 `DSCAPS` (`dwSize` = 0x60), +0xA0 окно для `SetCooperativeLevel` |
+
+Остальные поля `BSWin32GameSound` названы по смещению (`pc1C8`, `pc1F0` …) с типом по размеру обращения и пометкой,
+что видно в коде (float, COM-слоты, разыменование): назначение не разобрано, придумывать имена не стал.
+
+### Добор памяти, звука и сохранений
+
+- `HeapFreeSubBucket` (0x8): `AbstractHeap::pSubBuckets` теперь типизирован — 16 элементов, шаг 8 виден в
+  `AbstractHeap::BaseAllocate` (`[eax + edx*8 + 0x2058]`).
+- `BGSSaveLoadChangesMap` (0x10, для логгера сохранений): размер — выделение перед конструктором (3 места), слот 0 —
+  деструктор; поля карты — по функциям из её PC-vtable.
+- **`MemoryPasses` на PC другой, чем на Xbox.** `MemoryManager::ProcessMemoryProblem` перебирает 9 проходов, на Xbox их
+  8: вставлен проход 6 (`MemoryPool::FreeUnusedPagesForAllPools`), `MP_ALLOW_OVER_HEAP` и `MP_COMPLETELY_OUT` сдвинуты
+  с 6/7 на 7/8. В PDB — значения PC; имя `MP_FREE_UNUSED_POOL_PAGES` наше (own). Хук, написанный по Xbox-значениям,
+  на проходах 6–7 ошибся бы.
+- `SOUND_MSG` (67 сообщений звукового потока): первый аргумент `BSAudioManager::ComposeMessage`; 28 значений совпали с
+  именами вызывающих функций (`Play` = 1, `Stop` = 4, `SetVolume` = 16 … `SetModFrequency` = 66), 9 частично,
+  противоречий 0.
+- `MEM_CONTEXT` (контекст памяти потока, TLS + 0x2B4): 17 из 68 значений согласуются с функциями, которые их ставят
+  (16 `HAVOK` — 313 функций `bhk*`, 11 `AUDIO` — `BSAudio`, 12 `FONTS` — `Font` …), противоречий 0; остальные на PC
+  этим способом не встречаются. Это проверка по смыслу имён, а не по строкам.
+- `MEM_CATEGORY` **не включён**: на PC не нашлось кода, по которому его можно проверить.
+
+### Инструменты проверки стали сильнее — и это задело старые классы
+
+- Обращения через **указатель-поле** (`Font::pFontData → FontData`), через **аргумент-ссылку** (только если `ret N`
+  функции совпал с прототипом), к **новому объекту** после вызова конструктора, по **индексу** (`[base + i*N + disp]`,
+  шаг обязан совпасть с размером элемента), в **массивах классов** и во вложенных массивах (`pFontLetters[i].pMapping[k].fU`).
+- Размер по выделению памяти теперь засчитывается, только если указатель **реально доходит** до `ecx` конструктора
+  (раньше — «push N рядом с вызовом» в окне 0x40 байт).
+- Функции читаются **целиком** (раньше — первые 0x600 байт).
+- Поле вложенного объекта засчитывается контейнеру, если оно подтверждено в коде самого вложенного класса и место
+  вложенного объекта в контейнере подтверждено отдельно (`composed:` в `base_pointer`).
+- Методы вложенных классов (`FontManager::CharData::Copy`) больше не считаются методами внешнего класса.
+- Половины 64-битного целого (dword по +0 и +4) — законное обращение, не конфликт.
+- Слоты абстрактного базового класса проверяются и на vtable описанных наследников (`AbstractHeap` через `MemoryHeap`,
+  `BSGameSound` через `BSWin32GameSound`): заглушка `_purecall` ничего не доказывает, переопределение — доказывает.
+- Генератор: при выравнивании класса 8 MSVC сам добивает указатель на vtable до 8 байт — теперь учтено
+  (нашлось на `RadioConvTask` благодаря `static_assert`).
+
+Итог для 22 старых классов: **0 новых конфликтов**; у абстрактных баз больше подтверждённых слотов (`AbstractHeap`
+8 → 17 name+stack, `BGSSaveGameBuffer`, `BGSLoadGameBuffer` — со стабов на реальные переопределения); `TESDataHandler`, `BSSoundHandle`, `AbstractHeap`,
+`BGSLoadFormBuffer` больше не предварительные (`BSSoundHandle` — размер 0xC теперь подтверждён выделением).
+Индексная проверка нашла **третью ошибку имён в PDB xNVSE**: `0x718890 «BGSLoadGameBuffer::LoadInterfaceManagerHelpMenuFlags»`
+на деле метод `InterfaceManager::TutorialManager` (передаёт свой `this` в его `GetSaveLoadSize`). Функция исключена.
+
+## Итог проверки v0.4
+
+Полей: **446 confirmed**, 6 consistent, 7 unverified, **0 CONFLICT**. Размеры: 35 классов confirmed, 7 consistent.
+Слоты: 10 semantics, 145 name+stack, 12 stack, 52 stub, 0 MISMATCH (в v0.3.2: 10 / 94 / 7 / 70).
 
 ## Предварительные элементы — не для хуков
 
-Класс с `provisional: true` в `summary.json` (и пометкой «ПРЕДВАРИТЕЛЬНЫЙ класс» в заголовке) можно читать и
-использовать для разбора, но ставить хуки и писать в память по его неподтверждённым частям нельзя без своей проверки:
+16 классов с `provisional: true` в `summary.json` и пометкой «ПРЕДВАРИТЕЛЬНЫЙ класс» в заголовке:
+- размер `consistent` (хвост — только выравнивание): `BSAudioManager`, `HeapBlock`, `FreeHeapBlock`,
+  `BGSSaveLoadFormHeader`, `BGSSaveFormBuffer`, `Font::TextData`, `FontManager::TextData`;
+- размер подтверждён, но есть неподтверждённые поля: `BSGameSound` (`pFilename`), `BGSSaveLoadGame`
+  (`cFileIndexArray`, `cReverseFileIndexArray`), `BGSSaveLoadChangesMap` (`m_ppkHashTable`), `FORadioReceiver`
+  (`bInRange`, `iSoundID` обоих звуков — consistent), `RadioConvTask` (`iRefCount` — consistent), `TextureFile` (`iType`), `Font` (`iLineOverlap`),
+  `FontManager::TextLine` (`iY`), `FontManager::TextPage` (`iWidth`).
 
-| Класс | Почему предварительный |
-|---|---|
-| `BSAudioManager`, `BSSoundHandle`, `HeapBlock`, `FreeHeapBlock`, `BGSSaveLoadFormHeader`, `BGSSaveFormBuffer` | размер `consistent`: хвост после последнего подтверждённого поля — только выравнивание |
-| `TESDataHandler` (`pFileIndex`), `BSGameSound` (`pFilename`), `AbstractHeap` (`pSmallFreeList`, `pSubBuckets`), `BGSLoadFormBuffer` (`Header.cVersion`), `BGSSaveLoadGame` (`cFileIndexArray`, `cReverseFileIndexArray`) | размер подтверждён, но перечисленные поля — `consistent` или `unverified` |
+Подтверждённые поля предварительного класса остаются подтверждёнными.
 
-Подтверждённые поля предварительного класса остаются подтверждёнными: смещение доказано независимо от размера.
+## Функции, опознанные вручную
 
-## Итог проверки v0.3.2 (числа по полям, размерам и слотам те же, что в v0.3.1)
-
-Полей: **295 confirmed**, 5 consistent, 2 unverified, **0 CONFLICT** (в v0.3: 291 / 5 / 5 / 0). Рост confirmed —
-не новые инструкции EXE: в `evidence_fields.csv` те же 1897 обращений, что в v0.3. Это более точный учёт уже
-найденных обращений: поля вложенного класса засчитываются ему, если подтверждены внутри содержащего
-(`AbstractHeap.LargeFreeList.pHead` → `FreeHeapBlockList.pHead`). В `evidence_vslots.csv` 217 наблюдений, а слотов
-181 (10 + 94 + 7 + 70): один слот может быть проверен на нескольких классах.
-Размеры: 16 классов confirmed, 6 consistent. Слоты: 10 semantics, 94 name+stack, 7 stack, 70 stub, 0 MISMATCH.
-Флаги `CHANGE_TYPE`: 67 совпали по имени и значению и их блок достижим, 1 под другим именем, 1 значение совпало,
-но блок с именем недостижим (`value-confirmed-unreachable`), 0 расхождений, 4 этим способом не проверить.
-Всё это статический анализ кода PC, не поведение в игре.
+У части функций в PDB xNVSE нет имени или стоит имя по смыслу. Каждая такая функция и причина — в
+`evidence/identified_functions.csv`: конструкторы `TextPage` (0xA1BC70) и `TextLine` (0xA1BD40), их `AddChar`
+(0xA19C00, 0xA19F70), `RadioEntry` = `FORadioStation`, `Font::CheckForVariablesInText` = Xbox `Font::PrepText`
+(второй аргумент совпадает с `Font::TextData` поле в поле), `FontManager::A18A30` = Xbox `FontManager::PrepText`.
+Скрипты Ghidra/IDA подписывают такие функции как «(без имени, опознан вручную)».
 
 ## Повторить проверку самому (нужны только свой exe и PDB xNVSE)
 
-Зависимости: Python 3.10+, `capstone` 5.0 (проверено с 5.0.7), `pefile` (проверено с 2024.8.26); LLVM 18: `llvm-undname`,
-`llvm-pdbutil`, для пересборки ещё `clang` и `lld-link` (проверено на 18.1.3).
+Зависимости: Python 3.10+, `capstone` 5.0 (проверено с 5.0.7), `pefile` (проверено с 2024.8.26); LLVM 18:
+`llvm-undname`, `llvm-pdbutil`, для пересборки — `clang` и `lld-link` (проверено на 18.1.3). Все команды — из корня пакета.
 ```
 pip install capstone pefile
 python3 tools/make_syms.py <PDB xNVSE> syms.tsv                                          # 138171 symbols
-python3 tools/evidence.py fnv_types_v032.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out
-python3 tools/verify_change_flags.py fnv_types_v032.h FalloutNV.exe out/change_flags.csv
-python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v032.meta.json                      # ИТОГ: всё совпадает
+python3 tools/evidence.py fnv_types_v04.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out
+python3 tools/verify_change_flags.py fnv_types_v04.h FalloutNV.exe out/change_flags.csv
+python3 tools/verify_sound_msg.py     fnv_types_v04.h syms.tsv FalloutNV.exe out/sound_msg.csv
+python3 tools/verify_mem_context.py   fnv_types_v04.h syms.tsv FalloutNV.exe out/mem_context.csv
+python3 tools/verify_memory_passes.py fnv_types_v04.h syms.tsv FalloutNV.exe out/memory_passes.csv
+python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v04.meta.json                       # ИТОГ: всё совпадает
 ```
-`out/` совпадает с `evidence/` побайтно (проверено). Пересборка самого PDB из опубликованного заголовка:
+`out/` совпадает с `evidence/` побайтно (проверено). Пересборка PDB из опубликованного заголовка:
 ```
 clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti ^
-      -Wno-invalid-offsetof -I. tools/fnv_types_v032.cpp -o types.obj
+      -Wno-invalid-offsetof -I. tools/fnv_types_v04.cpp -o types.obj
 lld-link /dll /noentry /nodefaultlib /debug /pdb:types.pdb /out:types.dll types.obj
 python3 tools/merge_tpi.py <PDB xNVSE> types.pdb FalloutNV.pdb
 ```
-Из корня пакета; `-I.` нужен, потому что заголовок лежит в корне, а `.cpp` — в `tools/` (в v0.3.1 его в
-команде не было — ошибка, найденная Астрой). Даёт PDB с тем же SHA-256 (проверено с clang/lld 18 и, у Астры, 17). `-fstandalone-debug` обязателен: без него clang не выписывает полные
-описания классов. Генерация самих типов (`gen_headers.py`) требует дампа Xbox PDB — его не распространяем.
+Даёт PDB с тем же SHA-256 (проверено). `.cpp` теперь генерирует сам `gen_headers.py` (раньше писался вручную).
+Генерация типов (`gen_headers.py`) требует дампа Xbox PDB — его не распространяем.
 
 ## Привязка к функциям: Ghidra и IDA
 
-PDB xNVSE хранит имена как `S_PUB32` без прототипов, поэтому типы к функциям сами не применяются — это делают скрипты.
-Оба теперь работают **по принципу «сначала план»**:
-
-1. **Проверка exe — до любых изменений.** SHA-256 исходного файла (Ghidra: `getExecutableSHA256()`, IDA:
-   `retrieve_input_file_sha256()`), база образа 0x400000, x86 32-бит. Не совпало — скрипт останавливается.
-2. **Пробный прогон по умолчанию.** Строится план по адресам и пишется в `fnv_apply_plan_ghidra.txt` /
-   `fnv_apply_plan_ida.txt` рядом с `summary.json`; применяется только после «Да» (Ghidra headless: `--apply`).
-3. **План по адресам, а не по классам.** На один адрес может указывать несколько классов (склейка одинаковых функций —
-   ICF). Если они на одной цепочке наследования (`AbstractHeap`/`MemoryHeap`: 0xAA7E50, 0xAA7E70, 0xAA9FB0, 0xB02710) — this получает базовый класс; если не связаны (`BGSSaveFormBuffer`/`BGSLoadFormBuffer`: 0x8A81C0) —
-   this не ставится, адрес в разделе «Конфликты». Комментарий на адресе перечисляет всех владельцев; общие заглушки
-   сворачиваются в одну строку.
-4. **Структура — по имени и точному размеру.** Нет такой или их несколько — класс пропускается с причиной в плане.
-5. **Повторный запуск безопасен.** Наши строки помечены `[FNV-PDB 0.3.2]` и заменяются; чужие комментарии остаются;
-   имена из PDB не переименовываются.
-6. **Владение сигнатурой — не по комментариям.** Что поставил сам скрипт, записано отдельно: в Ghidra — карта свойств
-   программы `FNV_PDB.this_signature`, в IDA — netnode `$ fnv_pdb.proto` (адрес → отпечаток сигнатуры, снятый сразу
-   после успешной установки). Сигнатура пользователя (USER_DEFINED в Ghidra, свой тип в IDA) **не перезаписывается
-   никогда**. Свою прежнюю сигнатуру, которую потом изменили вручную, скрипт узнаёт по несовпадению отпечатка и не
-   трогает; не изменённую — обновляет только при `UPDATE_OWN_SIGNATURES = True` / `UPDATE_OWN_PROTOTYPES = True`
-   (по умолчанию выключено).
-7. **Ghidra:** одна явная транзакция; при ошибке откатывается целиком. `this` ставится только методам, которые читают
-   ECX до записи **и** обращаются к полям, и слотам `semantics`/`name+stack` своего класса — 443 адреса (в v0.3 — 517
-   по одному признаку ECX; прежнее поведение — `ALL_THIS = True`). Комментарии к полям — со статусом и пометкой
-   «ПРЕДВАРИТЕЛЬНО» где нужно.
-8. **IDA:** прототипы **выключены** (`APPLY_PROTOTYPES = False`). Если включить — только 10 слотов `semantics`
-   и только там, где у функции нет своего типа. Комментарии к полям IDA не ставит (API структур разный в IDA 7/8 и 9).
-
-Регрессионные тесты: `tools/scripts_src/test_ghidra_mock.py` (15 проверок) и `test_ida_mock.py` (8 проверок):
-чужой exe, пробный прогон, применение, два запуска подряд, сигнатура пользователя на 0x00AA7E50 (сценарий аудита)
-после двух запусков, сигнатура скрипта, изменённая человеком, неоднозначная структура, откат при ошибке.
-v0.3.2 проходит все; v0.3.1 на них проваливается — сценарий Астры воспроизводится. Это **имитация API**: она
-проверяет логику решений, но не поведение настоящих вызовов Ghidra (custom storage, транзакции, карты свойств) и
-IDAPython. **На настоящих Ghidra/IDA скрипты не запускались** — первый прогон только на копии проекта.
+Порядок и защита — как в v0.3.2: проверка exe до любых изменений, пробный прогон и план, владение сигнатурами по
+отпечаткам (карта свойств Ghidra / netnode IDA), пользовательские сигнатуры не перезаписываются, одна транзакция.
+Новое: вложенные классы (`FontManager::CharData`) ищутся и по полному имени, и по короткому в категории `/FontManager` —
+как их может завести импортёр PDB. План на v0.4: 847 адресов, 522 кандидата на `this`, 10 прототипов `semantics`,
+1 конфликт (0x008A81C0). Тесты на имитации API: Ghidra 16 проверок, IDA 8 — все проходят; **на настоящих Ghidra/IDA
+скрипты не запускались** — первый прогон только на копии проекта.
 
 ## Приёмка на Windows
 
 1. Сохранить исходный `FalloutNV.pdb`; сверить SHA-256 exe.
-2. `llvm-pdbutil dump --types` и `--publics` — без ошибок, 22 класса, 297 записей типов, 138 171 символ.
-3. Ghidra: чистый проект → Load PDB → видны `TESForm`, `BSGameSound`, `MemoryManager` с размерами из `REPORT.md`.
-4. На **копии** проекта: `fnv_apply_ghidra.py` → прочитать план (750 адресов, 1 конфликт 0x008A81C0) → «Да».
-   Открыть `BSWin32GameSound::Play` (0xAED080): `this` — `BSGameSound*`. Вручную задать сигнатуру какой-нибудь
-   функции из плана, запустить ещё два раза: её сигнатура не меняется, в плане «установить this: 0», комментарии
-   не задваиваются.
-5. IDA: план строится; при «Нет» база не меняется; с `APPLY_PROTOTYPES = True` заданный ранее тип сохраняется.
-6. x32dbg / WinDbg / VS: символы грузятся, имена функций разрешаются, тип `BSGameSound` виден.
-7. На живой игре наложить `MemoryManager` на `0x011F6238` и сверить `iNumHeaps`, `ppHeaps`.
+2. `llvm-pdbutil dump --types` и `--publics` — без ошибок, 42 класса, 417 записей типов, 138 171 символ.
+3. Ghidra: чистый проект → Load PDB → видны `FontManager`, `Font`, `FontData`, `FalloutRadio::FORadioStation` с размерами
+   из таблиц выше.
+4. На копии проекта: `fnv_apply_ghidra.py` → план (847 адресов, 1 конфликт) → «Да». Открыть `Font::Load` (0xA15320):
+   `this` — `Font*`. Задать сигнатуру какой-нибудь функции вручную, запустить ещё два раза: она не меняется.
+5. x32dbg / WinDbg / VS: символы грузятся, типы `FontData` и `BSWin32GameSound` видны.
+6. На живой игре: `FontManager::pInstance` (0x011F33F8) → `pFont[0]` → `pFontData` → `pFontLetters[0x41]` (буква «A»):
+   `fWidth`, `fHeight` — разумные числа в пикселях. `BSWin32Audio::Instance` (0x011F7080): `pDirectSound` и
+   `pPrimaryBuffer` не нули, `hWnd` — окно игры.
 
-## Изменения в v0.3.2 — по аудиту Астры v0.3.1
+## Предыдущие версии
 
-- **Ghidra, серьёзное:** при повторном запуске скрипт мог переписать сигнатуру, заданную пользователем. Право на
-  перезапись выводилось из текста «this =» в комментарии, а такая строка писалась в план ещё до установки `this`
-  (например, на 0x00AA7E50). Плюс метка «this поставлен» не ставилась вовсе: мой патч в v0.3.1 молча не применился,
-  а прежний тест повторного запуска этого не заметил. Теперь владение хранится в карте свойств (см. п. 6 выше),
-  `this` ставится до комментария, а строка «поставлен скриптом» пишется только после успешной установки.
-- **IDA, тот же класс ошибки:** с включёнными прототипами владение определялось по «прототип:» в комментарии,
-  поэтому тип, поставленный скриптом и потом изменённый вручную, перезаписывался. Теперь — netnode с отпечатком.
-- Регрессионные тесты обоих скриптов в `tools/scripts_src`.
-- `CHANGE_TYPE`: столбец `status` — только совпадение значения, новый столбец `reachable` — достижим ли блок с
-  именем; `CHANGE_DOOR_EXTRA_TELEPORT` теперь `value-confirmed-unreachable`, а не `confirmed`.
-- README и манифест: `-I.` в команде сборки; честное описание роста confirmed; 217 наблюдений против 181 слота.
-
-## Изменения в v0.3.1
-
-**Скрипты Ghidra/IDA** — переписаны по аудиту: обязательная проверка exe, пробный прогон и план, точный размер
-структуры, разрешение конфликтов по адресам, явная транзакция, идемпотентность, прототипы IDA выключены. Исходники в
-`tools/scripts_src`, сборка `python3 tools/scripts_src/build.py scripts` (общая часть одна на оба скрипта).
-
-**Доказательная матрица:**
-- у поля разделены проверки инструкции, смещения, указателя-базы и типа (`field_details`), отмечены записи;
-- `semantics` помечен как ручной разбор (`manual`, `note`); у класса — базовый класс (`base`);
-- поля вложенного класса, подтверждённые внутри содержащего (`AbstractHeap.LargeFreeList.pHead`), засчитываются
-  вложенному: `FreeHeapBlockList` — 2/2 confirmed (было unverified);
-- предварительные классы и поля помечены (`provisional`, `provisional_fields`) — в `summary.json` и в заголовке;
-- виды доказательств размера переименованы честнее: `bounds`, `upper-bound`.
-
-**Заголовок и PDB:** массивы и поля объявленных классов теперь типизированы: `FreeHeapBlockList pSmallFreeList[1024]`
-и `FreeHeapBlockList LargeFreeList` вместо байтовых массивов (раскладка та же, `pdb_vs_meta` — всё совпадает).
-
-**`CHANGE_TYPE`** (`change_flags.csv`): отдельные столбцы `pc_name` / `xbox_name`; добавлен **контекст типа формы** —
-значение флага осмысленно только вместе с типом формы: 0x400 — это `CHANGE_NPC_CLASS` у `NPC_`,
-`CHANGE_ACTOR_LIFESTATE` у `ACHR`/`ACRE` и `CHANGE_OBJECT_EXTRA_ITEM_DATA` у прочих ссылок. Обход `GetFlagName`
-учитывает проверки типа формы на каждой ветви (равенства и диапазоны); `form_types` — числовые типы PC, `form_sigs` —
-сигнатуры из таблицы типов форм PC (0x1187000, 121 тип). Находка: имя `CHANGE_DOOR_EXTRA_TELEPORT` на PC
-недостижимо — проверка «тип == DOOR» стоит внутри ветви для ссылок, куда тип DOOR не попадает; значение при этом
-подтверждено. Для логгера: по смыслу флаг 0x20000 ставится у ссылки на дверь (`REFR`), но по коду PC это не доказано.
-
-**README:** исправлено «15 классов» → 22; полная команда сборки с `-fstandalone-debug` и версиями clang/lld;
-зависимости; правило для предварительных элементов; `test_manifest.json`.
-
-## Изменения в v0.3 — раздел «Сохранения»
-
-7 новых классов (`BGSSaveLoadFormHeader`, `BGSSaveGameBuffer`, `BGSSaveFormBuffer`, `BGSLoadGameBuffer`,
-`BGSLoadFormBuffer`, `BGSSaveLoadGame`, `BGSSaveLoadManager`); `BGSSaveLoadManager` на PC 0x38 вместо 0x30 с двумя
-собственными полями (+0x11, +0x30; помечены own); упакованный `BGSSaveLoadFormHeader`; сверка `CHANGE_TYPE` по
-`BGSChangeFlags::GetFlagName`; ручной разбор слота 0 `BGSSaveFormBuffer`.
-
-## Изменения в v0.2
-
-Упаковка по умолчанию вместо `#pragma pack(1)`; доказательная матрица; ручной разбор спорных слотов; классы по
-значению (`NiPoint3`) вместо `void*`; доказательства через глобальные объекты; скрипты Ghidra/IDA; `pdb_vs_meta.py`.
-Найдены две ошибки в именах PDB xNVSE (`0x481390`, `0xAEA100`) — см. `excluded_functions.csv`.
+- **v0.3.2** — Ghidra/IDA: владение сигнатурами по отпечаткам вместо текста комментариев; регрессионные тесты;
+  `CHANGE_TYPE` — отдельный столбец достижимости; `-I.` в команде сборки.
+- **v0.3.1** — скрипты с проверкой exe, пробным прогоном, планом по адресам; разделённые проверки полей;
+  предварительные классы; `CHANGE_TYPE` с типами форм.
+- **v0.3** — сохранения: 7 классов, `CHANGE_TYPE`.
+- **v0.2** — без `pack(1)`, доказательная матрица, скрипты, две ошибки имён xNVSE.
+- **v0.1** — основа, звук, память.

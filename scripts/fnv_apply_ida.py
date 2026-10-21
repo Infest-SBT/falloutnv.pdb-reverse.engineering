@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.3.2 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.2 (File > Load file > PDB file),
+# Применяет доказательную матрицу FNV PDB v0.4 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4 (File > Load file > PDB file),
 # затем File > Script file > fnv_apply_ida.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.3.2):
+# Безопасность (v0.4):
 #   * проверка exe: SHA-256 входного файла, база образа 0x400000, x86 32-бит; при несовпадении — остановка;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: план пишется в fnv_apply_plan_ida.txt рядом с summary.json и в Output,
 #     применение — только после подтверждения;
@@ -36,7 +36,7 @@ OWN_NODE = "$ fnv_pdb.proto"   # netnode: адрес -> тип, поставле
 import io
 import json
 
-PDB_VERSION = "0.3.2"
+PDB_VERSION = "0.4"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -150,7 +150,7 @@ def build_plan(summary, all_this=False):
             elif why:
                 e["lines"].append("кандидат на this — %s: %s" % (owner, why))
         protos = sorted(set(e["proto"]))
-        e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
+        e["proto"] = protos[0] if len(protos) == 1 and e["this"] == protos[0][0] else None   # владелец this = класс прототипа
         if len(protos) > 1:
             conflicts.append("0x%08X: несколько прототипов (%s) — прототип не ставится" %
                              (va, "; ".join("%s: %s" % p for p in protos)))

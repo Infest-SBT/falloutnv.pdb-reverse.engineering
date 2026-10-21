@@ -1,12 +1,5 @@
 {
- "pc_subclasses": {
-  "BSGameSound": [
-   "BSWin32GameSound"
-  ],
-  "BSAudio": [
-   "BSWin32Audio"
-  ]
- },
+ "pc_subclasses": {},
  "size_evidence": {
   "TESForm": [
    [
@@ -34,6 +27,62 @@
     "upper-bound",
     400,
     "верхняя граница: BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184 => не меньше 0x185; выбран 0x188 по выравниванию 4"
+   ]
+  ],
+  "FontData": [
+   [
+    "alloc-for-field",
+    14632,
+    "Font::Load 0x00A154AC push 0x3928; call MemoryManager::Allocate; результат записан в Font::pFontData (+0x38) по 0x00A154CD"
+   ]
+  ],
+  "FontLetter": [
+   [
+    "index-stride",
+    56,
+    "Font::Load: цикл 0..0x100 (0x00A155C7), индекс imul 0x38 (0x00A155EF), обращения FontData+0x128+i*0x38+0x28/+0x34; 0x100 × 0x38 = 0x3800 = 0x3928 − 0x128 (FontData::pFontLetters до конца FontData)"
+   ]
+  ],
+  "TextureFile": [
+   [
+    "index-stride",
+    36,
+    "Font::Load: цикл i < FontData::iTextureCount (+4, 0x00A15A3D), imul 0x24 (0x00A15A55), lea [FontData + 0xC + i*0x24] = pTextureFiles[i].pFilename → BSsprintf(\"Textures\\\\Fonts\\\\%s\"); 8 × 0x24 = 0x120 = 0x8..0x128, следующее поле pFontLetters на 0x128 подтверждено"
+   ]
+  ],
+  "UVMap": [
+   [
+    "array-span",
+    8,
+    "FontLetter::pMapping = UVMap[4] на 0x4..0x24 (Font::AddChar читает все 8 float: +0x4..+0x20), следующее поле fWidth на 0x24 подтверждено => 0x20 / 4 = 8"
+   ]
+  ],
+  "HeapFreeSubBucket": [
+   [
+    "index-stride",
+    8,
+    "AbstractHeap::BaseAllocate 0x00AA90EB: cmp [eax + edx*8 + 0x2058] — шаг индекса 8; 16 × 8 = 0x80 = AbstractHeap::pSubBuckets от 0x2058 до CriticalSectionO на 0x20D8"
+   ]
+  ],
+  "FalloutRadio::StationState": [
+   [
+    "contained",
+    32,
+    "StationState встроен в FORadioStation на +4 (RadioEntry::RadioEntry вызывает RadioEntry::Data::Init для this+4); sizeof FORadioStation 0x24 подтверждён выделением => 0x24 − 4 = 0x20"
+   ]
+  ],
+  "FontManager::TextDoc": [
+   [
+    "alloc-inline",
+    24,
+    "FontManager::A18A30 0x00A18AE2 push 0x18; call MemoryManager::Allocate; тот же указатель: NiTListBase::NiTListBase_ (+0 = xPages), затем +0xC/+0x10/+0x14 = TextData::iWidth/iHeight/iPageNum (+0x1C/+0x20/+0x24) — конструктор встроен"
+   ]
+  ],
+  "BSWin32Audio": [
+   [
+    "bounds",
+    164,
+    "верхняя граница: объект BSWin32Audio::Instance 0x011F7080, по 0x011F7124 лежит флаг статической инициализации (BSWin32Audio::Create читает/ставит его бит перед вызовом конструктора) => не больше 0xA4; нижняя: поле +0xA0 (4 байта) пишется в Init => не меньше 0xA4"
    ]
   ]
  },
@@ -74,11 +123,35 @@
   },
   "BGSSaveLoadGame": {
    "ptr": "0x011DDF38"
+  },
+  "FontManager": {
+   "ptr": "0x011F33F8"
+  },
+  "FalloutRadio::FORadioStation": {
+   "ptr": [
+    "0x011DD42C",
+    "0x011DD430"
+   ]
+  },
+  "BSWin32Audio": {
+   "obj": "0x011F7080"
   }
  },
  "extra_functions": {
   "FreeHeapBlock": [
    "HeapBlock::"
+  ],
+  "FalloutRadio::FORadioStation": [
+   "RadioEntry::"
+  ],
+  "FalloutRadio::StationState": [
+   "RadioEntry::Data::"
+  ],
+  "RadioConvTask": [
+   "QueuedFileEntry::",
+   "QueuedFile::",
+   "IOTask::",
+   "BSTask::"
   ]
  },
  "known_pad_access": {
@@ -93,6 +166,100 @@
   },
   "BSAudio": {
    "0xAEA100": "«BSAudio::SynchTimerUpdate» — это BSAudioSynchTimer::Update: стоит между конструктором (0xAEA0A0), деструктором (0xAEA0D0) и Restart (0xAEA150) BSAudioSynchTimer; +4 = iLastUpdateTime, +8 = iFlags таймера"
+  },
+  "BGSLoadGameBuffer": {
+   "0x718890": "«BGSLoadGameBuffer::LoadInterfaceManagerHelpMenuFlags» работает не с буфером: передаёт свой this в InterfaceManager::TutorialManager::GetSaveLoadSize и пишет флаги в this[i*8+j] (массив dword до индекса 0x29) — это метод TutorialManager"
   }
+ },
+ "pointer_fields": {
+  "FontData": [
+   {
+    "holder": "Font",
+    "field_off": "0x38",
+    "note": "Font::pFontData"
+   }
+  ]
+ },
+ "class_functions": {
+  "FalloutRadio::FORadioStation": {
+   "0x833150": {
+    "ctor": true,
+    "note": "«RadioEntry::RadioEntry» (имя xNVSE) — конструктор FORadioStation: FalloutRadio::InitStation 0x00832CF2 push 0x24; ourMalloc; вызов 0x00832D0F; объект удаляется FalloutRadio::FORadioStation::`scalar deleting dtor' (0x832160), который вызывает ~RadioEntry. Конструктор вызывает RadioEntry::Data::Init для this+4 = StationState"
+   }
+  },
+  "FontManager::TextPage": {
+   "0xA1BC70": {
+    "ctor": true,
+    "note": "конструктор TextPage (в PDB xNVSE имени нет): FontManager::TextDoc::AddChar 0x00A19A79 push 0x44; MemoryManager::Allocate; вызов; результат добавляется в список страниц TextDoc (+0); пишет +0x14/+0x18 (размеры страницы из аргументов), +0x40 = TextDoc*, цикл 8 dword с +0x20, +0x1C = 0x23"
+   },
+   "0xA19C00": {
+    "note": "TextPage::AddChar (имени нет): вызывается из конструктора TextPage с тем же this; создаёт TextLine (push 0x30) и читает FontManager→Font→FontData→FontLetter по CharData"
+   }
+  },
+  "FontManager::TextLine": {
+   "0xA1BD40": {
+    "ctor": true,
+    "note": "конструктор TextLine (имени нет): TextPage::AddChar 0x00A19C8A push 0x30; MemoryManager::Allocate; вызов 0x00A19CBC; +0x20 = CharData::iJustification (+0x18) аргумента, +0x24 и +0x2C из аргументов (ширина страницы, TextPage*), +0x1C = аргумент"
+   },
+   "0xA19F70": {
+    "note": "TextLine::AddChar (имени нет): вызывается из конструктора TextLine с тем же this"
+   }
+  }
+ },
+ "arg_pointers": {
+  "FontManager::TextData": [
+   {
+    "func": "0xA17390",
+    "arg_off": "0xC",
+    "expect_ret": 8,
+    "note": "FontManager::PrepHypertext(BSStringT&, FontManager::TextData&) — на Xbox такой прототип; на PC ret 8"
+   },
+   {
+    "func": "0xA18F00",
+    "arg_off": "0x10",
+    "expect_ret": 16,
+    "note": "FontManager::CreateText(BSStringT, FontManager::TextData&, NiNode*) — BSStringT по значению (8 байт), на PC ret 0x10"
+   },
+   {
+    "func": "0xA18A30",
+    "arg_off": "0xC",
+    "expect_ret": 8,
+    "note": "FontManager::A18A30(BSStringT&, FontManager::TextData&): FontManager::CreateText передаёт сюда свой аргумент TextData& (0x00A18F3F); по прототипу и месту вызова — Xbox FontManager::PrepText"
+   },
+   {
+    "func": "0xA19060",
+    "arg_off": "0xC",
+    "expect_ret": 8,
+    "note": "FontManager::TextDoc::Render(NiNode*, FontManager::TextData&): FontManager::CreateText передаёт TextData& вторым аргументом (0x00A18F58)"
+   }
+  ],
+  "FontLetter": [
+   {
+    "func": "0xA142D0",
+    "arg_off": "0x8",
+    "expect_ret": 20,
+    "note": "Font::AddChar(FontLetter*, int, NiTriShape*, NiPoint3&, const NiColorA*) — на PC ret 0x14"
+   }
+  ],
+  "Font::TextData": [
+   {
+    "func": "0xA12FB0",
+    "arg_off": "0xC",
+    "expect_ret": 8,
+    "note": "«Font::CheckForVariablesInText» (имя xNVSE) = Xbox Font::PrepText(const char*, Font::TextData&): на PC ret 8; второй аргумент: +8/+0xC (по умолчанию 0x7FFFFFFF), +0x14, байт +0x1C сравнивается с символами текста, BSSimpleList::AddTail на +0x20"
+   }
+  ]
+ },
+ "vtable_slot_functions": {
+  "BGSSaveLoadChangesMap": 7
+ },
+ "extra_functions_notes": {
+  "FalloutRadio::FORadioStation|RadioEntry::": "«RadioEntry» — имя xNVSE для FalloutRadio::FORadioStation: FORadioStation::`scalar deleting dtor' (0x832160) вызывает ~RadioEntry, а FalloutRadio::InitStation создаёт объект 0x24 через RadioEntry::RadioEntry",
+  "FalloutRadio::StationState|RadioEntry::Data::": "«RadioEntry::Data» — имя xNVSE для FalloutRadio::StationState: RadioEntry::RadioEntry вызывает RadioEntry::Data::Init для this+4 — ровно там, где на Xbox лежит FORadioStation::CurrentState",
+  "FreeHeapBlock|HeapBlock::": "методы HeapBlock работают и со свободными блоками (FreeHeapBlock — наследник HeapBlock на Xbox)",
+  "RadioConvTask|QueuedFileEntry::": "базовые классы RadioConvTask (на Xbox: QueuedFileEntry → QueuedFile → IOTask → BSTask<__int64>); их методы работают с теми же смещениями базовой части",
+  "RadioConvTask|QueuedFile::": "базовый класс RadioConvTask",
+  "RadioConvTask|IOTask::": "базовый класс RadioConvTask",
+  "RadioConvTask|BSTask::": "базовый класс RadioConvTask (BSTask<__int64>)"
  }
 }

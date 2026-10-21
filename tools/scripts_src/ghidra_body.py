@@ -40,9 +40,20 @@ def main():
 
     def find_struct(name, size):
         """Ровно одна структура с этим именем и точным размером, иначе None (с причиной)."""
+        # вложенный тип (FontManager::CharData) импортёр PDB может завести как «CharData» в категории
+        # /FontManager — ищем и по полному имени, и по короткому с проверкой категории
         lst = ArrayList()
         dtm.findDataTypes(name, lst)
-        exact = [dt for dt in lst if isinstance(dt, Structure) and dt.getLength() == size]
+        short = name.split("::")[-1]
+        if short != name:
+            scope = "/" + "/".join(name.split("::")[:-1])
+            lst2 = ArrayList()
+            dtm.findDataTypes(short, lst2)
+            lst.addAll([dt for dt in lst2 if str(dt.getCategoryPath()).endswith(scope)])
+        exact = []
+        for dt in lst:
+            if isinstance(dt, Structure) and dt.getLength() == size and dt not in exact:
+                exact.append(dt)
         if len(exact) == 1:
             return exact[0], None
         if not exact:

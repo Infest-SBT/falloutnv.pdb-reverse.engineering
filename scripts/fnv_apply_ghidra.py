@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.3.2 к открытой программе Ghidra.
+# Применяет доказательную матрицу FNV PDB v0.4 к открытой программе Ghidra.
 # @category FNV
 # @runtime Jython
 #
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.2 (File > Load PDB File),
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4 (File > Load PDB File),
 # затем Script Manager > fnv_apply_ghidra.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.3.2):
+# Безопасность (v0.4):
 #   * сначала проверяется, что это тот самый exe: SHA-256 исходного файла, база образа 0x400000, x86 32-бит;
 #     при любом несовпадении скрипт останавливается и ничего не меняет;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: строится план, пишется в fnv_apply_plan_ghidra.txt рядом с summary.json,
@@ -43,7 +43,7 @@ OWN_MAP = "FNV_PDB.this_signature"  # карта свойств: адрес -> �
 import io
 import json
 
-PDB_VERSION = "0.3.2"
+PDB_VERSION = "0.4"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -157,7 +157,7 @@ def build_plan(summary, all_this=False):
             elif why:
                 e["lines"].append("кандидат на this — %s: %s" % (owner, why))
         protos = sorted(set(e["proto"]))
-        e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
+        e["proto"] = protos[0] if len(protos) == 1 and e["this"] == protos[0][0] else None   # владелец this = класс прототипа
         if len(protos) > 1:
             conflicts.append("0x%08X: несколько прототипов (%s) — прототип не ставится" %
                              (va, "; ".join("%s: %s" % p for p in protos)))
@@ -226,9 +226,20 @@ def main():
 
     def find_struct(name, size):
         """Ровно одна структура с этим именем и точным размером, иначе None (с причиной)."""
+        # вложенный тип (FontManager::CharData) импортёр PDB может завести как «CharData» в категории
+        # /FontManager — ищем и по полному имени, и по короткому с проверкой категории
         lst = ArrayList()
         dtm.findDataTypes(name, lst)
-        exact = [dt for dt in lst if isinstance(dt, Structure) and dt.getLength() == size]
+        short = name.split("::")[-1]
+        if short != name:
+            scope = "/" + "/".join(name.split("::")[:-1])
+            lst2 = ArrayList()
+            dtm.findDataTypes(short, lst2)
+            lst.addAll([dt for dt in lst2 if str(dt.getCategoryPath()).endswith(scope)])
+        exact = []
+        for dt in lst:
+            if isinstance(dt, Structure) and dt.getLength() == size and dt not in exact:
+                exact.append(dt)
         if len(exact) == 1:
             return exact[0], None
         if not exact:

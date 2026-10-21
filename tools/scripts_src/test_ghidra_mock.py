@@ -26,6 +26,9 @@ class ArrayList(list):
     def add(self, x):
         self.append(x)
 
+    def addAll(self, xs):
+        self.extend(xs)
+
 
 class SourceType:
     USER_DEFINED, DEFAULT, ANALYSIS, IMPORTED = 'USER_DEFINED', 'DEFAULT', 'ANALYSIS', 'IMPORTED'
@@ -41,7 +44,7 @@ class FakeStruct(Structure):
 
     def getLength(s): return s.size
     def getName(s): return s.name
-    def getCategoryPath(s): return '/pdb'
+    def getCategoryPath(s): return getattr(s, 'cat', '/pdb')
     def getDefinedComponents(s): return s.comps
 
 
@@ -113,6 +116,10 @@ class World:
         w.structs = {c: FakeStruct(c, v['pc_size'], list(v.get('field_details', {}))) for c, v in SUMM['classes'].items()}
         if mode == 'ambig':
             w.structs['dup'] = FakeStruct('BSGameSound', 408, [])
+        if mode == 'nested-short':
+            for full in [c for c in list(w.structs) if '::' in c]:
+                st = w.structs[full]
+                st.name, st.cat = full.split('::')[-1], '/' + '/'.join(full.split('::')[:-1])
         w.funcs = {}
         for c, v in SUMM['classes'].items():
             for m in v['methods'][::2]:
@@ -235,6 +242,14 @@ w = World('ambig')
 out = w.run()
 check('неоднозначная структура: класс пропущен', any('КЛАСС ПРОПУЩЕН BSGameSound' in l for l in open(
     SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt', encoding='utf-8')))
+
+# 7б. вложенные классы, импортированные как «CharData» в категории /FontManager
+w = World('nested-short')
+w.run()
+plan_txt = open(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt', encoding='utf-8').read()
+nested = [c for c in SUMM['classes'] if '::' in c]
+check('вложенные классы находятся по короткому имени и категории', nested and
+      not any(('КЛАСС ПРОПУЩЕН %s:' % c) in plan_txt for c in nested), '%d классов' % len(nested))
 
 # 8. ошибка посреди применения
 w = World()
