@@ -1,0 +1,84 @@
+{
+ "classes": [
+  "BaseFormComponent",
+  "TESForm",
+  "TESDataHandler",
+  "BSGameSound",
+  "BSAudio",
+  "BSAudioManager",
+  "BSSoundHandle",
+  "IMemoryHeap",
+  "AbstractHeap",
+  "MemoryHeap",
+  "ScrapHeap",
+  "MemoryManager",
+  "HeapBlock",
+  "FreeHeapBlock",
+  "FreeHeapBlockList"
+ ],
+ "pc_sizeof": {
+  "BSCriticalSection": 24
+ },
+ "drop_vslots": {
+  "BSAudio": [
+   1
+  ]
+ },
+ "extra_fields": {
+  "MemoryManager": [
+   [
+    "unsigned",
+    "iMainThreadMemoryProblemPassSignal",
+    308
+   ]
+  ]
+ },
+ "asserts": {
+  "TESForm": {
+   "sizeof": 24,
+   "iFormFlags": 8,
+   "iFormID": 12
+  },
+  "TESDataHandler": {
+   "sizeof": 1596,
+   "iNextID": 520,
+   "pBarterContainer": 1576
+  },
+  "BSGameSound": {
+   "sizeof": 408,
+   "fnCompletionCallback": 356,
+   "iPriority": 392
+  },
+  "BSAudio": {
+   "sizeof": 56
+  },
+  "BSAudioManager": {
+   "sizeof": 392,
+   "fMasterVolume": 320,
+   "fMasterSecondaryVolume": 344,
+   "bListenerUnderwater": 373,
+   "iNextID": 384,
+   "bIgnoreGlobalTimeMultiplier": 388
+  },
+  "AbstractHeap": {
+   "sizeof": 8432
+  },
+  "MemoryHeap": {
+   "sizeof": 8436,
+   "bSupportsSwapping": 8432
+  },
+  "ScrapHeap": {
+   "sizeof": 16
+  },
+  "MemoryManager": {
+   "sizeof": 312,
+   "ppPhysicalHeaps": 292
+  }
+ },
+ "enums": [
+  "BSSoundHandle::ASSUMED_STATE"
+ ],
+ "flatten": [
+  "FreeHeapBlock"
+ ]
+}

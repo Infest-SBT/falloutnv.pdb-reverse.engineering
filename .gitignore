@@ -1,0 +1,20 @@
+# файлы игры и исходные данные — не публикуются
+*.exe
+*.dll
+*.7z
+Fallout.types.txt
+*.types.txt
+
+# промежуточные PDB сборки (готовые FalloutNV.pdb лежат в репозитории)
+strict.pdb
+research_t.pdb
+types.pdb
+*_compiled.pdb
+
+# сборка
+*.obj
+*.lib
+__pycache__/
+*.pyc
+out/
+syms.tsv
