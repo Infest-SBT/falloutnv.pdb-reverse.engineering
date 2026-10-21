@@ -1,0 +1,89 @@
+{
+ "pc_subclasses": {
+  "BSGameSound": [
+   "BSWin32GameSound"
+  ],
+  "BSAudio": [
+   "BSWin32Audio"
+  ]
+ },
+ "size_evidence": {
+  "TESForm": [
+   [
+    "external",
+    24,
+    "xNVSE: static_assert(sizeof(TESForm) == 0x18) — проверено сообществом на живой игре"
+   ]
+  ],
+  "MemoryManager": [
+   [
+    "global-spacing",
+    312,
+    "MemoryManager::Singleton 0x011F6238, следующий глобальный символ BSCoreMessage::bWarningsDisabled 0x011F6370 => не больше 0x138; поле +0x134 читается в MemoryManager::GetMainThreadMemoryProblemPassSignal => не меньше 0x138"
+   ]
+  ],
+  "FreeHeapBlockList": [
+   [
+    "array-span",
+    8,
+    "AbstractHeap::pSmallFreeList = 1024 элемента на 0x44..0x2044, следующее поле pLastSmallList на 0x2044 подтверждено => 0x2000/1024 = 8"
+   ]
+  ],
+  "BSAudioManager": [
+   [
+    "global-spacing",
+    400,
+    "BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184"
+   ]
+  ]
+ },
+ "slot_notes": {
+  "BSGameSound": {
+   "2": "0xAE9F10: читает this+0x10 (iStateFlags), and 0x80000, возвращает bool, ret без аргументов => bool IsInDecay(). Имя PC GetState80000 — описательное",
+   "7": "0xAEA000: сравнивает this->iPriority (+0x188) со значением аргумента, ret 4 => PriorityTest(unsigned). Имя PC ComparePriority",
+   "8": "0xAE9FD0: читает +0x188 у объекта-аргумента, ret 4 => PriorityTest(BSGameSound*)"
+  },
+  "TESForm": {
+   "38": "0x549580: test iFormFlags & 0x40, bool => GetHasSpokenFlag; имя PC GetLODTree — описательное",
+   "40": "0x4011B0 = та же функция, что слот 39 (& 0x10000): компоновщик склеил одинаковые тела (ICF)",
+   "42": "0x4011D0 = та же функция, что слот 41 (& 0x20000): ICF",
+   "43": "0x4011F0: test iFormFlags & 0x80000 => GetHasPLSpecTex; имя PC GetHasSpecificTextures",
+   "47": "0x4849D0: or/and iFormFlags 0x200 = пара к слоту 46 GetOnLocalMap (& 0x200) => SetOnLocalMap; имя PC SetCastsShadows",
+   "52": "0x4848B0: or/and iFormFlags 0x40 = пара к слоту 38 => SetHasSpokenFlag; имя PC SetTalkedToPC"
+  }
+ },
+ "globals": {
+  "TESDataHandler": {
+   "ptr": "0x011C3F2C"
+  },
+  "BSAudio": {
+   "ptr": "0x011F6D98",
+   "obj": "0x011F7080"
+  },
+  "BSAudioManager": {
+   "obj": "0x011F6EF0"
+  },
+  "MemoryManager": {
+   "obj": "0x011F6238"
+  }
+ },
+ "extra_functions": {
+  "FreeHeapBlock": [
+   "HeapBlock::"
+  ]
+ },
+ "known_pad_access": {
+  "HeapBlock": {
+   "0x8": "это FreeHeapBlock::pPrevFree: HeapBlock::ListRemove работает со свободным блоком",
+   "0xC": "это FreeHeapBlock::pNextFree: HeapBlock::ListRemove работает со свободным блоком"
+  }
+ },
+ "exclude_functions": {
+  "TESForm": {
+   "0x481390": "«TESForm::InitInContainer» на деле работает с элементом контейнера: +4 — указатель на форму (GetFormByNumericID → DYNAMIC_CAST → запись в +4), +8 — ContainerItemExtra; на Xbox функции с таким именем нет"
+  },
+  "BSAudio": {
+   "0xAEA100": "«BSAudio::SynchTimerUpdate» — это BSAudioSynchTimer::Update: стоит между конструктором (0xAEA0A0), деструктором (0xAEA0D0) и Restart (0xAEA150) BSAudioSynchTimer; +4 = iLastUpdateTime, +8 = iFlags таймера"
+  }
+ }
+}

@@ -1,0 +1,4865 @@
+{
+ "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "classes": {
+  "BaseFormComponent": {
+   "vtable_va": 16850280,
+   "pc_size": 4,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "InitializeDataComponent",
+     "decl": "void InitializeDataComponent()",
+     "status": "stub",
+     "checked_on": "BaseFormComponent",
+     "pc_func_va": 15491322
+    },
+    "1": {
+     "name": "ClearDataComponent",
+     "decl": "void ClearDataComponent()",
+     "status": "stub",
+     "checked_on": "BaseFormComponent",
+     "pc_func_va": 15491322
+    },
+    "2": {
+     "name": "CopyComponent",
+     "decl": "void CopyComponent(BaseFormComponent*)",
+     "status": "stub",
+     "checked_on": "BaseFormComponent",
+     "pc_func_va": 15491322
+    },
+    "3": {
+     "name": "CompareComponent",
+     "decl": "bool CompareComponent(BaseFormComponent*)",
+     "status": "stub",
+     "checked_on": "BaseFormComponent",
+     "pc_func_va": 15491322
+    }
+   },
+   "methods": [
+    {
+     "va": 4205872,
+     "name": "BaseFormComponent::BaseFormComponent",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "TESForm": {
+   "vtable_va": 16893844,
+   "pc_size": 24,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "cFormType": "confirmed",
+    "iFormFlags": "confirmed",
+    "iFormID": "confirmed",
+    "pSourceFiles": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "InitializeDataComponent",
+     "decl": "void InitializeDataComponent()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "1": {
+     "name": "ClearDataComponent",
+     "decl": "void ClearDataComponent()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "2": {
+     "name": "CopyComponent",
+     "decl": "void CopyComponent(BaseFormComponent*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4739904
+    },
+    "3": {
+     "name": "CompareComponent",
+     "decl": "bool CompareComponent(BaseFormComponent*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4740064
+    },
+    "4": {
+     "name": "~TESForm",
+     "decl": "~TESForm()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732416
+    },
+    "5": {
+     "name": "InitializeData",
+     "decl": "void InitializeData()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "6": {
+     "name": "ClearData",
+     "decl": "void ClearData()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "7": {
+     "name": "ProcessBeforeSave",
+     "decl": "bool ProcessBeforeSave()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 9241440
+    },
+    "8": {
+     "name": "Load",
+     "decl": "bool Load(TESFile*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4199056
+    },
+    "9": {
+     "name": "LoadPartial",
+     "decl": "bool LoadPartial(TESFile*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4199056
+    },
+    "10": {
+     "name": "Save",
+     "decl": "bool Save(TESFile*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4734240
+    },
+    "11": {
+     "name": "Save_2",
+     "decl": "void Save_2()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "12": {
+     "name": "LoadEdit",
+     "decl": "bool LoadEdit(TESFile*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198704
+    },
+    "13": {
+     "name": "SaveEdit",
+     "decl": "bool SaveEdit(TESFile*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4734912
+    },
+    "14": {
+     "name": "SavesBefore",
+     "decl": "bool SavesBefore(FORM*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4735312
+    },
+    "15": {
+     "name": "SavesBefore_2",
+     "decl": "bool SavesBefore_2(TESForm*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4735008
+    },
+    "16": {
+     "name": "CreateDuplicateForm",
+     "decl": "TESForm* CreateDuplicateForm(bool, void*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4745120
+    },
+    "17": {
+     "name": "PostDuplicateProcess",
+     "decl": "void PostDuplicateProcess(void*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "18": {
+     "name": "AddChange",
+     "decl": "void AddChange(int)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737888
+    },
+    "19": {
+     "name": "RemoveChange",
+     "decl": "void RemoveChange(int)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737984
+    },
+    "20": {
+     "name": "GetSaveSize",
+     "decl": "unsigned short GetSaveSize(unsigned)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4738032
+    },
+    "21": {
+     "name": "SaveGame",
+     "decl": "void SaveGame(BGSSaveFormBuffer*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4738400
+    },
+    "22": {
+     "name": "SaveGame_2",
+     "decl": "void SaveGame_2(unsigned)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4738080
+    },
+    "23": {
+     "name": "LoadGame",
+     "decl": "void LoadGame(BGSLoadFormBuffer*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4738464
+    },
+    "24": {
+     "name": "LoadGame_2",
+     "decl": "void LoadGame_2(unsigned, unsigned)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4738128
+    },
+    "25": {
+     "name": "InitLoadGame",
+     "decl": "void InitLoadGame(BGSLoadFormBuffer*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "26": {
+     "name": "InitLoadGame_2",
+     "decl": "void InitLoadGame_2(unsigned, unsigned)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 9242112
+    },
+    "27": {
+     "name": "FinishInitLoadGame",
+     "decl": "void FinishInitLoadGame(unsigned, unsigned)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 9242112
+    },
+    "28": {
+     "name": "Revert",
+     "decl": "void Revert(BGSLoadFormBuffer*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "29": {
+     "name": "Revert_2",
+     "decl": "void Revert_2(unsigned)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "30": {
+     "name": "LoadQueuedFormData",
+     "decl": "void LoadQueuedFormData(unsigned short)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "31": {
+     "name": "FindInFileFast",
+     "decl": "bool FindInFileFast(TESFile*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 9241456
+    },
+    "32": {
+     "name": "CheckSaveGame",
+     "decl": "void CheckSaveGame(BGSSaveFormBuffer*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "33": {
+     "name": "FinishLoadGame",
+     "decl": "void FinishLoadGame(BGSLoadFormBuffer*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "34": {
+     "name": "InitItem",
+     "decl": "void InitItem()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "35": {
+     "name": "GetSavedFormType",
+     "decl": "int GetSavedFormType()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198736
+    },
+    "36": {
+     "name": "GetFormDetailedString",
+     "decl": "void GetFormDetailedString(void*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4745456
+    },
+    "37": {
+     "name": "GetQuestObject",
+     "decl": "bool GetQuestObject()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198800
+    },
+    "38": {
+     "name": "GetHasSpokenFlag",
+     "decl": "bool GetHasSpokenFlag()",
+     "status": "semantics",
+     "checked_on": "TESForm",
+     "pc_func_va": 5543296
+    },
+    "39": {
+     "name": "GetHavokDeath",
+     "decl": "bool GetHavokDeath()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198832
+    },
+    "40": {
+     "name": "GetRandomAnim",
+     "decl": "bool GetRandomAnim()",
+     "status": "semantics",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198832
+    },
+    "41": {
+     "name": "GetNeedtoChangeProcess",
+     "decl": "bool GetNeedtoChangeProcess()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198864
+    },
+    "42": {
+     "name": "GetDangerous",
+     "decl": "bool GetDangerous()",
+     "status": "semantics",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198864
+    },
+    "43": {
+     "name": "GetHasPLSpecTex",
+     "decl": "bool GetHasPLSpecTex()",
+     "status": "semantics",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198896
+    },
+    "44": {
+     "name": "GetObstacle",
+     "decl": "bool GetObstacle()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198928
+    },
+    "45": {
+     "name": "GetContinuousBroadcast",
+     "decl": "bool GetContinuousBroadcast()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198960
+    },
+    "46": {
+     "name": "GetOnLocalMap",
+     "decl": "bool GetOnLocalMap()",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4198992
+    },
+    "47": {
+     "name": "SetOnLocalMap",
+     "decl": "void SetOnLocalMap(bool)",
+     "status": "semantics",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737488
+    },
+    "48": {
+     "name": "GetEmittanceColor",
+     "decl": "NiColor* GetEmittanceColor()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 11320176
+    },
+    "49": {
+     "name": "SetDelete",
+     "decl": "void SetDelete(bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4736304
+    },
+    "50": {
+     "name": "SetAltered",
+     "decl": "void SetAltered(bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4736816
+    },
+    "51": {
+     "name": "SetQuestObject",
+     "decl": "void SetQuestObject(bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737120
+    },
+    "52": {
+     "name": "SetHasSpokenFlag",
+     "decl": "void SetHasSpokenFlag(bool)",
+     "status": "semantics",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737200
+    },
+    "53": {
+     "name": "SetHavokDeath",
+     "decl": "void SetHavokDeath(bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737280
+    },
+    "54": {
+     "name": "SetNeedToChangeProcess",
+     "decl": "void SetNeedToChangeProcess(bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4737360
+    },
+    "55": {
+     "name": "SaveObjectBound",
+     "decl": "void SaveObjectBound()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4732688
+    },
+    "56": {
+     "name": "LoadObjectBound",
+     "decl": "void LoadObjectBound(TESFile*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4535536
+    },
+    "57": {
+     "name": "IsBoundObject",
+     "decl": "bool IsBoundObject()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "58": {
+     "name": "IsObject",
+     "decl": "bool IsObject()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "59": {
+     "name": "IsMagicItem",
+     "decl": "bool IsMagicItem()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "60": {
+     "name": "IsReference",
+     "decl": "bool IsReference()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "61": {
+     "name": "IsArmorAddon",
+     "decl": "bool IsArmorAddon()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "62": {
+     "name": "IsActorBase",
+     "decl": "bool IsActorBase()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "63": {
+     "name": "IsMobileObject",
+     "decl": "bool IsMobileObject()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "64": {
+     "name": "IsActor",
+     "decl": "bool IsActor()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "65": {
+     "name": "GetRefCount",
+     "decl": "unsigned GetRefCount()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 11320176
+    },
+    "66": {
+     "name": "Copy",
+     "decl": "void Copy(TESForm*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4739376
+    },
+    "67": {
+     "name": "Compare",
+     "decl": "bool Compare(TESForm*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4739440
+    },
+    "68": {
+     "name": "BelongsInGroup",
+     "decl": "bool BelongsInGroup(FORM*, bool, bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4740320
+    },
+    "69": {
+     "name": "CreateGroupData",
+     "decl": "void CreateGroupData(FORM*, FORM_GROUP*)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4740400
+    },
+    "70": {
+     "name": "IsParentForm",
+     "decl": "bool IsParentForm()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "71": {
+     "name": "IsParentFormTree",
+     "decl": "bool IsParentFormTree()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4704336
+    },
+    "72": {
+     "name": "IsFormTypeChild",
+     "decl": "bool IsFormTypeChild(unsigned char)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 9241456
+    },
+    "73": {
+     "name": "Activate",
+     "decl": "bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4199024
+    },
+    "74": {
+     "name": "SetFormID",
+     "decl": "void SetFormID(unsigned, bool)",
+     "status": "name+stack",
+     "checked_on": "TESForm",
+     "pc_func_va": 4742160
+    },
+    "75": {
+     "name": "GetObjectTypeName",
+     "decl": "char* GetObjectTypeName()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4199040
+    },
+    "76": {
+     "name": "GetFormEditorID",
+     "decl": "const char* GetFormEditorID()",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4199040
+    },
+    "77": {
+     "name": "SetFormEditorID",
+     "decl": "bool SetFormEditorID(const char*)",
+     "status": "stub",
+     "checked_on": "TESForm",
+     "pc_func_va": 4199056
+    }
+   },
+   "methods": [
+    {
+     "va": 4198704,
+     "name": "TESForm::LoadEdit",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198736,
+     "name": "TESForm::GetSavedFormType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4198768,
+     "name": "TESForm::GetFormType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198800,
+     "name": "TESForm::GetQuestObject",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198832,
+     "name": "TESForm::GetHavokDeath",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198864,
+     "name": "TESForm::GetNeedToChangeProcess",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198896,
+     "name": "TESForm::GetHasSpecificTextures",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198928,
+     "name": "TESForm::GetObstacle",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198960,
+     "name": "TESForm::GetContinuousBroadcast",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4198992,
+     "name": "TESForm::GetOnLocalMap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4199392,
+     "name": "TESForm::GetInitialized",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4199680,
+     "name": "TESForm::GetEndianSwapOnSave",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4207952,
+     "name": "TESForm::SetFormFlags",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4224960,
+     "name": "TESForm::GetTemporary",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4422544,
+     "name": "TESForm::GetDisabledOrDeleted",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4459904,
+     "name": "TESForm::GetDelete",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4459936,
+     "name": "TESForm::GetDisabled",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4460080,
+     "name": "TESForm::GetFormTypeString",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4491808,
+     "name": "TESForm::GetFireOff",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4513216,
+     "name": "TESForm::GetFormFlags",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4531056,
+     "name": "TESForm::GetDestructible",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4587792,
+     "name": "TESForm::ClearFiles",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4588112,
+     "name": "TESForm::GetMaster",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4588352,
+     "name": "TESForm::GetAltered",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592304,
+     "name": "TESForm::GetFormTypeString_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4628496,
+     "name": "TESForm::SetStillLoading",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4665456,
+     "name": "TESForm::GetFormBuffer",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4665472,
+     "name": "TESForm::GetFormBufferSize",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4672688,
+     "name": "TESForm::GetFormEditorIDLength",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4684704,
+     "name": "TESForm::GetDestroyed",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4731760,
+     "name": "TESForm::TESForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4732704,
+     "name": "TESForm::InitializeDataAllComponents",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4733040,
+     "name": "TESForm::ClearDataAllComponents",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4733376,
+     "name": "TESForm::GetFormByNumericID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4733440,
+     "name": "TESForm::GetFormByEditorID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4733520,
+     "name": "TESForm::InitializeFormDataStructures",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4733824,
+     "name": "TESForm::ReleaseFormDataStructures",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4734064,
+     "name": "TESForm::RemoveFromDataStructures",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4734240,
+     "name": "TESForm::Save",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4734320,
+     "name": "TESForm::CompressSaveBuffer",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4734912,
+     "name": "TESForm::SaveEdit",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4735008,
+     "name": "TESForm::SavesBeforeAlt",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4735312,
+     "name": "TESForm::SavesBefore",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4736144,
+     "name": "TESForm::SetTemporary",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736240,
+     "name": "TESForm::SetMaster",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736304,
+     "name": "TESForm::SetDelete",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736384,
+     "name": "TESForm::SetEmpty",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736528,
+     "name": "TESForm::SetResetDestruct",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736592,
+     "name": "TESForm::SetDestroyed",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736672,
+     "name": "TESForm::SetDestructible",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736736,
+     "name": "TESForm::SetVATSTargetOverride",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4736816,
+     "name": "TESForm::SetAltered",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737120,
+     "name": "TESForm::SetQuestObject",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737200,
+     "name": "TESForm::SetTalkedToPC",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737280,
+     "name": "TESForm::SetHavokDeath",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737360,
+     "name": "TESForm::SetNeedToChangeProcess",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737424,
+     "name": "TESForm::SetIgnoreFriendlyHits",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737488,
+     "name": "TESForm::SetCastsShadows",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737552,
+     "name": "TESForm::SetInPlaceableWater",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737648,
+     "name": "TESForm::SetFireOff",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737712,
+     "name": "TESForm::SetInitialized",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737776,
+     "name": "TESForm::SetDisabled",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4737856,
+     "name": "TESForm::IsDefaultForm",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4737888,
+     "name": "TESForm::AddChange",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4737936,
+     "name": "TESForm::ForceChange",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4737984,
+     "name": "TESForm::RemoveChange",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738032,
+     "name": "TESForm::GetSaveSize",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738080,
+     "name": "TESForm::SaveGameTES",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4738128,
+     "name": "TESForm::LoadGameTES",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4738272,
+     "name": "TESForm::SaveGameData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738304,
+     "name": "TESForm::LoadGameDataOLD",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738336,
+     "name": "TESForm::SaveNumericID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738368,
+     "name": "TESForm::LoadNumericID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738400,
+     "name": "TESForm::SaveGameBGS",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4738464,
+     "name": "TESForm::LoadGameBGS",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4738624,
+     "name": "TESForm::IsDefaultForm_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738656,
+     "name": "TESForm::GetFile",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738784,
+     "name": "TESForm::GetOwnerMaster",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4738896,
+     "name": "TESForm::SetFile",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4739344,
+     "name": "TESForm::LoadForm",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4739376,
+     "name": "TESForm::Copy",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4739440,
+     "name": "TESForm::Compare",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4739504,
+     "name": "TESForm::CopyAllComponents",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4739696,
+     "name": "TESForm::CompareAllComponents",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4739904,
+     "name": "TESForm::CopyComponent",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4740064,
+     "name": "TESForm::CompareComponent",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4740320,
+     "name": "TESForm::BelongsInGroup",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4740400,
+     "name": "TESForm::CreateGroupData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4740512,
+     "name": "TESForm::StartForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4740736,
+     "name": "TESForm::CloseForm",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4740816,
+     "name": "TESForm::AddChunk_2",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4740848,
+     "name": "TESForm::AddChunkArray",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4740880,
+     "name": "TESForm::AddChunk_5",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4740944,
+     "name": "TESForm::AddChunkArray32",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4741152,
+     "name": "TESForm::AddChunkArray16",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4741360,
+     "name": "TESForm::AddChunk_3",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4741392,
+     "name": "TESForm::AddChunk_1",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4741456,
+     "name": "TESForm::AddChunk_6",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4741520,
+     "name": "TESForm::__AddChunkData",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4741744,
+     "name": "TESForm::ExpandChunk",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4741936,
+     "name": "TESForm::FreeFormBuffer",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4741984,
+     "name": "TESForm::GetFormIDAsSaved",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4742080,
+     "name": "TESForm::GetFormIDWithoutIndex",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4742112,
+     "name": "TESForm::FormIDMatchesWithoutIndex",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4742160,
+     "name": "TESForm::SetFormID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4742480,
+     "name": "TESForm::AddCompileIndex",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4742656,
+     "name": "TESForm::SaveData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4742688,
+     "name": "TESForm::__SaveData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4743664,
+     "name": "TESForm::LoadData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4744736,
+     "name": "TESForm::GetDataSizeAdded",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4745120,
+     "name": "TESForm::CreateDuplicateForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4745360,
+     "name": "TESForm::GetFormTypeFromFormString",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4745456,
+     "name": "TESForm::GetFormDetailedString",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 5182880,
+     "name": "TESForm::SetFormType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5279088,
+     "name": "TESForm::GetEmpty",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5297312,
+     "name": "TESForm::GetNoCollision",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5539584,
+     "name": "TESForm::GetReflectedByAutoWater",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5543296,
+     "name": "TESForm::GetLODTree",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5571808,
+     "name": "TESForm::GetFileCount",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 5614560,
+     "name": "TESForm::IsRecentPCDrop",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5656128,
+     "name": "TESForm::GetMustBeVisibleDistant",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5687136,
+     "name": "TESForm::GetDisableFade",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5687168,
+     "name": "TESForm::SetDisableFade",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5726432,
+     "name": "TESForm::GetVATSTargetOverride",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5729584,
+     "name": "TESForm::IsStillLoading",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5912464,
+     "name": "TESForm::GetIgnoreFriendlyHits",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6897392,
+     "name": "TESForm::SetNoCollision",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8935984,
+     "name": "TESForm::GetRefractedByAutoWater_ChildCanUse",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 9783568,
+     "name": "TESForm::SetBeingDropped",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "TESDataHandler": {
+   "pc_size": 1596,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "cDLCFlags": "confirmed",
+    "pObjectList": "confirmed",
+    "listPackages": "confirmed",
+    "listWorldSpaces": "confirmed",
+    "listClimates": "confirmed",
+    "listImageSpaces": "confirmed",
+    "listImageSpaceModifiers": "confirmed",
+    "listWeather": "confirmed",
+    "listEnchantmentItems": "confirmed",
+    "listSpellItems": "confirmed",
+    "listHeadParts": "confirmed",
+    "listHair": "confirmed",
+    "listEyes": "confirmed",
+    "listRaces": "confirmed",
+    "listZones": "confirmed",
+    "listLandTexts": "confirmed",
+    "listCameraShots": "confirmed",
+    "listClasses": "confirmed",
+    "listFactions": "confirmed",
+    "listReputations": "confirmed",
+    "listChallenges": "confirmed",
+    "listRecipes": "confirmed",
+    "listRecipeCategories": "confirmed",
+    "listAmmoEffects": "confirmed",
+    "listCasinos": "confirmed",
+    "listCaravanDecks": "confirmed",
+    "listScripts": "confirmed",
+    "listSounds": "confirmed",
+    "listAcousticSpaces": "confirmed",
+    "listRagdolls": "confirmed",
+    "listGlobals": "confirmed",
+    "listVoiceTypes": "confirmed",
+    "listImpactData": "confirmed",
+    "listImpactDataSet": "confirmed",
+    "listTopics": "confirmed",
+    "listTopicInfos": "confirmed",
+    "listQuests": "confirmed",
+    "listCombatStyles": "confirmed",
+    "listLoadScreens": "confirmed",
+    "listWater": "confirmed",
+    "listEffectShaders": "confirmed",
+    "listProjectiles": "confirmed",
+    "listExplosions": "confirmed",
+    "listRadiation": "confirmed",
+    "listDehydration": "confirmed",
+    "listHunger": "confirmed",
+    "listSleepDeprevation": "confirmed",
+    "listDebris": "confirmed",
+    "listPerks": "confirmed",
+    "listPartData": "confirmed",
+    "listNotes": "confirmed",
+    "listListForms": "confirmed",
+    "listMenuIcons": "confirmed",
+    "animObjects": "confirmed",
+    "listMessages": "confirmed",
+    "listLightingTemplates": "confirmed",
+    "listMusicTypes": "confirmed",
+    "listLoadScreenTypes": "confirmed",
+    "listMediaSets": "confirmed",
+    "listMediaLocationControllers": "confirmed",
+    "pRegionList": "confirmed",
+    "arrayInteriorCells": "confirmed",
+    "arrayAddonNodes": "confirmed",
+    "listBadForms": "confirmed",
+    "iNextID": "confirmed",
+    "pActiveFile": "confirmed",
+    "listFiles": "confirmed",
+    "iNumCompile": "confirmed",
+    "pFileIndex": "consistent",
+    "bMasterSave": "confirmed",
+    "bSaveLoadGame": "confirmed",
+    "bSaveLoad": "confirmed",
+    "bAutoSaving": "confirmed",
+    "bExportingPlugin": "confirmed",
+    "bClearingData": "confirmed",
+    "bHasDesiredFiles": "confirmed",
+    "bCheckingModels": "confirmed",
+    "bLoadingFiles": "confirmed",
+    "bDontRemoveIDs": "confirmed",
+    "ucGameSettingsLoadState": "confirmed",
+    "pRegionDataManager": "confirmed",
+    "pBarterContainer": "confirmed",
+    "pRecipeContainer": "confirmed",
+    "pSpotterShader": "confirmed",
+    "pItemDetectedShader": "confirmed",
+    "pCateyeMobileShader": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 4224992,
+     "name": "TESDataHandler::GetRecipes",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4286928,
+     "name": "TESDataHandler::GetRegionList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4335328,
+     "name": "TESDataHandler::GetClearingData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4524864,
+     "name": "TESDataHandler::SetIsClosingFile",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4527792,
+     "name": "TESDataHandler::GetSaveLoad",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4544000,
+     "name": "TESDataHandler::GetQuests",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4563232,
+     "name": "TESDataHandler::GetAddonArraySize",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4563760,
+     "name": "TESDataHandler::GetBodyPartDataList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4564784,
+     "name": "TESDataHandler::GetWaterForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4572752,
+     "name": "TESDataHandler::GetSoundList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4575856,
+     "name": "TESDataHandler::TESDataHandler",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4579232,
+     "name": "TESDataHandler::ClearFileList",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4579264,
+     "name": "TESDataHandler::GetFileList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4579296,
+     "name": "TESDataHandler::ClearData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4587664,
+     "name": "TESDataHandler::GetMusicTypeList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4587696,
+     "name": "TESDataHandler::GetMediaSetList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4587728,
+     "name": "TESDataHandler::GetMediaLocControllerList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4587760,
+     "name": "TESDataHandler::GetMasterSave",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4587984,
+     "name": "TESDataHandler::LoadForm",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4588144,
+     "name": "TESDataHandler::SaveForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4588384,
+     "name": "TESDataHandler::CloseAllTES",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4588464,
+     "name": "TESDataHandler::AddFormToDataHandler",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591536,
+     "name": "TESDataHandler::GetPerks",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591568,
+     "name": "TESDataHandler::GetDebrisList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591632,
+     "name": "TESDataHandler::GetProjectiles",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591664,
+     "name": "TESDataHandler::GetRadiationStages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591696,
+     "name": "TESDataHandler::GetSleepDepriveStages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591728,
+     "name": "TESDataHandler::GetLoadScreens",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591760,
+     "name": "TESDataHandler::GetAnimObjects",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591792,
+     "name": "TESDataHandler::GetCombatStyles",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591856,
+     "name": "TESDataHandler::GetLandTextures",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591888,
+     "name": "TESDataHandler::GetCameraShotList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591952,
+     "name": "TESDataHandler::GetChallenges",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4591984,
+     "name": "TESDataHandler::GetAccousticSpaces",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592016,
+     "name": "TESDataHandler::GetGlobalsList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592048,
+     "name": "TESDataHandler::GetVoiceTypeList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592080,
+     "name": "TESDataHandler::GetImpactDataList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592112,
+     "name": "TESDataHandler::GetNotes",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592144,
+     "name": "TESDataHandler::GetMenuIconList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592176,
+     "name": "TESDataHandler::GetListForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592208,
+     "name": "TESDataHandler::GetMessages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592240,
+     "name": "TESDataHandler::GetLightingTemplates",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592272,
+     "name": "TESDataHandler::GetLoadScreenTypes",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592352,
+     "name": "TESDataHandler::GetTopicList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4592384,
+     "name": "TESDataHandler::RegisterError",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4592432,
+     "name": "TESDataHandler::NewCell",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4592864,
+     "name": "TESDataHandler::UpdateAutoCalcNPCs",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593056,
+     "name": "TESDataHandler::GetClass",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593104,
+     "name": "TESDataHandler::GetSoundFromID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593152,
+     "name": "TESDataHandler::GetFactionFromID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593200,
+     "name": "TESDataHandler::GetReputation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593248,
+     "name": "TESDataHandler::GetLoadScreenType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593296,
+     "name": "TESDataHandler::GetGlobalTopic",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593344,
+     "name": "TESDataHandler::GetSound",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4593408,
+     "name": "TESDataHandler::GetGlobal",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4593536,
+     "name": "TESDataHandler::AddTopic",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4593584,
+     "name": "TESDataHandler::SortedAddTopic",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4593632,
+     "name": "TESDataHandler::GetAddonNode",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4593696,
+     "name": "TESDataHandler::AddAddonNode",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4593968,
+     "name": "TESDataHandler::RemoveAddonNode",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4594016,
+     "name": "TESDataHandler::GetInteriorCellCount",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4594048,
+     "name": "TESDataHandler::GetInteriorCellByIndex",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4594096,
+     "name": "TESDataHandler::SortInteriorCells",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4594400,
+     "name": "TESDataHandler::GetCellByEditorID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4594624,
+     "name": "TESDataHandler::GetCellFromWorldCoord",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4594720,
+     "name": "TESDataHandler::GetCellFromCellCoord",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4594928,
+     "name": "TESDataHandler::GetExtCellDataFromFileByEditorID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4596368,
+     "name": "TESDataHandler::UnloadCell",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4596912,
+     "name": "TESDataHandler::BuildFileList",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4599312,
+     "name": "TESDataHandler::SetDLCFlags",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4599520,
+     "name": "TESDataHandler::CreateThreadSafeFiles",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4599616,
+     "name": "TESDataHandler::GetListFile",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4599728,
+     "name": "TESDataHandler::RunAllPersistentRefScripts",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4599920,
+     "name": "TESDataHandler::CompileFiles",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4607280,
+     "name": "TESDataHandler::SetLoadingFiles",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4607312,
+     "name": "TESDataHandler::SetSpotterEffect",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4607344,
+     "name": "TESDataHandler::SetItemDetectedEffect",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4607376,
+     "name": "TESDataHandler::SetCatEyeMobileEffect",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4607568,
+     "name": "TESDataHandler::CleanUpBadForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4608016,
+     "name": "TESDataHandler::GetCompiledFile",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4608064,
+     "name": "TESDataHandler::FixAllScriptIDs",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4608160,
+     "name": "TESDataHandler::SetMasterFileLargeBuffer",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4608272,
+     "name": "TESDataHandler::CreateFormFromID",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 4618112,
+     "name": "TESDataHandler::ConstructObjectList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4619216,
+     "name": "TESDataHandler::ConstructObject",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4625824,
+     "name": "TESDataHandler::FormGroupLoadsInGame",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4626160,
+     "name": "TESDataHandler::RemoveIDFromDataHandler",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4626272,
+     "name": "TESDataHandler::IsFormIDInUse",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4626336,
+     "name": "TESDataHandler::AdvanceNextID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4626432,
+     "name": "TESDataHandler::GetNextID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4626528,
+     "name": "TESDataHandler::IsFormIDCreated",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4626592,
+     "name": "TESDataHandler::CreateReferenceAtLocation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4628608,
+     "name": "TESDataHandler::CreateProjectileAtLocation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4628880,
+     "name": "TESDataHandler::CreateExplosionAtLocation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4629296,
+     "name": "TESDataHandler::DataError",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4629360,
+     "name": "TESDataHandler::GenerateDefaultObjects",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4644272,
+     "name": "TESDataHandler::CheckModels",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4647040,
+     "name": "TESDataHandler::SetCheckingModels",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4647136,
+     "name": "TESDataHandler::PrintTextureInfo",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4647184,
+     "name": "TESDataHandler::CheckTexturesRecurse",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4647952,
+     "name": "TESDataHandler::CheckIcons",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4649152,
+     "name": "TESDataHandler::CheckForNiRawImageData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4649600,
+     "name": "TESDataHandler::EnumReferencesCloseToPoint",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4649744,
+     "name": "TESDataHandler::CreateBarterContainer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4650560,
+     "name": "TESDataHandler::RemoveItemBarterContainer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4651760,
+     "name": "TESDataHandler::ClearBarterContainer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4651808,
+     "name": "TESDataHandler::ClearRecipeContainer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4651856,
+     "name": "TESDataHandler::SortAllLists",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4652368,
+     "name": "TESDataHandler::GetAnimObject",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4652528,
+     "name": "TESDataHandler::AddDownloadedContentToFileList",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4652688,
+     "name": "TESDataHandler::GetFlag",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4652720,
+     "name": "TESDataHandler::GetDLCIndex",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4730656,
+     "name": "TESDataHandler::GetIsLoadingFiles",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4732384,
+     "name": "TESDataHandler::GetActiveFile",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4853008,
+     "name": "TESDataHandler::GetImpactDataSetList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5155152,
+     "name": "TESDataHandler::GetRaceList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5182128,
+     "name": "TESDataHandler::RegionList::GetSaveSize",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 5268368,
+     "name": "TESDataHandler::GetDehydrationStages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5371216,
+     "name": "TESDataHandler::CountCompiled",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5516576,
+     "name": "TESDataHandler::GetSaveLoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5572752,
+     "name": "TESDataHandler::SetSaveLoad",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5713824,
+     "name": "TESDataHandler::GetCheckingModels",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6281296,
+     "name": "TESDataHandler::EnsureFactionFriendshipsAreTwoWay",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 6369504,
+     "name": "TESDataHandler::GetClassList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6371216,
+     "name": "TESDataHandler::GetHairList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6440704,
+     "name": "TESDataHandler::GetHeadParts",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6476528,
+     "name": "TESDataHandler::GetHungerStages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6518752,
+     "name": "TESDataHandler::getScriptList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8097552,
+     "name": "TESDataHandler::SpotterEffectItem",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8687088,
+     "name": "TESDataHandler::SetDontRemoveIDs",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8701312,
+     "name": "TESDataHandler::GetNextCreatedRefID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8854064,
+     "name": "TESDataHandler::GetFactions",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8865392,
+     "name": "TESDataHandler::GetEffectShaders",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 9692400,
+     "name": "TESDataHandler::GetItemDetectedEffect",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 9978448,
+     "name": "TESDataHandler::GetCasinos",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10230352,
+     "name": "TESDataHandler::GetReputations",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 10329920,
+     "name": "TESDataHandler::GetRagdolls",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 15656295,
+     "name": "TESDataHandler::ConstructObject_SEH",
+     "uses_this": false,
+     "touches_fields": false
+    }
+   ]
+  },
+  "BSGameSound": {
+   "vtable_va": 17447268,
+   "pc_size": 408,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed",
+    "iSoundID": "confirmed",
+    "iSoundTypeFlags": "confirmed",
+    "iModifierFlags": "confirmed",
+    "iStateFlags": "confirmed",
+    "iDurationInMS": "confirmed",
+    "iStaticAttenuation": "confirmed",
+    "iReverbAttenuation": "confirmed",
+    "iSystemAttenuation": "confirmed",
+    "iDistanceAttenuation": "confirmed",
+    "iFaderAttenuation": "confirmed",
+    "fCurrentVolume": "confirmed",
+    "fBeginTime": "confirmed",
+    "fEndTime": "confirmed",
+    "iWeatherFlags": "confirmed",
+    "iSamplesPerSecond": "confirmed",
+    "pFilename": "consistent",
+    "fMaxDist": "confirmed",
+    "fMinDist": "confirmed",
+    "iSoundHash": "confirmed",
+    "iDirectoryHash": "confirmed",
+    "iSoundSize": "confirmed",
+    "fDistanceToListener": "confirmed",
+    "iEnvironmentType": "confirmed",
+    "iFreqVariance": "confirmed",
+    "iModSamplesPerSecond": "confirmed",
+    "iSynchStartTime": "confirmed",
+    "iCleanupDelayInMS": "confirmed",
+    "fnCompletionCallback": "confirmed",
+    "fnPlayedCallback": "confirmed",
+    "pSoundCompletionContext": "confirmed",
+    "pSoundPlayContext": "confirmed",
+    "iLoopStart": "confirmed",
+    "iLoopEnd": "confirmed",
+    "vBeamEnd": "confirmed",
+    "iPriority": "confirmed",
+    "QueuedMessages": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "~BSGameSound",
+     "decl": "~BSGameSound()",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11443904
+    },
+    "1": {
+     "name": "IsPlaying",
+     "decl": "bool IsPlaying()",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11443952
+    },
+    "2": {
+     "name": "IsInDecay",
+     "decl": "bool IsInDecay()",
+     "status": "semantics",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11443984
+    },
+    "3": {
+     "name": "IsPaused",
+     "decl": "bool IsPaused()",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11444016
+    },
+    "4": {
+     "name": "GetVolume",
+     "decl": "float GetVolume()",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11444048
+    },
+    "5": {
+     "name": "SetInaudible",
+     "decl": "void SetInaudible(bool)",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11444080
+    },
+    "6": {
+     "name": "SetEnvironmentType",
+     "decl": "void SetEnvironmentType(unsigned)",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11444144
+    },
+    "7": {
+     "name": "PriorityTest",
+     "decl": "bool PriorityTest(unsigned)",
+     "status": "semantics",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11444224
+    },
+    "8": {
+     "name": "PriorityTest_2",
+     "decl": "bool PriorityTest_2(BSGameSound*)",
+     "status": "semantics",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11444176
+    },
+    "9": {
+     "name": "Open",
+     "decl": "bool Open()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11448944
+    },
+    "10": {
+     "name": "Prepare",
+     "decl": "bool Prepare()",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11443680
+    },
+    "11": {
+     "name": "Copy",
+     "decl": "void Copy(BSGameSound*, bool)",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11442080
+    },
+    "12": {
+     "name": "Play",
+     "decl": "bool Play(bool)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11456640
+    },
+    "13": {
+     "name": "Pause",
+     "decl": "bool Pause()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11457568
+    },
+    "14": {
+     "name": "Stop",
+     "decl": "bool Stop()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11457728
+    },
+    "15": {
+     "name": "SetVolume",
+     "decl": "bool SetVolume(float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11458144
+    },
+    "16": {
+     "name": "UpdateEmitterPosition",
+     "decl": "void UpdateEmitterPosition()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11458960
+    },
+    "17": {
+     "name": "Update",
+     "decl": "bool Update(unsigned)",
+     "status": "name+stack",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 11442528
+    },
+    "18": {
+     "name": "ProcessDataRequest",
+     "decl": "bool ProcessDataRequest(int)",
+     "status": "stub",
+     "checked_on": "BSGameSound",
+     "pc_func_va": 15491322
+    },
+    "19": {
+     "name": "SetEmitterPosition",
+     "decl": "void SetEmitterPosition(NiPoint3)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468016
+    },
+    "20": {
+     "name": "SetEmitterPosition_2",
+     "decl": "void SetEmitterPosition_2(float, float, float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11464848
+    },
+    "21": {
+     "name": "GetEmitterPosition",
+     "decl": "NiPoint3 GetEmitterPosition()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468064
+    },
+    "22": {
+     "name": "SetEmitterOrientation",
+     "decl": "void SetEmitterOrientation(float, float, float)",
+     "status": "stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468176
+    },
+    "23": {
+     "name": "SetMinMax",
+     "decl": "void SetMinMax(float, float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468192
+    },
+    "24": {
+     "name": "SetAttenuationCurve",
+     "decl": "void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11468640
+    },
+    "25": {
+     "name": "SetFrequency",
+     "decl": "bool SetFrequency(float)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11469280
+    },
+    "26": {
+     "name": "GetFrequency",
+     "decl": "float GetFrequency()",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11469456
+    },
+    "27": {
+     "name": "Seek",
+     "decl": "void Seek(unsigned)",
+     "status": "name+stack",
+     "checked_on": "BSWin32GameSound",
+     "pc_func_va": 11469600
+    }
+   },
+   "methods": [
+    {
+     "va": 11438992,
+     "name": "BSGameSound::SetSilent",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11440992,
+     "name": "BSGameSound::BSGameSound",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11441248,
+     "name": "BSGameSound::SetFilename",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11441632,
+     "name": "BSGameSound::Initialize",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11442080,
+     "name": "BSGameSound::Copy",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11442528,
+     "name": "BSGameSound::Update",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11442928,
+     "name": "BSGameSound::HandlePlayCallback",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443024,
+     "name": "BSGameSound::CanPlayNow",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443280,
+     "name": "BSGameSound::OpenResult",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443440,
+     "name": "BSGameSound::Is3DSound",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443472,
+     "name": "BSGameSound::Is2DRadiusSound",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443536,
+     "name": "BSGameSound::CalculateHashes",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443584,
+     "name": "BSGameSound::GetNameHash",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11443680,
+     "name": "BSGameSound::Prepare",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443952,
+     "name": "BSGameSound::IsPlaying",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11443984,
+     "name": "BSGameSound::GetState80000",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444016,
+     "name": "BSGameSound::IsPaused",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444048,
+     "name": "BSGameSound::GetVolume",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444080,
+     "name": "BSGameSound::SetInaudible",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444144,
+     "name": "BSGameSound::SetEnvironmentType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444176,
+     "name": "BSGameSound::PriorityTest",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11444224,
+     "name": "BSGameSound::ComparePriority",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BSAudio": {
+   "vtable_va": 17445436,
+   "pc_size": 56,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed",
+    "bAudioEnabled": "confirmed",
+    "bInitialized": "confirmed",
+    "bMultiThread": "confirmed",
+    "iMusicStartOffset": "confirmed",
+    "bSeekMusic": "confirmed",
+    "pListener": "confirmed",
+    "SynchTimer": "confirmed",
+    "pfnIDCallback": "confirmed",
+    "pfnNameCallback": "confirmed",
+    "pfnRandomFilenameCallback": "confirmed",
+    "pfnSettingsCallback": "confirmed",
+    "pfnSynchPausedCallback": "confirmed",
+    "pfnSynchUnPausedCallback": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "~BSAudio",
+     "decl": "~BSAudio()",
+     "status": "name+stack",
+     "checked_on": "BSAudio",
+     "pc_func_va": 11372432
+    },
+    "1": {
+     "name": "Init",
+     "decl": "void Init(void*)",
+     "status": "name+stack",
+     "checked_on": "BSAudio",
+     "pc_func_va": 11366432
+    },
+    "2": {
+     "name": "Shutdown",
+     "decl": "void Shutdown()",
+     "status": "name+stack",
+     "checked_on": "BSAudio",
+     "pc_func_va": 11366736
+    },
+    "3": {
+     "name": "SetLoopPointCallback",
+     "decl": "void SetLoopPointCallback(void*)",
+     "status": "stub",
+     "checked_on": "BSAudio",
+     "pc_func_va": 11160144
+    },
+    "4": {
+     "name": "GetLoopPointCallback",
+     "decl": "void* GetLoopPointCallback()",
+     "status": "stub",
+     "checked_on": "BSAudio",
+     "pc_func_va": 11372480
+    },
+    "5": {
+     "name": "CreateNewGameSound",
+     "decl": "BSGameSound* CreateNewGameSound(const char*)",
+     "status": "stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11445696
+    },
+    "6": {
+     "name": "FixSoundPath",
+     "decl": "void FixSoundPath(char*)",
+     "status": "stack",
+     "checked_on": "BSWin32Audio",
+     "pc_func_va": 11445824
+    },
+    "7": {
+     "name": "PrintDebugInfo",
+     "decl": "void PrintDebugInfo()",
+     "status": "stub",
+     "checked_on": "BSAudio",
+     "pc_func_va": 11171888
+    }
+   },
+   "methods": [
+    {
+     "va": 4536944,
+     "name": "BSAudio::GetSingleton",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 5738672,
+     "name": "BSAudio::GetMinDialogDist",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 5738704,
+     "name": "BSAudio::GetMaxDialogDist",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 6100768,
+     "name": "BSAudio::Mute",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 6100800,
+     "name": "BSAudio::UnMute",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 6541376,
+     "name": "BSAudio::GetSynchTime",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 7388064,
+     "name": "BSAudio::PauseAnimationSounds",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 7388096,
+     "name": "BSAudio::UnPauseAnimationSounds",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 7388128,
+     "name": "BSAudio::PauseWorldVoices",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 7388160,
+     "name": "BSAudio::UnPauseWorldVoices",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8304800,
+     "name": "BSAudio::PauseWorldSounds",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8307584,
+     "name": "BSAudio::UnPauseWorldSounds",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11366208,
+     "name": "BSAudio::BSAudio",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11366432,
+     "name": "BSAudio::Init",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11366736,
+     "name": "BSAudio::Shutdown",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11366960,
+     "name": "BSAudio::SetMultiThreaded",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11367344,
+     "name": "BSAudio::GetSoundHandleByFormID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11367552,
+     "name": "BSAudio::GetSoundHandleByFilename",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11367760,
+     "name": "BSAudio::GetSoundHandleByEditorName",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11367968,
+     "name": "BSAudio::SpawnSoundReference",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11368256,
+     "name": "BSAudio::Update",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11368432,
+     "name": "BSAudio::SetConditions",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11368624,
+     "name": "BSAudio::PositionListener",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11368672,
+     "name": "BSAudio::GetListenerPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11368768,
+     "name": "BSAudio::OrientListener",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11368848,
+     "name": "BSAudio::SetListenerUnderwater",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11368880,
+     "name": "BSAudio::SetEnvironment",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11368944,
+     "name": "BSAudio::GetMasterVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11368992,
+     "name": "BSAudio::GetFootVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369040,
+     "name": "BSAudio::GetVoiceVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369088,
+     "name": "BSAudio::GetEffectsVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369136,
+     "name": "BSAudio::GetMusicVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369184,
+     "name": "BSAudio::GetRadioVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369232,
+     "name": "BSAudio::SetMasterVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369280,
+     "name": "BSAudio::SetFootstepVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369328,
+     "name": "BSAudio::SetVoiceVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369376,
+     "name": "BSAudio::SetEffectsVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369424,
+     "name": "BSAudio::SetMusicVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369472,
+     "name": "BSAudio::SetRadioVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369520,
+     "name": "BSAudio::VolumeChanged",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369552,
+     "name": "BSAudio::IsListenerUnderwater",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369600,
+     "name": "BSAudio::GetMasterSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369648,
+     "name": "BSAudio::GetFootSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369696,
+     "name": "BSAudio::GetVoiceSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369744,
+     "name": "BSAudio::GetEffectsSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369792,
+     "name": "BSAudio::GetMusicSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369840,
+     "name": "BSAudio::GetRadioSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11369888,
+     "name": "BSAudio::SetMasterSecondaryVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11370176,
+     "name": "BSAudio::ClearSecondaryVolumes",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11370944,
+     "name": "BSAudio::SetAudioCacheSizeInK",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371120,
+     "name": "BSAudio::GetAudioCacheSizeInK",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371296,
+     "name": "BSAudio::SetCacheEnabled",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371472,
+     "name": "BSAudio::GetCacheEnabled",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371648,
+     "name": "BSAudio::MuteType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371696,
+     "name": "BSAudio::UnMuteType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371744,
+     "name": "BSAudio::KillAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371792,
+     "name": "BSAudio::PauseAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371840,
+     "name": "BSAudio::UnPauseAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371888,
+     "name": "BSAudio::StopMovingSounds",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11371936,
+     "name": "BSAudio::EnterDialogue",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11372112,
+     "name": "BSAudio::ExitDialogue",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11372352,
+     "name": "BSAudio::UnPauseSynchTimer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372416,
+     "name": "BSAudio::EndAllSoundsOfType",
+     "uses_this": true,
+     "touches_fields": false
+    }
+   ]
+  },
+  "BSAudioManager": {
+   "vtable_va": 17445736,
+   "pc_size": 392,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "<vftable>": "confirmed",
+    "iMessageListIndex": "confirmed",
+    "iMessageProcessingListIndex": "confirmed",
+    "Messages": "confirmed",
+    "FreeMessages": "confirmed",
+    "FreeQueueMessages": "confirmed",
+    "GarbageMessages": "confirmed",
+    "SoundList": "confirmed",
+    "SoundStateMap": "confirmed",
+    "StateUpdateMap": "confirmed",
+    "MovingRefrList": "confirmed",
+    "CachedSoundList": "confirmed",
+    "iCurrentCachSize": "confirmed",
+    "iWeatherFlags": "confirmed",
+    "fCurrentGamehour": "confirmed",
+    "MessageCritSection": "confirmed",
+    "StateCritSection": "confirmed",
+    "CacheCritSection": "confirmed",
+    "ProcessingCritSection": "confirmed",
+    "CacheLoadTaskCritSection": "confirmed",
+    "CacheLoadTaskList": "confirmed",
+    "iDelayTimerDelta": "confirmed",
+    "bPrecacheCompleted": "confirmed",
+    "bListenerMoved": "confirmed",
+    "dwAudioThreadID": "confirmed",
+    "pUpdateThread": "confirmed",
+    "fMasterVolume": "confirmed",
+    "fFootVolume": "confirmed",
+    "fVoiceVolume": "confirmed",
+    "fEffectsVolume": "confirmed",
+    "fMusicVolume": "confirmed",
+    "fRadioVolume": "confirmed",
+    "fMasterSecondaryVolume": "confirmed",
+    "fFootSecondaryVolume": "confirmed",
+    "fVoiceSecondaryVolume": "confirmed",
+    "fEffectsSecondaryVolume": "confirmed",
+    "fMusicSecondaryVolume": "confirmed",
+    "fRadioSecondaryVolume": "confirmed",
+    "iMuteMask": "confirmed",
+    "bDialogueFade": "confirmed",
+    "bListenerUnderwater": "confirmed",
+    "pPauseEntries": "confirmed",
+    "iPauseListSize": "confirmed",
+    "iNextID": "confirmed",
+    "bIgnoreGlobalTimeMultiplier": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "~BSAudioManager",
+     "decl": "~BSAudioManager()",
+     "status": "name+stack",
+     "checked_on": "BSAudioManager",
+     "pc_func_va": 11433888
+    }
+   },
+   "methods": [
+    {
+     "va": 6116880,
+     "name": "BSAudioManager::SetIgnoreTimescale",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11370208,
+     "name": "BSAudioManager::DebugPrintSounds_",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11372496,
+     "name": "BSAudioManager::ClearSecondaryVolumes",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374688,
+     "name": "BSAudioManager::GetSingleton",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11374816,
+     "name": "BSAudioManager::BSAudioManager",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11376192,
+     "name": "BSAudioManager::Initialize",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11376752,
+     "name": "BSAudioManager::Shutdown",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11378080,
+     "name": "BSAudioManager::InitVolumes",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11378480,
+     "name": "BSAudioManager::StartAudioThread",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11378720,
+     "name": "BSAudioManager::SuspendAudioThread",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11378928,
+     "name": "BSAudioManager::StopAudioThread",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11379456,
+     "name": "BSAudioManager::SetConditions",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11379504,
+     "name": "BSAudioManager::SynchVoiceStates",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11381808,
+     "name": "BSAudioManager::GetVolumeValue",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11382112,
+     "name": "BSAudioManager::PopFreeMessage",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11382688,
+     "name": "BSAudioManager::QueueMessage",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11383200,
+     "name": "BSAudioManager::ComposeMessage",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11383776,
+     "name": "BSAudioManager::Play",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384032,
+     "name": "BSAudioManager::PlayAfter",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384208,
+     "name": "BSAudioManager::Pause",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384336,
+     "name": "BSAudioManager::Stop",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384464,
+     "name": "BSAudioManager::StopMovingSounds",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384608,
+     "name": "BSAudioManager::SetStaticAttenuation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384768,
+     "name": "BSAudioManager::SetFrequency",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11384912,
+     "name": "BSAudioManager::SetModFrequency",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11385056,
+     "name": "BSAudioManager::SetFrequencyVariance",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11385184,
+     "name": "BSAudioManager::SetBalance",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11385200,
+     "name": "BSAudioManager::SetPosition",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11385328,
+     "name": "BSAudioManager::SetBeamEnd",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11385456,
+     "name": "BSAudioManager::SetMinMaxDistance",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11385648,
+     "name": "BSAudioManager::SetAttenuationCurve",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11386560,
+     "name": "BSAudioManager::SetReverbAttenuation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11386688,
+     "name": "BSAudioManager::SetOrientation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11386704,
+     "name": "BSAudioManager::Release",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11386832,
+     "name": "BSAudioManager::SetCompletionCallback",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11386960,
+     "name": "BSAudioManager::SetPlayCallback",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387088,
+     "name": "BSAudioManager::SetVolume",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387232,
+     "name": "BSAudioManager::VolumeChanged",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387360,
+     "name": "BSAudioManager::SetObjectToFollow",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387488,
+     "name": "BSAudioManager::Seek",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387616,
+     "name": "BSAudioManager::SetAtListener",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387744,
+     "name": "BSAudioManager::SetSynchStartTime",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11387872,
+     "name": "BSAudioManager::ClearSynchStartTime",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11388000,
+     "name": "BSAudioManager::SetPriority",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11388128,
+     "name": "BSAudioManager::SetTimeConstraints",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11388256,
+     "name": "BSAudioManager::FadeTo",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11388400,
+     "name": "BSAudioManager::FadeIn",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11388528,
+     "name": "BSAudioManager::FadeInPlay",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11388880,
+     "name": "BSAudioManager::IsValid",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11388976,
+     "name": "BSAudioManager::GetDuration",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11389104,
+     "name": "BSAudioManager::GetVolume",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11389200,
+     "name": "BSAudioManager::IsPlaying",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11389344,
+     "name": "BSAudioManager::GetSoundType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11389472,
+     "name": "BSAudioManager::MuteAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11389600,
+     "name": "BSAudioManager::UnMuteAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11389728,
+     "name": "BSAudioManager::PauseAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11389968,
+     "name": "BSAudioManager::UnPauseAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11390208,
+     "name": "BSAudioManager::KillAllOfType",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11390336,
+     "name": "BSAudioManager::AddToCache",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11391456,
+     "name": "BSAudioManager::GetFromCache",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11392128,
+     "name": "BSAudioManager::IsInCache",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11393376,
+     "name": "BSAudioManager::Precache",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11397776,
+     "name": "BSAudioManager::UpdateMovingSounds",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11399040,
+     "name": "BSAudioManager::PositionListener",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11399152,
+     "name": "BSAudioManager::SetListenerUnderwater",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11425408,
+     "name": "BSAudioManager::GetSoundHandleByEditorName",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11425904,
+     "name": "BSAudioManager::GetSoundHandleByFormID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11426384,
+     "name": "BSAudioManager::GetSoundHandleByFilePath",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11427824,
+     "name": "BSAudioManager::DebugPrintSounds",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11430896,
+     "name": "BSAudioManager::SetAudioCacheSize",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11431072,
+     "name": "BSAudioManager::SetCacheEnabled",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11431152,
+     "name": "BSAudioManager::IsEnableAudioCache",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11431216,
+     "name": "BSAudioManager::IsPausedType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11431392,
+     "name": "BSAudioManager::SetPausedType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11431520,
+     "name": "BSAudioManager::ClearPausedType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11431696,
+     "name": "BSAudioManager::RemoveTask",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BSSoundHandle": {
+   "pc_size": 12,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "iSoundID": "confirmed",
+    "bAssumeSuccess": "confirmed",
+    "eState": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 4294864,
+     "name": "BSSoundHandle::Clear",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4301392,
+     "name": "BSSoundHandle::BSSoundHandle",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6858704,
+     "name": "BSSoundHandle::SetPosition_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8830160,
+     "name": "BSSoundHandle::SetAddMovingSoundCallback",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11372592,
+     "name": "BSSoundHandle::Play",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372656,
+     "name": "BSSoundHandle::PlayAfter",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372720,
+     "name": "BSSoundHandle::Pause",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372784,
+     "name": "BSSoundHandle::Stop",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372848,
+     "name": "BSSoundHandle::IsPlaying",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372928,
+     "name": "BSSoundHandle::GetSoundType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11372976,
+     "name": "BSSoundHandle::SetStaticAttenuation",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373024,
+     "name": "BSSoundHandle::SetVolume",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373088,
+     "name": "BSSoundHandle::GetVolume",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373136,
+     "name": "BSSoundHandle::SetFrequency",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373200,
+     "name": "BSSoundHandle::SetModFrequency",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373264,
+     "name": "BSSoundHandle::SetFrequencyVariance",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373312,
+     "name": "BSSoundHandle::SetBalance",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373360,
+     "name": "BSSoundHandle::GetDuration",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373408,
+     "name": "BSSoundHandle::SetPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373472,
+     "name": "BSSoundHandle::SetBeamEnd",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373536,
+     "name": "BSSoundHandle::SetMinMaxDistance",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373600,
+     "name": "BSSoundHandle::SetAttenuationCurve",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373680,
+     "name": "BSSoundHandle::SetReverbAttenuation",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373728,
+     "name": "BSSoundHandle::SetOrientation",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373792,
+     "name": "BSSoundHandle::IsValid",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373840,
+     "name": "BSSoundHandle::Release",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373920,
+     "name": "BSSoundHandle::FadeInPlay",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11373984,
+     "name": "BSSoundHandle::FadeOutAndRelease",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374048,
+     "name": "BSSoundHandle::FadeTo",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374112,
+     "name": "BSSoundHandle::SetTimeConstraints",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374176,
+     "name": "BSSoundHandle::SetCompletionCallback",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374272,
+     "name": "BSSoundHandle::SetPlayCallback",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374368,
+     "name": "BSSoundHandle::SetObjectToFollow",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374448,
+     "name": "BSSoundHandle::Seek",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374496,
+     "name": "BSSoundHandle::SetFollowsListener",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374544,
+     "name": "BSSoundHandle::SetSynchStartTime",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374592,
+     "name": "BSSoundHandle::ClearSynchStartTime",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11374640,
+     "name": "BSSoundHandle::SetPriority",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "IMemoryHeap": {
+   "vtable_va": 17443016,
+   "pc_size": 4,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "~IMemoryHeap",
+     "decl": "~IMemoryHeap()",
+     "status": "name+stack",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 11171904
+    },
+    "1": {
+     "name": "GetName",
+     "decl": "const char* GetName()",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "2": {
+     "name": "Allocate",
+     "decl": "void* Allocate(unsigned, unsigned)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "3": {
+     "name": "Deallocate",
+     "decl": "void Deallocate(void*, unsigned)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "4": {
+     "name": "PointerInHeap",
+     "decl": "bool PointerInHeap(const void*)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "5": {
+     "name": "CheckHeapIntegrity",
+     "decl": "void CheckHeapIntegrity()",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "6": {
+     "name": "GetHeapStats",
+     "decl": "void GetHeapStats(HeapStats*, bool)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "7": {
+     "name": "OutputBucketInfo",
+     "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "8": {
+     "name": "OutputBlockInfo",
+     "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "9": {
+     "name": "Size",
+     "decl": "unsigned Size(const void*, unsigned)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "10": {
+     "name": "TotalSize",
+     "decl": "unsigned TotalSize(const void*)",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 15491322
+    },
+    "11": {
+     "name": "CheckDelayedFreeBlocks",
+     "decl": "void CheckDelayedFreeBlocks()",
+     "status": "stub",
+     "checked_on": "IMemoryHeap",
+     "pc_func_va": 11171888
+    }
+   },
+   "methods": []
+  },
+  "AbstractHeap": {
+   "vtable_va": 17443772,
+   "pc_size": 8432,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pName": "confirmed",
+    "iDefaultAlignment": "confirmed",
+    "MinFreeBlockSize": "confirmed",
+    "iPageSize": "confirmed",
+    "MemHeapSize": "confirmed",
+    "iInitialSize": "confirmed",
+    "iCurrentSize": "confirmed",
+    "iWastedMemory": "confirmed",
+    "iMemAllocated": "confirmed",
+    "iMemAllocatedHigh": "confirmed",
+    "iBlockMemAllocated": "confirmed",
+    "pMemHeap": "confirmed",
+    "iNumBlocks": "confirmed",
+    "pBlockHead": "confirmed",
+    "pBlockTail": "confirmed",
+    "iNumFreeBlocks": "confirmed",
+    "pSmallFreeList": "confirmed",
+    "pLastSmallList": "confirmed",
+    "LargeFreeList": "confirmed",
+    "pDelayedFreeBlocksA": "confirmed",
+    "iNextDelayedFreeIndex": "confirmed",
+    "pSubBuckets": "unverified",
+    "CriticalSectionO": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "~IMemoryHeap",
+     "decl": "~IMemoryHeap()",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183536
+    },
+    "1": {
+     "name": "GetName",
+     "decl": "const char* GetName()",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11173456
+    },
+    "2": {
+     "name": "Allocate",
+     "decl": "void* Allocate(unsigned, unsigned)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 15491322
+    },
+    "3": {
+     "name": "Deallocate",
+     "decl": "void Deallocate(void*, unsigned)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 15491322
+    },
+    "4": {
+     "name": "PointerInHeap",
+     "decl": "bool PointerInHeap(const void*)",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11173488
+    },
+    "5": {
+     "name": "CheckHeapIntegrity",
+     "decl": "void CheckHeapIntegrity()",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11182000
+    },
+    "6": {
+     "name": "GetHeapStats",
+     "decl": "void GetHeapStats(HeapStats*, bool)",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11182304
+    },
+    "7": {
+     "name": "OutputBucketInfo",
+     "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11182864
+    },
+    "8": {
+     "name": "OutputBlockInfo",
+     "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183152
+    },
+    "9": {
+     "name": "Size",
+     "decl": "unsigned Size(const void*, unsigned)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 15491322
+    },
+    "10": {
+     "name": "TotalSize",
+     "decl": "unsigned TotalSize(const void*)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 15491322
+    },
+    "11": {
+     "name": "CheckDelayedFreeBlocks",
+     "decl": "void CheckDelayedFreeBlocks()",
+     "status": "stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11181328
+    },
+    "12": {
+     "name": "DoHeapAllocation",
+     "decl": "void* DoHeapAllocation(unsigned, unsigned)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 15491322
+    },
+    "13": {
+     "name": "DoHeapFree",
+     "decl": "void DoHeapFree(void*)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 15491322
+    },
+    "14": {
+     "name": "CreateMorePages",
+     "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
+     "status": "stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183696
+    },
+    "15": {
+     "name": "CleanExtraPages",
+     "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
+     "status": "stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183696
+    },
+    "16": {
+     "name": "DecommitPages",
+     "decl": "void DecommitPages(FreeHeapBlock*)",
+     "status": "stub",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11160144
+    },
+    "17": {
+     "name": "CommitPages",
+     "decl": "void CommitPages(FreeHeapBlock*, unsigned)",
+     "status": "name+stack",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11544336
+    }
+   },
+   "methods": [
+    {
+     "va": 11173456,
+     "name": "AbstractHeap::GetName",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11173488,
+     "name": "AbstractHeap::PointerInHeap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11177120,
+     "name": "AbstractHeap::AbstractHeap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11177808,
+     "name": "AbstractHeap::BaseAllocate",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11179872,
+     "name": "AbstractHeap::OutputBlockFailure",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11180272,
+     "name": "AbstractHeap::BaseFree",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11180400,
+     "name": "AbstractHeap::MergeFreeBlocks",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11180656,
+     "name": "AbstractHeap::CleanEnd",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11181008,
+     "name": "AbstractHeap::TryAndDefragment",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11181216,
+     "name": "AbstractHeap::AddBlockToList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11181328,
+     "name": "AbstractHeap::Func0011",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11181360,
+     "name": "AbstractHeap::AddBlockToFreeList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11181648,
+     "name": "AbstractHeap::RemoveBlockFromList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11181808,
+     "name": "AbstractHeap::AddToSmallList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11181904,
+     "name": "AbstractHeap::RemoveFromSmallList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11182000,
+     "name": "AbstractHeap::CheckHeapIntegrity",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11182288,
+     "name": "AbstractHeap::CheckBlockValidity",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11182304,
+     "name": "AbstractHeap::GetHeapStats",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11182864,
+     "name": "AbstractHeap::OutputBucketInfo",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11183152,
+     "name": "AbstractHeap::OutputBlockInfo",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11183712,
+     "name": "AbstractHeap::RemoveBlockFromFreeList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11544336,
+     "name": "AbstractHeap::CommitPages",
+     "uses_this": true,
+     "touches_fields": false
+    }
+   ]
+  },
+  "MemoryHeap": {
+   "vtable_va": 17443068,
+   "pc_size": 8436,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "bSupportsSwapping": "confirmed",
+    "bDeletingHeap": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "~IMemoryHeap",
+     "decl": "~IMemoryHeap()",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173408
+    },
+    "1": {
+     "name": "GetName",
+     "decl": "const char* GetName()",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173456
+    },
+    "2": {
+     "name": "Allocate",
+     "decl": "void* Allocate(unsigned, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172640
+    },
+    "3": {
+     "name": "Deallocate",
+     "decl": "void Deallocate(void*, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172672
+    },
+    "4": {
+     "name": "PointerInHeap",
+     "decl": "bool PointerInHeap(const void*)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173488
+    },
+    "5": {
+     "name": "CheckHeapIntegrity",
+     "decl": "void CheckHeapIntegrity()",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11182000
+    },
+    "6": {
+     "name": "GetHeapStats",
+     "decl": "void GetHeapStats(HeapStats*, bool)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172960
+    },
+    "7": {
+     "name": "OutputBucketInfo",
+     "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173024
+    },
+    "8": {
+     "name": "OutputBlockInfo",
+     "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173120
+    },
+    "9": {
+     "name": "Size",
+     "decl": "unsigned Size(const void*, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172832
+    },
+    "10": {
+     "name": "TotalSize",
+     "decl": "unsigned TotalSize(const void*)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172864
+    },
+    "11": {
+     "name": "CheckDelayedFreeBlocks",
+     "decl": "void CheckDelayedFreeBlocks()",
+     "status": "stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11181328
+    },
+    "12": {
+     "name": "DoHeapAllocation",
+     "decl": "void* DoHeapAllocation(unsigned, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172256
+    },
+    "13": {
+     "name": "DoHeapFree",
+     "decl": "void DoHeapFree(void*)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172400
+    },
+    "14": {
+     "name": "CreateMorePages",
+     "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172432
+    },
+    "15": {
+     "name": "CleanExtraPages",
+     "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172528
+    },
+    "16": {
+     "name": "DecommitPages",
+     "decl": "void DecommitPages(FreeHeapBlock*)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11173216
+    },
+    "17": {
+     "name": "CommitPages",
+     "decl": "void CommitPages(FreeHeapBlock*, unsigned)",
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11544336
+    }
+   },
+   "methods": [
+    {
+     "va": 11172000,
+     "name": "MemoryHeap::MemoryHeap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11172256,
+     "name": "MemoryHeap::DoHeapAllocation",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11172400,
+     "name": "MemoryHeap::DoHeapFree",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11172432,
+     "name": "MemoryHeap::CreateMorePages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11172528,
+     "name": "MemoryHeap::CleanExtraPages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11172640,
+     "name": "MemoryHeap::Allocate",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11172672,
+     "name": "MemoryHeap::Deallocate",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11172832,
+     "name": "MemoryHeap::Size",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11172864,
+     "name": "MemoryHeap::TotalSize",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11172960,
+     "name": "MemoryHeap::GetHeapStats",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11173024,
+     "name": "MemoryHeap::OutputBucketInfo",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11173120,
+     "name": "MemoryHeap::OutputBlockInfo",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11173216,
+     "name": "MemoryHeap::DecommitPages",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11177424,
+     "name": "MemoryHeap::InitHeap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11177632,
+     "name": "MemoryHeap::DestroyHeap",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "ScrapHeap": {
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pMemHeap": "confirmed",
+    "pCurrentStackLoc": "confirmed",
+    "pEndHeap": "confirmed",
+    "pLastBlock": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 11162608,
+     "name": "ScrapHeap::ScrapHeap",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11162640,
+     "name": "ScrapHeap::ScrapHeap_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11162784,
+     "name": "ScrapHeap::Allocate",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11163152,
+     "name": "ScrapHeap::Deallocate",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11163408,
+     "name": "ScrapHeap::Size",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11163456,
+     "name": "ScrapHeap::Clean",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11163504,
+     "name": "ScrapHeap::CheckForLeaks",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11163568,
+     "name": "ScrapHeap::Init",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11163648,
+     "name": "ScrapHeap::GetAllocationCount",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "MemoryManager": {
+   "pc_size": 312,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "bInitialized": "confirmed",
+    "iNumHeaps": "confirmed",
+    "iNumPhysicalHeaps": "confirmed",
+    "ppHeaps": "confirmed",
+    "pHeapsByContextA": "confirmed",
+    "kThreadScrapHeapMap": "confirmed",
+    "ppPhysicalHeaps": "confirmed",
+    "bSpecialHeaps": "confirmed",
+    "bAllowPoolUse": "confirmed",
+    "iSysAllocBytes": "confirmed",
+    "iMallocBytes": "confirmed",
+    "iMainThreadMemoryProblemPassSignal": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 4198432,
+     "name": "MemoryManager::GetSingleton",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 8808080,
+     "name": "MemoryManager::RegisterMemoryManager",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8808304,
+     "name": "MemoryManager::SpecifyPools",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8809104,
+     "name": "MemoryManager::ProcessMemoryProblem",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8809984,
+     "name": "MemoryManager::SpecifyMemoryLayout",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8880400,
+     "name": "MemoryManager::GetMainThreadMemoryProblemPassSignal",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8880432,
+     "name": "MemoryManager::ClearMainThreadMemoryProblemPassSignal",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11155584,
+     "name": "MemoryManager::MemoryManager",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11155904,
+     "name": "MemoryManager::Initialize",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11156672,
+     "name": "MemoryManager::CreatePool",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11157056,
+     "name": "MemoryManager::Allocate",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11157552,
+     "name": "MemoryManager::Allocate_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11157600,
+     "name": "MemoryManager::Deallocate",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11157840,
+     "name": "MemoryManager::Reallocate",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11158160,
+     "name": "MemoryManager::DoSystemAllocation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11158208,
+     "name": "MemoryManager::DoSystemDeallocation",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11158240,
+     "name": "MemoryManager::GetThreadScrapHeap",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11158432,
+     "name": "MemoryManager::CheckMemoryIntegrity",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11158528,
+     "name": "MemoryManager::CheckDelayedFreeBlocks",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11158624,
+     "name": "MemoryManager::EnableDelayedFree",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11158640,
+     "name": "MemoryManager::DisableDelayedFree",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11158656,
+     "name": "MemoryManager::SetCheckMemOnFree",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11158672,
+     "name": "MemoryManager::GetDelayedFreeEnabled",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11158704,
+     "name": "MemoryManager::GetCheckMemOnFree",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 11158720,
+     "name": "MemoryManager::Size",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11158944,
+     "name": "MemoryManager::GetHeapForPointer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11159056,
+     "name": "MemoryManager::GetHeapForPhysicalPointer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11159200,
+     "name": "MemoryManager::GetHeapByIndex",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11159312,
+     "name": "MemoryManager::GetHeapStats",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11159392,
+     "name": "MemoryManager::GetPhysicalHeapStats",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11159440,
+     "name": "MemoryManager::GetDefaultHeapStats",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 11159488,
+     "name": "MemoryManager::OutputDebugInfo",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 13061792,
+     "name": "MemoryManager::AlignedAllocate16",
+     "uses_this": false,
+     "touches_fields": false
+    }
+   ]
+  },
+  "HeapBlock": {
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "pPrevious": "confirmed",
+    "iMemSize": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 11183584,
+     "name": "HeapBlock::ListRemove",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11183840,
+     "name": "HeapBlock::Init",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "FreeHeapBlock": {
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "pPrevious": "confirmed",
+    "iMemSize": "confirmed",
+    "pPrevFree": "confirmed",
+    "pNextFree": "confirmed"
+   },
+   "vslots": {},
+   "methods": []
+  },
+  "FreeHeapBlockList": {
+   "pc_size": 8,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pHead": "unverified",
+    "pTail": "unverified"
+   },
+   "vslots": {},
+   "methods": []
+  }
+ }
+}

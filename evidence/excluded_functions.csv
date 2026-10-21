@@ -1,0 +1,3 @@
+class,pc_func_va,pc_name,reason
+TESForm,0x481390,TESForm::InitInContainer,"«TESForm::InitInContainer» на деле работает с элементом контейнера: +4 — указатель на форму (GetFormByNumericID → DYNAMIC_CAST → запись в +4), +8 — ContainerItemExtra; на Xbox функции с таким именем нет"
+BSAudio,0xAEA100,BSAudio::SynchTimerUpdate,"«BSAudio::SynchTimerUpdate» — это BSAudioSynchTimer::Update: стоит между конструктором (0xAEA0A0), деструктором (0xAEA0D0) и Restart (0xAEA150) BSAudioSynchTimer; +4 = iLastUpdateTime, +8 = iFlags таймера"

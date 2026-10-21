@@ -1,5 +1,5 @@
 // Единица компиляции только ради отладочной информации о типах.
-#include "fnv_types_v01.h"
+#include "fnv_types_v02.h"
 #define REF(T) T* g_ref_##T = nullptr;
 REF(BaseFormComponent) REF(TESForm) REF(TESDataHandler) REF(BSGameSound) REF(BSAudio) REF(BSAudioManager)
 REF(BSSoundHandle) REF(IMemoryHeap) REF(AbstractHeap) REF(MemoryHeap) REF(ScrapHeap) REF(MemoryManager)

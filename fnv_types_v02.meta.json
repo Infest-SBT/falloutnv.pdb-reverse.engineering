@@ -1,0 +1,3570 @@
+{
+ "source": "Xbox 360 Fallout.pdb (Release Final) GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C",
+ "pc_exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "classes": [
+  {
+   "name": "BaseFormComponent",
+   "base": null,
+   "pc_size": 4,
+   "xbox_size": 4,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "InitializeDataComponent",
+     "xbox_name": "InitializeDataComponent",
+     "decl": "void InitializeDataComponent()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 1,
+     "xbox_slot": 1,
+     "name": "ClearDataComponent",
+     "xbox_name": "ClearDataComponent",
+     "decl": "void ClearDataComponent()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 2,
+     "xbox_slot": 2,
+     "name": "CopyComponent",
+     "xbox_name": "CopyComponent",
+     "decl": "void CopyComponent(BaseFormComponent*)",
+     "ret": "void",
+     "args": [
+      "BaseFormComponent*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 3,
+     "xbox_slot": 3,
+     "name": "CompareComponent",
+     "xbox_name": "CompareComponent",
+     "decl": "bool CompareComponent(BaseFormComponent*)",
+     "ret": "bool",
+     "args": [
+      "BaseFormComponent*"
+     ],
+     "expect_ret_n": 4
+    }
+   ],
+   "fields": [],
+   "align": 4
+  },
+  {
+   "name": "TESForm",
+   "base": "BaseFormComponent",
+   "pc_size": 24,
+   "xbox_size": 24,
+   "vslots": [
+    {
+     "slot": 4,
+     "xbox_slot": 4,
+     "name": "~TESForm",
+     "decl": "~TESForm()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    },
+    {
+     "slot": 5,
+     "xbox_slot": 5,
+     "name": "InitializeData",
+     "xbox_name": "InitializeData",
+     "decl": "void InitializeData()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 6,
+     "xbox_slot": 6,
+     "name": "ClearData",
+     "xbox_name": "ClearData",
+     "decl": "void ClearData()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 7,
+     "xbox_slot": 7,
+     "name": "ProcessBeforeSave",
+     "xbox_name": "ProcessBeforeSave",
+     "decl": "bool ProcessBeforeSave()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 8,
+     "xbox_slot": 8,
+     "name": "Load",
+     "xbox_name": "Load",
+     "decl": "bool Load(TESFile*)",
+     "ret": "bool",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 9,
+     "xbox_slot": 9,
+     "name": "LoadPartial",
+     "xbox_name": "LoadPartial",
+     "decl": "bool LoadPartial(TESFile*)",
+     "ret": "bool",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 10,
+     "xbox_slot": 10,
+     "name": "Save",
+     "xbox_name": "Save",
+     "decl": "bool Save(TESFile*)",
+     "ret": "bool",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 11,
+     "xbox_slot": 11,
+     "name": "Save_2",
+     "xbox_name": "Save",
+     "decl": "void Save_2()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 12,
+     "xbox_slot": 12,
+     "name": "LoadEdit",
+     "xbox_name": "LoadEdit",
+     "decl": "bool LoadEdit(TESFile*)",
+     "ret": "bool",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 13,
+     "xbox_slot": 13,
+     "name": "SaveEdit",
+     "xbox_name": "SaveEdit",
+     "decl": "bool SaveEdit(TESFile*)",
+     "ret": "bool",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 14,
+     "xbox_slot": 14,
+     "name": "SavesBefore",
+     "xbox_name": "SavesBefore",
+     "decl": "bool SavesBefore(FORM*)",
+     "ret": "bool",
+     "args": [
+      "FORM*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 15,
+     "xbox_slot": 15,
+     "name": "SavesBefore_2",
+     "xbox_name": "SavesBefore",
+     "decl": "bool SavesBefore_2(TESForm*)",
+     "ret": "bool",
+     "args": [
+      "TESForm*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 16,
+     "xbox_slot": 16,
+     "name": "CreateDuplicateForm",
+     "xbox_name": "CreateDuplicateForm",
+     "decl": "TESForm* CreateDuplicateForm(bool, void*)",
+     "ret": "TESForm*",
+     "args": [
+      "bool",
+      "void*"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 17,
+     "xbox_slot": 17,
+     "name": "PostDuplicateProcess",
+     "xbox_name": "PostDuplicateProcess",
+     "decl": "void PostDuplicateProcess(void*)",
+     "ret": "void",
+     "args": [
+      "void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 18,
+     "xbox_slot": 18,
+     "name": "AddChange",
+     "xbox_name": "AddChange",
+     "decl": "void AddChange(int)",
+     "ret": "void",
+     "args": [
+      "int"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 19,
+     "xbox_slot": 19,
+     "name": "RemoveChange",
+     "xbox_name": "RemoveChange",
+     "decl": "void RemoveChange(int)",
+     "ret": "void",
+     "args": [
+      "int"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 20,
+     "xbox_slot": 20,
+     "name": "GetSaveSize",
+     "xbox_name": "GetSaveSize",
+     "decl": "unsigned short GetSaveSize(unsigned)",
+     "ret": "unsigned short",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 21,
+     "xbox_slot": 21,
+     "name": "SaveGame",
+     "xbox_name": "SaveGame",
+     "decl": "void SaveGame(BGSSaveFormBuffer*)",
+     "ret": "void",
+     "args": [
+      "BGSSaveFormBuffer*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 22,
+     "xbox_slot": 22,
+     "name": "SaveGame_2",
+     "xbox_name": "SaveGame",
+     "decl": "void SaveGame_2(unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 23,
+     "xbox_slot": 23,
+     "name": "LoadGame",
+     "xbox_name": "LoadGame",
+     "decl": "void LoadGame(BGSLoadFormBuffer*)",
+     "ret": "void",
+     "args": [
+      "BGSLoadFormBuffer*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 24,
+     "xbox_slot": 24,
+     "name": "LoadGame_2",
+     "xbox_name": "LoadGame",
+     "decl": "void LoadGame_2(unsigned, unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 25,
+     "xbox_slot": 25,
+     "name": "InitLoadGame",
+     "xbox_name": "InitLoadGame",
+     "decl": "void InitLoadGame(BGSLoadFormBuffer*)",
+     "ret": "void",
+     "args": [
+      "BGSLoadFormBuffer*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 26,
+     "xbox_slot": 26,
+     "name": "InitLoadGame_2",
+     "xbox_name": "InitLoadGame",
+     "decl": "void InitLoadGame_2(unsigned, unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 27,
+     "xbox_slot": 27,
+     "name": "FinishInitLoadGame",
+     "xbox_name": "FinishInitLoadGame",
+     "decl": "void FinishInitLoadGame(unsigned, unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 28,
+     "xbox_slot": 28,
+     "name": "Revert",
+     "xbox_name": "Revert",
+     "decl": "void Revert(BGSLoadFormBuffer*)",
+     "ret": "void",
+     "args": [
+      "BGSLoadFormBuffer*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 29,
+     "xbox_slot": 29,
+     "name": "Revert_2",
+     "xbox_name": "Revert",
+     "decl": "void Revert_2(unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 30,
+     "xbox_slot": 30,
+     "name": "LoadQueuedFormData",
+     "xbox_name": "LoadQueuedFormData",
+     "decl": "void LoadQueuedFormData(unsigned short)",
+     "ret": "void",
+     "args": [
+      "unsigned short"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 31,
+     "xbox_slot": 31,
+     "name": "FindInFileFast",
+     "xbox_name": "FindInFileFast",
+     "decl": "bool FindInFileFast(TESFile*)",
+     "ret": "bool",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 32,
+     "xbox_slot": 32,
+     "name": "CheckSaveGame",
+     "xbox_name": "CheckSaveGame",
+     "decl": "void CheckSaveGame(BGSSaveFormBuffer*)",
+     "ret": "void",
+     "args": [
+      "BGSSaveFormBuffer*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 33,
+     "xbox_slot": 33,
+     "name": "FinishLoadGame",
+     "xbox_name": "FinishLoadGame",
+     "decl": "void FinishLoadGame(BGSLoadFormBuffer*)",
+     "ret": "void",
+     "args": [
+      "BGSLoadFormBuffer*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 34,
+     "xbox_slot": 34,
+     "name": "InitItem",
+     "xbox_name": "InitItem",
+     "decl": "void InitItem()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 35,
+     "xbox_slot": 35,
+     "name": "GetSavedFormType",
+     "xbox_name": "GetSavedFormType",
+     "decl": "int GetSavedFormType()",
+     "ret": "int",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 36,
+     "xbox_slot": 36,
+     "name": "GetFormDetailedString",
+     "xbox_name": "GetFormDetailedString",
+     "decl": "void GetFormDetailedString(void*)",
+     "ret": "void",
+     "args": [
+      "void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 37,
+     "xbox_slot": 37,
+     "name": "GetQuestObject",
+     "xbox_name": "GetQuestObject",
+     "decl": "bool GetQuestObject()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 38,
+     "xbox_slot": 38,
+     "name": "GetHasSpokenFlag",
+     "xbox_name": "GetHasSpokenFlag",
+     "decl": "bool GetHasSpokenFlag()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 39,
+     "xbox_slot": 39,
+     "name": "GetHavokDeath",
+     "xbox_name": "GetHavokDeath",
+     "decl": "bool GetHavokDeath()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 40,
+     "xbox_slot": 40,
+     "name": "GetRandomAnim",
+     "xbox_name": "GetRandomAnim",
+     "decl": "bool GetRandomAnim()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 41,
+     "xbox_slot": 41,
+     "name": "GetNeedtoChangeProcess",
+     "xbox_name": "GetNeedtoChangeProcess",
+     "decl": "bool GetNeedtoChangeProcess()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 42,
+     "xbox_slot": 42,
+     "name": "GetDangerous",
+     "xbox_name": "GetDangerous",
+     "decl": "bool GetDangerous()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 43,
+     "xbox_slot": 43,
+     "name": "GetHasPLSpecTex",
+     "xbox_name": "GetHasPLSpecTex",
+     "decl": "bool GetHasPLSpecTex()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 44,
+     "xbox_slot": 44,
+     "name": "GetObstacle",
+     "xbox_name": "GetObstacle",
+     "decl": "bool GetObstacle()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 45,
+     "xbox_slot": 45,
+     "name": "GetContinuousBroadcast",
+     "xbox_name": "GetContinuousBroadcast",
+     "decl": "bool GetContinuousBroadcast()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 46,
+     "xbox_slot": 46,
+     "name": "GetOnLocalMap",
+     "xbox_name": "GetOnLocalMap",
+     "decl": "bool GetOnLocalMap()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 47,
+     "xbox_slot": 47,
+     "name": "SetOnLocalMap",
+     "xbox_name": "SetOnLocalMap",
+     "decl": "void SetOnLocalMap(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 48,
+     "xbox_slot": 48,
+     "name": "GetEmittanceColor",
+     "xbox_name": "GetEmittanceColor",
+     "decl": "NiColor* GetEmittanceColor()",
+     "ret": "NiColor*",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 49,
+     "xbox_slot": 49,
+     "name": "SetDelete",
+     "xbox_name": "SetDelete",
+     "decl": "void SetDelete(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 50,
+     "xbox_slot": 50,
+     "name": "SetAltered",
+     "xbox_name": "SetAltered",
+     "decl": "void SetAltered(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 51,
+     "xbox_slot": 51,
+     "name": "SetQuestObject",
+     "xbox_name": "SetQuestObject",
+     "decl": "void SetQuestObject(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 52,
+     "xbox_slot": 52,
+     "name": "SetHasSpokenFlag",
+     "xbox_name": "SetHasSpokenFlag",
+     "decl": "void SetHasSpokenFlag(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 53,
+     "xbox_slot": 53,
+     "name": "SetHavokDeath",
+     "xbox_name": "SetHavokDeath",
+     "decl": "void SetHavokDeath(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 54,
+     "xbox_slot": 54,
+     "name": "SetNeedToChangeProcess",
+     "xbox_name": "SetNeedToChangeProcess",
+     "decl": "void SetNeedToChangeProcess(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 55,
+     "xbox_slot": 55,
+     "name": "SaveObjectBound",
+     "xbox_name": "SaveObjectBound",
+     "decl": "void SaveObjectBound()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 56,
+     "xbox_slot": 56,
+     "name": "LoadObjectBound",
+     "xbox_name": "LoadObjectBound",
+     "decl": "void LoadObjectBound(TESFile*)",
+     "ret": "void",
+     "args": [
+      "TESFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 57,
+     "xbox_slot": 57,
+     "name": "IsBoundObject",
+     "xbox_name": "IsBoundObject",
+     "decl": "bool IsBoundObject()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 58,
+     "xbox_slot": 58,
+     "name": "IsObject",
+     "xbox_name": "IsObject",
+     "decl": "bool IsObject()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 59,
+     "xbox_slot": 59,
+     "name": "IsMagicItem",
+     "xbox_name": "IsMagicItem",
+     "decl": "bool IsMagicItem()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 60,
+     "xbox_slot": 60,
+     "name": "IsReference",
+     "xbox_name": "IsReference",
+     "decl": "bool IsReference()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 61,
+     "xbox_slot": 61,
+     "name": "IsArmorAddon",
+     "xbox_name": "IsArmorAddon",
+     "decl": "bool IsArmorAddon()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 62,
+     "xbox_slot": 62,
+     "name": "IsActorBase",
+     "xbox_name": "IsActorBase",
+     "decl": "bool IsActorBase()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 63,
+     "xbox_slot": 63,
+     "name": "IsMobileObject",
+     "xbox_name": "IsMobileObject",
+     "decl": "bool IsMobileObject()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 64,
+     "xbox_slot": 64,
+     "name": "IsActor",
+     "xbox_name": "IsActor",
+     "decl": "bool IsActor()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 65,
+     "xbox_slot": 65,
+     "name": "GetRefCount",
+     "xbox_name": "GetRefCount",
+     "decl": "unsigned GetRefCount()",
+     "ret": "unsigned",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 66,
+     "xbox_slot": 66,
+     "name": "Copy",
+     "xbox_name": "Copy",
+     "decl": "void Copy(TESForm*)",
+     "ret": "void",
+     "args": [
+      "TESForm*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 67,
+     "xbox_slot": 67,
+     "name": "Compare",
+     "xbox_name": "Compare",
+     "decl": "bool Compare(TESForm*)",
+     "ret": "bool",
+     "args": [
+      "TESForm*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 68,
+     "xbox_slot": 68,
+     "name": "BelongsInGroup",
+     "xbox_name": "BelongsInGroup",
+     "decl": "bool BelongsInGroup(FORM*, bool, bool)",
+     "ret": "bool",
+     "args": [
+      "FORM*",
+      "bool",
+      "bool"
+     ],
+     "expect_ret_n": 12
+    },
+    {
+     "slot": 69,
+     "xbox_slot": 69,
+     "name": "CreateGroupData",
+     "xbox_name": "CreateGroupData",
+     "decl": "void CreateGroupData(FORM*, FORM_GROUP*)",
+     "ret": "void",
+     "args": [
+      "FORM*",
+      "FORM_GROUP*"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 70,
+     "xbox_slot": 70,
+     "name": "IsParentForm",
+     "xbox_name": "IsParentForm",
+     "decl": "bool IsParentForm()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 71,
+     "xbox_slot": 71,
+     "name": "IsParentFormTree",
+     "xbox_name": "IsParentFormTree",
+     "decl": "bool IsParentFormTree()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 72,
+     "xbox_slot": 72,
+     "name": "IsFormTypeChild",
+     "xbox_name": "IsFormTypeChild",
+     "decl": "bool IsFormTypeChild(unsigned char)",
+     "ret": "bool",
+     "args": [
+      "unsigned char"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 73,
+     "xbox_slot": 73,
+     "name": "Activate",
+     "xbox_name": "Activate",
+     "decl": "bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int)",
+     "ret": "bool",
+     "args": [
+      "TESObjectREFR*",
+      "TESObjectREFR*",
+      "bool",
+      "TESBoundObject*",
+      "int"
+     ],
+     "expect_ret_n": 20
+    },
+    {
+     "slot": 74,
+     "xbox_slot": 74,
+     "name": "SetFormID",
+     "xbox_name": "SetFormID",
+     "decl": "void SetFormID(unsigned, bool)",
+     "ret": "void",
+     "args": [
+      "unsigned",
+      "bool"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 75,
+     "xbox_slot": 75,
+     "name": "GetObjectTypeName",
+     "xbox_name": "GetObjectTypeName",
+     "decl": "char* GetObjectTypeName()",
+     "ret": "char*",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 76,
+     "xbox_slot": 76,
+     "name": "GetFormEditorID",
+     "xbox_name": "GetFormEditorID",
+     "decl": "const char* GetFormEditorID()",
+     "ret": "const char*",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 77,
+     "xbox_slot": 77,
+     "name": "SetFormEditorID",
+     "xbox_name": "SetFormEditorID",
+     "decl": "bool SetFormEditorID(const char*)",
+     "ret": "bool",
+     "args": [
+      "const char*"
+     ],
+     "expect_ret_n": 4
+    }
+   ],
+   "fields": [
+    {
+     "name": "cFormType",
+     "off": 4,
+     "size": 1,
+     "xbox_type": "unsigned char",
+     "opaque": false,
+     "decl": "unsigned char cFormType;"
+    },
+    {
+     "name": "iFormFlags",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iFormFlags;"
+    },
+    {
+     "name": "iFormID",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iFormID;"
+    },
+    {
+     "name": "pSourceFiles",
+     "off": 16,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESFile *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char pSourceFiles[8];"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "TESDataHandler",
+   "base": null,
+   "pc_size": 1596,
+   "xbox_size": 1596,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "cDLCFlags",
+     "off": 0,
+     "size": 1,
+     "xbox_type": "char",
+     "opaque": false,
+     "decl": "char cDLCFlags;"
+    },
+    {
+     "name": "pObjectList",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "TESObjectList*",
+     "opaque": false,
+     "decl": "TESObjectList* pObjectList;"
+    },
+    {
+     "name": "listPackages",
+     "off": 8,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESPackage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listPackages[8];"
+    },
+    {
+     "name": "listWorldSpaces",
+     "off": 16,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESWorldSpace *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listWorldSpaces[8];"
+    },
+    {
+     "name": "listClimates",
+     "off": 24,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESClimate *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listClimates[8];"
+    },
+    {
+     "name": "listImageSpaces",
+     "off": 32,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESImageSpace *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listImageSpaces[8];"
+    },
+    {
+     "name": "listImageSpaceModifiers",
+     "off": 40,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESImageSpaceModifier *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listImageSpaceModifiers[8];"
+    },
+    {
+     "name": "listWeather",
+     "off": 48,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESWeather *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listWeather[8];"
+    },
+    {
+     "name": "listEnchantmentItems",
+     "off": 56,
+     "size": 8,
+     "xbox_type": "BSSimpleList<EnchantmentItem *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listEnchantmentItems[8];"
+    },
+    {
+     "name": "listSpellItems",
+     "off": 64,
+     "size": 8,
+     "xbox_type": "BSSimpleList<SpellItem *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listSpellItems[8];"
+    },
+    {
+     "name": "listHeadParts",
+     "off": 72,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSHeadPart *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listHeadParts[8];"
+    },
+    {
+     "name": "listHair",
+     "off": 80,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESHair *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listHair[8];"
+    },
+    {
+     "name": "listEyes",
+     "off": 88,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESEyes *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listEyes[8];"
+    },
+    {
+     "name": "listRaces",
+     "off": 96,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESRace *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listRaces[8];"
+    },
+    {
+     "name": "listZones",
+     "off": 104,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSEncounterZone *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listZones[8];"
+    },
+    {
+     "name": "listLandTexts",
+     "off": 112,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESLandTexture *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listLandTexts[8];"
+    },
+    {
+     "name": "listCameraShots",
+     "off": 120,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSCameraShot *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listCameraShots[8];"
+    },
+    {
+     "name": "listClasses",
+     "off": 128,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESClass *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listClasses[8];"
+    },
+    {
+     "name": "listFactions",
+     "off": 136,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESFaction *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listFactions[8];"
+    },
+    {
+     "name": "listReputations",
+     "off": 144,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESReputation *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listReputations[8];"
+    },
+    {
+     "name": "listChallenges",
+     "off": 152,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESChallenge *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listChallenges[8];"
+    },
+    {
+     "name": "listRecipes",
+     "off": 160,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESRecipe *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listRecipes[8];"
+    },
+    {
+     "name": "listRecipeCategories",
+     "off": 168,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESRecipeCategory *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listRecipeCategories[8];"
+    },
+    {
+     "name": "listAmmoEffects",
+     "off": 176,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESAmmoEffect *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listAmmoEffects[8];"
+    },
+    {
+     "name": "listCasinos",
+     "off": 184,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESCasino *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listCasinos[8];"
+    },
+    {
+     "name": "listCaravanDecks",
+     "off": 192,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESCaravanDeck *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listCaravanDecks[8];"
+    },
+    {
+     "name": "listScripts",
+     "off": 200,
+     "size": 8,
+     "xbox_type": "BSSimpleList<Script *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listScripts[8];"
+    },
+    {
+     "name": "listSounds",
+     "off": 208,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESSound *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listSounds[8];"
+    },
+    {
+     "name": "listAcousticSpaces",
+     "off": 216,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSAcousticSpace *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listAcousticSpaces[8];"
+    },
+    {
+     "name": "listRagdolls",
+     "off": 224,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSRagdoll *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listRagdolls[8];"
+    },
+    {
+     "name": "listGlobals",
+     "off": 232,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESGlobal *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listGlobals[8];"
+    },
+    {
+     "name": "listVoiceTypes",
+     "off": 240,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSVoiceType *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listVoiceTypes[8];"
+    },
+    {
+     "name": "listImpactData",
+     "off": 248,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSImpactData *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listImpactData[8];"
+    },
+    {
+     "name": "listImpactDataSet",
+     "off": 256,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSImpactDataSet *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listImpactDataSet[8];"
+    },
+    {
+     "name": "listTopics",
+     "off": 264,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESTopic *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listTopics[8];"
+    },
+    {
+     "name": "listTopicInfos",
+     "off": 272,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESTopicInfo *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listTopicInfos[8];"
+    },
+    {
+     "name": "listQuests",
+     "off": 280,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESQuest *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listQuests[8];"
+    },
+    {
+     "name": "listCombatStyles",
+     "off": 288,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESCombatStyle *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listCombatStyles[8];"
+    },
+    {
+     "name": "listLoadScreens",
+     "off": 296,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESLoadScreen *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listLoadScreens[8];"
+    },
+    {
+     "name": "listWater",
+     "off": 304,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESWaterForm *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listWater[8];"
+    },
+    {
+     "name": "listEffectShaders",
+     "off": 312,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESEffectShader *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listEffectShaders[8];"
+    },
+    {
+     "name": "listProjectiles",
+     "off": 320,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSProjectile *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listProjectiles[8];"
+    },
+    {
+     "name": "listExplosions",
+     "off": 328,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSExplosion *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listExplosions[8];"
+    },
+    {
+     "name": "listRadiation",
+     "off": 336,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSRadiationStage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listRadiation[8];"
+    },
+    {
+     "name": "listDehydration",
+     "off": 344,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSDehydrationStage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listDehydration[8];"
+    },
+    {
+     "name": "listHunger",
+     "off": 352,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSHungerStage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listHunger[8];"
+    },
+    {
+     "name": "listSleepDeprevation",
+     "off": 360,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSSleepDeprevationStage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listSleepDeprevation[8];"
+    },
+    {
+     "name": "listDebris",
+     "off": 368,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSDebris *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listDebris[8];"
+    },
+    {
+     "name": "listPerks",
+     "off": 376,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSPerk *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listPerks[8];"
+    },
+    {
+     "name": "listPartData",
+     "off": 384,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSBodyPartData *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listPartData[8];"
+    },
+    {
+     "name": "listNotes",
+     "off": 392,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSNote *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listNotes[8];"
+    },
+    {
+     "name": "listListForms",
+     "off": 400,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSListForm *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listListForms[8];"
+    },
+    {
+     "name": "listMenuIcons",
+     "off": 408,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSMenuIcon *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listMenuIcons[8];"
+    },
+    {
+     "name": "animObjects",
+     "off": 416,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESObjectANIO *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char animObjects[8];"
+    },
+    {
+     "name": "listMessages",
+     "off": 424,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSMessage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listMessages[8];"
+    },
+    {
+     "name": "listLightingTemplates",
+     "off": 432,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSLightingTemplate *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listLightingTemplates[8];"
+    },
+    {
+     "name": "listMusicTypes",
+     "off": 440,
+     "size": 8,
+     "xbox_type": "BSSimpleList<BGSMusicType *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listMusicTypes[8];"
+    },
+    {
+     "name": "listLoadScreenTypes",
+     "off": 448,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESLoadScreenType *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listLoadScreenTypes[8];"
+    },
+    {
+     "name": "listMediaSets",
+     "off": 456,
+     "size": 8,
+     "xbox_type": "BSSimpleList<MediaSet *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listMediaSets[8];"
+    },
+    {
+     "name": "listMediaLocationControllers",
+     "off": 464,
+     "size": 8,
+     "xbox_type": "BSSimpleList<MediaLocationController *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listMediaLocationControllers[8];"
+    },
+    {
+     "name": "pRegionList",
+     "off": 472,
+     "size": 4,
+     "xbox_type": "TESRegionList*",
+     "opaque": false,
+     "decl": "TESRegionList* pRegionList;"
+    },
+    {
+     "name": "arrayInteriorCells",
+     "off": 476,
+     "size": 16,
+     "xbox_type": "NiTPrimitiveArray<TESObjectCELL *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char arrayInteriorCells[16];"
+    },
+    {
+     "name": "arrayAddonNodes",
+     "off": 492,
+     "size": 16,
+     "xbox_type": "NiTPrimitiveArray<BGSAddonNode *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char arrayAddonNodes[16];"
+    },
+    {
+     "name": "listBadForms",
+     "off": 508,
+     "size": 12,
+     "xbox_type": "NiTList<TESForm *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listBadForms[12];"
+    },
+    {
+     "name": "iNextID",
+     "off": 520,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iNextID;"
+    },
+    {
+     "name": "pActiveFile",
+     "off": 524,
+     "size": 4,
+     "xbox_type": "TESFile*",
+     "opaque": false,
+     "decl": "TESFile* pActiveFile;"
+    },
+    {
+     "name": "listFiles",
+     "off": 528,
+     "size": 8,
+     "xbox_type": "BSSimpleList<TESFile *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char listFiles[8];"
+    },
+    {
+     "name": "iNumCompile",
+     "off": 536,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iNumCompile;"
+    },
+    {
+     "name": "pFileIndex",
+     "off": 540,
+     "size": 1020,
+     "xbox_type": "TESFile*[1020 bytes]",
+     "opaque": false,
+     "decl": "TESFile* pFileIndex[255];"
+    },
+    {
+     "name": "bMasterSave",
+     "off": 1560,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bMasterSave;"
+    },
+    {
+     "name": "bSaveLoadGame",
+     "off": 1561,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bSaveLoadGame;"
+    },
+    {
+     "name": "bSaveLoad",
+     "off": 1562,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bSaveLoad;"
+    },
+    {
+     "name": "bAutoSaving",
+     "off": 1563,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bAutoSaving;"
+    },
+    {
+     "name": "bExportingPlugin",
+     "off": 1564,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bExportingPlugin;"
+    },
+    {
+     "name": "bClearingData",
+     "off": 1565,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bClearingData;"
+    },
+    {
+     "name": "bHasDesiredFiles",
+     "off": 1566,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bHasDesiredFiles;"
+    },
+    {
+     "name": "bCheckingModels",
+     "off": 1567,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bCheckingModels;"
+    },
+    {
+     "name": "bLoadingFiles",
+     "off": 1568,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bLoadingFiles;"
+    },
+    {
+     "name": "bDontRemoveIDs",
+     "off": 1569,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bDontRemoveIDs;"
+    },
+    {
+     "name": "ucGameSettingsLoadState",
+     "off": 1570,
+     "size": 1,
+     "xbox_type": "unsigned char",
+     "opaque": false,
+     "decl": "unsigned char ucGameSettingsLoadState;"
+    },
+    {
+     "name": "pRegionDataManager",
+     "off": 1572,
+     "size": 4,
+     "xbox_type": "TESRegionDataManager*",
+     "opaque": false,
+     "decl": "TESRegionDataManager* pRegionDataManager;"
+    },
+    {
+     "name": "pBarterContainer",
+     "off": 1576,
+     "size": 4,
+     "xbox_type": "InventoryChanges*",
+     "opaque": false,
+     "decl": "InventoryChanges* pBarterContainer;"
+    },
+    {
+     "name": "pRecipeContainer",
+     "off": 1580,
+     "size": 4,
+     "xbox_type": "InventoryChanges*",
+     "opaque": false,
+     "decl": "InventoryChanges* pRecipeContainer;"
+    },
+    {
+     "name": "pSpotterShader",
+     "off": 1584,
+     "size": 4,
+     "xbox_type": "TESEffectShader*",
+     "opaque": false,
+     "decl": "TESEffectShader* pSpotterShader;"
+    },
+    {
+     "name": "pItemDetectedShader",
+     "off": 1588,
+     "size": 4,
+     "xbox_type": "TESEffectShader*",
+     "opaque": false,
+     "decl": "TESEffectShader* pItemDetectedShader;"
+    },
+    {
+     "name": "pCateyeMobileShader",
+     "off": 1592,
+     "size": 4,
+     "xbox_type": "TESEffectShader*",
+     "opaque": false,
+     "decl": "TESEffectShader* pCateyeMobileShader;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "BSGameSound",
+   "base": null,
+   "pc_size": 408,
+   "xbox_size": 408,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "~BSGameSound",
+     "decl": "~BSGameSound()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    },
+    {
+     "slot": 1,
+     "xbox_slot": 1,
+     "name": "IsPlaying",
+     "xbox_name": "IsPlaying",
+     "decl": "bool IsPlaying()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 2,
+     "xbox_slot": 2,
+     "name": "IsInDecay",
+     "xbox_name": "IsInDecay",
+     "decl": "bool IsInDecay()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 3,
+     "xbox_slot": 3,
+     "name": "IsPaused",
+     "xbox_name": "IsPaused",
+     "decl": "bool IsPaused()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 4,
+     "xbox_slot": 4,
+     "name": "GetVolume",
+     "xbox_name": "GetVolume",
+     "decl": "float GetVolume()",
+     "ret": "float",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 5,
+     "xbox_slot": 5,
+     "name": "SetInaudible",
+     "xbox_name": "SetInaudible",
+     "decl": "void SetInaudible(bool)",
+     "ret": "void",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 6,
+     "xbox_slot": 6,
+     "name": "SetEnvironmentType",
+     "xbox_name": "SetEnvironmentType",
+     "decl": "void SetEnvironmentType(unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 7,
+     "xbox_slot": 7,
+     "name": "PriorityTest",
+     "xbox_name": "PriorityTest",
+     "decl": "bool PriorityTest(unsigned)",
+     "ret": "bool",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 8,
+     "xbox_slot": 8,
+     "name": "PriorityTest_2",
+     "xbox_name": "PriorityTest",
+     "decl": "bool PriorityTest_2(BSGameSound*)",
+     "ret": "bool",
+     "args": [
+      "BSGameSound*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 9,
+     "xbox_slot": 9,
+     "name": "Open",
+     "xbox_name": "Open",
+     "decl": "bool Open()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 10,
+     "xbox_slot": 10,
+     "name": "Prepare",
+     "xbox_name": "Prepare",
+     "decl": "bool Prepare()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 11,
+     "xbox_slot": 11,
+     "name": "Copy",
+     "xbox_name": "Copy",
+     "decl": "void Copy(BSGameSound*, bool)",
+     "ret": "void",
+     "args": [
+      "BSGameSound*",
+      "bool"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 12,
+     "xbox_slot": 12,
+     "name": "Play",
+     "xbox_name": "Play",
+     "decl": "bool Play(bool)",
+     "ret": "bool",
+     "args": [
+      "bool"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 13,
+     "xbox_slot": 13,
+     "name": "Pause",
+     "xbox_name": "Pause",
+     "decl": "bool Pause()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 14,
+     "xbox_slot": 14,
+     "name": "Stop",
+     "xbox_name": "Stop",
+     "decl": "bool Stop()",
+     "ret": "bool",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 15,
+     "xbox_slot": 15,
+     "name": "SetVolume",
+     "xbox_name": "SetVolume",
+     "decl": "bool SetVolume(float)",
+     "ret": "bool",
+     "args": [
+      "float"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 16,
+     "xbox_slot": 16,
+     "name": "UpdateEmitterPosition",
+     "xbox_name": "UpdateEmitterPosition",
+     "decl": "void UpdateEmitterPosition()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 17,
+     "xbox_slot": 17,
+     "name": "Update",
+     "xbox_name": "Update",
+     "decl": "bool Update(unsigned)",
+     "ret": "bool",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 18,
+     "xbox_slot": 18,
+     "name": "ProcessDataRequest",
+     "xbox_name": "ProcessDataRequest",
+     "decl": "bool ProcessDataRequest(int)",
+     "ret": "bool",
+     "args": [
+      "int"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 19,
+     "xbox_slot": 19,
+     "name": "SetEmitterPosition",
+     "xbox_name": "SetEmitterPosition",
+     "decl": "void SetEmitterPosition(NiPoint3)",
+     "ret": "void",
+     "args": [
+      "NiPoint3"
+     ],
+     "expect_ret_n": 12
+    },
+    {
+     "slot": 20,
+     "xbox_slot": 20,
+     "name": "SetEmitterPosition_2",
+     "xbox_name": "SetEmitterPosition",
+     "decl": "void SetEmitterPosition_2(float, float, float)",
+     "ret": "void",
+     "args": [
+      "float",
+      "float",
+      "float"
+     ],
+     "expect_ret_n": 12
+    },
+    {
+     "slot": 21,
+     "xbox_slot": 21,
+     "name": "GetEmitterPosition",
+     "xbox_name": "GetEmitterPosition",
+     "decl": "NiPoint3 GetEmitterPosition()",
+     "ret": "NiPoint3",
+     "args": [],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 22,
+     "xbox_slot": 22,
+     "name": "SetEmitterOrientation",
+     "xbox_name": "SetEmitterOrientation",
+     "decl": "void SetEmitterOrientation(float, float, float)",
+     "ret": "void",
+     "args": [
+      "float",
+      "float",
+      "float"
+     ],
+     "expect_ret_n": 12
+    },
+    {
+     "slot": 23,
+     "xbox_slot": 23,
+     "name": "SetMinMax",
+     "xbox_name": "SetMinMax",
+     "decl": "void SetMinMax(float, float)",
+     "ret": "void",
+     "args": [
+      "float",
+      "float"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 24,
+     "xbox_slot": 24,
+     "name": "SetAttenuationCurve",
+     "xbox_name": "SetAttenuationCurve",
+     "decl": "void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)",
+     "ret": "void",
+     "args": [
+      "unsigned short",
+      "unsigned short",
+      "unsigned short",
+      "unsigned short",
+      "unsigned short"
+     ],
+     "expect_ret_n": 20
+    },
+    {
+     "slot": 25,
+     "xbox_slot": 25,
+     "name": "SetFrequency",
+     "xbox_name": "SetFrequency",
+     "decl": "bool SetFrequency(float)",
+     "ret": "bool",
+     "args": [
+      "float"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 26,
+     "xbox_slot": 26,
+     "name": "GetFrequency",
+     "xbox_name": "GetFrequency",
+     "decl": "float GetFrequency()",
+     "ret": "float",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 27,
+     "xbox_slot": 27,
+     "name": "Seek",
+     "xbox_name": "Seek",
+     "decl": "void Seek(unsigned)",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4
+    }
+   ],
+   "fields": [
+    {
+     "name": "iSoundID",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSoundID;"
+    },
+    {
+     "name": "iSoundTypeFlags",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSoundTypeFlags;"
+    },
+    {
+     "name": "iModifierFlags",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iModifierFlags;"
+    },
+    {
+     "name": "iStateFlags",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iStateFlags;"
+    },
+    {
+     "name": "iDurationInMS",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iDurationInMS;"
+    },
+    {
+     "name": "iStaticAttenuation",
+     "off": 24,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iStaticAttenuation;"
+    },
+    {
+     "name": "iReverbAttenuation",
+     "off": 26,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iReverbAttenuation;"
+    },
+    {
+     "name": "iSystemAttenuation",
+     "off": 28,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iSystemAttenuation;"
+    },
+    {
+     "name": "iDistanceAttenuation",
+     "off": 30,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iDistanceAttenuation;"
+    },
+    {
+     "name": "iFaderAttenuation",
+     "off": 32,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iFaderAttenuation;"
+    },
+    {
+     "name": "fCurrentVolume",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fCurrentVolume;"
+    },
+    {
+     "name": "fBeginTime",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fBeginTime;"
+    },
+    {
+     "name": "fEndTime",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fEndTime;"
+    },
+    {
+     "name": "iWeatherFlags",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iWeatherFlags;"
+    },
+    {
+     "name": "iSamplesPerSecond",
+     "off": 52,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iSamplesPerSecond;"
+    },
+    {
+     "name": "pFilename",
+     "off": 54,
+     "size": 260,
+     "xbox_type": "char[260 bytes]",
+     "opaque": false,
+     "decl": "char pFilename[260];"
+    },
+    {
+     "name": "fMaxDist",
+     "off": 316,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMaxDist;"
+    },
+    {
+     "name": "fMinDist",
+     "off": 320,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMinDist;"
+    },
+    {
+     "name": "iSoundHash",
+     "off": 324,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSoundHash;"
+    },
+    {
+     "name": "iDirectoryHash",
+     "off": 328,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iDirectoryHash;"
+    },
+    {
+     "name": "iSoundSize",
+     "off": 332,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSoundSize;"
+    },
+    {
+     "name": "fDistanceToListener",
+     "off": 336,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fDistanceToListener;"
+    },
+    {
+     "name": "iEnvironmentType",
+     "off": 340,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iEnvironmentType;"
+    },
+    {
+     "name": "iFreqVariance",
+     "off": 344,
+     "size": 1,
+     "xbox_type": "unsigned char",
+     "opaque": false,
+     "decl": "unsigned char iFreqVariance;"
+    },
+    {
+     "name": "iModSamplesPerSecond",
+     "off": 346,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iModSamplesPerSecond;"
+    },
+    {
+     "name": "iSynchStartTime",
+     "off": 348,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSynchStartTime;"
+    },
+    {
+     "name": "iCleanupDelayInMS",
+     "off": 352,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iCleanupDelayInMS;"
+    },
+    {
+     "name": "fnCompletionCallback",
+     "off": 356,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* fnCompletionCallback;"
+    },
+    {
+     "name": "fnPlayedCallback",
+     "off": 360,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* fnPlayedCallback;"
+    },
+    {
+     "name": "pSoundCompletionContext",
+     "off": 364,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pSoundCompletionContext;"
+    },
+    {
+     "name": "pSoundPlayContext",
+     "off": 368,
+     "size": 4,
+     "xbox_type": "void*",
+     "opaque": false,
+     "decl": "void* pSoundPlayContext;"
+    },
+    {
+     "name": "iLoopStart",
+     "off": 372,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iLoopStart;"
+    },
+    {
+     "name": "iLoopEnd",
+     "off": 376,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iLoopEnd;"
+    },
+    {
+     "name": "vBeamEnd",
+     "off": 380,
+     "size": 12,
+     "xbox_type": "NiPoint3",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char vBeamEnd[12];"
+    },
+    {
+     "name": "iPriority",
+     "off": 392,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iPriority;"
+    },
+    {
+     "name": "QueuedMessages",
+     "off": 396,
+     "size": 12,
+     "xbox_type": "NiTPointerList<BSSoundMessage *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char QueuedMessages[12];"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "BSAudio",
+   "base": null,
+   "pc_size": 56,
+   "xbox_size": 56,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "~BSAudio",
+     "decl": "~BSAudio()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    },
+    {
+     "slot": 1,
+     "xbox_slot": 2,
+     "name": "Init",
+     "xbox_name": "Init",
+     "decl": "void Init(void*)",
+     "ret": "void",
+     "args": [
+      "void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 2,
+     "xbox_slot": 3,
+     "name": "Shutdown",
+     "xbox_name": "Shutdown",
+     "decl": "void Shutdown()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 3,
+     "xbox_slot": 4,
+     "name": "SetLoopPointCallback",
+     "xbox_name": "SetLoopPointCallback",
+     "decl": "void SetLoopPointCallback(void*)",
+     "ret": "void",
+     "args": [
+      "void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 4,
+     "xbox_slot": 5,
+     "name": "GetLoopPointCallback",
+     "xbox_name": "GetLoopPointCallback",
+     "decl": "void* GetLoopPointCallback()",
+     "ret": "void*",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 5,
+     "xbox_slot": 6,
+     "name": "CreateNewGameSound",
+     "xbox_name": "CreateNewGameSound",
+     "decl": "BSGameSound* CreateNewGameSound(const char*)",
+     "ret": "BSGameSound*",
+     "args": [
+      "const char*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 6,
+     "xbox_slot": 7,
+     "name": "FixSoundPath",
+     "xbox_name": "FixSoundPath",
+     "decl": "void FixSoundPath(char*)",
+     "ret": "void",
+     "args": [
+      "char*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 7,
+     "xbox_slot": 8,
+     "name": "PrintDebugInfo",
+     "xbox_name": "PrintDebugInfo",
+     "decl": "void PrintDebugInfo()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    }
+   ],
+   "fields": [
+    {
+     "name": "bAudioEnabled",
+     "off": 4,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bAudioEnabled;"
+    },
+    {
+     "name": "bInitialized",
+     "off": 5,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bInitialized;"
+    },
+    {
+     "name": "bMultiThread",
+     "off": 6,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bMultiThread;"
+    },
+    {
+     "name": "iMusicStartOffset",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iMusicStartOffset;"
+    },
+    {
+     "name": "bSeekMusic",
+     "off": 12,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bSeekMusic;"
+    },
+    {
+     "name": "pListener",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "BSAudioListener*",
+     "opaque": false,
+     "decl": "BSAudioListener* pListener;"
+    },
+    {
+     "name": "SynchTimer",
+     "off": 20,
+     "size": 12,
+     "xbox_type": "BSAudioSynchTimer",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char SynchTimer[12];"
+    },
+    {
+     "name": "pfnIDCallback",
+     "off": 32,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* pfnIDCallback;"
+    },
+    {
+     "name": "pfnNameCallback",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* pfnNameCallback;"
+    },
+    {
+     "name": "pfnRandomFilenameCallback",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* pfnRandomFilenameCallback;"
+    },
+    {
+     "name": "pfnSettingsCallback",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* pfnSettingsCallback;"
+    },
+    {
+     "name": "pfnSynchPausedCallback",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* pfnSynchPausedCallback;"
+    },
+    {
+     "name": "pfnSynchUnPausedCallback",
+     "off": 52,
+     "size": 4,
+     "xbox_type": "function*",
+     "opaque": false,
+     "decl": "void* pfnSynchUnPausedCallback;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "BSAudioManager",
+   "base": null,
+   "pc_size": 392,
+   "xbox_size": 412,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "~BSAudioManager",
+     "decl": "~BSAudioManager()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    }
+   ],
+   "fields": [
+    {
+     "name": "iMessageListIndex",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iMessageListIndex;"
+    },
+    {
+     "name": "iMessageProcessingListIndex",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iMessageProcessingListIndex;"
+    },
+    {
+     "name": "Messages",
+     "off": 12,
+     "size": 24,
+     "xbox_type": "NiTPointerList<BSSoundMessage *>[24 bytes]",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char Messages[24];"
+    },
+    {
+     "name": "FreeMessages",
+     "off": 36,
+     "size": 16,
+     "xbox_type": "AudioMessageStack",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char FreeMessages[16];"
+    },
+    {
+     "name": "FreeQueueMessages",
+     "off": 52,
+     "size": 16,
+     "xbox_type": "AudioMessageStack",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char FreeQueueMessages[16];"
+    },
+    {
+     "name": "GarbageMessages",
+     "off": 68,
+     "size": 16,
+     "xbox_type": "AudioMessageStack",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char GarbageMessages[16];"
+    },
+    {
+     "name": "SoundList",
+     "off": 84,
+     "size": 16,
+     "xbox_type": "NiTPointerMap<int,BSGameSound *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char SoundList[16];"
+    },
+    {
+     "name": "SoundStateMap",
+     "off": 100,
+     "size": 16,
+     "xbox_type": "NiTPointerMap<int,BSSoundInfo *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char SoundStateMap[16];"
+    },
+    {
+     "name": "StateUpdateMap",
+     "off": 116,
+     "size": 16,
+     "xbox_type": "NiTPointerMap<int,BSSoundInfo *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char StateUpdateMap[16];"
+    },
+    {
+     "name": "MovingRefrList",
+     "off": 132,
+     "size": 16,
+     "xbox_type": "NiTPointerMap<int,NiPointer<NiAVObject> >",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char MovingRefrList[16];"
+    },
+    {
+     "name": "CachedSoundList",
+     "off": 148,
+     "size": 12,
+     "xbox_type": "NiTPointerList<BSGameSound *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char CachedSoundList[12];"
+    },
+    {
+     "name": "iCurrentCachSize",
+     "off": 160,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iCurrentCachSize;"
+    },
+    {
+     "name": "iWeatherFlags",
+     "off": 164,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iWeatherFlags;"
+    },
+    {
+     "name": "fCurrentGamehour",
+     "off": 168,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fCurrentGamehour;"
+    },
+    {
+     "name": "MessageCritSection",
+     "off": 172,
+     "size": 24,
+     "xbox_type": "BSCriticalSection",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char MessageCritSection[24];"
+    },
+    {
+     "name": "StateCritSection",
+     "off": 196,
+     "size": 24,
+     "xbox_type": "BSCriticalSection",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char StateCritSection[24];"
+    },
+    {
+     "name": "CacheCritSection",
+     "off": 220,
+     "size": 24,
+     "xbox_type": "BSCriticalSection",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char CacheCritSection[24];"
+    },
+    {
+     "name": "ProcessingCritSection",
+     "off": 244,
+     "size": 24,
+     "xbox_type": "BSCriticalSection",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char ProcessingCritSection[24];"
+    },
+    {
+     "name": "CacheLoadTaskCritSection",
+     "off": 268,
+     "size": 24,
+     "xbox_type": "BSCriticalSection",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char CacheLoadTaskCritSection[24];"
+    },
+    {
+     "name": "CacheLoadTaskList",
+     "off": 292,
+     "size": 12,
+     "xbox_type": "NiTPointerList<AudioLoadTask *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char CacheLoadTaskList[12];"
+    },
+    {
+     "name": "iDelayTimerDelta",
+     "off": 304,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iDelayTimerDelta;"
+    },
+    {
+     "name": "bPrecacheCompleted",
+     "off": 308,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bPrecacheCompleted;"
+    },
+    {
+     "name": "bListenerMoved",
+     "off": 309,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bListenerMoved;"
+    },
+    {
+     "name": "dwAudioThreadID",
+     "off": 312,
+     "size": 4,
+     "xbox_type": "unsigned long",
+     "opaque": false,
+     "decl": "unsigned long dwAudioThreadID;"
+    },
+    {
+     "name": "pUpdateThread",
+     "off": 316,
+     "size": 4,
+     "xbox_type": "BSAudioManagerThread*",
+     "opaque": false,
+     "decl": "BSAudioManagerThread* pUpdateThread;"
+    },
+    {
+     "name": "fMasterVolume",
+     "off": 320,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMasterVolume;"
+    },
+    {
+     "name": "fFootVolume",
+     "off": 324,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fFootVolume;"
+    },
+    {
+     "name": "fVoiceVolume",
+     "off": 328,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fVoiceVolume;"
+    },
+    {
+     "name": "fEffectsVolume",
+     "off": 332,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fEffectsVolume;"
+    },
+    {
+     "name": "fMusicVolume",
+     "off": 336,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMusicVolume;"
+    },
+    {
+     "name": "fRadioVolume",
+     "off": 340,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fRadioVolume;"
+    },
+    {
+     "name": "fMasterSecondaryVolume",
+     "off": 344,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMasterSecondaryVolume;"
+    },
+    {
+     "name": "fFootSecondaryVolume",
+     "off": 348,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fFootSecondaryVolume;"
+    },
+    {
+     "name": "fVoiceSecondaryVolume",
+     "off": 352,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fVoiceSecondaryVolume;"
+    },
+    {
+     "name": "fEffectsSecondaryVolume",
+     "off": 356,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fEffectsSecondaryVolume;"
+    },
+    {
+     "name": "fMusicSecondaryVolume",
+     "off": 360,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fMusicSecondaryVolume;"
+    },
+    {
+     "name": "fRadioSecondaryVolume",
+     "off": 364,
+     "size": 4,
+     "xbox_type": "float",
+     "opaque": false,
+     "decl": "float fRadioSecondaryVolume;"
+    },
+    {
+     "name": "iMuteMask",
+     "off": 368,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iMuteMask;"
+    },
+    {
+     "name": "bDialogueFade",
+     "off": 372,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bDialogueFade;"
+    },
+    {
+     "name": "bListenerUnderwater",
+     "off": 373,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bListenerUnderwater;"
+    },
+    {
+     "name": "pPauseEntries",
+     "off": 376,
+     "size": 4,
+     "xbox_type": "BSAudioManager::PAUSE_ENTRY*",
+     "opaque": false,
+     "decl": "void* pPauseEntries;"
+    },
+    {
+     "name": "iPauseListSize",
+     "off": 380,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iPauseListSize;"
+    },
+    {
+     "name": "iNextID",
+     "off": 384,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iNextID;"
+    },
+    {
+     "name": "bIgnoreGlobalTimeMultiplier",
+     "off": 388,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bIgnoreGlobalTimeMultiplier;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "BSSoundHandle",
+   "base": null,
+   "pc_size": 12,
+   "xbox_size": 12,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iSoundID",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSoundID;"
+    },
+    {
+     "name": "bAssumeSuccess",
+     "off": 4,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bAssumeSuccess;"
+    },
+    {
+     "name": "eState",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "BSSoundHandle::ASSUMED_STATE",
+     "opaque": false,
+     "decl": "int eState;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "IMemoryHeap",
+   "base": null,
+   "pc_size": 4,
+   "xbox_size": 4,
+   "vslots": [
+    {
+     "slot": 0,
+     "xbox_slot": 0,
+     "name": "~IMemoryHeap",
+     "decl": "~IMemoryHeap()",
+     "ret": "void",
+     "args": [
+      "unsigned"
+     ],
+     "expect_ret_n": 4,
+     "dtor": true
+    },
+    {
+     "slot": 1,
+     "xbox_slot": 1,
+     "name": "GetName",
+     "xbox_name": "GetName",
+     "decl": "const char* GetName()",
+     "ret": "const char*",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 2,
+     "xbox_slot": 2,
+     "name": "Allocate",
+     "xbox_name": "Allocate",
+     "decl": "void* Allocate(unsigned, unsigned)",
+     "ret": "void*",
+     "args": [
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 3,
+     "xbox_slot": 3,
+     "name": "Deallocate",
+     "xbox_name": "Deallocate",
+     "decl": "void Deallocate(void*, unsigned)",
+     "ret": "void",
+     "args": [
+      "void*",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 4,
+     "xbox_slot": 4,
+     "name": "PointerInHeap",
+     "xbox_name": "PointerInHeap",
+     "decl": "bool PointerInHeap(const void*)",
+     "ret": "bool",
+     "args": [
+      "const void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 5,
+     "xbox_slot": 5,
+     "name": "CheckHeapIntegrity",
+     "xbox_name": "CheckHeapIntegrity",
+     "decl": "void CheckHeapIntegrity()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    },
+    {
+     "slot": 6,
+     "xbox_slot": 6,
+     "name": "GetHeapStats",
+     "xbox_name": "GetHeapStats",
+     "decl": "void GetHeapStats(HeapStats*, bool)",
+     "ret": "void",
+     "args": [
+      "HeapStats*",
+      "bool"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 7,
+     "xbox_slot": 7,
+     "name": "OutputBucketInfo",
+     "xbox_name": "OutputBucketInfo",
+     "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
+     "ret": "int",
+     "args": [
+      "IMemoryManagerFile*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 8,
+     "xbox_slot": 8,
+     "name": "OutputBlockInfo",
+     "xbox_name": "OutputBlockInfo",
+     "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
+     "ret": "int",
+     "args": [
+      "IMemoryManagerFile*",
+      "bool"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 9,
+     "xbox_slot": 9,
+     "name": "Size",
+     "xbox_name": "Size",
+     "decl": "unsigned Size(const void*, unsigned)",
+     "ret": "unsigned",
+     "args": [
+      "const void*",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 10,
+     "xbox_slot": 10,
+     "name": "TotalSize",
+     "xbox_name": "TotalSize",
+     "decl": "unsigned TotalSize(const void*)",
+     "ret": "unsigned",
+     "args": [
+      "const void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 11,
+     "xbox_slot": 11,
+     "name": "CheckDelayedFreeBlocks",
+     "xbox_name": "CheckDelayedFreeBlocks",
+     "decl": "void CheckDelayedFreeBlocks()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
+    }
+   ],
+   "fields": [],
+   "align": 4
+  },
+  {
+   "name": "AbstractHeap",
+   "base": "IMemoryHeap",
+   "pc_size": 8432,
+   "xbox_size": 8436,
+   "vslots": [
+    {
+     "slot": 12,
+     "xbox_slot": 12,
+     "name": "DoHeapAllocation",
+     "xbox_name": "DoHeapAllocation",
+     "decl": "void* DoHeapAllocation(unsigned, unsigned)",
+     "ret": "void*",
+     "args": [
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    },
+    {
+     "slot": 13,
+     "xbox_slot": 13,
+     "name": "DoHeapFree",
+     "xbox_name": "DoHeapFree",
+     "decl": "void DoHeapFree(void*)",
+     "ret": "void",
+     "args": [
+      "void*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 14,
+     "xbox_slot": 14,
+     "name": "CreateMorePages",
+     "xbox_name": "CreateMorePages",
+     "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
+     "ret": "unsigned",
+     "args": [
+      "void*",
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 12
+    },
+    {
+     "slot": 15,
+     "xbox_slot": 15,
+     "name": "CleanExtraPages",
+     "xbox_name": "CleanExtraPages",
+     "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
+     "ret": "unsigned",
+     "args": [
+      "void*",
+      "unsigned",
+      "unsigned"
+     ],
+     "expect_ret_n": 12
+    },
+    {
+     "slot": 16,
+     "xbox_slot": 16,
+     "name": "DecommitPages",
+     "xbox_name": "DecommitPages",
+     "decl": "void DecommitPages(FreeHeapBlock*)",
+     "ret": "void",
+     "args": [
+      "FreeHeapBlock*"
+     ],
+     "expect_ret_n": 4
+    },
+    {
+     "slot": 17,
+     "xbox_slot": 17,
+     "name": "CommitPages",
+     "xbox_name": "CommitPages",
+     "decl": "void CommitPages(FreeHeapBlock*, unsigned)",
+     "ret": "void",
+     "args": [
+      "FreeHeapBlock*",
+      "unsigned"
+     ],
+     "expect_ret_n": 8
+    }
+   ],
+   "fields": [
+    {
+     "name": "pName",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "const char*",
+     "opaque": false,
+     "decl": "const char* pName;"
+    },
+    {
+     "name": "iDefaultAlignment",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iDefaultAlignment;"
+    },
+    {
+     "name": "MinFreeBlockSize",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned MinFreeBlockSize;"
+    },
+    {
+     "name": "iPageSize",
+     "off": 16,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iPageSize;"
+    },
+    {
+     "name": "MemHeapSize",
+     "off": 20,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned MemHeapSize;"
+    },
+    {
+     "name": "iInitialSize",
+     "off": 24,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iInitialSize;"
+    },
+    {
+     "name": "iCurrentSize",
+     "off": 28,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iCurrentSize;"
+    },
+    {
+     "name": "iWastedMemory",
+     "off": 32,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iWastedMemory;"
+    },
+    {
+     "name": "iMemAllocated",
+     "off": 36,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iMemAllocated;"
+    },
+    {
+     "name": "iMemAllocatedHigh",
+     "off": 40,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iMemAllocatedHigh;"
+    },
+    {
+     "name": "iBlockMemAllocated",
+     "off": 44,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iBlockMemAllocated;"
+    },
+    {
+     "name": "pMemHeap",
+     "off": 48,
+     "size": 4,
+     "xbox_type": "char*",
+     "opaque": false,
+     "decl": "char* pMemHeap;"
+    },
+    {
+     "name": "iNumBlocks",
+     "off": 52,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iNumBlocks;"
+    },
+    {
+     "name": "pBlockHead",
+     "off": 56,
+     "size": 4,
+     "xbox_type": "HeapBlock*",
+     "opaque": false,
+     "decl": "HeapBlock* pBlockHead;"
+    },
+    {
+     "name": "pBlockTail",
+     "off": 60,
+     "size": 4,
+     "xbox_type": "HeapBlock*",
+     "opaque": false,
+     "decl": "HeapBlock* pBlockTail;"
+    },
+    {
+     "name": "iNumFreeBlocks",
+     "off": 64,
+     "size": 4,
+     "xbox_type": "int",
+     "opaque": false,
+     "decl": "int iNumFreeBlocks;"
+    },
+    {
+     "name": "pSmallFreeList",
+     "off": 68,
+     "size": 8192,
+     "xbox_type": "FreeHeapBlockList[8192 bytes]",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char pSmallFreeList[8192];"
+    },
+    {
+     "name": "pLastSmallList",
+     "off": 8260,
+     "size": 4,
+     "xbox_type": "FreeHeapBlockList*",
+     "opaque": false,
+     "decl": "FreeHeapBlockList* pLastSmallList;"
+    },
+    {
+     "name": "LargeFreeList",
+     "off": 8264,
+     "size": 8,
+     "xbox_type": "FreeHeapBlockList",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char LargeFreeList[8];"
+    },
+    {
+     "name": "pDelayedFreeBlocksA",
+     "off": 8272,
+     "size": 4,
+     "xbox_type": "HeapBlock**",
+     "opaque": false,
+     "decl": "HeapBlock** pDelayedFreeBlocksA;"
+    },
+    {
+     "name": "iNextDelayedFreeIndex",
+     "off": 8276,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iNextDelayedFreeIndex;"
+    },
+    {
+     "name": "pSubBuckets",
+     "off": 8280,
+     "size": 128,
+     "xbox_type": "HeapFreeSubBucket[128 bytes]",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char pSubBuckets[128];"
+    },
+    {
+     "name": "CriticalSectionO",
+     "off": 8408,
+     "size": 24,
+     "xbox_type": "BSCriticalSection",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char CriticalSectionO[24];"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "MemoryHeap",
+   "base": "AbstractHeap",
+   "pc_size": 8436,
+   "xbox_size": 8440,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "bSupportsSwapping",
+     "off": 8432,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bSupportsSwapping;"
+    },
+    {
+     "name": "bDeletingHeap",
+     "off": 8433,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bDeletingHeap;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "ScrapHeap",
+   "base": null,
+   "pc_size": 16,
+   "xbox_size": 16,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pMemHeap",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "char*",
+     "opaque": false,
+     "decl": "char* pMemHeap;"
+    },
+    {
+     "name": "pCurrentStackLoc",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "char*",
+     "opaque": false,
+     "decl": "char* pCurrentStackLoc;"
+    },
+    {
+     "name": "pEndHeap",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "char*",
+     "opaque": false,
+     "decl": "char* pEndHeap;"
+    },
+    {
+     "name": "pLastBlock",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "ScrapHeap::Header*",
+     "opaque": false,
+     "decl": "void* pLastBlock;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "MemoryManager",
+   "base": null,
+   "pc_size": 312,
+   "xbox_size": 308,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "bInitialized",
+     "off": 0,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bInitialized;"
+    },
+    {
+     "name": "iNumHeaps",
+     "off": 2,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iNumHeaps;"
+    },
+    {
+     "name": "iNumPhysicalHeaps",
+     "off": 4,
+     "size": 2,
+     "xbox_type": "unsigned short",
+     "opaque": false,
+     "decl": "unsigned short iNumPhysicalHeaps;"
+    },
+    {
+     "name": "ppHeaps",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "IMemoryHeap**",
+     "opaque": false,
+     "decl": "IMemoryHeap** ppHeaps;"
+    },
+    {
+     "name": "pHeapsByContextA",
+     "off": 12,
+     "size": 264,
+     "xbox_type": "IMemoryHeap*[264 bytes]",
+     "opaque": false,
+     "decl": "IMemoryHeap* pHeapsByContextA[66];"
+    },
+    {
+     "name": "kThreadScrapHeapMap",
+     "off": 276,
+     "size": 16,
+     "xbox_type": "BSMap<unsigned long,ScrapHeap *>",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char kThreadScrapHeapMap[16];"
+    },
+    {
+     "name": "ppPhysicalHeaps",
+     "off": 292,
+     "size": 4,
+     "xbox_type": "IMemoryHeap**",
+     "opaque": false,
+     "decl": "IMemoryHeap** ppPhysicalHeaps;"
+    },
+    {
+     "name": "bSpecialHeaps",
+     "off": 296,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bSpecialHeaps;"
+    },
+    {
+     "name": "bAllowPoolUse",
+     "off": 297,
+     "size": 1,
+     "xbox_type": "bool",
+     "opaque": false,
+     "decl": "bool bAllowPoolUse;"
+    },
+    {
+     "name": "iSysAllocBytes",
+     "off": 300,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iSysAllocBytes;"
+    },
+    {
+     "name": "iMallocBytes",
+     "off": 304,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iMallocBytes;"
+    },
+    {
+     "name": "iMainThreadMemoryProblemPassSignal",
+     "off": 308,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iMainThreadMemoryProblemPassSignal;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "HeapBlock",
+   "base": null,
+   "pc_size": 16,
+   "xbox_size": 16,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pPrevious",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "HeapBlock*",
+     "opaque": false,
+     "decl": "HeapBlock* pPrevious;"
+    },
+    {
+     "name": "iMemSize",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iMemSize;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FreeHeapBlock",
+   "base": null,
+   "pc_size": 16,
+   "xbox_size": 16,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pPrevious",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "HeapBlock*",
+     "opaque": false,
+     "decl": "HeapBlock* pPrevious;"
+    },
+    {
+     "name": "iMemSize",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "unsigned",
+     "opaque": false,
+     "decl": "unsigned iMemSize;"
+    },
+    {
+     "name": "pPrevFree",
+     "off": 8,
+     "size": 4,
+     "xbox_type": "FreeHeapBlock*",
+     "opaque": false,
+     "decl": "FreeHeapBlock* pPrevFree;"
+    },
+    {
+     "name": "pNextFree",
+     "off": 12,
+     "size": 4,
+     "xbox_type": "FreeHeapBlock*",
+     "opaque": false,
+     "decl": "FreeHeapBlock* pNextFree;"
+    }
+   ],
+   "align": 4
+  },
+  {
+   "name": "FreeHeapBlockList",
+   "base": null,
+   "pc_size": 8,
+   "xbox_size": 8,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "pHead",
+     "off": 0,
+     "size": 4,
+     "xbox_type": "FreeHeapBlock*",
+     "opaque": false,
+     "decl": "FreeHeapBlock* pHead;"
+    },
+    {
+     "name": "pTail",
+     "off": 4,
+     "size": 4,
+     "xbox_type": "FreeHeapBlock*",
+     "opaque": false,
+     "decl": "FreeHeapBlock* pTail;"
+    }
+   ],
+   "align": 4
+  }
+ ]
+}

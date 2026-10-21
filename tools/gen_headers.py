@@ -54,7 +54,12 @@ def c_type(t):
     if stars == 0:
         if ('enum ' + base) in T.byname:
             return 'int'
-        return None  # класс по значению: не описываем
+        L = T.layout(base)
+        if L and not any(ch in base for ch in '<:( ') and VALUE_OK:
+            if base not in declared:
+                VALUE_TYPES[base] = L['size']   # класс по значению: непрозрачная структура нужного размера
+            return ('const ' if const else '') + base
+        return None
     if '<' in base or '::' in base or '(' in base or ' ' in base:
         return 'void' + '*' * stars
     if base not in declared:
@@ -62,25 +67,38 @@ def c_type(t):
     return ('const ' if const else '') + base + suffix
 
 
+VALUE_TYPES = {}
+VALUE_OK = False
+
+
 def rec(ti):
     return T.rec.get(ti)
 
 
 def mfunc_sig(ti):
+    """(тип результата, [типы аргументов], байты аргументов на стеке для thiscall/ret N)."""
+    global VALUE_OK
     r = rec(ti)
     if not r or r[0] != 'LF_MFUNCTION':
-        return 'void', []
+        return 'void', [], 0
     body = ' '.join(r[2])
+    VALUE_OK = True
     m = re.search(r'return type = (0x[0-9A-F]+(?: \([^)]*\))?)', body)
     ret = c_type(T.tname(m.group(1))) if m else 'void'
     pl = re.search(r'param list = (0x[0-9A-F]+)', body)
-    args = []
+    args, nbytes = [], 0
     if pl:
         for line in rec(int(pl.group(1), 16))[2]:
             mm = re.search(r'`(.*)`', line)
             if mm:
-                args.append(c_type(mm.group(1)) or 'void*')
-    return ret or 'void*', args
+                a = c_type(mm.group(1)) or 'void*'
+                args.append(a)
+                bt = a.replace('const ', '')
+                nbytes += ARGSZ.get(bt, -(-VALUE_TYPES[bt] // 4) * 4 if bt in VALUE_TYPES else 4)
+    VALUE_OK = False
+    if 'returns cxx udt' in body:
+        nbytes += 4   # скрытый указатель на результат
+    return ret or 'void*', args, nbytes
 
 
 def vmethods(cls):
@@ -122,8 +140,43 @@ def type_size(tname):
     return L['size'] if L else None
 
 
+PRIM_ALIGN = {'bool': 1, 'char': 1, 'signed char': 1, 'unsigned char': 1, 'short': 2, 'unsigned short': 2,
+              'wchar_t': 2, 'double': 8, '__int64': 8, 'unsigned __int64': 8, 'long long': 8,
+              'unsigned long long': 8}
+
+
+def xalign(tname, depth=0):
+    """Естественное выравнивание типа по правилам MSVC x86 (по составу полей с Xbox)."""
+    t = tname.strip().replace('volatile ', '').replace('const ', '')
+    arr = re.match(r'(.*)\[(\d+) bytes\]$', t)
+    if arr:
+        return xalign(arr.group(1), depth)
+    if t.endswith('*') or t.endswith('&'):
+        return 4
+    if t in PRIM_ALIGN:
+        return PRIM_ALIGN[t]
+    if t in PRIM or ('enum ' + t) in T.byname:
+        return 4
+    if t in PCSZ_ALIGN:
+        return PCSZ_ALIGN[t]
+    L = T.layout(t)
+    if not L or depth > 8:
+        return 4
+    a = 4 if L['virtuals'] else 1
+    for bname, _ in L['bases']:
+        a = max(a, xalign(bname, depth + 1))
+    for _, _, mt in L['members']:
+        if not mt.startswith('bitfield'):
+            a = max(a, xalign(mt, depth + 1))
+    return a
+
+
+PCSZ_ALIGN = {k: 4 for k in PCSZ}   # заменённые на PC типы (CRITICAL_SECTION) — выравнивание 4
+
+
 def member_c(name, tname, size):
-    """Объявление поля: примитив/указатель — типом, остальное — байтовым массивом с комментарием."""
+    """Объявление поля: примитив/указатель — типом, остальное — байтовым массивом с alignas и комментарием.
+    Возвращает (объявление, размер, выравнивание, непрозрачное_ли)."""
     t = tname.strip()
     arr = re.match(r'(.*)\[(\d+) bytes\]$', t)
     if arr:
@@ -132,18 +185,29 @@ def member_c(name, tname, size):
         ct = c_type(el) if (el.endswith('*') or el in PRIM) else None
         esz = 4 if el.endswith('*') else {'char': 1, 'unsigned char': 1, 'short': 2, 'unsigned short': 2}.get(el, 4)
         if ct and n % esz == 0 and n <= size:
-            return f'{ct} {name}[{n // esz}];'
-        return f'unsigned char {name}[{min(n, size)}]; // {t}'
+            return f'{ct} {name}[{n // esz}];', n, xalign(el), False
+        n = min(n, size)
+        a = xalign(t)
+        return (f'alignas({a}) ' if a > 1 else '') + f'unsigned char {name}[{n}]; // {t}', n, a, True
     if t.startswith('bitfield'):
         return None
     ct = c_type(t) if (t.endswith('*') or t.replace('volatile ', '') in PRIM or ('enum ' + t) in T.byname) else None
     if ct and ct != 'int' or (ct == 'int' and size == 4):
-        return f'{ct} {name};'
-    return f'unsigned char {name}[{size}]; // {t}'
+        bt = ct.replace('const ', '')
+        one = 4 if bt.endswith('*') else PRIM_ALIGN.get(bt, 4)
+        return f'{ct} {name};', one, one, False
+    a = xalign(t)
+    return (f'alignas({a}) ' if a > 1 else '') + f'unsigned char {name}[{size}]; // {t}', size, a, True
+
+
+ARGSZ = {'double': 8, '__int64': 8, 'unsigned __int64': 8, 'long long': 8, 'unsigned long long': 8}
+meta = {'source': 'Xbox 360 Fallout.pdb (Release Final) GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C',
+        'pc_exe_sha256': '42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c', 'classes': []}
 
 
 blocks = []
 asserts = []
+meta_align = {}
 for cls in CLASSES:
     L = T.layout(cls)
     base = L['bases'][0][0] if L['bases'] else None
@@ -196,39 +260,47 @@ for cls in CLASSES:
         byslot.setdefault(s, (n, ti))
     xb_slots = sorted(set(s for s, _, _ in vs if s >= base_slots and s not in drops))
     used = {}
+    cm = {'name': cls, 'base': base, 'pc_size': size, 'xbox_size': L['size'], 'vslots': [], 'fields': []}
     for s in xb_slots:
         n, ti = byslot.get(s, (f'_vslot{s}', None))
         pcslot = s - sum(1 for d in drops if d < s)
         if n.startswith('~'):
             lines.append(f'    virtual ~{cls}(); // слот {pcslot}')
+            cm['vslots'].append({'slot': pcslot, 'xbox_slot': s, 'name': '~' + cls, 'decl': f'~{cls}()',
+                                 'ret': 'void', 'args': ['unsigned'], 'expect_ret_n': 4, 'dtor': True})
             continue
         used[n] = used.get(n, 0) + 1
         nm = n if used[n] == 1 else f'{n}_{used[n]}'
-        ret, args = mfunc_sig(ti) if ti else ('void', [])
+        ret, args, nbytes = mfunc_sig(ti) if ti else ('void', [], 0)
         lines.append(f'    virtual {ret} {nm}({", ".join(args)}); // слот {pcslot}')
+        cm['vslots'].append({'slot': pcslot, 'xbox_slot': s, 'name': nm, 'xbox_name': n,
+                             'decl': f'{ret} {nm}({", ".join(args)})', 'ret': ret, 'args': args,
+                             'expect_ret_n': nbytes})
     # поля с явными заполнителями
     pos = bsize if base else vptr
+    align = 4 if vptr else (meta_align.get(base, 1) if base else 1)
     lines.append('    // поля')
     for po, n, t, sz in sorted(fields):
         if po < pos:
             continue  # перекрытие (union/битовые поля) — пропускаем
         if po > pos:
             lines.append(f'    unsigned char _pad{pos:X}[0x{po - pos:X}];')
-        decl = member_c(n, t, sz)
-        if decl is None:
+        mc = member_c(n, t, sz)
+        if mc is None:
             continue
-        # примитивный тип мог оказаться короче выделенного места
+        decl, tsz, fa, opaque = mc
         lines.append(f'    {decl}')
-        m = re.match(r'(\S.*?) (\w+)(?:\[(\d+)\])?;', decl)
-        base_t = m.group(1).replace('const ', '')
-        one = 4 if base_t.endswith('*') else {'bool': 1, 'char': 1, 'unsigned char': 1, 'short': 2,
-                                               'unsigned short': 2, 'double': 8, '__int64': 8,
-                                               'unsigned __int64': 8}.get(base_t, 4)
-        tsz = one * int(m.group(3) or 1)
+        align = max(align, fa)
         asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
+        cm['fields'].append({'name': n, 'off': po, 'size': tsz, 'xbox_type': t, 'opaque': opaque,
+                             'decl': decl.split(' //')[0]})
         pos = po + tsz
     if pos < size:
         lines.append(f'    unsigned char _pad{pos:X}[0x{size - pos:X}];')
+    meta_align[cls] = align
+    cm['align'] = align
+    meta['classes'].append(cm)
+    asserts.append(f'static_assert(alignof({cls}) == {align}, "alignof {cls}: следует из типов полей (MSVC x86)");')
     if cls == 'BSSoundHandle' or any(e.startswith(cls + '::') for e in ENUMS):
         for e in ENUMS:
             if e.startswith(cls + '::'):
@@ -249,11 +321,15 @@ for cls in CLASSES:
 hdr = ['// Сгенерировано gen_headers.py. Источник раскладок: Xbox 360 Fallout.pdb (Release Final,',
        '// GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C) — (Xbox PDB). Каждый класс проверен на PC',
        '// FalloutNV.exe 1.4.0.525 (SHA-256 42fee7d6...) инструментом verify_class.py.',
-       '// Сигнатуры виртуальных методов взяты с Xbox и не проверялись; классы по значению в',
-       '// параметрах заменены на void*.',
-       '#pragma once', '#if __has_include(<cstddef>)', '#include <cstddef>', '#endif', '#ifndef offsetof', '#define offsetof(t, m) __builtin_offsetof(t, m)', '#endif', '#pragma pack(push, 1)']
-hdr += [('struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class') + f' {n};' for n in sorted(fwd | declared)]
+       '// Сигнатуры виртуальных методов взяты с Xbox; степень их проверки на PC — в evidence_vslots.csv.',
+       '// Классы по значению в параметрах заменены на void*. Упаковка — по умолчанию (без #pragma pack),',
+       '// выравнивание каждого класса проверяется static_assert(alignof) и следует из типов полей.',
+       '#pragma once', '#if __has_include(<cstddef>)', '#include <cstddef>', '#endif', '#ifndef offsetof', '#define offsetof(t, m) __builtin_offsetof(t, m)', '#endif']
+hdr += [('struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class') + f' {n};' for n in sorted((fwd | declared) - set(VALUE_TYPES))]
+hdr += [f'struct {n} {{ alignas({xalign(n)}) unsigned char _opaque[0x{sz:X}]; }}; // (Xbox PDB) передаётся по значению; поля не описаны'
+        for n, sz in sorted(VALUE_TYPES.items())]
 hdr += blocks
-hdr += ['#pragma pack(pop)'] + sorted(set(asserts), key=asserts.index)
+hdr += sorted(set(asserts), key=asserts.index)
 open(out_path, 'w', encoding='utf-8').write('\n'.join(hdr) + '\n')
+json.dump(meta, open(re.sub(r'\.h$', '', out_path) + '.meta.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print('ok', out_path, {c: hex(pc_size[c]) for c in CLASSES})
