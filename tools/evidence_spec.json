@@ -50,6 +50,9 @@
    "43": "0x4011F0: test iFormFlags & 0x80000 => GetHasPLSpecTex; имя PC GetHasSpecificTextures",
    "47": "0x4849D0: or/and iFormFlags 0x200 = пара к слоту 46 GetOnLocalMap (& 0x200) => SetOnLocalMap; имя PC SetCastsShadows",
    "52": "0x4848B0: or/and iFormFlags 0x40 = пара к слоту 38 => SetHasSpokenFlag; имя PC SetTalkedToPC"
+  },
+  "BGSSaveFormBuffer": {
+   "0": "0x7AF430: возвращает this+0x20 (pForm), ret без аргументов => GetForm(); тело склеено (ICF) с TESObjectREFR::GetObjectReference, отсюда чужое имя"
   }
  },
  "globals": {
@@ -65,6 +68,12 @@
   },
   "MemoryManager": {
    "obj": "0x011F6238"
+  },
+  "BGSSaveLoadManager": {
+   "ptr": "0x011DE134"
+  },
+  "BGSSaveLoadGame": {
+   "ptr": "0x011DDF38"
   }
  },
  "extra_functions": {

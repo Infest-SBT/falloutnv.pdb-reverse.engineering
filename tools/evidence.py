@@ -228,6 +228,15 @@ for cname, c in CLS.items():
     first_own = (CLS[c['base']]['pc_size'] if c['base'] else (4 if (c['vslots'] and not c['base']) else 0))
     if c['vslots'] and not c['base']:
         own = [{'name': '<vftable>', 'off': 0, 'size': 4, 'opaque': False}] + own
+    # поля-классы (например, Header) раскрываем в их собственные поля: Header.iChangeFlags
+    exp = []
+    for fd in own:
+        sub = CLS.get(fd.get('class_type') or '')
+        if sub:
+            exp += [dict(sf, name=f"{fd['name']}.{sf['name']}", off=fd['off'] + sf['off']) for sf in sub['fields']]
+        else:
+            exp.append(fd)
+    own = exp
     srcs = [(cname, f) for f in funcs_of(cname)]
     for sc in subclasses(cname):
         srcs += [(sc, f) for f in funcs_of(sc)]

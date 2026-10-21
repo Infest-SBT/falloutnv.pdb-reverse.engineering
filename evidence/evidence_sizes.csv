@@ -16,3 +16,11 @@ MemoryManager,0x138,global-spacing,0x138,True,"MemoryManager::Singleton 0x011F62
 HeapBlock,0x10,last-field,0x8,False,последнее поле iMemSize подтверждено; дальше только выравнивание до 4
 FreeHeapBlock,0x10,last-field,0x10,True,последнее поле pNextFree подтверждено; дальше только выравнивание до 4
 FreeHeapBlockList,0x8,array-span,0x8,True,"AbstractHeap::pSmallFreeList = 1024 элемента на 0x44..0x2044, следующее поле pLastSmallList на 0x2044 подтверждено => 0x2000/1024 = 8"
+BGSSaveLoadFormHeader,0x9,last-field,0x9,True,последнее поле cVersion подтверждено; дальше только выравнивание до 1
+BGSSaveGameBuffer,0x14,subclass-boundary,0x14,True,первое собственное поле BGSSaveFormBuffer::Header на 0x14 (статус поля см. evidence_fields)
+BGSSaveFormBuffer,0x24,last-field,0x24,True,последнее поле pForm подтверждено; дальше только выравнивание до 4
+BGSLoadGameBuffer,0x10,subclass-boundary,0x10,True,первое собственное поле BGSLoadFormBuffer::iFormID на 0x10 (статус поля см. evidence_fields)
+BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,0x00864E48 push 0x30; call ourMalloc; 0x00864E65 call BGSLoadFormBuffer::BGSLoadFormBuffer
+BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,0x008664A8 push 0x30; call ourMalloc; 0x008664C5 call BGSLoadFormBuffer::BGSLoadFormBuffer
+BGSSaveLoadGame,0x24C,ctor-alloc,0x24C,True,0x008474A5 push 0x24c; call ourMalloc; 0x008474C5 call BGSSaveLoadGame::BGSSaveLoadGame
+BGSSaveLoadManager,0x38,ctor-alloc,0x38,True,0x0084FC95 push 0x38; call ourMalloc; 0x0084FCB2 call BGSSaveLoadManager::BGSSaveLoadManager

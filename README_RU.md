@@ -1,17 +1,17 @@
-# FalloutNV.pdb v0.2 — типы из Xbox 360, проверенные на PC, с доказательной матрицей
+# FalloutNV.pdb v0.3 — типы из Xbox 360, проверенные на PC: основа, звук, память, сохранения
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`,
 GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE).
-SHA-256 этого PDB: `6cd1f43b84bf950dd2d66656581da66793c08ccd8b864a0c0804a4d9d61e8bb5`.
+SHA-256 этого PDB: `0d44fe7cc631f856dd8ed96e9135c938836eb585883326b601409c6272c6d9af`.
 
 ## Что внутри
 
 | Путь | Что это |
 |---|---|
-| `FalloutNV.pdb` | 138 171 имя из PDB xNVSE (потоки символов побайтно те же) + 243 записи типов: 15 классов, `ASSUMED_STATE`, непрозрачный `NiPoint3` |
-| `fnv_types_v02.h` | те же типы для C++ x86; у каждого поля и слота — уровень достоверности на PC |
-| `fnv_types_v02.meta.json` | раскладки, ровно то, что попало в PDB (вход для проверок) |
-| `evidence/` | доказательная матрица: `REPORT.md`, `evidence_fields.csv` (1509 обращений), `evidence_vslots.csv` (203 слота), `evidence_sizes.csv`, `excluded_functions.csv`, `summary.json` |
+| `FalloutNV.pdb` | 138 171 имя из PDB xNVSE (потоки символов побайтно те же) + 297 записей типов: 22 класса, перечисления `CHANGE_TYPE` и `ASSUMED_STATE`, непрозрачный `NiPoint3` |
+| `fnv_types_v03.h` | те же типы для C++ x86; у каждого поля и слота — уровень достоверности на PC |
+| `fnv_types_v03.meta.json` | раскладки, ровно то, что попало в PDB (вход для проверок) |
+| `evidence/` | доказательная матрица: `REPORT.md`, `evidence_fields.csv` (1897 обращений), `evidence_vslots.csv` (217 слотов), `evidence_sizes.csv`, `excluded_functions.csv`, `change_flags.csv` (флаги сохранений), `summary.json` |
 | `scripts/` | `fnv_apply_ghidra.py`, `fnv_apply_ida.py` — привязка типов к функциям |
 | `tools/` | всё для пересборки и повторной проверки |
 
@@ -26,10 +26,11 @@ SHA-256 этого PDB: `6cd1f43b84bf950dd2d66656581da66793c08ccd8b864a0c0804a4d
 совпадает с Xbox и `ret N` = ожидаемому объёму аргументов; `stack` — совпадает только `ret N`; `stub` — заглушка,
 ничего не доказывает. **`ret N` подтверждает только объём аргументов на стеке, а не их типы и не тип результата.**
 
-## Итог проверки v0.2
+## Итог проверки v0.3
 
-Полей: 235 confirmed, 2 consistent, 3 unverified, **0 CONFLICT**. Размеры: 11 классов confirmed, 4 consistent.
-Слоты: 9 semantics, 87 name+stack, 7 stack, 64 stub, 0 MISMATCH. Подробно — `evidence/REPORT.md`.
+Полей: 291 confirmed, 5 consistent, 5 unverified, **0 CONFLICT**. Размеры: 16 классов confirmed, 6 consistent.
+Слоты: 10 semantics, 94 name+stack, 7 stack, 70 stub, 0 MISMATCH. Флаги `CHANGE_TYPE`: 69 из 73 значений совпали
+с PC (68 по имени + 1 под другим именем), 0 расхождений, 4 этим способом не проверяемы. Подробно — `evidence/REPORT.md`.
 
 Найдены две ошибки в именах PDB xNVSE (функции исключены из проверки, причины в `excluded_functions.csv`):
 `0x481390 «TESForm::InitInContainer»` работает с элементом контейнера, а `0xAEA100 «BSAudio::SynchTimerUpdate»` —
@@ -39,8 +40,9 @@ SHA-256 этого PDB: `6cd1f43b84bf950dd2d66656581da66793c08ccd8b864a0c0804a4d
 
 ```
 python3 tools/make_syms.py <PDB xNVSE> syms.tsv          # нужен llvm-undname
-python3 tools/evidence.py fnv_types_v02.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out
-python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v02.meta.json   # PDB = проверенные раскладки
+python3 tools/evidence.py fnv_types_v03.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out
+python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v03.meta.json   # PDB = проверенные раскладки
+python3 tools/verify_change_flags.py fnv_types_v03.h FalloutNV.exe change_flags.csv   # флаги сохранений
 ```
 `out/` совпадёт с `evidence/` побайтно (проверено). Дампы утёкшего Xbox PDB для этого не нужны: проверяется
 то, что опубликовано. Пересборка самих типов (`gen_headers.py`) требует дампа Xbox PDB — его не распространяем.
@@ -63,7 +65,21 @@ PDB xNVSE хранит имена как `S_PUB32` без прототипов, 
 5. x32dbg / WinDbg / VS: символы грузятся, имена функций разрешаются, тип `BSGameSound` виден в окне структур.
 6. На живой игре наложить `MemoryManager` на `0x011F6238` и сверить `iNumHeaps`, `ppHeaps`.
 
-## Изменения с v0.1
+## Изменения в v0.3 — раздел «Сохранения»
+
+- 7 новых классов: `BGSSaveLoadFormHeader`, `BGSSaveGameBuffer`, `BGSSaveFormBuffer`, `BGSLoadGameBuffer`,
+  `BGSLoadFormBuffer`, `BGSSaveLoadGame`, `BGSSaveLoadManager`.
+- `BGSSaveLoadManager` на PC больше, чем на Xbox: 0x38 вместо 0x30 (PC выделяет 0x38 перед конструктором).
+  Найдены два поля, которых нет в Xbox PDB: флаг на +0x11 (`SetShouldSystemSave` пишет 1, `SystemSave` — 0) и строка
+  `BSStringT` на +0x30 (имя системного сохранения). Имена `bShouldSystemSave` и `sSystemSaveName` — наши, помечены own.
+- `BGSSaveLoadFormHeader` упакован (sizeof 9, флаги изменений на смещении 3) — описан с `#pragma pack(1)` только
+  для него; внутри буферов он подставлен как тип, поля проверяются как `Header.iChangeFlags`.
+- `CHANGE_TYPE` сверен не по догадкам, а по самой игре: `BGSChangeFlags::GetFlagName` (0x83FEF0) переводит флаги
+  в строки «CHANGE_…»; из её сравнений и таблиц переходов извлечены пары «имя → значение» (`verify_change_flags.py`).
+- Слот 0 `BGSSaveFormBuffer` разобран вручную: возвращает `pForm` (+0x20); имя `TESObjectREFR::GetObjectReference`
+  на этом адресе — следствие склейки одинаковых функций.
+
+## Изменения в v0.2
 
 - Убран `#pragma pack(1)`: упаковка по умолчанию, у контейнеров `alignas`, на каждый класс `static_assert(alignof)`,
   выведенный из типов его полей (не одна общая цифра).

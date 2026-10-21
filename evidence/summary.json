@@ -4860,6 +4860,1215 @@
    },
    "vslots": {},
    "methods": []
+  },
+  "BGSSaveLoadFormHeader": {
+   "pc_size": 9,
+   "align": 1,
+   "size_status": "consistent",
+   "fields": {
+    "FormIDIndex": "unverified",
+    "iChangeFlags": "consistent",
+    "FormInfo": "confirmed",
+    "cVersion": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 8799312,
+     "name": "BGSSaveLoadFormHeader::BGSSaveLoadFormHeader",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BGSSaveGameBuffer": {
+   "vtable_va": 17310500,
+   "pc_size": 20,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed",
+    "pBuffer": "confirmed",
+    "iBufferSize": "confirmed",
+    "iBufferPosition": "confirmed",
+    "iDebugOverhead": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "GetForm",
+     "decl": "TESForm* GetForm()",
+     "status": "stub",
+     "checked_on": "BGSSaveGameBuffer",
+     "pc_func_va": 11320176
+    },
+    "1": {
+     "name": "GetReference",
+     "decl": "TESObjectREFR* GetReference()",
+     "status": "stub",
+     "checked_on": "BGSSaveGameBuffer",
+     "pc_func_va": 11320176
+    },
+    "2": {
+     "name": "GetActor",
+     "decl": "Actor* GetActor()",
+     "status": "stub",
+     "checked_on": "BGSSaveGameBuffer",
+     "pc_func_va": 11320176
+    }
+   },
+   "methods": [
+    {
+     "va": 8803696,
+     "name": "BGSSaveGameBuffer::SaveDataToBuffer_0",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805328,
+     "name": "BGSSaveGameBuffer::BGSSaveGameBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805504,
+     "name": "BGSSaveGameBuffer::Save",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805600,
+     "name": "BGSSaveGameBuffer::SaveDataToBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805808,
+     "name": "BGSSaveGameBuffer::SaveFormID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8805968,
+     "name": "BGSSaveGameBuffer::SaveData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8806000,
+     "name": "BGSSaveGameBuffer::SaveString",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8806176,
+     "name": "BGSSaveGameBuffer::StartVariableSizedValue",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8806240,
+     "name": "BGSSaveGameBuffer::SaveVariableSizedValue",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8806576,
+     "name": "BGSSaveGameBuffer::ExpandBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BGSSaveFormBuffer": {
+   "vtable_va": 17310472,
+   "pc_size": 36,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "Header.FormIDIndex": "confirmed",
+    "Header.iChangeFlags": "confirmed",
+    "Header.FormInfo": "confirmed",
+    "Header.cVersion": "confirmed",
+    "pForm": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "GetForm",
+     "decl": "TESForm* GetForm()",
+     "status": "semantics",
+     "checked_on": "BGSSaveFormBuffer",
+     "pc_func_va": 8057904
+    },
+    "1": {
+     "name": "GetReference",
+     "decl": "TESObjectREFR* GetReference()",
+     "status": "name+stack",
+     "checked_on": "BGSSaveFormBuffer",
+     "pc_func_va": 8805184
+    },
+    "2": {
+     "name": "GetActor",
+     "decl": "Actor* GetActor()",
+     "status": "name+stack",
+     "checked_on": "BGSSaveFormBuffer",
+     "pc_func_va": 8805248
+    }
+   },
+   "methods": [
+    {
+     "va": 5644784,
+     "name": "BGSSaveFormBuffer::RemoveChange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8682928,
+     "name": "BGSSaveFormBuffer::ClearPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8732096,
+     "name": "BGSSaveFormBuffer::GetDataSize",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8804800,
+     "name": "BGSSaveFormBuffer::BGSSaveFormBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8804912,
+     "name": "BGSSaveFormBuffer::Save",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805072,
+     "name": "BGSSaveFormBuffer::SetHeader",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805136,
+     "name": "BGSSaveFormBuffer::GetOverhead",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8805184,
+     "name": "BGSSaveFormBuffer::GetReference",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805248,
+     "name": "BGSSaveFormBuffer::GetActor",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8805872,
+     "name": "BGSSaveFormBuffer::SaveFormID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8806720,
+     "name": "BGSSaveFormBuffer::ShiftBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 9077184,
+     "name": "BGSSaveFormBuffer::GetVersion",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BGSLoadGameBuffer": {
+   "vtable_va": 17309768,
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "<vftable>": "confirmed",
+    "pBuffer": "confirmed",
+    "iBufferSize": "confirmed",
+    "iBufferPosition": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "GetVersion",
+     "decl": "unsigned char GetVersion()",
+     "status": "name+stack",
+     "checked_on": "BGSLoadGameBuffer",
+     "pc_func_va": 8800032
+    },
+    "1": {
+     "name": "GetForm",
+     "decl": "TESForm* GetForm()",
+     "status": "stub",
+     "checked_on": "BGSLoadGameBuffer",
+     "pc_func_va": 11320176
+    },
+    "2": {
+     "name": "GetReference",
+     "decl": "TESObjectREFR* GetReference()",
+     "status": "stub",
+     "checked_on": "BGSLoadGameBuffer",
+     "pc_func_va": 11320176
+    },
+    "3": {
+     "name": "GetActor",
+     "decl": "Actor* GetActor()",
+     "status": "stub",
+     "checked_on": "BGSLoadGameBuffer",
+     "pc_func_va": 11320176
+    }
+   },
+   "methods": [
+    {
+     "va": 4832080,
+     "name": "BGSLoadGameBuffer::UpdateBufferPosition",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5405600,
+     "name": "BGSLoadGameBuffer::LoadBGSWorldLocation",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 7440528,
+     "name": "BGSLoadGameBuffer::LoadInterfaceManagerHelpMenuFlags",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8706704,
+     "name": "BGSLoadGameBuffer::GetNextPos",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799920,
+     "name": "BGSLoadGameBuffer::BGSLoadGameBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8800032,
+     "name": "BGSLoadGameBuffer::GetVersion",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8800064,
+     "name": "BGSLoadGameBuffer::Load",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8800288,
+     "name": "BGSLoadGameBuffer::LoadDataFromBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8800416,
+     "name": "BGSLoadGameBuffer::LoadFormID_0",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8800480,
+     "name": "BGSLoadGameBuffer::LoadFormID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8800640,
+     "name": "BGSLoadGameBuffer::LoadData",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8800672,
+     "name": "BGSLoadGameBuffer::LoadString",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8800864,
+     "name": "BGSLoadGameBuffer::LoadVariableSizedValue",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BGSLoadFormBuffer": {
+   "vtable_va": 17309736,
+   "pc_size": 48,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "iFormID": "confirmed",
+    "Header.FormIDIndex": "confirmed",
+    "Header.iChangeFlags": "confirmed",
+    "Header.FormInfo": "confirmed",
+    "Header.cVersion": "unverified",
+    "iSize": "confirmed",
+    "pForm": "confirmed",
+    "iFlags": "confirmed",
+    "iOldChangeFlags": "confirmed"
+   },
+   "vslots": {
+    "0": {
+     "name": "GetVersion",
+     "decl": "unsigned char GetVersion()",
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 9077184
+    },
+    "1": {
+     "name": "GetForm",
+     "decl": "TESForm* GetForm()",
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 8799664
+    },
+    "2": {
+     "name": "GetReference",
+     "decl": "TESObjectREFR* GetReference()",
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 8799760
+    },
+    "3": {
+     "name": "GetActor",
+     "decl": "Actor* GetActor()",
+     "status": "name+stack",
+     "checked_on": "BGSLoadFormBuffer",
+     "pc_func_va": 8799840
+    }
+   },
+   "methods": [
+    {
+     "va": 4358416,
+     "name": "BGSLoadFormBuffer::GetChangeFlags",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4358448,
+     "name": "BGSLoadFormBuffer::SetChangeFlags",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4378160,
+     "name": "BGSLoadFormBuffer::GetOldChangeFlags",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4378192,
+     "name": "BGSLoadFormBuffer::SetReconstructedForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4378256,
+     "name": "BGSLoadFormBuffer::GetReconstructedForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5647616,
+     "name": "BGSLoadFormBuffer::GetRevertOnly",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8686928,
+     "name": "BGSLoadFormBuffer::ClearBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8686992,
+     "name": "BGSLoadFormBuffer::SetSkipForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8687056,
+     "name": "BGSLoadFormBuffer::GetSkipForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8688192,
+     "name": "BGSLoadFormBuffer::SetRevertOnly",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8689040,
+     "name": "BGSLoadFormBuffer::GetCellChanged",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8692576,
+     "name": "BGSLoadFormBuffer::SetFormPending",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8714368,
+     "name": "BGSLoadFormBuffer::SetFlag10",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799152,
+     "name": "BGSLoadFormBuffer::BGSLoadFormBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799408,
+     "name": "BGSLoadFormBuffer::LoadHeader",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799552,
+     "name": "BGSLoadFormBuffer::LoadDataFromFile",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799616,
+     "name": "BGSLoadFormBuffer::SkipData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799664,
+     "name": "BGSLoadFormBuffer::GetForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799760,
+     "name": "BGSLoadFormBuffer::GetReference",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8799840,
+     "name": "BGSLoadFormBuffer::GetActor",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8800240,
+     "name": "BGSLoadFormBuffer::SetBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8807856,
+     "name": "BGSLoadFormBuffer::GetFormType",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8834816,
+     "name": "BGSLoadFormBuffer::SetCurrentFormChange",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BGSSaveLoadGame": {
+   "pc_size": 588,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pChangesMap": "confirmed",
+    "pOldChangesMap": "confirmed",
+    "pFormIDMap": "confirmed",
+    "pWorldspaceFormIDMap": "confirmed",
+    "pReferencesMap": "confirmed",
+    "pQueuedSubBuffersMap": "confirmed",
+    "pChangedFormIDMap": "confirmed",
+    "pHistory": "confirmed",
+    "pReconstructForms": "confirmed",
+    "FormBufferArray": "confirmed",
+    "QueuedInitPackageLocationsActorMap": "confirmed",
+    "cFileIndexArray": "consistent",
+    "cReverseFileIndexArray": "consistent",
+    "iGlobalFlags": "confirmed",
+    "cCurrentMinorVersion": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 4268464,
+     "name": "BGSSaveLoadGame::GetReconstructingForms",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4378128,
+     "name": "BGSSaveLoadGame::GetSaveGameLoading",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4476192,
+     "name": "BGSSaveLoadGame::GetInitingForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4533904,
+     "name": "BGSSaveLoadGame::GetPositioningPlayerCharacter",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4535552,
+     "name": "BGSSaveLoadGame::SetDeferInitForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 4596720,
+     "name": "BGSSaveLoadGame::SetThreadAllowChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4596864,
+     "name": "BGSSaveLoadGame::GetThreadAllowChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 4625776,
+     "name": "BGSSaveLoadGame::GetLoadingMovedRefs",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 5531984,
+     "name": "BGSSaveLoadGame::GetDeferInitForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5644752,
+     "name": "BGSSaveLoadGame::GetSaveGameSaving",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 5705536,
+     "name": "BGSSaveLoadGame::GetGlobalAllowChanges",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 6549248,
+     "name": "BGSSaveLoadGame::GetPlayerLocationInvalid",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8177280,
+     "name": "BGSSaveLoadGame::SetSaveLoadFailed",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8219600,
+     "name": "BGSSaveLoadGame::SetGlobalAllowChanges",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8666128,
+     "name": "BGSSaveLoadGame::SetReconstructingForms",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8678880,
+     "name": "BGSSaveLoadGame::GetConvertedFileIndex",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8679216,
+     "name": "BGSSaveLoadGame::BGSSaveLoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8680576,
+     "name": "BGSSaveLoadGame::Create",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 8680704,
+     "name": "BGSSaveLoadGame::Shutdown",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 8680816,
+     "name": "BGSSaveLoadGame::GetCurrentMinorVersion",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8680848,
+     "name": "BGSSaveLoadGame::SavePluginList",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8681056,
+     "name": "BGSSaveLoadGame::LoadPluginList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8681552,
+     "name": "BGSSaveLoadGame::SaveGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8682752,
+     "name": "BGSSaveLoadGame::SetSaveGameSaving",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8682992,
+     "name": "BGSSaveLoadGame::LoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8686752,
+     "name": "BGSSaveLoadGame::SetSaveGameLoading",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8686832,
+     "name": "BGSSaveLoadGame::GetSaveLoadFailed",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8687216,
+     "name": "BGSSaveLoadGame::RevertCurrentChanges",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8688304,
+     "name": "BGSSaveLoadGame::InitForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8688960,
+     "name": "BGSSaveLoadGame::ToggleInitingForms",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8689104,
+     "name": "BGSSaveLoadGame::LoadForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8689456,
+     "name": "BGSSaveLoadGame::UnloadForm",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8690320,
+     "name": "BGSSaveLoadGame::ShouldUnloadForm",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8690448,
+     "name": "BGSSaveLoadGame::LoadCell",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8690688,
+     "name": "BGSSaveLoadGame::SetLoadingMovedRefs",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8690880,
+     "name": "BGSSaveLoadGame::HasReferenceChangedCells",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8690944,
+     "name": "BGSSaveLoadGame::CheckInitialData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8692640,
+     "name": "BGSSaveLoadGame::HandleUnrevertibleChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8693024,
+     "name": "BGSSaveLoadGame::QueueInitPackageLocations",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693120,
+     "name": "BGSSaveLoadGame::UpdateDead",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693168,
+     "name": "BGSSaveLoadGame::PerformQueuedInitPackageLocations",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693280,
+     "name": "BGSSaveLoadGame::ShouldAddChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8693392,
+     "name": "BGSSaveLoadGame::AddChange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693456,
+     "name": "BGSSaveLoadGame::GetChange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693504,
+     "name": "BGSSaveLoadGame::GetOldChange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693632,
+     "name": "BGSSaveLoadGame::RemoveChange",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693696,
+     "name": "BGSSaveLoadGame::RemoveChanges",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693776,
+     "name": "BGSSaveLoadGame::QueueSubBuffer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8693824,
+     "name": "BGSSaveLoadGame::RevertAllChanges",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8693888,
+     "name": "BGSSaveLoadGame::ClearForm",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8694208,
+     "name": "BGSSaveLoadGame::ClearFormByID",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8694256,
+     "name": "BGSSaveLoadGame::DeleteForm",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8694320,
+     "name": "BGSSaveLoadGame::AddChangedFormID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8694416,
+     "name": "BGSSaveLoadGame::GetChangedFormID",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8694480,
+     "name": "BGSSaveLoadGame::IsFormIDInUse",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8694528,
+     "name": "BGSSaveLoadGame::SaveGameWarningFunction",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8694560,
+     "name": "BGSSaveLoadGame::CleanupExpiredData",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8702960,
+     "name": "BGSSaveLoadGame::TogglePositioningPlayer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8703040,
+     "name": "BGSSaveLoadGame::SetPlayerLocationInvalid",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ]
+  },
+  "BGSSaveLoadManager": {
+   "pc_size": 56,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pSaveGameList": "confirmed",
+    "iSaveGameCount": "confirmed",
+    "iCurrentSaveGameNumber": "confirmed",
+    "bSimulatedMode": "confirmed",
+    "bAutosaveDisabledForDiskspace": "confirmed",
+    "bhandledCorrupt": "confirmed",
+    "cQueuedAutosave": "confirmed",
+    "cQueuedForceSave": "confirmed",
+    "bShouldSystemSave": "confirmed",
+    "pMostRecentSaveGame": "confirmed",
+    "iMostRecentSaveGameDeviceID": "confirmed",
+    "bSysUtilHasSaveData": "confirmed",
+    "pSaveLoadFile": "confirmed",
+    "bReturnedFromSysUtil": "confirmed",
+    "bSysUtilLoadDataComplete": "confirmed",
+    "bStartMenuLoading": "confirmed",
+    "pSysUtilSaveCompleteCallback": "confirmed",
+    "pSysUtilLoadCompleteCallback": "confirmed",
+    "sSystemSaveName": "confirmed"
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 5582240,
+     "name": "BGSSaveLoadManager::IsLoadingGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8715376,
+     "name": "BGSSaveLoadManager::Create",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 8715680,
+     "name": "BGSSaveLoadManager::BGSSaveLoadManager",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8715968,
+     "name": "BGSSaveLoadManager::GetFullFileName",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8716080,
+     "name": "BGSSaveLoadManager::GetSaveDirectoryPath",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8716176,
+     "name": "BGSSaveLoadManager::GetFullPath",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8716336,
+     "name": "BGSSaveLoadManager::OpenSaveFile",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8716544,
+     "name": "BGSSaveLoadManager::CloseSaveFile",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8717232,
+     "name": "BGSSaveLoadManager::SaveGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8718176,
+     "name": "BGSSaveLoadManager::LoadGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8718752,
+     "name": "BGSSaveLoadManager::Quicksave",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8718832,
+     "name": "BGSSaveLoadManager::Quickload",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8718912,
+     "name": "BGSSaveLoadManager::Autosave",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8718992,
+     "name": "BGSSaveLoadManager::SystemSave",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8719264,
+     "name": "BGSSaveLoadManager::StartSaveGame",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8719344,
+     "name": "BGSSaveLoadManager::EndSaveGame",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8719392,
+     "name": "BGSSaveLoadManager::StartLoadGame",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8719712,
+     "name": "BGSSaveLoadManager::EndLoadGame",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8720032,
+     "name": "BGSSaveLoadManager::SaveGameHeader",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8720080,
+     "name": "BGSSaveLoadManager::LoadGameHeader",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8720352,
+     "name": "BGSSaveLoadManager::IsSavingAllowed",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8720656,
+     "name": "BGSSaveLoadManager::GetMinorVersion",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8720672,
+     "name": "BGSSaveLoadManager::GetVersionInfo",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8720944,
+     "name": "BGSSaveLoadManager::HasMostRecentSaveGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8720976,
+     "name": "BGSSaveLoadManager::SetMostRecentSaveGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8721136,
+     "name": "BGSSaveLoadManager::LoadMostRecentSaveGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8721200,
+     "name": "BGSSaveLoadManager::SetupSavesList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8721728,
+     "name": "BGSSaveLoadManager::FreeSavesList",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8722048,
+     "name": "BGSSaveLoadManager::AddSaveGame",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8722368,
+     "name": "BGSSaveLoadManager::GenerateSaveFileName",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8722640,
+     "name": "BGSSaveLoadManager::ScrubFileName",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8722816,
+     "name": "BGSSaveLoadManager::IsFullSave",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8722976,
+     "name": "BGSSaveLoadManager::IsSaveFileNameAutosave",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8723040,
+     "name": "BGSSaveLoadManager::IsSaveFileNameQuicksave",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8723104,
+     "name": "BGSSaveLoadManager::IsSaveFileNameCustom",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8723200,
+     "name": "BGSSaveLoadManager::IsSaveFileNameSystemSave",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8723440,
+     "name": "BGSSaveLoadManager::GetTimePlayedString",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8723760,
+     "name": "BGSSaveLoadManager::QueueAutosave",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8723792,
+     "name": "BGSSaveLoadManager::SetForceSaveTimer",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8723824,
+     "name": "BGSSaveLoadManager::SetShouldSystemSave",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8723856,
+     "name": "BGSSaveLoadManager::UpdateQueuedSaves",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 8724608,
+     "name": "BGSSaveLoadManager::CopySaveGames",
+     "uses_this": true,
+     "touches_fields": false
+    },
+    {
+     "va": 8726336,
+     "name": "BGSSaveLoadManager::SysUtilSaveCompleteCallback",
+     "uses_this": false,
+     "touches_fields": false
+    },
+    {
+     "va": 8726480,
+     "name": "BGSSaveLoadManager::SysUtilDeleteCompleteCallback",
+     "uses_this": true,
+     "touches_fields": false
+    }
+   ]
   }
  }
 }

@@ -12,8 +12,21 @@
 #define offsetof(t, m) __builtin_offsetof(t, m)
 #endif
 class AbstractHeap;
+class Actor;
 class BGSLoadFormBuffer;
+class BGSLoadGameBuffer;
+class BGSReconstructFormsInAllFilesMap;
 class BGSSaveFormBuffer;
+class BGSSaveGameBuffer;
+class BGSSaveLoadChangesMap;
+class BGSSaveLoadFile;
+struct BGSSaveLoadFormHeader;
+class BGSSaveLoadFormIDMap;
+class BGSSaveLoadGame;
+class BGSSaveLoadHistory;
+class BGSSaveLoadManager;
+class BGSSaveLoadQueuedSubBufferMap;
+class BGSSaveLoadReferencesMap;
 class BSAudio;
 class BSAudioListener;
 class BSAudioManager;
@@ -44,6 +57,82 @@ class TESObjectREFR;
 class TESRegionDataManager;
 class TESRegionList;
 struct NiPoint3 { alignas(4) unsigned char _opaque[0xC]; }; // (Xbox PDB) передаётся по значению; поля не описаны
+// CHANGE_TYPE (Xbox PDB): флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv. На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE
+enum CHANGE_TYPE : unsigned int {
+    CHANGE_FORM_CREATED = 0x0,
+    CHANGE_FORM_FLAGS = 0x1,
+    CHANGE_REFR_MOVE = 0x2,
+    CHANGE_REFR_HAVOK_MOVE = 0x4,
+    CHANGE_REFR_CELL_CHANGED = 0x8,
+    CHANGE_REFR_SCALE = 0x10,
+    CHANGE_REFR_INVENTORY = 0x20,
+    CHANGE_REFR_EXTRA_OWNERSHIP = 0x40,
+    CHANGE_REFR_EXTRA_GAME_ONLY = 0x80000000,
+    CHANGE_REFR_EXTRA_CREATED_ONLY = 0x40000000,
+    CHANGE_REFR_EXTRA_ENCOUNTER_ZONE = 0x20000000,
+    CHANGE_REFR_ANIMATION = 0x10000000,
+    CHANGE_REFR_LEVELED_INVENTORY = 0x8000000,
+    CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN = 0x4000000,
+    CHANGE_ACTOR_LIFESTATE = 0x400,
+    CHANGE_ACTOR_EXTRA_PACKAGE_DATA = 0x800,
+    CHANGE_ACTOR_EXTRA_MERCHANT_CONTAINER = 0x1000,
+    CHANGE_ACTOR_PERMANENT_MODIFIERS = 0x800000,
+    CHANGE_ACTOR_OVERRIDE_MODIFIERS = 0x400000,
+    CHANGE_ACTOR_DAMAGE_MODIFIERS = 0x200000,
+    CHANGE_ACTOR_TEMP_MODIFIERS = 0x100000,
+    CHANGE_ACTOR_DISPOSITION_MODIFIERS = 0x80000,
+    CHANGE_ACTOR_EXTRA_LEVELED_ACTOR = 0x40000,
+    CHANGE_ACTOR_EXTRA_DISMEMBERED_LIMBS = 0x20000,
+    CHANGE_OBJECT_EXTRA_ITEM_DATA = 0x400,
+    CHANGE_OBJECT_EXTRA_AMMO = 0x800,
+    CHANGE_OBJECT_EXTRA_LOCK = 0x1000,
+    CHANGE_OBJECT_OPEN_STATE = 0x800000,
+    CHANGE_OBJECT_OPEN_DEFAULT_STATE = 0x400000,
+    CHANGE_OBJECT_EMPTY = 0x200000,
+    CHANGE_DOOR_EXTRA_TELEPORT = 0x20000,
+    CHANGE_QUEST_FLAGS = 0x2,
+    CHANGE_QUEST_SCRIPT_DELAY = 0x4,
+    CHANGE_QUEST_STAGES = 0x80000000,
+    CHANGE_QUEST_SCRIPT = 0x40000000,
+    CHANGE_QUEST_OBJECTIVES = 0x20000000,
+    CHANGE_TOPIC_SAIDONCE = 0x80000000,
+    CHANGE_NOTE_READ = 0x80000000,
+    CHANGE_CELL_SEENDATA = 0x80000000,
+    CHANGE_CELL_DETACHTIME = 0x40000000,
+    CHANGE_CELL_EXTERIOR_CHAR = 0x20000000,
+    CHANGE_CELL_EXTERIOR_SHORT = 0x10000000,
+    CHANGE_CELL_FLAGS = 0x2,
+    CHANGE_CELL_FULLNAME = 0x4,
+    CHANGE_CELL_OWNERSHIP = 0x8,
+    CHANGE_FACTION_FLAGS = 0x2,
+    CHANGE_FACTION_REACTIONS = 0x4,
+    CHANGE_FACTION_CRIME_COUNTS = 0x80000000,
+    CHANGE_REPUTATION_VALUES = 0x2,
+    CHANGE_CHALLENGE_VALUE = 0x2,
+    CHANGE_PACKAGE_NEVER_RUN = 0x80000000,
+    CHANGE_PACKAGE_WAITING = 0x40000000,
+    CHANGE_BASE_OBJECT_VALUE = 0x2,
+    CHANGE_BASE_OBJECT_FULLNAME = 0x4,
+    CHANGE_BOOK_TEACHES_SKILL = 0x20,
+    CHANGE_TALKING_ACTIVATOR_SPEAKER = 0x800000,
+    CHANGE_ACTOR_BASE_DATA = 0x2,
+    CHANGE_ACTOR_BASE_ATTRIBUTES = 0x4,
+    CHANGE_ACTOR_BASE_AIDATA = 0x8,
+    CHANGE_ACTOR_BASE_SPELLLIST = 0x10,
+    CHANGE_ACTOR_BASE_FULLNAME = 0x20,
+    CHANGE_NPC_SKILLS = 0x200,
+    CHANGE_NPC_CLASS = 0x400,
+    CHANGE_NPC_FACE = 0x800,
+    CHANGE_NPC_RACE = 0x2000000,
+    CHANGE_NPC_GENDER = 0x1000000,
+    CHANGE_CREATURE_SKILLS = 0x200,
+    CHANGE_CLASS_TAG_SKILLS = 0x2,
+    CHANGE_ENCOUNTER_ZONE_FLAGS = 0x2,
+    CHANGE_ENCOUNTER_ZONE_GAME_DATA = 0x80000000,
+    CHANGE_FORM_LIST_ADDED_FORM = 0x80000000,
+    CHANGE_LEVELED_LIST_ADDED_OBJECT = 0x80000000,
+    CHANGE_WATER_REMAPPED = 0x80000000
+};
 // BaseFormComponent (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
 // PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x01011D68
 class BaseFormComponent {
@@ -491,7 +580,7 @@ public:
     unsigned char _pad12A[0x2];
     unsigned iSysAllocBytes; // PC: confirmed
     unsigned iMallocBytes; // PC: confirmed
-    unsigned iMainThreadMemoryProblemPassSignal; // PC: confirmed
+    unsigned iMainThreadMemoryProblemPassSignal; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
 // HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
 // PC: sizeof 0x10 — consistent; alignof 4
@@ -519,6 +608,117 @@ public:
     // поля
     FreeHeapBlock* pHead; // PC: unverified
     FreeHeapBlock* pTail; // PC: unverified
+};
+#pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)
+// BGSSaveLoadFormHeader (Xbox PDB): Xbox sizeof 0x9, PC sizeof 0x9
+// PC: sizeof 0x9 — consistent; alignof 1
+struct BGSSaveLoadFormHeader {
+public:
+    // поля
+    unsigned char FormIDIndex[3]; // BGSNumericIDIndex | PC: unverified
+    unsigned iChangeFlags; // BGSChangeFlags | PC: consistent
+    unsigned char FormInfo[1]; // BGSSaveLoadFormInfo | PC: confirmed
+    unsigned char cVersion; // PC: confirmed
+};
+#pragma pack(pop)
+// BGSSaveGameBuffer (Xbox PDB): Xbox sizeof 0x14, PC sizeof 0x14
+// PC: sizeof 0x14 — confirmed; alignof 4; vtable 0x01082324
+class BGSSaveGameBuffer {
+public:
+    virtual TESForm* GetForm(); // слот 0 | PC: stub (0xACBB70)
+    virtual TESObjectREFR* GetReference(); // слот 1 | PC: stub (0xACBB70)
+    virtual Actor* GetActor(); // слот 2 | PC: stub (0xACBB70)
+    // поля
+    char* pBuffer; // PC: confirmed
+    unsigned iBufferSize; // PC: confirmed
+    unsigned iBufferPosition; // PC: confirmed
+    unsigned iDebugOverhead; // PC: confirmed
+};
+// BGSSaveFormBuffer (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
+// PC: sizeof 0x24 — consistent; alignof 4; vtable 0x01082308
+class BGSSaveFormBuffer : public BGSSaveGameBuffer {
+public:
+    // поля
+    BGSSaveLoadFormHeader Header;
+    unsigned char _pad1D[0x3];
+    TESForm* pForm; // PC: confirmed
+};
+// BGSLoadGameBuffer (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
+// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x01082048
+class BGSLoadGameBuffer {
+public:
+    virtual unsigned char GetVersion(); // слот 0 | PC: name+stack (0x864720)
+    virtual TESForm* GetForm(); // слот 1 | PC: stub (0xACBB70)
+    virtual TESObjectREFR* GetReference(); // слот 2 | PC: stub (0xACBB70)
+    virtual Actor* GetActor(); // слот 3 | PC: stub (0xACBB70)
+    // поля
+    char* pBuffer; // PC: confirmed
+    unsigned iBufferSize; // PC: confirmed
+    unsigned iBufferPosition; // PC: confirmed
+};
+// BGSLoadFormBuffer (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x30
+// PC: sizeof 0x30 — confirmed; alignof 4; vtable 0x01082028
+class BGSLoadFormBuffer : public BGSLoadGameBuffer {
+public:
+    // поля
+    unsigned iFormID; // PC: confirmed
+    BGSSaveLoadFormHeader Header;
+    unsigned char _pad1D[0x3];
+    unsigned iSize; // PC: confirmed
+    TESForm* pForm; // PC: confirmed
+    unsigned iFlags; // PC: confirmed
+    unsigned iOldChangeFlags; // BGSChangeFlags | PC: confirmed
+};
+// BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
+// PC: sizeof 0x24C — confirmed; alignof 4
+class BGSSaveLoadGame {
+public:
+    // поля
+    BGSSaveLoadChangesMap* pChangesMap; // PC: confirmed
+    BGSSaveLoadChangesMap* pOldChangesMap; // PC: confirmed
+    BGSSaveLoadFormIDMap* pFormIDMap; // PC: confirmed
+    BGSSaveLoadFormIDMap* pWorldspaceFormIDMap; // PC: confirmed
+    BGSSaveLoadReferencesMap* pReferencesMap; // PC: confirmed
+    BGSSaveLoadQueuedSubBufferMap* pQueuedSubBuffersMap; // PC: confirmed
+    void* pChangedFormIDMap; // PC: confirmed
+    BGSSaveLoadHistory* pHistory; // PC: confirmed
+    BGSReconstructFormsInAllFilesMap* pReconstructForms; // PC: confirmed
+    alignas(4) unsigned char FormBufferArray[16]; // BSSimpleArray<BGSLoadFormBuffer *,1024> | PC: confirmed
+    alignas(4) unsigned char QueuedInitPackageLocationsActorMap[16]; // NiTMap<unsigned int,Actor *> | PC: confirmed
+    unsigned char cFileIndexArray[255]; // PC: consistent
+    unsigned char cReverseFileIndexArray[255]; // PC: consistent
+    unsigned char _pad242[0x2];
+    unsigned iGlobalFlags; // PC: confirmed
+    unsigned char cCurrentMinorVersion; // PC: confirmed
+    unsigned char _pad249[0x3];
+};
+// BGSSaveLoadManager (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x38
+// PC: sizeof 0x38 — confirmed; alignof 4
+class BGSSaveLoadManager {
+public:
+    // поля
+    void* pSaveGameList; // PC: confirmed
+    unsigned iSaveGameCount; // PC: confirmed
+    unsigned iCurrentSaveGameNumber; // PC: confirmed
+    bool bSimulatedMode; // PC: confirmed
+    bool bAutosaveDisabledForDiskspace; // PC: confirmed
+    bool bhandledCorrupt; // PC: confirmed
+    unsigned char cQueuedAutosave; // PC: confirmed
+    unsigned char cQueuedForceSave; // PC: confirmed
+    bool bShouldSystemSave; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
+    unsigned char _pad12[0x2];
+    char* pMostRecentSaveGame; // PC: confirmed
+    int iMostRecentSaveGameDeviceID; // PC: confirmed
+    bool bSysUtilHasSaveData; // PC: confirmed
+    unsigned char _pad1D[0x3];
+    BGSSaveLoadFile* pSaveLoadFile; // PC: confirmed
+    bool bReturnedFromSysUtil; // PC: confirmed
+    bool bSysUtilLoadDataComplete; // PC: confirmed
+    bool bStartMenuLoading; // PC: confirmed
+    unsigned char _pad27[0x1];
+    void* pSysUtilSaveCompleteCallback; // PC: confirmed
+    void* pSysUtilLoadCompleteCallback; // PC: confirmed
+    alignas(4) unsigned char sSystemSaveName[8]; // BSStringT<char> // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
 static_assert(alignof(BaseFormComponent) == 4, "alignof BaseFormComponent: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BaseFormComponent) == 0x4, "sizeof BaseFormComponent");
@@ -807,3 +1007,75 @@ static_assert(offsetof(FreeHeapBlockList, pHead) == 0x0, "FreeHeapBlockList::pHe
 static_assert(offsetof(FreeHeapBlockList, pTail) == 0x4, "FreeHeapBlockList::pTail");
 static_assert(alignof(FreeHeapBlockList) == 4, "alignof FreeHeapBlockList: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FreeHeapBlockList) == 0x8, "sizeof FreeHeapBlockList");
+static_assert(offsetof(BGSSaveLoadFormHeader, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader::FormIDIndex");
+static_assert(offsetof(BGSSaveLoadFormHeader, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader::iChangeFlags");
+static_assert(offsetof(BGSSaveLoadFormHeader, FormInfo) == 0x7, "BGSSaveLoadFormHeader::FormInfo");
+static_assert(offsetof(BGSSaveLoadFormHeader, cVersion) == 0x8, "BGSSaveLoadFormHeader::cVersion");
+static_assert(alignof(BGSSaveLoadFormHeader) == 1, "alignof BGSSaveLoadFormHeader: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "sizeof BGSSaveLoadFormHeader");
+static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "PC-проверка sizeof BGSSaveLoadFormHeader");
+static_assert(offsetof(BGSSaveGameBuffer, pBuffer) == 0x4, "BGSSaveGameBuffer::pBuffer");
+static_assert(offsetof(BGSSaveGameBuffer, iBufferSize) == 0x8, "BGSSaveGameBuffer::iBufferSize");
+static_assert(offsetof(BGSSaveGameBuffer, iBufferPosition) == 0xC, "BGSSaveGameBuffer::iBufferPosition");
+static_assert(offsetof(BGSSaveGameBuffer, iDebugOverhead) == 0x10, "BGSSaveGameBuffer::iDebugOverhead");
+static_assert(alignof(BGSSaveGameBuffer) == 4, "alignof BGSSaveGameBuffer: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveGameBuffer) == 0x14, "sizeof BGSSaveGameBuffer");
+static_assert(offsetof(BGSSaveFormBuffer, Header) == 0x14, "BGSSaveFormBuffer::Header");
+static_assert(offsetof(BGSSaveFormBuffer, pForm) == 0x20, "BGSSaveFormBuffer::pForm");
+static_assert(alignof(BGSSaveFormBuffer) == 4, "alignof BGSSaveFormBuffer: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "sizeof BGSSaveFormBuffer");
+static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "PC-проверка sizeof BGSSaveFormBuffer");
+static_assert(offsetof(BGSLoadGameBuffer, pBuffer) == 0x4, "BGSLoadGameBuffer::pBuffer");
+static_assert(offsetof(BGSLoadGameBuffer, iBufferSize) == 0x8, "BGSLoadGameBuffer::iBufferSize");
+static_assert(offsetof(BGSLoadGameBuffer, iBufferPosition) == 0xC, "BGSLoadGameBuffer::iBufferPosition");
+static_assert(alignof(BGSLoadGameBuffer) == 4, "alignof BGSLoadGameBuffer: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSLoadGameBuffer) == 0x10, "sizeof BGSLoadGameBuffer");
+static_assert(offsetof(BGSLoadFormBuffer, iFormID) == 0x10, "BGSLoadFormBuffer::iFormID");
+static_assert(offsetof(BGSLoadFormBuffer, Header) == 0x14, "BGSLoadFormBuffer::Header");
+static_assert(offsetof(BGSLoadFormBuffer, iSize) == 0x20, "BGSLoadFormBuffer::iSize");
+static_assert(offsetof(BGSLoadFormBuffer, pForm) == 0x24, "BGSLoadFormBuffer::pForm");
+static_assert(offsetof(BGSLoadFormBuffer, iFlags) == 0x28, "BGSLoadFormBuffer::iFlags");
+static_assert(offsetof(BGSLoadFormBuffer, iOldChangeFlags) == 0x2C, "BGSLoadFormBuffer::iOldChangeFlags");
+static_assert(alignof(BGSLoadFormBuffer) == 4, "alignof BGSLoadFormBuffer: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSLoadFormBuffer) == 0x30, "sizeof BGSLoadFormBuffer");
+static_assert(sizeof(BGSLoadFormBuffer) == 0x30, "PC-проверка sizeof BGSLoadFormBuffer");
+static_assert(offsetof(BGSSaveLoadGame, pChangesMap) == 0x0, "BGSSaveLoadGame::pChangesMap");
+static_assert(offsetof(BGSSaveLoadGame, pOldChangesMap) == 0x4, "BGSSaveLoadGame::pOldChangesMap");
+static_assert(offsetof(BGSSaveLoadGame, pFormIDMap) == 0x8, "BGSSaveLoadGame::pFormIDMap");
+static_assert(offsetof(BGSSaveLoadGame, pWorldspaceFormIDMap) == 0xC, "BGSSaveLoadGame::pWorldspaceFormIDMap");
+static_assert(offsetof(BGSSaveLoadGame, pReferencesMap) == 0x10, "BGSSaveLoadGame::pReferencesMap");
+static_assert(offsetof(BGSSaveLoadGame, pQueuedSubBuffersMap) == 0x14, "BGSSaveLoadGame::pQueuedSubBuffersMap");
+static_assert(offsetof(BGSSaveLoadGame, pChangedFormIDMap) == 0x18, "BGSSaveLoadGame::pChangedFormIDMap");
+static_assert(offsetof(BGSSaveLoadGame, pHistory) == 0x1C, "BGSSaveLoadGame::pHistory");
+static_assert(offsetof(BGSSaveLoadGame, pReconstructForms) == 0x20, "BGSSaveLoadGame::pReconstructForms");
+static_assert(offsetof(BGSSaveLoadGame, FormBufferArray) == 0x24, "BGSSaveLoadGame::FormBufferArray");
+static_assert(offsetof(BGSSaveLoadGame, QueuedInitPackageLocationsActorMap) == 0x34, "BGSSaveLoadGame::QueuedInitPackageLocationsActorMap");
+static_assert(offsetof(BGSSaveLoadGame, cFileIndexArray) == 0x44, "BGSSaveLoadGame::cFileIndexArray");
+static_assert(offsetof(BGSSaveLoadGame, cReverseFileIndexArray) == 0x143, "BGSSaveLoadGame::cReverseFileIndexArray");
+static_assert(offsetof(BGSSaveLoadGame, iGlobalFlags) == 0x244, "BGSSaveLoadGame::iGlobalFlags");
+static_assert(offsetof(BGSSaveLoadGame, cCurrentMinorVersion) == 0x248, "BGSSaveLoadGame::cCurrentMinorVersion");
+static_assert(alignof(BGSSaveLoadGame) == 4, "alignof BGSSaveLoadGame: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveLoadGame) == 0x24C, "sizeof BGSSaveLoadGame");
+static_assert(sizeof(BGSSaveLoadGame) == 0x24C, "PC-проверка sizeof BGSSaveLoadGame");
+static_assert(offsetof(BGSSaveLoadManager, pSaveGameList) == 0x0, "BGSSaveLoadManager::pSaveGameList");
+static_assert(offsetof(BGSSaveLoadManager, iSaveGameCount) == 0x4, "BGSSaveLoadManager::iSaveGameCount");
+static_assert(offsetof(BGSSaveLoadManager, iCurrentSaveGameNumber) == 0x8, "BGSSaveLoadManager::iCurrentSaveGameNumber");
+static_assert(offsetof(BGSSaveLoadManager, bSimulatedMode) == 0xC, "BGSSaveLoadManager::bSimulatedMode");
+static_assert(offsetof(BGSSaveLoadManager, bAutosaveDisabledForDiskspace) == 0xD, "BGSSaveLoadManager::bAutosaveDisabledForDiskspace");
+static_assert(offsetof(BGSSaveLoadManager, bhandledCorrupt) == 0xE, "BGSSaveLoadManager::bhandledCorrupt");
+static_assert(offsetof(BGSSaveLoadManager, cQueuedAutosave) == 0xF, "BGSSaveLoadManager::cQueuedAutosave");
+static_assert(offsetof(BGSSaveLoadManager, cQueuedForceSave) == 0x10, "BGSSaveLoadManager::cQueuedForceSave");
+static_assert(offsetof(BGSSaveLoadManager, bShouldSystemSave) == 0x11, "BGSSaveLoadManager::bShouldSystemSave");
+static_assert(offsetof(BGSSaveLoadManager, pMostRecentSaveGame) == 0x14, "BGSSaveLoadManager::pMostRecentSaveGame");
+static_assert(offsetof(BGSSaveLoadManager, iMostRecentSaveGameDeviceID) == 0x18, "BGSSaveLoadManager::iMostRecentSaveGameDeviceID");
+static_assert(offsetof(BGSSaveLoadManager, bSysUtilHasSaveData) == 0x1C, "BGSSaveLoadManager::bSysUtilHasSaveData");
+static_assert(offsetof(BGSSaveLoadManager, pSaveLoadFile) == 0x20, "BGSSaveLoadManager::pSaveLoadFile");
+static_assert(offsetof(BGSSaveLoadManager, bReturnedFromSysUtil) == 0x24, "BGSSaveLoadManager::bReturnedFromSysUtil");
+static_assert(offsetof(BGSSaveLoadManager, bSysUtilLoadDataComplete) == 0x25, "BGSSaveLoadManager::bSysUtilLoadDataComplete");
+static_assert(offsetof(BGSSaveLoadManager, bStartMenuLoading) == 0x26, "BGSSaveLoadManager::bStartMenuLoading");
+static_assert(offsetof(BGSSaveLoadManager, pSysUtilSaveCompleteCallback) == 0x28, "BGSSaveLoadManager::pSysUtilSaveCompleteCallback");
+static_assert(offsetof(BGSSaveLoadManager, pSysUtilLoadCompleteCallback) == 0x2C, "BGSSaveLoadManager::pSysUtilLoadCompleteCallback");
+static_assert(offsetof(BGSSaveLoadManager, sSystemSaveName) == 0x30, "BGSSaveLoadManager::sSystemSaveName");
+static_assert(alignof(BGSSaveLoadManager) == 4, "alignof BGSSaveLoadManager: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveLoadManager) == 0x38, "sizeof BGSSaveLoadManager");
+static_assert(sizeof(BGSSaveLoadManager) == 0x38, "PC-проверка sizeof BGSSaveLoadManager");

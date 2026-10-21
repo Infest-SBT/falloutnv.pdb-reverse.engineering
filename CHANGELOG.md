@@ -4,6 +4,14 @@
 проверенные по коду PC, поверх публичных имён из PDB xNVSE. Номер версии: `x.y` — новый раздел типов,
 `x.y.z` — исправления без нового раздела. Подробности каждой версии — в `README_RU.md` её тега.
 
+## [0.3] — 2026-10-21 — Сохранения
+
+### Добавлено
+- 7 классов сохранений: `BGSSaveLoadFormHeader`, `BGSSaveGameBuffer`, `BGSSaveFormBuffer`, `BGSLoadGameBuffer`,
+  `BGSLoadFormBuffer`, `BGSSaveLoadGame`, `BGSSaveLoadManager` (на PC 0x38 вместо 0x30: два поля только PC).
+- Перечисление `CHANGE_TYPE`, сверенное по `BGSChangeFlags::GetFlagName` (`verify_change_flags.py`, `change_flags.csv`).
+- `BGSSaveLoadFormHeader` упакован (sizeof 9) — `#pragma pack(1)` только для него.
+
 ## [0.2] — 2026-10-21 — Доказательная матрица
 
 ### Добавлено

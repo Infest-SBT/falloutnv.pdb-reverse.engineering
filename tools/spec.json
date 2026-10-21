@@ -14,7 +14,14 @@
   "MemoryManager",
   "HeapBlock",
   "FreeHeapBlock",
-  "FreeHeapBlockList"
+  "FreeHeapBlockList",
+  "BGSSaveLoadFormHeader",
+  "BGSSaveGameBuffer",
+  "BGSSaveFormBuffer",
+  "BGSLoadGameBuffer",
+  "BGSLoadFormBuffer",
+  "BGSSaveLoadGame",
+  "BGSSaveLoadManager"
  ],
  "pc_sizeof": {
   "BSCriticalSection": 24
@@ -29,7 +36,25 @@
    [
     "unsigned",
     "iMainThreadMemoryProblemPassSignal",
-    308
+    308,
+    4,
+    "own"
+   ]
+  ],
+  "BGSSaveLoadManager": [
+   [
+    "bool",
+    "bShouldSystemSave",
+    17,
+    1,
+    "own"
+   ],
+   [
+    "BSStringT<char>",
+    "sSystemSaveName",
+    48,
+    8,
+    "own"
    ]
   ]
  },
@@ -73,6 +98,21 @@
   "MemoryManager": {
    "sizeof": 312,
    "ppPhysicalHeaps": 292
+  },
+  "BGSSaveFormBuffer": {
+   "sizeof": 36
+  },
+  "BGSLoadFormBuffer": {
+   "sizeof": 48
+  },
+  "BGSSaveLoadGame": {
+   "sizeof": 588
+  },
+  "BGSSaveLoadManager": {
+   "sizeof": 56
+  },
+  "BGSSaveLoadFormHeader": {
+   "sizeof": 9
   }
  },
  "enums": [
@@ -80,5 +120,14 @@
  ],
  "flatten": [
   "FreeHeapBlock"
- ]
+ ],
+ "packed": [
+  "BGSSaveLoadFormHeader"
+ ],
+ "global_enums": {
+  "CHANGE_TYPE": "флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv. На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE"
+ },
+ "value_as": {
+  "BGSChangeFlags": "unsigned"
+ }
 }

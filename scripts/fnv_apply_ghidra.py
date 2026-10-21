@@ -21,7 +21,7 @@ from ghidra.program.model.listing import ParameterImpl
 from ghidra.program.model.listing.Function import FunctionUpdateType
 
 SHA = None
-summary_file = askFile("summary.json из FalloutNV_PDB_v0.2/evidence", "Открыть")
+summary_file = askFile("summary.json из FalloutNV_PDB_v0.3/evidence", "Открыть")
 S = json.load(open(summary_file.getAbsolutePath()))
 prog = currentProgram
 dtm = prog.getDataTypeManager()

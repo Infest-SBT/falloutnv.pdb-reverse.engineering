@@ -11,7 +11,7 @@ import json, re
 import idc, ida_funcs, ida_kernwin, ida_name
 
 APPLY_TYPES = True
-path = ida_kernwin.ask_file(0, "*.json", "summary.json из FalloutNV_PDB_v0.2/evidence")
+path = ida_kernwin.ask_file(0, "*.json", "summary.json из FalloutNV_PDB_v0.3/evidence")
 S = json.load(open(path, encoding="utf-8")) if path else {"classes": {}}
 st = {"created": 0, "cmt": 0, "typed": 0, "type_fail": 0}
 

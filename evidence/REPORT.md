@@ -19,10 +19,17 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `HeapBlock` | 0x10 | consistent | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlock` | 0x10 | consistent | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlockList` | 0x8 | confirmed | 0 / 0 / 2 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadFormHeader` | 0x9 | consistent | 2 / 1 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveGameBuffer` | 0x14 | confirmed | 5 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 3 / 0 |
+| `BGSSaveFormBuffer` | 0x24 | consistent | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 |
+| `BGSLoadGameBuffer` | 0x10 | confirmed | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 3 / 0 |
+| `BGSLoadFormBuffer` | 0x30 | confirmed | 8 / 0 / 1 / 0 | 0 / 4 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadGame` | 0x24C | confirmed | 13 / 2 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadManager` | 0x38 | confirmed | 19 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
 
-Строк в evidence_fields.csv: 1509, evidence_vslots.csv: 203, evidence_sizes.csv: 17.
+Строк в evidence_fields.csv: 1897, evidence_vslots.csv: 217, evidence_sizes.csv: 25.
 
-Итого: f_confirmed=235, f_consistent=2, f_unverified=3, v_name+stack=87, v_semantics=9, v_stack=7, v_stub=64
+Итого: f_confirmed=291, f_consistent=5, f_unverified=5, v_name+stack=94, v_semantics=10, v_stack=7, v_stub=70
 
 ## Исключённые функции (имя в PDB xNVSE не соответствует коду)
 

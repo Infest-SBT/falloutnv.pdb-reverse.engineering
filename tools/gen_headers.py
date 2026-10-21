@@ -27,6 +27,9 @@ DROP = {k: set(v) for k, v in spec.get('drop_vslots', {}).items()}
 EXTRA = spec.get('extra_fields', {})
 ASSERTS = spec.get('asserts', {})
 ENUMS = spec.get('enums', [])
+GENUMS = spec.get('global_enums', {})
+PACKED = set(spec.get('packed', []))
+VALUE_AS = spec.get('value_as', {})
 
 PRIM = {'void', 'bool', 'char', 'signed char', 'unsigned char', 'short', 'unsigned short', 'int', 'unsigned',
         'unsigned int', 'long', 'unsigned long', 'float', 'double', '__int64', 'unsigned __int64',
@@ -174,10 +177,17 @@ def xalign(tname, depth=0):
 PCSZ_ALIGN = {k: 4 for k in PCSZ}   # заменённые на PC типы (CRITICAL_SECTION) — выравнивание 4
 
 
-def member_c(name, tname, size):
-    """Объявление поля: примитив/указатель — типом, остальное — байтовым массивом с alignas и комментарием.
+def member_c(name, tname, size, packed=False):
+    """Объявление поля: примитив/указатель — типом, проверенный класс — им самим,
+    остальное — байтовым массивом с alignas (кроме упакованных классов) и комментарием.
     Возвращает (объявление, размер, выравнивание, непрозрачное_ли)."""
     t = tname.strip()
+    if t in VALUE_AS:
+        bt = VALUE_AS[t]
+        one = PRIM_ALIGN.get(bt, 4)
+        return f'{bt} {name}; // {t}', one if bt not in ('unsigned', 'int', 'float') else 4, 1 if packed else one, False
+    if t in pc_size and t in declared:
+        return f'{t} {name};', pc_size[t], meta_align.get(t, 4), False
     arr = re.match(r'(.*)\[(\d+) bytes\]$', t)
     if arr:
         el = arr.group(1).strip()
@@ -187,7 +197,7 @@ def member_c(name, tname, size):
         if ct and n % esz == 0 and n <= size:
             return f'{ct} {name}[{n // esz}];', n, xalign(el), False
         n = min(n, size)
-        a = xalign(t)
+        a = 1 if packed else xalign(t)
         return (f'alignas({a}) ' if a > 1 else '') + f'unsigned char {name}[{n}]; // {t}', n, a, True
     if t.startswith('bitfield'):
         return None
@@ -196,7 +206,7 @@ def member_c(name, tname, size):
         bt = ct.replace('const ', '')
         one = 4 if bt.endswith('*') else PRIM_ALIGN.get(bt, 4)
         return f'{ct} {name};', one, one, False
-    a = xalign(t)
+    a = 1 if packed else xalign(t)
     return (f'alignas({a}) ' if a > 1 else '') + f'unsigned char {name}[{size}]; // {t}', size, a, True
 
 
@@ -231,10 +241,15 @@ for cls in CLASSES:
         fields.append((o + delta, n, t, sz))
         if ps is not None:
             delta += ps - xs
-    for ft, fn, fo in EXTRA.get(cls, []):
-        fields.append((fo, fn, ft, 4))
-        delta += 4
-    size = L['size'] + delta
+    own_src = {}
+    ext_end = 0
+    for e in EXTRA.get(cls, []):
+        ft, fn, fo = e[:3]
+        esz = e[3] if len(e) > 3 else 4
+        own_src[fn] = e[4] if len(e) > 4 else 'own'
+        fields.append((fo, fn, ft, esz))
+        ext_end = max(ext_end, fo + esz)
+    size = max(L['size'] + delta, -(-ext_end // 4) * 4)
     pc_size[cls] = size
     lines = [f'// {cls} (Xbox PDB): Xbox sizeof 0x{L["size"]:X}, PC sizeof 0x{size:X}']
     kw = 'struct' if T.rec[T.byname[cls]][0] == 'LF_STRUCTURE' else 'class'
@@ -278,6 +293,7 @@ for cls in CLASSES:
                              'expect_ret_n': nbytes})
     # поля с явными заполнителями
     pos = bsize if base else vptr
+    packed = cls in PACKED
     align = 4 if vptr else (meta_align.get(base, 1) if base else 1)
     lines.append('    // поля')
     for po, n, t, sz in sorted(fields):
@@ -285,15 +301,16 @@ for cls in CLASSES:
             continue  # перекрытие (union/битовые поля) — пропускаем
         if po > pos:
             lines.append(f'    unsigned char _pad{pos:X}[0x{po - pos:X}];')
-        mc = member_c(n, t, sz)
+        mc = member_c(n, t, sz, packed)
         if mc is None:
             continue
         decl, tsz, fa, opaque = mc
-        lines.append(f'    {decl}')
-        align = max(align, fa)
+        lines.append(f'    {decl}' + (f' // {own_src[n]}: поля нет в Xbox PDB, имя наше, найдено по PC-коду' if n in own_src else ''))
+        align = 1 if packed else max(align, fa)
         asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
         cm['fields'].append({'name': n, 'off': po, 'size': tsz, 'xbox_type': t, 'opaque': opaque,
-                             'decl': decl.split(' //')[0]})
+                             'decl': decl.split(' //')[0], 'source': own_src.get(n, 'xbox_pdb'),
+                             'class_type': t if (t in declared and t in pc_size) else None})
         pos = po + tsz
     if pos < size:
         lines.append(f'    unsigned char _pad{pos:X}[0x{size - pos:X}];')
@@ -310,6 +327,8 @@ for cls in CLASSES:
                 vals = re.findall(r'LF_ENUMERATE \[(\w+) = (-?\d+)\]', ' '.join(rec(int(fl.group(1), 16))[2]))
                 lines.insert(3, f'    enum {en} {{ ' + ', '.join(f'{a} = {v}' for a, v in vals) + ' }; // (Xbox PDB), значения проверены на PC')
     lines.append('};')
+    if packed:
+        lines = ['#pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)'] + lines + ['#pragma pack(pop)']
     asserts.append(f'static_assert(sizeof({cls}) == 0x{size:X}, "sizeof {cls}");')
     for k, v in ASSERTS.get(cls, {}).items():
         if k == 'sizeof':
@@ -328,6 +347,12 @@ hdr = ['// Сгенерировано gen_headers.py. Источник раск�
 hdr += [('struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class') + f' {n};' for n in sorted((fwd | declared) - set(VALUE_TYPES))]
 hdr += [f'struct {n} {{ alignas({xalign(n)}) unsigned char _opaque[0x{sz:X}]; }}; // (Xbox PDB) передаётся по значению; поля не описаны'
         for n, sz in sorted(VALUE_TYPES.items())]
+for e, note in GENUMS.items():
+    eti = T.byname['enum ' + e]
+    fl = re.search(r'field list: (0x[0-9A-F]+)', ' '.join(rec(eti)[2]))
+    vals = re.findall(r'LF_ENUMERATE \[(\w+) = (-?\d+)\]', ' '.join(rec(int(fl.group(1), 16))[2]))
+    hdr.append(f'// {e} (Xbox PDB): {note}')
+    hdr.append(f'enum {e} : unsigned int {{\n' + ',\n'.join(f'    {a} = 0x{int(v) & 0xFFFFFFFF:X}' for a, v in vals) + '\n};')
 hdr += blocks
 hdr += sorted(set(asserts), key=asserts.index)
 open(out_path, 'w', encoding='utf-8').write('\n'.join(hdr) + '\n')
