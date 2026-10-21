@@ -10,6 +10,7 @@ import ida_funcs
 import ida_kernwin
 import ida_nalt
 import ida_name
+import ida_netnode
 import ida_segment
 
 
@@ -58,7 +59,19 @@ def main():
         return
 
     plan, conflicts = build_plan(S)
+    own = ida_netnode.netnode(OWN_NODE, 0, False)      # только чтение: в пробном прогоне ничего не создаём
+    own_ok = own.index() != ida_netnode.BADNODE
+
+    def ownership(va):
+        """'ours' — прототип ставил этот скрипт и с тех пор тип никто не менял; 'ours-changed' — ставил скрипт,
+        но потом изменили; None — не ставил. Решается ТОЛЬКО по netnode OWN_NODE, не по комментариям."""
+        stored = own.supstr(va) if own_ok else None
+        if not stored:
+            return None
+        return "ours" if stored == (idc.get_type(va) or "") else "ours-changed"
+
     log, actions = [], []
+    proto_present = set()
     for va in sorted(plan):
         e = plan[va]
         if not ida_funcs.get_func(va):
@@ -67,17 +80,23 @@ def main():
             else:
                 log.append("0x%08X: не в сегменте кода — функция не создаётся" % va)
                 continue
-        actions.append((va, "comment", None))
         if APPLY_PROTOTYPES and e["proto"] and e["this"] == e["proto"][0]:
-            old_t = idc.get_type(va)
-            ours = MARK_PREFIX in (idc.get_func_cmt(va, 1) or "") and "прототип:" in (idc.get_func_cmt(va, 1) or "")
             d = proto_decl(*e["proto"])
+            old_t = idc.get_type(va)
+            o = ownership(va)
             if d is None:
-                continue
-            if old_t and not ours:
-                log.append("0x%08X: у функции уже есть тип (%s) — прототип не ставится" % (va, old_t))
-            else:
+                pass
+            elif not old_t:
                 actions.append((va, "proto", d))
+            elif o == "ours" and UPDATE_OWN_PROTOTYPES:
+                actions.append((va, "proto", d))
+            elif o == "ours":
+                proto_present.add(va)
+            elif o == "ours-changed":
+                log.append("0x%08X: прототип, поставленный скриптом, потом изменили вручную — не трогаем" % va)
+            else:
+                log.append("0x%08X: у функции уже есть тип (%s) — прототип не ставится" % (va, old_t))
+        actions.append((va, "comment", None))
     for cls in sorted(S["classes"]):
         vt = S["classes"][cls].get("vtable_va")
         if vt:
@@ -116,28 +135,33 @@ def main():
         return
 
     done = {"create": 0, "comment": 0, "proto": 0, "proto_fail": 0, "vtname": 0, "vtcmt": 0}
-    protos = dict((va, d) for va, act, d in actions if act == "proto")
+    proto_set = {}        # прототип поставлен в этом запуске (после успешного SetType)
+    node = None
     for va, act, x in actions:
         e = plan.get(va)
         if act == "create":
             if not ida_funcs.get_func(va) and ida_funcs.add_func(va):
                 done["create"] += 1
+        elif act == "proto":
+            if idc.SetType(va, x):
+                if node is None:
+                    node = ida_netnode.netnode(OWN_NODE, 0, True)
+                node.supset(va, idc.get_type(va) or x)      # отпечаток — только после успешной установки
+                proto_set[va] = x
+                done["proto"] += 1
+            else:
+                done["proto_fail"] += 1
+                print("FNV: тип не применён @ 0x%08X: %s" % (va, x))
         elif act == "comment":
             lines = list(e["lines"])
-            if va in protos:
-                lines.append("прототип: %s" % protos[va])
+            if va in proto_set or va in proto_present:
+                lines.append("прототип поставлен скриптом: %s" % idc.get_type(va))
             text = "\n".join("%s %s" % (MARK, l) for l in lines)
             if ida_funcs.get_func(va):
                 idc.set_func_cmt(va, merge_comment(idc.get_func_cmt(va, 1), text), 1)
             else:
                 idc.set_cmt(va, merge_comment(idc.get_cmt(va, 1), text), 1)
             done["comment"] += 1
-        elif act == "proto":
-            if idc.SetType(va, x):
-                done["proto"] += 1
-            else:
-                done["proto_fail"] += 1
-                print("FNV: тип не применён @ 0x%08X: %s" % (va, x))
         elif act == "vtname":
             if ida_name.set_name(va, x, ida_name.SN_NOWARN | ida_name.SN_NOCHECK):
                 done["vtname"] += 1

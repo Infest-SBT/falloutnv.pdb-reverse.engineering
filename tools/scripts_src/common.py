@@ -4,7 +4,7 @@
 import io
 import json
 
-PDB_VERSION = "0.3.1"
+PDB_VERSION = "0.3.2"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -114,9 +114,9 @@ def build_plan(summary, all_this=False):
             e["this"] = owner
             if owner is None:
                 conflicts.append("0x%08X: this не ставится — %s" % (va, why))
-                e["lines"].append("this не ставится: %s" % why)
+                e["lines"].append("кандидат на this не выбран: %s" % why)
             elif why:
-                e["lines"].append("this = %s: %s" % (owner, why))
+                e["lines"].append("кандидат на this — %s: %s" % (owner, why))
         protos = sorted(set(e["proto"]))
         e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
         if len(protos) > 1:

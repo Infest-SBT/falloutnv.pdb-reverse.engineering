@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.3.1 к открытой программе Ghidra.
+# Применяет доказательную матрицу FNV PDB v0.3.2 к открытой программе Ghidra.
 # @category FNV
 # @runtime Jython
 #
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.1 (File > Load PDB File),
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.2 (File > Load PDB File),
 # затем Script Manager > fnv_apply_ghidra.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.3.1):
+# Безопасность (v0.3.2):
 #   * сначала проверяется, что это тот самый exe: SHA-256 исходного файла, база образа 0x400000, x86 32-бит;
 #     при любом несовпадении скрипт останавливается и ничего не меняет;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: строится план, пишется в fnv_apply_plan_ghidra.txt рядом с summary.json,
 #     и только после подтверждения применяется (headless: аргумент --apply);
 #   * всё применяется в одной явной транзакции; при ошибке транзакция откатывается целиком;
 #   * повторный запуск безопасен: наши комментарии помечены [FNV-PDB …] и заменяются, чужие не трогаются;
-#     сигнатуры, которые пользователь задал сам (USER_DEFINED без нашей метки), не перезаписываются;
+#   * сигнатуры USER_DEFINED не перезаписываются никогда по умолчанию. Какие сигнатуры поставил сам скрипт,
+#     записано не в комментариях, а в карте свойств программы «FNV_PDB.this_signature» (адрес → отпечаток
+#     сигнатуры сразу после установки). Изменили её вручную — отпечаток не совпадёт, скрипт её не тронет;
+#     совпадает — обновит только при UPDATE_OWN_SIGNATURES = True;
 #   * структура класса ищется по имени И точному размеру; нет или несколько кандидатов — класс пропускается.
 # Что делает:
 #   1) __thiscall и параметр this = указатель на структуру класса (custom storage, ECX) — только методам,
@@ -31,6 +34,8 @@ from __future__ import print_function, unicode_literals
 
 APPLY = False        # True — применять без вопроса (не рекомендуется)
 ALL_THIS = False     # True — this всем методам, читающим ECX до записи (как в v0.3), даже без обращений к полям
+UPDATE_OWN_SIGNATURES = False  # True — обновлять сигнатуры, которые поставил этот скрипт и с тех пор никто не менял
+OWN_MAP = "FNV_PDB.this_signature"  # карта свойств: адрес -> отпечаток сигнатуры, поставленной скриптом
 
 # ---------------------------------------------------------------------------------------------
 # Общая часть (одинакова в fnv_apply_ghidra.py и fnv_apply_ida.py; совместима с Python 2.7/Jython)
@@ -38,7 +43,7 @@ ALL_THIS = False     # True — this всем методам, читающим E
 import io
 import json
 
-PDB_VERSION = "0.3.1"
+PDB_VERSION = "0.3.2"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -148,9 +153,9 @@ def build_plan(summary, all_this=False):
             e["this"] = owner
             if owner is None:
                 conflicts.append("0x%08X: this не ставится — %s" % (va, why))
-                e["lines"].append("this не ставится: %s" % why)
+                e["lines"].append("кандидат на this не выбран: %s" % why)
             elif why:
-                e["lines"].append("this = %s: %s" % (owner, why))
+                e["lines"].append("кандидат на this — %s: %s" % (owner, why))
         protos = sorted(set(e["proto"]))
         e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
         if len(protos) > 1:
@@ -247,42 +252,64 @@ def main():
         return b is not None and b.isExecute()
 
 
-    def our_signature(f):
-        pc = f.getComment() or ""          # комментарий функции = плашка
-        return MARK_PREFIX in pc and "this =" in pc
+    own_map = prog.getUsrPropertyManager().getStringPropertyMap(OWN_MAP)
 
+    def fingerprint(f):
+        """Сигнатура функции как строка (с соглашением о вызове) — отпечаток для учёта владения."""
+        sig = f.getSignature()
+        try:
+            return sig.getPrototypeString(True)
+        except Exception:  # noqa — старые версии Ghidra
+            return f.getCallingConventionName() + " " + sig.getPrototypeString()
+
+    def ownership(f, a):
+        """'ours' — this ставил этот скрипт и с тех пор сигнатуру никто не менял; 'ours-changed' — ставил скрипт,
+        но потом её изменили; None — скрипт её не ставил. Решается ТОЛЬКО по карте свойств OWN_MAP, не по комментариям."""
+        stored = own_map.getString(a) if own_map is not None else None
+        if stored is None:
+            return None
+        return "ours" if stored == fingerprint(f) else "ours-changed"
 
     def this_already(f, st):
         ps = f.getParameters()
         return (len(ps) > 0 and ps[0].getName() == "this" and f.getCallingConventionName() == "__thiscall"
                 and ps[0].getDataType().getName() == st.getName() + " *")
 
-
-    # ---- план ----
-    actions = []          # (va, что сделать)
-    this_ok = set()       # адреса, где this будет стоять после применения (ставим сейчас или уже стоит)
+    # ---- план: для каждого адреса — действия в порядке выполнения ----
+    actions = []          # (va, "create" | "this" | "comment")
+    this_present = {}     # this уже стоит: va -> поставил ли его скрипт (по отпечатку); ничего не меняем
     for va in sorted(plan):
         e = plan[va]
         a = toAddr(va)
         f = getFunctionAt(a)
         if f is None:
-            if is_exec(a):
-                actions.append((va, "create"))
-            else:
+            if not is_exec(a):
                 log.append("0x%08X: не исполняемый блок — функция не создаётся" % va)
                 continue
-        actions.append((va, "comment"))
+            actions.append((va, "create"))
         owner = e["this"]
         if owner:
             st = structs.get(owner)
             if st is None:
-                log.append("0x%08X: this = %s пропущен — нет структуры" % (va, owner))
-            elif f is not None and f.getSignatureSource() == SourceType.USER_DEFINED and not our_signature(f):
-                log.append("0x%08X: сигнатура задана пользователем — this не трогаем" % va)
-            elif f is not None and this_already(f, st):
-                pass
+                log.append("0x%08X: this (%s) пропущен — нет структуры" % (va, owner))
+            elif f is None:
+                actions.append((va, "this"))                      # новая функция — сигнатуры ещё нет
+            elif this_already(f, st):
+                this_present[va] = ownership(f, a) == "ours"
+            elif f.getSignatureSource() == SourceType.USER_DEFINED:
+                own = ownership(f, a)
+                if own == "ours" and UPDATE_OWN_SIGNATURES:
+                    actions.append((va, "this"))
+                elif own == "ours":
+                    log.append("0x%08X: сигнатура поставлена прошлым запуском и отличается от нужной — "
+                               "не трогаем (UPDATE_OWN_SIGNATURES = True, чтобы обновить)" % va)
+                elif own == "ours-changed":
+                    log.append("0x%08X: сигнатуру, поставленную скриптом, потом изменили вручную — не трогаем" % va)
+                else:
+                    log.append("0x%08X: сигнатура задана пользователем — не трогаем" % va)
             else:
-                actions.append((va, "this"))
+                actions.append((va, "this"))                      # DEFAULT / ANALYSIS / IMPORTED
+        actions.append((va, "comment"))
     n_fields = 0
     for cls in sorted(S["classes"]):
         st = structs.get(cls)
@@ -332,31 +359,39 @@ def main():
 
 
     done = {"create": 0, "comment": 0, "this": 0, "fields": 0, "labels": 0}
+    this_set = set()      # this поставлен в этом запуске (после успешного set_this)
     tx = prog.startTransaction("FNV PDB %s" % PDB_VERSION)
     ok = False
     try:
+        omap = own_map
+        if omap is None and any(act == "this" for _, act in actions):
+            omap = prog.getUsrPropertyManager().createStringPropertyMap(OWN_MAP)
         for va, act in actions:
             a = toAddr(va)
             e = plan[va]
             if act == "create":
                 if getFunctionAt(a) is None and createFunction(a, None) is not None:
                     done["create"] += 1
+            elif act == "this":
+                f = getFunctionAt(a)
+                if f is not None:
+                    set_this(f, structs[e["this"]])
+                    omap.add(a, fingerprint(f))           # отпечаток — только после успешной установки
+                    this_set.add(va)
+                    done["this"] += 1
             elif act == "comment":
                 f = getFunctionAt(a)
                 lines = list(e["lines"])
-                if va in this_ok:
-                    lines.append("this = %s (__thiscall, ECX)" % e["this"])
+                if va in this_set or this_present.get(va):
+                    lines.append("this: %s (__thiscall, ECX) — поставлен скриптом" % e["this"])
+                elif va in this_present:
+                    lines.append("this: %s — уже стоял, поставлен не скриптом" % e["this"])
                 text = "\n".join("%s %s" % (MARK, l) for l in lines)
                 if f is not None:
                     f.setComment(merge_comment(f.getComment(), text))
                 else:
                     setPlateComment(a, merge_comment(getPlateComment(a), text))
                 done["comment"] += 1
-            elif act == "this":
-                f = getFunctionAt(a)
-                if f is not None:
-                    set_this(f, structs[e["this"]])
-                    done["this"] += 1
         for cls in sorted(S["classes"]):
             c = S["classes"][cls]
             st = structs.get(cls)

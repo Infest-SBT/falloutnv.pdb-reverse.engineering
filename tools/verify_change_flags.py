@@ -4,6 +4,8 @@ usage: python3 -I verify_change_flags.py <Fallout.types.txt | fnv_types.h> <Fall
 Вместо дампа Xbox можно дать опубликованный заголовок: значения enum CHANGE_TYPE берутся из него.
 PC-функция 0x83FEF0 сравнивает флаг с константами (cmp [ebp-0x10], V / je T) и в блоке T возвращает
 строку с именем флага. Получаем пары «имя → значение на PC» и сравниваем со значениями enum на Xbox.
+v0.3.2: status — только совпадение значения; reachable — достижим ли блок с именем (статически);
+значение совпало, блок недостижим — 'value-confirmed-unreachable'. Всё это статический анализ, не поведение в игре.
 v0.3.1: отдельные столбцы pc_name/xbox_name, контекст типа формы (form_types — числовые типы PC, form_sigs —
 сигнатуры из таблицы типов PC 0x1187000; «any» — общий путь для любого типа). Флаг имеет смысл только
 в паре с типом формы: одно и то же значение у разных типов — разные флаги.
@@ -236,6 +238,21 @@ for n in sorted(unused):
     rows.append({'pc_name': '', 'xbox_name': n, 'pc_value': '', 'xbox_value': f'0x{xb[n]:08X}', 'pc_block': '',
                  'form_types': '', 'form_sigs': '', 'note': 'имени нет в GetFlagName — значение на PC не проверить',
                  'status': 'not-in-GetFlagName'})
+# Совпадение значения и достижимость блока — разные факты (аудит v0.3.1): status говорит только о значении,
+# reachable — дойдёт ли управление до блока с именем хоть при одном типе формы (статически, по коду PC).
+# Значение совпало, а блок недостижим — status 'value-confirmed-unreachable', а не 'confirmed'.
+for r in rows:
+    if not r['pc_block']:
+        r['reachable'] = ''
+    elif r['form_types']:
+        r['reachable'] = 'yes'
+    else:
+        r['reachable'] = 'no'
+        if r['status'] in ('confirmed', 'renamed'):
+            r['status'] = 'value-confirmed-unreachable'
+order = ['pc_name', 'xbox_name', 'pc_value', 'xbox_value', 'status', 'reachable', 'form_types', 'form_sigs',
+         'pc_block', 'note']
+rows = [{k: r.get(k, '') for k in order} for r in rows]
 with open(out_path, 'w', newline='', encoding='utf-8') as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0]))
     w.writeheader()

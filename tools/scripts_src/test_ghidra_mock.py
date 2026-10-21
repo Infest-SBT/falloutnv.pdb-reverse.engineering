@@ -1,0 +1,248 @@
+"""Регрессионные тесты fnv_apply_ghidra.py на имитации API Ghidra (не заменяют прогон на настоящей Ghidra).
+
+usage: python3 -I test_ghidra_mock.py <evidence/summary.json> <scripts/fnv_apply_ghidra.py>
+Сценарии: чужой exe; пробный прогон; применение; два запуска подряд; пользовательская сигнатура на 0x00AA7E50
+(сценарий аудита v0.3.1) — два запуска; сигнатура, поставленная скриптом и изменённая человеком; неоднозначная
+структура; ошибка посреди применения -> откат.
+"""
+import json
+import sys
+import types
+
+SP, SCRIPT = sys.argv[1:3]
+CODE = open(SCRIPT, encoding='utf-8').read()
+SUMM = json.load(open(SP, encoding='utf-8'))
+EXE = '42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c'
+
+
+def mod(name, **kw):
+    m = types.ModuleType(name)
+    m.__dict__.update(kw)
+    sys.modules[name] = m
+    return m
+
+
+class ArrayList(list):
+    def add(self, x):
+        self.append(x)
+
+
+class SourceType:
+    USER_DEFINED, DEFAULT, ANALYSIS, IMPORTED = 'USER_DEFINED', 'DEFAULT', 'ANALYSIS', 'IMPORTED'
+
+
+class Structure:
+    pass
+
+
+class FakeStruct(Structure):
+    def __init__(s, name, size, fields):
+        s.name, s.size, s.comps = name, size, [Comp(f) for f in fields]
+
+    def getLength(s): return s.size
+    def getName(s): return s.name
+    def getCategoryPath(s): return '/pdb'
+    def getDefinedComponents(s): return s.comps
+
+
+class Comp:
+    def __init__(s, n): s.n, s.c = n, None
+    def getFieldName(s): return s.n
+    def getComment(s): return s.c
+    def setComment(s, c): s.c = c
+
+
+class PointerDataType:
+    def __init__(s, st): s.st = st
+    def getName(s): return s.st.getName() + ' *'
+
+
+class ParameterImpl:
+    def __init__(s, n, dt, reg, prog): s.n, s.dt = n, dt
+    def getName(s): return s.n
+    def getDataType(s): return s.dt
+    def isAutoParameter(s): return False
+
+
+class Named:
+    def __init__(s, n): s.n = n
+    def getName(s): return s.n
+
+
+for n in ['java', 'ghidra', 'ghidra.program', 'ghidra.program.model', 'ghidra.program.model.listing']:
+    mod(n)
+mod('java.util', ArrayList=ArrayList)
+mod('ghidra.program.model.symbol', SourceType=SourceType)
+mod('ghidra.program.model.data', PointerDataType=PointerDataType, Structure=Structure)
+sys.modules['ghidra.program.model.listing'].ParameterImpl = ParameterImpl
+mod('ghidra.program.model.listing.Function', FunctionUpdateType=types.SimpleNamespace(CUSTOM_STORAGE=1))
+
+
+class Func:
+    def __init__(s, va, w):
+        s.va, s.cc, s.params, s.src, s.cmt, s.w = va, '__stdcall', [], SourceType.DEFAULT, None, w
+
+    def getCallingConventionName(s): return s.cc
+    def setCallingConvention(s, c): s.cc = c
+    def getParameters(s): return s.params
+    def setCustomVariableStorage(s, b): pass
+
+    def replaceParameters(s, ps, t, f, src):
+        if s.va in s.w.fail_on:
+            raise RuntimeError('сбой посреди применения')
+        s.params, s.src = list(ps), src
+
+    def getSignatureSource(s): return s.src
+    def getComment(s): return s.cmt
+    def setComment(s, c): s.cmt = c
+
+    def getSignature(s):
+        f = s
+        return types.SimpleNamespace(getPrototypeString=lambda cc=False: (f.cc + ' ' if cc else '') + 'void f(' + ', '.join(
+            '%s %s' % (p.getDataType().getName(), p.getName()) for p in f.params) + ')')
+
+
+class StrMap(dict):
+    def add(s, a, v): s[a] = v
+    def getString(s, a): return s.get(a)
+
+
+class World:
+    def __init__(w, mode=''):
+        w.mode, w.fail_on, w.maps, w.plates, w.tx = mode, set(), {}, {}, []
+        w.structs = {c: FakeStruct(c, v['pc_size'], list(v.get('field_details', {}))) for c, v in SUMM['classes'].items()}
+        if mode == 'ambig':
+            w.structs['dup'] = FakeStruct('BSGameSound', 408, [])
+        w.funcs = {}
+        for c, v in SUMM['classes'].items():
+            for m in v['methods'][::2]:
+                w.funcs[m['va']] = Func(m['va'], w)
+
+    def run(w, apply=True, sha=EXE):
+        out = []
+        w2 = w
+
+        class Prog:
+            def getDataTypeManager(s):
+                return types.SimpleNamespace(findDataTypes=lambda name, lst: [lst.add(st) for st in w2.structs.values()
+                                                                              if st.getName() == name])
+
+            def getExecutableSHA256(s): return sha
+            def getImageBase(s): return types.SimpleNamespace(getOffset=lambda: 0x400000)
+            def getLanguage(s): return types.SimpleNamespace(getProcessor=lambda: 'x86')
+            def getDefaultPointerSize(s): return 4
+            def getRegister(s, n): return n
+            def startTransaction(s, n): w2.tx.append([n, None]); return len(w2.tx)
+            def endTransaction(s, t, ok): w2.tx[t - 1][1] = ok
+            def getSymbolTable(s): return types.SimpleNamespace(getSymbols=lambda a: [])
+
+            def getUsrPropertyManager(s):
+                return types.SimpleNamespace(getStringPropertyMap=lambda n: w2.maps.get(n),
+                                             createStringPropertyMap=lambda n: w2.maps.setdefault(n, StrMap()))
+
+        def create(a, n):
+            w2.funcs[a] = Func(a, w2)
+            return w2.funcs[a]
+
+        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [SP] + (['--apply'] if apply else []),
+                 isRunningHeadless=lambda: True, askFile=None, println=out.append, popup=lambda m: None,
+                 toAddr=lambda v: v, getFunctionAt=lambda a: w2.funcs.get(a), createFunction=create,
+                 getMemoryBlock=lambda a: types.SimpleNamespace(isExecute=lambda: True),
+                 setPlateComment=lambda a, t: w2.plates.__setitem__(a, t), getPlateComment=lambda a: w2.plates.get(a),
+                 createLabel=lambda a, n, p: None, askYesNo=lambda a, b: False, __name__='__main__')
+        try:
+            exec(compile(CODE, SCRIPT, 'exec'), g)
+        except RuntimeError as ex:
+            out.append('EXC %s' % ex)
+        return out
+
+    def sig(w, va):
+        f = w.funcs.get(va)
+        return None if f is None else (f.cc, f.src, tuple((p.getName(), p.getDataType().getName()) for p in f.params))
+
+    def snapshot(w):
+        return {va: (w.sig(va), f.cmt) for va, f in w.funcs.items()}
+
+
+def n_this(w):
+    return sum(1 for f in w.funcs.values() if f.params and f.params[0].getName() == 'this')
+
+
+fails = []
+
+
+def check(name, cond, info=''):
+    print('%-4s %s %s' % ('OK' if cond else 'FAIL', name, info))
+    if not cond:
+        fails.append(name)
+
+
+# 1. чужой exe
+w = World()
+out = w.run(sha='00' * 32)
+check('чужой exe: остановка без изменений', not w.tx and n_this(w) == 0 and any('остановлен' in l for l in out))
+
+# 2. пробный прогон
+w = World()
+before = w.snapshot()
+w.run(apply=False)
+check('пробный прогон: ничего не изменено', not w.tx and w.snapshot() == before and not w.maps)
+
+# 3. применение + 4. второй запуск ничего не меняет
+w = World()
+w.run()
+applied = n_this(w)
+check('применение: транзакция зафиксирована', w.tx and w.tx[-1][1] is True, 'this=%d' % applied)
+m = w.maps.get('FNV_PDB.this_signature', {})
+check('отпечатки записаны для каждого this', len(m) == applied, '%d/%d' % (len(m), applied))
+s1 = w.snapshot()
+out2 = w.run()
+check('второй запуск: сигнатуры и комментарии те же', w.snapshot() == s1)
+check('второй запуск: 0 установок this', any('установить this: 0' in l for l in out2))
+mark = [f.cmt for f in w.funcs.values() if f.cmt and 'поставлен скриптом' in f.cmt]
+check('комментарий «поставлен скриптом» только там, где стоит отпечаток', len(mark) == applied, str(len(mark)))
+
+# 5. сценарий аудита: USER_DEFINED на 0x00AA7E50, два запуска
+VA = 0x00AA7E50
+w = World()
+f = w.funcs.get(VA) or Func(VA, w)
+w.funcs[VA] = f
+f.cc, f.src = '__fastcall', SourceType.USER_DEFINED
+f.params = [ParameterImpl('heap', Named('void *'), None, None)]
+user = w.sig(VA)
+w.run()
+check('USER_DEFINED 0xAA7E50: после 1-го запуска не тронута', w.sig(VA) == user)
+w.run()
+check('USER_DEFINED 0xAA7E50: после 2-го запуска не тронута', w.sig(VA) == user)
+check('USER_DEFINED 0xAA7E50: отпечатка нет', VA not in w.maps.get('FNV_PDB.this_signature', {}))
+check('USER_DEFINED 0xAA7E50: в комментарии нет «поставлен скриптом»', 'поставлен скриптом' not in (f.cmt or ''))
+
+# 6. сигнатура, поставленная скриптом, затем изменённая человеком
+w = World()
+w.run()
+va = sorted(w.maps['FNV_PDB.this_signature'])[0]
+g = w.funcs[va]
+g.params = g.params + [ParameterImpl('count', Named('int'), None, None)]
+g.src = SourceType.USER_DEFINED
+edited = w.sig(va)
+w.run()
+check('изменённая человеком сигнатура не тронута', w.sig(va) == edited, '0x%X' % va)
+w.run()
+check('…и после ещё одного запуска', w.sig(va) == edited)
+
+# 7. неоднозначная структура
+w = World('ambig')
+out = w.run()
+check('неоднозначная структура: класс пропущен', any('КЛАСС ПРОПУЩЕН BSGameSound' in l for l in open(
+    SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt', encoding='utf-8')))
+
+# 8. ошибка посреди применения
+w = World()
+w.fail_on = {0x00AE9F10}
+out = w.run()
+check('ошибка: транзакция завершена с откатом (ok=False)', w.tx and w.tx[-1][1] is False)
+
+import os
+os.remove(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt')
+print('ИТОГ:', 'всё прошло' if not fails else 'провалено: %s' % ', '.join(fails))
+sys.exit(1 if fails else 0)

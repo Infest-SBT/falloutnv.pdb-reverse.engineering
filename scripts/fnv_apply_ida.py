@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.3.1 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.1 (File > Load file > PDB file),
+# Применяет доказательную матрицу FNV PDB v0.3.2 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.2 (File > Load file > PDB file),
 # затем File > Script file > fnv_apply_ida.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.3.1):
+# Безопасность (v0.3.2):
 #   * проверка exe: SHA-256 входного файла, база образа 0x400000, x86 32-бит; при несовпадении — остановка;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: план пишется в fnv_apply_plan_ida.txt рядом с summary.json и в Output,
 #     применение — только после подтверждения;
 #   * повторный запуск безопасен: наши строки комментариев помечены [FNV-PDB …] и заменяются, чужие остаются;
-#     существующие имена (в том числе из PDB) не переименовываются;
+#   * какие прототипы поставил сам скрипт, записано не в комментариях, а в netnode «$ fnv_pdb.proto»
+#     (адрес → тип сразу после установки); тип изменили вручную — скрипт его не тронет;
+#   * существующие имена (в том числе из PDB) не переименовываются;
 #   * адрес, на который указывают несколько классов (ICF, 19+ общих адресов), получает один комментарий
 #     со всеми владельцами — ничего не перезаписывается.
 # Что делает:
@@ -16,7 +18,8 @@
 #   2) комментарий функции: все классы/слоты на этом адресе, прототип с Xbox, уровень достоверности;
 #   3) имя <Класс>_vftable — только если у таблицы нет имени; иначе комментарий;
 #   4) прототипы — ВЫКЛЮЧЕНЫ по умолчанию (APPLY_PROTOTYPES). Если включить — только слоты со статусом
-#      semantics (разобраны вручную) и только если у функции нет своего типа или он поставлен этим скриптом.
+#      semantics (разобраны вручную) и только если у функции нет своего типа; свой прошлый тип скрипт обновляет
+#      лишь при UPDATE_OWN_PROTOTYPES = True и если его с тех пор никто не менял.
 # Комментарии к полям структур IDA не ставит (API структур различается между IDA 7/8 и 9) — см. заголовок .h.
 # На реальной IDA скрипт не запускался — перед запуском сохраните базу.
 
@@ -24,6 +27,8 @@ from __future__ import print_function, unicode_literals
 
 APPLY = False             # True — применять без вопроса (не рекомендуется)
 APPLY_PROTOTYPES = False  # True — ставить прототипы слотам semantics
+UPDATE_OWN_PROTOTYPES = False  # True — обновлять прототипы, поставленные этим скриптом и с тех пор не изменённые
+OWN_NODE = "$ fnv_pdb.proto"   # netnode: адрес -> тип, поставленный скриптом
 
 # ---------------------------------------------------------------------------------------------
 # Общая часть (одинакова в fnv_apply_ghidra.py и fnv_apply_ida.py; совместима с Python 2.7/Jython)
@@ -31,7 +36,7 @@ APPLY_PROTOTYPES = False  # True — ставить прототипы слот�
 import io
 import json
 
-PDB_VERSION = "0.3.1"
+PDB_VERSION = "0.3.2"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -141,9 +146,9 @@ def build_plan(summary, all_this=False):
             e["this"] = owner
             if owner is None:
                 conflicts.append("0x%08X: this не ставится — %s" % (va, why))
-                e["lines"].append("this не ставится: %s" % why)
+                e["lines"].append("кандидат на this не выбран: %s" % why)
             elif why:
-                e["lines"].append("this = %s: %s" % (owner, why))
+                e["lines"].append("кандидат на this — %s: %s" % (owner, why))
         protos = sorted(set(e["proto"]))
         e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
         if len(protos) > 1:
@@ -184,6 +189,7 @@ import ida_funcs
 import ida_kernwin
 import ida_nalt
 import ida_name
+import ida_netnode
 import ida_segment
 
 
@@ -232,7 +238,19 @@ def main():
         return
 
     plan, conflicts = build_plan(S)
+    own = ida_netnode.netnode(OWN_NODE, 0, False)      # только чтение: в пробном прогоне ничего не создаём
+    own_ok = own.index() != ida_netnode.BADNODE
+
+    def ownership(va):
+        """'ours' — прототип ставил этот скрипт и с тех пор тип никто не менял; 'ours-changed' — ставил скрипт,
+        но потом изменили; None — не ставил. Решается ТОЛЬКО по netnode OWN_NODE, не по комментариям."""
+        stored = own.supstr(va) if own_ok else None
+        if not stored:
+            return None
+        return "ours" if stored == (idc.get_type(va) or "") else "ours-changed"
+
     log, actions = [], []
+    proto_present = set()
     for va in sorted(plan):
         e = plan[va]
         if not ida_funcs.get_func(va):
@@ -241,17 +259,23 @@ def main():
             else:
                 log.append("0x%08X: не в сегменте кода — функция не создаётся" % va)
                 continue
-        actions.append((va, "comment", None))
         if APPLY_PROTOTYPES and e["proto"] and e["this"] == e["proto"][0]:
-            old_t = idc.get_type(va)
-            ours = MARK_PREFIX in (idc.get_func_cmt(va, 1) or "") and "прототип:" in (idc.get_func_cmt(va, 1) or "")
             d = proto_decl(*e["proto"])
+            old_t = idc.get_type(va)
+            o = ownership(va)
             if d is None:
-                continue
-            if old_t and not ours:
-                log.append("0x%08X: у функции уже есть тип (%s) — прототип не ставится" % (va, old_t))
-            else:
+                pass
+            elif not old_t:
                 actions.append((va, "proto", d))
+            elif o == "ours" and UPDATE_OWN_PROTOTYPES:
+                actions.append((va, "proto", d))
+            elif o == "ours":
+                proto_present.add(va)
+            elif o == "ours-changed":
+                log.append("0x%08X: прототип, поставленный скриптом, потом изменили вручную — не трогаем" % va)
+            else:
+                log.append("0x%08X: у функции уже есть тип (%s) — прототип не ставится" % (va, old_t))
+        actions.append((va, "comment", None))
     for cls in sorted(S["classes"]):
         vt = S["classes"][cls].get("vtable_va")
         if vt:
@@ -290,28 +314,33 @@ def main():
         return
 
     done = {"create": 0, "comment": 0, "proto": 0, "proto_fail": 0, "vtname": 0, "vtcmt": 0}
-    protos = dict((va, d) for va, act, d in actions if act == "proto")
+    proto_set = {}        # прототип поставлен в этом запуске (после успешного SetType)
+    node = None
     for va, act, x in actions:
         e = plan.get(va)
         if act == "create":
             if not ida_funcs.get_func(va) and ida_funcs.add_func(va):
                 done["create"] += 1
+        elif act == "proto":
+            if idc.SetType(va, x):
+                if node is None:
+                    node = ida_netnode.netnode(OWN_NODE, 0, True)
+                node.supset(va, idc.get_type(va) or x)      # отпечаток — только после успешной установки
+                proto_set[va] = x
+                done["proto"] += 1
+            else:
+                done["proto_fail"] += 1
+                print("FNV: тип не применён @ 0x%08X: %s" % (va, x))
         elif act == "comment":
             lines = list(e["lines"])
-            if va in protos:
-                lines.append("прототип: %s" % protos[va])
+            if va in proto_set or va in proto_present:
+                lines.append("прототип поставлен скриптом: %s" % idc.get_type(va))
             text = "\n".join("%s %s" % (MARK, l) for l in lines)
             if ida_funcs.get_func(va):
                 idc.set_func_cmt(va, merge_comment(idc.get_func_cmt(va, 1), text), 1)
             else:
                 idc.set_cmt(va, merge_comment(idc.get_cmt(va, 1), text), 1)
             done["comment"] += 1
-        elif act == "proto":
-            if idc.SetType(va, x):
-                done["proto"] += 1
-            else:
-                done["proto_fail"] += 1
-                print("FNV: тип не применён @ 0x%08X: %s" % (va, x))
         elif act == "vtname":
             if ida_name.set_name(va, x, ida_name.SN_NOWARN | ida_name.SN_NOCHECK):
                 done["vtname"] += 1
