@@ -1,65 +1,325 @@
-# Применяет доказательную матрицу FNV PDB к открытой программе Ghidra.
+# -*- coding: utf-8 -*-
+# Применяет доказательную матрицу FNV PDB v0.3.1 к открытой программе Ghidra.
 # @category FNV
 # @runtime Jython
 #
-# Порядок: открыть FalloutNV.exe 1.4.0.525, загрузить FalloutNV.pdb v0.2 (File > Load PDB File),
-# затем Script Manager > fnv_apply_ghidra.py > выбрать summary.json.
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.1 (File > Load PDB File),
+# затем Script Manager > fnv_apply_ghidra.py > выбрать evidence/summary.json.
+#
+# Безопасность (v0.3.1):
+#   * сначала проверяется, что это тот самый exe: SHA-256 исходного файла, база образа 0x400000, x86 32-бит;
+#     при любом несовпадении скрипт останавливается и ничего не меняет;
+#   * по умолчанию — ПРОБНЫЙ ПРОГОН: строится план, пишется в fnv_apply_plan_ghidra.txt рядом с summary.json,
+#     и только после подтверждения применяется (headless: аргумент --apply);
+#   * всё применяется в одной явной транзакции; при ошибке транзакция откатывается целиком;
+#   * повторный запуск безопасен: наши комментарии помечены [FNV-PDB …] и заменяются, чужие не трогаются;
+#     сигнатуры, которые пользователь задал сам (USER_DEFINED без нашей метки), не перезаписываются;
+#   * структура класса ищется по имени И точному размеру; нет или несколько кандидатов — класс пропускается.
 # Что делает:
-#   1) методам класса, которые читают ECX до записи (признак __thiscall), ставит __thiscall
-#      и параметр this = указатель на структуру класса из PDB (через custom storage, ECX);
-#   2) создаёт функции на адресах слотов vtable, если их нет; метка <Класс>_vftable на таблице;
-#   3) пишет плашку-комментарий на каждом слоте: прототип с Xbox и уровень достоверности;
-#   4) пишет уровень достоверности в комментарий каждого поля структур.
-# Прототипы целиком НЕ применяются: ret N подтверждает только объём аргументов (см. REPORT.md).
-# Все изменения — одна транзакция скрипта, откатываются через Undo.
-# Совместим с Jython (Ghidra <= 11) и PyGhidra; на Ghidra проверен не был — сообщите о сбоях.
+#   1) __thiscall и параметр this = указатель на структуру класса (custom storage, ECX) — только методам,
+#      которые читают ECX до записи и обращаются к полям, и слотам vtable semantics/name+stack своего класса;
+#      если на адрес претендуют несколько классов одной цепочки наследования — берётся базовый,
+#      если классы не связаны — this не ставится, адрес попадает в отчёт о конфликтах;
+#   2) создаёт функции на адресах слотов и методов, если их нет (только в исполняемых блоках);
+#   3) плашка-комментарий на каждом адресе: все классы и слоты, которые на него указывают, и уровень достоверности;
+#   4) комментарий к каждому полю структуры: статус проверки на PC; «ПРЕДВАРИТЕЛЬНО: не для хуков» для
+#      consistent/unverified полей и предварительных классов.
+# Полные прототипы НЕ применяются: ret N подтверждает только объём аргументов (см. README).
+# На реальной Ghidra скрипт не запускался — первый прогон делайте на копии проекта.
+
+from __future__ import print_function, unicode_literals
+
+APPLY = False        # True — применять без вопроса (не рекомендуется)
+ALL_THIS = False     # True — this всем методам, читающим ECX до записи (как в v0.3), даже без обращений к полям
+
+# ---------------------------------------------------------------------------------------------
+# Общая часть (одинакова в fnv_apply_ghidra.py и fnv_apply_ida.py; совместима с Python 2.7/Jython)
+# ---------------------------------------------------------------------------------------------
+import io
 import json
+
+PDB_VERSION = "0.3.1"
+EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
+IMAGE_BASE = 0x400000
+MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
+MARK_PREFIX = "[FNV-PDB "                 # метки любых версий скрипта
+THIS_SLOT_STATUSES = ("semantics", "name+stack")
+PROTO_STATUSES = ("semantics",)           # IDA: полные прототипы — только разобранные вручную слоты
+
+
+def load_summary(path):
+    with io.open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def check_identity(summary, sha256, image_base, is_x86_32):
+    """Список причин несовпадения (пустой — можно работать). Скрипт обязан остановиться при непустом."""
+    bad = []
+    want = (summary.get("exe_sha256") or EXE_SHA256).lower()
+    if want != EXE_SHA256:
+        bad.append("summary.json сделан не для FalloutNV.exe 1.4.0.525 (sha256 %s)" % want)
+    if not sha256:
+        bad.append("не удалось получить SHA-256 исходного файла из базы")
+    elif sha256.lower() != EXE_SHA256:
+        bad.append("SHA-256 исходного файла %s, нужен %s" % (sha256.lower(), EXE_SHA256))
+    if image_base != IMAGE_BASE:
+        bad.append("база образа 0x%X, нужна 0x%X (не делайте rebase)" % (image_base, IMAGE_BASE))
+    if not is_x86_32:
+        bad.append("программа не x86 32-бит")
+    return bad
+
+
+def base_chain(classes, cls):
+    out = []
+    while cls is not None and cls in classes and cls not in out:
+        out.append(cls)
+        cls = classes[cls].get("base")
+    return out
+
+
+def pick_this_owner(classes, owners):
+    """Несколько классов претендуют на this одной функции (ICF/наследование).
+    Если все лежат на одной цепочке наследования — берём самый базовый; иначе — конфликт (None)."""
+    owners = sorted(set(owners))
+    if len(owners) == 1:
+        return owners[0], None
+    for cand in owners:
+        if all(cand in base_chain(classes, o) for o in owners):
+            return cand, "общий базовый класс для %s" % ", ".join(owners)
+    return None, "классы не связаны наследованием: %s" % ", ".join(owners)
+
+
+def field_comment(name, fd, provisional_class):
+    parts = ["%s (Xbox PDB)" % name, "PC: %s" % fd.get("status", "?")]
+    if fd.get("status") == "confirmed":
+        parts.append("смещение и инструкция проверены")
+    if not fd.get("type_verified"):
+        parts.append("тип не проверен")
+    if fd.get("status") != "confirmed":
+        parts.append("ПРЕДВАРИТЕЛЬНО: не для хуков")
+    elif provisional_class:
+        parts.append("класс предварительный: размер или часть полей не подтверждены")
+    return "%s %s" % (MARK, "; ".join(parts))
+
+
+def slot_line(cls, slot, v):
+    s = "%s слот %s: %s — %s" % (cls, slot, v["decl"], v["status"])
+    if v.get("manual"):
+        s += " (ручной разбор)"
+    if v.get("checked_on") and v["checked_on"] != cls:
+        s += " (проверено на %s)" % v["checked_on"]
+    return s
+
+
+def build_plan(summary, all_this=False):
+    """Адресный план изменений: для каждого VA — кто на него претендует и что с ним делать.
+    all_this=False: this ставится только методам, которые читают ECX до записи И обращаются к полям,
+    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов)."""
+    classes = summary["classes"]
+    by_va = {}
+
+    def entry(va):
+        return by_va.setdefault(va, {"va": va, "lines": [], "owners": set(), "this_claims": [], "proto": []})
+
+    for cls in sorted(classes):
+        c = classes[cls]
+        prov = " [класс предварительный]" if c.get("provisional") else ""
+        for m in c.get("methods", []):
+            e = entry(m["va"])
+            e["owners"].add(cls)
+            e["lines"].append("%s — метод класса %s%s" % (m["name"], cls, prov))
+            if m.get("uses_this") and (all_this or m.get("touches_fields")):
+                e["this_claims"].append(cls)
+        for slot in sorted(c.get("vslots", {}), key=int):
+            v = c["vslots"][slot]
+            e = entry(v["pc_func_va"])
+            e["owners"].add(cls)
+            e["lines"].append(slot_line(cls, slot, v) + prov)
+            if v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+                e["this_claims"].append(cls)
+            if v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+                e["proto"].append((cls, v["decl"]))
+    conflicts = []
+    for va in sorted(by_va):
+        e = by_va[va]
+        e["this"] = None
+        if e["this_claims"]:
+            owner, why = pick_this_owner(classes, e["this_claims"])
+            e["this"] = owner
+            if owner is None:
+                conflicts.append("0x%08X: this не ставится — %s" % (va, why))
+                e["lines"].append("this не ставится: %s" % why)
+            elif why:
+                e["lines"].append("this = %s: %s" % (owner, why))
+        protos = sorted(set(e["proto"]))
+        e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
+        if len(protos) > 1:
+            conflicts.append("0x%08X: несколько прототипов (%s) — прототип не ставится" %
+                             (va, "; ".join("%s: %s" % p for p in protos)))
+        # общие заглушки ICF: одна строка вместо десятков
+        if len(e["lines"]) > 6:
+            e["lines"] = ["общая функция (ICF) для %d слотов/методов классов: %s"
+                          % (len(e["lines"]), ", ".join(sorted(e["owners"])))]
+    return by_va, conflicts
+
+
+def comment_text(e):
+    return "\n".join("%s %s" % (MARK, l) for l in e["lines"])
+
+
+def merge_comment(old, new):
+    """Убирает наши прошлые строки (любой версии) и добавляет новые; чужой текст сохраняется."""
+    keep = [l for l in (old or "").split("\n") if l and not l.startswith(MARK_PREFIX)]
+    return "\n".join(keep + [new]) if keep else new
+
+
+def summarize_plan(by_va, conflicts):
+    n_this = sum(1 for e in by_va.values() if e["this"])
+    n_proto = sum(1 for e in by_va.values() if e["proto"])
+    return ("адресов: %d, кандидатов на this: %d, кандидатов на прототип (semantics): %d, конфликтов: %d"
+            % (len(by_va), n_this, n_proto, len(conflicts)))
+
+# ---------------------------------------------------------------------------------------------
+# Ghidra
+# ---------------------------------------------------------------------------------------------
+import os
 from java.util import ArrayList
 from ghidra.program.model.symbol import SourceType
 from ghidra.program.model.data import PointerDataType, Structure
 from ghidra.program.model.listing import ParameterImpl
 from ghidra.program.model.listing.Function import FunctionUpdateType
 
-SHA = None
-summary_file = askFile("summary.json из FalloutNV_PDB_v0.3/evidence", "Открыть")
-S = json.load(open(summary_file.getAbsolutePath()))
-prog = currentProgram
-dtm = prog.getDataTypeManager()
-ecx = prog.getRegister("ECX")
-stats = {"this": 0, "this_fail": 0, "slots": 0, "fields": 0, "created": 0, "no_struct": 0}
 
+def main():
+    global APPLY, ALL_THIS
+    prog = currentProgram
+    dtm = prog.getDataTypeManager()
+    args = list(getScriptArgs()) if isRunningHeadless() else []
+    if "--apply" in args:
+        APPLY = True
+    if "--all-this" in args:
+        ALL_THIS = True
+    paths = [a for a in args if a.endswith(".json")]
+    summary_path = paths[0] if paths else askFile("evidence/summary.json из FalloutNV_PDB_v%s" % PDB_VERSION,
+                                                  "Открыть").getAbsolutePath()
+    S = load_summary(summary_path)
 
-def find_struct(name, size):
-    lst = ArrayList()
-    dtm.findDataTypes(name, lst)
-    best = None
-    for dt in lst:
-        if isinstance(dt, Structure):
-            if dt.getLength() == size:
-                return dt
-            best = best or dt
-    return best
-
-
-def ensure_func(va):
-    a = toAddr(va)
-    f = getFunctionAt(a)
-    if f is None:
-        f = createFunction(a, None)
-        if f is not None:
-            stats["created"] += 1
-    return f
-
-
-def add_plate(a, text):
-    old = getPlateComment(a)
-    if old and text in old:
+    lang = prog.getLanguage()
+    problems = check_identity(S, prog.getExecutableSHA256(), prog.getImageBase().getOffset(),
+                              str(lang.getProcessor()) == "x86" and prog.getDefaultPointerSize() == 4)
+    if problems:
+        msg = "FNV: скрипт остановлен, программа не изменена:\n  " + "\n  ".join(problems)
+        println(msg)
+        if not isRunningHeadless():
+            popup(msg)
         return
-    setPlateComment(a, (old + "\n" if old else "") + text)
+
+    ecx = prog.getRegister("ECX")
+    plan, conflicts = build_plan(S, ALL_THIS)
+    log = []
 
 
-def set_this(f, st):
+    def find_struct(name, size):
+        """Ровно одна структура с этим именем и точным размером, иначе None (с причиной)."""
+        lst = ArrayList()
+        dtm.findDataTypes(name, lst)
+        exact = [dt for dt in lst if isinstance(dt, Structure) and dt.getLength() == size]
+        if len(exact) == 1:
+            return exact[0], None
+        if not exact:
+            sizes = ["%s:%d" % (dt.getCategoryPath(), dt.getLength()) for dt in lst if isinstance(dt, Structure)]
+            return None, "нет структуры %s размера %d (есть: %s) — PDB v%s загружен?" % (
+                name, size, ", ".join(sizes) or "ничего", PDB_VERSION)
+        return None, "неоднозначно: %d структур %s размера %d (%s)" % (
+            len(exact), name, size, ", ".join(str(dt.getCategoryPath()) for dt in exact))
+
+
+    structs = {}
+    for cls in sorted(S["classes"]):
+        st, why = find_struct(cls, S["classes"][cls]["pc_size"])
+        structs[cls] = st
+        if st is None:
+            log.append("КЛАСС ПРОПУЩЕН %s: %s" % (cls, why))
+
+
+    def is_exec(a):
+        b = getMemoryBlock(a)
+        return b is not None and b.isExecute()
+
+
+    def our_signature(f):
+        pc = f.getComment() or ""          # комментарий функции = плашка
+        return MARK_PREFIX in pc and "this =" in pc
+
+
+    def this_already(f, st):
+        ps = f.getParameters()
+        return (len(ps) > 0 and ps[0].getName() == "this" and f.getCallingConventionName() == "__thiscall"
+                and ps[0].getDataType().getName() == st.getName() + " *")
+
+
+    # ---- план ----
+    actions = []          # (va, что сделать)
+    this_ok = set()       # адреса, где this будет стоять после применения (ставим сейчас или уже стоит)
+    for va in sorted(plan):
+        e = plan[va]
+        a = toAddr(va)
+        f = getFunctionAt(a)
+        if f is None:
+            if is_exec(a):
+                actions.append((va, "create"))
+            else:
+                log.append("0x%08X: не исполняемый блок — функция не создаётся" % va)
+                continue
+        actions.append((va, "comment"))
+        owner = e["this"]
+        if owner:
+            st = structs.get(owner)
+            if st is None:
+                log.append("0x%08X: this = %s пропущен — нет структуры" % (va, owner))
+            elif f is not None and f.getSignatureSource() == SourceType.USER_DEFINED and not our_signature(f):
+                log.append("0x%08X: сигнатура задана пользователем — this не трогаем" % va)
+            elif f is not None and this_already(f, st):
+                pass
+            else:
+                actions.append((va, "this"))
+    n_fields = 0
+    for cls in sorted(S["classes"]):
+        st = structs.get(cls)
+        if st is not None:
+            n_fields += sum(1 for comp in st.getDefinedComponents()
+                            if comp.getFieldName() in S["classes"][cls].get("field_details", {}))
+
+    counts = {}
+    for va, act in actions:
+        counts[act] = counts.get(act, 0) + 1
+    header = ["FNV PDB %s — план для Ghidra" % PDB_VERSION,
+              summarize_plan(plan, conflicts),
+              "создать функций: %d, комментариев к адресам: %d, установить this: %d, комментариев к полям: %d" % (
+                  counts.get("create", 0), counts.get("comment", 0), counts.get("this", 0), n_fields),
+              "", "Конфликты:"] + (conflicts or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + plan[va]["this"]) if act == "this" else "")
+                                             for va, act in actions]
+    plan_path = os.path.join(os.path.dirname(summary_path), "fnv_apply_plan_ghidra.txt")
     try:
+        with io.open(plan_path, "w", encoding="utf-8") as fh:
+            fh.write(u"\n".join(header) + u"\n")
+        println("FNV: план записан в %s" % plan_path)
+    except Exception as ex:  # noqa
+        println("FNV: не удалось записать план (%s)" % ex)
+    for l in header[:5]:
+        println(l)
+
+    if not APPLY and not isRunningHeadless():
+        APPLY = askYesNo("FNV PDB %s" % PDB_VERSION, "\n".join(header[1:3]) +
+                         "\n\nПлан: %s\n\nПрименить?" % plan_path)
+    if not APPLY:
+        println("FNV: пробный прогон, программа не изменена")
+        return
+
+
+    # ---- применение ----
+    def set_this(f, st):
         if f.getCallingConventionName() != "__thiscall":
             f.setCallingConvention("__thiscall")
         params = ArrayList()
@@ -69,47 +329,61 @@ def set_this(f, st):
                 params.add(p)
         f.setCustomVariableStorage(True)
         f.replaceParameters(params, FunctionUpdateType.CUSTOM_STORAGE, True, SourceType.USER_DEFINED)
-        stats["this"] += 1
-    except Exception as e:  # noqa
-        stats["this_fail"] += 1
-        println("this не применён к %s: %s" % (f.getName(), e))
 
 
-for cls, c in S["classes"].items():
-    st = find_struct(cls, c["pc_size"])
-    if st is None:
-        stats["no_struct"] += 1
-        println("Структура %s не найдена в типах программы — PDB v0.2 загружен?" % cls)
-    # 4) поля
-    if st is not None:
-        for comp in st.getDefinedComponents():
-            fn = comp.getFieldName()
-            lvl = c["fields"].get(fn)
-            if lvl:
-                comp.setComment("%s (Xbox PDB), проверка PC: %s" % (fn, lvl))
-                stats["fields"] += 1
-    # 1) методы
-    for m in c["methods"]:
-        if not m.get("uses_this"):
-            continue
-        f = ensure_func(m["va"])
-        if f is not None and st is not None:
-            set_this(f, st)
-    # 2-3) vtable
-    vt = c.get("vtable_va")
-    if vt:
-        try:
-            createLabel(toAddr(vt), cls + "_vftable", True)
-        except Exception:  # noqa
-            pass
-    for slot, v in sorted(c["vslots"].items(), key=lambda kv: int(kv[0])):
-        f = ensure_func(v["pc_func_va"])
-        add_plate(toAddr(v["pc_func_va"]),
-                  "(Xbox PDB) %s слот %s: %s — %s (проверено на %s)" % (cls, slot, v["decl"], v["status"], v["checked_on"]))
-        stats["slots"] += 1
-        if f is not None and st is not None and v["status"] in ("semantics", "name+stack") \
-                and v["checked_on"] == cls and not v["decl"].startswith("~"):
-            set_this(f, st)
+    done = {"create": 0, "comment": 0, "this": 0, "fields": 0, "labels": 0}
+    tx = prog.startTransaction("FNV PDB %s" % PDB_VERSION)
+    ok = False
+    try:
+        for va, act in actions:
+            a = toAddr(va)
+            e = plan[va]
+            if act == "create":
+                if getFunctionAt(a) is None and createFunction(a, None) is not None:
+                    done["create"] += 1
+            elif act == "comment":
+                f = getFunctionAt(a)
+                lines = list(e["lines"])
+                if va in this_ok:
+                    lines.append("this = %s (__thiscall, ECX)" % e["this"])
+                text = "\n".join("%s %s" % (MARK, l) for l in lines)
+                if f is not None:
+                    f.setComment(merge_comment(f.getComment(), text))
+                else:
+                    setPlateComment(a, merge_comment(getPlateComment(a), text))
+                done["comment"] += 1
+            elif act == "this":
+                f = getFunctionAt(a)
+                if f is not None:
+                    set_this(f, structs[e["this"]])
+                    done["this"] += 1
+        for cls in sorted(S["classes"]):
+            c = S["classes"][cls]
+            st = structs.get(cls)
+            if st is None:
+                continue
+            fds = c.get("field_details", {})
+            for comp in st.getDefinedComponents():
+                fd = fds.get(comp.getFieldName())
+                if fd:
+                    comp.setComment(merge_comment(comp.getComment(), field_comment(comp.getFieldName(), fd,
+                                                                                   c.get("provisional"))))
+                    done["fields"] += 1
+            vt = c.get("vtable_va")
+            if vt:
+                a = toAddr(vt)
+                names = [sym.getName() for sym in prog.getSymbolTable().getSymbols(a)]
+                if not any("vftable" in n for n in names):
+                    createLabel(a, cls + "_vftable", False)
+                    done["labels"] += 1
+        ok = True
+    finally:
+        prog.endTransaction(tx, ok)
+        if not ok:
+            println("FNV: ошибка — транзакция откатена, программа не изменена")
 
-println("FNV: this применён %(this)d (ошибок %(this_fail)d), слотов %(slots)d, полей %(fields)d, "
-        "создано функций %(created)d, не найдено структур %(no_struct)d" % stats)
+    println("FNV: создано функций %(create)d, комментариев %(comment)d, this %(this)d, полей %(fields)d, "
+            "меток vtable %(labels)d" % done)
+
+
+main()

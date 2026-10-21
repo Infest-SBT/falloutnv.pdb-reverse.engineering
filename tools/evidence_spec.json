@@ -17,9 +17,9 @@
   ],
   "MemoryManager": [
    [
-    "global-spacing",
+    "bounds",
     312,
-    "MemoryManager::Singleton 0x011F6238, следующий глобальный символ BSCoreMessage::bWarningsDisabled 0x011F6370 => не больше 0x138; поле +0x134 читается в MemoryManager::GetMainThreadMemoryProblemPassSignal => не меньше 0x138"
+    "верхняя граница: MemoryManager::Singleton 0x011F6238, следующий глобальный символ 0x011F6370 => не больше 0x138; нижняя граница: MemoryManager::GetMainThreadMemoryProblemPassSignal читает 4 байта по +0x134 => не меньше 0x138; границы совпали"
    ]
   ],
   "FreeHeapBlockList": [
@@ -31,9 +31,9 @@
   ],
   "BSAudioManager": [
    [
-    "global-spacing",
+    "upper-bound",
     400,
-    "BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184"
+    "верхняя граница: BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184 => не меньше 0x185; выбран 0x188 по выравниванию 4"
    ]
   ]
  },

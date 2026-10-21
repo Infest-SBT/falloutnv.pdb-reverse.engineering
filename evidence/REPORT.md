@@ -11,15 +11,15 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `BSAudio` | 0x38 | confirmed | 14 / 0 / 0 / 0 | 0 / 3 / 2 / 0 / 3 / 0 |
 | `BSAudioManager` | 0x188 | consistent | 45 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 |
 | `BSSoundHandle` | 0xC | consistent | 3 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `HeapBlock` | 0x10 | consistent | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `FreeHeapBlock` | 0x10 | consistent | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `FreeHeapBlockList` | 0x8 | confirmed | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
 | `IMemoryHeap` | 0x4 | confirmed | 1 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 11 / 0 |
-| `AbstractHeap` | 0x20F0 | confirmed | 22 / 0 / 1 / 0 | 0 / 8 / 3 / 0 / 7 / 0 |
+| `AbstractHeap` | 0x20F0 | confirmed | 22 / 1 / 1 / 0 | 0 / 8 / 3 / 0 / 7 / 0 |
 | `MemoryHeap` | 0x20F4 | confirmed | 2 / 0 / 0 / 0 | 0 / 17 / 1 / 0 / 0 / 0 |
 | `ScrapHeap` | 0x10 | confirmed | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
 | `MemoryManager` | 0x138 | confirmed | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
-| `HeapBlock` | 0x10 | consistent | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
-| `FreeHeapBlock` | 0x10 | consistent | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
-| `FreeHeapBlockList` | 0x8 | confirmed | 0 / 0 / 2 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadFormHeader` | 0x9 | consistent | 2 / 1 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadFormHeader` | 0x9 | consistent | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveGameBuffer` | 0x14 | confirmed | 5 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 3 / 0 |
 | `BGSSaveFormBuffer` | 0x24 | consistent | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 |
 | `BGSLoadGameBuffer` | 0x10 | confirmed | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 3 / 0 |
@@ -29,7 +29,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 Строк в evidence_fields.csv: 1897, evidence_vslots.csv: 217, evidence_sizes.csv: 25.
 
-Итого: f_confirmed=291, f_consistent=5, f_unverified=5, v_name+stack=94, v_semantics=10, v_stack=7, v_stub=70
+Итого: f_confirmed=295, f_consistent=5, f_unverified=2, v_name+stack=94, v_semantics=10, v_stack=7, v_stub=70
 
 ## Исключённые функции (имя в PDB xNVSE не соответствует коду)
 

@@ -4,18 +4,18 @@ TESForm,0x18,external,0x18,True,xNVSE: static_assert(sizeof(TESForm) == 0x18) �
 TESDataHandler,0x63C,ctor-alloc,0x63C,True,0x0044FF78 push 0x63c; call ourMalloc; 0x0044FF95 call TESDataHandler::TESDataHandler
 BSGameSound,0x198,subclass-boundary,0x198,True,наименьшее смещение ≥ sizeof в функциях BSWin32GameSound:: = 0x198
 BSAudio,0x38,subclass-boundary,0x38,True,наименьшее смещение ≥ sizeof в функциях BSWin32Audio:: = 0x38
-BSAudioManager,0x188,global-spacing,0x190,False,"BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184"
+BSAudioManager,0x188,upper-bound,0x190,False,"верхняя граница: BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184 => не меньше 0x185; выбран 0x188 по выравниванию 4"
 BSAudioManager,0x188,last-field,0x185,False,последнее поле bIgnoreGlobalTimeMultiplier подтверждено; дальше только выравнивание до 4
 BSSoundHandle,0xC,last-field,0xC,True,последнее поле eState подтверждено; дальше только выравнивание до 4
+HeapBlock,0x10,last-field,0x8,False,последнее поле iMemSize подтверждено; дальше только выравнивание до 4
+FreeHeapBlock,0x10,last-field,0x10,True,последнее поле pNextFree подтверждено; дальше только выравнивание до 4
+FreeHeapBlockList,0x8,array-span,0x8,True,"AbstractHeap::pSmallFreeList = 1024 элемента на 0x44..0x2044, следующее поле pLastSmallList на 0x2044 подтверждено => 0x2000/1024 = 8"
 IMemoryHeap,0x4,subclass-boundary,0x4,True,первое собственное поле AbstractHeap::pName на 0x4 (статус поля см. evidence_fields)
 AbstractHeap,0x20F0,subclass-boundary,0x20F0,True,первое собственное поле MemoryHeap::bSupportsSwapping на 0x20F0 (статус поля см. evidence_fields)
 MemoryHeap,0x20F4,ctor-alloc,0x20F4,True,0x00866E76 push 0x20f4; call ourMalloc; 0x00866EA7 call MemoryHeap::MemoryHeap
 MemoryHeap,0x20F4,ctor-alloc,0x20F4,True,0x00866F5F push 0x20f4; call ourMalloc; 0x00866F90 call MemoryHeap::MemoryHeap
 ScrapHeap,0x10,ctor-alloc,0x10,True,0x00AA4334 push 0x10; call MemoryManager::Allocate; 0x00AA4353 call ScrapHeap::ScrapHeap
-MemoryManager,0x138,global-spacing,0x138,True,"MemoryManager::Singleton 0x011F6238, следующий глобальный символ BSCoreMessage::bWarningsDisabled 0x011F6370 => не больше 0x138; поле +0x134 читается в MemoryManager::GetMainThreadMemoryProblemPassSignal => не меньше 0x138"
-HeapBlock,0x10,last-field,0x8,False,последнее поле iMemSize подтверждено; дальше только выравнивание до 4
-FreeHeapBlock,0x10,last-field,0x10,True,последнее поле pNextFree подтверждено; дальше только выравнивание до 4
-FreeHeapBlockList,0x8,array-span,0x8,True,"AbstractHeap::pSmallFreeList = 1024 элемента на 0x44..0x2044, следующее поле pLastSmallList на 0x2044 подтверждено => 0x2000/1024 = 8"
+MemoryManager,0x138,bounds,0x138,True,"верхняя граница: MemoryManager::Singleton 0x011F6238, следующий глобальный символ 0x011F6370 => не больше 0x138; нижняя граница: MemoryManager::GetMainThreadMemoryProblemPassSignal читает 4 байта по +0x134 => не меньше 0x138; границы совпали"
 BGSSaveLoadFormHeader,0x9,last-field,0x9,True,последнее поле cVersion подтверждено; дальше только выравнивание до 1
 BGSSaveGameBuffer,0x14,subclass-boundary,0x14,True,первое собственное поле BGSSaveFormBuffer::Header на 0x14 (статус поля см. evidence_fields)
 BGSSaveFormBuffer,0x24,last-field,0x24,True,последнее поле pForm подтверждено; дальше только выравнивание до 4

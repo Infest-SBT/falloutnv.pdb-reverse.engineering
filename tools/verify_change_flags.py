@@ -4,6 +4,9 @@ usage: python3 -I verify_change_flags.py <Fallout.types.txt | fnv_types.h> <Fall
 Вместо дампа Xbox можно дать опубликованный заголовок: значения enum CHANGE_TYPE берутся из него.
 PC-функция 0x83FEF0 сравнивает флаг с константами (cmp [ebp-0x10], V / je T) и в блоке T возвращает
 строку с именем флага. Получаем пары «имя → значение на PC» и сравниваем со значениями enum на Xbox.
+v0.3.1: отдельные столбцы pc_name/xbox_name, контекст типа формы (form_types — числовые типы PC, form_sigs —
+сигнатуры из таблицы типов PC 0x1187000; «any» — общий путь для любого типа). Флаг имеет смысл только
+в паре с типом формы: одно и то же значение у разных типов — разные флаги.
 """
 import csv, re, struct, sys, os
 import capstone, pefile
@@ -68,6 +71,131 @@ for k, i in enumerate(ins):
         idx = img[bt - B + x]
         tgt = struct.unpack_from('<I', img, jt - B + 4 * idx)[0]
         targets.setdefault(tgt, []).append((x + base) & 0xFFFFFFFF)
+# --- контекст типа формы: GetFlagName(flag [ebp+8], formType [ebp+0xC], bool [ebp+0x10]) ---
+# верхний переключатель: sub 7; cmp 0x62; ja DEFAULT; movzx byte [x + TOP_BT]; jmp [r*4 + TOP_JT]
+TOP_BT, TOP_JT, TOP_BASE, TOP_BOUND, DEFAULT, RET = 0x840ED4, 0x840E9C, 7, 0x62, 0x840D8D, 0x840E97
+FTI = 0x1187000                      # таблица {u32 тип, char* сигнатура, u32} в .data PC
+sig = {}
+for k in range(256):
+    t, n, _ = struct.unpack_from('<3I', img, FTI - B + 12 * k)
+    s = cstr(n) if t == k else None
+    if not s or len(s) != 4:
+        break
+    sig[t] = s
+jtabs = {}            # адрес jmp-по-таблице -> цели (внутренние переключатели по флагу)
+for k, i in enumerate(ins):
+    m = re.match(r'dword ptr \[(\w+)\*4 \+ (0x[0-9a-f]+)\]', i.op_str)
+    if i.mnemonic == 'jmp' and m:
+        jt = int(m.group(2), 16)
+        tg = set()
+        for x in range(64):
+            v = struct.unpack_from('<I', img, jt - B + 4 * x)[0]
+            if F <= v < END:
+                tg.add(v)
+            else:
+                break
+        jtabs[i.address] = tg
+TOP_JMP = 0x83FF48
+# условные переходы после «cmp <копия formType>, C»: типы форм малы и неотрицательны, знак не важен
+JCC = {'je': lambda t, c: t == c, 'jne': lambda t, c: t != c, 'jl': lambda t, c: t < c, 'jb': lambda t, c: t < c,
+       'jle': lambda t, c: t <= c, 'jbe': lambda t, c: t <= c, 'jg': lambda t, c: t > c, 'ja': lambda t, c: t > c,
+       'jge': lambda t, c: t >= c, 'jae': lambda t, c: t >= c}
+ALL = frozenset(sig)
+MEM = re.compile(r'dword ptr \[ebp ([+-]) (0x[0-9a-f]+|\d+)\]$')
+
+
+def slot(op):
+    m = MEM.match(op)
+    return (1 if m.group(1) == '+' else -1) * int(m.group(2), 0) if m else None
+
+
+def propagate(start, types, ctx, dead=None):
+    """Обход блоков с учётом типа формы. Копии formType отслеживаются в [ebp+0xC], [ebp-4], других слотах
+    и регистрах; после «cmp <копия>, C» ветви je/jne сужают множество допустимых типов."""
+    done = {}
+    work = [(start, frozenset(types))]
+    while work:
+        a, ts = work.pop()
+        if not ts or a not in pos or a == RET:
+            continue
+        if ts <= done.get(a, frozenset()):
+            continue
+        done[a] = done.get(a, frozenset()) | ts
+        k, tslots, tregs, cmpv = pos[a], {0xC, -4}, set(), None
+        while k < len(ins):
+            i = ins[k]
+            prev_cmp, cmpv = cmpv, None
+            if i.address in targets:
+                ctx.setdefault(i.address, set()).update(ts)
+            if i.mnemonic == 'ret' or i.address == RET:
+                break
+            ops = i.op_str.split(', ')
+            if i.mnemonic == 'mov' and len(ops) == 2:
+                d, src = ops
+                ss, ds = slot(src), slot(d)
+                if ss is not None:
+                    (tregs.add if ss in tslots else tregs.discard)(d)
+                elif ds is not None:
+                    (tslots.add if src in tregs else tslots.discard)(ds)
+                else:
+                    tregs.discard(d)
+            elif i.mnemonic == 'cmp' and len(ops) == 2 and re.fullmatch(r'0x[0-9a-f]+|\d+', ops[1]):
+                if ops[0] in tregs or slot(ops[0]) in tslots:
+                    cmpv = int(ops[1], 0)
+            if i.address in jtabs and i.address != TOP_JMP:
+                for t in jtabs[i.address]:
+                    work.append((t, ts))
+                break
+            if i.mnemonic == 'jmp':
+                if i.op_str.startswith('0x'):
+                    work.append((int(i.op_str, 16), ts))
+                break
+            if i.mnemonic.startswith('j') and i.op_str.startswith('0x'):
+                tgt = int(i.op_str, 16)
+                if prev_cmp is not None and i.mnemonic in JCC:
+                    came = ts
+                    taken = frozenset(t for t in ts if JCC[i.mnemonic](t, prev_cmp))
+                    ts = ts - taken
+                    work.append((tgt, taken))
+                    if not taken and dead is not None and i.mnemonic == 'je':
+                        dead.append((tgt, prev_cmp, came))
+                    if not ts:
+                        break
+                else:
+                    work.append((tgt, ts))
+            k += 1
+    return ctx
+
+
+ctx = {}              # блок имени флага -> типы форм, при которых до него доходит управление
+dead = []             # ветви «тип == C», недостижимые при тех типах, что сюда доходят
+default_types = set(ALL)
+for x in range(TOP_BOUND + 1):
+    idx = img[TOP_BT - B + x]
+    tgt = struct.unpack_from('<I', img, TOP_JT - B + 4 * idx)[0]
+    if tgt == DEFAULT:
+        continue
+    default_types.discard(x + TOP_BASE)
+    propagate(tgt, {x + TOP_BASE}, ctx, dead)
+propagate(DEFAULT, default_types, ctx, dead)
+dead_note = {}        # блок -> пояснение, почему до него не доходит ни один тип
+for tgt, c, came in dead:
+    tmp = {}
+    propagate(tgt, {c}, tmp)
+    for blk in tmp:
+        if not ctx.get(blk):
+            dead_note[blk] = (f'мёртвая ветвь на PC: требует formType {c} ({sig.get(c, "?")}), '
+                              f'а сюда доходят только {" ".join(sig.get(t, "?") for t in sorted(came))}')
+
+
+def ctx_str(blk):
+    ts = ctx.get(blk, set())
+    if not ts:
+        return '', ''
+    if len(ts) == len(ALL):
+        return 'any', ''
+    ts = sorted(ts)
+    return ' '.join(str(t) for t in ts), ' '.join(sig.get(t, '?') for t in ts)
 rows, pc = [], {}
 for t, vs in targets.items():
     k = pos.get(t)
@@ -84,21 +212,36 @@ for t, vs in targets.items():
         if n.startswith('CHANGE_'):
             for v in vs:
                 pc.setdefault(n, set()).add(v)
-                rows.append({'name': n, 'pc_value': f'0x{v:08X}', 'pc_block': f'0x{t:08X}',
-                             'xbox_value': f'0x{xb[n]:08X}' if n in xb else '',
+                ft, fs = ctx_str(t)
+                rows.append({'pc_name': n, 'xbox_name': n if n in xb else '', 'pc_value': f'0x{v:08X}',
+                             'xbox_value': f'0x{xb[n]:08X}' if n in xb else '', 'pc_block': f'0x{t:08X}',
+                             'form_types': ft, 'form_sigs': fs, 'note': dead_note.get(t, ''),
                              'status': ('confirmed' if xb.get(n) == v else ('PC-only' if n not in xb else 'CONFLICT'))})
-# CHANGE_FORM_FLAGS обрабатывается отдельно в начале функции (cmp [ebp+8], 1)
-rows.append({'name': 'CHANGE_FORM_FLAGS', 'pc_value': '0x00000001', 'pc_block': '0x0083FEFF',
-             'xbox_value': f'0x{xb["CHANGE_FORM_FLAGS"]:08X}', 'status': 'confirmed' if xb['CHANGE_FORM_FLAGS'] == 1 else 'CONFLICT'})
-for n in xb:
-    if n not in pc and n != 'CHANGE_FORM_FLAGS':
-        rows.append({'name': n, 'pc_value': '', 'pc_block': '', 'xbox_value': f'0x{xb[n]:08X}', 'status': 'not-in-GetFlagName'})
+# переименования: имя есть только на PC, а на Xbox есть неиспользованное имя с тем же значением и той же группой
+unused = {n for n in xb if n not in pc and n != 'CHANGE_FORM_FLAGS'}
+for r in rows:
+    if r['status'] != 'PC-only':
+        continue
+    grp = r['pc_name'].split('_')[1]
+    cand = [n for n in unused if n.split('_')[1] == grp and f'0x{xb[n]:08X}' == r['pc_value']]
+    if len(cand) == 1:
+        r.update(xbox_name=cand[0], xbox_value=f'0x{xb[cand[0]]:08X}', status='renamed')
+        unused.discard(cand[0])
+# CHANGE_FORM_FLAGS обрабатывается отдельно в начале функции (cmp [ebp+8], 1), до переключателя по типу
+rows.append({'pc_name': 'CHANGE_FORM_FLAGS', 'xbox_name': 'CHANGE_FORM_FLAGS', 'pc_value': '0x00000001',
+             'xbox_value': f'0x{xb["CHANGE_FORM_FLAGS"]:08X}', 'pc_block': '0x0083FEFF', 'form_types': 'any', 'form_sigs': '',
+             'note': 'проверяется до переключателя по типу формы',
+             'status': 'confirmed' if xb['CHANGE_FORM_FLAGS'] == 1 else 'CONFLICT'})
+for n in sorted(unused):
+    rows.append({'pc_name': '', 'xbox_name': n, 'pc_value': '', 'xbox_value': f'0x{xb[n]:08X}', 'pc_block': '',
+                 'form_types': '', 'form_sigs': '', 'note': 'имени нет в GetFlagName — значение на PC не проверить',
+                 'status': 'not-in-GetFlagName'})
 with open(out_path, 'w', newline='', encoding='utf-8') as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0]))
     w.writeheader()
-    w.writerows(sorted(rows, key=lambda r: (r['status'], r['name'])))
+    w.writerows(sorted(rows, key=lambda r: (r['status'], r['xbox_name'] or r['pc_name'], r['form_types'])))
 import collections
-print(collections.Counter(r['status'] for r in rows), 'Xbox имён:', len(xb))
+print(collections.Counter(r['status'] for r in rows), 'Xbox имён:', len(xb), 'сигнатур типов:', len(sig))
 for r in rows:
-    if r['status'] not in ('confirmed',):
+    if r['status'] != 'confirmed':
         print(r)

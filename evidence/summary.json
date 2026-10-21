@@ -3,11 +3,27 @@
  "classes": {
   "BaseFormComponent": {
    "vtable_va": 16850280,
+   "base": null,
    "pc_size": 4,
    "align": 4,
    "size_status": "confirmed",
    "fields": {
     "<vftable>": "confirmed"
+   },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 20,
+     "write_sites": 2,
+     "type_verified": false
+    }
    },
    "vslots": {
     "0": {
@@ -15,28 +31,36 @@
      "decl": "void InitializeDataComponent()",
      "status": "stub",
      "checked_on": "BaseFormComponent",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "ClearDataComponent",
      "decl": "void ClearDataComponent()",
      "status": "stub",
      "checked_on": "BaseFormComponent",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "CopyComponent",
      "decl": "void CopyComponent(BaseFormComponent*)",
      "status": "stub",
      "checked_on": "BaseFormComponent",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "CompareComponent",
      "decl": "bool CompareComponent(BaseFormComponent*)",
      "status": "stub",
      "checked_on": "BaseFormComponent",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -46,10 +70,13 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "TESForm": {
    "vtable_va": 16893844,
+   "base": "BaseFormComponent",
    "pc_size": 24,
    "align": 4,
    "size_status": "confirmed",
@@ -59,552 +86,758 @@
     "iFormID": "confirmed",
     "pSourceFiles": "confirmed"
    },
+   "field_details": {
+    "cFormType": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iFormFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 59,
+     "write_sites": 52,
+     "type_verified": false
+    },
+    "iFormID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pSourceFiles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "InitializeDataComponent",
      "decl": "void InitializeDataComponent()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "ClearDataComponent",
      "decl": "void ClearDataComponent()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "CopyComponent",
      "decl": "void CopyComponent(BaseFormComponent*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4739904
+     "pc_func_va": 4739904,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "CompareComponent",
      "decl": "bool CompareComponent(BaseFormComponent*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4740064
+     "pc_func_va": 4740064,
+     "manual": false,
+     "note": ""
     },
     "4": {
      "name": "~TESForm",
      "decl": "~TESForm()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4732416
+     "pc_func_va": 4732416,
+     "manual": false,
+     "note": ""
     },
     "5": {
      "name": "InitializeData",
      "decl": "void InitializeData()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "6": {
      "name": "ClearData",
      "decl": "void ClearData()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "7": {
      "name": "ProcessBeforeSave",
      "decl": "bool ProcessBeforeSave()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 9241440
+     "pc_func_va": 9241440,
+     "manual": false,
+     "note": ""
     },
     "8": {
      "name": "Load",
      "decl": "bool Load(TESFile*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4199056
+     "pc_func_va": 4199056,
+     "manual": false,
+     "note": ""
     },
     "9": {
      "name": "LoadPartial",
      "decl": "bool LoadPartial(TESFile*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4199056
+     "pc_func_va": 4199056,
+     "manual": false,
+     "note": ""
     },
     "10": {
      "name": "Save",
      "decl": "bool Save(TESFile*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4734240
+     "pc_func_va": 4734240,
+     "manual": false,
+     "note": ""
     },
     "11": {
      "name": "Save_2",
      "decl": "void Save_2()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "12": {
      "name": "LoadEdit",
      "decl": "bool LoadEdit(TESFile*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198704
+     "pc_func_va": 4198704,
+     "manual": false,
+     "note": ""
     },
     "13": {
      "name": "SaveEdit",
      "decl": "bool SaveEdit(TESFile*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4734912
+     "pc_func_va": 4734912,
+     "manual": false,
+     "note": ""
     },
     "14": {
      "name": "SavesBefore",
      "decl": "bool SavesBefore(FORM*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4735312
+     "pc_func_va": 4735312,
+     "manual": false,
+     "note": ""
     },
     "15": {
      "name": "SavesBefore_2",
      "decl": "bool SavesBefore_2(TESForm*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4735008
+     "pc_func_va": 4735008,
+     "manual": false,
+     "note": ""
     },
     "16": {
      "name": "CreateDuplicateForm",
      "decl": "TESForm* CreateDuplicateForm(bool, void*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4745120
+     "pc_func_va": 4745120,
+     "manual": false,
+     "note": ""
     },
     "17": {
      "name": "PostDuplicateProcess",
      "decl": "void PostDuplicateProcess(void*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "18": {
      "name": "AddChange",
      "decl": "void AddChange(int)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4737888
+     "pc_func_va": 4737888,
+     "manual": false,
+     "note": ""
     },
     "19": {
      "name": "RemoveChange",
      "decl": "void RemoveChange(int)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4737984
+     "pc_func_va": 4737984,
+     "manual": false,
+     "note": ""
     },
     "20": {
      "name": "GetSaveSize",
      "decl": "unsigned short GetSaveSize(unsigned)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4738032
+     "pc_func_va": 4738032,
+     "manual": false,
+     "note": ""
     },
     "21": {
      "name": "SaveGame",
      "decl": "void SaveGame(BGSSaveFormBuffer*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4738400
+     "pc_func_va": 4738400,
+     "manual": false,
+     "note": ""
     },
     "22": {
      "name": "SaveGame_2",
      "decl": "void SaveGame_2(unsigned)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4738080
+     "pc_func_va": 4738080,
+     "manual": false,
+     "note": ""
     },
     "23": {
      "name": "LoadGame",
      "decl": "void LoadGame(BGSLoadFormBuffer*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4738464
+     "pc_func_va": 4738464,
+     "manual": false,
+     "note": ""
     },
     "24": {
      "name": "LoadGame_2",
      "decl": "void LoadGame_2(unsigned, unsigned)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4738128
+     "pc_func_va": 4738128,
+     "manual": false,
+     "note": ""
     },
     "25": {
      "name": "InitLoadGame",
      "decl": "void InitLoadGame(BGSLoadFormBuffer*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "26": {
      "name": "InitLoadGame_2",
      "decl": "void InitLoadGame_2(unsigned, unsigned)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 9242112
+     "pc_func_va": 9242112,
+     "manual": false,
+     "note": ""
     },
     "27": {
      "name": "FinishInitLoadGame",
      "decl": "void FinishInitLoadGame(unsigned, unsigned)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 9242112
+     "pc_func_va": 9242112,
+     "manual": false,
+     "note": ""
     },
     "28": {
      "name": "Revert",
      "decl": "void Revert(BGSLoadFormBuffer*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "29": {
      "name": "Revert_2",
      "decl": "void Revert_2(unsigned)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "30": {
      "name": "LoadQueuedFormData",
      "decl": "void LoadQueuedFormData(unsigned short)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "31": {
      "name": "FindInFileFast",
      "decl": "bool FindInFileFast(TESFile*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 9241456
+     "pc_func_va": 9241456,
+     "manual": false,
+     "note": ""
     },
     "32": {
      "name": "CheckSaveGame",
      "decl": "void CheckSaveGame(BGSSaveFormBuffer*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "33": {
      "name": "FinishLoadGame",
      "decl": "void FinishLoadGame(BGSLoadFormBuffer*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "34": {
      "name": "InitItem",
      "decl": "void InitItem()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "35": {
      "name": "GetSavedFormType",
      "decl": "int GetSavedFormType()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198736
+     "pc_func_va": 4198736,
+     "manual": false,
+     "note": ""
     },
     "36": {
      "name": "GetFormDetailedString",
      "decl": "void GetFormDetailedString(void*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4745456
+     "pc_func_va": 4745456,
+     "manual": false,
+     "note": ""
     },
     "37": {
      "name": "GetQuestObject",
      "decl": "bool GetQuestObject()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198800
+     "pc_func_va": 4198800,
+     "manual": false,
+     "note": ""
     },
     "38": {
      "name": "GetHasSpokenFlag",
      "decl": "bool GetHasSpokenFlag()",
      "status": "semantics",
      "checked_on": "TESForm",
-     "pc_func_va": 5543296
+     "pc_func_va": 5543296,
+     "manual": true,
+     "note": "0x549580: test iFormFlags & 0x40, bool => GetHasSpokenFlag; имя PC GetLODTree — описательное"
     },
     "39": {
      "name": "GetHavokDeath",
      "decl": "bool GetHavokDeath()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198832
+     "pc_func_va": 4198832,
+     "manual": false,
+     "note": ""
     },
     "40": {
      "name": "GetRandomAnim",
      "decl": "bool GetRandomAnim()",
      "status": "semantics",
      "checked_on": "TESForm",
-     "pc_func_va": 4198832
+     "pc_func_va": 4198832,
+     "manual": true,
+     "note": "0x4011B0 = та же функция, что слот 39 (& 0x10000): компоновщик склеил одинаковые тела (ICF)"
     },
     "41": {
      "name": "GetNeedtoChangeProcess",
      "decl": "bool GetNeedtoChangeProcess()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198864
+     "pc_func_va": 4198864,
+     "manual": false,
+     "note": ""
     },
     "42": {
      "name": "GetDangerous",
      "decl": "bool GetDangerous()",
      "status": "semantics",
      "checked_on": "TESForm",
-     "pc_func_va": 4198864
+     "pc_func_va": 4198864,
+     "manual": true,
+     "note": "0x4011D0 = та же функция, что слот 41 (& 0x20000): ICF"
     },
     "43": {
      "name": "GetHasPLSpecTex",
      "decl": "bool GetHasPLSpecTex()",
      "status": "semantics",
      "checked_on": "TESForm",
-     "pc_func_va": 4198896
+     "pc_func_va": 4198896,
+     "manual": true,
+     "note": "0x4011F0: test iFormFlags & 0x80000 => GetHasPLSpecTex; имя PC GetHasSpecificTextures"
     },
     "44": {
      "name": "GetObstacle",
      "decl": "bool GetObstacle()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198928
+     "pc_func_va": 4198928,
+     "manual": false,
+     "note": ""
     },
     "45": {
      "name": "GetContinuousBroadcast",
      "decl": "bool GetContinuousBroadcast()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198960
+     "pc_func_va": 4198960,
+     "manual": false,
+     "note": ""
     },
     "46": {
      "name": "GetOnLocalMap",
      "decl": "bool GetOnLocalMap()",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4198992
+     "pc_func_va": 4198992,
+     "manual": false,
+     "note": ""
     },
     "47": {
      "name": "SetOnLocalMap",
      "decl": "void SetOnLocalMap(bool)",
      "status": "semantics",
      "checked_on": "TESForm",
-     "pc_func_va": 4737488
+     "pc_func_va": 4737488,
+     "manual": true,
+     "note": "0x4849D0: or/and iFormFlags 0x200 = пара к слоту 46 GetOnLocalMap (& 0x200) => SetOnLocalMap; имя PC SetCastsShadows"
     },
     "48": {
      "name": "GetEmittanceColor",
      "decl": "NiColor* GetEmittanceColor()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     },
     "49": {
      "name": "SetDelete",
      "decl": "void SetDelete(bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4736304
+     "pc_func_va": 4736304,
+     "manual": false,
+     "note": ""
     },
     "50": {
      "name": "SetAltered",
      "decl": "void SetAltered(bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4736816
+     "pc_func_va": 4736816,
+     "manual": false,
+     "note": ""
     },
     "51": {
      "name": "SetQuestObject",
      "decl": "void SetQuestObject(bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4737120
+     "pc_func_va": 4737120,
+     "manual": false,
+     "note": ""
     },
     "52": {
      "name": "SetHasSpokenFlag",
      "decl": "void SetHasSpokenFlag(bool)",
      "status": "semantics",
      "checked_on": "TESForm",
-     "pc_func_va": 4737200
+     "pc_func_va": 4737200,
+     "manual": true,
+     "note": "0x4848B0: or/and iFormFlags 0x40 = пара к слоту 38 => SetHasSpokenFlag; имя PC SetTalkedToPC"
     },
     "53": {
      "name": "SetHavokDeath",
      "decl": "void SetHavokDeath(bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4737280
+     "pc_func_va": 4737280,
+     "manual": false,
+     "note": ""
     },
     "54": {
      "name": "SetNeedToChangeProcess",
      "decl": "void SetNeedToChangeProcess(bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4737360
+     "pc_func_va": 4737360,
+     "manual": false,
+     "note": ""
     },
     "55": {
      "name": "SaveObjectBound",
      "decl": "void SaveObjectBound()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4732688
+     "pc_func_va": 4732688,
+     "manual": false,
+     "note": ""
     },
     "56": {
      "name": "LoadObjectBound",
      "decl": "void LoadObjectBound(TESFile*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4535536
+     "pc_func_va": 4535536,
+     "manual": false,
+     "note": ""
     },
     "57": {
      "name": "IsBoundObject",
      "decl": "bool IsBoundObject()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "58": {
      "name": "IsObject",
      "decl": "bool IsObject()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "59": {
      "name": "IsMagicItem",
      "decl": "bool IsMagicItem()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "60": {
      "name": "IsReference",
      "decl": "bool IsReference()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "61": {
      "name": "IsArmorAddon",
      "decl": "bool IsArmorAddon()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "62": {
      "name": "IsActorBase",
      "decl": "bool IsActorBase()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "63": {
      "name": "IsMobileObject",
      "decl": "bool IsMobileObject()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "64": {
      "name": "IsActor",
      "decl": "bool IsActor()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "65": {
      "name": "GetRefCount",
      "decl": "unsigned GetRefCount()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     },
     "66": {
      "name": "Copy",
      "decl": "void Copy(TESForm*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4739376
+     "pc_func_va": 4739376,
+     "manual": false,
+     "note": ""
     },
     "67": {
      "name": "Compare",
      "decl": "bool Compare(TESForm*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4739440
+     "pc_func_va": 4739440,
+     "manual": false,
+     "note": ""
     },
     "68": {
      "name": "BelongsInGroup",
      "decl": "bool BelongsInGroup(FORM*, bool, bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4740320
+     "pc_func_va": 4740320,
+     "manual": false,
+     "note": ""
     },
     "69": {
      "name": "CreateGroupData",
      "decl": "void CreateGroupData(FORM*, FORM_GROUP*)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4740400
+     "pc_func_va": 4740400,
+     "manual": false,
+     "note": ""
     },
     "70": {
      "name": "IsParentForm",
      "decl": "bool IsParentForm()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "71": {
      "name": "IsParentFormTree",
      "decl": "bool IsParentFormTree()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4704336
+     "pc_func_va": 4704336,
+     "manual": false,
+     "note": ""
     },
     "72": {
      "name": "IsFormTypeChild",
      "decl": "bool IsFormTypeChild(unsigned char)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 9241456
+     "pc_func_va": 9241456,
+     "manual": false,
+     "note": ""
     },
     "73": {
      "name": "Activate",
      "decl": "bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4199024
+     "pc_func_va": 4199024,
+     "manual": false,
+     "note": ""
     },
     "74": {
      "name": "SetFormID",
      "decl": "void SetFormID(unsigned, bool)",
      "status": "name+stack",
      "checked_on": "TESForm",
-     "pc_func_va": 4742160
+     "pc_func_va": 4742160,
+     "manual": false,
+     "note": ""
     },
     "75": {
      "name": "GetObjectTypeName",
      "decl": "char* GetObjectTypeName()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4199040
+     "pc_func_va": 4199040,
+     "manual": false,
+     "note": ""
     },
     "76": {
      "name": "GetFormEditorID",
      "decl": "const char* GetFormEditorID()",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4199040
+     "pc_func_va": 4199040,
+     "manual": false,
+     "note": ""
     },
     "77": {
      "name": "SetFormEditorID",
      "decl": "bool SetFormEditorID(const char*)",
      "status": "stub",
      "checked_on": "TESForm",
-     "pc_func_va": 4199056
+     "pc_func_va": 4199056,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -1382,9 +1615,12 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "TESDataHandler": {
+   "base": null,
    "pc_size": 1596,
    "align": 4,
    "size_status": "confirmed",
@@ -1475,6 +1711,1040 @@
     "pSpotterShader": "confirmed",
     "pItemDetectedShader": "confirmed",
     "pCateyeMobileShader": "confirmed"
+   },
+   "field_details": {
+    "cDLCFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pObjectList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "listPackages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listWorldSpaces": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listClimates": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listImageSpaces": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listImageSpaceModifiers": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listWeather": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listEnchantmentItems": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listSpellItems": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listHeadParts": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listHair": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listEyes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listRaces": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listZones": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listLandTexts": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listCameraShots": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listClasses": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listFactions": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listReputations": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listChallenges": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listRecipes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listRecipeCategories": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listAmmoEffects": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listCasinos": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listCaravanDecks": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listScripts": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listSounds": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listAcousticSpaces": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listRagdolls": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listGlobals": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listVoiceTypes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listImpactData": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listImpactDataSet": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listTopics": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listTopicInfos": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listQuests": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listCombatStyles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listLoadScreens": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listWater": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listEffectShaders": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listProjectiles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listExplosions": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listRadiation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listDehydration": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listHunger": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listSleepDeprevation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listDebris": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listPerks": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listPartData": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listNotes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listListForms": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listMenuIcons": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "animObjects": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listMessages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listLightingTemplates": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listMusicTypes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listLoadScreenTypes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listMediaSets": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listMediaLocationControllers": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pRegionList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "arrayInteriorCells": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "arrayAddonNodes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "listBadForms": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iNextID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pActiveFile": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "listFiles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iNumCompile": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "pFileIndex": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "bMasterSave": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bSaveLoadGame": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bSaveLoad": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "bAutoSaving": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bExportingPlugin": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bClearingData": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "bHasDesiredFiles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bCheckingModels": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bLoadingFiles": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bDontRemoveIDs": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "ucGameSettingsLoadState": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pRegionDataManager": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pBarterContainer": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pRecipeContainer": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pSpotterShader": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pItemDetectedShader": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pCateyeMobileShader": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -2306,10 +3576,15 @@
      "uses_this": false,
      "touches_fields": false
     }
-   ]
+   ],
+   "provisional_fields": [
+    "pFileIndex"
+   ],
+   "provisional": true
   },
   "BSGameSound": {
    "vtable_va": 17447268,
+   "base": null,
    "pc_size": 408,
    "align": 4,
    "size_status": "confirmed",
@@ -2352,202 +3627,725 @@
     "iPriority": "confirmed",
     "QueuedMessages": "confirmed"
    },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 9,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iSoundID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iSoundTypeFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 15,
+     "write_sites": 11,
+     "type_verified": false
+    },
+    "iModifierFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iStateFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 19,
+     "write_sites": 23,
+     "type_verified": false
+    },
+    "iDurationInMS": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 9,
+     "write_sites": 7,
+     "type_verified": false
+    },
+    "iStaticAttenuation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iReverbAttenuation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iSystemAttenuation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iDistanceAttenuation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iFaderAttenuation": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "fCurrentVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fBeginTime": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fEndTime": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iWeatherFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iSamplesPerSecond": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pFilename": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fMaxDist": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fMinDist": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iSoundHash": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "iDirectoryHash": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "iSoundSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "fDistanceToListener": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iEnvironmentType": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iFreqVariance": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iModSamplesPerSecond": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "iSynchStartTime": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iCleanupDelayInMS": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "fnCompletionCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "fnPlayedCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pSoundCompletionContext": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pSoundPlayContext": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iLoopStart": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iLoopEnd": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "vBeamEnd": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iPriority": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "QueuedMessages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "~BSGameSound",
      "decl": "~BSGameSound()",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11443904
+     "pc_func_va": 11443904,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "IsPlaying",
      "decl": "bool IsPlaying()",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11443952
+     "pc_func_va": 11443952,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "IsInDecay",
      "decl": "bool IsInDecay()",
      "status": "semantics",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11443984
+     "pc_func_va": 11443984,
+     "manual": true,
+     "note": "0xAE9F10: читает this+0x10 (iStateFlags), and 0x80000, возвращает bool, ret без аргументов => bool IsInDecay(). Имя PC GetState80000 — описательное"
     },
     "3": {
      "name": "IsPaused",
      "decl": "bool IsPaused()",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11444016
+     "pc_func_va": 11444016,
+     "manual": false,
+     "note": ""
     },
     "4": {
      "name": "GetVolume",
      "decl": "float GetVolume()",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11444048
+     "pc_func_va": 11444048,
+     "manual": false,
+     "note": ""
     },
     "5": {
      "name": "SetInaudible",
      "decl": "void SetInaudible(bool)",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11444080
+     "pc_func_va": 11444080,
+     "manual": false,
+     "note": ""
     },
     "6": {
      "name": "SetEnvironmentType",
      "decl": "void SetEnvironmentType(unsigned)",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11444144
+     "pc_func_va": 11444144,
+     "manual": false,
+     "note": ""
     },
     "7": {
      "name": "PriorityTest",
      "decl": "bool PriorityTest(unsigned)",
      "status": "semantics",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11444224
+     "pc_func_va": 11444224,
+     "manual": true,
+     "note": "0xAEA000: сравнивает this->iPriority (+0x188) со значением аргумента, ret 4 => PriorityTest(unsigned). Имя PC ComparePriority"
     },
     "8": {
      "name": "PriorityTest_2",
      "decl": "bool PriorityTest_2(BSGameSound*)",
      "status": "semantics",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11444176
+     "pc_func_va": 11444176,
+     "manual": true,
+     "note": "0xAE9FD0: читает +0x188 у объекта-аргумента, ret 4 => PriorityTest(BSGameSound*)"
     },
     "9": {
      "name": "Open",
      "decl": "bool Open()",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11448944
+     "pc_func_va": 11448944,
+     "manual": false,
+     "note": ""
     },
     "10": {
      "name": "Prepare",
      "decl": "bool Prepare()",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11443680
+     "pc_func_va": 11443680,
+     "manual": false,
+     "note": ""
     },
     "11": {
      "name": "Copy",
      "decl": "void Copy(BSGameSound*, bool)",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11442080
+     "pc_func_va": 11442080,
+     "manual": false,
+     "note": ""
     },
     "12": {
      "name": "Play",
      "decl": "bool Play(bool)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11456640
+     "pc_func_va": 11456640,
+     "manual": false,
+     "note": ""
     },
     "13": {
      "name": "Pause",
      "decl": "bool Pause()",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11457568
+     "pc_func_va": 11457568,
+     "manual": false,
+     "note": ""
     },
     "14": {
      "name": "Stop",
      "decl": "bool Stop()",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11457728
+     "pc_func_va": 11457728,
+     "manual": false,
+     "note": ""
     },
     "15": {
      "name": "SetVolume",
      "decl": "bool SetVolume(float)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11458144
+     "pc_func_va": 11458144,
+     "manual": false,
+     "note": ""
     },
     "16": {
      "name": "UpdateEmitterPosition",
      "decl": "void UpdateEmitterPosition()",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11458960
+     "pc_func_va": 11458960,
+     "manual": false,
+     "note": ""
     },
     "17": {
      "name": "Update",
      "decl": "bool Update(unsigned)",
      "status": "name+stack",
      "checked_on": "BSGameSound",
-     "pc_func_va": 11442528
+     "pc_func_va": 11442528,
+     "manual": false,
+     "note": ""
     },
     "18": {
      "name": "ProcessDataRequest",
      "decl": "bool ProcessDataRequest(int)",
      "status": "stub",
      "checked_on": "BSGameSound",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "19": {
      "name": "SetEmitterPosition",
      "decl": "void SetEmitterPosition(NiPoint3)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11468016
+     "pc_func_va": 11468016,
+     "manual": false,
+     "note": ""
     },
     "20": {
      "name": "SetEmitterPosition_2",
      "decl": "void SetEmitterPosition_2(float, float, float)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11464848
+     "pc_func_va": 11464848,
+     "manual": false,
+     "note": ""
     },
     "21": {
      "name": "GetEmitterPosition",
      "decl": "NiPoint3 GetEmitterPosition()",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11468064
+     "pc_func_va": 11468064,
+     "manual": false,
+     "note": ""
     },
     "22": {
      "name": "SetEmitterOrientation",
      "decl": "void SetEmitterOrientation(float, float, float)",
      "status": "stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11468176
+     "pc_func_va": 11468176,
+     "manual": false,
+     "note": ""
     },
     "23": {
      "name": "SetMinMax",
      "decl": "void SetMinMax(float, float)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11468192
+     "pc_func_va": 11468192,
+     "manual": false,
+     "note": ""
     },
     "24": {
      "name": "SetAttenuationCurve",
      "decl": "void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11468640
+     "pc_func_va": 11468640,
+     "manual": false,
+     "note": ""
     },
     "25": {
      "name": "SetFrequency",
      "decl": "bool SetFrequency(float)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11469280
+     "pc_func_va": 11469280,
+     "manual": false,
+     "note": ""
     },
     "26": {
      "name": "GetFrequency",
      "decl": "float GetFrequency()",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11469456
+     "pc_func_va": 11469456,
+     "manual": false,
+     "note": ""
     },
     "27": {
      "name": "Seek",
      "decl": "void Seek(unsigned)",
      "status": "name+stack",
      "checked_on": "BSWin32GameSound",
-     "pc_func_va": 11469600
+     "pc_func_va": 11469600,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -2683,10 +4481,15 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [
+    "pFilename"
+   ],
+   "provisional": true
   },
   "BSAudio": {
    "vtable_va": 17445436,
+   "base": null,
    "pc_size": 56,
    "align": 4,
    "size_status": "confirmed",
@@ -2706,62 +4509,264 @@
     "pfnSynchPausedCallback": "confirmed",
     "pfnSynchUnPausedCallback": "confirmed"
    },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bAudioEnabled": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "subclass-method-this"
+     ],
+     "independent_functions": 14,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "bInitialized": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 6,
+     "type_verified": false
+    },
+    "bMultiThread": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 6,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iMusicStartOffset": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bSeekMusic": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pListener": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "subclass-method-this"
+     ],
+     "independent_functions": 12,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "SynchTimer": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pfnIDCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pfnNameCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pfnRandomFilenameCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pfnSettingsCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pfnSynchPausedCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pfnSynchUnPausedCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "~BSAudio",
      "decl": "~BSAudio()",
      "status": "name+stack",
      "checked_on": "BSAudio",
-     "pc_func_va": 11372432
+     "pc_func_va": 11372432,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "Init",
      "decl": "void Init(void*)",
      "status": "name+stack",
      "checked_on": "BSAudio",
-     "pc_func_va": 11366432
+     "pc_func_va": 11366432,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "Shutdown",
      "decl": "void Shutdown()",
      "status": "name+stack",
      "checked_on": "BSAudio",
-     "pc_func_va": 11366736
+     "pc_func_va": 11366736,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "SetLoopPointCallback",
      "decl": "void SetLoopPointCallback(void*)",
      "status": "stub",
      "checked_on": "BSAudio",
-     "pc_func_va": 11160144
+     "pc_func_va": 11160144,
+     "manual": false,
+     "note": ""
     },
     "4": {
      "name": "GetLoopPointCallback",
      "decl": "void* GetLoopPointCallback()",
      "status": "stub",
      "checked_on": "BSAudio",
-     "pc_func_va": 11372480
+     "pc_func_va": 11372480,
+     "manual": false,
+     "note": ""
     },
     "5": {
      "name": "CreateNewGameSound",
      "decl": "BSGameSound* CreateNewGameSound(const char*)",
      "status": "stack",
      "checked_on": "BSWin32Audio",
-     "pc_func_va": 11445696
+     "pc_func_va": 11445696,
+     "manual": false,
+     "note": ""
     },
     "6": {
      "name": "FixSoundPath",
      "decl": "void FixSoundPath(char*)",
      "status": "stack",
      "checked_on": "BSWin32Audio",
-     "pc_func_va": 11445824
+     "pc_func_va": 11445824,
+     "manual": false,
+     "note": ""
     },
     "7": {
      "name": "PrintDebugInfo",
      "decl": "void PrintDebugInfo()",
      "status": "stub",
      "checked_on": "BSAudio",
-     "pc_func_va": 11171888
+     "pc_func_va": 11171888,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -3143,10 +5148,13 @@
      "uses_this": true,
      "touches_fields": false
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "BSAudioManager": {
    "vtable_va": 17445736,
+   "base": null,
    "pc_size": 392,
    "align": 4,
    "size_status": "consistent",
@@ -3197,13 +5205,557 @@
     "iNextID": "confirmed",
     "bIgnoreGlobalTimeMultiplier": "confirmed"
    },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMessageListIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMessageProcessingListIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "Messages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "FreeMessages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "FreeQueueMessages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "GarbageMessages": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "SoundList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "SoundStateMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 10,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "StateUpdateMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "MovingRefrList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "CachedSoundList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iCurrentCachSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iWeatherFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "fCurrentGamehour": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "MessageCritSection": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "StateCritSection": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "CacheCritSection": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "ProcessingCritSection": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "CacheLoadTaskCritSection": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "CacheLoadTaskList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iDelayTimerDelta": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bPrecacheCompleted": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bListenerMoved": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "dwAudioThreadID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pUpdateThread": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "fMasterVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fFootVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fVoiceVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fEffectsVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fMusicVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fRadioVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fMasterSecondaryVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fFootSecondaryVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fVoiceSecondaryVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fEffectsSecondaryVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fMusicSecondaryVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "fRadioSecondaryVolume": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iMuteMask": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bDialogueFade": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bListenerUnderwater": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pPauseEntries": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iPauseListSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iNextID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bIgnoreGlobalTimeMultiplier": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "~BSAudioManager",
      "decl": "~BSAudioManager()",
      "status": "name+stack",
      "checked_on": "BSAudioManager",
-     "pc_func_va": 11433888
+     "pc_func_va": 11433888,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -3663,9 +6215,12 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": true
   },
   "BSSoundHandle": {
+   "base": null,
    "pc_size": 12,
    "align": 4,
    "size_status": "consistent",
@@ -3673,6 +6228,44 @@
     "iSoundID": "confirmed",
     "bAssumeSuccess": "confirmed",
     "eState": "confirmed"
+   },
+   "field_details": {
+    "iSoundID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 36,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "bAssumeSuccess": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "eState": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 9,
+     "write_sites": 8,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -3904,15 +6497,194 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": true
+  },
+  "HeapBlock": {
+   "base": null,
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "pPrevious": "confirmed",
+    "iMemSize": "confirmed"
+   },
+   "field_details": {
+    "pPrevious": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMemSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 2,
+     "type_verified": false
+    }
+   },
+   "vslots": {},
+   "methods": [
+    {
+     "va": 11183584,
+     "name": "HeapBlock::ListRemove",
+     "uses_this": true,
+     "touches_fields": true
+    },
+    {
+     "va": 11183840,
+     "name": "HeapBlock::Init",
+     "uses_this": true,
+     "touches_fields": true
+    }
+   ],
+   "provisional_fields": [],
+   "provisional": true
+  },
+  "FreeHeapBlock": {
+   "base": null,
+   "pc_size": 16,
+   "align": 4,
+   "size_status": "consistent",
+   "fields": {
+    "pPrevious": "confirmed",
+    "iMemSize": "confirmed",
+    "pPrevFree": "confirmed",
+    "pNextFree": "confirmed"
+   },
+   "field_details": {
+    "pPrevious": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMemSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pPrevFree": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pNextFree": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": true
+  },
+  "FreeHeapBlockList": {
+   "base": null,
+   "pc_size": 8,
+   "align": 4,
+   "size_status": "confirmed",
+   "fields": {
+    "pHead": "confirmed",
+    "pTail": "confirmed"
+   },
+   "field_details": {
+    "pHead": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "nested-in-AbstractHeap.LargeFreeList",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pTail": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "nested-in-AbstractHeap.LargeFreeList",
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    }
+   },
+   "vslots": {},
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": false
   },
   "IMemoryHeap": {
    "vtable_va": 17443016,
+   "base": null,
    "pc_size": 4,
    "align": 4,
    "size_status": "confirmed",
    "fields": {
     "<vftable>": "confirmed"
+   },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    }
    },
    "vslots": {
     "0": {
@@ -3920,90 +6692,117 @@
      "decl": "~IMemoryHeap()",
      "status": "name+stack",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 11171904
+     "pc_func_va": 11171904,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "GetName",
      "decl": "const char* GetName()",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "Allocate",
      "decl": "void* Allocate(unsigned, unsigned)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "Deallocate",
      "decl": "void Deallocate(void*, unsigned)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "4": {
      "name": "PointerInHeap",
      "decl": "bool PointerInHeap(const void*)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "5": {
      "name": "CheckHeapIntegrity",
      "decl": "void CheckHeapIntegrity()",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "6": {
      "name": "GetHeapStats",
      "decl": "void GetHeapStats(HeapStats*, bool)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "7": {
      "name": "OutputBucketInfo",
      "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "8": {
      "name": "OutputBlockInfo",
      "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "9": {
      "name": "Size",
      "decl": "unsigned Size(const void*, unsigned)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "10": {
      "name": "TotalSize",
      "decl": "unsigned TotalSize(const void*)",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
      "status": "stub",
      "checked_on": "IMemoryHeap",
-     "pc_func_va": 11171888
+     "pc_func_va": 11171888,
+     "manual": false,
+     "note": ""
     }
    },
-   "methods": []
+   "methods": [],
+   "provisional_fields": [],
+   "provisional": false
   },
   "AbstractHeap": {
    "vtable_va": 17443772,
+   "base": "IMemoryHeap",
    "pc_size": 8432,
    "align": 4,
    "size_status": "confirmed",
@@ -4024,13 +6823,308 @@
     "pBlockHead": "confirmed",
     "pBlockTail": "confirmed",
     "iNumFreeBlocks": "confirmed",
-    "pSmallFreeList": "confirmed",
+    "pSmallFreeList": "consistent",
     "pLastSmallList": "confirmed",
-    "LargeFreeList": "confirmed",
+    "LargeFreeList.pHead": "confirmed",
+    "LargeFreeList.pTail": "confirmed",
     "pDelayedFreeBlocksA": "confirmed",
     "iNextDelayedFreeIndex": "confirmed",
     "pSubBuckets": "unverified",
     "CriticalSectionO": "confirmed"
+   },
+   "field_details": {
+    "pName": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iDefaultAlignment": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "MinFreeBlockSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iPageSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "MemHeapSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iInitialSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iCurrentSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iWastedMemory": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMemAllocated": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iMemAllocatedHigh": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iBlockMemAllocated": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pMemHeap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iNumBlocks": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pBlockHead": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pBlockTail": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 7,
+     "type_verified": false
+    },
+    "iNumFreeBlocks": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pSmallFreeList": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pLastSmallList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "LargeFreeList.pHead": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "LargeFreeList.pTail": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "subclass-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "pDelayedFreeBlocksA": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iNextDelayedFreeIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pSubBuckets": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "CriticalSectionO": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 0,
+     "type_verified": false
+    }
    },
    "vslots": {
     "0": {
@@ -4038,126 +7132,162 @@
      "decl": "~IMemoryHeap()",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11183536
+     "pc_func_va": 11183536,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "GetName",
      "decl": "const char* GetName()",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11173456
+     "pc_func_va": 11173456,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "Allocate",
      "decl": "void* Allocate(unsigned, unsigned)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "Deallocate",
      "decl": "void Deallocate(void*, unsigned)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "4": {
      "name": "PointerInHeap",
      "decl": "bool PointerInHeap(const void*)",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11173488
+     "pc_func_va": 11173488,
+     "manual": false,
+     "note": ""
     },
     "5": {
      "name": "CheckHeapIntegrity",
      "decl": "void CheckHeapIntegrity()",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11182000
+     "pc_func_va": 11182000,
+     "manual": false,
+     "note": ""
     },
     "6": {
      "name": "GetHeapStats",
      "decl": "void GetHeapStats(HeapStats*, bool)",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11182304
+     "pc_func_va": 11182304,
+     "manual": false,
+     "note": ""
     },
     "7": {
      "name": "OutputBucketInfo",
      "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11182864
+     "pc_func_va": 11182864,
+     "manual": false,
+     "note": ""
     },
     "8": {
      "name": "OutputBlockInfo",
      "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11183152
+     "pc_func_va": 11183152,
+     "manual": false,
+     "note": ""
     },
     "9": {
      "name": "Size",
      "decl": "unsigned Size(const void*, unsigned)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "10": {
      "name": "TotalSize",
      "decl": "unsigned TotalSize(const void*)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
      "status": "stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11181328
+     "pc_func_va": 11181328,
+     "manual": false,
+     "note": ""
     },
     "12": {
      "name": "DoHeapAllocation",
      "decl": "void* DoHeapAllocation(unsigned, unsigned)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "13": {
      "name": "DoHeapFree",
      "decl": "void DoHeapFree(void*)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 15491322
+     "pc_func_va": 15491322,
+     "manual": false,
+     "note": ""
     },
     "14": {
      "name": "CreateMorePages",
      "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
      "status": "stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11183696
+     "pc_func_va": 11183696,
+     "manual": false,
+     "note": ""
     },
     "15": {
      "name": "CleanExtraPages",
      "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
      "status": "stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11183696
+     "pc_func_va": 11183696,
+     "manual": false,
+     "note": ""
     },
     "16": {
      "name": "DecommitPages",
      "decl": "void DecommitPages(FreeHeapBlock*)",
      "status": "stub",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11160144
+     "pc_func_va": 11160144,
+     "manual": false,
+     "note": ""
     },
     "17": {
      "name": "CommitPages",
      "decl": "void CommitPages(FreeHeapBlock*, unsigned)",
      "status": "name+stack",
      "checked_on": "AbstractHeap",
-     "pc_func_va": 11544336
+     "pc_func_va": 11544336,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -4293,10 +7423,16 @@
      "uses_this": true,
      "touches_fields": false
     }
-   ]
+   ],
+   "provisional_fields": [
+    "pSmallFreeList",
+    "pSubBuckets"
+   ],
+   "provisional": true
   },
   "MemoryHeap": {
    "vtable_va": 17443068,
+   "base": "AbstractHeap",
    "pc_size": 8436,
    "align": 4,
    "size_status": "confirmed",
@@ -4304,132 +7440,194 @@
     "bSupportsSwapping": "confirmed",
     "bDeletingHeap": "confirmed"
    },
+   "field_details": {
+    "bSupportsSwapping": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bDeletingHeap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "~IMemoryHeap",
      "decl": "~IMemoryHeap()",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11173408
+     "pc_func_va": 11173408,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "GetName",
      "decl": "const char* GetName()",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11173456
+     "pc_func_va": 11173456,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "Allocate",
      "decl": "void* Allocate(unsigned, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172640
+     "pc_func_va": 11172640,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "Deallocate",
      "decl": "void Deallocate(void*, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172672
+     "pc_func_va": 11172672,
+     "manual": false,
+     "note": ""
     },
     "4": {
      "name": "PointerInHeap",
      "decl": "bool PointerInHeap(const void*)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11173488
+     "pc_func_va": 11173488,
+     "manual": false,
+     "note": ""
     },
     "5": {
      "name": "CheckHeapIntegrity",
      "decl": "void CheckHeapIntegrity()",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11182000
+     "pc_func_va": 11182000,
+     "manual": false,
+     "note": ""
     },
     "6": {
      "name": "GetHeapStats",
      "decl": "void GetHeapStats(HeapStats*, bool)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172960
+     "pc_func_va": 11172960,
+     "manual": false,
+     "note": ""
     },
     "7": {
      "name": "OutputBucketInfo",
      "decl": "int OutputBucketInfo(IMemoryManagerFile*)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11173024
+     "pc_func_va": 11173024,
+     "manual": false,
+     "note": ""
     },
     "8": {
      "name": "OutputBlockInfo",
      "decl": "int OutputBlockInfo(IMemoryManagerFile*, bool)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11173120
+     "pc_func_va": 11173120,
+     "manual": false,
+     "note": ""
     },
     "9": {
      "name": "Size",
      "decl": "unsigned Size(const void*, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172832
+     "pc_func_va": 11172832,
+     "manual": false,
+     "note": ""
     },
     "10": {
      "name": "TotalSize",
      "decl": "unsigned TotalSize(const void*)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172864
+     "pc_func_va": 11172864,
+     "manual": false,
+     "note": ""
     },
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
      "status": "stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11181328
+     "pc_func_va": 11181328,
+     "manual": false,
+     "note": ""
     },
     "12": {
      "name": "DoHeapAllocation",
      "decl": "void* DoHeapAllocation(unsigned, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172256
+     "pc_func_va": 11172256,
+     "manual": false,
+     "note": ""
     },
     "13": {
      "name": "DoHeapFree",
      "decl": "void DoHeapFree(void*)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172400
+     "pc_func_va": 11172400,
+     "manual": false,
+     "note": ""
     },
     "14": {
      "name": "CreateMorePages",
      "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172432
+     "pc_func_va": 11172432,
+     "manual": false,
+     "note": ""
     },
     "15": {
      "name": "CleanExtraPages",
      "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11172528
+     "pc_func_va": 11172528,
+     "manual": false,
+     "note": ""
     },
     "16": {
      "name": "DecommitPages",
      "decl": "void DecommitPages(FreeHeapBlock*)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11173216
+     "pc_func_va": 11173216,
+     "manual": false,
+     "note": ""
     },
     "17": {
      "name": "CommitPages",
      "decl": "void CommitPages(FreeHeapBlock*, unsigned)",
      "status": "name+stack",
      "checked_on": "MemoryHeap",
-     "pc_func_va": 11544336
+     "pc_func_va": 11544336,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -4523,9 +7721,12 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "ScrapHeap": {
+   "base": null,
    "pc_size": 16,
    "align": 4,
    "size_status": "confirmed",
@@ -4534,6 +7735,56 @@
     "pCurrentStackLoc": "confirmed",
     "pEndHeap": "confirmed",
     "pLastBlock": "confirmed"
+   },
+   "field_details": {
+    "pMemHeap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pCurrentStackLoc": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "pEndHeap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pLastBlock": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 4,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -4591,9 +7842,12 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "MemoryManager": {
+   "base": null,
    "pc_size": 312,
    "align": 4,
    "size_status": "confirmed",
@@ -4610,6 +7864,154 @@
     "iSysAllocBytes": "confirmed",
     "iMallocBytes": "confirmed",
     "iMainThreadMemoryProblemPassSignal": "confirmed"
+   },
+   "field_details": {
+    "bInitialized": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iNumHeaps": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 7,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iNumPhysicalHeaps": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 6,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "ppHeaps": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pHeapsByContextA": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "kThreadScrapHeapMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "ppPhysicalHeaps": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bSpecialHeaps": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bAllowPoolUse": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iSysAllocBytes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMallocBytes": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "iMainThreadMemoryProblemPassSignal": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -4811,65 +8213,72 @@
      "uses_this": false,
      "touches_fields": false
     }
-   ]
-  },
-  "HeapBlock": {
-   "pc_size": 16,
-   "align": 4,
-   "size_status": "consistent",
-   "fields": {
-    "pPrevious": "confirmed",
-    "iMemSize": "confirmed"
-   },
-   "vslots": {},
-   "methods": [
-    {
-     "va": 11183584,
-     "name": "HeapBlock::ListRemove",
-     "uses_this": true,
-     "touches_fields": true
-    },
-    {
-     "va": 11183840,
-     "name": "HeapBlock::Init",
-     "uses_this": true,
-     "touches_fields": true
-    }
-   ]
-  },
-  "FreeHeapBlock": {
-   "pc_size": 16,
-   "align": 4,
-   "size_status": "consistent",
-   "fields": {
-    "pPrevious": "confirmed",
-    "iMemSize": "confirmed",
-    "pPrevFree": "confirmed",
-    "pNextFree": "confirmed"
-   },
-   "vslots": {},
-   "methods": []
-  },
-  "FreeHeapBlockList": {
-   "pc_size": 8,
-   "align": 4,
-   "size_status": "confirmed",
-   "fields": {
-    "pHead": "unverified",
-    "pTail": "unverified"
-   },
-   "vslots": {},
-   "methods": []
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "BGSSaveLoadFormHeader": {
+   "base": null,
    "pc_size": 9,
    "align": 1,
    "size_status": "consistent",
    "fields": {
-    "FormIDIndex": "unverified",
-    "iChangeFlags": "consistent",
+    "FormIDIndex": "confirmed",
+    "iChangeFlags": "confirmed",
     "FormInfo": "confirmed",
     "cVersion": "confirmed"
+   },
+   "field_details": {
+    "FormIDIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "nested-in-BGSSaveFormBuffer.Header"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iChangeFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "nested-in-BGSSaveFormBuffer.Header"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "FormInfo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "cVersion": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -4879,10 +8288,13 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": true
   },
   "BGSSaveGameBuffer": {
    "vtable_va": 17310500,
+   "base": null,
    "pc_size": 20,
    "align": 4,
    "size_status": "confirmed",
@@ -4893,27 +8305,100 @@
     "iBufferPosition": "confirmed",
     "iDebugOverhead": "confirmed"
    },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pBuffer": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iBufferSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iBufferPosition": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 7,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "iDebugOverhead": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 3,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
      "status": "stub",
      "checked_on": "BGSSaveGameBuffer",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "GetReference",
      "decl": "TESObjectREFR* GetReference()",
      "status": "stub",
      "checked_on": "BGSSaveGameBuffer",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "GetActor",
      "decl": "Actor* GetActor()",
      "status": "stub",
      "checked_on": "BGSSaveGameBuffer",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -4977,10 +8462,13 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "BGSSaveFormBuffer": {
    "vtable_va": 17310472,
+   "base": "BGSSaveGameBuffer",
    "pc_size": 36,
    "align": 4,
    "size_status": "consistent",
@@ -4991,27 +8479,95 @@
     "Header.cVersion": "confirmed",
     "pForm": "confirmed"
    },
+   "field_details": {
+    "Header.FormIDIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "Header.iChangeFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "Header.FormInfo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "Header.cVersion": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pForm": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
      "status": "semantics",
      "checked_on": "BGSSaveFormBuffer",
-     "pc_func_va": 8057904
+     "pc_func_va": 8057904,
+     "manual": true,
+     "note": "0x7AF430: возвращает this+0x20 (pForm), ret без аргументов => GetForm(); тело склеено (ICF) с TESObjectREFR::GetObjectReference, отсюда чужое имя"
     },
     "1": {
      "name": "GetReference",
      "decl": "TESObjectREFR* GetReference()",
      "status": "name+stack",
      "checked_on": "BGSSaveFormBuffer",
-     "pc_func_va": 8805184
+     "pc_func_va": 8805184,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "GetActor",
      "decl": "Actor* GetActor()",
      "status": "name+stack",
      "checked_on": "BGSSaveFormBuffer",
-     "pc_func_va": 8805248
+     "pc_func_va": 8805248,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -5087,10 +8643,13 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": true
   },
   "BGSLoadGameBuffer": {
    "vtable_va": 17309768,
+   "base": null,
    "pc_size": 16,
    "align": 4,
    "size_status": "confirmed",
@@ -5100,34 +8659,96 @@
     "iBufferSize": "confirmed",
     "iBufferPosition": "confirmed"
    },
+   "field_details": {
+    "<vftable>": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "pBuffer": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iBufferSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iBufferPosition": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "subclass-method-this"
+     ],
+     "independent_functions": 8,
+     "write_sites": 8,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "GetVersion",
      "decl": "unsigned char GetVersion()",
      "status": "name+stack",
      "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 8800032
+     "pc_func_va": 8800032,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
      "status": "stub",
      "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "GetReference",
      "decl": "TESObjectREFR* GetReference()",
      "status": "stub",
      "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "GetActor",
      "decl": "Actor* GetActor()",
      "status": "stub",
      "checked_on": "BGSLoadGameBuffer",
-     "pc_func_va": 11320176
+     "pc_func_va": 11320176,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -5209,10 +8830,13 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   },
   "BGSLoadFormBuffer": {
    "vtable_va": 17309736,
+   "base": "BGSLoadGameBuffer",
    "pc_size": 48,
    "align": 4,
    "size_status": "confirmed",
@@ -5227,34 +8851,150 @@
     "iFlags": "confirmed",
     "iOldChangeFlags": "confirmed"
    },
+   "field_details": {
+    "iFormID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "Header.FormIDIndex": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "Header.iChangeFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "Header.FormInfo": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "Header.cVersion": {
+     "status": "unverified",
+     "source": "xbox_pdb",
+     "instruction_verified": false,
+     "offset_verified": false,
+     "base_pointer": [],
+     "independent_functions": 0,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iSize": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pForm": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 10,
+     "write_sites": 11,
+     "type_verified": false
+    },
+    "iOldChangeFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    }
+   },
    "vslots": {
     "0": {
      "name": "GetVersion",
      "decl": "unsigned char GetVersion()",
      "status": "name+stack",
      "checked_on": "BGSLoadFormBuffer",
-     "pc_func_va": 9077184
+     "pc_func_va": 9077184,
+     "manual": false,
+     "note": ""
     },
     "1": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
      "status": "name+stack",
      "checked_on": "BGSLoadFormBuffer",
-     "pc_func_va": 8799664
+     "pc_func_va": 8799664,
+     "manual": false,
+     "note": ""
     },
     "2": {
      "name": "GetReference",
      "decl": "TESObjectREFR* GetReference()",
      "status": "name+stack",
      "checked_on": "BGSLoadFormBuffer",
-     "pc_func_va": 8799760
+     "pc_func_va": 8799760,
+     "manual": false,
+     "note": ""
     },
     "3": {
      "name": "GetActor",
      "decl": "Actor* GetActor()",
      "status": "name+stack",
      "checked_on": "BGSLoadFormBuffer",
-     "pc_func_va": 8799840
+     "pc_func_va": 8799840,
+     "manual": false,
+     "note": ""
     }
    },
    "methods": [
@@ -5396,9 +9136,14 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [
+    "Header.cVersion"
+   ],
+   "provisional": true
   },
   "BGSSaveLoadGame": {
+   "base": null,
    "pc_size": 588,
    "align": 4,
    "size_status": "confirmed",
@@ -5418,6 +9163,188 @@
     "cReverseFileIndexArray": "consistent",
     "iGlobalFlags": "confirmed",
     "cCurrentMinorVersion": "confirmed"
+   },
+   "field_details": {
+    "pChangesMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 13,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "pOldChangesMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pFormIDMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 6,
+     "type_verified": false
+    },
+    "pWorldspaceFormIDMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pReferencesMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 6,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pQueuedSubBuffersMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pChangedFormIDMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pHistory": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "pReconstructForms": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "FormBufferArray": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "QueuedInitPackageLocationsActorMap": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "cFileIndexArray": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "cReverseFileIndexArray": {
+     "status": "consistent",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": false,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 0,
+     "type_verified": false
+    },
+    "iGlobalFlags": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 17,
+     "write_sites": 17,
+     "type_verified": false
+    },
+    "cCurrentMinorVersion": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -5775,9 +9702,15 @@
      "uses_this": true,
      "touches_fields": true
     }
-   ]
+   ],
+   "provisional_fields": [
+    "cFileIndexArray",
+    "cReverseFileIndexArray"
+   ],
+   "provisional": true
   },
   "BGSSaveLoadManager": {
+   "base": null,
    "pc_size": 56,
    "align": 4,
    "size_status": "confirmed",
@@ -5801,6 +9734,241 @@
     "pSysUtilSaveCompleteCallback": "confirmed",
     "pSysUtilLoadCompleteCallback": "confirmed",
     "sSystemSaveName": "confirmed"
+   },
+   "field_details": {
+    "pSaveGameList": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 5,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iSaveGameCount": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "iCurrentSaveGameNumber": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 5,
+     "type_verified": false
+    },
+    "bSimulatedMode": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bAutosaveDisabledForDiskspace": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bhandledCorrupt": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "cQueuedAutosave": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "cQueuedForceSave": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "bShouldSystemSave": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 4,
+     "type_verified": false
+    },
+    "pMostRecentSaveGame": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "iMostRecentSaveGameDeviceID": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bSysUtilHasSaveData": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pSaveLoadFile": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 4,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bReturnedFromSysUtil": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 2,
+     "write_sites": 2,
+     "type_verified": false
+    },
+    "bSysUtilLoadDataComplete": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "bStartMenuLoading": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 3,
+     "write_sites": 3,
+     "type_verified": false
+    },
+    "pSysUtilSaveCompleteCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 2,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "pSysUtilLoadCompleteCallback": {
+     "status": "confirmed",
+     "source": "xbox_pdb",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "type_verified": false
+    },
+    "sSystemSaveName": {
+     "status": "confirmed",
+     "source": "own",
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this",
+      "global-singleton"
+     ],
+     "independent_functions": 3,
+     "write_sites": 0,
+     "type_verified": false
+    }
    },
    "vslots": {},
    "methods": [
@@ -6068,7 +10236,9 @@
      "uses_this": true,
      "touches_fields": false
     }
-   ]
+   ],
+   "provisional_fields": [],
+   "provisional": false
   }
  }
 }

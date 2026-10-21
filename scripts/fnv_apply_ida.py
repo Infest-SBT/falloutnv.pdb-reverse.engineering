@@ -1,50 +1,325 @@
-# Применяет доказательную матрицу FNV PDB к базе IDA (IDA 7.4+, IDAPython).
-# Порядок: открыть FalloutNV.exe 1.4.0.525, загрузить FalloutNV.pdb v0.2 (File > Load file > PDB file),
-# затем File > Script file > fnv_apply_ida.py > выбрать summary.json.
+# -*- coding: utf-8 -*-
+# Применяет доказательную матрицу FNV PDB v0.3.1 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.3.1 (File > Load file > PDB file),
+# затем File > Script file > fnv_apply_ida.py > выбрать evidence/summary.json.
+#
+# Безопасность (v0.3.1):
+#   * проверка exe: SHA-256 входного файла, база образа 0x400000, x86 32-бит; при несовпадении — остановка;
+#   * по умолчанию — ПРОБНЫЙ ПРОГОН: план пишется в fnv_apply_plan_ida.txt рядом с summary.json и в Output,
+#     применение — только после подтверждения;
+#   * повторный запуск безопасен: наши строки комментариев помечены [FNV-PDB …] и заменяются, чужие остаются;
+#     существующие имена (в том числе из PDB) не переименовываются;
+#   * адрес, на который указывают несколько классов (ICF, 19+ общих адресов), получает один комментарий
+#     со всеми владельцами — ничего не перезаписывается.
 # Что делает:
-#   1) создаёт функции на адресах слотов vtable и методов, если их нет; имя <Класс>_vftable на таблице;
-#   2) пишет комментарий функции: класс, слот, прототип с Xbox, уровень достоверности;
-#   3) ТОЛЬКО для слотов со статусом semantics / name+stack применяет прототип
-#      "<ret> __thiscall f(<Класс> *this, <args>)"; остальные не трогает.
-# На IDA проверен не был — сообщите о сбоях. Перед запуском сохраните базу.
-import json, re
-import idc, ida_funcs, ida_kernwin, ida_name
+#   1) создаёт функции на адресах слотов и методов, если их нет;
+#   2) комментарий функции: все классы/слоты на этом адресе, прототип с Xbox, уровень достоверности;
+#   3) имя <Класс>_vftable — только если у таблицы нет имени; иначе комментарий;
+#   4) прототипы — ВЫКЛЮЧЕНЫ по умолчанию (APPLY_PROTOTYPES). Если включить — только слоты со статусом
+#      semantics (разобраны вручную) и только если у функции нет своего типа или он поставлен этим скриптом.
+# Комментарии к полям структур IDA не ставит (API структур различается между IDA 7/8 и 9) — см. заголовок .h.
+# На реальной IDA скрипт не запускался — перед запуском сохраните базу.
 
-APPLY_TYPES = True
-path = ida_kernwin.ask_file(0, "*.json", "summary.json из FalloutNV_PDB_v0.3/evidence")
-S = json.load(open(path, encoding="utf-8")) if path else {"classes": {}}
-st = {"created": 0, "cmt": 0, "typed": 0, "type_fail": 0}
+from __future__ import print_function, unicode_literals
+
+APPLY = False             # True — применять без вопроса (не рекомендуется)
+APPLY_PROTOTYPES = False  # True — ставить прототипы слотам semantics
+
+# ---------------------------------------------------------------------------------------------
+# Общая часть (одинакова в fnv_apply_ghidra.py и fnv_apply_ida.py; совместима с Python 2.7/Jython)
+# ---------------------------------------------------------------------------------------------
+import io
+import json
+
+PDB_VERSION = "0.3.1"
+EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
+IMAGE_BASE = 0x400000
+MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
+MARK_PREFIX = "[FNV-PDB "                 # метки любых версий скрипта
+THIS_SLOT_STATUSES = ("semantics", "name+stack")
+PROTO_STATUSES = ("semantics",)           # IDA: полные прототипы — только разобранные вручную слоты
 
 
-def ensure(ea):
-    if not ida_funcs.get_func(ea):
-        if ida_funcs.add_func(ea):
-            st["created"] += 1
+def load_summary(path):
+    with io.open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
 
 
-for cls, c in S["classes"].items():
-    for m in c["methods"]:
-        ensure(m["va"])
-    vt = c.get("vtable_va")
-    if vt:
-        ida_name.set_name(vt, cls + "_vftable", ida_name.SN_NOWARN | ida_name.SN_NOCHECK)
-    for slot, v in sorted(c["vslots"].items(), key=lambda kv: int(kv[0])):
-        ea = v["pc_func_va"]
-        ensure(ea)
-        idc.set_func_cmt(ea, "(Xbox PDB) %s слот %s: %s — %s (проверено на %s)"
-                         % (cls, slot, v["decl"], v["status"], v["checked_on"]), 1)
-        st["cmt"] += 1
-        if not APPLY_TYPES or v["status"] not in ("semantics", "name+stack") or v["checked_on"] != cls:
-            continue
-        m = re.match(r"^(.*?)\s*(~?\w+)\((.*)\)$", v["decl"])
-        if not m or m.group(2).startswith("~"):
-            continue
-        ret, args = m.group(1).strip() or "void", m.group(3).strip()
-        decl = "%s __thiscall f(%s *this%s);" % (ret, cls, (", " + args) if args else "")
-        if idc.SetType(ea, decl):
-            st["typed"] += 1
-        else:
-            st["type_fail"] += 1
-            print("Тип не применён: %s @ %X: %s" % (cls, ea, decl))
+def check_identity(summary, sha256, image_base, is_x86_32):
+    """Список причин несовпадения (пустой — можно работать). Скрипт обязан остановиться при непустом."""
+    bad = []
+    want = (summary.get("exe_sha256") or EXE_SHA256).lower()
+    if want != EXE_SHA256:
+        bad.append("summary.json сделан не для FalloutNV.exe 1.4.0.525 (sha256 %s)" % want)
+    if not sha256:
+        bad.append("не удалось получить SHA-256 исходного файла из базы")
+    elif sha256.lower() != EXE_SHA256:
+        bad.append("SHA-256 исходного файла %s, нужен %s" % (sha256.lower(), EXE_SHA256))
+    if image_base != IMAGE_BASE:
+        bad.append("база образа 0x%X, нужна 0x%X (не делайте rebase)" % (image_base, IMAGE_BASE))
+    if not is_x86_32:
+        bad.append("программа не x86 32-бит")
+    return bad
 
-print("FNV: создано функций %(created)d, комментариев %(cmt)d, прототипов %(typed)d (ошибок %(type_fail)d)" % st)
+
+def base_chain(classes, cls):
+    out = []
+    while cls is not None and cls in classes and cls not in out:
+        out.append(cls)
+        cls = classes[cls].get("base")
+    return out
+
+
+def pick_this_owner(classes, owners):
+    """Несколько классов претендуют на this одной функции (ICF/наследование).
+    Если все лежат на одной цепочке наследования — берём самый базовый; иначе — конфликт (None)."""
+    owners = sorted(set(owners))
+    if len(owners) == 1:
+        return owners[0], None
+    for cand in owners:
+        if all(cand in base_chain(classes, o) for o in owners):
+            return cand, "общий базовый класс для %s" % ", ".join(owners)
+    return None, "классы не связаны наследованием: %s" % ", ".join(owners)
+
+
+def field_comment(name, fd, provisional_class):
+    parts = ["%s (Xbox PDB)" % name, "PC: %s" % fd.get("status", "?")]
+    if fd.get("status") == "confirmed":
+        parts.append("смещение и инструкция проверены")
+    if not fd.get("type_verified"):
+        parts.append("тип не проверен")
+    if fd.get("status") != "confirmed":
+        parts.append("ПРЕДВАРИТЕЛЬНО: не для хуков")
+    elif provisional_class:
+        parts.append("класс предварительный: размер или часть полей не подтверждены")
+    return "%s %s" % (MARK, "; ".join(parts))
+
+
+def slot_line(cls, slot, v):
+    s = "%s слот %s: %s — %s" % (cls, slot, v["decl"], v["status"])
+    if v.get("manual"):
+        s += " (ручной разбор)"
+    if v.get("checked_on") and v["checked_on"] != cls:
+        s += " (проверено на %s)" % v["checked_on"]
+    return s
+
+
+def build_plan(summary, all_this=False):
+    """Адресный план изменений: для каждого VA — кто на него претендует и что с ним делать.
+    all_this=False: this ставится только методам, которые читают ECX до записи И обращаются к полям,
+    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов)."""
+    classes = summary["classes"]
+    by_va = {}
+
+    def entry(va):
+        return by_va.setdefault(va, {"va": va, "lines": [], "owners": set(), "this_claims": [], "proto": []})
+
+    for cls in sorted(classes):
+        c = classes[cls]
+        prov = " [класс предварительный]" if c.get("provisional") else ""
+        for m in c.get("methods", []):
+            e = entry(m["va"])
+            e["owners"].add(cls)
+            e["lines"].append("%s — метод класса %s%s" % (m["name"], cls, prov))
+            if m.get("uses_this") and (all_this or m.get("touches_fields")):
+                e["this_claims"].append(cls)
+        for slot in sorted(c.get("vslots", {}), key=int):
+            v = c["vslots"][slot]
+            e = entry(v["pc_func_va"])
+            e["owners"].add(cls)
+            e["lines"].append(slot_line(cls, slot, v) + prov)
+            if v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+                e["this_claims"].append(cls)
+            if v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+                e["proto"].append((cls, v["decl"]))
+    conflicts = []
+    for va in sorted(by_va):
+        e = by_va[va]
+        e["this"] = None
+        if e["this_claims"]:
+            owner, why = pick_this_owner(classes, e["this_claims"])
+            e["this"] = owner
+            if owner is None:
+                conflicts.append("0x%08X: this не ставится — %s" % (va, why))
+                e["lines"].append("this не ставится: %s" % why)
+            elif why:
+                e["lines"].append("this = %s: %s" % (owner, why))
+        protos = sorted(set(e["proto"]))
+        e["proto"] = protos[0] if len(protos) == 1 and len(set(e["this_claims"])) <= 1 else None
+        if len(protos) > 1:
+            conflicts.append("0x%08X: несколько прототипов (%s) — прототип не ставится" %
+                             (va, "; ".join("%s: %s" % p for p in protos)))
+        # общие заглушки ICF: одна строка вместо десятков
+        if len(e["lines"]) > 6:
+            e["lines"] = ["общая функция (ICF) для %d слотов/методов классов: %s"
+                          % (len(e["lines"]), ", ".join(sorted(e["owners"])))]
+    return by_va, conflicts
+
+
+def comment_text(e):
+    return "\n".join("%s %s" % (MARK, l) for l in e["lines"])
+
+
+def merge_comment(old, new):
+    """Убирает наши прошлые строки (любой версии) и добавляет новые; чужой текст сохраняется."""
+    keep = [l for l in (old or "").split("\n") if l and not l.startswith(MARK_PREFIX)]
+    return "\n".join(keep + [new]) if keep else new
+
+
+def summarize_plan(by_va, conflicts):
+    n_this = sum(1 for e in by_va.values() if e["this"])
+    n_proto = sum(1 for e in by_va.values() if e["proto"])
+    return ("адресов: %d, кандидатов на this: %d, кандидатов на прототип (semantics): %d, конфликтов: %d"
+            % (len(by_va), n_this, n_proto, len(conflicts)))
+
+# ---------------------------------------------------------------------------------------------
+# IDA
+# ---------------------------------------------------------------------------------------------
+import binascii
+import os
+import re
+import idc
+import ida_bytes
+import ida_funcs
+import ida_kernwin
+import ida_nalt
+import ida_name
+import ida_segment
+
+
+def ida_is_x86_32():
+    try:                                   # IDA 9
+        import ida_ida
+        return ida_ida.inf_get_procname() == "metapc" and ida_ida.inf_is_32bit_exactly()
+    except (ImportError, AttributeError):  # IDA 7.x / 8.x
+        import idaapi
+        inf = idaapi.get_inf_structure()
+        return inf.procname == "metapc" and inf.is_32bit() and not inf.is_64bit()
+
+
+def input_sha256():
+    h = ida_nalt.retrieve_input_file_sha256()
+    if not h:
+        return None
+    return h.decode("ascii") if len(h) == 64 else binascii.hexlify(h).decode("ascii")
+
+
+def is_code_seg(ea):
+    s = ida_segment.getseg(ea)
+    return s is not None and (s.perm & ida_segment.SEGPERM_EXEC or s.type == ida_segment.SEG_CODE)
+
+
+def proto_decl(cls, decl):
+    m = re.match(r"^(.*?)\s*(~?\w+)\((.*)\)$", decl)
+    if not m or m.group(2).startswith("~"):
+        return None
+    ret, a = m.group(1).strip() or "void", m.group(3).strip()
+    if a == "void":
+        a = ""
+    return "%s __thiscall f(%s *this%s);" % (ret, cls, (", " + a) if a else "")
+
+
+def main():
+    path = ida_kernwin.ask_file(0, "*.json", "evidence/summary.json из FalloutNV_PDB_v%s" % PDB_VERSION)
+    if not path:
+        return
+    S = load_summary(path)
+    problems = check_identity(S, input_sha256(), ida_nalt.get_imagebase(), ida_is_x86_32())
+    if problems:
+        msg = "FNV: скрипт остановлен, база не изменена:\n  " + "\n  ".join(problems)
+        print(msg)
+        ida_kernwin.warning(msg)
+        return
+
+    plan, conflicts = build_plan(S)
+    log, actions = [], []
+    for va in sorted(plan):
+        e = plan[va]
+        if not ida_funcs.get_func(va):
+            if is_code_seg(va):
+                actions.append((va, "create", None))
+            else:
+                log.append("0x%08X: не в сегменте кода — функция не создаётся" % va)
+                continue
+        actions.append((va, "comment", None))
+        if APPLY_PROTOTYPES and e["proto"] and e["this"] == e["proto"][0]:
+            old_t = idc.get_type(va)
+            ours = MARK_PREFIX in (idc.get_func_cmt(va, 1) or "") and "прототип:" in (idc.get_func_cmt(va, 1) or "")
+            d = proto_decl(*e["proto"])
+            if d is None:
+                continue
+            if old_t and not ours:
+                log.append("0x%08X: у функции уже есть тип (%s) — прототип не ставится" % (va, old_t))
+            else:
+                actions.append((va, "proto", d))
+    for cls in sorted(S["classes"]):
+        vt = S["classes"][cls].get("vtable_va")
+        if vt:
+            nm = ida_name.get_name(vt)
+            if nm == cls + "_vftable":
+                continue
+            if not nm or (not ida_bytes.has_user_name(ida_bytes.get_flags(vt)) and re.match(r"^(off|unk|dword)_", nm)):
+                actions.append((vt, "vtname", cls + "_vftable"))
+            else:
+                actions.append((vt, "vtcmt", "%s %s vftable (имя «%s» не меняем)" % (MARK, cls, nm)))
+
+    counts = {}
+    for _, act, _ in actions:
+        counts[act] = counts.get(act, 0) + 1
+    header = ["FNV PDB %s — план для IDA" % PDB_VERSION,
+              summarize_plan(plan, conflicts),
+              "создать функций: %d, комментариев: %d, прототипов: %d (APPLY_PROTOTYPES=%s), имён vtable: %d" % (
+                  counts.get("create", 0), counts.get("comment", 0), counts.get("proto", 0), APPLY_PROTOTYPES,
+                  counts.get("vtname", 0)),
+              "", "Конфликты:"] + (conflicts or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + x) if x else "") for va, act, x in actions]
+    plan_path = os.path.join(os.path.dirname(path), "fnv_apply_plan_ida.txt")
+    try:
+        with io.open(plan_path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(header) + "\n")
+        print("FNV: план записан в %s" % plan_path)
+    except Exception as ex:  # noqa
+        print("FNV: не удалось записать план (%s)" % ex)
+    for l in header[:5]:
+        print(l)
+
+    apply_now = APPLY or ida_kernwin.ask_yn(ida_kernwin.ASKBTN_NO, "\n".join(header[1:3]) +
+                                            "\n\nПлан: %s\n\nПрименить?" % plan_path) == ida_kernwin.ASKBTN_YES
+    if not apply_now:
+        print("FNV: пробный прогон, база не изменена")
+        return
+
+    done = {"create": 0, "comment": 0, "proto": 0, "proto_fail": 0, "vtname": 0, "vtcmt": 0}
+    protos = dict((va, d) for va, act, d in actions if act == "proto")
+    for va, act, x in actions:
+        e = plan.get(va)
+        if act == "create":
+            if not ida_funcs.get_func(va) and ida_funcs.add_func(va):
+                done["create"] += 1
+        elif act == "comment":
+            lines = list(e["lines"])
+            if va in protos:
+                lines.append("прототип: %s" % protos[va])
+            text = "\n".join("%s %s" % (MARK, l) for l in lines)
+            if ida_funcs.get_func(va):
+                idc.set_func_cmt(va, merge_comment(idc.get_func_cmt(va, 1), text), 1)
+            else:
+                idc.set_cmt(va, merge_comment(idc.get_cmt(va, 1), text), 1)
+            done["comment"] += 1
+        elif act == "proto":
+            if idc.SetType(va, x):
+                done["proto"] += 1
+            else:
+                done["proto_fail"] += 1
+                print("FNV: тип не применён @ 0x%08X: %s" % (va, x))
+        elif act == "vtname":
+            if ida_name.set_name(va, x, ida_name.SN_NOWARN | ida_name.SN_NOCHECK):
+                done["vtname"] += 1
+        elif act == "vtcmt":
+            idc.set_cmt(va, merge_comment(idc.get_cmt(va, 1), x), 1)
+            done["vtcmt"] += 1
+    print("FNV: создано функций %(create)d, комментариев %(comment)d, прототипов %(proto)d (ошибок %(proto_fail)d), "
+          "имён vtable %(vtname)d, комментариев vtable %(vtcmt)d" % done)
+
+
+main()

@@ -192,6 +192,8 @@ def member_c(name, tname, size, packed=False):
     if arr:
         el = arr.group(1).strip()
         n = int(arr.group(2))
+        if el in pc_size and el in declared and n % pc_size[el] == 0 and n <= size:
+            return f'{el} {name}[{n // pc_size[el]}];', n, meta_align.get(el, 4), False   # массив проверенных классов
         ct = c_type(el) if (el.endswith('*') or el in PRIM) else None
         esz = 4 if el.endswith('*') else {'char': 1, 'unsigned char': 1, 'short': 2, 'unsigned short': 2}.get(el, 4)
         if ct and n % esz == 0 and n <= size:
@@ -310,7 +312,10 @@ for cls in CLASSES:
         asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
         cm['fields'].append({'name': n, 'off': po, 'size': tsz, 'xbox_type': t, 'opaque': opaque,
                              'decl': decl.split(' //')[0], 'source': own_src.get(n, 'xbox_pdb'),
-                             'class_type': t if (t in declared and t in pc_size) else None})
+                             'class_type': t if (t in declared and t in pc_size) else None,
+                             'class_array_of': (re.match(r'(.*)\[\d+ bytes\]$', t).group(1).strip()
+                                                if re.match(r'(.*)\[\d+ bytes\]$', t) and
+                                                re.match(r'(.*)\[\d+ bytes\]$', t).group(1).strip() in pc_size else None)})
         pos = po + tsz
     if pos < size:
         lines.append(f'    unsigned char _pad{pos:X}[0x{size - pos:X}];')
@@ -341,8 +346,10 @@ hdr = ['// Сгенерировано gen_headers.py. Источник раск�
        '// GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C) — (Xbox PDB). Каждый класс проверен на PC',
        '// FalloutNV.exe 1.4.0.525 (SHA-256 42fee7d6...) инструментом verify_class.py.',
        '// Сигнатуры виртуальных методов взяты с Xbox; степень их проверки на PC — в evidence_vslots.csv.',
-       '// Классы по значению в параметрах заменены на void*. Упаковка — по умолчанию (без #pragma pack),',
-       '// выравнивание каждого класса проверяется static_assert(alignof) и следует из типов полей.',
+       '// Классы, передаваемые по значению, описаны непрозрачными структурами нужного размера (NiPoint3);',
+       '// шаблоны и вложенные типы в параметрах — void*. Упаковка по умолчанию; #pragma pack(1) только у',
+       '// классов, упакованных и в игре (BGSSaveLoadFormHeader). alignof каждого класса следует из типов полей.',
+       '// Уровни достоверности каждого поля и слота — комментарии «PC: …» и evidence/summary.json.',
        '#pragma once', '#if __has_include(<cstddef>)', '#include <cstddef>', '#endif', '#ifndef offsetof', '#define offsetof(t, m) __builtin_offsetof(t, m)', '#endif']
 hdr += [('struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class') + f' {n};' for n in sorted((fwd | declared) - set(VALUE_TYPES))]
 hdr += [f'struct {n} {{ alignas({xalign(n)}) unsigned char _opaque[0x{sz:X}]; }}; // (Xbox PDB) передаётся по значению; поля не описаны'

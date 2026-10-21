@@ -93,13 +93,14 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None):
                 if r in alias and 0 <= op.mem.disp < limit:
                     # lea = берётся адрес поля (размер доступа 0)
                     out.append((op.mem.disp, 0 if ins.mnemonic == 'lea' else op.size, ins.address,
-                                f'{ins.mnemonic} {ins.op_str}'))
+                                f'{ins.mnemonic} {ins.op_str}', bool(op.access & capstone.CS_AC_WRITE)))
             if gobj is not None and op.type == capstone.x86.X86_OP_MEM and not op.mem.base and op.mem.index == 0 \
                     and gobj <= (op.mem.disp & 0xFFFFFFFF) < gobj + limit and op.size and ins.mnemonic != 'lea':
-                out.append(((op.mem.disp & 0xFFFFFFFF) - gobj, op.size, ins.address, f'{ins.mnemonic} {ins.op_str}'))
+                out.append(((op.mem.disp & 0xFFFFFFFF) - gobj, op.size, ins.address, f'{ins.mnemonic} {ins.op_str}',
+                            bool(op.access & capstone.CS_AC_WRITE)))
         if dst and dst in alias and ins.mnemonic == 'add' and len(ops) == 2 \
                 and ops[1].type == capstone.x86.X86_OP_IMM and 0 < ops[1].imm < limit:
-            out.append((ops[1].imm, 0, ins.address, f'{ins.mnemonic} {ins.op_str}'))   # адрес поля: this + imm
+            out.append((ops[1].imm, 0, ins.address, f'{ins.mnemonic} {ins.op_str}', False))   # адрес поля: this + imm
         if dst:
             if ins.mnemonic == 'mov' and len(ops) == 2:
                 src = ops[1]
@@ -248,8 +249,8 @@ for cname, c in CLS.items():
     srcs = [(o, f) for o, f in srcs if f'0x{f:X}' not in {k.upper().replace('0X', '0x') for k in excl}]
     acc = []
     for owner, f in srcs:
-        for off, sz, ia, txt in this_accesses(f, c['pc_size']):
-            acc.append((off, sz, ia, txt, name_at(f), owner))
+        for off, sz, ia, txt, wr in this_accesses(f, c['pc_size']):
+            acc.append((off, sz, ia, txt, name_at(f), owner, wr))
     g = spec.get('globals', {}).get(cname, {})
     seen_g = set()
     for kind, addr in g.items():
@@ -259,11 +260,12 @@ for cname, c in CLS.items():
                 continue
             seen_g.add((f, kind))
             kw = {'gptr': addr} if kind == 'ptr' else {'gobj': addr}
-            for off, sz, ia, txt in this_accesses(f, c['pc_size'], seed_ecx=False, **kw):
-                acc.append((off, sz, ia, txt, name_at(f), f'global {kind} 0x{addr:08X}'))
+            for off, sz, ia, txt, wr in this_accesses(f, c['pc_size'], seed_ecx=False, **kw):
+                acc.append((off, sz, ia, txt, name_at(f), f'global {kind} 0x{addr:08X}', wr))
     status = {}
+    det = collections.defaultdict(lambda: {'insns': 0, 'functions': set(), 'via': set(), 'writes': 0})
     offs = sorted((fd['off'], fd['off'] + fd['size'], fd) for fd in own)
-    for off, sz, ia, txt, fn, owner in acc:
+    for off, sz, ia, txt, fn, owner, wr in acc:
         if off < first_own and cname != 'BaseFormComponent' and c['base']:
             continue  # поле базового класса — учитывается в строках базы
         hit = next(((s, e, fd) for s, e, fd in offs if s <= off < e), None)
@@ -287,14 +289,30 @@ for cname, c in CLS.items():
                 st = 'consistent'
             else:
                 st = 'CONFLICT'
+        via = ('global-singleton' if owner.startswith('global') else
+               'class-method-this' if owner == cname else 'subclass-method-this')
         field_rows.append({'class': cname, 'field': fld, 'field_off': f'0x{foff:X}', 'access_off': f'0x{off:X}',
-                           'access_size': sz, 'pc_function': fn, 'function_owner': owner,
-                           'insn_va': f'0x{ia:08X}', 'insn': txt, 'source': 'Xbox PDB', 'status': st,
-                           'note': known or ''})
+                           'access_size': sz, 'write': wr, 'pc_function': fn, 'function_owner': owner,
+                           'base_pointer': via, 'insn_va': f'0x{ia:08X}', 'insn': txt, 'source': 'Xbox PDB',
+                           'status': st, 'note': known or ''})
+        if st in ('confirmed', 'consistent'):
+            d = det[fld]
+            d['insns'] += 1; d['functions'].add(fn); d['via'].add(via); d['writes'] += bool(wr)
         rank = {'CONFLICT': 3, 'confirmed': 2, 'consistent': 1, 'explained': 0}
         if rank[st] > rank.get(status.get(fld), 0):
             status[fld] = st
     fsum = {fd['name']: status.get(fd['name'], 'unverified') for fd in own}
+    fdet = {}
+    for fd in own:
+        d = det.get(fd['name'])
+        fdet[fd['name']] = {
+            'status': fsum[fd['name']], 'source': fd.get('source', 'xbox_pdb'),
+            'instruction_verified': bool(d and d['insns']),
+            'offset_verified': fsum[fd['name']] == 'confirmed',
+            'base_pointer': sorted(d['via']) if d else [],
+            'independent_functions': len(d['functions']) if d else 0,
+            'write_sites': d['writes'] if d else 0,
+            'type_verified': False}
     for k, v in status.items():
         if k == '(заполнитель)' and v == 'CONFLICT':
             fsum[k] = v
@@ -320,7 +338,7 @@ for cname, c in CLS.items():
                 sz_ev.append(('subclass-boundary', fo['off'], f'первое собственное поле {sc}::{fo["name"]} '
                               f'на 0x{fo["off"]:X} (статус поля см. evidence_fields)'))
         else:
-            mins = [off for _, f in [(sc, f) for f in funcs_of(sc)] for off, _, _, _ in this_accesses(f, 0x10000)
+            mins = [off for _, f in [(sc, f) for f in funcs_of(sc)] for off, _, _, _, _ in this_accesses(f, 0x10000)
                     if off >= c['pc_size'] - 0]
             if mins:
                 m = min(mins)
@@ -385,14 +403,40 @@ for cname, c in CLS.items():
                     best = (st, who, fa)
             if best:
                 vsum[s] = {'name': v['name'], 'decl': v['decl'], 'status': best[0], 'checked_on': best[1],
-                           'pc_func_va': best[2]}
+                           'pc_func_va': best[2], 'manual': best[0] == 'semantics',
+                           'note': notes.get(str(s), '') if best[0] == 'semantics' else ''}
         summary['classes'][cname] = {'vtable_va': vt}
     summary['classes'].setdefault(cname, {})
     summary['classes'][cname].update({
-        'pc_size': c['pc_size'], 'align': c['align'], 'size_status': s_status, 'fields': fsum,
+        'base': c['base'], 'pc_size': c['pc_size'], 'align': c['align'], 'size_status': s_status, 'fields': fsum,
+        'field_details': fdet,
         'vslots': vsum,
         'methods': [{'va': f, 'name': name_at(f), 'uses_this': reads_ecx_first(f), 'touches_fields': bool(this_accesses(f, c['pc_size']))}
                     for f in funcs_of(cname) if f'0x{f:X}' not in {k.upper().replace('0X', '0x') for k in excl}]})
+
+
+# вложенные классы: поля, подтверждённые внутри содержащего класса (Header.iChangeFlags, LargeFreeList.pHead),
+# засчитываются и самому вложенному классу
+RANK = {'unverified': 0, 'consistent': 1, 'confirmed': 2, 'CONFLICT': 3}
+for xname, xc in CLS.items():
+    for fd in xc['fields']:
+        sub = fd.get('class_type')
+        if not sub or sub not in summary['classes']:
+            continue
+        for sf_name in list(summary['classes'][sub]['fields']):
+            key = f"{fd['name']}.{sf_name}"
+            got = summary['classes'][xname]['fields'].get(key)
+            cur = summary['classes'][sub]['fields'][sf_name]
+            if got and RANK.get(got, 0) > RANK.get(cur, 0):
+                summary['classes'][sub]['fields'][sf_name] = got
+                dd = summary['classes'][sub]['field_details'][sf_name]
+                xd = summary['classes'][xname]['field_details'][key]
+                dd.update({k: xd[k] for k in ('status', 'instruction_verified', 'offset_verified',
+                                               'independent_functions', 'write_sites')})
+                dd['base_pointer'] = sorted(set(xd['base_pointer']) | {f'nested-in-{xname}.{fd["name"]}'})
+for cname, sc in summary['classes'].items():
+    sc['provisional_fields'] = sorted(k for k, v in sc['fields'].items() if v != 'confirmed')
+    sc['provisional'] = sc['size_status'] != 'confirmed' or bool(sc['provisional_fields'])
 
 
 def wcsv(name, rows):

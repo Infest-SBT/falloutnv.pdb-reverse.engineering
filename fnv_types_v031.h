@@ -2,8 +2,10 @@
 // GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C) — (Xbox PDB). Каждый класс проверен на PC
 // FalloutNV.exe 1.4.0.525 (SHA-256 42fee7d6...) инструментом verify_class.py.
 // Сигнатуры виртуальных методов взяты с Xbox; степень их проверки на PC — в evidence_vslots.csv.
-// Классы по значению в параметрах заменены на void*. Упаковка — по умолчанию (без #pragma pack),
-// выравнивание каждого класса проверяется static_assert(alignof) и следует из типов полей.
+// Классы, передаваемые по значению, описаны непрозрачными структурами нужного размера (NiPoint3);
+// шаблоны и вложенные типы в параметрах — void*. Упаковка по умолчанию; #pragma pack(1) только у
+// классов, упакованных и в игре (BGSSaveLoadFormHeader). alignof каждого класса следует из типов полей.
+// Уровни достоверности каждого поля и слота — комментарии «PC: …» и evidence/summary.json.
 #pragma once
 #if __has_include(<cstddef>)
 #include <cstddef>
@@ -229,7 +231,7 @@ public:
     alignas(4) unsigned char pSourceFiles[8]; // BSSimpleList<TESFile *> | PC: confirmed
 };
 // TESDataHandler (Xbox PDB): Xbox sizeof 0x63C, PC sizeof 0x63C
-// PC: sizeof 0x63C — confirmed; alignof 4
+// PC: sizeof 0x63C — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pFileIndex)
 class TESDataHandler {
 public:
     // поля
@@ -302,7 +304,7 @@ public:
     TESFile* pActiveFile; // PC: confirmed
     alignas(4) unsigned char listFiles[8]; // BSSimpleList<TESFile *> | PC: confirmed
     unsigned iNumCompile; // PC: confirmed
-    TESFile* pFileIndex[255]; // PC: consistent
+    TESFile* pFileIndex[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
     bool bMasterSave; // PC: confirmed
     bool bSaveLoadGame; // PC: confirmed
     bool bSaveLoad; // PC: confirmed
@@ -323,7 +325,7 @@ public:
     TESEffectShader* pCateyeMobileShader; // PC: confirmed
 };
 // BSGameSound (Xbox PDB): Xbox sizeof 0x198, PC sizeof 0x198
-// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964
+// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pFilename)
 class BSGameSound {
 public:
     virtual ~BSGameSound(); // слот 0 | PC: name+stack (0xAE9EC0)
@@ -371,7 +373,7 @@ public:
     float fEndTime; // PC: confirmed
     unsigned iWeatherFlags; // PC: confirmed
     unsigned short iSamplesPerSecond; // PC: confirmed
-    char pFilename[260]; // PC: consistent
+    char pFilename[260]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
     unsigned char _pad13A[0x2];
     float fMaxDist; // PC: confirmed
     float fMinDist; // PC: confirmed
@@ -425,7 +427,7 @@ public:
     void* pfnSynchUnPausedCallback; // PC: confirmed
 };
 // BSAudioManager (Xbox PDB): Xbox sizeof 0x19C, PC sizeof 0x188
-// PC: sizeof 0x188 — consistent; alignof 4; vtable 0x010A3368
+// PC: sizeof 0x188 — consistent; alignof 4; vtable 0x010A3368; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class BSAudioManager {
 public:
     virtual ~BSAudioManager(); // слот 0 | PC: name+stack (0xAE77A0)
@@ -479,7 +481,7 @@ public:
     unsigned char _pad185[0x3];
 };
 // BSSoundHandle (Xbox PDB): Xbox sizeof 0xC, PC sizeof 0xC
-// PC: sizeof 0xC — consistent; alignof 4
+// PC: sizeof 0xC — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class BSSoundHandle {
 public:
     enum ASSUMED_STATE { ASSUMED_STATE_INITIALIZED = 0, ASSUMED_STATE_PLAYING = 1, ASSUMED_STATE_STOPPED = 2, ASSUMED_STATE_PAUSED = 3 }; // (Xbox PDB), значения проверены на PC
@@ -488,6 +490,33 @@ public:
     bool bAssumeSuccess; // PC: confirmed
     unsigned char _pad5[0x3];
     int eState; // PC: confirmed
+};
+// HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
+// PC: sizeof 0x10 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+class HeapBlock {
+public:
+    // поля
+    HeapBlock* pPrevious; // PC: confirmed
+    unsigned iMemSize; // PC: confirmed
+    unsigned char _pad8[0x8];
+};
+// FreeHeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
+// PC: sizeof 0x10 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+class FreeHeapBlock {
+public:
+    // поля
+    HeapBlock* pPrevious; // PC: confirmed
+    unsigned iMemSize; // PC: confirmed
+    FreeHeapBlock* pPrevFree; // PC: confirmed
+    FreeHeapBlock* pNextFree; // PC: confirmed
+};
+// FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
+// PC: sizeof 0x8 — confirmed; alignof 4
+class FreeHeapBlockList {
+public:
+    // поля
+    FreeHeapBlock* pHead; // PC: confirmed
+    FreeHeapBlock* pTail; // PC: confirmed
 };
 // IMemoryHeap (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
 // PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x010A28C8
@@ -508,7 +537,7 @@ public:
     // поля
 };
 // AbstractHeap (Xbox PDB): Xbox sizeof 0x20F4, PC sizeof 0x20F0
-// PC: sizeof 0x20F0 — confirmed; alignof 4; vtable 0x010A2BBC
+// PC: sizeof 0x20F0 — confirmed; alignof 4; vtable 0x010A2BBC; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pSmallFreeList, pSubBuckets)
 class AbstractHeap : public IMemoryHeap {
 public:
     virtual void* DoHeapAllocation(unsigned, unsigned); // слот 12 | PC: stub (0xEC60FA)
@@ -534,12 +563,12 @@ public:
     HeapBlock* pBlockHead; // PC: confirmed
     HeapBlock* pBlockTail; // PC: confirmed
     int iNumFreeBlocks; // PC: confirmed
-    alignas(4) unsigned char pSmallFreeList[8192]; // FreeHeapBlockList[8192 bytes] | PC: confirmed
+    FreeHeapBlockList pSmallFreeList[1024]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
     FreeHeapBlockList* pLastSmallList; // PC: confirmed
-    alignas(4) unsigned char LargeFreeList[8]; // FreeHeapBlockList | PC: confirmed
+    FreeHeapBlockList LargeFreeList;
     HeapBlock** pDelayedFreeBlocksA; // PC: confirmed
     unsigned iNextDelayedFreeIndex; // PC: confirmed
-    alignas(4) unsigned char pSubBuckets[128]; // HeapFreeSubBucket[128 bytes] | PC: unverified
+    alignas(4) unsigned char pSubBuckets[128]; // HeapFreeSubBucket[128 bytes] | PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
     alignas(4) unsigned char CriticalSectionO[24]; // BSCriticalSection | PC: confirmed
 };
 // MemoryHeap (Xbox PDB): Xbox sizeof 0x20F8, PC sizeof 0x20F4
@@ -582,41 +611,14 @@ public:
     unsigned iMallocBytes; // PC: confirmed
     unsigned iMainThreadMemoryProblemPassSignal; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
-// HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — consistent; alignof 4
-class HeapBlock {
-public:
-    // поля
-    HeapBlock* pPrevious; // PC: confirmed
-    unsigned iMemSize; // PC: confirmed
-    unsigned char _pad8[0x8];
-};
-// FreeHeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — consistent; alignof 4
-class FreeHeapBlock {
-public:
-    // поля
-    HeapBlock* pPrevious; // PC: confirmed
-    unsigned iMemSize; // PC: confirmed
-    FreeHeapBlock* pPrevFree; // PC: confirmed
-    FreeHeapBlock* pNextFree; // PC: confirmed
-};
-// FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4
-class FreeHeapBlockList {
-public:
-    // поля
-    FreeHeapBlock* pHead; // PC: unverified
-    FreeHeapBlock* pTail; // PC: unverified
-};
 #pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)
 // BGSSaveLoadFormHeader (Xbox PDB): Xbox sizeof 0x9, PC sizeof 0x9
-// PC: sizeof 0x9 — consistent; alignof 1
+// PC: sizeof 0x9 — consistent; alignof 1; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 struct BGSSaveLoadFormHeader {
 public:
     // поля
-    unsigned char FormIDIndex[3]; // BGSNumericIDIndex | PC: unverified
-    unsigned iChangeFlags; // BGSChangeFlags | PC: consistent
+    unsigned char FormIDIndex[3]; // BGSNumericIDIndex | PC: confirmed
+    unsigned iChangeFlags; // BGSChangeFlags | PC: confirmed
     unsigned char FormInfo[1]; // BGSSaveLoadFormInfo | PC: confirmed
     unsigned char cVersion; // PC: confirmed
 };
@@ -635,7 +637,7 @@ public:
     unsigned iDebugOverhead; // PC: confirmed
 };
 // BGSSaveFormBuffer (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — consistent; alignof 4; vtable 0x01082308
+// PC: sizeof 0x24 — consistent; alignof 4; vtable 0x01082308; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class BGSSaveFormBuffer : public BGSSaveGameBuffer {
 public:
     // поля
@@ -657,7 +659,7 @@ public:
     unsigned iBufferPosition; // PC: confirmed
 };
 // BGSLoadFormBuffer (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x30
-// PC: sizeof 0x30 — confirmed; alignof 4; vtable 0x01082028
+// PC: sizeof 0x30 — confirmed; alignof 4; vtable 0x01082028; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: Header.cVersion)
 class BGSLoadFormBuffer : public BGSLoadGameBuffer {
 public:
     // поля
@@ -670,7 +672,7 @@ public:
     unsigned iOldChangeFlags; // BGSChangeFlags | PC: confirmed
 };
 // BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
-// PC: sizeof 0x24C — confirmed; alignof 4
+// PC: sizeof 0x24C — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: cFileIndexArray, cReverseFileIndexArray)
 class BGSSaveLoadGame {
 public:
     // поля
@@ -685,8 +687,8 @@ public:
     BGSReconstructFormsInAllFilesMap* pReconstructForms; // PC: confirmed
     alignas(4) unsigned char FormBufferArray[16]; // BSSimpleArray<BGSLoadFormBuffer *,1024> | PC: confirmed
     alignas(4) unsigned char QueuedInitPackageLocationsActorMap[16]; // NiTMap<unsigned int,Actor *> | PC: confirmed
-    unsigned char cFileIndexArray[255]; // PC: consistent
-    unsigned char cReverseFileIndexArray[255]; // PC: consistent
+    unsigned char cFileIndexArray[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    unsigned char cReverseFileIndexArray[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
     unsigned char _pad242[0x2];
     unsigned iGlobalFlags; // PC: confirmed
     unsigned char cCurrentMinorVersion; // PC: confirmed
@@ -936,6 +938,20 @@ static_assert(offsetof(BSSoundHandle, bAssumeSuccess) == 0x4, "BSSoundHandle::bA
 static_assert(offsetof(BSSoundHandle, eState) == 0x8, "BSSoundHandle::eState");
 static_assert(alignof(BSSoundHandle) == 4, "alignof BSSoundHandle: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BSSoundHandle) == 0xC, "sizeof BSSoundHandle");
+static_assert(offsetof(HeapBlock, pPrevious) == 0x0, "HeapBlock::pPrevious");
+static_assert(offsetof(HeapBlock, iMemSize) == 0x4, "HeapBlock::iMemSize");
+static_assert(alignof(HeapBlock) == 4, "alignof HeapBlock: следует из типов полей (MSVC x86)");
+static_assert(sizeof(HeapBlock) == 0x10, "sizeof HeapBlock");
+static_assert(offsetof(FreeHeapBlock, pPrevious) == 0x0, "FreeHeapBlock::pPrevious");
+static_assert(offsetof(FreeHeapBlock, iMemSize) == 0x4, "FreeHeapBlock::iMemSize");
+static_assert(offsetof(FreeHeapBlock, pPrevFree) == 0x8, "FreeHeapBlock::pPrevFree");
+static_assert(offsetof(FreeHeapBlock, pNextFree) == 0xC, "FreeHeapBlock::pNextFree");
+static_assert(alignof(FreeHeapBlock) == 4, "alignof FreeHeapBlock: следует из типов полей (MSVC x86)");
+static_assert(sizeof(FreeHeapBlock) == 0x10, "sizeof FreeHeapBlock");
+static_assert(offsetof(FreeHeapBlockList, pHead) == 0x0, "FreeHeapBlockList::pHead");
+static_assert(offsetof(FreeHeapBlockList, pTail) == 0x4, "FreeHeapBlockList::pTail");
+static_assert(alignof(FreeHeapBlockList) == 4, "alignof FreeHeapBlockList: следует из типов полей (MSVC x86)");
+static_assert(sizeof(FreeHeapBlockList) == 0x8, "sizeof FreeHeapBlockList");
 static_assert(alignof(IMemoryHeap) == 4, "alignof IMemoryHeap: следует из типов полей (MSVC x86)");
 static_assert(sizeof(IMemoryHeap) == 0x4, "sizeof IMemoryHeap");
 static_assert(offsetof(AbstractHeap, pName) == 0x4, "AbstractHeap::pName");
@@ -993,20 +1009,6 @@ static_assert(alignof(MemoryManager) == 4, "alignof MemoryManager: следуе�
 static_assert(sizeof(MemoryManager) == 0x138, "sizeof MemoryManager");
 static_assert(sizeof(MemoryManager) == 0x138, "PC-проверка sizeof MemoryManager");
 static_assert(offsetof(MemoryManager, ppPhysicalHeaps) == 0x124, "PC-проверка MemoryManager::ppPhysicalHeaps");
-static_assert(offsetof(HeapBlock, pPrevious) == 0x0, "HeapBlock::pPrevious");
-static_assert(offsetof(HeapBlock, iMemSize) == 0x4, "HeapBlock::iMemSize");
-static_assert(alignof(HeapBlock) == 4, "alignof HeapBlock: следует из типов полей (MSVC x86)");
-static_assert(sizeof(HeapBlock) == 0x10, "sizeof HeapBlock");
-static_assert(offsetof(FreeHeapBlock, pPrevious) == 0x0, "FreeHeapBlock::pPrevious");
-static_assert(offsetof(FreeHeapBlock, iMemSize) == 0x4, "FreeHeapBlock::iMemSize");
-static_assert(offsetof(FreeHeapBlock, pPrevFree) == 0x8, "FreeHeapBlock::pPrevFree");
-static_assert(offsetof(FreeHeapBlock, pNextFree) == 0xC, "FreeHeapBlock::pNextFree");
-static_assert(alignof(FreeHeapBlock) == 4, "alignof FreeHeapBlock: следует из типов полей (MSVC x86)");
-static_assert(sizeof(FreeHeapBlock) == 0x10, "sizeof FreeHeapBlock");
-static_assert(offsetof(FreeHeapBlockList, pHead) == 0x0, "FreeHeapBlockList::pHead");
-static_assert(offsetof(FreeHeapBlockList, pTail) == 0x4, "FreeHeapBlockList::pTail");
-static_assert(alignof(FreeHeapBlockList) == 4, "alignof FreeHeapBlockList: следует из типов полей (MSVC x86)");
-static_assert(sizeof(FreeHeapBlockList) == 0x8, "sizeof FreeHeapBlockList");
 static_assert(offsetof(BGSSaveLoadFormHeader, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader::FormIDIndex");
 static_assert(offsetof(BGSSaveLoadFormHeader, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader::iChangeFlags");
 static_assert(offsetof(BGSSaveLoadFormHeader, FormInfo) == 0x7, "BGSSaveLoadFormHeader::FormInfo");
