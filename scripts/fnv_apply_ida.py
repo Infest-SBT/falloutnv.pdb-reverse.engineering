@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.4 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4 (File > Load file > PDB file),
+# Применяет доказательную матрицу FNV PDB v0.4.1 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.1 (File > Load file > PDB file),
 # затем File > Script file > fnv_apply_ida.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.4):
+# Безопасность (v0.4.1):
 #   * проверка exe: SHA-256 входного файла, база образа 0x400000, x86 32-бит; при несовпадении — остановка;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: план пишется в fnv_apply_plan_ida.txt рядом с summary.json и в Output,
 #     применение — только после подтверждения;
@@ -26,6 +26,7 @@
 from __future__ import print_function, unicode_literals
 
 APPLY = False             # True — применять без вопроса (не рекомендуется)
+STRICT = True             # True — строгий FalloutNV.pdb; False — research/FalloutNV.pdb
 APPLY_PROTOTYPES = False  # True — ставить прототипы слотам semantics
 UPDATE_OWN_PROTOTYPES = False  # True — обновлять прототипы, поставленные этим скриптом и с тех пор не изменённые
 OWN_NODE = "$ fnv_pdb.proto"   # netnode: адрес -> тип, поставленный скриптом
@@ -36,7 +37,7 @@ OWN_NODE = "$ fnv_pdb.proto"   # netnode: адрес -> тип, поставле
 import io
 import json
 
-PDB_VERSION = "0.4"
+PDB_VERSION = "0.4.1"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -109,10 +110,12 @@ def slot_line(cls, slot, v):
     return s
 
 
-def build_plan(summary, all_this=False):
+def build_plan(summary, all_this=False, strict=True):
     """Адресный план изменений: для каждого VA — кто на него претендует и что с ним делать.
     all_this=False: this ставится только методам, которые читают ECX до записи И обращаются к полям,
-    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов)."""
+    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов).
+    strict=True (по умолчанию, для строгого FalloutNV.pdb): this и прототипы — только классам, допущенным
+    в строгий PDB (summary: strict); остальные получают лишь комментарий. strict=False — для research/FalloutNV.pdb."""
     classes = summary["classes"]
     by_va = {}
 
@@ -122,20 +125,23 @@ def build_plan(summary, all_this=False):
     for cls in sorted(classes):
         c = classes[cls]
         prov = " [класс предварительный]" if c.get("provisional") else ""
+        typed = c.get("strict", False) or not strict      # можно ли назначать типы этого класса
+        if strict and not c.get("strict", False):
+            prov += " [нет в строгом PDB — только research/FalloutNV.pdb]"
         for m in c.get("methods", []):
             e = entry(m["va"])
             e["owners"].add(cls)
             e["lines"].append("%s — метод класса %s%s" % (m["name"], cls, prov))
-            if m.get("uses_this") and (all_this or m.get("touches_fields")):
+            if typed and m.get("uses_this") and (all_this or m.get("touches_fields")):
                 e["this_claims"].append(cls)
         for slot in sorted(c.get("vslots", {}), key=int):
             v = c["vslots"][slot]
             e = entry(v["pc_func_va"])
             e["owners"].add(cls)
             e["lines"].append(slot_line(cls, slot, v) + prov)
-            if v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+            if typed and v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
                 e["this_claims"].append(cls)
-            if v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+            if typed and v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
                 e["proto"].append((cls, v["decl"]))
     conflicts = []
     for va in sorted(by_va):
@@ -237,7 +243,7 @@ def main():
         ida_kernwin.warning(msg)
         return
 
-    plan, conflicts = build_plan(S)
+    plan, conflicts = build_plan(S, False, STRICT)
     own = ida_netnode.netnode(OWN_NODE, 0, False)      # только чтение: в пробном прогоне ничего не создаём
     own_ok = own.index() != ida_netnode.BADNODE
 

@@ -58,7 +58,7 @@ def main():
         ida_kernwin.warning(msg)
         return
 
-    plan, conflicts = build_plan(S)
+    plan, conflicts = build_plan(S, False, STRICT)
     own = ida_netnode.netnode(OWN_NODE, 0, False)      # только чтение: в пробном прогоне ничего не создаём
     own_ok = own.index() != ida_netnode.BADNODE
 

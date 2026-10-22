@@ -1,0 +1,18 @@
+kind,item,xbox,pc,basis,consequence
+размер типа,BSCriticalSection,CRITICAL_SECTION 0x1C,0x18,на PC CRITICAL_SECTION 0x18; поля после него сдвинуты на −4,смещения полей после каждого BSCriticalSection на PC меньше на 4
+размер класса,BSAudioManager,0x19C,0x188,consistent: —,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,AbstractHeap,0x20F4,0x20F0,confirmed: subclass-boundary,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,MemoryHeap,0x20F8,0x20F4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,MemoryManager,0x134,0x138,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,BGSSaveLoadManager,0x30,0x38,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+поле только PC,MemoryManager::iMainThreadMemoryProblemPassSignal,нет,+0x134 (unsigned),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
+поле только PC,BGSSaveLoadManager::bShouldSystemSave,нет,+0x11 (bool),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
+поле только PC,BGSSaveLoadManager::sSystemSaveName,нет,+0x30 (BSStringT<char>),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
+слот vtable,BSAudio слот 1 (Xbox),есть,нет,PC-vtable по RTTI: номера слотов после него на 1 меньше,номера виртуальных методов после него на PC сдвинуты на −1
+класс только PC,BSWin32GameSound : BSGameSound,нет,0x230,confirmed: ctor-alloc; поля по коду PC (own),"Аналог на Xbox — BSXenonGameSound (XAudio2), раскладка другая. Тип COM-полей — по набору вызываемых слотов vtable (DirectSound API)"
+класс только PC,BSWin32Audio : BSAudio,нет,0xA4,confirmed: bounds; поля по коду PC (own),Единственный объект — BSWin32Audio::Instance (0x011F7080)
+значение перечисления,MemoryPasses::MP_FREE_UNUSED_POOL_PAGES,нет,6,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
+значение перечисления,MemoryPasses::MP_ALLOW_OVER_HEAP,6,7,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
+значение перечисления,MemoryPasses::MP_COMPLETELY_OUT,7,8,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
+имя значения,CHANGE_TYPE 0x00040000,CHANGE_ACTOR_EXTRA_LEVELED_ACTOR,CHANGE_ACTOR_LEVELED_ACTOR,BGSChangeFlags::GetFlagName,"значение то же, строка другая"
+недостижимый код,CHANGE_DOOR_EXTRA_TELEPORT,0x00020000,0x00020000,evidence/change_flags.csv,"мёртвая ветвь на PC: требует formType 28 (DOOR), а сюда доходят только PCBE"

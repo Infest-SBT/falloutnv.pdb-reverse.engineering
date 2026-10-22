@@ -1,8 +1,8 @@
-# Применяет доказательную матрицу FNV PDB v0.4 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4 (File > Load file > PDB file),
+# Применяет доказательную матрицу FNV PDB v0.4.1 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.1 (File > Load file > PDB file),
 # затем File > Script file > fnv_apply_ida.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.4):
+# Безопасность (v0.4.1):
 #   * проверка exe: SHA-256 входного файла, база образа 0x400000, x86 32-бит; при несовпадении — остановка;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: план пишется в fnv_apply_plan_ida.txt рядом с summary.json и в Output,
 #     применение — только после подтверждения;
@@ -23,6 +23,7 @@
 # На реальной IDA скрипт не запускался — перед запуском сохраните базу.
 
 APPLY = False             # True — применять без вопроса (не рекомендуется)
+STRICT = True             # True — строгий FalloutNV.pdb; False — research/FalloutNV.pdb
 APPLY_PROTOTYPES = False  # True — ставить прототипы слотам semantics
 UPDATE_OWN_PROTOTYPES = False  # True — обновлять прототипы, поставленные этим скриптом и с тех пор не изменённые
 OWN_NODE = "$ fnv_pdb.proto"   # netnode: адрес -> тип, поставленный скриптом

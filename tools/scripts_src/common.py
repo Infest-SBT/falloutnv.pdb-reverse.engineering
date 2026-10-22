@@ -4,7 +4,7 @@
 import io
 import json
 
-PDB_VERSION = "0.4"
+PDB_VERSION = "0.4.1"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -77,10 +77,12 @@ def slot_line(cls, slot, v):
     return s
 
 
-def build_plan(summary, all_this=False):
+def build_plan(summary, all_this=False, strict=True):
     """Адресный план изменений: для каждого VA — кто на него претендует и что с ним делать.
     all_this=False: this ставится только методам, которые читают ECX до записи И обращаются к полям,
-    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов)."""
+    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов).
+    strict=True (по умолчанию, для строгого FalloutNV.pdb): this и прототипы — только классам, допущенным
+    в строгий PDB (summary: strict); остальные получают лишь комментарий. strict=False — для research/FalloutNV.pdb."""
     classes = summary["classes"]
     by_va = {}
 
@@ -90,20 +92,23 @@ def build_plan(summary, all_this=False):
     for cls in sorted(classes):
         c = classes[cls]
         prov = " [класс предварительный]" if c.get("provisional") else ""
+        typed = c.get("strict", False) or not strict      # можно ли назначать типы этого класса
+        if strict and not c.get("strict", False):
+            prov += " [нет в строгом PDB — только research/FalloutNV.pdb]"
         for m in c.get("methods", []):
             e = entry(m["va"])
             e["owners"].add(cls)
             e["lines"].append("%s — метод класса %s%s" % (m["name"], cls, prov))
-            if m.get("uses_this") and (all_this or m.get("touches_fields")):
+            if typed and m.get("uses_this") and (all_this or m.get("touches_fields")):
                 e["this_claims"].append(cls)
         for slot in sorted(c.get("vslots", {}), key=int):
             v = c["vslots"][slot]
             e = entry(v["pc_func_va"])
             e["owners"].add(cls)
             e["lines"].append(slot_line(cls, slot, v) + prov)
-            if v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+            if typed and v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
                 e["this_claims"].append(cls)
-            if v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+            if typed and v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
                 e["proto"].append((cls, v["decl"]))
     conflicts = []
     for va in sorted(by_va):

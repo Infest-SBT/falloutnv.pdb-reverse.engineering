@@ -80,6 +80,11 @@ def funcs_of(cls):
                   and any(direct_method(n, cls) for n in ns))
 
 
+READ_LIMIT = 0x10000        # v0.4.1: было 0x3000 (одна функция, 0x46A370, длиннее — читалась не целиком)
+TRUNCATED = set()           # функции, прочитанные не до конца из-за READ_LIMIT (в отчёт)
+DEREF = set()               # адреса команд «mov reg, [поле]», после которых reg разыменовывается (поле = указатель)
+
+
 def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, seed_slots=(), seed_after_call=()):
     """[(смещение, размер, адрес инструкции, текст, запись, шаг)] — обращения через this (ecx и его псевдонимы).
     gptr — адрес глобального указателя на объект (mov reg, [gptr] делает reg псевдонимом);
@@ -95,11 +100,30 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
     else:
         alias, slots = tgt, tgt_slots
     idx = {}                                                        # регистр -> шаг (после imul r, x, N)
+    loadreg = {}                                                    # регистр -> адрес команды, загрузившей его из поля
+    loadslot = {}                                                   # [ebp+d] -> то же (значение сохранено на стек)
     out = []
-    end = min(func_end(f), f + 0x3000)   # v0.4: было 0x600 — длинные функции читались не целиком
+    end = min(func_end(f), f + READ_LIMIT)   # до следующего символа PDB xNVSE, но не дальше READ_LIMIT
+    if func_end(f) > f + READ_LIMIT:
+        TRUNCATED.add(f)
     for ins in md.disasm(img[f - B:end - B], f):
         ops = ins.operands
         dst = ins.reg_name(ops[0].reg) if ops and ops[0].type == capstone.x86.X86_OP_REG else None
+        for op in ops:                                  # значение из поля используется как адрес -> поле-указатель
+            if op.type == capstone.x86.X86_OP_MEM and op.mem.base and ins.reg_name(op.mem.base) in loadreg \
+                    and ins.mnemonic != 'lea':
+                DEREF.add(loadreg[ins.reg_name(op.mem.base)])
+        field_load = None
+        if ins.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == capstone.x86.X86_OP_MEM and ops[0].mem.base \
+                and ins.reg_name(ops[0].mem.base) == 'ebp':
+            r_ = ins.reg_name(ops[1].reg) if ops[1].type == capstone.x86.X86_OP_REG else None
+            if r_ in loadreg:
+                loadslot[ops[0].mem.disp] = loadreg[r_]
+            else:
+                loadslot.pop(ops[0].mem.disp, None)
+        spill = (loadslot.get(ops[1].mem.disp) if (ins.mnemonic == 'mov' and dst and len(ops) == 2 and
+                 ops[1].type == capstone.x86.X86_OP_MEM and ops[1].mem.base and ins.reg_name(ops[1].mem.base) == 'ebp')
+                 else None)
         if ins.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == capstone.x86.X86_OP_MEM \
                 and ops[1].type == capstone.x86.X86_OP_REG and ops[0].mem.base and ins.reg_name(ops[0].mem.base) == 'ebp':
             r = ins.reg_name(ops[1].reg)
@@ -125,6 +149,8 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
                 # lea = берётся адрес поля (размер доступа 0)
                 out.append((op.mem.disp, 0 if ins.mnemonic == 'lea' else op.size, ins.address,
                             f'{ins.mnemonic} {ins.op_str}', bool(op.access & capstone.CS_AC_WRITE), step))
+                if ins.mnemonic == 'mov' and dst and op is ops[1] and op.size == 4 and step is None:
+                    field_load = dst
             if gobj is not None and op.type == capstone.x86.X86_OP_MEM and not op.mem.base and op.mem.index == 0 \
                     and gobj <= (op.mem.disp & 0xFFFFFFFF) < gobj + limit and op.size and ins.mnemonic != 'lea':
                 out.append(((op.mem.disp & 0xFFFFFFFF) - gobj, op.size, ins.address, f'{ins.mnemonic} {ins.op_str}',
@@ -132,6 +158,12 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
         if dst and dst in alias and ins.mnemonic == 'add' and len(ops) == 2 \
                 and ops[1].type == capstone.x86.X86_OP_IMM and 0 < ops[1].imm < limit:
             out.append((ops[1].imm, 0, ins.address, f'{ins.mnemonic} {ins.op_str}', False, None))   # this + imm
+        if dst:
+            loadreg.pop(dst, None)
+            if field_load:
+                loadreg[dst] = ins.address
+            elif spill is not None:
+                loadreg[dst] = spill
         if dst:
             if ins.mnemonic == 'imul' and len(ops) == 3 and ops[2].type == capstone.x86.X86_OP_IMM:
                 idx[dst] = ops[2].imm
@@ -163,6 +195,10 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
                 if chase is not None:
                     own.discard(dst)
         if ins.mnemonic == 'call':
+            if 'ecx' in loadreg and ins.op_str.startswith('0x') and reads_ecx_first(int(ins.op_str, 16)):
+                DEREF.add(loadreg['ecx'])        # значение поля передано как this в метод (__thiscall) — указатель на объект
+            for r in ('eax', 'ecx', 'edx'):
+                loadreg.pop(r, None)
             alias -= {'eax', 'ecx', 'edx'}
             own -= {'eax', 'ecx', 'edx'}
             if seed_after_call and ins.op_str.startswith('0x') and int(ins.op_str, 16) in seed_after_call:
@@ -331,6 +367,65 @@ def alloc_reaching(site):
     return cur if (cur and 'ecx' in regs) else None
 
 
+FPU_FLOAT = re.compile(r'^f(ld|st|stp|add|sub|subr|mul|div|divr|com|comp|ucom|ucomp)$')
+FPU_INT = re.compile(r'^fi')
+SSE_FLOAT = re.compile(r'^(movss|addss|subss|mulss|divss|comiss|ucomiss|cvtss2sd|cvttss2si|cvtss2si|maxss|minss|sqrtss)$')
+INT_ARITH = {'add', 'sub', 'inc', 'dec', 'imul', 'mul', 'div', 'idiv', 'neg', 'adc', 'sbb', 'xadd'}
+BITWISE = {'and', 'or', 'xor', 'not', 'shl', 'shr', 'sar', 'bt', 'bts', 'btr', 'test'}
+
+
+def insn_kind(txt, sz):
+    """Что команда говорит о типе значения в памяти (только по самой команде)."""
+    m = txt.split(' ', 1)[0]
+    if sz == 0:
+        return 'address'          # lea / this + imm — берётся адрес поля, о типе значения ничего не говорит
+    if FPU_FLOAT.match(m):
+        return 'fpu-float' if sz in (4, 8) else 'fpu'
+    if FPU_INT.match(m):
+        return 'fpu-int'
+    if SSE_FLOAT.match(m):
+        return 'sse-float'
+    if m in INT_ARITH:
+        return 'int-arith'
+    if m in BITWISE:
+        return 'bitwise'
+    if m in ('mov', 'movzx', 'movsx', 'cmp', 'push', 'lea', 'xchg', 'cmpxchg'):
+        return m if m in ('lea', 'cmp') else 'move'
+    return 'other'
+
+
+def declared_kind(fd):
+    d = fd.get('decl', '')
+    if fd.get('opaque'):
+        return 'blob'
+    if fd.get('class_type') or fd.get('class_array_of'):
+        return 'class'
+    if '*' in d.split('[')[0]:
+        return 'pointer'
+    if re.match(r'(float|double)\b', d):
+        return 'float'
+    return 'int'
+
+
+def type_status(kind, traits):
+    """Согласуется ли наблюдаемое в коде с объявленным видом типа. Это не доказательство самого типа:
+    float, прочитанный FPU, может оказаться float другого смысла; указатель — указателем на другой класс."""
+    t = set(traits)
+    if kind == 'float':
+        if t & {'fpu-int', 'int-arith', 'deref'}:
+            return 'CONFLICT'
+        return 'consistent' if t & {'fpu-float', 'sse-float'} else 'not-checked'
+    if kind == 'pointer':
+        if t & {'fpu-float', 'sse-float', 'fpu-int'}:
+            return 'CONFLICT'
+        return 'consistent' if 'deref' in t else 'not-checked'
+    if kind == 'int':
+        if t & {'fpu-float', 'sse-float'}:
+            return 'CONFLICT'
+        return 'consistent' if t & {'int-arith', 'bitwise', 'fpu-int'} else 'not-checked'
+    return 'not-checked'
+
+
 # ---------------- поля ----------------
 field_rows, sizes_rows, slot_rows, excluded_rows = [], [], [], []
 summary = {'exe_sha256': exe_sha, 'classes': {}}
@@ -383,7 +478,7 @@ for cname, c in CLS.items():
     acc = []
     for owner, f in srcs:
         for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size']):
-            acc.append((off, sz, ia, txt, name_at(f), owner, wr, step))
+            acc.append((off, sz, ia, txt, name_at(f), owner, wr, step, f))
     g = spec.get('globals', {}).get(cname, {})
     seen_g = set()
     for kind, addr in [(k, a) for k, v in g.items() for a in (v if isinstance(v, list) else [v])]:
@@ -394,7 +489,7 @@ for cname, c in CLS.items():
             seen_g.add((f, kind, addr))
             kw = {'gptr': addr} if kind == 'ptr' else {'gobj': addr}
             for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], seed_ecx=False, **kw):
-                acc.append((off, sz, ia, txt, name_at(f), f'global {kind} 0x{addr:08X}', wr, step))
+                acc.append((off, sz, ia, txt, name_at(f), f'global {kind} 0x{addr:08X}', wr, step, f))
     # новый объект: после вызова конструктора класса eax = this; поля смотрим в вызывающих функциях
     short_ = cname.split('::')[-1]
     ctors_ = [a for a, ns in byaddr.items() if any(n == f'{cname}::{short_}' for n in ns)]
@@ -407,25 +502,26 @@ for cname, c in CLS.items():
                 continue
             seen_new.add(f)
             for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], seed_ecx=False, seed_after_call={ct}):
-                acc.append((off, sz, ia, txt, name_at(f), f'new-object {name_at(ct)}', wr, step))
+                acc.append((off, sz, ia, txt, name_at(f), f'new-object {name_at(ct)}', wr, step, f))
     # указатель/ссылка на объект класса передан аргументом: [ebp+K] — только если ret N функции = ожидаемому
     for ap in spec.get('arg_pointers', {}).get(cname, []):
         f, k = int(ap['func'], 16), int(ap['arg_off'], 16)
         if ap.get('expect_ret') is not None and ap['expect_ret'] not in rets(f):
             continue
         for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], seed_ecx=False, seed_slots=(k,)):
-            acc.append((off, sz, ia, txt, name_at(f), f'argument [ebp+0x{k:X}]', wr, step))
+            acc.append((off, sz, ia, txt, name_at(f), f'argument [ebp+0x{k:X}]', wr, step, f))
     # объект, на который указывает поле другого класса (Font::pFontData -> FontData): поля цели по коду владельца
     for pf in spec.get('pointer_fields', {}).get(cname, []):
         holder, poff = pf['holder'], int(pf['field_off'], 16)
         for f in funcs_of(holder):
             for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], chase=poff):
-                acc.append((off, sz, ia, txt, name_at(f), f'pointer {holder}+0x{poff:X}', wr, step))
+                acc.append((off, sz, ia, txt, name_at(f), f'pointer {holder}+0x{poff:X}', wr, step, f))
     status = {}
-    det = collections.defaultdict(lambda: {'insns': 0, 'functions': set(), 'via': set(), 'writes': 0})
+    det = collections.defaultdict(lambda: {'insns': 0, 'functions': set(), 'via': set(), 'writes': 0,
+                                           'traits': set(), 'widths': set()})
     offs = sorted((fd['off'], fd['off'] + fd['size'], fd) for fd in own)
     elem_status = {}   # «поле[].подполе» для массивов классов: статус элемента (в счёт поля-массива не идёт)
-    for off, sz, ia, txt, fn, owner, wr, step in acc:
+    for off, sz, ia, txt, fn, owner, wr, step, fva in acc:
         if off < first_own and cname != 'BaseFormComponent' and c['base']:
             continue  # поле базового класса — учитывается в строках базы
         hit = next(((s, e, fd) for s, e, fd in offs if s <= off < e), None)
@@ -471,10 +567,15 @@ for cname, c in CLS.items():
                'argument-pointer' if owner.startswith('argument') else
                'new-object' if owner.startswith('new-object') else
                'class-method-this' if owner == cname else 'subclass-method-this')
+        ik = insn_kind(txt, sz)
+        drf = ia in DEREF
+        ibytes = next(md.disasm(img[ia - B:ia - B + 16], ia)).bytes.hex()
         field_rows.append({'class': cname, 'field': path_full or sub_key or fld, 'field_off': f'0x{foff:X}', 'access_off': f'0x{off:X}',
                            'access_size': sz, 'write': wr, 'pc_function': fn, 'function_owner': owner,
-                           'base_pointer': via, 'insn_va': f'0x{ia:08X}', 'insn': txt, 'source': 'Xbox PDB',
-                           'status': st, 'note': known or ('индекс, шаг 0x%X' % step if step else '')})
+                           'base_pointer': via, 'insn_va': f'0x{ia:08X}', 'insn': txt, 'insn_bytes': ibytes,
+                           'insn_kind': ik, 'value_dereferenced': drf,
+                           'func_va': f'0x{fva:08X}', 'func_end': f'0x{min(func_end(fva), fva + READ_LIMIT):08X}',
+                           'source': 'Xbox PDB', 'status': st, 'note': known or ('индекс, шаг 0x%X' % step if step else '')})
         rank = {'CONFLICT': 3, 'confirmed': 2, 'consistent': 1, 'explained': 0}
         if sub_key:
             ed = elem_status.setdefault(sub_key, {'status': None, 'insns': 0, 'functions': set(), 'via': set(), 'writes': 0})
@@ -485,6 +586,12 @@ for cname, c in CLS.items():
         if st in ('confirmed', 'consistent'):
             d = det[fld]
             d['insns'] += 1; d['functions'].add(fn); d['via'].add(via); d['writes'] += bool(wr)
+            if hit is not None and off == hit[0] and not sub_key:
+                d['traits'].add(ik)
+                if drf:
+                    d['traits'].add('deref')
+                if sz:
+                    d['widths'].add(sz)
         if rank[st] > rank.get(status.get(fld), 0):
             status[fld] = st
     fsum = {fd['name']: status.get(fd['name'], 'unverified') for fd in own}
@@ -498,6 +605,13 @@ for cname, c in CLS.items():
             'base_pointer': sorted(d['via']) if d else [],
             'independent_functions': len(d['functions']) if d else 0,
             'write_sites': d['writes'] if d else 0,
+            'width_verified': bool(d and fd['size'] in d['widths'] and not fd.get('opaque')),
+            'declared_kind': declared_kind(fd),
+            'type_evidence': sorted(d['traits']) if d else [],
+            'type_status': type_status(declared_kind(fd), d['traits'] if d else ()),
+            'type_basis': fd.get('type_basis') or ('pc-code (own)' if fd.get('source') == 'own' else 'xbox_pdb'),
+            'pointer_target_verified': any(int(pf['field_off'], 16) == fd['off'] and pf['holder'] == cname
+                                           for pfs in spec.get('pointer_fields', {}).values() for pf in pfs),
             'type_verified': False}
     for k, v in status.items():
         if k == '(заполнитель)' and v == 'CONFLICT':
@@ -537,6 +651,7 @@ for cname, c in CLS.items():
             s_status = 'consistent'
             sz_ev.append(('last-field', last['off'] + last['size'],
                           f'последнее поле {last["name"]} подтверждено; дальше только выравнивание до {c["align"]}'))
+    size_basis = sorted({k for k, v, _ in sz_ev if v == c['pc_size']})
     for kind, val, note in sz_ev:
         sizes_rows.append({'class': cname, 'pc_sizeof': f'0x{c["pc_size"]:X}', 'evidence': kind,
                            'value': f'0x{val:X}', 'match': val == c['pc_size'], 'details': note})
@@ -593,7 +708,8 @@ for cname, c in CLS.items():
         summary['classes'][cname] = {'vtable_va': vt}
     summary['classes'].setdefault(cname, {})
     summary['classes'][cname].update({
-        'base': c['base'], 'pc_size': c['pc_size'], 'align': c['align'], 'size_status': s_status, 'fields': fsum,
+        'base': c['base'], 'pc_size': c['pc_size'], 'align': c['align'], 'size_status': s_status,
+        'size_basis': size_basis, 'pc_only': bool(c.get('pc_only')), 'fields': fsum,
         'field_details': fdet,
         'element_fields': {k: {'status': v['status'], 'instruction_verified': bool(v['insns']),
                                'base_pointer': sorted(v['via']), 'independent_functions': len(v['functions']),
@@ -662,6 +778,27 @@ for xname, xc in CLS.items():
 for cname, sc in summary['classes'].items():
     sc['provisional_fields'] = sorted(k for k, v in sc['fields'].items() if v != 'confirmed')
     sc['provisional'] = sc['size_status'] != 'confirmed' or bool(sc['provisional_fields'])
+# ПРАВИЛО ДОПУСКА в строгий PDB (v0.4.1): размер класса подтверждён (confirmed) и допущена вся цепочка баз.
+# В допущенном классе остаются только подтверждённые поля; остальные в строгом PDB — байты «_unverified_…».
+# Подтверждено = смещение и ширина доступа; объявленный тип поля — из Xbox PDB или API, см. type_status.
+STRICT = {}
+
+
+def strict_ok(cn):
+    if cn not in STRICT:
+        sc = summary['classes'][cn]
+        b = sc.get('base')
+        STRICT[cn] = sc['size_status'] == 'confirmed' and (b is None or (b in summary['classes'] and strict_ok(b)))
+    return STRICT[cn]
+
+
+for cname, sc in summary['classes'].items():
+    sc['strict'] = strict_ok(cname)
+    sc['strict_fields'] = sorted(k for k, v in sc['fields'].items() if v == 'confirmed') if sc['strict'] else []
+summary['truncated_functions'] = sorted(f'0x{f:08X}' for f in TRUNCATED)
+summary['admission_rule'] = ('строгий PDB: класс допускается, если его размер confirmed и допущены все базовые классы; '
+                             'в допущенном классе типизированы только поля со статусом confirmed (смещение и ширина), '
+                             'остальные — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack')
 
 
 def wcsv(name, rows):
@@ -705,17 +842,36 @@ wcsv('identified_functions.csv', ident_rows)
 json.dump(summary, open(os.path.join(out_dir, 'summary.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 rep = ['# Доказательная матрица', '', f'FalloutNV.exe SHA-256 `{exe_sha}`', '',
-       '| Класс | sizeof PC | размер | поля: confirmed / consistent / unverified / CONFLICT | слоты: semantics / name+stack / stack / name / stub / MISMATCH |',
-       '|---|---|---|---|---|']
+       'Все статусы — результат статического эвристического анализатора (линейный проход по командам, псевдонимы '
+       'регистров и слотов стека, без полного графа потока управления). `CONFLICT = 0` значит «противоречий этим '
+       'анализатором не найдено», а не «доказано, что их нет на любом пути исполнения». `confirmed` у поля — '
+       'смещение и ширина доступа, а не объявленный C++-тип (см. «Типы полей»).', '',
+       '| Класс | sizeof PC | размер | основание размера | строгий PDB | поля: confirmed / consistent / unverified / CONFLICT | слоты: semantics / name+stack / stack / name / stub / MISMATCH |',
+       '|---|---|---|---|---|---|---|']
 tot = collections.Counter()
 for cname, s in summary['classes'].items():
     fc = collections.Counter(s['fields'].values())
     vc = collections.Counter(v['status'] for v in s['vslots'].values())
     tot.update({'f_' + k: v for k, v in fc.items()})
     tot.update({'v_' + k: v for k, v in vc.items()})
-    rep.append(f"| `{cname}` | 0x{s['pc_size']:X} | {s['size_status']} | {fc['confirmed']} / {fc['consistent']} / "
+    rep.append(f"| `{cname}` | 0x{s['pc_size']:X} | {s['size_status']} | {', '.join(s.get('size_basis', [])) or '—'} | "
+               f"{'да' + (' (−' + str(len(s['fields']) - len(s['strict_fields'])) + ' полей)' if len(s['strict_fields']) < len(s['fields']) else '') if s.get('strict') else 'нет'} | "
+               f"{fc['confirmed']} / {fc['consistent']} / "
                f"{fc['unverified']} / {fc['CONFLICT']} | {vc['semantics']} / {vc['name+stack']} / {vc['stack']} / "
                f"{vc['name']} / {vc['stub']} / {vc['MISMATCH']} |")
+tk = collections.Counter((d['declared_kind'], d['type_status']) for sc in summary['classes'].values()
+                         for d in sc['field_details'].values())
+rep += ['', '## Типы полей', '',
+        'Признаки по командам PC: FPU/SSE-операции с плавающей точкой, целочисленная арифметика и побитовые операции, '
+        'разыменование загруженного из поля значения (в том числе передача его как this в метод). `consistent` — '
+        'наблюдаемое согласуется с объявленным видом типа; `not-checked` — различающих признаков нет; `CONFLICT` — '
+        'противоречит. Это не доказательство типа: `type_verified` у всех полей false.', '',
+        '| объявлено | consistent | not-checked | CONFLICT |', '|---|---|---|---|']
+for kind in ('float', 'pointer', 'int', 'class', 'blob'):
+    rep.append(f"| {kind} | {tk[(kind, 'consistent')]} | {tk[(kind, 'not-checked')]} | {tk[(kind, 'CONFLICT')]} |")
+rep += ['', '## Допуск в строгий PDB', '', summary['admission_rule'] + '.', '',
+        'Не допущены: ' + (', '.join(f"`{c}` ({sc['size_status']})" for c, sc in summary['classes'].items() if not sc['strict']) or 'нет') + '.',
+        '', 'Функции, прочитанные не до конца (лимит 0x%X байт): %s.' % (READ_LIMIT, ', '.join(summary['truncated_functions']) or 'нет')]
 rep += ['', f'Строк в evidence_fields.csv: {len(field_rows)}, evidence_vslots.csv: {len(slot_rows)}, '
             f'evidence_sizes.csv: {len(sizes_rows)}.', '', 'Итого: ' + ', '.join(f'{k}={v}' for k, v in sorted(tot.items()))]
 if excluded_rows:

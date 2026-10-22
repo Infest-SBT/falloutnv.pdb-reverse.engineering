@@ -125,7 +125,7 @@ class World:
             for m in v['methods'][::2]:
                 w.funcs[m['va']] = Func(m['va'], w)
 
-    def run(w, apply=True, sha=EXE):
+    def run(w, apply=True, sha=EXE, extra=()):
         out = []
         w2 = w
 
@@ -151,7 +151,7 @@ class World:
             w2.funcs[a] = Func(a, w2)
             return w2.funcs[a]
 
-        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [SP] + (['--apply'] if apply else []),
+        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [SP] + (['--apply'] if apply else []) + list(extra),
                  isRunningHeadless=lambda: True, askFile=None, println=out.append, popup=lambda m: None,
                  toAddr=lambda v: v, getFunctionAt=lambda a: w2.funcs.get(a), createFunction=create,
                  getMemoryBlock=lambda a: types.SimpleNamespace(isExecute=lambda: True),
@@ -250,6 +250,18 @@ plan_txt = open(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt', encoding='u
 nested = [c for c in SUMM['classes'] if '::' in c]
 check('вложенные классы находятся по короткому имени и категории', nested and
       not any(('КЛАСС ПРОПУЩЕН %s:' % c) in plan_txt for c in nested), '%d классов' % len(nested))
+
+# 7в. строгий режим (по умолчанию): this только классам, допущенным в строгий PDB; --research — всем
+STRICT_OK = {c for c, v in SUMM['classes'].items() if v.get('strict')}
+w = World()
+w.run()
+owners = {f.params[0].getDataType().getName()[:-2] for f in w.funcs.values() if f.params and f.params[0].getName() == 'this'}
+bad = sorted(o for o in owners if o.split('::')[-1] not in {c.split('::')[-1] for c in STRICT_OK})
+check('строгий режим: this только классам строгого PDB', not bad, ', '.join(bad))
+n_strict = n_this(w)
+w = World()
+w.run(extra=['--research'])
+check('режим --research: назначений this больше', n_this(w) > n_strict, '%d > %d' % (n_this(w), n_strict))
 
 # 8. ошибка посреди применения
 w = World()

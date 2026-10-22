@@ -10,7 +10,7 @@ from ghidra.program.model.listing.Function import FunctionUpdateType
 
 
 def main():
-    global APPLY, ALL_THIS
+    global APPLY, ALL_THIS, STRICT
     prog = currentProgram
     dtm = prog.getDataTypeManager()
     args = list(getScriptArgs()) if isRunningHeadless() else []
@@ -18,6 +18,8 @@ def main():
         APPLY = True
     if "--all-this" in args:
         ALL_THIS = True
+    if "--research" in args:
+        STRICT = False
     paths = [a for a in args if a.endswith(".json")]
     summary_path = paths[0] if paths else askFile("evidence/summary.json из FalloutNV_PDB_v%s" % PDB_VERSION,
                                                   "Открыть").getAbsolutePath()
@@ -34,7 +36,7 @@ def main():
         return
 
     ecx = prog.getRegister("ECX")
-    plan, conflicts = build_plan(S, ALL_THIS)
+    plan, conflicts = build_plan(S, ALL_THIS, STRICT)
     log = []
 
 
@@ -66,6 +68,9 @@ def main():
 
     structs = {}
     for cls in sorted(S["classes"]):
+        if STRICT and not S["classes"][cls].get("strict", False):
+            structs[cls] = None             # в строгом PDB этого класса нет — не ищем, типы не назначаем
+            continue
         st, why = find_struct(cls, S["classes"][cls]["pc_size"])
         structs[cls] = st
         if st is None:

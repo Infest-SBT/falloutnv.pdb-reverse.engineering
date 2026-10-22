@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.4 к открытой программе Ghidra.
+# Применяет доказательную матрицу FNV PDB v0.4.1 к открытой программе Ghidra.
 # @category FNV
 # @runtime Jython
 #
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4 (File > Load PDB File),
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.1 (File > Load PDB File):
+#   строгий FalloutNV.pdb (по умолчанию, STRICT = True) или research/FalloutNV.pdb (STRICT = False, headless: --research),
 # затем Script Manager > fnv_apply_ghidra.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.4):
+# Безопасность (v0.4.1):
 #   * сначала проверяется, что это тот самый exe: SHA-256 исходного файла, база образа 0x400000, x86 32-бит;
 #     при любом несовпадении скрипт останавливается и ничего не меняет;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: строится план, пишется в fnv_apply_plan_ghidra.txt рядом с summary.json,
@@ -33,6 +34,7 @@
 from __future__ import print_function, unicode_literals
 
 APPLY = False        # True — применять без вопроса (не рекомендуется)
+STRICT = True        # True — строгий FalloutNV.pdb: типы только классам, допущенным в строгий PDB; False — research/FalloutNV.pdb
 ALL_THIS = False     # True — this всем методам, читающим ECX до записи (как в v0.3), даже без обращений к полям
 UPDATE_OWN_SIGNATURES = False  # True — обновлять сигнатуры, которые поставил этот скрипт и с тех пор никто не менял
 OWN_MAP = "FNV_PDB.this_signature"  # карта свойств: адрес -> отпечаток сигнатуры, поставленной скриптом
@@ -43,7 +45,7 @@ OWN_MAP = "FNV_PDB.this_signature"  # карта свойств: адрес -> �
 import io
 import json
 
-PDB_VERSION = "0.4"
+PDB_VERSION = "0.4.1"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
@@ -116,10 +118,12 @@ def slot_line(cls, slot, v):
     return s
 
 
-def build_plan(summary, all_this=False):
+def build_plan(summary, all_this=False, strict=True):
     """Адресный план изменений: для каждого VA — кто на него претендует и что с ним делать.
     all_this=False: this ставится только методам, которые читают ECX до записи И обращаются к полям,
-    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов)."""
+    и слотам vtable со статусом semantics/name+stack своего класса (кроме деструкторов).
+    strict=True (по умолчанию, для строгого FalloutNV.pdb): this и прототипы — только классам, допущенным
+    в строгий PDB (summary: strict); остальные получают лишь комментарий. strict=False — для research/FalloutNV.pdb."""
     classes = summary["classes"]
     by_va = {}
 
@@ -129,20 +133,23 @@ def build_plan(summary, all_this=False):
     for cls in sorted(classes):
         c = classes[cls]
         prov = " [класс предварительный]" if c.get("provisional") else ""
+        typed = c.get("strict", False) or not strict      # можно ли назначать типы этого класса
+        if strict and not c.get("strict", False):
+            prov += " [нет в строгом PDB — только research/FalloutNV.pdb]"
         for m in c.get("methods", []):
             e = entry(m["va"])
             e["owners"].add(cls)
             e["lines"].append("%s — метод класса %s%s" % (m["name"], cls, prov))
-            if m.get("uses_this") and (all_this or m.get("touches_fields")):
+            if typed and m.get("uses_this") and (all_this or m.get("touches_fields")):
                 e["this_claims"].append(cls)
         for slot in sorted(c.get("vslots", {}), key=int):
             v = c["vslots"][slot]
             e = entry(v["pc_func_va"])
             e["owners"].add(cls)
             e["lines"].append(slot_line(cls, slot, v) + prov)
-            if v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+            if typed and v["status"] in THIS_SLOT_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
                 e["this_claims"].append(cls)
-            if v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
+            if typed and v["status"] in PROTO_STATUSES and v.get("checked_on") == cls and not v["decl"].startswith("~"):
                 e["proto"].append((cls, v["decl"]))
     conflicts = []
     for va in sorted(by_va):
@@ -196,7 +203,7 @@ from ghidra.program.model.listing.Function import FunctionUpdateType
 
 
 def main():
-    global APPLY, ALL_THIS
+    global APPLY, ALL_THIS, STRICT
     prog = currentProgram
     dtm = prog.getDataTypeManager()
     args = list(getScriptArgs()) if isRunningHeadless() else []
@@ -204,6 +211,8 @@ def main():
         APPLY = True
     if "--all-this" in args:
         ALL_THIS = True
+    if "--research" in args:
+        STRICT = False
     paths = [a for a in args if a.endswith(".json")]
     summary_path = paths[0] if paths else askFile("evidence/summary.json из FalloutNV_PDB_v%s" % PDB_VERSION,
                                                   "Открыть").getAbsolutePath()
@@ -220,7 +229,7 @@ def main():
         return
 
     ecx = prog.getRegister("ECX")
-    plan, conflicts = build_plan(S, ALL_THIS)
+    plan, conflicts = build_plan(S, ALL_THIS, STRICT)
     log = []
 
 
@@ -252,6 +261,9 @@ def main():
 
     structs = {}
     for cls in sorted(S["classes"]):
+        if STRICT and not S["classes"][cls].get("strict", False):
+            structs[cls] = None             # в строгом PDB этого класса нет — не ищем, типы не назначаем
+            continue
         st, why = find_struct(cls, S["classes"][cls]["pc_size"])
         structs[cls] = st
         if st is None:

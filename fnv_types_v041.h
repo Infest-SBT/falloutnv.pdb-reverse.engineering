@@ -1,3 +1,4 @@
+// СТРОГАЯ СБОРКА (verified): строгий PDB: класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизированы только поля со статусом confirmed (смещение и ширина), остальные — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack
 // Сгенерировано gen_headers.py. Источник раскладок: Xbox 360 Fallout.pdb (Release Final,
 // GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C) — (Xbox PDB). Каждый класс проверен на PC
 // FalloutNV.exe 1.4.0.525 (SHA-256 42fee7d6...) инструментом verify_class.py.
@@ -22,7 +23,6 @@ class BGSSaveFormBuffer;
 class BGSSaveGameBuffer;
 class BGSSaveLoadChangesMap;
 class BGSSaveLoadFile;
-struct BGSSaveLoadFormHeader;
 class BGSSaveLoadFormIDMap;
 class BGSSaveLoadGame;
 class BGSSaveLoadHistory;
@@ -31,8 +31,6 @@ class BGSSaveLoadQueuedSubBufferMap;
 class BGSSaveLoadReferencesMap;
 class BSAudio;
 class BSAudioListener;
-class BSAudioManager;
-class BSAudioManagerThread;
 class BSFileEntry;
 class BSGameSound;
 class BSSoundHandle;
@@ -83,9 +81,8 @@ public:
     struct FORadioStation;
 };
 struct NiPoint3 { alignas(4) unsigned char _opaque[0xC]; }; // (Xbox PDB) передаётся по значению; поля не описаны
-// CHANGE_TYPE (Xbox PDB): флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv (там же — типы форм для каждого флага). На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение); строка CHANGE_DOOR_EXTRA_TELEPORT на PC недостижима (значение совпало). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE
+// CHANGE_TYPE (Xbox PDB): СТРОГАЯ СБОРКА: только 69 проверенных значений из 73. флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv (там же — типы форм для каждого флага). На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение); строка CHANGE_DOOR_EXTRA_TELEPORT на PC недостижима (значение совпало). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE
 enum CHANGE_TYPE : unsigned int {
-    CHANGE_FORM_CREATED = 0x0,
     CHANGE_FORM_FLAGS = 0x1,
     CHANGE_REFR_MOVE = 0x2,
     CHANGE_REFR_HAVOK_MOVE = 0x4,
@@ -114,7 +111,6 @@ enum CHANGE_TYPE : unsigned int {
     CHANGE_OBJECT_EXTRA_LOCK = 0x1000,
     CHANGE_OBJECT_OPEN_STATE = 0x800000,
     CHANGE_OBJECT_OPEN_DEFAULT_STATE = 0x400000,
-    CHANGE_OBJECT_EMPTY = 0x200000,
     CHANGE_DOOR_EXTRA_TELEPORT = 0x20000,
     CHANGE_QUEST_FLAGS = 0x2,
     CHANGE_QUEST_SCRIPT_DELAY = 0x4,
@@ -133,8 +129,6 @@ enum CHANGE_TYPE : unsigned int {
     CHANGE_FACTION_FLAGS = 0x2,
     CHANGE_FACTION_REACTIONS = 0x4,
     CHANGE_FACTION_CRIME_COUNTS = 0x80000000,
-    CHANGE_REPUTATION_VALUES = 0x2,
-    CHANGE_CHALLENGE_VALUE = 0x2,
     CHANGE_PACKAGE_NEVER_RUN = 0x80000000,
     CHANGE_PACKAGE_WAITING = 0x40000000,
     CHANGE_BASE_OBJECT_VALUE = 0x2,
@@ -159,66 +153,27 @@ enum CHANGE_TYPE : unsigned int {
     CHANGE_LEVELED_LIST_ADDED_OBJECT = 0x80000000,
     CHANGE_WATER_REMAPPED = 0x80000000
 };
-// SOUND_MSG (Xbox PDB): сообщения звукового потока, первый аргумент BSAudioManager::ComposeMessage (0xADB1A0). Сверено по именам вызывающих функций PC: 28 значений совпали по имени (Play=1, Stop=4, SetVolume=16 … SetModFrequency=66), 9 частично, 0 противоречий, значений вне перечисления на PC нет — evidence/sound_msg.csv
+// SOUND_MSG (Xbox PDB): СТРОГАЯ СБОРКА: только 28 проверенных значений из 67. сообщения звукового потока, первый аргумент BSAudioManager::ComposeMessage (0xADB1A0). Сверено по именам вызывающих функций PC: 28 значений совпали по имени (Play=1, Stop=4, SetVolume=16 … SetModFrequency=66), 9 частично, 0 противоречий, значений вне перечисления на PC нет — evidence/sound_msg.csv
 enum SOUND_MSG : unsigned int {
-    MINVALID_MSG = 0x0,
     MPLAY = 0x1,
-    MPLAYLOOPING = 0x2,
     MPAUSE = 0x3,
     MSTOP = 0x4,
     MPLAY_AFTER = 0x5,
-    MSTOP_AFTER = 0x6,
-    MMUTE = 0x7,
-    MUNMUTE = 0x8,
-    MFADE_OUT = 0x9,
-    MFADE_TO = 0xA,
     MFADE_IN = 0xB,
-    MFADE_FROM = 0xC,
-    MDIALOGUE_FADE = 0xD,
-    MVOLUME_LEVELS_CHANGED = 0xE,
-    MFREE_IF_STOPPED = 0xF,
     MSET_VOLUME = 0x10,
-    MINCREASE_VOLUME_TO = 0x11,
-    MDECREASE_VOLUME_TO = 0x12,
     MSET_FREQUENCY = 0x13,
     MSET_FREQUENCY_VARIANCE = 0x14,
-    MINCREASE_FREQUENCY_TO = 0x15,
-    MDECREASE_FREQUENCY_TO = 0x16,
-    MKILL_ALL_SOUNDS = 0x17,
     MMUTE_ALL_OFTYPE = 0x18,
     MUNMUTE_ALL_OFTYPE = 0x19,
     MPAUSE_ALL_OFTYPE = 0x1A,
     MUNPAUSE_ALL_OFTYPE = 0x1B,
-    MPAUSE_ALL_OFTYPE_EXACT = 0x1C,
-    MUNPAUSE_ALL_OFTYPE_EXACT = 0x1D,
     MSET_POS = 0x1E,
     MSET_BEAM_END = 0x1F,
-    MSET_ORIENT = 0x20,
     MSET_STATIC_ATTENUATION = 0x21,
     MSET_REVERB_ATTENUATION = 0x22,
     MSET_MINMAX_DISTANCE = 0x23,
-    MSET_ATTENUATION_CURVE = 0x24,
-    MADD_SOUND_TO_LIST = 0x25,
-    MDELETE_SOUND = 0x26,
-    MREGISTER_MOVING_SOUND = 0x27,
-    MPURGE_MOVING_SOUNDS = 0x28,
     MSTOP_MOVING_SOUNDS = 0x29,
     MKILL_ALL_OFTYPE = 0x2A,
-    MMUTE_ALL_LOOPS = 0x2B,
-    MUNMUTE_ALL_LOOPS = 0x2C,
-    MFORCE_LOOP = 0x2D,
-    MSET_SOUND_TYPE = 0x2E,
-    MSET_WEATHER_TYPES = 0x2F,
-    MPRECACHE_COMBAT_SOUNDS = 0x30,
-    MENABLE_SOUND_CACHE = 0x31,
-    MCACHE_SIZE_CHANGED = 0x32,
-    MADD_SOUND_TO_CACHE = 0x33,
-    MTERMINATE_THREAD = 0x34,
-    MSUSPEND_THREAD = 0x35,
-    MERROR_TOO_MANY_SOUNDS = 0x36,
-    MSET_UNDERWATER = 0x37,
-    MSET_LISTENER_POSITION = 0x38,
-    MDATA_REQUEST = 0x39,
     MSET_COMPLETION_CALLBACK = 0x3A,
     MSET_PLAY_CALLBACK = 0x3B,
     MSET_SYNCH_START = 0x3C,
@@ -229,76 +184,25 @@ enum SOUND_MSG : unsigned int {
     MSET_PRIORITY = 0x41,
     MSET_MOD_FREQUENCY = 0x42
 };
-// MEM_CONTEXT (Xbox PDB): контекст памяти потока (TLS + 0x2B4), ставится при входе в функции. 17 значений из 68 согласуются с именами функций PC (16 HAVOK — 313 функций bhk*, 11 AUDIO — BSAudio, 12 FONTS — Font, 13 INTERFACE — Tile, …), 0 противоречий; остальные на PC этим способом не встречаются — evidence/mem_context.csv. Проверка по смыслу, не по строкам
+// MEM_CONTEXT (Xbox PDB): СТРОГАЯ СБОРКА: только 17 проверенных значений из 68. контекст памяти потока (TLS + 0x2B4), ставится при входе в функции. 17 значений из 68 согласуются с именами функций PC (16 HAVOK — 313 функций bhk*, 11 AUDIO — BSAudio, 12 FONTS — Font, 13 INTERFACE — Tile, …), 0 противоречий; остальные на PC этим способом не встречаются — evidence/mem_context.csv. Проверка по смыслу, не по строкам
 enum MEM_CONTEXT : unsigned int {
     MEM_CONTEXT_STATICVARS = 0x0,
-    MEM_CONTEXT_EXTERNAL = 0x1,
-    MEM_CONTEXT_DEBUG = 0x2,
     MEM_CONTEXT_POOL = 0x3,
-    MEM_CONTEXT_RENDERER_OVERHEAD = 0x4,
     MEM_CONTEXT_SHADER_OVERHEAD = 0x5,
     MEM_CONTEXT_TASK_OVERHEAD = 0x6,
-    MEM_CONTEXT_EFFECTS_OVERHEAD = 0x7,
-    MEM_CONTEXT_STRING_TABLES = 0x8,
-    MEM_CONTEXT_GAMESETTING = 0x9,
-    MEM_CONTEXT_GAME_OVERHEAD = 0xA,
     MEM_CONTEXT_AUDIO = 0xB,
     MEM_CONTEXT_FONTS = 0xC,
     MEM_CONTEXT_INTERFACE = 0xD,
-    MEM_CONTEXT_LOCALMAP = 0xE,
-    MEM_CONTEXT_GAMEBRIO = 0xF,
     MEM_CONTEXT_HAVOK = 0x10,
-    MEM_CONTEXT_SAVELOAD = 0x11,
-    MEM_CONTEXT_LOADERS = 0x12,
-    MEM_CONTEXT_ARCHIVES = 0x13,
     MEM_CONTEXT_MOVIEPLAYER = 0x14,
-    MEM_CONTEXT_SCRIPTS = 0x15,
-    MEM_CONTEXT_MASTER_FILE = 0x16,
     MEM_CONTEXT_BSFILE = 0x17,
-    MEM_CONTEXT_FILESYSTEM = 0x18,
-    MEM_CONTEXT_WORLD_SG = 0x19,
-    MEM_CONTEXT_CELLS = 0x1A,
-    MEM_CONTEXT_LAND = 0x1B,
     MEM_CONTEXT_GRASS = 0x1C,
     MEM_CONTEXT_WATER = 0x1D,
-    MEM_CONTEXT_TREEART = 0x1E,
     MEM_CONTEXT_TREESYSTEM = 0x1F,
     MEM_CONTEXT_SHADOWS = 0x20,
-    MEM_CONTEXT_SKY = 0x21,
-    MEM_CONTEXT_LODMANAGER = 0x22,
-    MEM_CONTEXT_LODLANDSCAPE = 0x23,
-    MEM_CONTEXT_LODBUILDINGS = 0x24,
-    MEM_CONTEXT_LODTREES = 0x25,
-    MEM_CONTEXT_SHADERS = 0x26,
     MEM_CONTEXT_IMAGE_SPACE = 0x27,
     MEM_CONTEXT_HAIRSHADER = 0x28,
-    MEM_CONTEXT_PRECIPITATION = 0x29,
-    MEM_CONTEXT_PROCESSES = 0x2A,
-    MEM_CONTEXT_COMBAT_AI = 0x2B,
-    MEM_CONTEXT_GLOBAL_LISTS = 0x2C,
-    MEM_CONTEXT_PATHING = 0x2D,
-    MEM_CONTEXT_NAVMESH = 0x2E,
-    MEM_CONTEXT_TES_DEFAULT_OBJECTS = 0x2F,
-    MEM_CONTEXT_TES_FORMS = 0x30,
-    MEM_CONTEXT_TES_REFERENCES = 0x31,
-    MEM_CONTEXT_TES_ACTOR = 0x32,
-    MEM_CONTEXT_ANIMATION = 0x33,
-    MEM_CONTEXT_PLAYER = 0x34,
-    MEM_CONTEXT_DIALOGUE = 0x35,
-    MEM_CONTEXT_INVENTORY = 0x36,
-    MEM_CONTEXT_FACEGEN_SYSTEM = 0x37,
-    MEM_CONTEXT_FACEGEN_EGM = 0x38,
-    MEM_CONTEXT_FACEGEN_EGT = 0x39,
-    MEM_CONTEXT_FACEGEN_GEOM = 0x3A,
-    MEM_CONTEXT_UNKNOWN = 0x3B,
-    MEM_CONTEXT_UNKNOWN_DIRECTX = 0x3C,
-    MEM_CONTEXT_DEBUG_CONTEXT_A = 0x3D,
-    MEM_CONTEXT_DEBUG_CONTEXT_B = 0x3E,
-    MEM_CONTEXT_DEBUG_CONTEXT_C = 0x3F,
-    MEM_CONTEXT_DEBUG_CONTEXT_D = 0x40,
-    MEM_CONTEXT_TOTAL = 0x41,
-    MEM_CONTEXT_DEFAULT = 0x41,
-    MEM_CONTEXT_COUNT = 0x42
+    MEM_CONTEXT_PRECIPITATION = 0x29
 };
 // MemoryPasses (Xbox PDB, значения PC): проходы освобождения памяти, MemoryManager::ProcessMemoryProblem (0x866A90). НА PC НЕ ТАК, КАК НА XBOX: 9 проходов вместо 8 — вставлен проход 6 (MemoryPool::FreeUnusedPagesForAllPools), MP_ALLOW_OVER_HEAP и MP_COMPLETELY_OUT сдвинуты с 6/7 на 7/8. Ниже — значения PC; evidence/memory_passes.csv
 enum MemoryPasses : unsigned int {
@@ -316,8 +220,8 @@ enum MemoryPasses : unsigned int {
 // PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x01011D68
 class BaseFormComponent {
 public:
-    virtual void InitializeDataComponent(); // слот 0 | PC: stub (0xEC60FA)
-    virtual void ClearDataComponent(); // слот 1 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot0(); // слот 0 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot1(); // слот 1 | PC: stub (0xEC60FA)
     virtual void CopyComponent(BaseFormComponent*); // слот 2 | PC: name+stack (0x485340)
     virtual bool CompareComponent(BaseFormComponent*); // слот 3 | PC: name+stack (0x4853E0)
     // поля
@@ -327,19 +231,19 @@ public:
 class TESForm : public BaseFormComponent {
 public:
     virtual ~TESForm(); // слот 4 | PC: name+stack (0x483600)
-    virtual void InitializeData(); // слот 5 | PC: stub (0x483710)
-    virtual void ClearData(); // слот 6 | PC: stub (0x483710)
-    virtual bool ProcessBeforeSave(); // слот 7 | PC: stub (0x8D0360)
-    virtual bool Load(TESFile*); // слот 8 | PC: stub (0x401290)
-    virtual bool LoadPartial(TESFile*); // слот 9 | PC: stub (0x401290)
+    virtual void _unverified_slot5(); // слот 5 | PC: stub (0x483710)
+    virtual void _unverified_slot6(); // слот 6 | PC: stub (0x483710)
+    virtual void _unverified_slot7(); // слот 7 | PC: stub (0x8D0360)
+    virtual void _unverified_slot8(); // слот 8 | PC: stub (0x401290)
+    virtual void _unverified_slot9(); // слот 9 | PC: stub (0x401290)
     virtual bool Save(TESFile*); // слот 10 | PC: name+stack (0x483D20)
-    virtual void Save_2(); // слот 11 | PC: stub (0x483710)
+    virtual void _unverified_slot11(); // слот 11 | PC: stub (0x483710)
     virtual bool LoadEdit(TESFile*); // слот 12 | PC: name+stack (0x401130)
     virtual bool SaveEdit(TESFile*); // слот 13 | PC: name+stack (0x483FC0)
     virtual bool SavesBefore(FORM*); // слот 14 | PC: name+stack (0x484150)
     virtual bool SavesBefore_2(TESForm*); // слот 15 | PC: name+stack (0x484020)
     virtual TESForm* CreateDuplicateForm(bool, void*); // слот 16 | PC: name+stack (0x4867A0)
-    virtual void PostDuplicateProcess(void*); // слот 17 | PC: stub (0x4534F0)
+    virtual void _unverified_slot17(); // слот 17 | PC: stub (0x4534F0)
     virtual void AddChange(int); // слот 18 | PC: name+stack (0x484B60)
     virtual void RemoveChange(int); // слот 19 | PC: name+stack (0x484BC0)
     virtual unsigned short GetSaveSize(unsigned); // слот 20 | PC: name+stack (0x484BF0)
@@ -347,16 +251,16 @@ public:
     virtual void SaveGame_2(unsigned); // слот 22 | PC: name+stack (0x484C20)
     virtual void LoadGame(BGSLoadFormBuffer*); // слот 23 | PC: name+stack (0x484DA0)
     virtual void LoadGame_2(unsigned, unsigned); // слот 24 | PC: name+stack (0x484C50)
-    virtual void InitLoadGame(BGSLoadFormBuffer*); // слот 25 | PC: stub (0x4534F0)
-    virtual void InitLoadGame_2(unsigned, unsigned); // слот 26 | PC: stub (0x8D0600)
-    virtual void FinishInitLoadGame(unsigned, unsigned); // слот 27 | PC: stub (0x8D0600)
-    virtual void Revert(BGSLoadFormBuffer*); // слот 28 | PC: stub (0x4534F0)
-    virtual void Revert_2(unsigned); // слот 29 | PC: stub (0x4534F0)
-    virtual void LoadQueuedFormData(unsigned short); // слот 30 | PC: stub (0x4534F0)
-    virtual bool FindInFileFast(TESFile*); // слот 31 | PC: stub (0x8D0370)
-    virtual void CheckSaveGame(BGSSaveFormBuffer*); // слот 32 | PC: stub (0x4534F0)
-    virtual void FinishLoadGame(BGSLoadFormBuffer*); // слот 33 | PC: stub (0x4534F0)
-    virtual void InitItem(); // слот 34 | PC: stub (0x483710)
+    virtual void _unverified_slot25(); // слот 25 | PC: stub (0x4534F0)
+    virtual void _unverified_slot26(); // слот 26 | PC: stub (0x8D0600)
+    virtual void _unverified_slot27(); // слот 27 | PC: stub (0x8D0600)
+    virtual void _unverified_slot28(); // слот 28 | PC: stub (0x4534F0)
+    virtual void _unverified_slot29(); // слот 29 | PC: stub (0x4534F0)
+    virtual void _unverified_slot30(); // слот 30 | PC: stub (0x4534F0)
+    virtual void _unverified_slot31(); // слот 31 | PC: stub (0x8D0370)
+    virtual void _unverified_slot32(); // слот 32 | PC: stub (0x4534F0)
+    virtual void _unverified_slot33(); // слот 33 | PC: stub (0x4534F0)
+    virtual void _unverified_slot34(); // слот 34 | PC: stub (0x483710)
     virtual int GetSavedFormType(); // слот 35 | PC: name+stack (0x401150)
     virtual void GetFormDetailedString(void*); // слот 36 | PC: name+stack (0x4868F0)
     virtual bool GetQuestObject(); // слот 37 | PC: name+stack (0x401190)
@@ -370,36 +274,36 @@ public:
     virtual bool GetContinuousBroadcast(); // слот 45 | PC: name+stack (0x401230)
     virtual bool GetOnLocalMap(); // слот 46 | PC: name+stack (0x401250)
     virtual void SetOnLocalMap(bool); // слот 47 | PC: semantics (0x4849D0)
-    virtual NiColor* GetEmittanceColor(); // слот 48 | PC: stub (0xACBB70)
+    virtual void _unverified_slot48(); // слот 48 | PC: stub (0xACBB70)
     virtual void SetDelete(bool); // слот 49 | PC: name+stack (0x484530)
     virtual void SetAltered(bool); // слот 50 | PC: name+stack (0x484730)
     virtual void SetQuestObject(bool); // слот 51 | PC: name+stack (0x484860)
     virtual void SetHasSpokenFlag(bool); // слот 52 | PC: semantics (0x4848B0)
     virtual void SetHavokDeath(bool); // слот 53 | PC: name+stack (0x484900)
     virtual void SetNeedToChangeProcess(bool); // слот 54 | PC: name+stack (0x484950)
-    virtual void SaveObjectBound(); // слот 55 | PC: stub (0x483710)
-    virtual void LoadObjectBound(TESFile*); // слот 56 | PC: stub (0x4534F0)
-    virtual bool IsBoundObject(); // слот 57 | PC: stub (0x47C850)
-    virtual bool IsObject(); // слот 58 | PC: stub (0x47C850)
-    virtual bool IsMagicItem(); // слот 59 | PC: stub (0x47C850)
-    virtual bool IsReference(); // слот 60 | PC: stub (0x47C850)
-    virtual bool IsArmorAddon(); // слот 61 | PC: stub (0x47C850)
-    virtual bool IsActorBase(); // слот 62 | PC: stub (0x47C850)
-    virtual bool IsMobileObject(); // слот 63 | PC: stub (0x47C850)
-    virtual bool IsActor(); // слот 64 | PC: stub (0x47C850)
-    virtual unsigned GetRefCount(); // слот 65 | PC: stub (0xACBB70)
+    virtual void _unverified_slot55(); // слот 55 | PC: stub (0x483710)
+    virtual void _unverified_slot56(); // слот 56 | PC: stub (0x4534F0)
+    virtual void _unverified_slot57(); // слот 57 | PC: stub (0x47C850)
+    virtual void _unverified_slot58(); // слот 58 | PC: stub (0x47C850)
+    virtual void _unverified_slot59(); // слот 59 | PC: stub (0x47C850)
+    virtual void _unverified_slot60(); // слот 60 | PC: stub (0x47C850)
+    virtual void _unverified_slot61(); // слот 61 | PC: stub (0x47C850)
+    virtual void _unverified_slot62(); // слот 62 | PC: stub (0x47C850)
+    virtual void _unverified_slot63(); // слот 63 | PC: stub (0x47C850)
+    virtual void _unverified_slot64(); // слот 64 | PC: stub (0x47C850)
+    virtual void _unverified_slot65(); // слот 65 | PC: stub (0xACBB70)
     virtual void Copy(TESForm*); // слот 66 | PC: name+stack (0x485130)
     virtual bool Compare(TESForm*); // слот 67 | PC: name+stack (0x485170)
     virtual bool BelongsInGroup(FORM*, bool, bool); // слот 68 | PC: name+stack (0x4854E0)
     virtual void CreateGroupData(FORM*, FORM_GROUP*); // слот 69 | PC: name+stack (0x485530)
-    virtual bool IsParentForm(); // слот 70 | PC: stub (0x47C850)
-    virtual bool IsParentFormTree(); // слот 71 | PC: stub (0x47C850)
-    virtual bool IsFormTypeChild(unsigned char); // слот 72 | PC: stub (0x8D0370)
-    virtual bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int); // слот 73 | PC: stub (0x401270)
+    virtual void _unverified_slot70(); // слот 70 | PC: stub (0x47C850)
+    virtual void _unverified_slot71(); // слот 71 | PC: stub (0x47C850)
+    virtual void _unverified_slot72(); // слот 72 | PC: stub (0x8D0370)
+    virtual void _unverified_slot73(); // слот 73 | PC: stub (0x401270)
     virtual void SetFormID(unsigned, bool); // слот 74 | PC: name+stack (0x485C10)
-    virtual char* GetObjectTypeName(); // слот 75 | PC: stub (0x401280)
-    virtual const char* GetFormEditorID(); // слот 76 | PC: stub (0x401280)
-    virtual bool SetFormEditorID(const char*); // слот 77 | PC: stub (0x401290)
+    virtual void _unverified_slot75(); // слот 75 | PC: stub (0x401280)
+    virtual void _unverified_slot76(); // слот 76 | PC: stub (0x401280)
+    virtual void _unverified_slot77(); // слот 77 | PC: stub (0x401290)
     // поля
     unsigned char cFormType; // PC: confirmed
     unsigned char _pad5[0x3];
@@ -523,11 +427,11 @@ public:
     virtual bool SetVolume(float); // слот 15 | PC: name+stack (0xAED660)
     virtual void UpdateEmitterPosition(); // слот 16 | PC: name+stack (0xAED990)
     virtual bool Update(unsigned); // слот 17 | PC: name+stack (0xAE9960)
-    virtual bool ProcessDataRequest(int); // слот 18 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot18(); // слот 18 | PC: stub (0xEC60FA)
     virtual void SetEmitterPosition(NiPoint3); // слот 19 | PC: name+stack (0xAEFCF0)
     virtual void SetEmitterPosition_2(float, float, float); // слот 20 | PC: name+stack (0xAEF090)
     virtual NiPoint3 GetEmitterPosition(); // слот 21 | PC: name+stack (0xAEFD20)
-    virtual void SetEmitterOrientation(float, float, float); // слот 22 | PC: stack (0xAEFD90)
+    virtual void _unverified_slot22(); // слот 22 | PC: stack (0xAEFD90)
     virtual void SetMinMax(float, float); // слот 23 | PC: name+stack (0xAEFDA0)
     virtual void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short); // слот 24 | PC: name+stack (0xAEFF60)
     virtual bool SetFrequency(float); // слот 25 | PC: name+stack (0xAF01E0)
@@ -550,7 +454,7 @@ public:
     float fEndTime; // PC: confirmed
     unsigned iWeatherFlags; // PC: confirmed
     unsigned short iSamplesPerSecond; // PC: confirmed
-    char pFilename[260]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    unsigned char _unverified_pFilename[260]; // строгая сборка: не подтверждено (char[260 bytes])
     unsigned char _pad13A[0x2];
     float fMaxDist; // PC: confirmed
     float fMinDist; // PC: confirmed
@@ -604,9 +508,9 @@ public:
     unsigned short pc212; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду —  | PC: confirmed
     unsigned short pc214; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду —  | PC: confirmed
     unsigned char _pad216[0x2];
-    float pc218; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — float, SetEmitterPositionF | PC: confirmed
-    float pc21C; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — float | PC: confirmed
-    float pc220; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — float | PC: confirmed
+    float fEmitterX; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — позиция источника звука (NiPoint3 +0x218..+0x223): GetEmitterPosition копирует эти 12 байт в результат для 3D-звука, SetEmitterPositionF пишет; X | PC: confirmed
+    float fEmitterY; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — Y позиции источника | PC: confirmed
+    float fEmitterZ; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — Z позиции источника | PC: confirmed
     bool pc224; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — байт-флаг 0/1: SetEmitterPositionF, SetMinMaxDistance | PC: confirmed
     unsigned char _pad225[0x3];
     void* pc228; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — указатель, 153 чтения в 6 функциях; Play сравнивает [pc228] с 5 | PC: confirmed
@@ -619,11 +523,11 @@ public:
     virtual ~BSAudio(); // слот 0 | PC: name+stack (0xAD8790)
     virtual void Init(void*); // слот 1 | PC: name+stack (0xAD7020)
     virtual void Shutdown(); // слот 2 | PC: name+stack (0xAD7150)
-    virtual void SetLoopPointCallback(void*); // слот 3 | PC: stub (0xAA4A50)
-    virtual void* GetLoopPointCallback(); // слот 4 | PC: stub (0xAD87C0)
-    virtual BSGameSound* CreateNewGameSound(const char*); // слот 5 | PC: stack (0xAEA5C0)
-    virtual void FixSoundPath(char*); // слот 6 | PC: stack (0xAEA640)
-    virtual void PrintDebugInfo(); // слот 7 | PC: stub (0xAA7830)
+    virtual void _unverified_slot3(); // слот 3 | PC: stub (0xAA4A50)
+    virtual void _unverified_slot4(); // слот 4 | PC: stub (0xAD87C0)
+    virtual void _unverified_slot5(); // слот 5 | PC: stack (0xAEA5C0)
+    virtual void _unverified_slot6(); // слот 6 | PC: stack (0xAEA640)
+    virtual void _unverified_slot7(); // слот 7 | PC: stub (0xAA7830)
     // поля
     bool bAudioEnabled; // PC: confirmed
     bool bInitialized; // PC: confirmed
@@ -651,60 +555,6 @@ public:
     alignas(4) unsigned char Caps[96]; // DSCAPS // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — DSCAPS: Init пишет dwSize = 0x60 и вызывает GetCaps | PC: confirmed
     void* hWnd; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — окно: Init сохраняет аргумент и передаёт его в SetCooperativeLevel | PC: confirmed
 };
-// BSAudioManager (Xbox PDB): Xbox sizeof 0x19C, PC sizeof 0x188
-// PC: sizeof 0x188 — consistent; alignof 4; vtable 0x010A3368; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
-class BSAudioManager {
-public:
-    virtual ~BSAudioManager(); // слот 0 | PC: name+stack (0xAE77A0)
-    // поля
-    int iMessageListIndex; // PC: confirmed
-    int iMessageProcessingListIndex; // PC: confirmed
-    alignas(4) unsigned char Messages[24]; // NiTPointerList<BSSoundMessage *>[24 bytes] | PC: confirmed
-    alignas(4) unsigned char FreeMessages[16]; // AudioMessageStack | PC: confirmed
-    alignas(4) unsigned char FreeQueueMessages[16]; // AudioMessageStack | PC: confirmed
-    alignas(4) unsigned char GarbageMessages[16]; // AudioMessageStack | PC: confirmed
-    alignas(4) unsigned char SoundList[16]; // NiTPointerMap<int,BSGameSound *> | PC: confirmed
-    alignas(4) unsigned char SoundStateMap[16]; // NiTPointerMap<int,BSSoundInfo *> | PC: confirmed
-    alignas(4) unsigned char StateUpdateMap[16]; // NiTPointerMap<int,BSSoundInfo *> | PC: confirmed
-    alignas(4) unsigned char MovingRefrList[16]; // NiTPointerMap<int,NiPointer<NiAVObject> > | PC: confirmed
-    alignas(4) unsigned char CachedSoundList[12]; // NiTPointerList<BSGameSound *> | PC: confirmed
-    unsigned iCurrentCachSize; // PC: confirmed
-    unsigned iWeatherFlags; // PC: confirmed
-    float fCurrentGamehour; // PC: confirmed
-    alignas(4) unsigned char MessageCritSection[24]; // BSCriticalSection | PC: confirmed
-    alignas(4) unsigned char StateCritSection[24]; // BSCriticalSection | PC: confirmed
-    alignas(4) unsigned char CacheCritSection[24]; // BSCriticalSection | PC: confirmed
-    alignas(4) unsigned char ProcessingCritSection[24]; // BSCriticalSection | PC: confirmed
-    alignas(4) unsigned char CacheLoadTaskCritSection[24]; // BSCriticalSection | PC: confirmed
-    alignas(4) unsigned char CacheLoadTaskList[12]; // NiTPointerList<AudioLoadTask *> | PC: confirmed
-    unsigned iDelayTimerDelta; // PC: confirmed
-    bool bPrecacheCompleted; // PC: confirmed
-    bool bListenerMoved; // PC: confirmed
-    unsigned char _pad136[0x2];
-    unsigned long dwAudioThreadID; // PC: confirmed
-    BSAudioManagerThread* pUpdateThread; // PC: confirmed
-    float fMasterVolume; // PC: confirmed
-    float fFootVolume; // PC: confirmed
-    float fVoiceVolume; // PC: confirmed
-    float fEffectsVolume; // PC: confirmed
-    float fMusicVolume; // PC: confirmed
-    float fRadioVolume; // PC: confirmed
-    float fMasterSecondaryVolume; // PC: confirmed
-    float fFootSecondaryVolume; // PC: confirmed
-    float fVoiceSecondaryVolume; // PC: confirmed
-    float fEffectsSecondaryVolume; // PC: confirmed
-    float fMusicSecondaryVolume; // PC: confirmed
-    float fRadioSecondaryVolume; // PC: confirmed
-    unsigned iMuteMask; // PC: confirmed
-    bool bDialogueFade; // PC: confirmed
-    bool bListenerUnderwater; // PC: confirmed
-    unsigned char _pad176[0x2];
-    void* pPauseEntries; // PC: confirmed
-    unsigned iPauseListSize; // PC: confirmed
-    unsigned iNextID; // PC: confirmed
-    bool bIgnoreGlobalTimeMultiplier; // PC: confirmed
-    unsigned char _pad185[0x3];
-};
 // BSSoundHandle (Xbox PDB): Xbox sizeof 0xC, PC sizeof 0xC
 // PC: sizeof 0xC — confirmed; alignof 4
 class BSSoundHandle {
@@ -715,25 +565,6 @@ public:
     bool bAssumeSuccess; // PC: confirmed
     unsigned char _pad5[0x3];
     int eState; // PC: confirmed
-};
-// HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
-class HeapBlock {
-public:
-    // поля
-    HeapBlock* pPrevious; // PC: confirmed
-    unsigned iMemSize; // PC: confirmed
-    unsigned char _pad8[0x8];
-};
-// FreeHeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
-class FreeHeapBlock {
-public:
-    // поля
-    HeapBlock* pPrevious; // PC: confirmed
-    unsigned iMemSize; // PC: confirmed
-    FreeHeapBlock* pPrevFree; // PC: confirmed
-    FreeHeapBlock* pNextFree; // PC: confirmed
 };
 // FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
 // PC: sizeof 0x8 — confirmed; alignof 4
@@ -749,16 +580,16 @@ class IMemoryHeap {
 public:
     virtual ~IMemoryHeap(); // слот 0 | PC: name+stack (0xAA7840)
     virtual const char* GetName(); // слот 1 | PC: name+stack (0xAA7E50)
-    virtual void* Allocate(unsigned, unsigned); // слот 2 | PC: stub (0xEC60FA)
-    virtual void Deallocate(void*, unsigned); // слот 3 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot2(); // слот 2 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot3(); // слот 3 | PC: stub (0xEC60FA)
     virtual bool PointerInHeap(const void*); // слот 4 | PC: name+stack (0xAA7E70)
     virtual void CheckHeapIntegrity(); // слот 5 | PC: name+stack (0xAA9FB0)
     virtual void GetHeapStats(HeapStats*, bool); // слот 6 | PC: name+stack (0xAAA0E0)
     virtual int OutputBucketInfo(IMemoryManagerFile*); // слот 7 | PC: name+stack (0xAAA310)
     virtual int OutputBlockInfo(IMemoryManagerFile*, bool); // слот 8 | PC: name+stack (0xAAA430)
-    virtual unsigned Size(const void*, unsigned); // слот 9 | PC: stub (0xEC60FA)
-    virtual unsigned TotalSize(const void*); // слот 10 | PC: stub (0xEC60FA)
-    virtual void CheckDelayedFreeBlocks(); // слот 11 | PC: stack (0xAA9D10)
+    virtual void _unverified_slot9(); // слот 9 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot10(); // слот 10 | PC: stub (0xEC60FA)
+    virtual void _unverified_slot11(); // слот 11 | PC: stack (0xAA9D10)
     // поля
 };
 // HeapFreeSubBucket (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
@@ -844,23 +675,11 @@ public:
     unsigned iMallocBytes; // PC: confirmed
     unsigned iMainThreadMemoryProblemPassSignal; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
-#pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)
-// BGSSaveLoadFormHeader (Xbox PDB): Xbox sizeof 0x9, PC sizeof 0x9
-// PC: sizeof 0x9 — consistent; alignof 1; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
-struct BGSSaveLoadFormHeader {
-public:
-    // поля
-    unsigned char FormIDIndex[3]; // BGSNumericIDIndex | PC: confirmed
-    unsigned iChangeFlags; // BGSChangeFlags | PC: confirmed
-    unsigned char FormInfo[1]; // BGSSaveLoadFormInfo | PC: confirmed
-    unsigned char cVersion; // PC: confirmed
-};
-#pragma pack(pop)
 // BGSSaveGameBuffer (Xbox PDB): Xbox sizeof 0x14, PC sizeof 0x14
 // PC: sizeof 0x14 — confirmed; alignof 4; vtable 0x01082324
 class BGSSaveGameBuffer {
 public:
-    virtual TESForm* GetForm(); // слот 0 | PC: stack (0x7AF430)
+    virtual void _unverified_slot0(); // слот 0 | PC: stack (0x7AF430)
     virtual TESObjectREFR* GetReference(); // слот 1 | PC: name+stack (0x865B40)
     virtual Actor* GetActor(); // слот 2 | PC: name+stack (0x865B80)
     // поля
@@ -868,15 +687,6 @@ public:
     unsigned iBufferSize; // PC: confirmed
     unsigned iBufferPosition; // PC: confirmed
     unsigned iDebugOverhead; // PC: confirmed
-};
-// BGSSaveFormBuffer (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — consistent; alignof 4; vtable 0x01082308; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
-class BGSSaveFormBuffer : public BGSSaveGameBuffer {
-public:
-    // поля
-    BGSSaveLoadFormHeader Header;
-    unsigned char _pad1D[0x3];
-    TESForm* pForm; // PC: confirmed
 };
 // BGSLoadGameBuffer (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
 // PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x01082048
@@ -897,8 +707,7 @@ class BGSLoadFormBuffer : public BGSLoadGameBuffer {
 public:
     // поля
     unsigned iFormID; // PC: confirmed
-    BGSSaveLoadFormHeader Header;
-    unsigned char _pad1D[0x3];
+    alignas(4) unsigned char _unverified_Header[12]; // строгая сборка: не подтверждено (BGSSaveLoadFormHeader)
     unsigned iSize; // PC: confirmed
     TESForm* pForm; // PC: confirmed
     unsigned iFlags; // PC: confirmed
@@ -920,8 +729,8 @@ public:
     BGSReconstructFormsInAllFilesMap* pReconstructForms; // PC: confirmed
     alignas(4) unsigned char FormBufferArray[16]; // BSSimpleArray<BGSLoadFormBuffer *,1024> | PC: confirmed
     alignas(4) unsigned char QueuedInitPackageLocationsActorMap[16]; // NiTMap<unsigned int,Actor *> | PC: confirmed
-    unsigned char cFileIndexArray[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
-    unsigned char cReverseFileIndexArray[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    unsigned char _unverified_cFileIndexArray[255]; // строгая сборка: не подтверждено (unsigned char[255 bytes])
+    unsigned char _unverified_cReverseFileIndexArray[255]; // строгая сборка: не подтверждено (unsigned char[255 bytes])
     unsigned char _pad242[0x2];
     unsigned iGlobalFlags; // PC: confirmed
     unsigned char cCurrentMinorVersion; // PC: confirmed
@@ -962,7 +771,7 @@ public:
     virtual ~BGSSaveLoadChangesMap(); // слот 0 | PC: name+stack (0x845580)
     // поля
     unsigned m_uiHashSize; // PC: confirmed
-    void** m_ppkHashTable; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    alignas(4) unsigned char _unverified_m_ppkHashTable[4]; // строгая сборка: не подтверждено (NiTMapItem<unsigned int,BGSFormChanges *>**)
     alignas(4) unsigned char m_kAllocator[4]; // NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BGSFormChanges *>::AntiBloatAllocator | PC: confirmed
 };
 // FalloutRadio::FORadioReceiver (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
@@ -975,7 +784,7 @@ public:
     BSSoundHandle StaticHndl;
     bool bShouldBePlaying; // PC: confirmed
     bool bJustStarted; // PC: confirmed
-    bool bInRange; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    unsigned char _unverified_bInRange[1]; // строгая сборка: не подтверждено (bool)
     bool bIsActor; // PC: confirmed
 };
 // FalloutRadio::StationState (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
@@ -1007,7 +816,7 @@ class RadioConvTask {
 public:
     virtual ~RadioConvTask(); // слот 0 | PC: name+stack (0x837290)
     // поля
-    int iRefCount; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    alignas(4) unsigned char _unverified_iRefCount[4]; // строгая сборка: не подтверждено (volatile int)
     int eState; // PC: confirmed
     __int64 Key; // PC: confirmed
     int eContext; // PC: confirmed
@@ -1045,7 +854,7 @@ public:
 struct TextureFile {
 public:
     // поля
-    int iType; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    alignas(4) unsigned char _unverified_iType[4]; // строгая сборка: не подтверждено (int)
     char pFilename[32]; // PC: confirmed
 };
 // FontData (Xbox PDB): Xbox sizeof 0x3928, PC sizeof 0x3928
@@ -1062,7 +871,6 @@ public:
 // PC: sizeof 0x54 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iLineOverlap)
 class Font {
 public:
-    class TextData;
     // поля
     unsigned short iRefCount; // PC: confirmed
     unsigned char _pad2[0x2];
@@ -1071,25 +879,10 @@ public:
     alignas(4) unsigned char pTextureData[32]; // NiPointer<NiTexturingProperty>[32 bytes] | PC: confirmed
     float fFontHeight; // PC: confirmed
     float fMaxDrop; // PC: confirmed
-    int iLineOverlap; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    alignas(4) unsigned char _unverified_iLineOverlap[4]; // строгая сборка: не подтверждено (int)
     FontData* pFontData; // PC: confirmed
     alignas(4) unsigned char IconAtlasTextureName[8]; // BSStringT<char> | PC: confirmed
     alignas(4) unsigned char ButtonIcons[16]; // BSSimpleArray<ButtonIcon,1024> | PC: confirmed
-};
-// Font::TextData (Xbox PDB): Xbox sizeof 0x28, PC sizeof 0x28
-// PC: sizeof 0x28 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён, поля без подтверждения: xNewText)
-class Font::TextData {
-public:
-    // поля
-    alignas(4) unsigned char xNewText[8]; // BSStringT<char> | PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
-    int iWidth; // PC: confirmed
-    int iHeight; // PC: confirmed
-    int iLineStart; // PC: confirmed
-    int iLineEnd; // PC: confirmed
-    int iCharCount; // PC: confirmed
-    char cLineSep; // PC: confirmed
-    unsigned char _pad1D[0x3];
-    alignas(4) unsigned char xLineWidths[8]; // BSSimpleList<int> | PC: confirmed
 };
 // FontManager (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
 // PC: sizeof 0x24 — confirmed; alignof 4
@@ -1100,7 +893,6 @@ public:
     class TextLine;
     class TextPage;
     class TextDoc;
-    class TextData;
     // поля
     Font* pFont[8]; // PC: confirmed
     bool bUseNewFonts; // PC: confirmed
@@ -1136,7 +928,7 @@ public:
     int iSkippedSpace; // PC: confirmed
     int iJustify; // PC: confirmed
     int iPageWidth; // PC: confirmed
-    int iY; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    alignas(4) unsigned char _unverified_iY[4]; // строгая сборка: не подтверждено (int)
     FontManager::TextPage* pPage;
 };
 // FontManager::TextPage (Xbox PDB): Xbox sizeof 0x44, PC sizeof 0x44
@@ -1145,7 +937,7 @@ class FontManager::TextPage {
 public:
     // поля
     alignas(4) unsigned char xLines[12]; // NiTPointerList<FontManager::TextLine *> | PC: confirmed
-    int iWidth; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    alignas(4) unsigned char _unverified_iWidth[4]; // строгая сборка: не подтверждено (int)
     int iHeight; // PC: confirmed
     int iPageWidth; // PC: confirmed
     int iPageHeight; // PC: confirmed
@@ -1162,26 +954,6 @@ public:
     int iPageWidth; // PC: confirmed
     int iPageHeight; // PC: confirmed
     int iPageNum; // PC: confirmed
-};
-// FontManager::TextData (Xbox PDB): Xbox sizeof 0x40, PC sizeof 0x40
-// PC: sizeof 0x40 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
-class FontManager::TextData {
-public:
-    // поля
-    int iDefaultFont; // PC: confirmed
-    int iJustification; // PC: confirmed
-    alignas(4) unsigned char xColor[16]; // NiColorA | PC: confirmed
-    char cLineSep; // PC: confirmed
-    unsigned char _pad19[0x3];
-    int iWidth; // PC: confirmed
-    int iHeight; // PC: confirmed
-    int iPageNum; // PC: confirmed
-    int iLines; // PC: confirmed
-    int iNumPages; // PC: confirmed
-    int iNumLines; // PC: confirmed
-    bool bIsHypertext; // PC: confirmed
-    unsigned char _pad35[0x3];
-    alignas(4) unsigned char xNewText[8]; // BSStringT<char> | PC: confirmed
 };
 static_assert(alignof(BaseFormComponent) == 4, "alignof BaseFormComponent: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BaseFormComponent) == 0x4, "sizeof BaseFormComponent");
@@ -1300,7 +1072,7 @@ static_assert(offsetof(BSGameSound, fBeginTime) == 0x28, "BSGameSound::fBeginTim
 static_assert(offsetof(BSGameSound, fEndTime) == 0x2C, "BSGameSound::fEndTime");
 static_assert(offsetof(BSGameSound, iWeatherFlags) == 0x30, "BSGameSound::iWeatherFlags");
 static_assert(offsetof(BSGameSound, iSamplesPerSecond) == 0x34, "BSGameSound::iSamplesPerSecond");
-static_assert(offsetof(BSGameSound, pFilename) == 0x36, "BSGameSound::pFilename");
+static_assert(offsetof(BSGameSound, _unverified_pFilename) == 0x36, "BSGameSound::_unverified_pFilename");
 static_assert(offsetof(BSGameSound, fMaxDist) == 0x13C, "BSGameSound::fMaxDist");
 static_assert(offsetof(BSGameSound, fMinDist) == 0x140, "BSGameSound::fMinDist");
 static_assert(offsetof(BSGameSound, iSoundHash) == 0x144, "BSGameSound::iSoundHash");
@@ -1349,9 +1121,9 @@ static_assert(offsetof(BSWin32GameSound, pc20E) == 0x20E, "BSWin32GameSound::pc2
 static_assert(offsetof(BSWin32GameSound, pc210) == 0x210, "BSWin32GameSound::pc210");
 static_assert(offsetof(BSWin32GameSound, pc212) == 0x212, "BSWin32GameSound::pc212");
 static_assert(offsetof(BSWin32GameSound, pc214) == 0x214, "BSWin32GameSound::pc214");
-static_assert(offsetof(BSWin32GameSound, pc218) == 0x218, "BSWin32GameSound::pc218");
-static_assert(offsetof(BSWin32GameSound, pc21C) == 0x21C, "BSWin32GameSound::pc21C");
-static_assert(offsetof(BSWin32GameSound, pc220) == 0x220, "BSWin32GameSound::pc220");
+static_assert(offsetof(BSWin32GameSound, fEmitterX) == 0x218, "BSWin32GameSound::fEmitterX");
+static_assert(offsetof(BSWin32GameSound, fEmitterY) == 0x21C, "BSWin32GameSound::fEmitterY");
+static_assert(offsetof(BSWin32GameSound, fEmitterZ) == 0x220, "BSWin32GameSound::fEmitterZ");
 static_assert(offsetof(BSWin32GameSound, pc224) == 0x224, "BSWin32GameSound::pc224");
 static_assert(offsetof(BSWin32GameSound, pc228) == 0x228, "BSWin32GameSound::pc228");
 static_assert(offsetof(BSWin32GameSound, pc22C) == 0x22C, "BSWin32GameSound::pc22C");
@@ -1381,73 +1153,11 @@ static_assert(offsetof(BSWin32Audio, hWnd) == 0xA0, "BSWin32Audio::hWnd");
 static_assert(alignof(BSWin32Audio) == 4, "alignof BSWin32Audio: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BSWin32Audio) == 0xA4, "sizeof BSWin32Audio");
 static_assert(sizeof(BSWin32Audio) == 0xA4, "PC-проверка sizeof BSWin32Audio");
-static_assert(offsetof(BSAudioManager, iMessageListIndex) == 0x4, "BSAudioManager::iMessageListIndex");
-static_assert(offsetof(BSAudioManager, iMessageProcessingListIndex) == 0x8, "BSAudioManager::iMessageProcessingListIndex");
-static_assert(offsetof(BSAudioManager, Messages) == 0xC, "BSAudioManager::Messages");
-static_assert(offsetof(BSAudioManager, FreeMessages) == 0x24, "BSAudioManager::FreeMessages");
-static_assert(offsetof(BSAudioManager, FreeQueueMessages) == 0x34, "BSAudioManager::FreeQueueMessages");
-static_assert(offsetof(BSAudioManager, GarbageMessages) == 0x44, "BSAudioManager::GarbageMessages");
-static_assert(offsetof(BSAudioManager, SoundList) == 0x54, "BSAudioManager::SoundList");
-static_assert(offsetof(BSAudioManager, SoundStateMap) == 0x64, "BSAudioManager::SoundStateMap");
-static_assert(offsetof(BSAudioManager, StateUpdateMap) == 0x74, "BSAudioManager::StateUpdateMap");
-static_assert(offsetof(BSAudioManager, MovingRefrList) == 0x84, "BSAudioManager::MovingRefrList");
-static_assert(offsetof(BSAudioManager, CachedSoundList) == 0x94, "BSAudioManager::CachedSoundList");
-static_assert(offsetof(BSAudioManager, iCurrentCachSize) == 0xA0, "BSAudioManager::iCurrentCachSize");
-static_assert(offsetof(BSAudioManager, iWeatherFlags) == 0xA4, "BSAudioManager::iWeatherFlags");
-static_assert(offsetof(BSAudioManager, fCurrentGamehour) == 0xA8, "BSAudioManager::fCurrentGamehour");
-static_assert(offsetof(BSAudioManager, MessageCritSection) == 0xAC, "BSAudioManager::MessageCritSection");
-static_assert(offsetof(BSAudioManager, StateCritSection) == 0xC4, "BSAudioManager::StateCritSection");
-static_assert(offsetof(BSAudioManager, CacheCritSection) == 0xDC, "BSAudioManager::CacheCritSection");
-static_assert(offsetof(BSAudioManager, ProcessingCritSection) == 0xF4, "BSAudioManager::ProcessingCritSection");
-static_assert(offsetof(BSAudioManager, CacheLoadTaskCritSection) == 0x10C, "BSAudioManager::CacheLoadTaskCritSection");
-static_assert(offsetof(BSAudioManager, CacheLoadTaskList) == 0x124, "BSAudioManager::CacheLoadTaskList");
-static_assert(offsetof(BSAudioManager, iDelayTimerDelta) == 0x130, "BSAudioManager::iDelayTimerDelta");
-static_assert(offsetof(BSAudioManager, bPrecacheCompleted) == 0x134, "BSAudioManager::bPrecacheCompleted");
-static_assert(offsetof(BSAudioManager, bListenerMoved) == 0x135, "BSAudioManager::bListenerMoved");
-static_assert(offsetof(BSAudioManager, dwAudioThreadID) == 0x138, "BSAudioManager::dwAudioThreadID");
-static_assert(offsetof(BSAudioManager, pUpdateThread) == 0x13C, "BSAudioManager::pUpdateThread");
-static_assert(offsetof(BSAudioManager, fMasterVolume) == 0x140, "BSAudioManager::fMasterVolume");
-static_assert(offsetof(BSAudioManager, fFootVolume) == 0x144, "BSAudioManager::fFootVolume");
-static_assert(offsetof(BSAudioManager, fVoiceVolume) == 0x148, "BSAudioManager::fVoiceVolume");
-static_assert(offsetof(BSAudioManager, fEffectsVolume) == 0x14C, "BSAudioManager::fEffectsVolume");
-static_assert(offsetof(BSAudioManager, fMusicVolume) == 0x150, "BSAudioManager::fMusicVolume");
-static_assert(offsetof(BSAudioManager, fRadioVolume) == 0x154, "BSAudioManager::fRadioVolume");
-static_assert(offsetof(BSAudioManager, fMasterSecondaryVolume) == 0x158, "BSAudioManager::fMasterSecondaryVolume");
-static_assert(offsetof(BSAudioManager, fFootSecondaryVolume) == 0x15C, "BSAudioManager::fFootSecondaryVolume");
-static_assert(offsetof(BSAudioManager, fVoiceSecondaryVolume) == 0x160, "BSAudioManager::fVoiceSecondaryVolume");
-static_assert(offsetof(BSAudioManager, fEffectsSecondaryVolume) == 0x164, "BSAudioManager::fEffectsSecondaryVolume");
-static_assert(offsetof(BSAudioManager, fMusicSecondaryVolume) == 0x168, "BSAudioManager::fMusicSecondaryVolume");
-static_assert(offsetof(BSAudioManager, fRadioSecondaryVolume) == 0x16C, "BSAudioManager::fRadioSecondaryVolume");
-static_assert(offsetof(BSAudioManager, iMuteMask) == 0x170, "BSAudioManager::iMuteMask");
-static_assert(offsetof(BSAudioManager, bDialogueFade) == 0x174, "BSAudioManager::bDialogueFade");
-static_assert(offsetof(BSAudioManager, bListenerUnderwater) == 0x175, "BSAudioManager::bListenerUnderwater");
-static_assert(offsetof(BSAudioManager, pPauseEntries) == 0x178, "BSAudioManager::pPauseEntries");
-static_assert(offsetof(BSAudioManager, iPauseListSize) == 0x17C, "BSAudioManager::iPauseListSize");
-static_assert(offsetof(BSAudioManager, iNextID) == 0x180, "BSAudioManager::iNextID");
-static_assert(offsetof(BSAudioManager, bIgnoreGlobalTimeMultiplier) == 0x184, "BSAudioManager::bIgnoreGlobalTimeMultiplier");
-static_assert(alignof(BSAudioManager) == 4, "alignof BSAudioManager: следует из типов полей (MSVC x86)");
-static_assert(sizeof(BSAudioManager) == 0x188, "sizeof BSAudioManager");
-static_assert(sizeof(BSAudioManager) == 0x188, "PC-проверка sizeof BSAudioManager");
-static_assert(offsetof(BSAudioManager, fMasterVolume) == 0x140, "PC-проверка BSAudioManager::fMasterVolume");
-static_assert(offsetof(BSAudioManager, fMasterSecondaryVolume) == 0x158, "PC-проверка BSAudioManager::fMasterSecondaryVolume");
-static_assert(offsetof(BSAudioManager, bListenerUnderwater) == 0x175, "PC-проверка BSAudioManager::bListenerUnderwater");
-static_assert(offsetof(BSAudioManager, iNextID) == 0x180, "PC-проверка BSAudioManager::iNextID");
-static_assert(offsetof(BSAudioManager, bIgnoreGlobalTimeMultiplier) == 0x184, "PC-проверка BSAudioManager::bIgnoreGlobalTimeMultiplier");
 static_assert(offsetof(BSSoundHandle, iSoundID) == 0x0, "BSSoundHandle::iSoundID");
 static_assert(offsetof(BSSoundHandle, bAssumeSuccess) == 0x4, "BSSoundHandle::bAssumeSuccess");
 static_assert(offsetof(BSSoundHandle, eState) == 0x8, "BSSoundHandle::eState");
 static_assert(alignof(BSSoundHandle) == 4, "alignof BSSoundHandle: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BSSoundHandle) == 0xC, "sizeof BSSoundHandle");
-static_assert(offsetof(HeapBlock, pPrevious) == 0x0, "HeapBlock::pPrevious");
-static_assert(offsetof(HeapBlock, iMemSize) == 0x4, "HeapBlock::iMemSize");
-static_assert(alignof(HeapBlock) == 4, "alignof HeapBlock: следует из типов полей (MSVC x86)");
-static_assert(sizeof(HeapBlock) == 0x10, "sizeof HeapBlock");
-static_assert(offsetof(FreeHeapBlock, pPrevious) == 0x0, "FreeHeapBlock::pPrevious");
-static_assert(offsetof(FreeHeapBlock, iMemSize) == 0x4, "FreeHeapBlock::iMemSize");
-static_assert(offsetof(FreeHeapBlock, pPrevFree) == 0x8, "FreeHeapBlock::pPrevFree");
-static_assert(offsetof(FreeHeapBlock, pNextFree) == 0xC, "FreeHeapBlock::pNextFree");
-static_assert(alignof(FreeHeapBlock) == 4, "alignof FreeHeapBlock: следует из типов полей (MSVC x86)");
-static_assert(sizeof(FreeHeapBlock) == 0x10, "sizeof FreeHeapBlock");
 static_assert(offsetof(FreeHeapBlockList, pHead) == 0x0, "FreeHeapBlockList::pHead");
 static_assert(offsetof(FreeHeapBlockList, pTail) == 0x4, "FreeHeapBlockList::pTail");
 static_assert(alignof(FreeHeapBlockList) == 4, "alignof FreeHeapBlockList: следует из типов полей (MSVC x86)");
@@ -1513,31 +1223,19 @@ static_assert(alignof(MemoryManager) == 4, "alignof MemoryManager: следуе�
 static_assert(sizeof(MemoryManager) == 0x138, "sizeof MemoryManager");
 static_assert(sizeof(MemoryManager) == 0x138, "PC-проверка sizeof MemoryManager");
 static_assert(offsetof(MemoryManager, ppPhysicalHeaps) == 0x124, "PC-проверка MemoryManager::ppPhysicalHeaps");
-static_assert(offsetof(BGSSaveLoadFormHeader, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader::FormIDIndex");
-static_assert(offsetof(BGSSaveLoadFormHeader, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader::iChangeFlags");
-static_assert(offsetof(BGSSaveLoadFormHeader, FormInfo) == 0x7, "BGSSaveLoadFormHeader::FormInfo");
-static_assert(offsetof(BGSSaveLoadFormHeader, cVersion) == 0x8, "BGSSaveLoadFormHeader::cVersion");
-static_assert(alignof(BGSSaveLoadFormHeader) == 1, "alignof BGSSaveLoadFormHeader: следует из типов полей (MSVC x86)");
-static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "sizeof BGSSaveLoadFormHeader");
-static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "PC-проверка sizeof BGSSaveLoadFormHeader");
 static_assert(offsetof(BGSSaveGameBuffer, pBuffer) == 0x4, "BGSSaveGameBuffer::pBuffer");
 static_assert(offsetof(BGSSaveGameBuffer, iBufferSize) == 0x8, "BGSSaveGameBuffer::iBufferSize");
 static_assert(offsetof(BGSSaveGameBuffer, iBufferPosition) == 0xC, "BGSSaveGameBuffer::iBufferPosition");
 static_assert(offsetof(BGSSaveGameBuffer, iDebugOverhead) == 0x10, "BGSSaveGameBuffer::iDebugOverhead");
 static_assert(alignof(BGSSaveGameBuffer) == 4, "alignof BGSSaveGameBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSSaveGameBuffer) == 0x14, "sizeof BGSSaveGameBuffer");
-static_assert(offsetof(BGSSaveFormBuffer, Header) == 0x14, "BGSSaveFormBuffer::Header");
-static_assert(offsetof(BGSSaveFormBuffer, pForm) == 0x20, "BGSSaveFormBuffer::pForm");
-static_assert(alignof(BGSSaveFormBuffer) == 4, "alignof BGSSaveFormBuffer: следует из типов полей (MSVC x86)");
-static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "sizeof BGSSaveFormBuffer");
-static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "PC-проверка sizeof BGSSaveFormBuffer");
 static_assert(offsetof(BGSLoadGameBuffer, pBuffer) == 0x4, "BGSLoadGameBuffer::pBuffer");
 static_assert(offsetof(BGSLoadGameBuffer, iBufferSize) == 0x8, "BGSLoadGameBuffer::iBufferSize");
 static_assert(offsetof(BGSLoadGameBuffer, iBufferPosition) == 0xC, "BGSLoadGameBuffer::iBufferPosition");
 static_assert(alignof(BGSLoadGameBuffer) == 4, "alignof BGSLoadGameBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSLoadGameBuffer) == 0x10, "sizeof BGSLoadGameBuffer");
 static_assert(offsetof(BGSLoadFormBuffer, iFormID) == 0x10, "BGSLoadFormBuffer::iFormID");
-static_assert(offsetof(BGSLoadFormBuffer, Header) == 0x14, "BGSLoadFormBuffer::Header");
+static_assert(offsetof(BGSLoadFormBuffer, _unverified_Header) == 0x14, "BGSLoadFormBuffer::_unverified_Header");
 static_assert(offsetof(BGSLoadFormBuffer, iSize) == 0x20, "BGSLoadFormBuffer::iSize");
 static_assert(offsetof(BGSLoadFormBuffer, pForm) == 0x24, "BGSLoadFormBuffer::pForm");
 static_assert(offsetof(BGSLoadFormBuffer, iFlags) == 0x28, "BGSLoadFormBuffer::iFlags");
@@ -1556,8 +1254,8 @@ static_assert(offsetof(BGSSaveLoadGame, pHistory) == 0x1C, "BGSSaveLoadGame::pHi
 static_assert(offsetof(BGSSaveLoadGame, pReconstructForms) == 0x20, "BGSSaveLoadGame::pReconstructForms");
 static_assert(offsetof(BGSSaveLoadGame, FormBufferArray) == 0x24, "BGSSaveLoadGame::FormBufferArray");
 static_assert(offsetof(BGSSaveLoadGame, QueuedInitPackageLocationsActorMap) == 0x34, "BGSSaveLoadGame::QueuedInitPackageLocationsActorMap");
-static_assert(offsetof(BGSSaveLoadGame, cFileIndexArray) == 0x44, "BGSSaveLoadGame::cFileIndexArray");
-static_assert(offsetof(BGSSaveLoadGame, cReverseFileIndexArray) == 0x143, "BGSSaveLoadGame::cReverseFileIndexArray");
+static_assert(offsetof(BGSSaveLoadGame, _unverified_cFileIndexArray) == 0x44, "BGSSaveLoadGame::_unverified_cFileIndexArray");
+static_assert(offsetof(BGSSaveLoadGame, _unverified_cReverseFileIndexArray) == 0x143, "BGSSaveLoadGame::_unverified_cReverseFileIndexArray");
 static_assert(offsetof(BGSSaveLoadGame, iGlobalFlags) == 0x244, "BGSSaveLoadGame::iGlobalFlags");
 static_assert(offsetof(BGSSaveLoadGame, cCurrentMinorVersion) == 0x248, "BGSSaveLoadGame::cCurrentMinorVersion");
 static_assert(alignof(BGSSaveLoadGame) == 4, "alignof BGSSaveLoadGame: следует из типов полей (MSVC x86)");
@@ -1586,7 +1284,7 @@ static_assert(alignof(BGSSaveLoadManager) == 4, "alignof BGSSaveLoadManager: с�
 static_assert(sizeof(BGSSaveLoadManager) == 0x38, "sizeof BGSSaveLoadManager");
 static_assert(sizeof(BGSSaveLoadManager) == 0x38, "PC-проверка sizeof BGSSaveLoadManager");
 static_assert(offsetof(BGSSaveLoadChangesMap, m_uiHashSize) == 0x4, "BGSSaveLoadChangesMap::m_uiHashSize");
-static_assert(offsetof(BGSSaveLoadChangesMap, m_ppkHashTable) == 0x8, "BGSSaveLoadChangesMap::m_ppkHashTable");
+static_assert(offsetof(BGSSaveLoadChangesMap, _unverified_m_ppkHashTable) == 0x8, "BGSSaveLoadChangesMap::_unverified_m_ppkHashTable");
 static_assert(offsetof(BGSSaveLoadChangesMap, m_kAllocator) == 0xC, "BGSSaveLoadChangesMap::m_kAllocator");
 static_assert(alignof(BGSSaveLoadChangesMap) == 4, "alignof BGSSaveLoadChangesMap: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSSaveLoadChangesMap) == 0x10, "sizeof BGSSaveLoadChangesMap");
@@ -1595,7 +1293,7 @@ static_assert(offsetof(FalloutRadio::FORadioReceiver, Hndl) == 0x4, "FalloutRadi
 static_assert(offsetof(FalloutRadio::FORadioReceiver, StaticHndl) == 0x10, "FalloutRadio::FORadioReceiver::StaticHndl");
 static_assert(offsetof(FalloutRadio::FORadioReceiver, bShouldBePlaying) == 0x1C, "FalloutRadio::FORadioReceiver::bShouldBePlaying");
 static_assert(offsetof(FalloutRadio::FORadioReceiver, bJustStarted) == 0x1D, "FalloutRadio::FORadioReceiver::bJustStarted");
-static_assert(offsetof(FalloutRadio::FORadioReceiver, bInRange) == 0x1E, "FalloutRadio::FORadioReceiver::bInRange");
+static_assert(offsetof(FalloutRadio::FORadioReceiver, _unverified_bInRange) == 0x1E, "FalloutRadio::FORadioReceiver::_unverified_bInRange");
 static_assert(offsetof(FalloutRadio::FORadioReceiver, bIsActor) == 0x1F, "FalloutRadio::FORadioReceiver::bIsActor");
 static_assert(alignof(FalloutRadio::FORadioReceiver) == 4, "alignof FalloutRadio::FORadioReceiver: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FalloutRadio::FORadioReceiver) == 0x20, "sizeof FalloutRadio::FORadioReceiver");
@@ -1613,7 +1311,7 @@ static_assert(offsetof(FalloutRadio::FORadioStation, pStation) == 0x0, "FalloutR
 static_assert(offsetof(FalloutRadio::FORadioStation, CurrentState) == 0x4, "FalloutRadio::FORadioStation::CurrentState");
 static_assert(alignof(FalloutRadio::FORadioStation) == 4, "alignof FalloutRadio::FORadioStation: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FalloutRadio::FORadioStation) == 0x24, "sizeof FalloutRadio::FORadioStation");
-static_assert(offsetof(RadioConvTask, iRefCount) == 0x8, "RadioConvTask::iRefCount");
+static_assert(offsetof(RadioConvTask, _unverified_iRefCount) == 0x8, "RadioConvTask::_unverified_iRefCount");
 static_assert(offsetof(RadioConvTask, eState) == 0xC, "RadioConvTask::eState");
 static_assert(offsetof(RadioConvTask, Key) == 0x10, "RadioConvTask::Key");
 static_assert(offsetof(RadioConvTask, eContext) == 0x18, "RadioConvTask::eContext");
@@ -1638,7 +1336,7 @@ static_assert(offsetof(FontLetter, fSpacing) == 0x30, "FontLetter::fSpacing");
 static_assert(offsetof(FontLetter, fTopEdge) == 0x34, "FontLetter::fTopEdge");
 static_assert(alignof(FontLetter) == 4, "alignof FontLetter: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FontLetter) == 0x38, "sizeof FontLetter");
-static_assert(offsetof(TextureFile, iType) == 0x0, "TextureFile::iType");
+static_assert(offsetof(TextureFile, _unverified_iType) == 0x0, "TextureFile::_unverified_iType");
 static_assert(offsetof(TextureFile, pFilename) == 0x4, "TextureFile::pFilename");
 static_assert(alignof(TextureFile) == 4, "alignof TextureFile: следует из типов полей (MSVC x86)");
 static_assert(sizeof(TextureFile) == 0x24, "sizeof TextureFile");
@@ -1654,22 +1352,12 @@ static_assert(offsetof(Font, iFontNum) == 0x8, "Font::iFontNum");
 static_assert(offsetof(Font, pTextureData) == 0xC, "Font::pTextureData");
 static_assert(offsetof(Font, fFontHeight) == 0x2C, "Font::fFontHeight");
 static_assert(offsetof(Font, fMaxDrop) == 0x30, "Font::fMaxDrop");
-static_assert(offsetof(Font, iLineOverlap) == 0x34, "Font::iLineOverlap");
+static_assert(offsetof(Font, _unverified_iLineOverlap) == 0x34, "Font::_unverified_iLineOverlap");
 static_assert(offsetof(Font, pFontData) == 0x38, "Font::pFontData");
 static_assert(offsetof(Font, IconAtlasTextureName) == 0x3C, "Font::IconAtlasTextureName");
 static_assert(offsetof(Font, ButtonIcons) == 0x44, "Font::ButtonIcons");
 static_assert(alignof(Font) == 4, "alignof Font: следует из типов полей (MSVC x86)");
 static_assert(sizeof(Font) == 0x54, "sizeof Font");
-static_assert(offsetof(Font::TextData, xNewText) == 0x0, "Font::TextData::xNewText");
-static_assert(offsetof(Font::TextData, iWidth) == 0x8, "Font::TextData::iWidth");
-static_assert(offsetof(Font::TextData, iHeight) == 0xC, "Font::TextData::iHeight");
-static_assert(offsetof(Font::TextData, iLineStart) == 0x10, "Font::TextData::iLineStart");
-static_assert(offsetof(Font::TextData, iLineEnd) == 0x14, "Font::TextData::iLineEnd");
-static_assert(offsetof(Font::TextData, iCharCount) == 0x18, "Font::TextData::iCharCount");
-static_assert(offsetof(Font::TextData, cLineSep) == 0x1C, "Font::TextData::cLineSep");
-static_assert(offsetof(Font::TextData, xLineWidths) == 0x20, "Font::TextData::xLineWidths");
-static_assert(alignof(Font::TextData) == 4, "alignof Font::TextData: следует из типов полей (MSVC x86)");
-static_assert(sizeof(Font::TextData) == 0x28, "sizeof Font::TextData");
 static_assert(offsetof(FontManager, pFont) == 0x0, "FontManager::pFont");
 static_assert(offsetof(FontManager, bUseNewFonts) == 0x20, "FontManager::bUseNewFonts");
 static_assert(alignof(FontManager) == 4, "alignof FontManager: следует из типов полей (MSVC x86)");
@@ -1694,12 +1382,12 @@ static_assert(offsetof(FontManager::TextLine, iDrop) == 0x18, "FontManager::Text
 static_assert(offsetof(FontManager::TextLine, iSkippedSpace) == 0x1C, "FontManager::TextLine::iSkippedSpace");
 static_assert(offsetof(FontManager::TextLine, iJustify) == 0x20, "FontManager::TextLine::iJustify");
 static_assert(offsetof(FontManager::TextLine, iPageWidth) == 0x24, "FontManager::TextLine::iPageWidth");
-static_assert(offsetof(FontManager::TextLine, iY) == 0x28, "FontManager::TextLine::iY");
+static_assert(offsetof(FontManager::TextLine, _unverified_iY) == 0x28, "FontManager::TextLine::_unverified_iY");
 static_assert(offsetof(FontManager::TextLine, pPage) == 0x2C, "FontManager::TextLine::pPage");
 static_assert(alignof(FontManager::TextLine) == 4, "alignof FontManager::TextLine: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FontManager::TextLine) == 0x30, "sizeof FontManager::TextLine");
 static_assert(offsetof(FontManager::TextPage, xLines) == 0x0, "FontManager::TextPage::xLines");
-static_assert(offsetof(FontManager::TextPage, iWidth) == 0xC, "FontManager::TextPage::iWidth");
+static_assert(offsetof(FontManager::TextPage, _unverified_iWidth) == 0xC, "FontManager::TextPage::_unverified_iWidth");
 static_assert(offsetof(FontManager::TextPage, iHeight) == 0x10, "FontManager::TextPage::iHeight");
 static_assert(offsetof(FontManager::TextPage, iPageWidth) == 0x14, "FontManager::TextPage::iPageWidth");
 static_assert(offsetof(FontManager::TextPage, iPageHeight) == 0x18, "FontManager::TextPage::iPageHeight");
@@ -1714,17 +1402,3 @@ static_assert(offsetof(FontManager::TextDoc, iPageHeight) == 0x10, "FontManager:
 static_assert(offsetof(FontManager::TextDoc, iPageNum) == 0x14, "FontManager::TextDoc::iPageNum");
 static_assert(alignof(FontManager::TextDoc) == 4, "alignof FontManager::TextDoc: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FontManager::TextDoc) == 0x18, "sizeof FontManager::TextDoc");
-static_assert(offsetof(FontManager::TextData, iDefaultFont) == 0x0, "FontManager::TextData::iDefaultFont");
-static_assert(offsetof(FontManager::TextData, iJustification) == 0x4, "FontManager::TextData::iJustification");
-static_assert(offsetof(FontManager::TextData, xColor) == 0x8, "FontManager::TextData::xColor");
-static_assert(offsetof(FontManager::TextData, cLineSep) == 0x18, "FontManager::TextData::cLineSep");
-static_assert(offsetof(FontManager::TextData, iWidth) == 0x1C, "FontManager::TextData::iWidth");
-static_assert(offsetof(FontManager::TextData, iHeight) == 0x20, "FontManager::TextData::iHeight");
-static_assert(offsetof(FontManager::TextData, iPageNum) == 0x24, "FontManager::TextData::iPageNum");
-static_assert(offsetof(FontManager::TextData, iLines) == 0x28, "FontManager::TextData::iLines");
-static_assert(offsetof(FontManager::TextData, iNumPages) == 0x2C, "FontManager::TextData::iNumPages");
-static_assert(offsetof(FontManager::TextData, iNumLines) == 0x30, "FontManager::TextData::iNumLines");
-static_assert(offsetof(FontManager::TextData, bIsHypertext) == 0x34, "FontManager::TextData::bIsHypertext");
-static_assert(offsetof(FontManager::TextData, xNewText) == 0x38, "FontManager::TextData::xNewText");
-static_assert(alignof(FontManager::TextData) == 4, "alignof FontManager::TextData: следует из типов полей (MSVC x86)");
-static_assert(sizeof(FontManager::TextData) == 0x40, "sizeof FontManager::TextData");

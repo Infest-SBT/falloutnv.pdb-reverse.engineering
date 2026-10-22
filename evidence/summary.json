@@ -7,6 +7,10 @@
    "pc_size": 4,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed"
    },
@@ -22,6 +26,15 @@
      ],
      "independent_functions": 20,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -73,7 +86,11 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>"
+   ]
   },
   "TESForm": {
    "vtable_va": 16893844,
@@ -81,6 +98,10 @@
    "pc_size": 24,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "external"
+   ],
+   "pc_only": false,
    "fields": {
     "cFormType": "confirmed",
     "iFormFlags": "confirmed",
@@ -98,6 +119,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iFormFlags": {
@@ -110,6 +139,15 @@
      ],
      "independent_functions": 59,
      "write_sites": 52,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iFormID": {
@@ -122,6 +160,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSourceFiles": {
@@ -134,6 +181,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -1619,13 +1674,24 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "cFormType",
+    "iFormFlags",
+    "iFormID",
+    "pSourceFiles"
+   ]
   },
   "TESDataHandler": {
    "base": null,
    "pc_size": 1596,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "cDLCFlags": "confirmed",
     "pObjectList": "confirmed",
@@ -1725,6 +1791,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pObjectList": {
@@ -1737,6 +1811,15 @@
      ],
      "independent_functions": 7,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listPackages": {
@@ -1749,6 +1832,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listWorldSpaces": {
@@ -1761,6 +1852,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listClimates": {
@@ -1773,6 +1872,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listImageSpaces": {
@@ -1785,6 +1892,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listImageSpaceModifiers": {
@@ -1797,6 +1912,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listWeather": {
@@ -1809,6 +1932,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listEnchantmentItems": {
@@ -1821,6 +1952,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listSpellItems": {
@@ -1833,6 +1972,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listHeadParts": {
@@ -1845,6 +1992,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listHair": {
@@ -1857,6 +2012,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listEyes": {
@@ -1869,6 +2032,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listRaces": {
@@ -1881,6 +2052,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listZones": {
@@ -1893,6 +2072,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listLandTexts": {
@@ -1905,6 +2092,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listCameraShots": {
@@ -1917,6 +2112,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listClasses": {
@@ -1929,6 +2132,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listFactions": {
@@ -1941,6 +2152,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listReputations": {
@@ -1953,6 +2172,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listChallenges": {
@@ -1965,6 +2192,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listRecipes": {
@@ -1977,6 +2212,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listRecipeCategories": {
@@ -1989,6 +2232,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listAmmoEffects": {
@@ -2001,6 +2252,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listCasinos": {
@@ -2013,6 +2272,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listCaravanDecks": {
@@ -2025,6 +2292,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listScripts": {
@@ -2037,6 +2312,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listSounds": {
@@ -2049,6 +2332,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listAcousticSpaces": {
@@ -2061,6 +2352,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listRagdolls": {
@@ -2073,6 +2372,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listGlobals": {
@@ -2085,6 +2392,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listVoiceTypes": {
@@ -2097,6 +2412,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listImpactData": {
@@ -2109,6 +2432,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listImpactDataSet": {
@@ -2121,6 +2452,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listTopics": {
@@ -2133,6 +2472,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listTopicInfos": {
@@ -2145,6 +2492,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listQuests": {
@@ -2157,6 +2512,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listCombatStyles": {
@@ -2169,6 +2532,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listLoadScreens": {
@@ -2181,6 +2552,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listWater": {
@@ -2193,6 +2572,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listEffectShaders": {
@@ -2205,6 +2592,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listProjectiles": {
@@ -2217,6 +2612,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listExplosions": {
@@ -2229,6 +2632,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listRadiation": {
@@ -2241,6 +2652,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listDehydration": {
@@ -2253,6 +2672,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listHunger": {
@@ -2265,6 +2692,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listSleepDeprevation": {
@@ -2277,6 +2712,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listDebris": {
@@ -2289,6 +2732,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listPerks": {
@@ -2301,6 +2752,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listPartData": {
@@ -2313,6 +2772,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listNotes": {
@@ -2325,6 +2792,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listListForms": {
@@ -2337,6 +2812,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listMenuIcons": {
@@ -2349,6 +2832,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "animObjects": {
@@ -2361,6 +2852,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listMessages": {
@@ -2373,6 +2872,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listLightingTemplates": {
@@ -2385,6 +2892,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listMusicTypes": {
@@ -2397,6 +2912,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listLoadScreenTypes": {
@@ -2409,6 +2932,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listMediaSets": {
@@ -2421,6 +2952,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listMediaLocationControllers": {
@@ -2433,6 +2972,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pRegionList": {
@@ -2445,6 +2992,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "arrayInteriorCells": {
@@ -2457,6 +3013,14 @@
      ],
      "independent_functions": 10,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "arrayAddonNodes": {
@@ -2469,6 +3033,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listBadForms": {
@@ -2481,6 +3053,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNextID": {
@@ -2493,6 +3073,15 @@
      ],
      "independent_functions": 7,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pActiveFile": {
@@ -2505,6 +3094,16 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "listFiles": {
@@ -2517,6 +3116,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumCompile": {
@@ -2529,6 +3136,15 @@
      ],
      "independent_functions": 6,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFileIndex": {
@@ -2541,6 +3157,16 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bMasterSave": {
@@ -2553,6 +3179,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSaveLoadGame": {
@@ -2565,6 +3199,14 @@
      ],
      "independent_functions": 5,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSaveLoad": {
@@ -2577,6 +3219,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bAutoSaving": {
@@ -2589,6 +3239,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bExportingPlugin": {
@@ -2601,6 +3259,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bClearingData": {
@@ -2613,6 +3279,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bHasDesiredFiles": {
@@ -2625,6 +3299,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bCheckingModels": {
@@ -2637,6 +3319,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bLoadingFiles": {
@@ -2649,6 +3339,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bDontRemoveIDs": {
@@ -2661,6 +3359,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "ucGameSettingsLoadState": {
@@ -2673,6 +3379,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pRegionDataManager": {
@@ -2685,6 +3399,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pBarterContainer": {
@@ -2697,6 +3419,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pRecipeContainer": {
@@ -2709,6 +3441,16 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSpotterShader": {
@@ -2721,6 +3463,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pItemDetectedShader": {
@@ -2733,6 +3483,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pCateyeMobileShader": {
@@ -2745,6 +3503,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -3575,7 +4341,96 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "animObjects",
+    "arrayAddonNodes",
+    "arrayInteriorCells",
+    "bAutoSaving",
+    "bCheckingModels",
+    "bClearingData",
+    "bDontRemoveIDs",
+    "bExportingPlugin",
+    "bHasDesiredFiles",
+    "bLoadingFiles",
+    "bMasterSave",
+    "bSaveLoad",
+    "bSaveLoadGame",
+    "cDLCFlags",
+    "iNextID",
+    "iNumCompile",
+    "listAcousticSpaces",
+    "listAmmoEffects",
+    "listBadForms",
+    "listCameraShots",
+    "listCaravanDecks",
+    "listCasinos",
+    "listChallenges",
+    "listClasses",
+    "listClimates",
+    "listCombatStyles",
+    "listDebris",
+    "listDehydration",
+    "listEffectShaders",
+    "listEnchantmentItems",
+    "listExplosions",
+    "listEyes",
+    "listFactions",
+    "listFiles",
+    "listGlobals",
+    "listHair",
+    "listHeadParts",
+    "listHunger",
+    "listImageSpaceModifiers",
+    "listImageSpaces",
+    "listImpactData",
+    "listImpactDataSet",
+    "listLandTexts",
+    "listLightingTemplates",
+    "listListForms",
+    "listLoadScreenTypes",
+    "listLoadScreens",
+    "listMediaLocationControllers",
+    "listMediaSets",
+    "listMenuIcons",
+    "listMessages",
+    "listMusicTypes",
+    "listNotes",
+    "listPackages",
+    "listPartData",
+    "listPerks",
+    "listProjectiles",
+    "listQuests",
+    "listRaces",
+    "listRadiation",
+    "listRagdolls",
+    "listRecipeCategories",
+    "listRecipes",
+    "listReputations",
+    "listScripts",
+    "listSleepDeprevation",
+    "listSounds",
+    "listSpellItems",
+    "listTopicInfos",
+    "listTopics",
+    "listVoiceTypes",
+    "listWater",
+    "listWeather",
+    "listWorldSpaces",
+    "listZones",
+    "pActiveFile",
+    "pBarterContainer",
+    "pCateyeMobileShader",
+    "pFileIndex",
+    "pItemDetectedShader",
+    "pObjectList",
+    "pRecipeContainer",
+    "pRegionDataManager",
+    "pRegionList",
+    "pSpotterShader",
+    "ucGameSettingsLoadState"
+   ]
   },
   "BSGameSound": {
    "vtable_va": 17447268,
@@ -3583,6 +4438,10 @@
    "pc_size": 408,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "iSoundID": "confirmed",
@@ -3634,6 +4493,15 @@
      ],
      "independent_functions": 13,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSoundID": {
@@ -3646,6 +4514,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSoundTypeFlags": {
@@ -3659,6 +4535,14 @@
      ],
      "independent_functions": 15,
      "write_sites": 12,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iModifierFlags": {
@@ -3671,6 +4555,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iStateFlags": {
@@ -3684,6 +4576,14 @@
      ],
      "independent_functions": 20,
      "write_sites": 28,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDurationInMS": {
@@ -3697,6 +4597,17 @@
      ],
      "independent_functions": 11,
      "write_sites": 9,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "fpu-int",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iStaticAttenuation": {
@@ -3710,6 +4621,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iReverbAttenuation": {
@@ -3723,6 +4642,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSystemAttenuation": {
@@ -3736,6 +4663,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDistanceAttenuation": {
@@ -3749,6 +4684,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 19,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iFaderAttenuation": {
@@ -3762,6 +4705,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fCurrentVolume": {
@@ -3775,6 +4726,14 @@
      ],
      "independent_functions": 9,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fBeginTime": {
@@ -3787,6 +4746,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fEndTime": {
@@ -3799,6 +4766,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWeatherFlags": {
@@ -3811,6 +4786,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSamplesPerSecond": {
@@ -3824,6 +4808,14 @@
      ],
      "independent_functions": 5,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFilename": {
@@ -3837,6 +4829,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMaxDist": {
@@ -3850,6 +4850,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMinDist": {
@@ -3863,6 +4871,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSoundHash": {
@@ -3875,6 +4891,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDirectoryHash": {
@@ -3888,6 +4912,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSoundSize": {
@@ -3901,6 +4934,14 @@
      ],
      "independent_functions": 5,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fDistanceToListener": {
@@ -3914,6 +4955,14 @@
      ],
      "independent_functions": 5,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iEnvironmentType": {
@@ -3927,6 +4976,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iFreqVariance": {
@@ -3939,6 +4996,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iModSamplesPerSecond": {
@@ -3952,6 +5017,14 @@
      ],
      "independent_functions": 7,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSynchStartTime": {
@@ -3965,6 +5038,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCleanupDelayInMS": {
@@ -3978,6 +5059,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fnCompletionCallback": {
@@ -3990,6 +5079,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fnPlayedCallback": {
@@ -4002,6 +5099,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSoundCompletionContext": {
@@ -4014,6 +5120,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSoundPlayContext": {
@@ -4026,6 +5140,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLoopStart": {
@@ -4039,6 +5161,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLoopEnd": {
@@ -4052,6 +5182,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "vBeamEnd": {
@@ -4064,6 +5202,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPriority": {
@@ -4076,6 +5222,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "QueuedMessages": {
@@ -4088,6 +5242,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -4483,7 +5645,46 @@
    "provisional_fields": [
     "pFilename"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>",
+    "QueuedMessages",
+    "fBeginTime",
+    "fCurrentVolume",
+    "fDistanceToListener",
+    "fEndTime",
+    "fMaxDist",
+    "fMinDist",
+    "fnCompletionCallback",
+    "fnPlayedCallback",
+    "iCleanupDelayInMS",
+    "iDirectoryHash",
+    "iDistanceAttenuation",
+    "iDurationInMS",
+    "iEnvironmentType",
+    "iFaderAttenuation",
+    "iFreqVariance",
+    "iLoopEnd",
+    "iLoopStart",
+    "iModSamplesPerSecond",
+    "iModifierFlags",
+    "iPriority",
+    "iReverbAttenuation",
+    "iSamplesPerSecond",
+    "iSoundHash",
+    "iSoundID",
+    "iSoundSize",
+    "iSoundTypeFlags",
+    "iStateFlags",
+    "iStaticAttenuation",
+    "iSynchStartTime",
+    "iSystemAttenuation",
+    "iWeatherFlags",
+    "pSoundCompletionContext",
+    "pSoundPlayContext",
+    "vBeamEnd"
+   ]
   },
   "BSWin32GameSound": {
    "vtable_va": 17447924,
@@ -4491,6 +5692,10 @@
    "pc_size": 560,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": true,
    "fields": {
     "pDirectSound": "confirmed",
     "pDSBuffer": "confirmed",
@@ -4515,9 +5720,9 @@
     "pc210": "confirmed",
     "pc212": "confirmed",
     "pc214": "confirmed",
-    "pc218": "confirmed",
-    "pc21C": "confirmed",
-    "pc220": "confirmed",
+    "fEmitterX": "confirmed",
+    "fEmitterY": "confirmed",
+    "fEmitterZ": "confirmed",
     "pc224": "confirmed",
     "pc228": "confirmed",
     "pc22C": "confirmed"
@@ -4533,6 +5738,16 @@
      ],
      "independent_functions": 13,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pDSBuffer": {
@@ -4545,6 +5760,17 @@
      ],
      "independent_functions": 13,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pDSBuffer2": {
@@ -4557,6 +5783,17 @@
      ],
      "independent_functions": 8,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "BufferDesc": {
@@ -4569,6 +5806,15 @@
      ],
      "independent_functions": 6,
      "write_sites": 23,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1C8": {
@@ -4581,6 +5827,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1CC": {
@@ -4593,6 +5849,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1D0": {
@@ -4605,6 +5871,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pDS3DBuffer": {
@@ -4617,6 +5893,17 @@
      ],
      "independent_functions": 6,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1D8": {
@@ -4629,6 +5916,17 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1DC": {
@@ -4641,6 +5939,16 @@
      ],
      "independent_functions": 8,
      "write_sites": 8,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1E0": {
@@ -4653,6 +5961,16 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1F0": {
@@ -4665,6 +5983,15 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "address",
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1F4": {
@@ -4677,6 +6004,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1F8": {
@@ -4689,6 +6024,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc1FC": {
@@ -4701,6 +6044,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc200": {
@@ -4713,6 +6064,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc204": {
@@ -4725,6 +6084,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc208": {
@@ -4737,6 +6104,16 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc20C": {
@@ -4749,6 +6126,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc20E": {
@@ -4761,6 +6146,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc210": {
@@ -4773,6 +6166,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc212": {
@@ -4785,6 +6186,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc214": {
@@ -4797,9 +6206,17 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
-    "pc218": {
+    "fEmitterX": {
      "status": "confirmed",
      "source": "own",
      "instruction_verified": true,
@@ -4809,9 +6226,18 @@
      ],
      "independent_functions": 5,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "address",
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
-    "pc21C": {
+    "fEmitterY": {
      "status": "confirmed",
      "source": "own",
      "instruction_verified": true,
@@ -4821,9 +6247,17 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
-    "pc220": {
+    "fEmitterZ": {
      "status": "confirmed",
      "source": "own",
      "instruction_verified": true,
@@ -4833,6 +6267,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc224": {
@@ -4845,6 +6287,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc228": {
@@ -4857,6 +6307,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pc22C": {
@@ -4869,6 +6329,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -5280,7 +6749,39 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "BufferDesc",
+    "fEmitterX",
+    "fEmitterY",
+    "fEmitterZ",
+    "pDS3DBuffer",
+    "pDSBuffer",
+    "pDSBuffer2",
+    "pDirectSound",
+    "pc1C8",
+    "pc1CC",
+    "pc1D0",
+    "pc1D8",
+    "pc1DC",
+    "pc1E0",
+    "pc1F0",
+    "pc1F4",
+    "pc1F8",
+    "pc1FC",
+    "pc200",
+    "pc204",
+    "pc208",
+    "pc20C",
+    "pc20E",
+    "pc210",
+    "pc212",
+    "pc214",
+    "pc224",
+    "pc228",
+    "pc22C"
+   ]
   },
   "BSAudio": {
    "vtable_va": 17445436,
@@ -5288,6 +6789,10 @@
    "pc_size": 56,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "bAudioEnabled": "confirmed",
@@ -5317,6 +6822,15 @@
      ],
      "independent_functions": 7,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bAudioEnabled": {
@@ -5331,6 +6845,14 @@
      ],
      "independent_functions": 14,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bInitialized": {
@@ -5345,6 +6867,14 @@
      ],
      "independent_functions": 7,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bMultiThread": {
@@ -5356,8 +6886,16 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 6,
-     "write_sites": 2,
+     "independent_functions": 7,
+     "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMusicStartOffset": {
@@ -5370,6 +6908,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSeekMusic": {
@@ -5382,6 +6928,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pListener": {
@@ -5394,8 +6948,18 @@
       "global-singleton",
       "subclass-method-this"
      ],
-     "independent_functions": 12,
+     "independent_functions": 13,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "SynchTimer": {
@@ -5410,6 +6974,15 @@
      ],
      "independent_functions": 8,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pfnIDCallback": {
@@ -5423,6 +6996,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pfnNameCallback": {
@@ -5436,6 +7017,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pfnRandomFilenameCallback": {
@@ -5449,6 +7038,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pfnSettingsCallback": {
@@ -5462,6 +7059,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pfnSynchPausedCallback": {
@@ -5475,6 +7080,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pfnSynchUnPausedCallback": {
@@ -5487,6 +7101,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -5946,7 +7569,24 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>",
+    "SynchTimer",
+    "bAudioEnabled",
+    "bInitialized",
+    "bMultiThread",
+    "bSeekMusic",
+    "iMusicStartOffset",
+    "pListener",
+    "pfnIDCallback",
+    "pfnNameCallback",
+    "pfnRandomFilenameCallback",
+    "pfnSettingsCallback",
+    "pfnSynchPausedCallback",
+    "pfnSynchUnPausedCallback"
+   ]
   },
   "BSWin32Audio": {
    "vtable_va": 17447384,
@@ -5954,6 +7594,10 @@
    "pc_size": 164,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "bounds"
+   ],
+   "pc_only": true,
    "fields": {
     "pDirectSound": "confirmed",
     "pPrimaryBuffer": "confirmed",
@@ -5971,6 +7615,17 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pPrimaryBuffer": {
@@ -5983,6 +7638,17 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Caps": {
@@ -5995,6 +7661,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "hWnd": {
@@ -6007,6 +7682,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -6178,7 +7861,14 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "Caps",
+    "hWnd",
+    "pDirectSound",
+    "pPrimaryBuffer"
+   ]
   },
   "BSAudioManager": {
    "vtable_va": 17445736,
@@ -6186,6 +7876,8 @@
    "pc_size": 392,
    "align": 4,
    "size_status": "consistent",
+   "size_basis": [],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "iMessageListIndex": "confirmed",
@@ -6244,6 +7936,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMessageListIndex": {
@@ -6256,6 +7956,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMessageProcessingListIndex": {
@@ -6268,6 +7976,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Messages": {
@@ -6280,6 +7996,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "FreeMessages": {
@@ -6292,6 +8016,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "FreeQueueMessages": {
@@ -6304,6 +8036,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "GarbageMessages": {
@@ -6316,6 +8056,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "SoundList": {
@@ -6328,6 +8076,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "SoundStateMap": {
@@ -6340,6 +8096,14 @@
      ],
      "independent_functions": 10,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "StateUpdateMap": {
@@ -6352,6 +8116,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "MovingRefrList": {
@@ -6364,6 +8136,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CachedSoundList": {
@@ -6376,6 +8156,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCurrentCachSize": {
@@ -6388,6 +8178,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWeatherFlags": {
@@ -6400,6 +8199,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fCurrentGamehour": {
@@ -6412,6 +8219,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "MessageCritSection": {
@@ -6424,6 +8239,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "StateCritSection": {
@@ -6436,6 +8259,14 @@
      ],
      "independent_functions": 8,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CacheCritSection": {
@@ -6448,6 +8279,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "ProcessingCritSection": {
@@ -6460,6 +8299,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CacheLoadTaskCritSection": {
@@ -6472,6 +8319,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CacheLoadTaskList": {
@@ -6484,6 +8339,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDelayTimerDelta": {
@@ -6496,6 +8361,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bPrecacheCompleted": {
@@ -6508,6 +8381,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bListenerMoved": {
@@ -6520,6 +8401,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "dwAudioThreadID": {
@@ -6532,6 +8421,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pUpdateThread": {
@@ -6544,6 +8441,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMasterVolume": {
@@ -6556,6 +8463,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fFootVolume": {
@@ -6568,6 +8483,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fVoiceVolume": {
@@ -6580,6 +8503,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fEffectsVolume": {
@@ -6592,6 +8523,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMusicVolume": {
@@ -6604,6 +8543,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fRadioVolume": {
@@ -6616,6 +8563,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMasterSecondaryVolume": {
@@ -6628,6 +8583,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fFootSecondaryVolume": {
@@ -6640,6 +8603,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fVoiceSecondaryVolume": {
@@ -6652,6 +8623,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fEffectsSecondaryVolume": {
@@ -6664,6 +8643,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMusicSecondaryVolume": {
@@ -6676,6 +8663,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fRadioSecondaryVolume": {
@@ -6688,6 +8683,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMuteMask": {
@@ -6700,6 +8703,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bDialogueFade": {
@@ -6712,6 +8723,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bListenerUnderwater": {
@@ -6724,6 +8743,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pPauseEntries": {
@@ -6736,6 +8763,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPauseListSize": {
@@ -6748,6 +8784,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNextID": {
@@ -6760,6 +8805,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bIgnoreGlobalTimeMultiplier": {
@@ -6772,6 +8825,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7246,13 +9307,19 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "BSSoundHandle": {
    "base": null,
    "pc_size": 12,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "iSoundID": "confirmed",
     "bAssumeSuccess": "confirmed",
@@ -7269,6 +9336,15 @@
      ],
      "independent_functions": 36,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bAssumeSuccess": {
@@ -7281,6 +9357,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "eState": {
@@ -7293,6 +9377,15 @@
      ],
      "independent_functions": 9,
      "write_sites": 8,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7529,13 +9622,21 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "bAssumeSuccess",
+    "eState",
+    "iSoundID"
+   ]
   },
   "HeapBlock": {
    "base": null,
    "pc_size": 16,
    "align": 4,
    "size_status": "consistent",
+   "size_basis": [],
+   "pc_only": false,
    "fields": {
     "pPrevious": "confirmed",
     "iMemSize": "confirmed"
@@ -7551,6 +9652,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMemSize": {
@@ -7563,6 +9672,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7583,13 +9700,19 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "FreeHeapBlock": {
    "base": null,
    "pc_size": 16,
    "align": 4,
    "size_status": "consistent",
+   "size_basis": [
+    "last-field"
+   ],
+   "pc_only": false,
    "fields": {
     "pPrevious": "confirmed",
     "iMemSize": "confirmed",
@@ -7607,6 +9730,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMemSize": {
@@ -7619,6 +9750,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pPrevFree": {
@@ -7631,6 +9770,16 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pNextFree": {
@@ -7643,6 +9792,16 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7650,13 +9809,19 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "FreeHeapBlockList": {
    "base": null,
    "pc_size": 8,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "array-span"
+   ],
+   "pc_only": false,
    "fields": {
     "pHead": "confirmed",
     "pTail": "confirmed"
@@ -7674,6 +9839,12 @@
      ],
      "independent_functions": 7,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pTail": {
@@ -7687,6 +9858,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7694,7 +9871,12 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "pHead",
+    "pTail"
+   ]
   },
   "IMemoryHeap": {
    "vtable_va": 17443016,
@@ -7702,6 +9884,10 @@
    "pc_size": 4,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed"
    },
@@ -7716,6 +9902,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7832,13 +10027,21 @@
    },
    "methods": [],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>"
+   ]
   },
   "HeapFreeSubBucket": {
    "base": null,
    "pc_size": 8,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "index-stride"
+   ],
+   "pc_only": false,
    "fields": {
     "iCount": "confirmed",
     "pFirst": "confirmed"
@@ -7856,6 +10059,12 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFirst": {
@@ -7870,6 +10079,12 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -7877,7 +10092,12 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "iCount",
+    "pFirst"
+   ]
   },
   "AbstractHeap": {
    "vtable_va": 17443772,
@@ -7885,6 +10105,10 @@
    "pc_size": 8432,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "pName": "confirmed",
     "iDefaultAlignment": "confirmed",
@@ -7922,6 +10146,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDefaultAlignment": {
@@ -7934,6 +10166,15 @@
      ],
      "independent_functions": 7,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "MinFreeBlockSize": {
@@ -7946,6 +10187,16 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageSize": {
@@ -7959,6 +10210,16 @@
      ],
      "independent_functions": 7,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "MemHeapSize": {
@@ -7972,6 +10233,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iInitialSize": {
@@ -7984,6 +10255,16 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCurrentSize": {
@@ -7997,6 +10278,16 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWastedMemory": {
@@ -8009,6 +10300,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMemAllocated": {
@@ -8021,6 +10320,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMemAllocatedHigh": {
@@ -8033,6 +10341,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iBlockMemAllocated": {
@@ -8045,6 +10362,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pMemHeap": {
@@ -8058,6 +10384,15 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumBlocks": {
@@ -8070,6 +10405,16 @@
      ],
      "independent_functions": 7,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pBlockHead": {
@@ -8082,6 +10427,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pBlockTail": {
@@ -8094,6 +10448,16 @@
      ],
      "independent_functions": 8,
      "write_sites": 7,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumFreeBlocks": {
@@ -8106,6 +10470,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSmallFreeList": {
@@ -8119,6 +10491,12 @@
      ],
      "independent_functions": 7,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "class",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pLastSmallList": {
@@ -8132,6 +10510,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "LargeFreeList.pHead": {
@@ -8145,6 +10532,16 @@
      ],
      "independent_functions": 7,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "LargeFreeList.pTail": {
@@ -8157,6 +10554,15 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pDelayedFreeBlocksA": {
@@ -8169,6 +10575,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNextDelayedFreeIndex": {
@@ -8181,6 +10595,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSubBuckets": {
@@ -8194,6 +10616,12 @@
      ],
      "independent_functions": 5,
      "write_sites": 4,
+     "width_verified": false,
+     "declared_kind": "class",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CriticalSectionO": {
@@ -8206,6 +10634,14 @@
      ],
      "independent_functions": 7,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -8540,7 +10976,34 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "CriticalSectionO",
+    "LargeFreeList.pHead",
+    "LargeFreeList.pTail",
+    "MemHeapSize",
+    "MinFreeBlockSize",
+    "iBlockMemAllocated",
+    "iCurrentSize",
+    "iDefaultAlignment",
+    "iInitialSize",
+    "iMemAllocated",
+    "iMemAllocatedHigh",
+    "iNextDelayedFreeIndex",
+    "iNumBlocks",
+    "iNumFreeBlocks",
+    "iPageSize",
+    "iWastedMemory",
+    "pBlockHead",
+    "pBlockTail",
+    "pDelayedFreeBlocksA",
+    "pLastSmallList",
+    "pMemHeap",
+    "pName",
+    "pSmallFreeList",
+    "pSubBuckets"
+   ]
   },
   "MemoryHeap": {
    "vtable_va": 17443068,
@@ -8548,6 +11011,10 @@
    "pc_size": 8436,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "bSupportsSwapping": "confirmed",
     "bDeletingHeap": "confirmed"
@@ -8563,6 +11030,14 @@
      ],
      "independent_functions": 5,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bDeletingHeap": {
@@ -8575,6 +11050,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -8836,13 +11319,22 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "bDeletingHeap",
+    "bSupportsSwapping"
+   ]
   },
   "ScrapHeap": {
    "base": null,
    "pc_size": 16,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "pMemHeap": "confirmed",
     "pCurrentStackLoc": "confirmed",
@@ -8860,6 +11352,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pCurrentStackLoc": {
@@ -8872,6 +11374,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pEndHeap": {
@@ -8884,6 +11396,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pLastBlock": {
@@ -8896,6 +11418,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -8958,13 +11490,24 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "pCurrentStackLoc",
+    "pEndHeap",
+    "pLastBlock",
+    "pMemHeap"
+   ]
   },
   "MemoryManager": {
    "base": null,
    "pc_size": 312,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "bounds"
+   ],
+   "pc_only": false,
    "fields": {
     "bInitialized": "confirmed",
     "iNumHeaps": "confirmed",
@@ -8990,6 +11533,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumHeaps": {
@@ -9003,6 +11554,14 @@
      ],
      "independent_functions": 7,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumPhysicalHeaps": {
@@ -9016,6 +11575,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "ppHeaps": {
@@ -9028,6 +11595,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pHeapsByContextA": {
@@ -9040,6 +11616,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 5,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "kThreadScrapHeapMap": {
@@ -9052,6 +11637,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "ppPhysicalHeaps": {
@@ -9064,6 +11657,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSpecialHeaps": {
@@ -9076,6 +11678,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bAllowPoolUse": {
@@ -9088,6 +11698,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSysAllocBytes": {
@@ -9100,6 +11718,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMallocBytes": {
@@ -9112,6 +11738,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMainThreadMemoryProblemPassSignal": {
@@ -9124,6 +11758,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -9330,13 +11972,32 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "bAllowPoolUse",
+    "bInitialized",
+    "bSpecialHeaps",
+    "iMainThreadMemoryProblemPassSignal",
+    "iMallocBytes",
+    "iNumHeaps",
+    "iNumPhysicalHeaps",
+    "iSysAllocBytes",
+    "kThreadScrapHeapMap",
+    "pHeapsByContextA",
+    "ppHeaps",
+    "ppPhysicalHeaps"
+   ]
   },
   "BGSSaveLoadFormHeader": {
    "base": null,
    "pc_size": 9,
    "align": 1,
    "size_status": "consistent",
+   "size_basis": [
+    "last-field"
+   ],
+   "pc_only": false,
    "fields": {
     "FormIDIndex": "confirmed",
     "iChangeFlags": "confirmed",
@@ -9355,6 +12016,12 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iChangeFlags": {
@@ -9368,6 +12035,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "FormInfo": {
@@ -9380,6 +12055,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cVersion": {
@@ -9392,6 +12075,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -9406,7 +12097,9 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "BGSSaveGameBuffer": {
    "vtable_va": 17310500,
@@ -9414,6 +12107,10 @@
    "pc_size": 20,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "pBuffer": "confirmed",
@@ -9433,6 +12130,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pBuffer": {
@@ -9446,6 +12152,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iBufferSize": {
@@ -9459,6 +12174,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iBufferPosition": {
@@ -9472,6 +12196,15 @@
      ],
      "independent_functions": 7,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDebugOverhead": {
@@ -9485,6 +12218,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -9581,7 +12323,15 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>",
+    "iBufferPosition",
+    "iBufferSize",
+    "iDebugOverhead",
+    "pBuffer"
+   ]
   },
   "BGSSaveFormBuffer": {
    "vtable_va": 17310472,
@@ -9589,6 +12339,10 @@
    "pc_size": 36,
    "align": 4,
    "size_status": "consistent",
+   "size_basis": [
+    "last-field"
+   ],
+   "pc_only": false,
    "fields": {
     "Header.FormIDIndex": "confirmed",
     "Header.iChangeFlags": "confirmed",
@@ -9607,6 +12361,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.iChangeFlags": {
@@ -9619,6 +12381,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.FormInfo": {
@@ -9631,6 +12402,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.cVersion": {
@@ -9643,6 +12422,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pForm": {
@@ -9655,6 +12442,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -9763,7 +12558,9 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "BGSLoadGameBuffer": {
    "vtable_va": 17309768,
@@ -9771,6 +12568,10 @@
    "pc_size": 16,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "subclass-boundary"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "pBuffer": "confirmed",
@@ -9789,6 +12590,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pBuffer": {
@@ -9802,6 +12612,15 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iBufferSize": {
@@ -9815,6 +12634,16 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iBufferPosition": {
@@ -9828,6 +12657,15 @@
      ],
      "independent_functions": 8,
      "write_sites": 8,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -9945,7 +12783,14 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>",
+    "iBufferPosition",
+    "iBufferSize",
+    "pBuffer"
+   ]
   },
   "BGSLoadFormBuffer": {
    "vtable_va": 17309736,
@@ -9953,6 +12798,10 @@
    "pc_size": 48,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "iFormID": "confirmed",
     "Header.FormIDIndex": "confirmed",
@@ -9975,6 +12824,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.FormIDIndex": {
@@ -9987,6 +12844,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.iChangeFlags": {
@@ -9999,6 +12864,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.FormInfo": {
@@ -10011,6 +12884,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Header.cVersion": {
@@ -10024,6 +12905,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSize": {
@@ -10036,6 +12923,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pForm": {
@@ -10048,6 +12945,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iFlags": {
@@ -10060,6 +12966,14 @@
      ],
      "independent_functions": 10,
      "write_sites": 11,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iOldChangeFlags": {
@@ -10072,6 +12986,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -10255,13 +13178,29 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "Header.FormIDIndex",
+    "Header.FormInfo",
+    "Header.cVersion",
+    "Header.iChangeFlags",
+    "iFlags",
+    "iFormID",
+    "iOldChangeFlags",
+    "iSize",
+    "pForm"
+   ]
   },
   "BGSSaveLoadGame": {
    "base": null,
    "pc_size": 588,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "pChangesMap": "confirmed",
     "pOldChangesMap": "confirmed",
@@ -10290,6 +13229,15 @@
      ],
      "independent_functions": 13,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pOldChangesMap": {
@@ -10302,6 +13250,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFormIDMap": {
@@ -10314,6 +13272,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pWorldspaceFormIDMap": {
@@ -10326,6 +13293,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pReferencesMap": {
@@ -10338,6 +13314,15 @@
      ],
      "independent_functions": 7,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pQueuedSubBuffersMap": {
@@ -10350,6 +13335,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pChangedFormIDMap": {
@@ -10362,6 +13356,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pHistory": {
@@ -10374,6 +13377,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pReconstructForms": {
@@ -10386,6 +13398,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "FormBufferArray": {
@@ -10398,6 +13419,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "QueuedInitPackageLocationsActorMap": {
@@ -10410,6 +13439,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cFileIndexArray": {
@@ -10422,6 +13459,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cReverseFileIndexArray": {
@@ -10434,6 +13479,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iGlobalFlags": {
@@ -10446,6 +13499,14 @@
      ],
      "independent_functions": 17,
      "write_sites": 17,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cCurrentMinorVersion": {
@@ -10458,6 +13519,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -10823,13 +13893,33 @@
     "cFileIndexArray",
     "cReverseFileIndexArray"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "FormBufferArray",
+    "QueuedInitPackageLocationsActorMap",
+    "cCurrentMinorVersion",
+    "iGlobalFlags",
+    "pChangedFormIDMap",
+    "pChangesMap",
+    "pFormIDMap",
+    "pHistory",
+    "pOldChangesMap",
+    "pQueuedSubBuffersMap",
+    "pReconstructForms",
+    "pReferencesMap",
+    "pWorldspaceFormIDMap"
+   ]
   },
   "BGSSaveLoadManager": {
    "base": null,
    "pc_size": 56,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "pSaveGameList": "confirmed",
     "iSaveGameCount": "confirmed",
@@ -10862,6 +13952,16 @@
      ],
      "independent_functions": 5,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSaveGameCount": {
@@ -10874,6 +13974,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCurrentSaveGameNumber": {
@@ -10886,6 +13994,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSimulatedMode": {
@@ -10898,6 +14015,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bAutosaveDisabledForDiskspace": {
@@ -10910,6 +14035,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bhandledCorrupt": {
@@ -10922,6 +14055,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cQueuedAutosave": {
@@ -10934,6 +14075,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cQueuedForceSave": {
@@ -10946,6 +14095,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bShouldSystemSave": {
@@ -10958,6 +14115,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pMostRecentSaveGame": {
@@ -10970,6 +14135,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iMostRecentSaveGameDeviceID": {
@@ -10982,6 +14156,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSysUtilHasSaveData": {
@@ -10995,6 +14177,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSaveLoadFile": {
@@ -11008,6 +14198,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bReturnedFromSysUtil": {
@@ -11021,6 +14221,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bSysUtilLoadDataComplete": {
@@ -11033,6 +14241,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bStartMenuLoading": {
@@ -11045,6 +14261,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSysUtilSaveCompleteCallback": {
@@ -11058,6 +14282,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pSysUtilLoadCompleteCallback": {
@@ -11070,6 +14303,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "sSystemSaveName": {
@@ -11083,6 +14324,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "pc-code (own)",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -11355,7 +14604,29 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "bAutosaveDisabledForDiskspace",
+    "bReturnedFromSysUtil",
+    "bShouldSystemSave",
+    "bSimulatedMode",
+    "bStartMenuLoading",
+    "bSysUtilHasSaveData",
+    "bSysUtilLoadDataComplete",
+    "bhandledCorrupt",
+    "cQueuedAutosave",
+    "cQueuedForceSave",
+    "iCurrentSaveGameNumber",
+    "iMostRecentSaveGameDeviceID",
+    "iSaveGameCount",
+    "pMostRecentSaveGame",
+    "pSaveGameList",
+    "pSaveLoadFile",
+    "pSysUtilLoadCompleteCallback",
+    "pSysUtilSaveCompleteCallback",
+    "sSystemSaveName"
+   ]
   },
   "BGSSaveLoadChangesMap": {
    "vtable_va": 17296744,
@@ -11363,6 +14634,10 @@
    "pc_size": 16,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "m_uiHashSize": "confirmed",
@@ -11380,6 +14655,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "m_uiHashSize": {
@@ -11392,6 +14675,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "m_ppkHashTable": {
@@ -11402,6 +14693,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "m_kAllocator": {
@@ -11414,6 +14711,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -11494,13 +14799,23 @@
    "provisional_fields": [
     "m_ppkHashTable"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>",
+    "m_kAllocator",
+    "m_uiHashSize"
+   ]
   },
   "FalloutRadio::FORadioReceiver": {
    "base": null,
    "pc_size": 32,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "pRadio": "confirmed",
     "Hndl.iSoundID": "consistent",
@@ -11526,6 +14841,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Hndl.iSoundID": {
@@ -11539,6 +14863,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Hndl.bAssumeSuccess": {
@@ -11552,6 +14884,12 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Hndl.eState": {
@@ -11565,6 +14903,12 @@
      ],
      "independent_functions": 9,
      "write_sites": 8,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "StaticHndl.iSoundID": {
@@ -11578,6 +14922,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "StaticHndl.bAssumeSuccess": {
@@ -11591,6 +14943,12 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "StaticHndl.eState": {
@@ -11604,6 +14962,12 @@
      ],
      "independent_functions": 9,
      "write_sites": 8,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bShouldBePlaying": {
@@ -11616,6 +14980,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bJustStarted": {
@@ -11628,6 +15000,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bInRange": {
@@ -11638,6 +15018,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bIsActor": {
@@ -11650,6 +15036,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -11674,13 +15068,28 @@
     "StaticHndl.iSoundID",
     "bInRange"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "Hndl.bAssumeSuccess",
+    "Hndl.eState",
+    "StaticHndl.bAssumeSuccess",
+    "StaticHndl.eState",
+    "bIsActor",
+    "bJustStarted",
+    "bShouldBePlaying",
+    "pRadio"
+   ]
   },
   "FalloutRadio::StationState": {
    "base": null,
    "pc_size": 32,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "contained"
+   ],
+   "pc_only": false,
    "fields": {
     "pConvo": "confirmed",
     "pNextConvo": "confirmed",
@@ -11703,6 +15112,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pNextConvo": {
@@ -11715,6 +15134,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCurrentItemStartTime": {
@@ -11728,6 +15155,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCurrentItemDuration": {
@@ -11741,6 +15178,16 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cStationPower": {
@@ -11754,6 +15201,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cTargetPower": {
@@ -11767,6 +15223,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iStationFlags": {
@@ -11780,6 +15244,15 @@
      ],
      "independent_functions": 19,
      "write_sites": 19,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "StationUsers": {
@@ -11793,6 +15266,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -11891,13 +15372,28 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "StationUsers",
+    "cStationPower",
+    "cTargetPower",
+    "iCurrentItemDuration",
+    "iCurrentItemStartTime",
+    "iStationFlags",
+    "pConvo",
+    "pNextConvo"
+   ]
   },
   "FalloutRadio::FORadioStation": {
    "base": null,
    "pc_size": 36,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "pStation": "confirmed",
     "CurrentState.pConvo": "confirmed",
@@ -11923,6 +15419,16 @@
      ],
      "independent_functions": 6,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.pConvo": {
@@ -11938,6 +15444,17 @@
      ],
      "independent_functions": 8,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.pNextConvo": {
@@ -11950,6 +15467,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.iCurrentItemStartTime": {
@@ -11963,6 +15488,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.iCurrentItemDuration": {
@@ -11976,6 +15510,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.cStationPower": {
@@ -11988,6 +15531,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.cTargetPower": {
@@ -12000,6 +15551,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.iStationFlags": {
@@ -12014,6 +15573,12 @@
      ],
      "independent_functions": 19,
      "write_sites": 19,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "CurrentState.StationUsers": {
@@ -12028,6 +15593,12 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12048,7 +15619,19 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "CurrentState.StationUsers",
+    "CurrentState.cStationPower",
+    "CurrentState.cTargetPower",
+    "CurrentState.iCurrentItemDuration",
+    "CurrentState.iCurrentItemStartTime",
+    "CurrentState.iStationFlags",
+    "CurrentState.pConvo",
+    "CurrentState.pNextConvo",
+    "pStation"
+   ]
   },
   "RadioConvTask": {
    "vtable_va": 17288984,
@@ -12056,6 +15639,10 @@
    "pc_size": 56,
    "align": 8,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
     "iRefCount": "consistent",
@@ -12081,6 +15668,15 @@
      ],
      "independent_functions": 8,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iRefCount": {
@@ -12093,6 +15689,14 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "eState": {
@@ -12105,6 +15709,16 @@
      ],
      "independent_functions": 5,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "Key": {
@@ -12117,6 +15731,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 6,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "eContext": {
@@ -12129,6 +15752,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "spParent": {
@@ -12141,6 +15772,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pChildren": {
@@ -12153,6 +15794,16 @@
      ],
      "independent_functions": 8,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pAdditionalParents": {
@@ -12165,6 +15816,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 5,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFileName": {
@@ -12177,6 +15838,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFileEntry": {
@@ -12189,6 +15859,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pStation": {
@@ -12201,6 +15881,16 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12245,13 +15935,30 @@
    "provisional_fields": [
     "iRefCount"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "<vftable>",
+    "Key",
+    "eContext",
+    "eState",
+    "pAdditionalParents",
+    "pChildren",
+    "pFileEntry",
+    "pFileName",
+    "pStation",
+    "spParent"
+   ]
   },
   "UVMap": {
    "base": null,
    "pc_size": 8,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "array-span"
+   ],
+   "pc_only": false,
    "fields": {
     "fU": "confirmed",
     "fV": "confirmed"
@@ -12268,6 +15975,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "float",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fV": {
@@ -12281,6 +15994,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "float",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12288,13 +16007,22 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "fU",
+    "fV"
+   ]
   },
   "FontLetter": {
    "base": null,
    "pc_size": 56,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "index-stride"
+   ],
+   "pc_only": false,
    "fields": {
     "iTextureIndex": "confirmed",
     "pMapping": "confirmed",
@@ -12316,6 +16044,12 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pMapping": {
@@ -12328,6 +16062,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "class",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fWidth": {
@@ -12340,6 +16080,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fHeight": {
@@ -12352,6 +16100,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fLeadingEdge": {
@@ -12364,6 +16120,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fSpacing": {
@@ -12376,6 +16140,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fTopEdge": {
@@ -12388,6 +16160,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12414,13 +16194,27 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "fHeight",
+    "fLeadingEdge",
+    "fSpacing",
+    "fTopEdge",
+    "fWidth",
+    "iTextureIndex",
+    "pMapping"
+   ]
   },
   "TextureFile": {
    "base": null,
    "pc_size": 36,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "index-stride"
+   ],
+   "pc_only": false,
    "fields": {
     "iType": "unverified",
     "pFilename": "confirmed"
@@ -12434,6 +16228,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFilename": {
@@ -12447,6 +16247,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12456,13 +16262,21 @@
    "provisional_fields": [
     "iType"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "pFilename"
+   ]
   },
   "FontData": {
    "base": null,
    "pc_size": 14632,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "alloc-for-field"
+   ],
+   "pc_only": false,
    "fields": {
     "fBaseLine": "confirmed",
     "iTextureCount": "confirmed",
@@ -12480,6 +16294,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iTextureCount": {
@@ -12492,6 +16314,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pTextureFiles": {
@@ -12504,6 +16335,12 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "class",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFontLetters": {
@@ -12516,6 +16353,12 @@
      ],
      "independent_functions": 5,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "class",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12596,13 +16439,24 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "fBaseLine",
+    "iTextureCount",
+    "pFontLetters",
+    "pTextureFiles"
+   ]
   },
   "Font": {
    "base": null,
    "pc_size": 84,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "iRefCount": "confirmed",
     "pFontFile": "confirmed",
@@ -12626,6 +16480,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFontFile": {
@@ -12638,6 +16500,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iFontNum": {
@@ -12650,6 +16521,15 @@
      ],
      "independent_functions": 5,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pTextureData": {
@@ -12662,6 +16542,16 @@
      ],
      "independent_functions": 4,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fFontHeight": {
@@ -12674,6 +16564,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "fMaxDrop": {
@@ -12686,6 +16584,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "float",
+     "type_evidence": [
+      "fpu-float"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLineOverlap": {
@@ -12696,6 +16602,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pFontData": {
@@ -12708,6 +16620,16 @@
      ],
      "independent_functions": 8,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "cmp",
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": true,
      "type_verified": false
     },
     "IconAtlasTextureName": {
@@ -12720,6 +16642,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "ButtonIcons": {
@@ -12732,6 +16663,14 @@
      ],
      "independent_functions": 6,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12844,13 +16783,29 @@
    "provisional_fields": [
     "iLineOverlap"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "ButtonIcons",
+    "IconAtlasTextureName",
+    "fFontHeight",
+    "fMaxDrop",
+    "iFontNum",
+    "iRefCount",
+    "pFontData",
+    "pFontFile",
+    "pTextureData"
+   ]
   },
   "Font::TextData": {
    "base": null,
    "pc_size": 40,
    "align": 4,
    "size_status": "consistent",
+   "size_basis": [
+    "last-field"
+   ],
+   "pc_only": false,
    "fields": {
     "xNewText": "unverified",
     "iWidth": "confirmed",
@@ -12870,6 +16825,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWidth": {
@@ -12882,6 +16843,15 @@
      ],
      "independent_functions": 1,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iHeight": {
@@ -12894,6 +16864,15 @@
      ],
      "independent_functions": 1,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLineStart": {
@@ -12906,6 +16885,15 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLineEnd": {
@@ -12918,6 +16906,15 @@
      ],
      "independent_functions": 1,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iCharCount": {
@@ -12930,6 +16927,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cLineSep": {
@@ -12942,6 +16947,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "xLineWidths": {
@@ -12954,6 +16967,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -12963,13 +16984,19 @@
    "provisional_fields": [
     "xNewText"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "FontManager": {
    "base": null,
    "pc_size": 36,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "pFont": "confirmed",
     "bUseNewFonts": "confirmed"
@@ -12986,6 +17013,14 @@
      ],
      "independent_functions": 8,
      "write_sites": 8,
+     "width_verified": false,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bUseNewFonts": {
@@ -12999,6 +17034,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -13085,13 +17128,22 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "bUseNewFonts",
+    "pFont"
+   ]
   },
   "FontManager::CharData": {
    "base": null,
    "pc_size": 56,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "iFontIndex": "confirmed",
     "cChar": "confirmed",
@@ -13115,6 +17167,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cChar": {
@@ -13127,6 +17187,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "xColor": {
@@ -13139,6 +17207,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iJustification": {
@@ -13151,6 +17227,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "xFilename": {
@@ -13163,6 +17247,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWidth": {
@@ -13176,6 +17269,15 @@
      ],
      "independent_functions": 4,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iRise": {
@@ -13188,6 +17290,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDrop": {
@@ -13200,6 +17310,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLeadingEdge": {
@@ -13212,6 +17330,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iX": {
@@ -13224,6 +17350,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -13250,13 +17384,30 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "cChar",
+    "iDrop",
+    "iFontIndex",
+    "iJustification",
+    "iLeadingEdge",
+    "iRise",
+    "iWidth",
+    "iX",
+    "xColor",
+    "xFilename"
+   ]
   },
   "FontManager::TextLine": {
    "base": null,
    "pc_size": 48,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "xChars": "confirmed",
     "iWidth": "confirmed",
@@ -13280,6 +17431,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWidth": {
@@ -13292,6 +17452,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 9,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNextSpacing": {
@@ -13304,6 +17472,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iRise": {
@@ -13317,6 +17493,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 4,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iDrop": {
@@ -13329,6 +17514,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iSkippedSpace": {
@@ -13342,6 +17535,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iJustify": {
@@ -13354,6 +17556,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageWidth": {
@@ -13366,6 +17576,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iY": {
@@ -13376,6 +17595,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pPage": {
@@ -13389,6 +17614,15 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -13411,13 +17645,29 @@
    "provisional_fields": [
     "iY"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "iDrop",
+    "iJustify",
+    "iNextSpacing",
+    "iPageWidth",
+    "iRise",
+    "iSkippedSpace",
+    "iWidth",
+    "pPage",
+    "xChars"
+   ]
   },
   "FontManager::TextPage": {
    "base": null,
    "pc_size": 68,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "ctor-alloc"
+   ],
+   "pc_only": false,
    "fields": {
     "xLines": "confirmed",
     "iWidth": "unverified",
@@ -13439,6 +17689,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWidth": {
@@ -13449,6 +17707,12 @@
      "base_pointer": [],
      "independent_functions": 0,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iHeight": {
@@ -13461,6 +17725,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageWidth": {
@@ -13473,6 +17746,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageHeight": {
@@ -13485,6 +17766,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLastFontHeight": {
@@ -13497,6 +17787,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pCharsPerFont": {
@@ -13509,6 +17808,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": false,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "pDoc": {
@@ -13521,6 +17828,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 1,
+     "width_verified": true,
+     "declared_kind": "pointer",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -13543,13 +17858,27 @@
    "provisional_fields": [
     "iWidth"
    ],
-   "provisional": true
+   "provisional": true,
+   "strict": true,
+   "strict_fields": [
+    "iHeight",
+    "iLastFontHeight",
+    "iPageHeight",
+    "iPageWidth",
+    "pCharsPerFont",
+    "pDoc",
+    "xLines"
+   ]
   },
   "FontManager::TextDoc": {
    "base": null,
    "pc_size": 24,
    "align": 4,
    "size_status": "confirmed",
+   "size_basis": [
+    "alloc-inline"
+   ],
+   "pc_only": false,
    "fields": {
     "xPages": "confirmed",
     "iPageWidth": "confirmed",
@@ -13567,6 +17896,15 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "deref",
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageWidth": {
@@ -13579,6 +17917,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageHeight": {
@@ -13591,6 +17937,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageNum": {
@@ -13603,6 +17957,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -13623,13 +17985,24 @@
     }
    ],
    "provisional_fields": [],
-   "provisional": false
+   "provisional": false,
+   "strict": true,
+   "strict_fields": [
+    "iPageHeight",
+    "iPageNum",
+    "iPageWidth",
+    "xPages"
+   ]
   },
   "FontManager::TextData": {
    "base": null,
    "pc_size": 64,
    "align": 4,
    "size_status": "consistent",
+   "size_basis": [
+    "last-field"
+   ],
+   "pc_only": false,
    "fields": {
     "iDefaultFont": "confirmed",
     "iJustification": "confirmed",
@@ -13655,6 +18028,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iJustification": {
@@ -13667,6 +18048,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "xColor": {
@@ -13679,6 +18068,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "cLineSep": {
@@ -13691,6 +18088,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iWidth": {
@@ -13703,6 +18108,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iHeight": {
@@ -13715,6 +18128,16 @@
      ],
      "independent_functions": 2,
      "write_sites": 6,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "cmp",
+      "int-arith",
+      "move"
+     ],
+     "type_status": "consistent",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iPageNum": {
@@ -13727,6 +18150,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iLines": {
@@ -13739,6 +18170,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumPages": {
@@ -13751,6 +18190,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "iNumLines": {
@@ -13763,6 +18210,14 @@
      ],
      "independent_functions": 2,
      "write_sites": 3,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "bIsHypertext": {
@@ -13775,6 +18230,14 @@
      ],
      "independent_functions": 3,
      "write_sites": 2,
+     "width_verified": true,
+     "declared_kind": "int",
+     "type_evidence": [
+      "move"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     },
     "xNewText": {
@@ -13787,6 +18250,14 @@
      ],
      "independent_functions": 1,
      "write_sites": 0,
+     "width_verified": false,
+     "declared_kind": "blob",
+     "type_evidence": [
+      "address"
+     ],
+     "type_status": "not-checked",
+     "type_basis": "xbox_pdb",
+     "pointer_target_verified": false,
      "type_verified": false
     }
    },
@@ -13794,7 +18265,11 @@
    "vslots": {},
    "methods": [],
    "provisional_fields": [],
-   "provisional": true
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   }
- }
+ },
+ "truncated_functions": [],
+ "admission_rule": "строгий PDB: класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизированы только поля со статусом confirmed (смещение и ширина), остальные — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack"
 }

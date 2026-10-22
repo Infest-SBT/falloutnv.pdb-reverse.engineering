@@ -1,6 +1,9 @@
 """Генерация C++-заголовка с PC-раскладками проверенных классов (источник: Xbox PDB).
 
-usage: python3 -I gen_headers.py <Fallout.types.txt> <spec.json> <out.h>
+usage: python3 -I gen_headers.py <Fallout.types.txt> <spec.json> <out.h> [--strict <summary.json> <evidence_dir>]
+  --strict: строгая сборка по правилу допуска из summary.json (поле admission_rule): только допущенные классы,
+            неподтверждённые поля — байты _unverified_<имя>, слоты без проверенного прототипа — _unverified_slotN,
+            в перечислениях — только проверенные значения (по CSV из evidence_dir).
 
 spec.json:
 {
@@ -19,9 +22,16 @@ sys.path.insert(0, os.path.dirname(__file__))
 from layout import Types
 
 types_path, spec_path, out_path = sys.argv[1:4]
+STRICT = '--strict' in sys.argv
 T = Types(types_path)
 spec = json.load(open(spec_path))
 CLASSES = spec['classes']
+if STRICT:
+    import csv
+    SUMM = json.load(open(sys.argv[sys.argv.index('--strict') + 1], encoding='utf-8'))['classes']
+    EVDIR = sys.argv[sys.argv.index('--strict') + 2]
+    CLASSES = [c for c in CLASSES if SUMM[c]['strict']]
+    STRICT_SLOT_OK = ('semantics', 'name+stack')
 PCSZ = spec.get('pc_sizeof', {})
 DROP = {k: set(v) for k, v in spec.get('drop_vslots', {}).items()}
 EXTRA = spec.get('extra_fields', {})
@@ -290,15 +300,16 @@ for cls in CLASSES:
             base_slots = max(base_slots, max(s for s, _, _ in bv) + 1)
         BL = T.layout(b)
         b = BL['bases'][0][0] if BL and BL['bases'] else None
-    drops = DROP.get(cls, set())
+    drops = DROP.get(cls, set())                        # слотов НЕТ на PC: номера после них сдвигаются
+    omits = set(spec.get('omit_vslots', {}).get(cls, []))   # слоты есть, но не описываются (номера не сдвигаются)
     byslot = {}
     for s, n, ti in vs:
-        if s < base_slots or s in drops:
+        if s < base_slots or s in drops or s in omits:
             continue
         if n == '__vecDelDtor':
             continue
         byslot.setdefault(s, (n, ti))
-    xb_slots = sorted(set(s for s, _, _ in vs if s >= base_slots and s not in drops))
+    xb_slots = sorted(set(s for s, _, _ in vs if s >= base_slots and s not in drops and s not in omits))
     used = {}
     cm = {'name': cls, 'base': base, 'pc_size': size, 'xbox_size': None if cls in PCC else L['size'],
           'pc_only': cls in PCC, 'vslots': [], 'fields': []}
@@ -316,6 +327,8 @@ for cls in CLASSES:
         used[n] = used.get(n, 0) + 1
         nm = n if used[n] == 1 else f'{n}_{used[n]}'
         ret, args, nbytes = mfunc_sig(ti) if ti else ('void', [], 0)
+        if STRICT and SUMM[cls]['vslots'].get(str(pcslot), {}).get('status') not in STRICT_SLOT_OK:
+            nm, ret, args, nbytes = f'_unverified_slot{pcslot}', 'void', [], 0
         lines.append(f'    virtual {ret} {nm}({", ".join(args)}); // слот {pcslot}')
         cm['vslots'].append({'slot': pcslot, 'xbox_slot': s, 'name': nm, 'xbox_name': n,
                              'decl': f'{ret} {nm}({", ".join(args)})', 'ret': ret, 'args': args,
@@ -336,6 +349,13 @@ for cls in CLASSES:
         if mc is None:
             continue
         decl, tsz, fa, opaque = mc
+        if STRICT:
+            sub = t.split('[')[0].strip()
+            kept = n in SUMM[cls]['strict_fields'] or (sub in declared and sub in pc_size)
+            if not kept:
+                n = f'_unverified_{n}'
+                decl = (f'alignas({fa}) ' if fa > 1 and not packed else '') + f'unsigned char {n}[{tsz}]; // строгая сборка: не подтверждено ({t})'
+                opaque = True
         lines.append(f'    {decl}' + (f' // {own_src[n]}: поля нет в Xbox PDB, имя наше, найдено по PC-коду'
                                          + (f' — {own_note[n]}' if n in own_note else '') if n in own_src else ''))
         align = 1 if packed else max(align, fa)
@@ -366,13 +386,17 @@ for cls in CLASSES:
         lines = ['#pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)'] + lines + ['#pragma pack(pop)']
     asserts.append(f'static_assert(sizeof({cls}) == 0x{size:X}, "sizeof {cls}");')
     for k, v in ASSERTS.get(cls, {}).items():
+        if STRICT and k != 'sizeof' and k not in SUMM[cls]['strict_fields']:
+            continue
         if k == 'sizeof':
             asserts.append(f'static_assert(sizeof({cls}) == 0x{v:X}, "PC-проверка sizeof {cls}");')
         else:
             asserts.append(f'static_assert(offsetof({cls}, {k}) == 0x{v:X}, "PC-проверка {cls}::{k}");')
     blocks.append('\n'.join(lines))
 
-hdr = ['// Сгенерировано gen_headers.py. Источник раскладок: Xbox 360 Fallout.pdb (Release Final,',
+hdr = (['// СТРОГАЯ СБОРКА (verified): ' + json.load(open(sys.argv[sys.argv.index('--strict') + 1], encoding='utf-8'))['admission_rule']]
+       if STRICT else ['// ИССЛЕДОВАТЕЛЬСКАЯ СБОРКА (research): все классы, включая предварительные — см. provisional в summary.json'])
+hdr += ['// Сгенерировано gen_headers.py. Источник раскладок: Xbox 360 Fallout.pdb (Release Final,',
        '// GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C) — (Xbox PDB). Каждый класс проверен на PC',
        '// FalloutNV.exe 1.4.0.525 (SHA-256 42fee7d6...) инструментом verify_class.py.',
        '// Сигнатуры виртуальных методов взяты с Xbox; степень их проверки на PC — в evidence_vslots.csv.',
@@ -392,6 +416,22 @@ for scope in sorted({n.split('::')[0] for n in declared if '::' in n} - declared
 hdr += [f'struct {n} {{ alignas({xalign(n)}) unsigned char _opaque[0x{sz:X}]; }}; // (Xbox PDB) передаётся по значению; поля не описаны'
         for n, sz in sorted(VALUE_TYPES.items())]
 PCENUM = spec.get('pc_enum_values', {})
+
+
+def strict_enum_names(e):
+    """Имена значений, проверенных на PC (строгая сборка); None — все значения проверены."""
+    def rows(f):
+        return list(csv.DictReader(open(os.path.join(EVDIR, f), encoding='utf-8')))
+    if e == 'CHANGE_TYPE':
+        return {r['xbox_name'] for r in rows('change_flags.csv')
+                if r['xbox_name'] and r['status'] in ('confirmed', 'renamed', 'value-confirmed-unreachable')}
+    if e == 'SOUND_MSG':
+        return {r['name'] for r in rows('sound_msg.csv') if r['status'] == 'name-consistent'}
+    if e == 'MEM_CONTEXT':
+        return {r['name'] for r in rows('mem_context.csv') if r['status'] == 'name-consistent'}
+    return None
+
+
 for e, note in GENUMS.items():
     if e in PCENUM:
         # на PC значения другие, чем на Xbox: публикуем PC-значения (своё имя — с пометкой own)
@@ -404,6 +444,12 @@ for e, note in GENUMS.items():
     eti = T.byname['enum ' + e]
     fl = re.search(r'field list: (0x[0-9A-F]+)', ' '.join(rec(eti)[2]))
     vals = re.findall(r'LF_ENUMERATE \[(\w+) = (-?\d+)\]', ' '.join(rec(int(fl.group(1), 16))[2]))
+    if STRICT:
+        keep = strict_enum_names(e)
+        if keep is not None:
+            n_all = len(vals)
+            vals = [(a, v) for a, v in vals if a in keep]
+            note = f'СТРОГАЯ СБОРКА: только {len(vals)} проверенных значений из {n_all}. ' + note
     hdr.append(f'// {e} (Xbox PDB): {note}')
     hdr.append(f'enum {e} : unsigned int {{\n' + ',\n'.join(f'    {a} = 0x{int(v) & 0xFFFFFFFF:X}' for a, v in vals) + '\n};')
 hdr += blocks

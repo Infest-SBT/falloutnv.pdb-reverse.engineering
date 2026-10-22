@@ -49,9 +49,6 @@
  "drop_vslots": {
   "BSAudio": [
    1
-  ],
-  "RadioConvTask": [
-   12
   ]
  },
  "extra_fields": {
@@ -267,27 +264,27 @@
    ],
    [
     "float",
-    "pc218",
+    "fEmitterX",
     536,
     4,
     "own",
-    "float, SetEmitterPositionF"
+    "позиция источника звука (NiPoint3 +0x218..+0x223): GetEmitterPosition копирует эти 12 байт в результат для 3D-звука, SetEmitterPositionF пишет; X"
    ],
    [
     "float",
-    "pc21C",
+    "fEmitterY",
     540,
     4,
     "own",
-    "float"
+    "Y позиции источника"
    ],
    [
     "float",
-    "pc220",
+    "fEmitterZ",
     544,
     4,
     "own",
-    "float"
+    "Z позиции источника"
    ],
    [
     "bool",
@@ -493,5 +490,13 @@
    "size": 164,
    "note": "Единственный объект — BSWin32Audio::Instance (0x011F7080)"
   }
+ },
+ "omit_vslots": {
+  "RadioConvTask": [
+   12
+  ]
+ },
+ "notes": {
+  "omit_vslots": "слоты, которые на PC есть, но не описываются: у RadioConvTask слоты баз (QueuedFileEntry → … → BSTask) не описаны, поэтому Cancel (слот 12) не объявлен"
  }
 }

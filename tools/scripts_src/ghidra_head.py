@@ -1,11 +1,12 @@
-# Применяет доказательную матрицу FNV PDB v0.4 к открытой программе Ghidra.
+# Применяет доказательную матрицу FNV PDB v0.4.1 к открытой программе Ghidra.
 # @category FNV
 # @runtime Jython
 #
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4 (File > Load PDB File),
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.1 (File > Load PDB File):
+#   строгий FalloutNV.pdb (по умолчанию, STRICT = True) или research/FalloutNV.pdb (STRICT = False, headless: --research),
 # затем Script Manager > fnv_apply_ghidra.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.4):
+# Безопасность (v0.4.1):
 #   * сначала проверяется, что это тот самый exe: SHA-256 исходного файла, база образа 0x400000, x86 32-бит;
 #     при любом несовпадении скрипт останавливается и ничего не меняет;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: строится план, пишется в fnv_apply_plan_ghidra.txt рядом с summary.json,
@@ -30,6 +31,7 @@
 # На реальной Ghidra скрипт не запускался — первый прогон делайте на копии проекта.
 
 APPLY = False        # True — применять без вопроса (не рекомендуется)
+STRICT = True        # True — строгий FalloutNV.pdb: типы только классам, допущенным в строгий PDB; False — research/FalloutNV.pdb
 ALL_THIS = False     # True — this всем методам, читающим ECX до записи (как в v0.3), даже без обращений к полям
 UPDATE_OWN_SIGNATURES = False  # True — обновлять сигнатуры, которые поставил этот скрипт и с тех пор никто не менял
 OWN_MAP = "FNV_PDB.this_signature"  # карта свойств: адрес -> отпечаток сигнатуры, поставленной скриптом

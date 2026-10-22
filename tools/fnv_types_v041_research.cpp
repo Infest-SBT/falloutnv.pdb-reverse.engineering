@@ -1,5 +1,5 @@
 // Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.
-#include "fnv_types_v04.h"
+#include "fnv_types_v041_research.h"
 BaseFormComponent* g_ref_BaseFormComponent = nullptr;
 TESForm* g_ref_TESForm = nullptr;
 TESDataHandler* g_ref_TESDataHandler = nullptr;
