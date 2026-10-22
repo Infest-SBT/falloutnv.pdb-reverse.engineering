@@ -14,8 +14,9 @@ spec.json:
   "asserts": {"BSAudioManager": {"sizeof": 392, "fMasterVolume": 320}},
   "enums": ["BSSoundHandle::ASSUMED_STATE"]
 }
-Поля выписываются с явными смещениями (#pragma pack(1) + заполнители), поэтому раскладка
-в PDB совпадает с проверенной PC-раскладкой байт в байт; для каждого поля — static_assert.
+Поля выписываются по порядку с явными заполнителями _padXX при естественном выравнивании MSVC x86
+(#pragma pack(1) — только у класса, упакованного и на Xbox, и на PC: BGSSaveLoadFormHeader), поэтому раскладка
+в PDB совпадает с проверенной PC-раскладкой байт в байт; для каждого поля, sizeof и alignof — static_assert.
 """
 import json, re, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
@@ -351,7 +352,13 @@ for cls in CLASSES:
         decl, tsz, fa, opaque = mc
         if STRICT:
             sub = t.split('[')[0].strip()
-            kept = n in SUMM[cls]['strict_fields'] or (sub in declared and sub in pc_size)
+            if t in declared and t in pc_size:
+                # вложенный объект: только если композиция доказана и вложенный класс допущен (v0.4.2)
+                kept = SUMM[cls].get('compositions', {}).get(n, {}).get('strict', False)
+            else:
+                # скаляр, указатель, массив (в том числе массив допущенных классов — класс не допущен, тогда байты и так):
+                # смещение confirmed и ширина подтверждена (width_basis) — см. strict_fields
+                kept = n in SUMM[cls]['strict_fields']
             if not kept:
                 n = f'_unverified_{n}'
                 decl = (f'alignas({fa}) ' if fa > 1 and not packed else '') + f'unsigned char {n}[{tsz}]; // строгая сборка: не подтверждено ({t})'

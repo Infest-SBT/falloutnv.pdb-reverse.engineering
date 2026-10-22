@@ -300,31 +300,38 @@ def is_int64(fd):
 
 def match_in(cls, rel, sz, depth=0):
     """Обращение по смещению rel (размер sz, 0 = взят адрес) внутри объекта класса cls из meta:
-    рекурсивно спускается во вложенные классы и массивы классов. -> (путь поля, статус)."""
+    рекурсивно спускается во вложенные классы и массивы классов. -> (путь поля, статус, основание ширины).
+    v0.4.2: правила те же, что для полей верхнего уровня — взятие адреса неупакованного поля только consistent."""
     sf = next((x for x in CLS[cls]['fields'] if x['off'] <= rel < x['off'] + x['size']), None)
     if sf is None:
-        return None, 'CONFLICT'
+        return None, 'CONFLICT', None
     sub = sf.get('class_type') or sf.get('class_array_of')
     if sub in CLS and depth < 4:
         n = int(re.search(r'\[(\d+)\]', sf['decl']).group(1)) if sf.get('class_array_of') else 1
         r2 = (rel - sf['off']) % (sf['size'] // n)
-        p2, st2 = match_in(sub, r2, sz, depth + 1)
-        return (f"{sf['name']}{'[]' if sf.get('class_array_of') else ''}.{p2}" if p2 else sf['name']), st2
+        p2, st2, wb2 = match_in(sub, r2, sz, depth + 1)
+        return (f"{sf['name']}{'[]' if sf.get('class_array_of') else ''}.{p2}" if p2 else sf['name']), st2, wb2
     if is_int64(sf) and sz == 4 and rel - sf['off'] in (0, 4):
-        return sf['name'], 'confirmed'
+        return sf['name'], 'confirmed', 'int64-halves'
     if rel + max(sz, 1) > sf['off'] + sf['size']:
-        return sf['name'], 'CONFLICT'
+        return sf['name'], 'CONFLICT', None
     if sz == 0:
-        return sf['name'], 'confirmed' if rel == sf['off'] else 'consistent'
-    if rel == sf['off'] and (sz == sf['size'] or (sf.get('opaque') and sz <= sf['size'])):
-        return sf['name'], 'confirmed'
+        return sf['name'], ('confirmed' if (rel == sf['off'] and sf.get('opaque')) else 'consistent'), None
+    if rel == sf['off'] and sz == sf['size'] and not sf.get('opaque'):
+        return sf['name'], 'confirmed', 'access-width'
+    if rel == sf['off'] and sf.get('opaque') and sz <= sf['size']:
+        return sf['name'], 'confirmed', 'blob-prefix'
     el = re.search(r'\[(\d+)\];?$', sf.get('decl', ''))
     esz = sf['size'] // int(el.group(1)) if (el and not sf.get('opaque')) else None
     if esz and (rel - sf['off']) % esz == 0 and sz == esz:
-        return sf['name'], 'confirmed'
+        return sf['name'], 'confirmed', 'element-width'
     if rel == sf['off'] or sf.get('opaque'):
-        return sf['name'], 'consistent'
-    return sf['name'], 'CONFLICT'
+        return sf['name'], 'consistent', None
+    return sf['name'], 'CONFLICT', None
+
+
+# основания ширины поля, которые принимаются в строгий PDB (v0.4.2); у непрозрачных байтов (blob) ширина не заявляется
+WIDTH_OK = {'access-width', 'element-width', 'int64-halves', 'index-stride', 'class-array-element', 'nested-field-width'}
 
 
 ALLOC = re.compile(r'Allocate|operator new|malloc|FormHeap', re.I)
@@ -443,6 +450,48 @@ def calls_index():
     return calls
 
 
+def composition_proofs(acc, off, sub):
+    """Доказательство, что по смещению off внутри объекта лежит объект класса sub (v0.4.2): адрес this+off
+    (lea reg, [this+off] или add reg, off) доходит до ECX, и следом вызывается метод sub (__thiscall), при этом
+    ECX между ними не меняется. -> [(адрес команды, текст, адрес вызова, имя вызываемого)]."""
+    subm = set(funcs_of(sub)) | {int(fa, 16) for fa in spec.get('class_functions', {}).get(sub, {})}
+    out, seen = [], set()
+    for o, sz, ia, txt, fn, owner, wr, step, fva in acc:
+        if o != off or sz != 0 or ia in seen or step is not None:
+            continue
+        seen.add(ia)
+        regs, n = None, 0
+        for ins in md.disasm(img[ia - B:ia - B + 64], ia):
+            ops = ins.operands
+            if regs is None:
+                if ins.mnemonic not in ('lea', 'add') or not ops or ops[0].type != capstone.x86.X86_OP_REG:
+                    break
+                regs = {ins.reg_name(ops[0].reg)}
+                continue
+            n += 1
+            if ins.mnemonic == 'call':
+                if 'ecx' in regs and ins.op_str.startswith('0x') and int(ins.op_str, 16) in subm:
+                    out.append((ia, txt, ins.address, name_at(int(ins.op_str, 16))))
+                break
+            if ins.mnemonic in ('ret', 'jmp') or ins.mnemonic.startswith('j') or n > 8:
+                break
+            try:
+                _, w = ins.regs_access()
+            except capstone.CsError:
+                break
+            w = {ins.reg_name(r) for r in w}
+            if ins.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == capstone.x86.X86_OP_REG \
+                    and ops[1].type == capstone.x86.X86_OP_REG and ins.reg_name(ops[1].reg) in regs:
+                regs.add(ins.reg_name(ops[0].reg))
+                continue
+            regs -= w
+            if not regs:
+                break
+    return out
+
+
+compositions = {}   # (класс, поле) -> {'sub', 'status', 'evidence'}
+composition_rows = []
 for cname, c in CLS.items():
     own = c['fields'][:]
     first_own = (CLS[c['base']]['pc_size'] if c['base'] else (4 if (c['vslots'] and not c['base']) else 0))
@@ -518,7 +567,7 @@ for cname, c in CLS.items():
                 acc.append((off, sz, ia, txt, name_at(f), f'pointer {holder}+0x{poff:X}', wr, step, f))
     status = {}
     det = collections.defaultdict(lambda: {'insns': 0, 'functions': set(), 'via': set(), 'writes': 0,
-                                           'traits': set(), 'widths': set()})
+                                           'traits': set(), 'widths': set(), 'wbasis': set()})
     offs = sorted((fd['off'], fd['off'] + fd['size'], fd) for fd in own)
     elem_status = {}   # «поле[].подполе» для массивов классов: статус элемента (в счёт поля-массива не идёт)
     for off, sz, ia, txt, fn, owner, wr, step, fva in acc:
@@ -527,6 +576,7 @@ for cname, c in CLS.items():
         hit = next(((s, e, fd) for s, e, fd in offs if s <= off < e), None)
         known = spec.get('known_pad_access', {}).get(cname, {}).get(f'0x{off:X}')
         sub_key = path_full = None
+        wb = st_arr = None
         if hit is None:
             st, fld, foff = ('explained' if known else 'CONFLICT'), '(заполнитель)', off
         else:
@@ -536,28 +586,37 @@ for cname, c in CLS.items():
             n_el = int(el.group(1)) if el else None
             esz = fd['size'] // n_el if (n_el and not fd.get('opaque')) else None
             ecls = CLS.get(fd.get('class_array_of') or '')
+            wb = None
             if step is not None and fd.get('opaque') and esz is None and fd['size'] % step == 0 \
                     and off + max(sz, 1) <= e:
                 # непрозрачный массив шаблонных типов (NiTPointerList<…>[24 bytes]): шаг делит размер поля —
                 # согласуется с «массив элементов по step байт», внутрь элемента не заглядываем
                 st = 'confirmed' if off == s else 'consistent'
+                wb = 'blob-stride'
             elif step is not None and (esz is None or step != esz):
                 # индексное обращение с шагом, не равным размеру элемента: раскладке не соответствует
                 st = 'CONFLICT'
             elif ecls and esz:
-                path, st = match_in(fd['class_array_of'], (off - s) % esz, sz)
+                path, st, wb = match_in(fd['class_array_of'], (off - s) % esz, sz)
+                if step == esz and st != 'CONFLICT':
+                    # индекс с шагом sizeof(элемента): размер элемента и граница массива подтверждены, даже если само
+                    # подполе только адресуется (lea) — статус массива confirmed, статус подполя — свой
+                    st_arr = 'confirmed'
                 sub_key = f"{fd['name']}[].{path.split('.')[0].split('[')[0]}" if path else None
                 path_full = f"{fd['name']}[].{path}" if path else None
             elif is_int64(fd) and sz == 4 and off - s in (0, 4):
                 st = 'confirmed'   # 64-битное целое на x86: младшая и старшая половины — отдельные dword
+                wb = 'int64-halves'
             elif off + sz > e:
                 st = 'CONFLICT'
             elif sz == 0:
                 st = 'confirmed' if (off == s and fd.get('opaque')) else 'consistent'   # взят адрес поля
             elif off == s and (sz == fd['size'] or (fd.get('opaque') and sz <= fd['size']) or (esz and sz == esz)):
                 st = 'confirmed'
+                wb = ('blob-prefix' if fd.get('opaque') else 'access-width' if sz == fd['size'] else 'element-width')
             elif esz and (off - s) % esz == 0 and sz == esz:
                 st = 'confirmed'   # элемент массива
+                wb = 'element-width'
             elif off == s or fd.get('opaque'):
                 st = 'consistent'
             else:
@@ -575,26 +634,55 @@ for cname, c in CLS.items():
                            'base_pointer': via, 'insn_va': f'0x{ia:08X}', 'insn': txt, 'insn_bytes': ibytes,
                            'insn_kind': ik, 'value_dereferenced': drf,
                            'func_va': f'0x{fva:08X}', 'func_end': f'0x{min(func_end(fva), fva + READ_LIMIT):08X}',
-                           'source': 'Xbox PDB', 'status': st, 'note': known or ('индекс, шаг 0x%X' % step if step else '')})
+                           'source': 'Xbox PDB', 'status': st,
+                           'note': known or ('индекс, шаг 0x%X' % step + (' = sizeof(элемента): массив confirmed' if st_arr and st != 'confirmed' else '')
+                                             if step else '')})
         rank = {'CONFLICT': 3, 'confirmed': 2, 'consistent': 1, 'explained': 0}
         if sub_key:
-            ed = elem_status.setdefault(sub_key, {'status': None, 'insns': 0, 'functions': set(), 'via': set(), 'writes': 0})
+            ed = elem_status.setdefault(sub_key, {'status': None, 'insns': 0, 'functions': set(), 'via': set(), 'writes': 0,
+                                                  'wbasis': set()})
             if rank[st] > rank.get(ed['status'], -1):
                 ed['status'] = st
             if st in ('confirmed', 'consistent'):
                 ed['insns'] += 1; ed['functions'].add(fn); ed['via'].add(via); ed['writes'] += bool(wr)
-        if st in ('confirmed', 'consistent'):
+            # ширина подполя элемента: только обращение ровно к его началу (вложенный путь — без «[]» глубже)
+            if st == 'confirmed' and wb and path_full and path_full.count('.') == 1:
+                ed['wbasis'].add(wb)
+        sa = st_arr or st
+        if sa in ('confirmed', 'consistent'):
             d = det[fld]
             d['insns'] += 1; d['functions'].add(fn); d['via'].add(via); d['writes'] += bool(wr)
+            if st == 'confirmed' and wb:
+                d['wbasis'].add('class-array-element' if sub_key else wb)
+            if sa == 'confirmed' and hit is not None and step is not None:
+                esz_ = (hit[2]['size'] // int(re.search(r'\[(\d+)\];?$', hit[2]['decl']).group(1))
+                        if re.search(r'\[(\d+)\];?$', hit[2].get('decl', '')) and not hit[2].get('opaque') else None)
+                if esz_ and step == esz_:
+                    d['wbasis'].add('index-stride')   # индекс с шагом, равным размеру элемента
             if hit is not None and off == hit[0] and not sub_key:
                 d['traits'].add(ik)
                 if drf:
                     d['traits'].add('deref')
                 if sz:
                     d['widths'].add(sz)
-        if rank[st] > rank.get(status.get(fld), 0):
-            status[fld] = st
+        if rank[sa] > rank.get(status.get(fld), 0):
+            status[fld] = sa
     fsum = {fd['name']: status.get(fd['name'], 'unverified') for fd in own}
+    comp = {}
+    for fd in c['fields']:
+        sub = fd.get('class_type')
+        if sub and sub in CLS:
+            pr = composition_proofs(acc, fd['off'], sub)
+            comp[fd['name']] = {'sub': sub, 'off': f"0x{fd['off']:X}", 'status': 'proved' if pr else 'not-proved',
+                                'evidence': [f'0x{a:08X} {t} -> 0x{cva:08X} call {cn}' for a, t, cva, cn in pr]}
+            compositions[(cname, fd['name'])] = comp[fd['name']]
+            for a, t, cva, cn in pr or [(None, '', None, '')]:
+                composition_rows.append({'class': cname, 'field': fd['name'], 'field_off': f"0x{fd['off']:X}", 'nested_class': sub,
+                                         'status': 'proved' if pr else 'not-proved',
+                                         'insn_va': f'0x{a:08X}' if a else '', 'insn': t,
+                                         'call_va': f'0x{cva:08X}' if cva else '', 'callee': cn,
+                                         'note': ('адрес this+0x%X передан как this (ECX) в метод %s' % (fd['off'], sub)) if a else
+                                                 'вызова метода вложенного класса с ECX = this+смещение не найдено'})
     fdet = {}
     for fd in own:
         d = det.get(fd['name'])
@@ -605,7 +693,10 @@ for cname, c in CLS.items():
             'base_pointer': sorted(d['via']) if d else [],
             'independent_functions': len(d['functions']) if d else 0,
             'write_sites': d['writes'] if d else 0,
-            'width_verified': bool(d and fd['size'] in d['widths'] and not fd.get('opaque')),
+            # v0.4.2: ширина подтверждена, если есть хотя бы одно принятое основание (WIDTH_OK), см. width_basis;
+            # у непрозрачных байтов (blob) тип не заявлен — ширина не проверяется (width_verified false)
+            'width_verified': bool(d and not fd.get('opaque') and d['wbasis'] & WIDTH_OK),
+            'width_basis': sorted(d['wbasis']) if d else [],
             'declared_kind': declared_kind(fd),
             'type_evidence': sorted(d['traits']) if d else [],
             'type_status': type_status(declared_kind(fd), d['traits'] if d else ()),
@@ -713,8 +804,9 @@ for cname, c in CLS.items():
         'field_details': fdet,
         'element_fields': {k: {'status': v['status'], 'instruction_verified': bool(v['insns']),
                                'base_pointer': sorted(v['via']), 'independent_functions': len(v['functions']),
-                               'write_sites': v['writes']} for k, v in sorted(elem_status.items())},
-        'vslots': vsum,
+                               'write_sites': v['writes'], 'width_basis': sorted(v['wbasis'])}
+                           for k, v in sorted(elem_status.items())},
+        'vslots': vsum, 'compositions': comp,
         'methods': [{'va': f, 'name': name_at(f) if name_at(f) != '?' else f'(без имени, опознан вручную) sub_{f:X}',
                      'uses_this': reads_ecx_first(f), 'touches_fields': bool(this_accesses(f, c['pc_size']))}
                     for f in sorted(set(funcs_of(cname)) | {int(fa, 16) for fa in spec.get('class_functions', {}).get(cname, {})})
@@ -722,12 +814,15 @@ for cname, c in CLS.items():
 
 
 # вложенные классы: поля, подтверждённые внутри содержащего класса (Header.iChangeFlags, LargeFreeList.pHead),
-# засчитываются и самому вложенному классу
+# засчитываются и самому вложенному классу — v0.4.2: только если композиция доказана (по смещению действительно
+# объект этого класса: его метод вызывается с ECX = this+смещение), см. compositions.csv
 RANK = {'unverified': 0, 'consistent': 1, 'confirmed': 2, 'CONFLICT': 3}
 for xname, xc in CLS.items():
     for fd in xc['fields']:
         sub = fd.get('class_type')
         if not sub or sub not in summary['classes']:
+            continue
+        if compositions.get((xname, fd['name']), {}).get('status') != 'proved':
             continue
         for sf_name in list(summary['classes'][sub]['fields']):
             key = f"{fd['name']}.{sf_name}"
@@ -740,6 +835,12 @@ for xname, xc in CLS.items():
                 dd.update({k: xd[k] for k in ('status', 'instruction_verified', 'offset_verified',
                                                'independent_functions', 'write_sites')})
                 dd['base_pointer'] = sorted(set(xd['base_pointer']) | {f'nested-in-{xname}.{fd["name"]}'})
+            if got:
+                dd = summary['classes'][sub]['field_details'][sf_name]
+                xd = summary['classes'][xname]['field_details'][key]
+                if xd['width_verified'] and not dd['width_verified']:
+                    dd['width_verified'] = True
+                    dd['width_basis'] = sorted(set(dd['width_basis']) | {f'{b} (в {xname}.{fd["name"]})' for b in xd['width_basis']})
     for fd in xc['fields']:
         sub = fd.get('class_array_of')
         if not sub or sub not in summary['classes']:
@@ -753,17 +854,19 @@ for xname, xc in CLS.items():
                 dd.update({k: xd[k] for k in ('status', 'instruction_verified', 'independent_functions', 'write_sites')})
                 dd['offset_verified'] = xd['status'] == 'confirmed'
                 dd['base_pointer'] = sorted(set(xd['base_pointer']) | {f'element-of-{xname}.{fd["name"]}'})
-# обратно: поле вложенного класса подтверждено в коде самого вложенного класса, а место вложенного объекта
-# в содержащем подтверждено обращением ровно к его началу (add ecx, 4 перед конструктором и т.п.) —
+            if xd and set(xd.get('width_basis', [])) & WIDTH_OK:
+                dd = summary['classes'][sub]['field_details'][sf_name]
+                if not dd['width_verified'] and not dd['declared_kind'] == 'blob':
+                    dd['width_verified'] = True
+                    dd['width_basis'] = sorted(set(dd['width_basis']) | {f'{b} (элемент {xname}.{fd["name"]}[])' for b in xd['width_basis']})
+# обратно: поле вложенного класса подтверждено в коде самого вложенного класса, а то, что по смещению лежит именно
+# объект этого класса, доказано вызовом его метода с ECX = this+смещение (v0.4.2; в v0.4.1 хватало любого
+# обращения к этому смещению — аудит v0.4.1, перенос уверенности через композицию) —
 # значит, подтверждено и «Контейнер.Вложенный.поле» (два независимых факта складываются)
-placed = collections.defaultdict(set)
-for r in field_rows:
-    if r['status'] in ('confirmed', 'consistent'):
-        placed[r['class']].add(int(r['access_off'], 16))
 for xname, xc in CLS.items():
     for fd in xc['fields']:
         sub = fd.get('class_type')
-        if not sub or sub not in summary['classes'] or fd['off'] not in placed[xname]:
+        if not sub or sub not in summary['classes'] or compositions.get((xname, fd['name']), {}).get('status') != 'proved':
             continue
         for sf_name, sst in summary['classes'][sub]['fields'].items():
             key = f"{fd['name']}.{sf_name}"
@@ -775,10 +878,18 @@ for xname, xc in CLS.items():
                 dd.update({'status': 'confirmed', 'instruction_verified': True, 'offset_verified': True,
                            'independent_functions': sd['independent_functions'], 'write_sites': sd['write_sites'],
                            'base_pointer': sorted(set(sd['base_pointer']) | {f'composed: {sub} at {xname}+0x{fd["off"]:X}'})})
+            if summary['classes'][xname]['fields'].get(key) == 'confirmed':
+                dd = summary['classes'][xname]['field_details'][key]
+                sd = summary['classes'][sub]['field_details'][sf_name]
+                if sd['width_verified'] and not dd['width_verified']:
+                    dd['width_verified'] = True
+                    dd['width_basis'] = sorted(set(dd['width_basis']) | {'nested-field-width'})
+                dd['composition'] = 'proved'
+                dd['composition_evidence'] = compositions[(xname, fd['name'])]['evidence'][:3]
 for cname, sc in summary['classes'].items():
     sc['provisional_fields'] = sorted(k for k, v in sc['fields'].items() if v != 'confirmed')
     sc['provisional'] = sc['size_status'] != 'confirmed' or bool(sc['provisional_fields'])
-# ПРАВИЛО ДОПУСКА в строгий PDB (v0.4.1): размер класса подтверждён (confirmed) и допущена вся цепочка баз.
+# ПРАВИЛО ДОПУСКА в строгий PDB (v0.4.1, уточнено в v0.4.2 — ширина и композиция, см. admission_rule): размер класса подтверждён (confirmed) и допущена вся цепочка баз.
 # В допущенном классе остаются только подтверждённые поля; остальные в строгом PDB — байты «_unverified_…».
 # Подтверждено = смещение и ширина доступа; объявленный тип поля — из Xbox PDB или API, см. type_status.
 STRICT = {}
@@ -794,11 +905,39 @@ def strict_ok(cn):
 
 for cname, sc in summary['classes'].items():
     sc['strict'] = strict_ok(cname)
-    sc['strict_fields'] = sorted(k for k, v in sc['fields'].items() if v == 'confirmed') if sc['strict'] else []
+    comp = sc.get('compositions', {})
+    for k, dd in sc['field_details'].items():
+        if '.' in k and k.split('.')[0] in comp:
+            dd['composition'] = comp[k.split('.')[0]]['status']
+    for k, cv in comp.items():
+        cv['strict'] = bool(sc['strict'] and cv['status'] == 'proved' and cv['sub'] in summary['classes']
+                            and strict_ok(cv['sub']))
+
+    def admitted(k, dd):
+        if sc['fields'][k] != 'confirmed':
+            return False
+        if not (dd['width_verified'] or dd['declared_kind'] == 'blob'):
+            return False   # смещение есть, а ширина ничем не подтверждена (только взятие адреса и т.п.)
+        if '.' in k and k.split('.')[0] in comp and not comp[k.split('.')[0]]['strict']:
+            return False   # поле вложенного объекта, а сам вложенный объект не доказан / не допущен
+        return True
+    sc['strict_fields'] = sorted(k for k, dd in sc['field_details'].items() if admitted(k, dd)) if sc['strict'] else []
 summary['truncated_functions'] = sorted(f'0x{f:08X}' for f in TRUNCATED)
-summary['admission_rule'] = ('строгий PDB: класс допускается, если его размер confirmed и допущены все базовые классы; '
-                             'в допущенном классе типизированы только поля со статусом confirmed (смещение и ширина), '
-                             'остальные — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack')
+summary['width_basis_kinds'] = {
+    'access-width': 'обращение ровно к началу поля шириной sizeof(поля)',
+    'element-width': 'массив скаляров: обращение к границе элемента шириной sizeof(элемента)',
+    'int64-halves': '64-битное целое: обращения к младшему и/или старшему dword',
+    'index-stride': 'индексное обращение с шагом, равным sizeof(элемента) (imul/scale)',
+    'class-array-element': 'массив классов: внутри элемента подтверждено подполе по его собственной ширине',
+    'nested-field-width': 'поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана',
+    'blob-prefix / blob-stride': 'непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются',
+    '… (в X.поле) / (элемент X.поле[])': 'ширина подтверждена обращением через содержащий класс'}
+summary['admission_rule'] = ('строгий PDB (v0.4.2): класс допускается, если его размер confirmed и допущены все базовые классы; '
+                             'в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена '
+                             'хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); '
+                             'вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса '
+                             'вызывается с ECX = this+смещение) и сам вложенный класс допущен; '
+                             'остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack')
 
 
 def wcsv(name, rows):
@@ -814,6 +953,7 @@ wcsv('evidence_fields.csv', field_rows)
 wcsv('evidence_sizes.csv', sizes_rows)
 wcsv('evidence_vslots.csv', slot_rows)
 wcsv('excluded_functions.csv', excluded_rows)
+wcsv('compositions.csv', composition_rows)
 # функции, опознанные вручную: без имени, с чужим (xNVSE) именем, или передающие объект аргументом — с обоснованием
 ident_rows = []
 for cname_, fs_ in spec.get('class_functions', {}).items():
@@ -869,6 +1009,27 @@ rep += ['', '## Типы полей', '',
         '| объявлено | consistent | not-checked | CONFLICT |', '|---|---|---|---|']
 for kind in ('float', 'pointer', 'int', 'class', 'blob'):
     rep.append(f"| {kind} | {tk[(kind, 'consistent')]} | {tk[(kind, 'not-checked')]} | {tk[(kind, 'CONFLICT')]} |")
+wk = collections.Counter()
+for cn_, sc_ in summary['classes'].items():
+    for k_, d_ in sc_['field_details'].items():
+        if d_['status'] != 'confirmed':
+            continue
+        wk['blob' if d_['declared_kind'] == 'blob' else ('width' if d_['width_verified'] else 'no-width')] += 1
+rep += ['', '## Ширина полей', '',
+        '`width_verified` — ширина поля подтверждена хотя бы одним основанием (`width_basis` у поля в summary.json): '
+        + '; '.join(f'`{k}` — {v}' for k, v in summary['width_basis_kinds'].items()) + '.', '',
+        f"Поля confirmed: ширина подтверждена — {wk['width']}, только смещение (ширина не подтверждена) — {wk['no-width']}, "
+        f"непрозрачные байты — {wk['blob']}. Поля «только смещение» в строгий PDB не входят.", '',
+        '## Вложенные объекты (композиция)', '',
+        'Объект класса внутри другого (например, `BSSoundHandle Hndl` в приёмнике радио) считается доказанным, если метод '
+        'вложенного класса вызывается с ECX = this+смещение. Тогда поля, подтверждённые в коде вложенного класса, '
+        'засчитываются и содержащему, и наоборот. Подробно — compositions.csv.', '',
+        '| класс | поле | вложенный класс | статус | доказательство |', '|---|---|---|---|---|']
+for cn_, sc_ in summary['classes'].items():
+    for k_, cv_ in sc_.get('compositions', {}).items():
+        ev_ = cv_['evidence']
+        proof_ = ('`' + ev_[0] + '`' + (' и ещё %d' % (len(ev_) - 1) if len(ev_) > 1 else '')) if ev_ else '—'
+        rep.append(f"| `{cn_}` | `{k_}` (+{cv_['off']}) | `{cv_['sub']}` | {cv_['status']} | {proof_} |")
 rep += ['', '## Допуск в строгий PDB', '', summary['admission_rule'] + '.', '',
         'Не допущены: ' + (', '.join(f"`{c}` ({sc['size_status']})" for c, sc in summary['classes'].items() if not sc['strict']) or 'нет') + '.',
         '', 'Функции, прочитанные не до конца (лимит 0x%X байт): %s.' % (READ_LIMIT, ', '.join(summary['truncated_functions']) or 'нет')]

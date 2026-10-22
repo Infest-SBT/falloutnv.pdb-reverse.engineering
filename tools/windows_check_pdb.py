@@ -1,24 +1,33 @@
 """Приёмка PDB на Windows через DbgHelp — тот же движок символов, что у WinDbg и Visual Studio.
 
-usage (Windows, Python 3.8+, без сторонних пакетов):
-    python windows_check_pdb.py <FalloutNV.exe> <папка с FalloutNV.pdb> <meta.json>
-    строгий:      python windows_check_pdb.py FalloutNV.exe .        fnv_types_v041.meta.json
-    research:     python windows_check_pdb.py FalloutNV.exe research research\\fnv_types_v041_research.meta.json
+usage (Windows, Python 3.8+, без сторонних пакетов), из корня пакета:
+    python windows_check_pdb.py <FalloutNV.exe> <папка с FalloutNV.pdb> <meta.json> [<test_manifest.json>]
+    строгий:      python windows_check_pdb.py FalloutNV.exe .        fnv_types_v042.meta.json
+    research:     python windows_check_pdb.py FalloutNV.exe research research\\fnv_types_v042_research.meta.json
 
 Что проверяется:
+  0) ДО DbgHelp (v0.4.2): SHA-256 FalloutNV.exe = 1.4.0.525 GOG; SHA-256 FalloutNV.pdb в папке = опубликованному
+     (по test_manifest.json пакета, если он рядом); при любом несовпадении — стоп, DbgHelp не вызывается;
   1) DbgHelp загружает PDB именно из указанной папки и с точным совпадением GUID/age (SYMOPT_EXACT_SYMBOLS,
-     путь из exe игнорируется — SYMOPT_IGNORE_CVREC); печатается, какой файл загружен;
+     путь из exe игнорируется — SYMOPT_IGNORE_CVREC); печатается, какой файл загружен. Строгий режим: если сведения
+     о модуле получить не удалось, загружен другой файл, GUID/age не те, нет типов или публичных символов — ОШИБКА
+     (fail closed: без этих сведений «всё совпадает» не выдаётся);
   2) для каждого класса из meta.json: тип находится по имени (вложенные — «FontManager::CharData»), его размер
      и смещение КАЖДОГО поля и базового класса совпадают с meta.json;
   3) публичные символы xNVSE на месте: несколько известных адресов (FontManager::pInstance, Font::Load …).
-Итог — «ИТОГ: всё совпадает» и код возврата 0, иначе список расхождений и код 1.
+Итог — «ИТОГ: всё совпадает» и код возврата 0; расхождения — код 1; не тот exe или PDB — код 2 (DbgHelp не вызывался).
 
 На настоящей Windows этот скрипт НЕ ЗАПУСКАЛСЯ (собирался в Linux). Часть сравнения проверена тестом на Linux с
 раскладками из нашего же PDB (llvm-pdbutil) вместо DbgHelp; вызовы DbgHelp — нет. Если упадёт — пришлите вывод.
 """
+import hashlib
 import json
 import os
 import sys
+
+EXE_SHA256 = '42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c'   # FalloutNV.exe 1.4.0.525 GOG
+PDB_GUID = '91960891-62EE-4D29-BF48-E8D767B32DB9'
+PDB_AGE = 1
 
 KNOWN = {  # имя публичного символа (PDB xNVSE) -> адрес; если символ не найден или адрес другой — ошибка
     'FontManager::pInstance': 0x011F33F8,
@@ -56,6 +65,74 @@ def compare(meta, backend, out):
         else:
             out(f"  OK        {c['name']:40} sizeof {size:#x}, полей {len(c['fields'])}")
     return bad
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for b in iter(lambda: f.read(1 << 20), b''):
+            h.update(b)
+    return h.hexdigest()
+
+
+def preflight(exe, pdb_dir, manifest_path, out):
+    """Проверки до DbgHelp. -> число ошибок. Общее для Windows и теста на Linux."""
+    bad = 0
+    if not os.path.isfile(exe):
+        out(f'  ОШИБКА    нет файла {exe}')
+        return 1
+    got = sha256(exe)
+    if got != EXE_SHA256:
+        out(f'  ОШИБКА    SHA-256 exe {got} — это не FalloutNV.exe 1.4.0.525 GOG ({EXE_SHA256})')
+        bad += 1
+    else:
+        out(f'  OK        SHA-256 exe {got} (1.4.0.525 GOG)')
+    pdb = os.path.join(pdb_dir, 'FalloutNV.pdb')
+    if not os.path.isfile(pdb):
+        out(f'  ОШИБКА    нет файла {pdb}')
+        return bad + 1
+    want = None
+    if manifest_path and os.path.isfile(manifest_path):
+        man = json.load(open(manifest_path, encoding='utf-8'))
+        root = os.path.dirname(os.path.abspath(manifest_path))
+        rel = os.path.relpath(os.path.abspath(pdb), root).replace('\\', '/')
+        want = man.get('files', {}).get(rel, {}).get('sha256')
+        if want is None:
+            out(f'  ОШИБКА    {rel} нет в {os.path.basename(manifest_path)} — это не PDB из пакета')
+            return bad + 1
+    got = sha256(pdb)
+    if want and got != want:
+        out(f'  ОШИБКА    SHA-256 {pdb} {got} не совпадает с опубликованным {want}')
+        bad += 1
+    else:
+        out(f'  OK        SHA-256 PDB {got}' + (' (как в test_manifest.json)' if want else ' (test_manifest.json не найден — не сверено)'))
+    return bad
+
+
+def check_module(info, pdb_dir, out):
+    """Строгая проверка сведений DbgHelp о загруженном модуле (fail closed). info — dict или None. -> число ошибок."""
+    if info is None:
+        out('  ОШИБКА    SymGetModuleInfoW64 не дал сведений о модуле: неизвестно, какой PDB загружен (fail closed)')
+        return 1
+    errs = []
+    want_pdb = os.path.normcase(os.path.abspath(os.path.join(pdb_dir, 'FalloutNV.pdb')))
+    if os.path.normcase(os.path.abspath(info['loaded_pdb'] or '')) != want_pdb:
+        errs.append(f"загружен {info['loaded_pdb']!r}, а не {want_pdb}")
+    if info['sym_type'] != 3:
+        errs.append(f"тип символов {info['sym_type']} (нужен 3 = PDB)")
+    if info['guid'].upper() != PDB_GUID or info['age'] != PDB_AGE:
+        errs.append(f"GUID {info['guid']} age {info['age']} (нужно {PDB_GUID}, age {PDB_AGE})")
+    for k, what in (('pdb_unmatched', 'PDB не совпал с exe'),):
+        if info[k]:
+            errs.append(what)
+    for k, what in (('type_info', 'нет типов'), ('publics', 'нет публичных символов')):
+        if not info[k]:
+            errs.append(what)
+    if errs:
+        out('  ОШИБКА    модуль: ' + '; '.join(errs))
+        return 1
+    out('  OK        модуль: нужный файл, GUID/age совпали, типы и публичные символы есть')
+    return 0
 
 
 def dbghelp_backend(exe, pdb_dir, out):
@@ -109,16 +186,18 @@ def dbghelp_backend(exe, pdb_dir, out):
     mi = IMAGEHLP_MODULEW64()
     mi.SizeOfStruct = ctypes.sizeof(IMAGEHLP_MODULEW64)
     dh.SymGetModuleInfoW64.argtypes = [W.HANDLE, ctypes.c_uint64, ctypes.POINTER(IMAGEHLP_MODULEW64)]
+    info = None
     if dh.SymGetModuleInfoW64(hp, base, ctypes.byref(mi)):
         g = mi.PdbSig70
-        out(f'PDB загружен: {mi.LoadedPdbName}')
-        out(f'  тип символов {mi.SymType} (3 = PDB), GUID {g.Data1:08X}-{g.Data2:04X}-{g.Data3:04X}-'
-            f'{bytes(g.Data4[:2]).hex().upper()}-{bytes(g.Data4[2:]).hex().upper()}, age {mi.PdbAge}, '
-            f'типы {bool(mi.TypeInfo)}, публичные {bool(mi.Publics)}, несовпадение PDB {bool(mi.PdbUnmatched)}')
-        if mi.SymType != 3 or mi.PdbUnmatched or not mi.TypeInfo:
-            raise OSError('DbgHelp загрузил не тот PDB или PDB без типов')
+        info = {'loaded_pdb': mi.LoadedPdbName, 'sym_type': mi.SymType,
+                'guid': f'{g.Data1:08X}-{g.Data2:04X}-{g.Data3:04X}-{bytes(g.Data4[:2]).hex().upper()}-{bytes(g.Data4[2:]).hex().upper()}',
+                'age': mi.PdbAge, 'type_info': bool(mi.TypeInfo), 'publics': bool(mi.Publics),
+                'pdb_unmatched': bool(mi.PdbUnmatched)}
+        out(f"PDB загружен: {info['loaded_pdb']}")
+        out(f"  тип символов {info['sym_type']} (3 = PDB), GUID {info['guid']}, age {info['age']}, типы {info['type_info']}, "
+            f"публичные {info['publics']}, несовпадение PDB {info['pdb_unmatched']}")
     else:
-        out('SymGetModuleInfoW64 не сработал (старая версия dbghelp?) — продолжаю без сведений о модуле')
+        out('SymGetModuleInfoW64 не сработал: ошибка %d' % k32.GetLastError())
 
     dh.SymGetTypeInfo.argtypes = [W.HANDLE, ctypes.c_uint64, W.ULONG, ctypes.c_int, ctypes.c_void_p]
     dh.SymGetTypeFromNameW.argtypes = [W.HANDLE, ctypes.c_uint64, W.LPCWSTR, ctypes.c_void_p]
@@ -165,16 +244,22 @@ def dbghelp_backend(exe, pdb_dir, out):
         buf, si = sym_info()
         return si.Address if dh.SymFromNameW(hp, name, buf) else None
 
-    return layout, public
+    return layout, public, info
 
 
 def main():
     exe, pdb_dir, meta_path = sys.argv[1:4]
+    manifest = sys.argv[4] if len(sys.argv) > 4 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'test_manifest.json')
     meta = json.load(open(meta_path, encoding='utf-8'))
     out = print
-    layout, public = dbghelp_backend(exe, pdb_dir, out)
+    out('Проверка файлов (до DbgHelp):')
+    if preflight(exe, pdb_dir, manifest, out):
+        out('ИТОГ: ОШИБКА — не тот exe или PDB, DbgHelp не запускался')
+        sys.exit(2)
+    layout, public, info = dbghelp_backend(exe, pdb_dir, out)
+    bad = check_module(info, pdb_dir, out)
     out(f"Классов в {os.path.basename(meta_path)}: {len(meta['classes'])}")
-    bad = compare(meta, layout, out)
+    bad += compare(meta, layout, out)
     for name, va in KNOWN.items():
         got = public(name)
         ok = got == va

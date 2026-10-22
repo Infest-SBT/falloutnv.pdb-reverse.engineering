@@ -1,4 +1,4 @@
-// СТРОГАЯ СБОРКА (verified): строгий PDB: класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизированы только поля со статусом confirmed (смещение и ширина), остальные — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack
+// СТРОГАЯ СБОРКА (verified): строгий PDB (v0.4.2): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с ECX = this+смещение) и сам вложенный класс допущен; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack
 // Сгенерировано gen_headers.py. Источник раскладок: Xbox 360 Fallout.pdb (Release Final,
 // GUID E10D8AB1-141D-499D-BE2D-4F021C2AA76C) — (Xbox PDB). Каждый класс проверен на PC
 // FalloutNV.exe 1.4.0.525 (SHA-256 42fee7d6...) инструментом verify_class.py.
@@ -567,12 +567,12 @@ public:
     int eState; // PC: confirmed
 };
 // FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4
+// PC: sizeof 0x8 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pTail)
 class FreeHeapBlockList {
 public:
     // поля
     FreeHeapBlock* pHead; // PC: confirmed
-    FreeHeapBlock* pTail; // PC: confirmed
+    alignas(4) unsigned char _unverified_pTail[4]; // строгая сборка: не подтверждено (FreeHeapBlock*)
 };
 // IMemoryHeap (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
 // PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x010A28C8
@@ -629,7 +629,7 @@ public:
     int iNumFreeBlocks; // PC: confirmed
     FreeHeapBlockList pSmallFreeList[1024]; // PC: confirmed
     FreeHeapBlockList* pLastSmallList; // PC: confirmed
-    FreeHeapBlockList LargeFreeList;
+    alignas(4) unsigned char _unverified_LargeFreeList[8]; // строгая сборка: не подтверждено (FreeHeapBlockList)
     HeapBlock** pDelayedFreeBlocksA; // PC: confirmed
     unsigned iNextDelayedFreeIndex; // PC: confirmed
     HeapFreeSubBucket pSubBuckets[16]; // PC: confirmed
@@ -837,11 +837,11 @@ public:
     float fV; // PC: confirmed
 };
 // FontLetter (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4
+// PC: sizeof 0x38 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iTextureIndex)
 struct FontLetter {
 public:
     // поля
-    int iTextureIndex; // PC: confirmed
+    alignas(4) unsigned char _unverified_iTextureIndex[4]; // строгая сборка: не подтверждено (int)
     UVMap pMapping[4]; // PC: confirmed
     float fWidth; // PC: confirmed
     float fHeight; // PC: confirmed
@@ -850,12 +850,12 @@ public:
     float fTopEdge; // PC: confirmed
 };
 // TextureFile (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iType)
+// PC: sizeof 0x24 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iType, pFilename)
 struct TextureFile {
 public:
     // поля
     alignas(4) unsigned char _unverified_iType[4]; // строгая сборка: не подтверждено (int)
-    char pFilename[32]; // PC: confirmed
+    unsigned char _unverified_pFilename[32]; // строгая сборка: не подтверждено (char[32 bytes])
 };
 // FontData (Xbox PDB): Xbox sizeof 0x3928, PC sizeof 0x3928
 // PC: sizeof 0x3928 — confirmed; alignof 4
@@ -1159,7 +1159,7 @@ static_assert(offsetof(BSSoundHandle, eState) == 0x8, "BSSoundHandle::eState");
 static_assert(alignof(BSSoundHandle) == 4, "alignof BSSoundHandle: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BSSoundHandle) == 0xC, "sizeof BSSoundHandle");
 static_assert(offsetof(FreeHeapBlockList, pHead) == 0x0, "FreeHeapBlockList::pHead");
-static_assert(offsetof(FreeHeapBlockList, pTail) == 0x4, "FreeHeapBlockList::pTail");
+static_assert(offsetof(FreeHeapBlockList, _unverified_pTail) == 0x4, "FreeHeapBlockList::_unverified_pTail");
 static_assert(alignof(FreeHeapBlockList) == 4, "alignof FreeHeapBlockList: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FreeHeapBlockList) == 0x8, "sizeof FreeHeapBlockList");
 static_assert(alignof(IMemoryHeap) == 4, "alignof IMemoryHeap: следует из типов полей (MSVC x86)");
@@ -1186,7 +1186,7 @@ static_assert(offsetof(AbstractHeap, pBlockTail) == 0x3C, "AbstractHeap::pBlockT
 static_assert(offsetof(AbstractHeap, iNumFreeBlocks) == 0x40, "AbstractHeap::iNumFreeBlocks");
 static_assert(offsetof(AbstractHeap, pSmallFreeList) == 0x44, "AbstractHeap::pSmallFreeList");
 static_assert(offsetof(AbstractHeap, pLastSmallList) == 0x2044, "AbstractHeap::pLastSmallList");
-static_assert(offsetof(AbstractHeap, LargeFreeList) == 0x2048, "AbstractHeap::LargeFreeList");
+static_assert(offsetof(AbstractHeap, _unverified_LargeFreeList) == 0x2048, "AbstractHeap::_unverified_LargeFreeList");
 static_assert(offsetof(AbstractHeap, pDelayedFreeBlocksA) == 0x2050, "AbstractHeap::pDelayedFreeBlocksA");
 static_assert(offsetof(AbstractHeap, iNextDelayedFreeIndex) == 0x2054, "AbstractHeap::iNextDelayedFreeIndex");
 static_assert(offsetof(AbstractHeap, pSubBuckets) == 0x2058, "AbstractHeap::pSubBuckets");
@@ -1327,7 +1327,7 @@ static_assert(offsetof(UVMap, fU) == 0x0, "UVMap::fU");
 static_assert(offsetof(UVMap, fV) == 0x4, "UVMap::fV");
 static_assert(alignof(UVMap) == 4, "alignof UVMap: следует из типов полей (MSVC x86)");
 static_assert(sizeof(UVMap) == 0x8, "sizeof UVMap");
-static_assert(offsetof(FontLetter, iTextureIndex) == 0x0, "FontLetter::iTextureIndex");
+static_assert(offsetof(FontLetter, _unverified_iTextureIndex) == 0x0, "FontLetter::_unverified_iTextureIndex");
 static_assert(offsetof(FontLetter, pMapping) == 0x4, "FontLetter::pMapping");
 static_assert(offsetof(FontLetter, fWidth) == 0x24, "FontLetter::fWidth");
 static_assert(offsetof(FontLetter, fHeight) == 0x28, "FontLetter::fHeight");
@@ -1337,7 +1337,7 @@ static_assert(offsetof(FontLetter, fTopEdge) == 0x34, "FontLetter::fTopEdge");
 static_assert(alignof(FontLetter) == 4, "alignof FontLetter: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FontLetter) == 0x38, "sizeof FontLetter");
 static_assert(offsetof(TextureFile, _unverified_iType) == 0x0, "TextureFile::_unverified_iType");
-static_assert(offsetof(TextureFile, pFilename) == 0x4, "TextureFile::pFilename");
+static_assert(offsetof(TextureFile, _unverified_pFilename) == 0x4, "TextureFile::_unverified_pFilename");
 static_assert(alignof(TextureFile) == 4, "alignof TextureFile: следует из типов полей (MSVC x86)");
 static_assert(sizeof(TextureFile) == 0x24, "sizeof TextureFile");
 static_assert(offsetof(FontData, fBaseLine) == 0x0, "FontData::fBaseLine");

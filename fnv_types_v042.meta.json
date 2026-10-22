@@ -3284,12 +3284,12 @@
      "class_array_of": null
     },
     {
-     "name": "pTail",
+     "name": "_unverified_pTail",
      "off": 4,
      "size": 4,
      "xbox_type": "FreeHeapBlock*",
-     "opaque": false,
-     "decl": "FreeHeapBlock* pTail;",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char _unverified_pTail[4];",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null
@@ -3759,12 +3759,12 @@
      "class_array_of": null
     },
     {
-     "name": "LargeFreeList",
+     "name": "_unverified_LargeFreeList",
      "off": 8264,
      "size": 8,
      "xbox_type": "FreeHeapBlockList",
-     "opaque": false,
-     "decl": "FreeHeapBlockList LargeFreeList;",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char _unverified_LargeFreeList[8];",
      "source": "xbox_pdb",
      "class_type": "FreeHeapBlockList",
      "class_array_of": null
@@ -5144,12 +5144,12 @@
    "vslots": [],
    "fields": [
     {
-     "name": "iTextureIndex",
+     "name": "_unverified_iTextureIndex",
      "off": 0,
      "size": 4,
      "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iTextureIndex;",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char _unverified_iTextureIndex[4];",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null
@@ -5243,12 +5243,12 @@
      "class_array_of": null
     },
     {
-     "name": "pFilename",
+     "name": "_unverified_pFilename",
      "off": 4,
      "size": 32,
      "xbox_type": "char[32 bytes]",
-     "opaque": false,
-     "decl": "char pFilename[32];",
+     "opaque": true,
+     "decl": "unsigned char _unverified_pFilename[32];",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null

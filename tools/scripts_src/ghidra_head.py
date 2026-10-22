@@ -1,12 +1,12 @@
-# Применяет доказательную матрицу FNV PDB v0.4.1 к открытой программе Ghidra.
+# Применяет доказательную матрицу FNV PDB v0.4.2 к открытой программе Ghidra.
 # @category FNV
 # @runtime Jython
 #
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.1 (File > Load PDB File):
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.2 (File > Load PDB File):
 #   строгий FalloutNV.pdb (по умолчанию, STRICT = True) или research/FalloutNV.pdb (STRICT = False, headless: --research),
 # затем Script Manager > fnv_apply_ghidra.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.4.1):
+# Безопасность (v0.4.2):
 #   * сначала проверяется, что это тот самый exe: SHA-256 исходного файла, база образа 0x400000, x86 32-бит;
 #     при любом несовпадении скрипт останавливается и ничего не меняет;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: строится план, пишется в fnv_apply_plan_ghidra.txt рядом с summary.json,

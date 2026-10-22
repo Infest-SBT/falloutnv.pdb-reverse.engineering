@@ -737,12 +737,12 @@ public:
     FreeHeapBlock* pNextFree; // PC: confirmed
 };
 // FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4
+// PC: sizeof 0x8 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pTail)
 class FreeHeapBlockList {
 public:
     // поля
     FreeHeapBlock* pHead; // PC: confirmed
-    FreeHeapBlock* pTail; // PC: confirmed
+    FreeHeapBlock* pTail; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
 };
 // IMemoryHeap (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
 // PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x010A28C8
@@ -1029,11 +1029,11 @@ public:
     float fV; // PC: confirmed
 };
 // FontLetter (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4
+// PC: sizeof 0x38 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iTextureIndex)
 struct FontLetter {
 public:
     // поля
-    int iTextureIndex; // PC: confirmed
+    int iTextureIndex; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
     UVMap pMapping[4]; // PC: confirmed
     float fWidth; // PC: confirmed
     float fHeight; // PC: confirmed
@@ -1042,12 +1042,12 @@ public:
     float fTopEdge; // PC: confirmed
 };
 // TextureFile (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iType)
+// PC: sizeof 0x24 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iType, pFilename)
 struct TextureFile {
 public:
     // поля
     int iType; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
-    char pFilename[32]; // PC: confirmed
+    char pFilename[32]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
 };
 // FontData (Xbox PDB): Xbox sizeof 0x3928, PC sizeof 0x3928
 // PC: sizeof 0x3928 — confirmed; alignof 4

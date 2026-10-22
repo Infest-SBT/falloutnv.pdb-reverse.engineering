@@ -1,5 +1,5 @@
 // Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.
-#include "fnv_types_v041.h"
+#include "fnv_types_v042_research.h"
 BaseFormComponent* g_ref_BaseFormComponent = nullptr;
 TESForm* g_ref_TESForm = nullptr;
 TESDataHandler* g_ref_TESDataHandler = nullptr;
@@ -7,7 +7,10 @@ BSGameSound* g_ref_BSGameSound = nullptr;
 BSWin32GameSound* g_ref_BSWin32GameSound = nullptr;
 BSAudio* g_ref_BSAudio = nullptr;
 BSWin32Audio* g_ref_BSWin32Audio = nullptr;
+BSAudioManager* g_ref_BSAudioManager = nullptr;
 BSSoundHandle* g_ref_BSSoundHandle = nullptr;
+HeapBlock* g_ref_HeapBlock = nullptr;
+FreeHeapBlock* g_ref_FreeHeapBlock = nullptr;
 FreeHeapBlockList* g_ref_FreeHeapBlockList = nullptr;
 IMemoryHeap* g_ref_IMemoryHeap = nullptr;
 HeapFreeSubBucket* g_ref_HeapFreeSubBucket = nullptr;
@@ -15,7 +18,9 @@ AbstractHeap* g_ref_AbstractHeap = nullptr;
 MemoryHeap* g_ref_MemoryHeap = nullptr;
 ScrapHeap* g_ref_ScrapHeap = nullptr;
 MemoryManager* g_ref_MemoryManager = nullptr;
+BGSSaveLoadFormHeader* g_ref_BGSSaveLoadFormHeader = nullptr;
 BGSSaveGameBuffer* g_ref_BGSSaveGameBuffer = nullptr;
+BGSSaveFormBuffer* g_ref_BGSSaveFormBuffer = nullptr;
 BGSLoadGameBuffer* g_ref_BGSLoadGameBuffer = nullptr;
 BGSLoadFormBuffer* g_ref_BGSLoadFormBuffer = nullptr;
 BGSSaveLoadGame* g_ref_BGSSaveLoadGame = nullptr;
@@ -30,11 +35,13 @@ FontLetter* g_ref_FontLetter = nullptr;
 TextureFile* g_ref_TextureFile = nullptr;
 FontData* g_ref_FontData = nullptr;
 Font* g_ref_Font = nullptr;
+Font::TextData* g_ref_Font__TextData = nullptr;
 FontManager* g_ref_FontManager = nullptr;
 FontManager::CharData* g_ref_FontManager__CharData = nullptr;
 FontManager::TextLine* g_ref_FontManager__TextLine = nullptr;
 FontManager::TextPage* g_ref_FontManager__TextPage = nullptr;
 FontManager::TextDoc* g_ref_FontManager__TextDoc = nullptr;
+FontManager::TextData* g_ref_FontManager__TextData = nullptr;
 BSSoundHandle::ASSUMED_STATE g_ref_BSSoundHandle__ASSUMED_STATE;
 FontManager::enumCharTypes g_ref_FontManager__enumCharTypes;
 CHANGE_TYPE g_ref_CHANGE_TYPE;
