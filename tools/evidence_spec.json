@@ -52,7 +52,7 @@
    [
     "bounds",
     392,
-    "объект BSAudioManager::Instance 0x011F6EF0; по 0x011F7078 = Instance + 0x188 лежит флаг статической инициализации: BSAudioManager::GetSingleton читает его бит 0 и ставит его перед вызовом конструктора для Instance => не больше 0x188; нижняя граница: последнее поле bIgnoreGlobalTimeMultiplier на +0x184 (≥ 0x185), класс с полями по 4 байта выровнен на 4 => не меньше 0x188; границы совпали",
+    "объект BSAudioManager::Instance 0x011F6EF0; по 0x011F7078 = Instance + 0x188 лежит флаг статической инициализации: BSAudioManager::GetSingleton читает его бит 0 и ставит его перед вызовом конструктора для Instance => не больше 0x188; нижняя граница: последнее поле bIgnoreGlobalTimeMultiplier на +0x184 (≥ 0x185), класс с полями по 4 байта выровнен на 4 => не меньше 0x188; границы совпали ДОПУЩЕНИЕ: флаг 0x011F7078 — отдельная guard-переменная компилятора (MSVC кладёт её отдельным глобалом), не часть объекта.",
     [
      [
       "0xAD9082",
@@ -218,7 +218,7 @@
    [
     "bounds",
     16,
-    "верхняя граница: AbstractHeap::BaseAllocate округляет запрос меньше 8 байт до 8 (0x00AA8F7B cmp [ebp+8], 8; 0x00AA8F81 mov [ebp+8], 8), заголовок HeapBlock — 8 байт => самый маленький блок занимает 0x10, и освобождённый блок хранит в нём pPrevFree/pNextFree (+8/+0xC) => FreeHeapBlock не больше 0x10; нижняя граница: последнее поле pNextFree на +0xC (4 байта) => не меньше 0x10; границы совпали",
+    "верхняя граница: AbstractHeap::BaseAllocate округляет запрос меньше 8 байт до 8 (0x00AA8F7B cmp [ebp+8], 8; 0x00AA8F81 mov [ebp+8], 8), заголовок HeapBlock — 8 байт => самый маленький блок занимает 0x10, и освобождённый блок хранит в нём pPrevFree/pNextFree (+8/+0xC) => FreeHeapBlock не больше 0x10; нижняя граница: последнее поле pNextFree на +0xC (4 байта) => не меньше 0x10; границы совпали ДОПУЩЕНИЕ: освобождённый блок минимального размера становится элементом списка свободных блоков (FreeHeapBlock) — по коду BaseFree/ListRemove; на живой игре не проверено.",
     [
      [
       "0xAA8F7B",
@@ -237,9 +237,9 @@
   ],
   "BGSSaveLoadFormHeader": [
    [
-    "write-size",
+    "serialized-size",
     9,
-    "BGSSaveFormBuffer::Save пишет заголовок одним куском: push 9; edx = this + 0x14 (поле Header); BGSSaveLoadFile::Write(&Header, 9) (0x00865A62..0x00865A6E); BGSSaveFormBuffer::GetOverhead прибавляет те же 9 (0x00865B39). Последнее поле cVersion на +8 => не меньше 9; записываемый размер = 9",
+    "v0.5.5 (аудит Астры v0.5.4, P2): размер ЗАПИСИ, не sizeof. BGSSaveFormBuffer::Save пишет заголовок одним куском: push 9; edx = this + 0x14 (поле Header); BGSSaveLoadFile::Write(&Header, 9) (0x00865A62..0x00865A6E); GetOverhead прибавляет те же 9 (0x00865B39). Это доказывает 9 байт в формате сохранения; sizeof структуры в памяти — от 9 (последнее поле cVersion на +8) до 0xC (следующее подтверждённое поле вмещающих буферов на +0x20 при Header на +0x14); pack(1) следует из iChangeFlags на +3, но хвост не исключён. Размер 9 — по Xbox PDB, consistent",
     [
      [
       "0x865A62",
@@ -310,6 +310,24 @@
       "0x8650B7",
       "mov ecx, dword ptr [ebp - 0x10]"
      ]
+    ],
+    [
+     {
+      "obj_disp": "-0x34",
+      "next_disp": "-0x10",
+      "obj_first": "0x864F65",
+      "obj_last": "0x864FB3",
+      "next_def": "0x864F62",
+      "next_use": "0x864FB7"
+     },
+     {
+      "obj_disp": "-0x34",
+      "next_disp": "-0x10",
+      "obj_first": "0x865065",
+      "obj_last": "0x8650B3",
+      "next_def": "0x865062",
+      "next_use": "0x8650B7"
+     }
     ]
    ]
   ],
@@ -339,14 +357,22 @@
       "0xA12BCE",
       "lea eax, [ebp - 0x38]"
      ]
-    ]
+    ],
+    {
+     "obj_disp": "-0x58",
+     "next_disp": "-0x30",
+     "obj_first": "0xA12903",
+     "obj_last": "0xA12BCE",
+     "next_def": "0xA1295B",
+     "next_use": "0xA12988"
+    }
    ]
   ],
   "FontManager::TextData": [
    [
-    "stack-frame",
+    "stack-frame-bound",
     64,
-    "TileText::MakeNode: объект на [ebp−0xAC] передаётся в FontManager::CreateText (0x00A22094 lea eax, [ebp−0xAC]; 0x00A220C6 call); его поля заполняются перед вызовом (bIsHypertext +0x34 = [ebp−0x78], 0x00A2207B) и список xNewText (+0x38 = [ebp−0x74]) используется после (0x00A2215F); слот [ebp−0x68] сразу за 0x40 байтами — другая переменная: записана до (0x00A21B29) и прочитана после (0x00A22429) => не больше 0x40; последнее поле xNewText на +0x38 (8 байт) => не меньше 0x40",
+    "v0.5.5 (аудит Астры v0.5.4, P1): только граница. TileText::MakeNode: объект на [ebp−0xAC] (0x00A22094 lea; поля заполняются до вызова FontManager::CreateText, xNewText +0x38 = [ebp−0x74] используется после, 0x00A2215F); ближайшая живая переменная — [ebp−0x68] (запись 0x00A21B29, чтение 0x00A22429) ⇒ sizeof ≤ 0xAC − 0x68 = 0x44; последнее поле xNewText (+0x38, 8 байт) ⇒ sizeof ≥ 0x40. Слот [ebp−0x6C] в функции не упоминается — хвост 4 байт или выравнивание не различить. В v0.5.4 здесь ошибочно стояло «≤ 0x40»; размер 0x40 — по Xbox PDB, consistent",
     [
      [
       "0xA22094",
@@ -372,7 +398,15 @@
       "0xA22429",
       "cmp dword ptr [ebp - 0x68], 0"
      ]
-    ]
+    ],
+    {
+     "obj_disp": "-0xAC",
+     "next_disp": "-0x68",
+     "obj_first": "0xA22094",
+     "obj_last": "0xA2215F",
+     "next_def": "0xA21B29",
+     "next_use": "0xA22429"
+    }
    ]
   ]
  },
@@ -508,10 +542,44 @@
   },
   "BGSSaveLoadChangesMap": {
    "0x845B30": {
-    "note": "NiTPointerMap<uint, BGSFormChanges*>::NiTPointerMap — конструктор базового класса: BGSSaveLoadChangesMap::BGSSaveLoadChangesMap (0x00845550) вызывает его с ECX = this (0x0084555C mov ecx,[ebp-4]; 0x0084555F call) и hashSize 0x13AF"
+    "note": "NiTPointerMap<uint, BGSFormChanges*>::NiTPointerMap — конструктор базового класса: BGSSaveLoadChangesMap::BGSSaveLoadChangesMap (0x00845550) вызывает его с ECX = this (0x0084555C mov ecx,[ebp-4]; 0x0084555F call) и hashSize 0x13AF",
+    "this_links": {
+     "caller": "0x845550",
+     "entry": "0x845554",
+     "links": [
+      [
+       "0x845554",
+       "[ebp-4]",
+       "0x84555C"
+      ],
+      [
+       "0x84555C",
+       "ecx",
+       "0x84555F"
+      ]
+     ],
+     "call": "0x84555F"
+    }
    },
    "0x845B90": {
-    "note": "NiTMapBase<NiTPointerAllocator<uint>, uint, BGSFormChanges*>::NiTMapBase — конструктор базы базы: вызывается из NiTPointerMap::NiTPointerMap (0x00845B30) с тем же this; пишет +4 = m_uiHashSize (аргумент), +0xC = m_uiCount = 0, выделяет hashSize×4 и пишет указатель в +8 = m_ppkHashTable, затем обнуляет таблицу"
+    "note": "NiTMapBase<NiTPointerAllocator<uint>, uint, BGSFormChanges*>::NiTMapBase — конструктор базы базы: вызывается из NiTPointerMap::NiTPointerMap (0x00845B30) с тем же this; пишет +4 = m_uiHashSize (аргумент), +0xC = m_uiCount = 0, выделяет hashSize×4 и пишет указатель в +8 = m_ppkHashTable, затем обнуляет таблицу",
+    "this_links": {
+     "caller": "0x845B30",
+     "entry": "0x845B34",
+     "links": [
+      [
+       "0x845B34",
+       "[ebp-4]",
+       "0x845B3B"
+      ],
+      [
+       "0x845B3B",
+       "ecx",
+       "0x845B3E"
+      ]
+     ],
+     "call": "0x845B3E"
+    }
    }
   }
  },
@@ -613,7 +681,23 @@
       "mov eax, dword ptr [edx + 0x34]"
      ]
     ],
-    "note": "BSShaderAccumulator::RegisterObject_Standard (статическая): esi = 1-й аргумент — аккумулятор (дальше [esi+0x18C] = uiBatchRendererCount, [esi+0x164] = bWaterReflection); edx = pBatchRenderer[i] (+0x174, индекс = остаток от деления на uiBatchRendererCount) — объект BSBatchRenderer; читаются iGroupingAlphas (+0x34, dword) и байт +0x38 — bAlphaGroupZPrePass: «если iGroupingAlphas > 0 и bAlphaGroupZPrePass»"
+    "note": "BSShaderAccumulator::RegisterObject_Standard (статическая): esi = 1-й аргумент — аккумулятор (дальше [esi+0x18C] = uiBatchRendererCount, [esi+0x164] = bWaterReflection); edx = pBatchRenderer[i] (+0x174, индекс = остаток от деления на uiBatchRendererCount) — объект BSBatchRenderer; читаются iGroupingAlphas (+0x34, dword) и байт +0x38 — bAlphaGroupZPrePass: «если iGroupingAlphas > 0 и bAlphaGroupZPrePass»",
+    "entry_arg": [
+     "0xB64024",
+     1
+    ],
+    "links": [
+     [
+      "0xB64024",
+      "esi",
+      "0xB640BA"
+     ],
+     [
+      "0xB640BA",
+      "edx",
+      "0xB640C8"
+     ]
+    ]
    },
    {
     "access": "0xB640C1",
@@ -628,7 +712,23 @@
       "mov edx, dword ptr [esi + edx*4 + 0x174]"
      ]
     ],
-    "note": "то же: BSBatchRenderer::iGroupingAlphas (+0x34) элемента pBatchRenderer[i] аккумулятора — 1-го аргумента RegisterObject_Standard"
+    "note": "то же: BSBatchRenderer::iGroupingAlphas (+0x34) элемента pBatchRenderer[i] аккумулятора — 1-го аргумента RegisterObject_Standard",
+    "entry_arg": [
+     "0xB64024",
+     1
+    ],
+    "links": [
+     [
+      "0xB64024",
+      "esi",
+      "0xB640BA"
+     ],
+     [
+      "0xB640BA",
+      "edx",
+      "0xB640C1"
+     ]
+    ]
    }
   ],
   "BSShaderAccumulator": [
@@ -673,7 +773,89 @@
       "call 0xb660d0"
      ]
     ],
-    "note": "TESMain::DrawWorld_DrawScene (this = TESMain, [ebp−0x1A8]): TESMain+0x88 — NiPointer на аккумулятор мира (Xbox Main::spDrawWorldAccum на +0x90; на PC на 8 байт раньше — две BSPackedTaskQueue с CRITICAL_SECTION на 4 байта меньше). Что там именно BSShaderAccumulator, видно в TESMain::TESMain: выделено 0x280, вызван BSShaderAccumulator::BSShaderAccumulator (0x0086C2BA) и результат присвоен NiPointer'у this+0x88 (0x0086C2D9..0x0086C2E2). Разыменование NiPointer (0x00559450) → аккумулятор, байт +0x38 = bWorldGeometry (пишется флаг из аргумента)"
+    "note": "TESMain::DrawWorld_DrawScene (this = TESMain, [ebp−0x1A8]): TESMain+0x88 — NiPointer на аккумулятор мира (Xbox Main::spDrawWorldAccum на +0x90; на PC на 8 байт раньше — две BSPackedTaskQueue с CRITICAL_SECTION на 4 байта меньше). Что там именно BSShaderAccumulator, видно в TESMain::TESMain: выделено 0x280, вызван BSShaderAccumulator::BSShaderAccumulator (0x0086C2BA) и результат присвоен NiPointer'у this+0x88 (0x0086C2D9..0x0086C2E2). Разыменование NiPointer (0x00559450) → аккумулятор, байт +0x38 = bWorldGeometry (пишется флаг из аргумента)",
+    "entry": "0x873229",
+    "links": [
+     [
+      "0x873229",
+      "[ebp-0x1a8]",
+      "0x873295"
+     ],
+     [
+      "0x873295",
+      "ecx",
+      "0x87329B"
+     ],
+     [
+      "0x87329B",
+      "ecx",
+      "0x8732A1"
+     ],
+     [
+      "0x8732A1",
+      "eax",
+      "0x8732A6"
+     ],
+     [
+      "0x86C185",
+      "[ebp-0x44]",
+      "0x86C2D9"
+     ],
+     [
+      "0x86C2D9",
+      "ecx",
+      "0x86C2DC"
+     ],
+     [
+      "0x86C2DC",
+      "ecx",
+      "0x86C2E2"
+     ]
+    ],
+    "callees": [
+     {
+      "va": "0x559450",
+      "summary": "NiPointer<T>::operator T*: eax = [ecx]",
+      "body": [
+       [
+        "0x559450",
+        "push ebp"
+       ],
+       [
+        "0x559451",
+        "mov ebp, esp"
+       ],
+       [
+        "0x559453",
+        "push ecx"
+       ],
+       [
+        "0x559454",
+        "mov dword ptr [ebp - 4], ecx"
+       ],
+       [
+        "0x559457",
+        "mov eax, dword ptr [ebp - 4]"
+       ],
+       [
+        "0x55945A",
+        "mov eax, dword ptr [eax]"
+       ],
+       [
+        "0x55945C",
+        "mov esp, ebp"
+       ],
+       [
+        "0x55945E",
+        "pop ebp"
+       ],
+       [
+        "0x55945F",
+        "ret"
+       ]
+      ]
+     }
+    ]
    },
    {
     "access": "0x874226",
@@ -692,7 +874,74 @@
       "call 0x559450"
      ]
     ],
-    "note": "там же, в конце DrawWorld_DrawScene: bWorldGeometry аккумулятора мира сбрасывается в 0"
+    "note": "там же, в конце DrawWorld_DrawScene: bWorldGeometry аккумулятора мира сбрасывается в 0",
+    "entry": "0x873229",
+    "links": [
+     [
+      "0x873229",
+      "[ebp-0x1a8]",
+      "0x874215"
+     ],
+     [
+      "0x874215",
+      "ecx",
+      "0x87421B"
+     ],
+     [
+      "0x87421B",
+      "ecx",
+      "0x874221"
+     ],
+     [
+      "0x874221",
+      "eax",
+      "0x874226"
+     ]
+    ],
+    "callees": [
+     {
+      "va": "0x559450",
+      "summary": "NiPointer<T>::operator T*: eax = [ecx]",
+      "body": [
+       [
+        "0x559450",
+        "push ebp"
+       ],
+       [
+        "0x559451",
+        "mov ebp, esp"
+       ],
+       [
+        "0x559453",
+        "push ecx"
+       ],
+       [
+        "0x559454",
+        "mov dword ptr [ebp - 4], ecx"
+       ],
+       [
+        "0x559457",
+        "mov eax, dword ptr [ebp - 4]"
+       ],
+       [
+        "0x55945A",
+        "mov eax, dword ptr [eax]"
+       ],
+       [
+        "0x55945C",
+        "mov esp, ebp"
+       ],
+       [
+        "0x55945E",
+        "pop ebp"
+       ],
+       [
+        "0x55945F",
+        "ret"
+       ]
+      ]
+     }
+    ]
    }
   ],
   "BSGameSound": [
@@ -722,7 +971,25 @@
       "call 0xec65a6"
      ]
     ],
-    "note": "BSGameSound::SetFilename (this = [ebp−0x18]): strcpy_s(this + 0x36, 0x104, имя) — адрес начала pFilename передан вместе с размером буфера 0x104 = 260 = sizeof(pFilename)"
+    "note": "BSGameSound::SetFilename (this = [ebp−0x18]): strcpy_s(this + 0x36, 0x104, имя) — адрес начала pFilename передан вместе с размером буфера 0x104 = 260 = sizeof(pFilename)",
+    "entry": "0xAE9466",
+    "links": [
+     [
+      "0xAE9466",
+      "[ebp-0x18]",
+      "0xAE948E"
+     ],
+     [
+      "0xAE948E",
+      "edx",
+      "0xAE9491"
+     ],
+     [
+      "0xAE9491",
+      "edx",
+      "0xAE9494"
+     ]
+    ]
    }
   ],
   "BGSSaveLoadGame": [
@@ -756,7 +1023,81 @@
       "call 0x403d30"
      ]
     ],
-    "note": "BGSSaveLoadGame::BGSSaveLoadGame (this = [ebp−0x50]): ourMemset(this + 0x44, 0xFF, 0xFF) — cFileIndexArray заполняется целиком: размер 0xFF = 255 = sizeof(cFileIndexArray)"
+    "note": "BGSSaveLoadGame::BGSSaveLoadGame (this = [ebp−0x50]): ourMemset(this + 0x44, 0xFF, 0xFF) — cFileIndexArray заполняется целиком: размер 0xFF = 255 = sizeof(cFileIndexArray)",
+    "entry": "0x846F55",
+    "links": [
+     [
+      "0x846F55",
+      "[ebp-0x50]",
+      "0x8471A8"
+     ],
+     [
+      "0x8471A8",
+      "eax",
+      "0x8471AB"
+     ],
+     [
+      "0x8471AB",
+      "eax",
+      "0x8471AE"
+     ]
+    ],
+    "callees": [
+     {
+      "va": "0x403D30",
+      "summary": "ourMemset(dst, val, n) = memset(dst, val, n): аргументы передаются в 0x00EC61C0 в том же порядке",
+      "body": [
+       [
+        "0x403D30",
+        "push ebp"
+       ],
+       [
+        "0x403D31",
+        "mov ebp, esp"
+       ],
+       [
+        "0x403D33",
+        "mov eax, dword ptr [ebp + 0x10]"
+       ],
+       [
+        "0x403D36",
+        "push eax"
+       ],
+       [
+        "0x403D37",
+        "mov ecx, dword ptr [ebp + 0xc]"
+       ],
+       [
+        "0x403D3A",
+        "push ecx"
+       ],
+       [
+        "0x403D3B",
+        "mov edx, dword ptr [ebp + 8]"
+       ],
+       [
+        "0x403D3E",
+        "push edx"
+       ],
+       [
+        "0x403D3F",
+        "call 0xec61c0"
+       ],
+       [
+        "0x403D44",
+        "add esp, 0xc"
+       ],
+       [
+        "0x403D47",
+        "pop ebp"
+       ],
+       [
+        "0x403D48",
+        "ret"
+       ]
+      ]
+     }
+    ]
    },
    {
     "access": "0x8471C4",
@@ -788,7 +1129,81 @@
       "call 0x403d30"
      ]
     ],
-    "note": "то же для cReverseFileIndexArray: ourMemset(this + 0x143, 0xFF, 0xFF), 255 = sizeof(cReverseFileIndexArray)"
+    "note": "то же для cReverseFileIndexArray: ourMemset(this + 0x143, 0xFF, 0xFF), 255 = sizeof(cReverseFileIndexArray)",
+    "entry": "0x846F55",
+    "links": [
+     [
+      "0x846F55",
+      "[ebp-0x50]",
+      "0x8471C1"
+     ],
+     [
+      "0x8471C1",
+      "ecx",
+      "0x8471C4"
+     ],
+     [
+      "0x8471C4",
+      "ecx",
+      "0x8471CA"
+     ]
+    ],
+    "callees": [
+     {
+      "va": "0x403D30",
+      "summary": "ourMemset(dst, val, n) = memset(dst, val, n): аргументы передаются в 0x00EC61C0 в том же порядке",
+      "body": [
+       [
+        "0x403D30",
+        "push ebp"
+       ],
+       [
+        "0x403D31",
+        "mov ebp, esp"
+       ],
+       [
+        "0x403D33",
+        "mov eax, dword ptr [ebp + 0x10]"
+       ],
+       [
+        "0x403D36",
+        "push eax"
+       ],
+       [
+        "0x403D37",
+        "mov ecx, dword ptr [ebp + 0xc]"
+       ],
+       [
+        "0x403D3A",
+        "push ecx"
+       ],
+       [
+        "0x403D3B",
+        "mov edx, dword ptr [ebp + 8]"
+       ],
+       [
+        "0x403D3E",
+        "push edx"
+       ],
+       [
+        "0x403D3F",
+        "call 0xec61c0"
+       ],
+       [
+        "0x403D44",
+        "add esp, 0xc"
+       ],
+       [
+        "0x403D47",
+        "pop ebp"
+       ],
+       [
+        "0x403D48",
+        "ret"
+       ]
+      ]
+     }
+    ]
    }
   ]
  }

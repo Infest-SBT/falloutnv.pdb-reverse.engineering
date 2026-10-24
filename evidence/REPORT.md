@@ -24,11 +24,11 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `MemoryHeap` | 0x20F4 | confirmed | ctor-alloc | да | 2 / 0 / 0 / 0 | 0 / 17 / 1 / 0 / 0 / 0 / 0 |
 | `ScrapHeap` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MemoryManager` | 0x138 | confirmed | bounds | да | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadFormHeader` | 0x9 | confirmed | write-size | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadFormHeader` | 0x9 | consistent | last-field | нет | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveGameBuffer` | 0x14 | confirmed | subclass-boundary | да | 5 / 0 / 0 / 0 | 0 / 2 / 1 / 0 / 0 / 0 / 0 |
-| `BGSSaveFormBuffer` | 0x24 | confirmed | stack-frame | да | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveFormBuffer` | 0x24 | confirmed | stack-frame | да (−4 полей) | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `BGSLoadGameBuffer` | 0x10 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
-| `BGSLoadFormBuffer` | 0x30 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
+| `BGSLoadFormBuffer` | 0x30 | confirmed | ctor-alloc | да (−4 полей) | 9 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadGame` | 0x24C | confirmed | ctor-alloc | да | 15 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadManager` | 0x38 | confirmed | ctor-alloc | да | 19 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadChangesMap` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
@@ -47,7 +47,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `FontManager::TextLine` | 0x30 | confirmed | ctor-alloc | да (−1 полей) | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextPage` | 0x44 | confirmed | ctor-alloc | да (−1 полей) | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextDoc` | 0x18 | confirmed | alloc-inline | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FontManager::TextData` | 0x40 | confirmed | stack-frame | да | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FontManager::TextData` | 0x40 | consistent | last-field | нет | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiRefObject` | 0x8 | confirmed | subclass-boundary | да | 2 / 0 / 0 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `NiObject` | 0x8 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 0 / 17 / 0 / 1 / 17 / 0 / 0 |
 | `NiObjectNET` | 0x18 | confirmed | ctor-alloc-derived, subclass-boundary | да | 5 / 0 / 0 / 0 | 0 / 14 / 2 / 1 / 18 / 0 / 0 |
@@ -79,7 +79,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `NiBackToFrontAccumulator` | 0x30 | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 0 / 13 / 3 / 3 / 23 / 0 / 0 |
 | `NiAlphaAccumulator` | 0x34 | confirmed | subclass-boundary | да | 3 / 0 / 0 / 0 | 0 / 15 / 2 / 3 / 22 / 0 / 0 |
 | `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−3 полей) | 48 / 1 / 2 / 0 | 0 / 15 / 2 / 5 / 23 / 0 / 0 |
-| `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да (−2 полей) | 11 / 0 / 2 / 0 | 0 / 11 / 2 / 2 / 22 / 0 / 0 |
+| `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да | 13 / 0 / 0 / 0 | 0 / 11 / 2 / 2 / 22 / 0 / 0 |
 | `NiRenderer` | 0x280 | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 0 / 9 / 2 / 2 / 23 / 0 / 0 |
 | `NiDX9Renderer` | 0xB80 | confirmed | ctor-alloc | да (−1 полей) | 26 / 1 / 0 / 0 | 0 / 9 / 2 / 2 / 23 / 0 / 0 |
 | `NiShader` | 0x14 | confirmed | ctor-alloc, subclass-boundary | да | 3 / 0 / 0 / 0 | 0 / 6 / 29 / 0 / 12 / 0 / 0 |
@@ -101,7 +101,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 |---|---|---|---|
 | float | 110 | 20 | 0 |
 | pointer | 92 | 87 | 0 |
-| int | 31 | 325 | 0 |
+| int | 36 | 320 | 0 |
 | class | 0 | 10 | 0 |
 | blob | 0 | 227 | 0 |
 
@@ -109,7 +109,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 `width_verified` — ширина поля подтверждена хотя бы одним основанием (`width_basis` у поля в summary.json): `access-width` — обращение ровно к началу поля шириной sizeof(поля); `element-width` — массив скаляров: обращение к границе элемента шириной sizeof(элемента); `int64-halves` — 64-битное целое: обращения к младшему и/или старшему dword; `index-stride` — индексное обращение с шагом, равным sizeof(элемента) (imul/scale); `class-array-element` — массив классов: внутри элемента подтверждено подполе по его собственной ширине; `nested-field-width` — поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана; `class-member` — поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5); `buffer-size` — поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses); `blob-prefix / blob-stride` — непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются; `… (в X.поле) / (элемент X.поле[])` — ширина подтверждена обращением через содержащий класс.
 
-Поля confirmed: ширина подтверждена — 652, только смещение (ширина не подтверждена) — 0, непрозрачные байты — 225. Поля «только смещение» в строгий PDB не входят.
+Поля confirmed: ширина подтверждена — 654, только смещение (ширина не подтверждена) — 0, непрозрачные байты — 225. Поля «только смещение» в строгий PDB не входят.
 
 ## Вложенные объекты (композиция)
 
@@ -126,7 +126,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `NiTransform` | `m_Rotate` (+0x0) | `NiMatrix3` | pod-layout | `POD без vtable: по ширине подтверждены подполя m_pEntry; противоречий нет` |
 | `NiTransform` | `m_Translate` (+0x24) | `NiPoint3` | proved | `0x00A86C8F lea ecx, [edi + 0x24] -> 0x00A86C92 call NiPoint3::LoadBinary` |
 | `NiBound` | `m_kCenter` (+0x0) | `NiPoint3` | pod-layout | `POD без vtable: по ширине подтверждены подполя x, y, z; противоречий нет` |
-| `NiAVObject` | `m_kLocal` (+0x34) | `NiTransform` | proved | `0x00A5AA3E lea ecx, [esi + 0x34] -> 0x00A5AA47 call NiTransform::MakeIdentity` |
+| `NiAVObject` | `m_kLocal` (+0x34) | `NiTransform` | proved | `0x00A5A287 lea ecx, [ebx + 0x34] -> 0x00A5A28A call NiTransform::IsNotEqual` и ещё 1 |
 | `NiAVObject` | `m_kWorld` (+0x68) | `NiTransform` | proved | `0x00A5AA4C lea ecx, [esi + 0x68] -> 0x00A5AA4F call NiTransform::MakeIdentity` |
 | `NiGeometryData` | `m_kBound` (+0x10) | `NiBound` | proved | `0x00A66B6A lea ecx, [esi + 0x10] -> 0x00A66B6D call NiBound::ComputeFromData` и ещё 5 |
 | `NiGeometry` | `m_PropertyState` (+0x9C) | `NiPropertyState` | proved | `0x00A804E8 lea ecx, [esi + 0x9c] -> 0x00A804F4 call NiPropertyState::NiPropertyState_0` и ещё 1 |
@@ -137,7 +137,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 ## Проверка сдвигом (layout_shift_test.csv)
 
-Раскладку каждого класса сравниваем с гипотезами «поля с k-го до ближайшей опоры сдвинуты на ±4/±8 байт» — так ловится пропущенное или лишнее поле среди полей одной ширины, которое проверка «по смещению есть обращение нужной ширины» не видит. `unique` — каждая гипотеза объясняет код PC хуже; `AMBIGUOUS` — в точке, где раскладка PC отличается от Xbox, гипотеза не хуже (такие поля в строгий PDB не идут); `tie-same-as-xbox` — равный счёт там, где PC совпадает с Xbox (только отмечается: раскладка держится на совпадении с Xbox PDB при подтверждённом размере); `alternative-better-same-as-xbox` — то же, но гипотеза лучше: в заявленной раскладке есть противоречия; `no-evidence` — меньше двух полей или нет обращений.
+Раскладку каждого класса сравниваем с гипотезами «поля с k-го до ближайшей опоры сдвинуты на ±4/±8 байт» — так ловится пропущенное или лишнее поле среди полей одной ширины, которое проверка «по смещению есть обращение нужной ширины» не видит. `unique` — каждая гипотеза объясняет код PC хуже; `AMBIGUOUS` — в точке, где раскладка PC отличается от Xbox, гипотеза не хуже (такие поля в строгий PDB не идут); `tie-same-as-xbox` — равный счёт там, где PC совпадает с Xbox (только отмечается: раскладка держится на совпадении с Xbox PDB при подтверждённом размере); `alternative-better-same-as-xbox` — то же, но гипотеза лучше: в заявленной раскладке есть противоречия; `no-evidence` — меньше двух полей или нет обращений. v0.5.5: `unique-by-accessor` — `unique` только благодаря опорам-аксессорам (имена методов из PDB xNVSE; реестр — accessor_anchors.csv); вердикт считается без них и с ними (колонки verdict_without_accessors / verdict_with_accessors), берётся худший, кроме этого случая.
 
 Итог: no-evidence — 17, tie-same-as-xbox — 10, unique — 59.
 
@@ -152,21 +152,31 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `BSShaderPPLightingProperty` | да | 49 | с поля iRefractionFirePeriod на -4 | 49 | tie-same-as-xbox | fParallaxOccMaxPasses fParallaxOccScale fTerrainTexFade fTerrainTexOffsetX fTerrainTexOffsetY iRefractionFirePeriod | iTextureCount (аксессор) pRenderDepthPass (вручную) |
 | `NiTexture` | нет | 10 | с поля m_pkRendererData на -8 | 10 | tie-same-as-xbox | m_pkNext m_pkPrev m_pkRendererData | — |
 | `NiBackToFrontAccumulator` | нет | 19 | с поля m_kItemsToSortAndRender на -4 | 19 | tie-same-as-xbox | m_iCurrItem m_iMaxItems m_iNumItems m_kItemsToSortAndRender m_pfDepths m_ppkItems | — |
-| `BSShaderAccumulator` | нет | 93 | с поля pInstanceRenderer на +4 | 93 | tie-same-as-xbox | pActiveShadowSceneNode pBatchRenderer pInstanceRenderer pbcurrentActiveA pbcurrentFirstPassA picurrentBucketA puicurrentPassA spWaterFogRenderTarget uiBatchRendererCount uiBatchRendererPassCount | bWaterReflection (аксессор) iCurrentWaterHeight (аксессор) eRenderMode (аксессор) kAlphaRenderPass.pGeometry |
+| `BSShaderAccumulator` | нет | 93 | с поля pInstanceRenderer на +4 | 93 | tie-same-as-xbox | eRenderMode pActiveShadowSceneNode pBatchRenderer pInstanceRenderer pbcurrentActiveA pbcurrentFirstPassA picurrentBucketA puicurrentPassA spShadowLight spWaterFogRenderTarget uiBatchRendererCount uiBatchRendererPassCount | bWaterReflection (аксессор) iCurrentWaterHeight (аксессор) eRenderMode (аксессор) kAlphaRenderPass.pGeometry |
 
 ## Допуск в строгий PDB
 
 строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack.
 
-Не допущены: нет.
+Не допущены: `BGSSaveLoadFormHeader` (consistent), `FontManager::TextData` (consistent).
 
 Функции, прочитанные не до конца (лимит 0x10000 байт): нет.
 
-Строк в evidence_fields.csv: 8336, evidence_vslots.csv: 4993, evidence_sizes.csv: 450.
+Строк в evidence_fields.csv: 8853, evidence_vslots.csv: 4993, evidence_sizes.csv: 453.
 
-Итого: f_confirmed=877, f_consistent=9, f_unverified=16, v_name=108, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=670
+Итого: f_confirmed=879, f_consistent=9, f_unverified=14, v_name=108, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=670
 
 Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): name=281, name+stack=2184, semantics=10, stack=975, stub=1540, thunk=3.
+
+## v0.5.5: путь, ручные цепочки, обращения за sizeof
+
+Строки evidence_fields.csv по колонке path: after-ret — 619, linear — 8234; после раннего ret по статусам: confirmed — 461, consistent — 158. На ранних ret (продолжение чтения): 3667 раз, псевдонимов сброшено 140, сохранено (с конца входного блока, дальше не перезаписаны) 471. Поля, подтверждённые только кодом после раннего ret: `BSBatchRenderer::uiCurrentFirstPass`, `BSBatchRenderer::uiCurrentLastPass`, `ShadowSceneLight::pPortalGraph`.
+
+Звенья ручных цепочек (traced_provenance.csv): ok — 41. Звено — запись регистра/слота и чтение без перезаписи, вызова (eax/ecx/edx), ret, lea слота и входов извне; unknown — обращение в доказательства не идёт.
+
+Обращения собственных методов за sizeof (out_of_bounds_this_accesses.csv): end-address — 3, explained-derived — 8. `unexplained` не даёт подтвердить размер.
+
+Опоры-аксессоры (accessor_anchors.csv): 66 методов, 56 полей.
 
 ## Исключённые функции (имя в PDB xNVSE не соответствует коду)
 

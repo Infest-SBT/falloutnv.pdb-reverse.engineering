@@ -11,7 +11,12 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   evidence_sizes.csv   — доказательства размеров классов;
   evidence_vslots.csv  — слоты vtable: адрес PC, имя PC, имя Xbox, ожидаемый и фактический ret N, статус;
   summary.json         — уровни достоверности по каждому элементу (для скриптов Ghidra/IDA);
-  REPORT.md            — сводка.
+  REPORT.md            — сводка;
+  v0.5.5 (аудит Астры v0.5.4):
+  traced_provenance.csv — звенья ручных цепочек (def→use, this на входе, тела вызываемых функций) и их проверка;
+  out_of_bounds_this_accesses.csv — обращения собственных методов класса за sizeof и их объяснение;
+  accessor_anchors.csv — реестр опор-аксессоров проверки сдвигом;
+  колонка path в evidence_fields.csv — linear / after-ret (код после раннего ret, после сброса псевдонимов).
 
 Уровни достоверности поля:
   confirmed    — есть инструкция PC с обращением ровно к началу поля, размер доступа = размеру поля
@@ -38,6 +43,7 @@ import bisect, collections, csv, hashlib, json, os, re, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from slotfwd import slot_forward as _slot_forward, stub_status   # v0.5.3
 import capstone, pefile
+import chaincheck                                                 # v0.5.5
 
 meta_path, spec_path, syms_path, exe_path, out_dir = sys.argv[1:6]
 os.makedirs(out_dir, exist_ok=True)
@@ -91,6 +97,8 @@ def funcs_of(cls):
 READ_LIMIT = 0x10000        # v0.4.1: было 0x3000 (одна функция, 0x46A370, длиннее — читалась не целиком)
 TRUNCATED = set()           # функции, прочитанные не до конца из-за READ_LIMIT (в отчёт)
 DEREF = set()               # адреса команд «mov reg, [поле]», после которых reg разыменовывается (поле = указатель)
+AFTER_RET = set()           # v0.5.5: адреса команд, прочитанных после раннего ret (колонка path в evidence_fields.csv)
+RET_RESETS = collections.Counter()   # v0.5.5: сколько псевдонимов сброшено / сохранено на ранних ret (в отчёт)
 
 
 def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, seed_slots=(), seed_after_call=()):
@@ -115,8 +123,15 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
     if func_end(f) > f + READ_LIMIT:
         TRUNCATED.add(f)
     fwd = set()                              # v0.5.4: цели переходов вперёд — код после ret, если на него есть переход
+    entry_end, wr_later, ws_later = chaincheck.ret_prescan(CC, f, end)
+    snap = None                              # v0.5.5: состояние псевдонимов на конце входного блока
+    after_ret = False
     for ins in md.disasm(img[f - B:end - B], f):
         ops = ins.operands
+        if snap is None and entry_end is not None and ins.address >= entry_end:
+            snap = (set(own), set(own_slots), set(tgt), set(tgt_slots))
+        if after_ret:
+            AFTER_RET.add(ins.address)
         if ins.mnemonic.startswith('j') and ins.op_str.startswith('0x'):
             t_ = int(ins.op_str, 16)
             if ins.address < t_ < end:
@@ -223,6 +238,20 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
             # части функции (раньше чтение кончалось на первом ret, и ветви после раннего выхода терялись)
             if not any(t_ > ins.address for t_ in fwd):
                 break
+            # v0.5.5 (аудит Астры v0.5.4, П3): код после ret достигается другим путём, поэтому состояние линейного
+            # прохода сбрасывается. Остаются только псевдонимы с конца входного блока, которые дальше нигде не
+            # перезаписываются (одинаковы на любом пути); прочие должны появиться заново в коде после ret.
+            o_, os_, t0, ts_ = snap if (snap is not None and '*' not in wr_later) else (set(), set(), set(), set())
+            keep_r = {'own': o_ - wr_later, 'tgt': t0 - wr_later}
+            keep_s = {'own': os_ - ws_later, 'tgt': ts_ - ws_later}
+            RET_RESETS['dropped'] += len(own - keep_r['own']) + len(own_slots - keep_s['own']) + \
+                len(tgt - keep_r['tgt']) + len(tgt_slots - keep_s['tgt'])
+            RET_RESETS['kept'] += len(keep_r['own'] & own) + len(keep_s['own'] & own_slots)
+            RET_RESETS['rets'] += 1
+            own.clear(); own.update(keep_r['own']); own_slots.clear(); own_slots.update(keep_s['own'])
+            tgt.clear(); tgt.update(keep_r['tgt']); tgt_slots.clear(); tgt_slots.update(keep_s['tgt'])
+            loadreg.clear(); loadslot.clear(); idx.clear()
+            after_ret = True
     return out
 
 
@@ -284,6 +313,9 @@ def reads_ecx_first(f):
 def func_start(va):
     i = bisect.bisect_right(starts, va) - 1
     return starts[i] if i >= 0 else va
+
+
+CC = chaincheck.Ctx(md, img, B, func_start, lambda f: min(func_end(f), f + READ_LIMIT))   # v0.5.5
 
 
 def global_users(addr):
@@ -630,6 +662,34 @@ def composition_proofs(acc, off, sub):
 compositions = {}   # (класс, поле) -> {'sub', 'status', 'evidence'}
 SHIFT_IN = {}       # v0.5: класс -> (поля, обращения, начало своих полей) — для проверки сдвигом
 TRACED_NOTES = {}   # v0.5.4: (класс, адрес) -> обоснование прослеженного вручную обращения
+PROV_ROWS = []      # v0.5.5: traced_provenance.csv — каждое звено ручной цепочки и его проверка
+OOB_ROWS = []       # v0.5.5: out_of_bounds_this_accesses.csv
+VERIFIED_CF = {}    # v0.5.5: функции class_functions -> итог машинной проверки передачи this ('ok' / причина / None)
+
+
+def check_chain(owner, item, links, entry=None, entry_arg=None, callees=()):
+    """v0.5.5 (аудит Астры v0.5.4, П7): машинная проверка ручной цепочки. links — [[def, место, use], …];
+    entry — команда «mov [ebp+d], ecx» во входном блоке (слот = this на входе); entry_arg — [команда, номер
+    аргумента] для функции без кадра EBP; callees — [{va, body, summary}] — тело вызываемой функции точно такое.
+    Каждое звено — строка traced_provenance.csv. Итог: (ok, причина первого отказа)."""
+    res = []
+    if entry:
+        ok, why = chaincheck.entry_this(CC, int(entry, 16))
+        res.append(('entry-this', entry, 'ecx', entry, ok, why))
+    if entry_arg:
+        n, why = chaincheck.entry_stack_arg(CC, int(entry_arg[0], 16))
+        res.append(('entry-arg', entry_arg[0], f'аргумент {entry_arg[1]}', entry_arg[0], n == entry_arg[1], why))
+    for d, loc, u in links:
+        ok, why = chaincheck.defuse_link(CC, int(d, 16), loc, int(u, 16))
+        res.append(('def-use', d, loc, u, ok, why))
+    for ce in callees:
+        ok, why = chaincheck.check_body(CC, int(ce['va'], 16), ce['body'])
+        res.append(('callee-body', ce['va'], ce.get('summary', ''), ce['va'], ok, why))
+    for kind, d, loc, u, ok, why in res:
+        PROV_ROWS.append({'class': owner, 'item': item, 'check': kind, 'from': d, 'where': loc, 'to': u,
+                          'result': 'ok' if ok else 'unknown', 'detail': why})
+    bad = [r for r in res if not r[4]]
+    return (not bad), (f'{bad[0][0]} {bad[0][1]}→{bad[0][3]}: {bad[0][5]}' if bad else 'ok')
 composition_rows = []
 for cname, c in CLS.items():
     own = c['fields'][:]
@@ -652,6 +712,23 @@ for cname, c in CLS.items():
         srcs += [(pre.rstrip(':'), f) for f in funcs_of(pre.rstrip(':'))]
     # функции без имени (или с чужим именем), опознанные вручную как методы класса — с обоснованием
     for fa, cf in spec.get('class_functions', {}).get(cname, {}).items():
+        # v0.5.5 (аудит Астры v0.5.4, §5): передача this в функцию без имени проверяется машинно, если описана
+        # (this_links): вызывающая — уже метод класса, this положен в слот во входном блоке и дошёл до ecx вызова
+        tl = cf.get('this_links')
+        if tl:
+            known_ = set(funcs_of(cname)) | {int(k_, 16) for k_, v_ in VERIFIED_CF.items() if v_ == 'ok'}
+            ok_, why_ = int(tl['caller'], 16) in known_, 'вызывающая функция не метод класса'
+            if ok_:
+                ok_, why_ = check_chain(cname, f'class_functions {fa}', tl['links'], entry=tl.get('entry'))
+            ci_ = CC.insn(int(tl['call'], 16))
+            if ok_ and not (ci_.mnemonic == 'call' and ci_.op_str.startswith('0x') and int(ci_.op_str, 16) == int(fa, 16)
+                            and tl['links'][-1][2] == tl['call']):
+                ok_, why_ = False, f"0x{int(tl['call'], 16):08X} не вызов {fa}"
+            VERIFIED_CF[fa] = 'ok' if ok_ else why_
+            if not ok_:
+                continue
+        else:
+            VERIFIED_CF.setdefault(fa, None)
         srcs.append((cname, int(fa, 16)))
     # функции из PC-vtable самого класса (по RTTI): вызываются с this этого класса
     nvt = spec.get('vtable_slot_functions', {}).get(cname)
@@ -723,6 +800,16 @@ for cname, c in CLS.items():
                 sys.exit(f'traced_accesses {cname}: 0x{va_:08X} «{txt_}», ожидалось «{want}»')
         va_ = int(tr['access'], 16)
         ins_ = next(iter(md.disasm(img[va_ - B:va_ - B + 16], va_)))
+        # v0.5.5: звенья цепочки (регистр/слот не перезаписан между def и use, нет входов извне) — машинно;
+        # не прошла — обращение в доказательства не идёт (unknown, см. traced_provenance.csv)
+        ok_, why_ = check_chain(cname, f"0x{va_:08X} {tr['access_text']}", tr.get('links', []), entry=tr.get('entry'),
+                                entry_arg=tr.get('entry_arg'), callees=tr.get('callees', []))
+        if not tr.get('links'):
+            ok_, why_ = False, 'нет звеньев def→use'
+            PROV_ROWS.append({'class': cname, 'item': f"0x{va_:08X} {tr['access_text']}", 'check': 'def-use', 'from': '',
+                              'where': '', 'to': '', 'result': 'unknown', 'detail': why_})
+        if not ok_:
+            continue
         if 'buffer_size' in tr:
             # адрес начала буфера (add reg, imm / lea reg, [base+disp]) передан в функцию вместе с размером буфера
             # (strcpy_s(dst, N, …), memset(dst, v, N)): размер N — это ширина поля-массива (основание buffer-size)
@@ -826,6 +913,7 @@ for cname, c in CLS.items():
                            'insn_kind': ik, 'value_dereferenced': drf,
                            'func_va': f'0x{fva:08X}', 'func_end': f'0x{min(func_end(fva), fva + READ_LIMIT):08X}',
                            'source': 'Xbox PDB', 'status': st,
+                           'path': 'after-ret' if ia in AFTER_RET else 'linear',   # v0.5.5
                            'note': TRACED_NOTES.get((cname, ia)) or known or ('индекс, шаг 0x%X' % step + (' = sizeof(элемента): массив confirmed' if st_arr and st != 'confirmed' else '')
                                              if step else '')})
         rank = {'CONFLICT': 3, 'confirmed': 2, 'consistent': 1, 'explained': 0}
@@ -936,17 +1024,32 @@ for cname, c in CLS.items():
         miss = []
         for va_s, want in (ent[3] if len(ent) > 3 else []):
             va = int(va_s, 16)
-            got = next(iter(md.disasm(img[va - B:va - B + 16], va)), None)
-            txt = f'{got.mnemonic} {got.op_str}' if got else '?'
-            if want not in txt:
-                miss.append(f'0x{va:08X}: «{txt}», ожидалось «{want}»')
+            if not CC.same(va, want):      # v0.5.5 (П5): точное сравнение, не подстрока
+                miss.append(f'0x{va:08X}: «{CC.text(va)}», ожидалось «{want}»')
         if miss:
             sz_ev.append(('claim-failed', val, f'{kind}: опорные команды не совпали — ' + '; '.join(miss)))
             continue
         if len(ent) > 3:
             note += f' [опорные команды проверены по exe: {len(ent[3])}]'
+        par = ent[4] if len(ent) > 4 else None
+        if kind in ('stack-frame', 'stack-frame-bound'):
+            # v0.5.5 (аудит Астры v0.5.4, П1): граница стекового кадра считается машинно, а не текстом
+            if not par:
+                sz_ev.append(('claim-failed', val, f'{kind}: нет параметров кадра (obj_disp, next_disp, …)'))
+                continue
+            lfe = max((fd['off'] + fd['size'] for fd in c['fields']), default=0)
+            for pp in (par if isinstance(par, list) else [par]):
+                ok_, up_, life_ = chaincheck.check_stack_frame(CC, pp, val, lfe, c['align'])
+                if kind == 'stack-frame-bound':
+                    sz_ev.append(('stack-frame-bound', up_, f'только граница: {life_}'))
+                elif ok_:
+                    sz_ev.append((kind, val, f'{note} || машинная проверка: {life_}'))
+                else:
+                    sz_ev.append(('claim-failed', val, f'stack-frame: {life_}'))
+            continue
         sz_ev.append((kind, val, note))
-    good = [e for e in sz_ev if e[1] == c['pc_size'] and e[0] != 'claim-failed']
+    INFO_KINDS = {'serialized-size', 'stack-frame-bound'}   # v0.5.5: сведения о размере, не доказательство
+    good = [e for e in sz_ev if e[1] == c['pc_size'] and e[0] != 'claim-failed' and e[0] not in INFO_KINDS]
     bad = [e for e in sz_ev if (e[1] != c['pc_size'] and e[0] == 'ctor-alloc') or e[0] == 'claim-failed']
     s_status = 'CONFLICT' if bad else ('confirmed' if good else 'unverified')
     if not good and not bad and c['fields']:
@@ -955,10 +1058,68 @@ for cname, c in CLS.items():
             s_status = 'consistent'
             sz_ev.append(('last-field', last['off'] + last['size'],
                           f'последнее поле {last["name"]} подтверждено; дальше только выравнивание до {c["align"]}'))
-    size_basis = sorted({k for k, v, _ in sz_ev if v == c['pc_size']})
+    # v0.5.5 (аудит Астры v0.5.4, П6): обращения собственных методов класса за sizeof. Метод базы может работать
+    # с объектом наследника (HeapBlock::ListRemove на FreeHeapBlock) — тогда обращение объяснено раскладкой
+    # описанного наследника; есть неописанные наследники — тип объекта неизвестен; иначе — не объяснено, и такое
+    # обращение не даёт подтвердить размер (он остаётся consistent до разбора).
+    def _desc(cl, seen=()):
+        out_ = []
+        for sc_ in subclasses(cl):
+            if sc_ not in seen:
+                out_.append(sc_)
+                out_ += _desc(sc_, seen + (sc_,)) if sc_ in CLS else []
+        return out_
+    def _layout_hit(cl, off, sz):
+        for b_ in chain(cl):
+            for fd_ in CLS[b_]['fields']:
+                if fd_['off'] <= off < fd_['off'] + fd_['size'] and (sz == 0 or off + sz <= fd_['off'] + fd_['size']):
+                    return f"{b_}::{fd_['name']}"
+        return None
+    desc_ = _desc(cname)
+    # классы, которые по spec (extra_functions) используют методы этого класса для своих объектов
+    # (FreeHeapBlock: «HeapBlock::»): объект в таком методе может быть и их экземпляром
+    users_ = [x_ for x_, pres_ in spec.get('extra_functions', {}).items() if x_ in CLS
+              and any(pr_.rstrip(':') == cname for pr_ in pres_)]
+    desc_ += [x_ for x_ in users_ if x_ not in desc_]
+    oob_unexpl = 0
+    own_fs_ = sorted(set(funcs_of(cname)) | {int(k_, 16) for k_, v_ in VERIFIED_CF.items() if v_ != None and v_ == 'ok'
+                                             and k_ in spec.get('class_functions', {}).get(cname, {})}
+                     | {int(k_, 16) for k_, v_ in spec.get('class_functions', {}).get(cname, {}).items()
+                        if VERIFIED_CF.get(k_) is None})
+    for f_ in own_fs_:
+        for off, sz_, ia_, txt_, wr_, step_ in this_accesses(f_, 0x10000):
+            if off < c['pc_size'] or step_ is not None:
+                continue
+            hit_ = next(((sc_, h_) for sc_ in desc_ if sc_ in CLS and CLS[sc_]['pc_size'] > off
+                         for h_ in [_layout_hit(sc_, off, sz_)] if h_), None)
+            undesc_ = [sc_ for sc_ in desc_ if sc_ not in CLS]
+            # адрес «сразу за объектом» без обращения (lea/add, размер 0, ровно sizeof) — конец массива-поля
+            # или начало части наследника: законный в C++ указатель за конец, размер не опровергает
+            cat_ = ('end-address' if (sz_ == 0 and off == c['pc_size']) else
+                    'explained-derived' if hit_ else 'unknown-dynamic-type' if undesc_ else 'unexplained')
+            oob_unexpl += cat_ == 'unexplained'
+            OOB_ROWS.append({'class': cname, 'sizeof': f"0x{c['pc_size']:X}", 'pc_function': name_at(f_),
+                             'func_va': f'0x{f_:08X}', 'insn_va': f'0x{ia_:08X}', 'insn': txt_, 'access_off': f'0x{off:X}',
+                             'access_size': sz_, 'category': cat_,
+                             'explanation': ('берётся адрес ровно за концом объекта, обращения нет' if cat_ == 'end-address' else
+                                             (f'поле {hit_[1]} класса {hit_[0]} (sizeof 0x{CLS[hit_[0]]["pc_size"]:X})'
+                                              + (' — по spec extra_functions его объекты обрабатываются методами '
+                                                 f'{cname}::' if hit_[0] in users_ else ' — наследник')) if hit_ else
+                                             f'неописанные наследники: {", ".join(undesc_)}' if undesc_ else
+                                             'наследников нет — обращение за sizeof не объяснено')})
+    if oob_unexpl and s_status == 'confirmed':
+        s_status = 'consistent'
+        sz_ev.append(('out-of-bounds-unexplained', c['pc_size'],
+                      f'{oob_unexpl} обращений собственных методов за sizeof не объяснены (out_of_bounds_this_accesses.csv) — '
+                      'размер не подтверждён до разбора'))
+        INFO_KINDS = INFO_KINDS | {'out-of-bounds-unexplained'}
+    size_basis = sorted({k for k, v, _ in sz_ev if v == c['pc_size'] and k not in INFO_KINDS and k != 'claim-failed'})
     for kind, val, note in sz_ev:
         sizes_rows.append({'class': cname, 'pc_sizeof': f'0x{c["pc_size"]:X}', 'evidence': kind,
-                           'value': f'0x{val:X}', 'match': val == c['pc_size'], 'details': note})
+                           'value': f'0x{val:X}', 'match': val == c['pc_size'],
+                           # v0.5.5: принято ли как доказательство размера (сведения и отказы — нет)
+                           'accepted': val == c['pc_size'] and kind not in INFO_KINDS and kind not in ('claim-failed', 'last-field'),
+                           'details': note})
     # ---------------- vtable ----------------
     vsum = {}
     if c['vslots'] or (c['base'] and any(CLS[b]['vslots'] for b in chain(cname))):
@@ -1115,7 +1276,8 @@ for cname, (own_, acc_, first_) in SHIFT_IN.items():
         shift_rows.append({'class': cname, 'layout_differs': bool(c.get('layout_differs')), 'fields': len(flds),
                            'accesses': len(accs), 'declared_score': '',
                            'best_alternative': '', 'alternative_score': '', 'margin': '',
-                           'verdict': 'no-evidence', 'ambiguous_fields': '', 'anchors': ''})
+                           'verdict': 'no-evidence', 'ambiguous_fields': '', 'verdict_without_accessors': 'no-evidence',
+                           'verdict_with_accessors': 'no-evidence', 'anchors': ''})
         continue
     D = _shift_score(flds, accs, c['pc_size'])
     # опоры: начало вложенного объекта, доказанное вызовом его метода с this+смещение (compositions: proved), и
@@ -1123,6 +1285,7 @@ for cname, (own_, acc_, first_) in SHIFT_IN.items():
     # до ближайшей опоры (вставка/пропуск поля должны погаситься до неё); опору саму не сдвигаем.
     comp_ = summary['classes'][cname].get('compositions', {})
     man_ = dict(spec.get('layout_anchors', {}).get(cname, {}))
+    acc_names = set()   # v0.5.5: опоры-аксессоры отдельно от ручных
     # v0.5.4: опоры по методам-аксессорам: короткий метод класса (≤ 12 команд до ret), который обращается к this
     # ровно по одному смещению, а его имя (Get/Set/Is/Has/Q + имя) совпадает с именем поля по этому смещению
     # без венгерских приставок (m_, sp, p, pk, i, ui, us, f, b, k, e, c, s) — имя метода связывает смещение с полем
@@ -1143,63 +1306,95 @@ for cname, (own_, acc_, first_) in SHIFT_IN.items():
                 break
         if not body_ or body_[-1].mnemonic != 'ret':
             continue
-        offs_ = {o for o, sz_, *_ in this_accesses(fa_, c['pc_size']) if sz_}
+        accs_ = [(o, sz_, ia_) for o, sz_, ia_, *_ in this_accesses(fa_, c['pc_size']) if sz_]
+        offs_ = {o for o, _, _ in accs_}
         if len(offs_) != 1:
             continue
         o_ = offs_.pop()
         fd_ = root_fields.get(o_)
-        if fd_ and len(_bare(fd_['name'])) >= 4 and _bare(fd_['name']) == mn_.group(1).lower():
-            man_.setdefault(fd_['name'], f'аксессор {name_at(fa_)} (0x{fa_:08X}): единственное обращение к this+0x{o_:X}')
+        excl_ = any(f'0x{fa_:X}'.lower() == k_.lower() for v_ in spec.get('exclude_functions', {}).values() for k_ in v_)
+        if fd_ and len(_bare(fd_['name'])) >= 4 and _bare(fd_['name']) == mn_.group(1).lower() and not excl_:
+            acc_names.add(fd_['name'])
             ACCESSOR_ANCHORS.append({'class': cname, 'field': fd_['name'], 'off': f'0x{o_:X}', 'function': name_at(fa_),
-                                     'func_va': f'0x{fa_:08X}'})
-    anch = {i for i, (o, s_, fd) in enumerate(flds)
-            if (fd['name'].split('.')[0] in comp_ and comp_[fd['name'].split('.')[0]]['status'] == 'proved'
-                and fd['off'] == {f2['name']: f2['off'] for f2 in c['fields']}.get(fd['name'].split('.')[0]))
-            or fd['name'] in man_}
+                                     'func_va': f'0x{fa_:08X}', 'body_insns': len(body_),
+                                     'accesses': ' '.join(f'0x{a:08X}' for _, _, a in accs_),
+                                     'field_width': fd_['size'],
+                                     'access_width': ' '.join(sorted({str(s) for _, s, _ in accs_})),
+                                     'reason': (f'тело {len(body_)} команд до ret; единственное смещение this+0x{o_:X}; '
+                                                f'имя метода «{name_at(fa_).split("::")[-1]}» = поле «{fd_["name"]}» без '
+                                                f'приставки; функция не в exclude_functions. Имя — из PDB xNVSE: подсказка, '
+                                                f'не физический факт — одна такая опора не даёт чистого unique '
+                                                f'(вердикт unique-by-accessor)')})
+    def _anch(with_acc):
+        return {i for i, (o, s_, fd) in enumerate(flds)
+                if (fd['name'].split('.')[0] in comp_ and comp_[fd['name'].split('.')[0]]['status'] == 'proved'
+                    and fd['off'] == {f2['name']: f2['off'] for f2 in c['fields']}.get(fd['name'].split('.')[0]))
+                or fd['name'] in man_ or (with_acc and fd['name'] in acc_names)}
     # точки расхождения с Xbox: поле, у которого (PC − Xbox) не такое, как у предыдущего, или поля нет на Xbox
     def _dx(fd):
         return None if fd.get('xbox_off') is None else fd['off'] - fd['xbox_off']
     divp = {i for i in range(len(flds)) if _dx(flds[i][2]) is None or i == 0 or _dx(flds[i][2]) != _dx(flds[i - 1][2])}
-    best, amb, amb_div = None, set(), set()
-    for k in range(1, len(flds)):
-        if k in anch:
-            continue
-        j = next((i for i in sorted(anch) if i > k), len(flds))
-        for d in SHIFT_D:
-            seg = flds[k:j]
-            s0, s1 = seg[0][0], max(o + s_ for o, s_, fd in seg)
-            vac = (s1 + d, -d) if d < 0 else (s0, d)       # освобождённое место: неизвестное поле, ничего не говорит
-            alt = flds[:k] + [(o + d, s_, fd) for o, s_, fd in seg
-                              if first_ <= o + d and o + d + s_ <= c['pc_size']] + flds[j:] \
-                + [(vac[0], vac[1], {'name': '<vacant>', 'vacant': True})]
-            A = _shift_score(alt, accs, c['pc_size'])
-            moved = [fd['name'] for o, s_, fd in flds[k:j]]
-            moved += [n_.rsplit('.', 1)[0] for n_ in moved if '.' in n_]   # и сами вложенные объекты
-            if best is None or A > best[0]:
-                best = (A, flds[k][2]['name'], d)
-            if A >= D:
-                amb |= set(moved)
-                if k in divp:
-                    amb_div |= set(moved)
     conf = summary['classes'][cname]['fields']
-    # v0.5.4: неразобранные участки PC-класса (_undescribed_*) — не утверждения о раскладке, в счёт не идут
-    amb_c = sorted(n for n in amb if conf.get(n) == 'confirmed' and not n.startswith('_undescribed_'))
-    amb_d = sorted(n for n in amb_div if conf.get(n) == 'confirmed' and not n.startswith('_undescribed_'))
-    # Гипотеза, начинающаяся там, где PC совпадает с Xbox (то же смещение, что у предыдущего поля), означала бы
-    # отличие PC от Xbox, ничем не подсказанное, — равный счёт здесь только отмечается (tie-same-as-xbox).
-    # Гипотеза в точке, где раскладка PC сама отличается от Xbox (правка по коду, тип другого размера, поле только
-    # PC), проверяет именно это отличие: равный счёт значит, что код PC его не различает, — AMBIGUOUS.
-    verdict = 'AMBIGUOUS' if amb_d else ('unique' if not amb_c else
-                                         'tie-same-as-xbox' if best[0] == D else 'alternative-better-same-as-xbox')
-    amb_c = amb_d if amb_d else amb_c
+
+    def _eval(anch):
+        best, amb, amb_div = None, set(), set()
+        for k in range(1, len(flds)):
+            if k in anch:
+                continue
+            j = next((i for i in sorted(anch) if i > k), len(flds))
+            for d in SHIFT_D:
+                seg = flds[k:j]
+                s0, s1 = seg[0][0], max(o + s_ for o, s_, fd in seg)
+                vac = (s1 + d, -d) if d < 0 else (s0, d)       # освобождённое место: неизвестное поле, ничего не говорит
+                alt = flds[:k] + [(o + d, s_, fd) for o, s_, fd in seg
+                                  if first_ <= o + d and o + d + s_ <= c['pc_size']] + flds[j:] \
+                    + [(vac[0], vac[1], {'name': '<vacant>', 'vacant': True})]
+                A = _shift_score(alt, accs, c['pc_size'])
+                moved = [fd['name'] for o, s_, fd in flds[k:j]]
+                moved += [n_.rsplit('.', 1)[0] for n_ in moved if '.' in n_]   # и сами вложенные объекты
+                if best is None or A > best[0]:
+                    best = (A, flds[k][2]['name'], d)
+                if A >= D:
+                    amb |= set(moved)
+                    if k in divp:
+                        amb_div |= set(moved)
+        # v0.5.4: неразобранные участки PC-класса (_undescribed_*) — не утверждения о раскладке, в счёт не идут
+        amb_c = sorted(n for n in amb if conf.get(n) == 'confirmed' and not n.startswith('_undescribed_'))
+        amb_d = sorted(n for n in amb_div if conf.get(n) == 'confirmed' and not n.startswith('_undescribed_'))
+        # Гипотеза, начинающаяся там, где PC совпадает с Xbox (то же смещение, что у предыдущего поля), означала бы
+        # отличие PC от Xbox, ничем не подсказанное, — равный счёт здесь только отмечается (tie-same-as-xbox).
+        # Гипотеза в точке, где раскладка PC сама отличается от Xbox (правка по коду, тип другого размера, поле только
+        # PC), проверяет именно это отличие: равный счёт значит, что код PC его не различает, — AMBIGUOUS.
+        v_ = 'AMBIGUOUS' if amb_d else ('unique' if not amb_c else
+                                        'tie-same-as-xbox' if best[0] == D else 'alternative-better-same-as-xbox')
+        return v_, best, (amb_d if amb_d else amb_c)
+    # v0.5.5 (аудит Астры v0.5.4, П4): опоры-аксессоры держатся на именах из PDB xNVSE. Вердикт считается дважды:
+    # без них и с ними. Если «unique» только благодаря аксессорам — unique-by-accessor (не чистый unique); если с
+    # аксессорами хуже (короткие участки между опорами дают гипотезу с двумя гасящими друг друга отличиями) —
+    # берётся худший; AMBIGUOUS без аксессоров остаётся AMBIGUOUS.
+    v0_, b0_, a0_ = _eval(_anch(False))
+    v1_, b1_, a1_ = _eval(_anch(True))
+    rank_ = ['unique', 'unique-by-accessor', 'tie-same-as-xbox', 'alternative-better-same-as-xbox', 'AMBIGUOUS']
+    if v0_ == 'AMBIGUOUS':
+        verdict, best, amb_c = v0_, b0_, a0_
+    elif v1_ == 'unique' and v0_ != 'unique':
+        verdict, best, amb_c = 'unique-by-accessor', b1_, a0_
+    elif rank_.index(v1_) > rank_.index(v0_):
+        verdict, best, amb_c = v1_, b1_, a1_
+    else:
+        verdict, best, amb_c = v0_, b0_, a0_
+    anch = _anch(True)
+    man_.update({n_: 'аксессор' for n_ in acc_names if n_ not in man_})
     summary['classes'][cname]['shift_test'] = {'declared_score': D,
                                                'best_alternative': f'{best[1]} {best[2]:+d}' if best else '',
                                                'alternative_score': best[0] if best else '', 'verdict': verdict,
-                                               'ambiguous_fields': amb_c}
+                                               'ambiguous_fields': amb_c,
+                                               'verdict_without_accessors': v0_, 'verdict_with_accessors': v1_}
     shift_rows.append({'class': cname, 'layout_differs': bool(c.get('layout_differs')), 'fields': len(flds),
                        'accesses': len(accs), 'declared_score': D,
                        'best_alternative': f'с поля {best[1]} на {best[2]:+d}' if best else '',
                        'alternative_score': best[0] if best else '', 'margin': D - best[0] if best else '', 'verdict': verdict, 'ambiguous_fields': ' '.join(amb_c),
+                       'verdict_without_accessors': v0_, 'verdict_with_accessors': v1_,
                        'anchors': ' '.join(flds[i][2]['name'] + ((' (вручную)' if flds[i][2]['name'] in spec.get('layout_anchors', {}).get(cname, {})
                                                                    else ' (аксессор)') if flds[i][2]['name'] in man_ else '')
                                            for i in sorted(anch))})
@@ -1399,13 +1594,22 @@ wcsv('evidence_sizes.csv', sizes_rows)
 wcsv('evidence_vslots.csv', slot_rows)
 wcsv('excluded_functions.csv', excluded_rows)
 wcsv('compositions.csv', composition_rows)
+wcsv('accessor_anchors.csv', ACCESSOR_ANCHORS or [{'class': ''}])
+wcsv('out_of_bounds_this_accesses.csv', OOB_ROWS or [{'class': '', 'sizeof': '', 'pc_function': '', 'func_va': '',
+                                                     'insn_va': '', 'insn': '', 'access_off': '', 'access_size': '',
+                                                     'category': '', 'explanation': ''}])
+wcsv('traced_provenance.csv', PROV_ROWS or [{'class': '', 'item': '', 'check': '', 'from': '', 'where': '', 'to': '',
+                                             'result': '', 'detail': ''}])
 wcsv('layout_shift_test.csv', shift_rows)
 # функции, опознанные вручную: без имени, с чужим (xNVSE) именем, или передающие объект аргументом — с обоснованием
 ident_rows = []
 for cname_, fs_ in spec.get('class_functions', {}).items():
     for fa, cf in fs_.items():
+        v_ = VERIFIED_CF.get(fa)
         ident_rows.append({'class': cname_, 'pc_func_va': fa, 'pc_name': name_at(int(fa, 16)),
-                           'role': 'конструктор' if cf.get('ctor') else 'метод (this = объект класса)', 'reason': cf['note']})
+                           'role': 'конструктор' if cf.get('ctor') else 'метод (this = объект класса)', 'reason': cf['note'],
+                           'this_proof': ('машинно (traced_provenance.csv)' if v_ == 'ok' else
+                                          f'НЕ ПРИНЯТА: {v_}' if v_ else 'ручное обоснование (без звеньев def→use)')})
 for cname_, aps in spec.get('arg_pointers', {}).items():
     for ap in aps:
         f_ = int(ap['func'], 16)
@@ -1484,7 +1688,9 @@ rep += ['', '## Проверка сдвигом (layout_shift_test.csv)', '',
         'отличается от Xbox, гипотеза не хуже (такие поля в строгий PDB не идут); `tie-same-as-xbox` — равный счёт там, '
         'где PC совпадает с Xbox (только отмечается: раскладка держится на совпадении с Xbox PDB при подтверждённом размере); '
         '`alternative-better-same-as-xbox` — то же, но гипотеза лучше: в заявленной раскладке есть противоречия; '
-        '`no-evidence` — меньше двух полей или нет обращений.', '',
+        '`no-evidence` — меньше двух полей или нет обращений. v0.5.5: `unique-by-accessor` — `unique` только благодаря '
+        'опорам-аксессорам (имена методов из PDB xNVSE; реестр — accessor_anchors.csv); вердикт считается без них и с '
+        'ними (колонки verdict_without_accessors / verdict_with_accessors), берётся худший, кроме этого случая.', '',
         'Итог: ' + ', '.join(f'{k} — {v}' for k, v in sorted(shv.items())) + '.', '',
         '| класс | PC ≠ Xbox | счёт | лучшая гипотеза | её счёт | вердикт | поля под вопросом | опоры |',
         '|---|---|---|---|---|---|---|---|']
@@ -1501,6 +1707,25 @@ rep += ['', f'Строк в evidence_fields.csv: {len(field_rows)}, evidence_vsl
         '', 'Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала '
         'evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): '
         + ', '.join(f'{k}={v}' for k, v in sorted(collections.Counter(r['status'] for r in slot_rows).items())) + '.']
+_pth = collections.Counter(r['path'] for r in field_rows)
+_pthc = collections.Counter(r['status'] for r in field_rows if r['path'] == 'after-ret')
+_only_after = sorted({(r['class'], r['field']) for r in field_rows if r['status'] == 'confirmed'}
+                     - {(r['class'], r['field']) for r in field_rows if r['status'] == 'confirmed' and r['path'] == 'linear'})
+_prov = collections.Counter(r['result'] for r in PROV_ROWS)
+_oob = collections.Counter(r['category'] for r in OOB_ROWS)
+rep += ['', '## v0.5.5: путь, ручные цепочки, обращения за sizeof', '',
+        f"Строки evidence_fields.csv по колонке path: {', '.join(f'{k} — {v}' for k, v in sorted(_pth.items()))}; "
+        f"после раннего ret по статусам: {', '.join(f'{k} — {v}' for k, v in sorted(_pthc.items())) or 'нет'}. "
+        f"На ранних ret (продолжение чтения): {RET_RESETS['rets']} раз, псевдонимов сброшено {RET_RESETS['dropped']}, "
+        f"сохранено (с конца входного блока, дальше не перезаписаны) {RET_RESETS['kept']}. "
+        f"Поля, подтверждённые только кодом после раннего ret: "
+        f"{', '.join(f'`{a}::{b}`' for a, b in _only_after) or 'нет'}.", '',
+        f"Звенья ручных цепочек (traced_provenance.csv): {', '.join(f'{k} — {v}' for k, v in sorted(_prov.items()))}. "
+        "Звено — запись регистра/слота и чтение без перезаписи, вызова (eax/ecx/edx), ret, lea слота и входов извне; "
+        "unknown — обращение в доказательства не идёт.", '',
+        f"Обращения собственных методов за sizeof (out_of_bounds_this_accesses.csv): "
+        f"{', '.join(f'{k} — {v}' for k, v in sorted(_oob.items())) or 'нет'}. `unexplained` не даёт подтвердить размер.", '',
+        f"Опоры-аксессоры (accessor_anchors.csv): {len(ACCESSOR_ANCHORS)} методов, {len({(a['class'], a['field']) for a in ACCESSOR_ANCHORS})} полей."]
 print('строки evidence_vslots.csv:', dict(sorted(collections.Counter(r['status'] for r in slot_rows).items())))
 if excluded_rows:
     rep += ['', '## Исключённые функции (имя в PDB xNVSE не соответствует коду)', '']

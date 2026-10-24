@@ -31,10 +31,12 @@ PDB_GUID = '91960891-62EE-4D29-BF48-E8D767B32DB9'
 PDB_AGE = 1
 # v0.5.3: опубликованные PDB, с которыми согласован meta.json этого пакета. Нужны, когда test_manifest.json рядом нет:
 # тогда PDB сверяется с этим списком, а неизвестный PDB — ошибка. v0.5.4: PDB новые (HeapBlock 8 байт, все классы
-# в строгом), PDB v0.5–v0.5.3 с meta.json v0.5.4 не согласованы и в список не входят.
+# в строгом), PDB v0.5–v0.5.3 с meta.json v0.5.4 не согласованы и в список не входят. v0.5.5: строгий PDB новый
+# (84 класса — FontManager::TextData и BGSSaveLoadFormHeader вернулись в research), research — тот же, что в v0.5.4;
+# строгий v0.5.4 с meta.json v0.5.5 не согласован и в список не входит.
 PUBLISHED_PDB = {
-    '33e8ecf52c6398ad7fad267c48a90405c3a543c3b1df11a141dc6e19312d574e': 'строгий FalloutNV.pdb v0.5.4',
-    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4',
+    'd3ce51dd097c6cdff3de7f6d0362a2d0b8458a7a19ff28a7c71452a7bfa3b3cf': 'строгий FalloutNV.pdb v0.5.5',
+    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4–v0.5.5',
 }
 
 KNOWN = {  # имя публичного символа (PDB xNVSE) -> адрес; если символ не найден или адрес другой — ошибка

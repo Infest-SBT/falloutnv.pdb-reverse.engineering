@@ -1,0 +1,42 @@
+class,item,check,from,where,to,result,detail
+BSGameSound,"0x00AE9491 add edx, 0x36",entry-this,0xAE9466,ecx,0xAE9466,ok,ok
+BSGameSound,"0x00AE9491 add edx, 0x36",def-use,0xAE9466,[ebp-0x18],0xAE948E,ok,ok
+BSGameSound,"0x00AE9491 add edx, 0x36",def-use,0xAE948E,edx,0xAE9491,ok,ok
+BSGameSound,"0x00AE9491 add edx, 0x36",def-use,0xAE9491,edx,0xAE9494,ok,ok
+BGSSaveLoadGame,"0x008471AB add eax, 0x44",entry-this,0x846F55,ecx,0x846F55,ok,ok
+BGSSaveLoadGame,"0x008471AB add eax, 0x44",def-use,0x846F55,[ebp-0x50],0x8471A8,ok,ok
+BGSSaveLoadGame,"0x008471AB add eax, 0x44",def-use,0x8471A8,eax,0x8471AB,ok,ok
+BGSSaveLoadGame,"0x008471AB add eax, 0x44",def-use,0x8471AB,eax,0x8471AE,ok,ok
+BGSSaveLoadGame,"0x008471AB add eax, 0x44",callee-body,0x403D30,"ourMemset(dst, val, n) = memset(dst, val, n): аргументы передаются в 0x00EC61C0 в том же порядке",0x403D30,ok,ok
+BGSSaveLoadGame,"0x008471C4 add ecx, 0x143",entry-this,0x846F55,ecx,0x846F55,ok,ok
+BGSSaveLoadGame,"0x008471C4 add ecx, 0x143",def-use,0x846F55,[ebp-0x50],0x8471C1,ok,ok
+BGSSaveLoadGame,"0x008471C4 add ecx, 0x143",def-use,0x8471C1,ecx,0x8471C4,ok,ok
+BGSSaveLoadGame,"0x008471C4 add ecx, 0x143",def-use,0x8471C4,ecx,0x8471CA,ok,ok
+BGSSaveLoadGame,"0x008471C4 add ecx, 0x143",callee-body,0x403D30,"ourMemset(dst, val, n) = memset(dst, val, n): аргументы передаются в 0x00EC61C0 в том же порядке",0x403D30,ok,ok
+BGSSaveLoadChangesMap,class_functions 0x845B30,entry-this,0x845554,ecx,0x845554,ok,ok
+BGSSaveLoadChangesMap,class_functions 0x845B30,def-use,0x845554,[ebp-4],0x84555C,ok,ok
+BGSSaveLoadChangesMap,class_functions 0x845B30,def-use,0x84555C,ecx,0x84555F,ok,ok
+BGSSaveLoadChangesMap,class_functions 0x845B90,entry-this,0x845B34,ecx,0x845B34,ok,ok
+BGSSaveLoadChangesMap,class_functions 0x845B90,def-use,0x845B34,[ebp-4],0x845B3B,ok,ok
+BGSSaveLoadChangesMap,class_functions 0x845B90,def-use,0x845B3B,ecx,0x845B3E,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",entry-this,0x873229,ecx,0x873229,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x873229,[ebp-0x1a8],0x873295,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x873295,ecx,0x87329B,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x87329B,ecx,0x8732A1,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x8732A1,eax,0x8732A6,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x86C185,[ebp-0x44],0x86C2D9,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x86C2D9,ecx,0x86C2DC,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",def-use,0x86C2DC,ecx,0x86C2E2,ok,ok
+BSShaderAccumulator,"0x008732A6 mov byte ptr [eax + 0x38], bl",callee-body,0x559450,NiPointer<T>::operator T*: eax = [ecx],0x559450,ok,ok
+BSShaderAccumulator,"0x00874226 mov byte ptr [eax + 0x38], 0",entry-this,0x873229,ecx,0x873229,ok,ok
+BSShaderAccumulator,"0x00874226 mov byte ptr [eax + 0x38], 0",def-use,0x873229,[ebp-0x1a8],0x874215,ok,ok
+BSShaderAccumulator,"0x00874226 mov byte ptr [eax + 0x38], 0",def-use,0x874215,ecx,0x87421B,ok,ok
+BSShaderAccumulator,"0x00874226 mov byte ptr [eax + 0x38], 0",def-use,0x87421B,ecx,0x874221,ok,ok
+BSShaderAccumulator,"0x00874226 mov byte ptr [eax + 0x38], 0",def-use,0x874221,eax,0x874226,ok,ok
+BSShaderAccumulator,"0x00874226 mov byte ptr [eax + 0x38], 0",callee-body,0x559450,NiPointer<T>::operator T*: eax = [ecx],0x559450,ok,ok
+BSBatchRenderer,"0x00B640C8 cmp byte ptr [edx + 0x38], 0",entry-arg,0xB64024,аргумент 1,0xB64024,ok,[esp+0x10] при смещении ESP −12 = аргумент 1
+BSBatchRenderer,"0x00B640C8 cmp byte ptr [edx + 0x38], 0",def-use,0xB64024,esi,0xB640BA,ok,ok
+BSBatchRenderer,"0x00B640C8 cmp byte ptr [edx + 0x38], 0",def-use,0xB640BA,edx,0xB640C8,ok,ok
+BSBatchRenderer,"0x00B640C1 mov eax, dword ptr [edx + 0x34]",entry-arg,0xB64024,аргумент 1,0xB64024,ok,[esp+0x10] при смещении ESP −12 = аргумент 1
+BSBatchRenderer,"0x00B640C1 mov eax, dword ptr [edx + 0x34]",def-use,0xB64024,esi,0xB640BA,ok,ok
+BSBatchRenderer,"0x00B640C1 mov eax, dword ptr [edx + 0x34]",def-use,0xB640BA,edx,0xB640C1,ok,ok

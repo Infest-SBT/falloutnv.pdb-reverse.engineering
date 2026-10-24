@@ -1690,10 +1690,12 @@
    ],
    "shift_test": {
     "declared_score": 6,
-    "best_alternative": "iFormID -8",
+    "best_alternative": "iFormFlags -8",
     "alternative_score": 5,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -4507,7 +4509,9 @@
      "iNumCompile",
      "listFiles",
      "pFileIndex"
-    ]
+    ],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -5923,10 +5927,12 @@
    ],
    "shift_test": {
     "declared_score": 42,
-    "best_alternative": "iSoundHash -4",
+    "best_alternative": "iSynchStartTime +4",
     "alternative_score": 41,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -7126,7 +7132,9 @@
     "best_alternative": "pc228 -4",
     "alternative_score": 65,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -7996,7 +8004,9 @@
     "best_alternative": "pfnIDCallback +4",
     "alternative_score": 18,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -8308,7 +8318,9 @@
     "best_alternative": "hWnd -8",
     "alternative_score": 10,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -9875,7 +9887,9 @@
     "best_alternative": "bIgnoreGlobalTimeMultiplier -8",
     "alternative_score": 59,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -10253,7 +10267,9 @@
     "best_alternative": "eState -8",
     "alternative_score": 3,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -10347,7 +10363,9 @@
     "best_alternative": "iMemSize -8",
     "alternative_score": 1,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -10479,7 +10497,9 @@
     "best_alternative": "iMemSize +4",
     "alternative_score": 7,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -11784,7 +11804,9 @@
      "pDelayedFreeBlocksA",
      "pLastSmallList",
      "pSubBuckets"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -12141,7 +12163,9 @@
     "best_alternative": "bDeletingHeap -8",
     "alternative_score": 1,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -12332,7 +12356,9 @@
     "best_alternative": "pCurrentStackLoc -4",
     "alternative_score": 9,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -12857,7 +12883,9 @@
     "best_alternative": "iSysAllocBytes -4",
     "alternative_score": 19,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -12881,9 +12909,9 @@
    "base": null,
    "pc_size": 9,
    "align": 1,
-   "size_status": "confirmed",
+   "size_status": "consistent",
    "size_basis": [
-    "write-size"
+    "last-field"
    ],
    "pc_only": false,
    "fields": {
@@ -12998,17 +13026,14 @@
     "best_alternative": "cVersion -8",
     "alternative_score": 2,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
-   "provisional": false,
-   "strict": true,
-   "strict_fields": [
-    "FormIDIndex",
-    "FormInfo",
-    "cVersion",
-    "iChangeFlags"
-   ]
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "BGSSaveGameBuffer": {
    "vtable_va": 17310500,
@@ -13252,7 +13277,9 @@
     "best_alternative": "iBufferSize -4",
     "alternative_score": 6,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -13450,7 +13477,7 @@
      "evidence": [
       "0x00865A01 add ecx, 0x14 -> 0x00865A04 call BGSSaveLoadFormHeader::BGSSaveLoadFormHeader"
      ],
-     "strict": true
+     "strict": false
     }
    },
    "methods": [
@@ -13532,16 +13559,14 @@
     "best_alternative": "pForm -8",
     "alternative_score": 5,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
    "strict_fields": [
-    "Header.FormIDIndex",
-    "Header.FormInfo",
-    "Header.cVersion",
-    "Header.iChangeFlags",
     "pForm"
    ]
   },
@@ -13783,7 +13808,9 @@
     "best_alternative": "iBufferSize -4",
     "alternative_score": 5,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -14087,7 +14114,7 @@
      "evidence": [
       "0x008643FB add ecx, 0x14 -> 0x008643FE call BGSSaveLoadFormHeader::BGSSaveLoadFormHeader"
      ],
-     "strict": true
+     "strict": false
     }
    },
    "methods": [
@@ -14232,19 +14259,17 @@
    ],
    "shift_test": {
     "declared_score": 12,
-    "best_alternative": "Header.cVersion -4",
+    "best_alternative": "iFlags +4",
     "alternative_score": 11,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
    "strict_fields": [
-    "Header.FormIDIndex",
-    "Header.FormInfo",
-    "Header.cVersion",
-    "Header.iChangeFlags",
     "iFlags",
     "iFormID",
     "iOldChangeFlags",
@@ -14997,10 +15022,12 @@
    ],
    "shift_test": {
     "declared_score": 26,
-    "best_alternative": "iGlobalFlags -8",
-    "alternative_score": 25,
+    "best_alternative": "iGlobalFlags +4",
+    "alternative_score": 24,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -15773,10 +15800,12 @@
    ],
    "shift_test": {
     "declared_score": 26,
-    "best_alternative": "cQueuedForceSave -8",
+    "best_alternative": "pSysUtilSaveCompleteCallback -8",
     "alternative_score": 25,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -16007,7 +16036,9 @@
     "best_alternative": "m_ppkHashTable +4",
     "alternative_score": 4,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -16357,7 +16388,9 @@
     "best_alternative": "Hndl.bAssumeSuccess -8",
     "alternative_score": 7,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "Hndl.iSoundID",
@@ -16695,7 +16728,9 @@
     "best_alternative": "iStationFlags -4",
     "alternative_score": 15,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -17058,7 +17093,9 @@
      "CurrentState.cStationPower",
      "CurrentState.cTargetPower",
      "CurrentState.iCurrentItemDuration"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -17411,7 +17448,9 @@
     "best_alternative": "eContext +4",
     "alternative_score": 24,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "iRefCount"
@@ -17712,7 +17751,9 @@
     "best_alternative": "pMapping -4",
     "alternative_score": 12,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "iTextureIndex"
@@ -18003,7 +18044,9 @@
      "iTextureCount",
      "pFontLetters",
      "pTextureFiles"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -18380,7 +18423,9 @@
     "best_alternative": "ButtonIcons -4",
     "alternative_score": 19,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "iLineOverlap"
@@ -18609,7 +18654,9 @@
     "best_alternative": "iCharCount -8",
     "alternative_score": 10,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "xNewText"
@@ -18778,7 +18825,9 @@
     "best_alternative": "bUseNewFonts +4",
     "alternative_score": 8,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -19070,7 +19119,9 @@
     "best_alternative": "cChar +4",
     "alternative_score": 11,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -19367,7 +19418,9 @@
     "verdict": "tie-same-as-xbox",
     "ambiguous_fields": [
      "pPage"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [
     "iY"
@@ -19618,7 +19671,9 @@
      "iPageWidth",
      "pCharsPerFont",
      "pDoc"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [
     "iWidth"
@@ -19767,7 +19822,9 @@
     "best_alternative": "iPageWidth -4",
     "alternative_score": 5,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -19783,9 +19840,9 @@
    "base": null,
    "pc_size": 64,
    "align": 4,
-   "size_status": "confirmed",
+   "size_status": "consistent",
    "size_basis": [
-    "stack-frame"
+    "last-field"
    ],
    "pc_only": false,
    "fields": {
@@ -20087,25 +20144,14 @@
     "best_alternative": "iNumLines -8",
     "alternative_score": 13,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
-   "provisional": false,
-   "strict": true,
-   "strict_fields": [
-    "bIsHypertext",
-    "cLineSep",
-    "iDefaultFont",
-    "iHeight",
-    "iJustification",
-    "iLines",
-    "iNumLines",
-    "iNumPages",
-    "iPageNum",
-    "iWidth",
-    "xColor",
-    "xNewText"
-   ]
+   "provisional": true,
+   "strict": false,
+   "strict_fields": []
   },
   "NiRefObject": {
    "vtable_va": 16899300,
@@ -20131,7 +20177,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 9,
+     "independent_functions": 11,
      "write_sites": 6,
      "width_verified": true,
      "width_basis": [
@@ -20601,7 +20647,7 @@
      "va": 10867696,
      "name": "NiObject::CreateSharedClone",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10867760,
@@ -20619,7 +20665,7 @@
      "va": 10867824,
      "name": "NiObject::IsEqual",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10867984,
@@ -20691,7 +20737,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 8,
+     "independent_functions": 9,
      "write_sites": 2,
      "width_verified": false,
      "width_basis": [
@@ -20717,7 +20763,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 14,
+     "independent_functions": 15,
      "write_sites": 5,
      "width_verified": false,
      "width_basis": [
@@ -20742,8 +20788,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 7,
-     "write_sites": 4,
+     "independent_functions": 10,
+     "write_sites": 8,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -20766,8 +20812,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 9,
-     "write_sites": 2,
+     "independent_functions": 12,
+     "write_sites": 5,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -20775,9 +20821,10 @@
      "declared_kind": "int",
      "type_evidence": [
       "cmp",
+      "int-arith",
       "move"
      ],
-     "type_status": "not-checked",
+     "type_status": "consistent",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false
@@ -20790,14 +20837,15 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 5,
      "width_verified": true,
      "width_basis": [
       "access-width"
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -21178,13 +21226,13 @@
      "va": 10861120,
      "name": "NiObjectNET::InsertExtraData",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10861472,
      "name": "NiObjectNET::SetExtraDataSize",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10861632,
@@ -21244,7 +21292,7 @@
      "va": 10862976,
      "name": "NiObjectNET::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10863104,
@@ -21314,11 +21362,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 11,
+    "declared_score": 13,
     "best_alternative": "m_usMaxSize -8",
-    "alternative_score": 10,
+    "alternative_score": 11,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -21573,7 +21623,9 @@
     "best_alternative": "y -4",
     "alternative_score": 5,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -22025,7 +22077,9 @@
     "best_alternative": "m_Translate.y +4",
     "alternative_score": 14,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -22064,7 +22118,7 @@
       "new-object"
      ],
      "independent_functions": 8,
-     "write_sites": 7,
+     "write_sites": 9,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -22093,7 +22147,7 @@
       "new-object"
      ],
      "independent_functions": 8,
-     "write_sites": 7,
+     "write_sites": 9,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -22122,7 +22176,7 @@
       "new-object"
      ],
      "independent_functions": 8,
-     "write_sites": 7,
+     "write_sites": 9,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -22260,7 +22314,9 @@
     "best_alternative": "m_kCenter.y -4",
     "alternative_score": 6,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -22305,8 +22361,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 14,
-     "write_sites": 8,
+     "independent_functions": 15,
+     "write_sites": 9,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -22331,7 +22387,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 9,
+     "independent_functions": 11,
      "write_sites": 2,
      "width_verified": false,
      "width_basis": [
@@ -22357,7 +22413,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 14,
+     "independent_functions": 15,
      "write_sites": 2,
      "width_verified": true,
      "width_basis": [
@@ -22383,7 +22439,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 16,
+     "independent_functions": 17,
      "write_sites": 3,
      "width_verified": false,
      "width_basis": [
@@ -22408,8 +22464,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 24,
-     "write_sites": 25,
+     "independent_functions": 26,
+     "write_sites": 31,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -22434,7 +22490,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 12,
+     "independent_functions": 15,
      "write_sites": 0,
      "width_verified": false,
      "width_basis": [],
@@ -22500,6 +22556,7 @@
      "type_verified": false,
      "composition": "proved",
      "composition_evidence": [
+      "0x00A5A287 lea ecx, [ebx + 0x34] -> 0x00A5A28A call NiTransform::IsNotEqual",
       "0x00A5AA3E lea ecx, [esi + 0x34] -> 0x00A5AA47 call NiTransform::MakeIdentity"
      ]
     },
@@ -23088,6 +23145,7 @@
      "off": "0x34",
      "status": "proved",
      "evidence": [
+      "0x00A5A287 lea ecx, [ebx + 0x34] -> 0x00A5A28A call NiTransform::IsNotEqual",
       "0x00A5AA3E lea ecx, [esi + 0x34] -> 0x00A5AA47 call NiTransform::MakeIdentity"
      ],
      "strict": true
@@ -23467,7 +23525,7 @@
      "va": 10853680,
      "name": "NiAVObject::GetProperty",
      "uses_this": false,
-     "touches_fields": true
+     "touches_fields": false
     },
     {
      "va": 10853760,
@@ -23521,7 +23579,7 @@
      "va": 10854144,
      "name": "NiAVObject::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10854288,
@@ -23575,7 +23633,7 @@
      "va": 10855008,
      "name": "NiAVObject::IsEqual",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10855456,
@@ -23671,7 +23729,7 @@
      "va": 12693280,
      "name": "NiAVObject::UpdateRigidDownwardPass",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 16471584,
@@ -23685,7 +23743,9 @@
     "best_alternative": "m_kPropertyList +4",
     "alternative_score": 41,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "m_kLocal.m_Rotate"
@@ -23729,7 +23789,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 33,
+     "independent_functions": 35,
      "write_sites": 0,
      "width_verified": false,
      "width_basis": [],
@@ -24532,13 +24592,13 @@
      "va": 10872240,
      "name": "NiNode::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10872320,
      "name": "NiNode::IsEqual",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10872464,
@@ -24671,7 +24731,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 6,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -24694,7 +24754,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 7,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -24717,7 +24777,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -24740,7 +24800,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -24763,7 +24823,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 3,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -24832,14 +24892,15 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 0,
+     "independent_functions": 3,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -25799,11 +25860,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 14,
-    "best_alternative": "fFarDistSqr -4",
-    "alternative_score": 13,
+    "declared_score": 15,
+    "best_alternative": "eMultType -4",
+    "alternative_score": 14,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -26269,7 +26332,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 2,
      "width_verified": true,
      "width_basis": [
@@ -26277,9 +26340,11 @@
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "address",
+      "bitwise",
       "move"
      ],
-     "type_status": "not-checked",
+     "type_status": "consistent",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false
@@ -26711,7 +26776,7 @@
      "va": 11118000,
      "name": "NiShadeProperty::IsEqual",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 16473488,
@@ -26721,11 +26786,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 2,
-    "best_alternative": "",
-    "alternative_score": "",
+    "declared_score": 3,
+    "best_alternative": "iShaderPropertyType -8",
+    "alternative_score": 2,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -26895,8 +26962,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 7,
-     "write_sites": 10,
+     "independent_functions": 8,
+     "write_sites": 11,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -27839,10 +27906,12 @@
    ],
    "shift_test": {
     "declared_score": 32,
-    "best_alternative": "fAlpha -4",
+    "best_alternative": "iLastRenderPassState -4",
     "alternative_score": 31,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -28130,7 +28199,9 @@
     "best_alternative": "ppSceneLights -8",
     "alternative_score": 9,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -28182,7 +28253,6 @@
      "declared_kind": "blob",
      "type_evidence": [
       "address",
-      "deref",
       "move"
      ],
      "type_status": "not-checked",
@@ -28242,16 +28312,18 @@
      "instruction_verified": true,
      "offset_verified": true,
      "base_pointer": [
-      "class-method-this"
+      "class-method-this",
+      "subclass-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 3,
+     "independent_functions": 5,
+     "write_sites": 6,
      "width_verified": true,
      "width_basis": [
       "access-width"
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -28268,7 +28340,7 @@
       "class-method-this"
      ],
      "independent_functions": 5,
-     "write_sites": 2,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -28943,10 +29015,12 @@
    ],
    "shift_test": {
     "declared_score": 12,
-    "best_alternative": "uiReferenceID +8",
+    "best_alternative": "kLightListFence -8",
     "alternative_score": 10,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -29084,7 +29158,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 2,
      "width_verified": false,
      "width_basis": [
@@ -29183,7 +29257,7 @@
       "class-method-this"
      ],
      "independent_functions": 3,
-     "write_sites": 1,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -30264,7 +30338,7 @@
      "va": 11954144,
      "name": "BSShaderPPLightingProperty::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 11954896,
@@ -30531,7 +30605,9 @@
      "fTerrainTexOffsetX",
      "fTerrainTexOffsetY",
      "iRefractionFirePeriod"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [
     "fGeomorphParam",
@@ -30730,7 +30806,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 12,
+     "independent_functions": 13,
      "write_sites": 10,
      "width_verified": true,
      "width_basis": [
@@ -30834,7 +30910,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 11,
+     "independent_functions": 12,
      "write_sites": 7,
      "width_verified": true,
      "width_basis": [
@@ -30859,7 +30935,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 13,
+     "independent_functions": 14,
      "write_sites": 9,
      "width_verified": true,
      "width_basis": [
@@ -30885,7 +30961,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 11,
+     "independent_functions": 12,
      "write_sites": 7,
      "width_verified": true,
      "width_basis": [
@@ -30910,7 +30986,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 12,
+     "independent_functions": 13,
      "write_sites": 7,
      "width_verified": true,
      "width_basis": [
@@ -30935,7 +31011,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 15,
+     "independent_functions": 17,
      "write_sites": 4,
      "width_verified": false,
      "width_basis": [
@@ -31032,7 +31108,7 @@
       "class-method-this"
      ],
      "independent_functions": 10,
-     "write_sites": 3,
+     "write_sites": 5,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -31055,8 +31131,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 4,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -31579,7 +31655,7 @@
      "va": 10907472,
      "name": "NiGeometryData::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10907536,
@@ -31740,10 +31816,12 @@
    ],
    "shift_test": {
     "declared_score": 42,
-    "best_alternative": "m_kBound.m_kCenter.y +4",
+    "best_alternative": "m_bSaveVertexData -8",
     "alternative_score": 40,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -31791,7 +31869,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 11,
+     "independent_functions": 12,
      "write_sites": 4,
      "width_verified": true,
      "width_basis": [
@@ -32246,7 +32324,7 @@
      "va": 11053504,
      "name": "NiTriBasedGeomData::IsEqual",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 11053552,
@@ -32928,7 +33006,9 @@
     "best_alternative": "m_pkSNAMemoryBlocks -8",
     "alternative_score": 11,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -32996,7 +33076,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 25,
+     "independent_functions": 27,
      "write_sites": 4,
      "width_verified": false,
      "width_basis": [
@@ -33021,7 +33101,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 12,
+     "independent_functions": 14,
      "write_sites": 3,
      "width_verified": false,
      "width_basis": [
@@ -33744,13 +33824,13 @@
      "va": 11011120,
      "name": "NiGeometry::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 11011184,
      "name": "NiGeometry::IsEqual",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 11011296,
@@ -33851,10 +33931,12 @@
    ],
    "shift_test": {
     "declared_score": 10,
-    "best_alternative": "m_spModelData +4",
-    "alternative_score": 7,
+    "best_alternative": "m_spModelData -4",
+    "alternative_score": 8,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -35855,7 +35937,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 13,
+     "independent_functions": 14,
      "write_sites": 4,
      "width_verified": false,
      "width_basis": [
@@ -35879,7 +35961,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -35902,7 +35984,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 0,
      "width_verified": true,
      "width_basis": [
@@ -36665,7 +36747,9 @@
     "best_alternative": "m_kViewFrustum +4",
     "alternative_score": 38,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -36730,7 +36814,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 8,
+     "independent_functions": 9,
      "write_sites": 1,
      "width_verified": true,
      "width_basis": [
@@ -37256,7 +37340,9 @@
      "m_pkNext",
      "m_pkPrev",
      "m_pkRendererData"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -37298,7 +37384,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 7,
+     "independent_functions": 8,
      "write_sites": 1,
      "width_verified": false,
      "width_basis": [
@@ -37347,8 +37433,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 8,
-     "write_sites": 2,
+     "independent_functions": 7,
+     "write_sites": 3,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -37372,7 +37458,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 10,
+     "independent_functions": 9,
      "write_sites": 4,
      "width_verified": false,
      "width_basis": [
@@ -37397,7 +37483,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 5,
      "write_sites": 2,
      "width_verified": true,
      "width_basis": [
@@ -37405,6 +37491,7 @@
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -37491,7 +37578,7 @@
       "class-method-this"
      ],
      "independent_functions": 3,
-     "write_sites": 4,
+     "write_sites": 6,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -37977,7 +38064,7 @@
      "va": 10877584,
      "name": "NiSourceTexture::RegisterStreamables",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 10877664,
@@ -38077,11 +38164,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 17,
+    "declared_score": 18,
     "best_alternative": "m_pFile -8",
-    "alternative_score": 16,
+    "alternative_score": 17,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -39215,7 +39304,9 @@
      "m_kItemsToSortAndRender",
      "m_pfDepths",
      "m_ppkItems"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -39279,7 +39370,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 1,
      "width_verified": true,
      "width_basis": [
@@ -39287,6 +39378,7 @@
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -39764,11 +39856,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 5,
+    "declared_score": 6,
     "best_alternative": "m_bInterfaceSort -8",
-    "alternative_score": 3,
+    "alternative_score": 4,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -40252,8 +40346,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 5,
-     "write_sites": 6,
+     "independent_functions": 6,
+     "write_sites": 9,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -40278,7 +40372,7 @@
       "class-method-this"
      ],
      "independent_functions": 2,
-     "write_sites": 1,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -40302,7 +40396,7 @@
       "class-method-this"
      ],
      "independent_functions": 2,
-     "write_sites": 1,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -41867,6 +41961,7 @@
     "alternative_score": 93,
     "verdict": "tie-same-as-xbox",
     "ambiguous_fields": [
+     "eRenderMode",
      "pActiveShadowSceneNode",
      "pBatchRenderer",
      "pInstanceRenderer",
@@ -41874,10 +41969,13 @@
      "pbcurrentFirstPassA",
      "picurrentBucketA",
      "puicurrentPassA",
+     "spShadowLight",
      "spWaterFogRenderTarget",
      "uiBatchRendererCount",
      "uiBatchRendererPassCount"
-    ]
+    ],
+    "verdict_without_accessors": "tie-same-as-xbox",
+    "verdict_with_accessors": "tie-same-as-xbox"
    },
    "provisional_fields": [
     "bCacheGeometry",
@@ -41951,8 +42049,8 @@
     "pRenderPassA": "confirmed",
     "RenderPassMap": "confirmed",
     "uiRenderPassCount": "confirmed",
-    "uiCurrentFirstPass": "unverified",
-    "uiCurrentLastPass": "unverified",
+    "uiCurrentFirstPass": "confirmed",
+    "uiCurrentLastPass": "confirmed",
     "pInstanceRenderer": "confirmed",
     "kActivePassIndexList": "confirmed",
     "iGroupingAlphas": "confirmed",
@@ -41995,7 +42093,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 6,
+     "independent_functions": 7,
      "write_sites": 5,
      "width_verified": false,
      "width_basis": [
@@ -42036,34 +42134,46 @@
      "type_verified": false
     },
     "uiCurrentFirstPass": {
-     "status": "unverified",
+     "status": "confirmed",
      "source": "xbox_pdb",
-     "instruction_verified": false,
-     "offset_verified": false,
-     "base_pointer": [],
-     "independent_functions": 0,
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
      "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "width_verified": true,
+     "width_basis": [
+      "access-width"
+     ],
      "declared_kind": "int",
-     "type_evidence": [],
+     "type_evidence": [
+      "cmp"
+     ],
      "type_status": "not-checked",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false
     },
     "uiCurrentLastPass": {
-     "status": "unverified",
+     "status": "confirmed",
      "source": "xbox_pdb",
-     "instruction_verified": false,
-     "offset_verified": false,
-     "base_pointer": [],
-     "independent_functions": 0,
+     "instruction_verified": true,
+     "offset_verified": true,
+     "base_pointer": [
+      "class-method-this"
+     ],
+     "independent_functions": 1,
      "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "width_verified": true,
+     "width_basis": [
+      "access-width"
+     ],
      "declared_kind": "int",
-     "type_evidence": [],
+     "type_evidence": [
+      "cmp"
+     ],
      "type_status": "not-checked",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
@@ -42173,7 +42283,7 @@
       "class-method-this"
      ],
      "independent_functions": 2,
-     "write_sites": 13,
+     "write_sites": 39,
      "width_verified": true,
      "width_basis": [
       "element-width",
@@ -42196,8 +42306,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 5,
-     "write_sites": 2,
+     "independent_functions": 6,
+     "write_sites": 6,
      "width_verified": true,
      "width_basis": [
       "element-width",
@@ -42750,17 +42860,16 @@
     }
    ],
    "shift_test": {
-    "declared_score": 36,
+    "declared_score": 38,
     "best_alternative": "AlphaGroupList +4",
-    "alternative_score": 35,
+    "alternative_score": 37,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
-   "provisional_fields": [
-    "uiCurrentFirstPass",
-    "uiCurrentLastPass"
-   ],
-   "provisional": true,
+   "provisional_fields": [],
+   "provisional": false,
    "strict": true,
    "strict_fields": [
     "AlphaGroupList",
@@ -42773,6 +42882,8 @@
     "pGeometryGroupsA",
     "pInstanceRenderer",
     "pRenderPassA",
+    "uiCurrentFirstPass",
+    "uiCurrentLastPass",
     "uiRenderPassCount"
    ]
   },
@@ -42902,7 +43013,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 7,
+     "independent_functions": 10,
      "write_sites": 0,
      "width_verified": false,
      "width_basis": [],
@@ -42924,7 +43035,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 5,
      "write_sites": 0,
      "width_verified": false,
      "width_basis": [],
@@ -43017,7 +43128,7 @@
       "subclass-method-this"
      ],
      "independent_functions": 4,
-     "write_sites": 1,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -43496,10 +43607,12 @@
    ],
    "shift_test": {
     "declared_score": 14,
-    "best_alternative": "m_kSourceDataCriticalSection -8",
+    "best_alternative": "m_bBatchRendering -8",
     "alternative_score": 13,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -43591,7 +43704,7 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 33,
+     "independent_functions": 36,
      "write_sites": 1,
      "width_verified": true,
      "width_basis": [
@@ -43600,6 +43713,7 @@
      "declared_kind": "pointer",
      "type_evidence": [
       "address",
+      "cmp",
       "deref",
       "move"
      ],
@@ -43664,8 +43778,8 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 10,
-     "write_sites": 4,
+     "independent_functions": 12,
+     "write_sites": 9,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -43759,17 +43873,18 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 5,
      "width_verified": true,
      "width_basis": [
       "access-width"
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "bitwise",
       "move"
      ],
-     "type_status": "not-checked",
+     "type_status": "consistent",
      "type_basis": "pc-code (own)",
      "pointer_target_verified": false,
      "type_verified": false
@@ -43783,8 +43898,8 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 34,
-     "write_sites": 91,
+     "independent_functions": 39,
+     "write_sites": 110,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -43808,7 +43923,7 @@
       "class-method-this"
      ],
      "independent_functions": 7,
-     "write_sites": 0,
+     "write_sites": 1,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -43831,8 +43946,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 7,
-     "write_sites": 1,
+     "independent_functions": 9,
+     "write_sites": 4,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -43855,8 +43970,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 6,
+     "independent_functions": 5,
+     "write_sites": 8,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -43878,8 +43993,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -43901,8 +44016,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -43924,8 +44039,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 2,
+     "independent_functions": 3,
+     "write_sites": 3,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -43948,8 +44063,8 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 9,
-     "write_sites": 1,
+     "independent_functions": 12,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -43973,8 +44088,8 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 8,
-     "write_sites": 2,
+     "independent_functions": 11,
+     "write_sites": 4,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -43997,8 +44112,8 @@
       "class-method-this",
       "global-singleton"
      ],
-     "independent_functions": 18,
-     "write_sites": 1,
+     "independent_functions": 20,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -44021,8 +44136,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 8,
-     "write_sites": 3,
+     "independent_functions": 10,
+     "write_sites": 6,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -44045,8 +44160,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
-     "write_sites": 1,
+     "independent_functions": 5,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -44069,8 +44184,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 14,
-     "write_sites": 37,
+     "independent_functions": 19,
+     "write_sites": 49,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -44161,8 +44276,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 0,
+     "independent_functions": 2,
+     "write_sites": 1,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -44955,7 +45070,7 @@
      "va": 15129728,
      "name": "NiDX9Renderer::CreateRenderedTextureRendererData",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15129792,
@@ -44967,25 +45082,25 @@
      "va": 15129856,
      "name": "NiDX9Renderer::CreateRenderedCubeMapRendererData",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15129920,
      "name": "NiDX9Renderer::CreateDynamicTexture",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15130000,
      "name": "NiDX9Renderer::LockDynamicTexture",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15130224,
      "name": "NiDX9Renderer::UnLockDynamicTexture",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15130464,
@@ -45177,7 +45292,7 @@
      "va": 15150112,
      "name": "NiDX9Renderer::IsHardwareSkinned",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15150688,
@@ -45201,7 +45316,7 @@
      "va": 15155040,
      "name": "NiDX9Renderer::PrecacheGeometry",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15155488,
@@ -45421,11 +45536,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 268,
-    "best_alternative": "_undescribed_88C +4",
-    "alternative_score": 268,
+    "declared_score": 290,
+    "best_alternative": "_undescribed_AD1 -8",
+    "alternative_score": 290,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "_undescribed_AD1"
@@ -46021,10 +46138,12 @@
    ],
    "shift_test": {
     "declared_score": 3,
-    "best_alternative": "m_uiImplementation -8",
+    "best_alternative": "m_bInitialized -8",
     "alternative_score": 2,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -46062,7 +46181,7 @@
       "subclass-method-this"
      ],
      "independent_functions": 3,
-     "write_sites": 2,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -46086,7 +46205,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 5,
+     "independent_functions": 6,
      "write_sites": 2,
      "width_verified": true,
      "width_basis": [
@@ -46112,8 +46231,8 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 5,
-     "write_sites": 2,
+     "independent_functions": 6,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -46745,10 +46864,12 @@
    ],
    "shift_test": {
     "declared_score": 8,
-    "best_alternative": "m_pkD3DRenderer -4",
-    "alternative_score": 6,
+    "best_alternative": "m_bIsBestImplementation -8",
+    "alternative_score": 7,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -46789,7 +46910,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 2,
      "width_verified": true,
      "width_basis": [
@@ -46797,6 +46918,7 @@
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -46810,9 +46932,10 @@
      "instruction_verified": true,
      "offset_verified": true,
      "base_pointer": [
+      "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 1,
+     "independent_functions": 2,
      "write_sites": 1,
      "width_verified": true,
      "width_basis": [
@@ -46820,6 +46943,7 @@
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "cmp",
       "move"
      ],
      "type_status": "not-checked",
@@ -46860,7 +46984,7 @@
       "class-method-this",
       "subclass-method-this"
      ],
-     "independent_functions": 2,
+     "independent_functions": 3,
      "write_sites": 1,
      "width_verified": true,
      "width_basis": [
@@ -47700,11 +47824,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 8,
-    "best_alternative": "m_bUsesNiLightState -8",
-    "alternative_score": 7,
+    "declared_score": 10,
+    "best_alternative": "m_spShaderDecl +4",
+    "alternative_score": 9,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -47797,8 +47923,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 0,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -48557,7 +48683,7 @@
      "va": 15190720,
      "name": "NiD3DDefaultShader::ConstructPipeline",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15191056,
@@ -48573,11 +48699,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 13,
+    "declared_score": 14,
     "best_alternative": "m_uiMaxTextureIndex -4",
-    "alternative_score": 12,
+    "alternative_score": 13,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -49467,7 +49595,7 @@
      "va": 12454000,
      "name": "BSShader::Initialize",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 12454080,
@@ -49574,10 +49702,12 @@
    ],
    "shift_test": {
     "declared_score": 6,
-    "best_alternative": "bFirstPass -8",
+    "best_alternative": "iShaderType -8",
     "alternative_score": 5,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -49678,8 +49808,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 4,
+     "write_sites": 4,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49701,8 +49831,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 4,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49710,9 +49840,10 @@
      "declared_kind": "int",
      "type_evidence": [
       "cmp",
+      "int-arith",
       "move"
      ],
-     "type_status": "not-checked",
+     "type_status": "consistent",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false
@@ -49725,17 +49856,18 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
      ],
      "declared_kind": "int",
      "type_evidence": [
+      "int-arith",
       "move"
      ],
-     "type_status": "not-checked",
+     "type_status": "consistent",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false
@@ -49748,7 +49880,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
+     "independent_functions": 5,
      "write_sites": 0,
      "width_verified": false,
      "width_basis": [],
@@ -49769,8 +49901,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 5,
-     "write_sites": 4,
+     "independent_functions": 6,
+     "write_sites": 5,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49794,8 +49926,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 3,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -49817,8 +49949,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49840,8 +49972,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49863,8 +49995,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49886,8 +50018,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 3,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -49909,8 +50041,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 3,
-     "write_sites": 2,
+     "independent_functions": 4,
+     "write_sites": 3,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -49955,8 +50087,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -49978,8 +50110,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -50001,8 +50133,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 1,
-     "write_sites": 1,
+     "independent_functions": 2,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -50024,8 +50156,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
-     "write_sites": 2,
+     "independent_functions": 5,
+     "write_sites": 3,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -50047,8 +50179,8 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 2,
-     "write_sites": 1,
+     "independent_functions": 3,
+     "write_sites": 2,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -50263,7 +50395,7 @@
      "va": 15205040,
      "name": "NiD3DPass::SetStage",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 15205360,
@@ -50279,11 +50411,13 @@
     }
    ],
    "shift_test": {
-    "declared_score": 26,
+    "declared_score": 29,
     "best_alternative": "m_uiRefCount -8",
-    "alternative_score": 25,
+    "alternative_score": 28,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -50593,7 +50727,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 4,
+     "independent_functions": 5,
      "write_sites": 3,
      "width_verified": false,
      "width_basis": [
@@ -50854,7 +50988,7 @@
       "global-singleton"
      ],
      "independent_functions": 5,
-     "write_sites": 3,
+     "write_sites": 4,
      "width_verified": false,
      "width_basis": [
       "blob-prefix"
@@ -50923,7 +51057,7 @@
      "base_pointer": [
       "class-method-this"
      ],
-     "independent_functions": 12,
+     "independent_functions": 13,
      "write_sites": 1,
      "width_verified": true,
      "width_basis": [
@@ -51967,7 +52101,7 @@
      "va": 11913536,
      "name": "ShadowSceneNode::AddLight",
      "uses_this": true,
-     "touches_fields": false
+     "touches_fields": true
     },
     {
      "va": 11913840,
@@ -52158,10 +52292,12 @@
    ],
    "shift_test": {
     "declared_score": 66,
-    "best_alternative": "pWindowReflectionEnvMap -4",
-    "alternative_score": 65,
+    "best_alternative": "bAllowLightRemoveQueues -8",
+    "alternative_score": 64,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "bFrustumAddedToVis",
@@ -52581,7 +52717,7 @@
       "class-method-this"
      ],
      "independent_functions": 2,
-     "write_sites": 2,
+     "write_sites": 3,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -53026,7 +53162,7 @@
       "class-method-this"
      ],
      "independent_functions": 5,
-     "write_sites": 4,
+     "write_sites": 6,
      "width_verified": false,
      "width_basis": [],
      "declared_kind": "blob",
@@ -53068,7 +53204,7 @@
       "class-method-this"
      ],
      "independent_functions": 3,
-     "write_sites": 3,
+     "write_sites": 4,
      "width_verified": true,
      "width_basis": [
       "access-width"
@@ -53455,7 +53591,9 @@
     "best_alternative": "bClipSpacePlanesReady -4",
     "alternative_score": 95,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
     "iEnabledPasses",
@@ -55371,10 +55509,12 @@
    ],
    "shift_test": {
     "declared_score": 137,
-    "best_alternative": "CurrentParameterData +4",
+    "best_alternative": "fHighestMotionBlurStrengthValue +4",
     "alternative_score": 136,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,
@@ -55641,7 +55781,9 @@
     "best_alternative": "pTaskArray -8",
     "alternative_score": 2,
     "verdict": "unique",
-    "ambiguous_fields": []
+    "ambiguous_fields": [],
+    "verdict_without_accessors": "unique",
+    "verdict_with_accessors": "unique"
    },
    "provisional_fields": [],
    "provisional": false,

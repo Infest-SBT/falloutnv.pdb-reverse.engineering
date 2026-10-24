@@ -5,7 +5,7 @@
 // Сигнатуры виртуальных методов взяты с Xbox; степень их проверки на PC — в evidence_vslots.csv.
 // Классы, передаваемые по значению, описаны непрозрачными структурами нужного размера (NiPoint3);
 // шаблоны и вложенные типы в параметрах — void*. Упаковка по умолчанию; #pragma pack(1) только у
-// классов, упакованных и в игре (BGSSaveLoadFormHeader). alignof каждого класса следует из типов полей.
+// классов, упакованных и в игре (BGSSaveLoadFormHeader: поле на +3; v0.5.5 — только в research). alignof каждого класса следует из типов полей.
 // Уровни достоверности каждого поля и слота — комментарии «PC: …» и evidence/summary.json.
 #pragma once
 #if __has_include(<cstddef>)
@@ -1719,7 +1719,7 @@ public:
 };
 #pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)
 // BGSSaveLoadFormHeader (Xbox PDB): Xbox sizeof 0x9, PC sizeof 0x9
-// PC: sizeof 0x9 — confirmed; alignof 1
+// PC: sizeof 0x9 — consistent; alignof 1; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 struct BGSSaveLoadFormHeader {
 public:
     // поля
@@ -2037,7 +2037,7 @@ public:
     int iPageNum; // PC: confirmed
 };
 // FontManager::TextData (Xbox PDB): Xbox sizeof 0x40, PC sizeof 0x40
-// PC: sizeof 0x40 — confirmed; alignof 4
+// PC: sizeof 0x40 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class FontManager::TextData {
 public:
     // поля
@@ -2583,7 +2583,7 @@ public:
     alignas(4) unsigned char BSCPSharedCrit[128]; // NiCriticalSection | PC: confirmed
 };
 // BSBatchRenderer (Xbox PDB): Xbox sizeof 0x98, PC sizeof 0x98
-// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: uiCurrentFirstPass, uiCurrentLastPass)
+// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8
 class BSBatchRenderer : public NiObject {
 public:
     virtual void RegisterPass(BSShaderProperty::RenderPass*, unsigned); // слот 35 | PC: name+stack (0xB99C90)
@@ -2592,8 +2592,8 @@ public:
     void* pRenderPassA; // PC: confirmed
     alignas(4) unsigned char RenderPassMap[16]; // NiTMap<unsigned int,unsigned int> | PC: confirmed
     unsigned uiRenderPassCount; // PC: confirmed
-    unsigned uiCurrentFirstPass; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
-    unsigned uiCurrentLastPass; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    unsigned uiCurrentFirstPass; // PC: confirmed
+    unsigned uiCurrentLastPass; // PC: confirmed
     BSInstanceRendering* pInstanceRenderer; // PC: confirmed
     alignas(4) unsigned char kActivePassIndexList[8]; // BSSimpleList<unsigned short> | PC: confirmed
     int iGroupingAlphas; // PC: confirmed

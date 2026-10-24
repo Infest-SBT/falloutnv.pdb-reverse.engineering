@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.5.4",
+ "package": "FalloutNV_PDB_v0.5.5",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -26,18 +26,18 @@
  "output_pdbs": {
   "FalloutNV.pdb": {
    "kind": "strict (по умолчанию)",
-   "sha256": "33e8ecf52c6398ad7fad267c48a90405c3a543c3b1df11a141dc6e19312d574e",
-   "tpi_records": 872,
-   "tpi_range": "0x1000..0x1367 включительно",
-   "classes": 86,
+   "sha256": "d3ce51dd097c6cdff3de7f6d0362a2d0b8458a7a19ff28a7c71452a7bfa3b3cf",
+   "tpi_records": 864,
+   "tpi_range": "0x1000..0x135F включительно",
+   "classes": 84,
    "enums": 8,
    "streams": 12,
-   "header_static_asserts": 1051,
+   "header_static_asserts": 1030,
    "unverified_slots": 154,
    "masked_fields": 20,
-   "typed_fields": 877,
-   "typed_fields_width_verified": 652,
-   "typed_fields_blob": 225
+   "typed_fields": 855,
+   "typed_fields_width_verified": 638,
+   "typed_fields_blob": 217
   },
   "research/FalloutNV.pdb": {
    "kind": "research",
@@ -84,23 +84,24 @@
  ],
  "expected": {
   "make_syms": "138171 symbols",
-  "evidence_dir": "out/ побайтно равно evidence/ (17 файлов)",
+  "evidence_dir": "out/ побайтно равно evidence/ (20 файлов)",
   "pdb_vs_meta": "ИТОГ: всё совпадает (оба PDB)",
   "rebuilt_pdb_sha256": {
-   "FalloutNV.pdb": "33e8ecf52c6398ad7fad267c48a90405c3a543c3b1df11a141dc6e19312d574e",
+   "FalloutNV.pdb": "d3ce51dd097c6cdff3de7f6d0362a2d0b8458a7a19ff28a7c71452a7bfa3b3cf",
    "research/FalloutNV.pdb": "d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4"
   },
   "rebuilt_scripts": "scripts/ побайтно равно результату build.py",
   "fields": {
-   "confirmed": 877,
+   "confirmed": 879,
    "consistent": 9,
-   "unverified": 16
+   "unverified": 14
   },
   "sizes": {
-   "confirmed": 86
+   "confirmed": 84,
+   "consistent": 2
   },
-  "strict_admitted_classes": 86,
-  "provisional_classes_research": 15,
+  "strict_admitted_classes": 84,
+  "provisional_classes_research": 16,
   "truncated_functions": 0,
   "change_flags": {
    "confirmed": 67,
@@ -131,13 +132,13 @@
   "apply_plan": {
    "strict": {
     "addresses": 2204,
-    "this_candidates": 1451,
+    "this_candidates": 1464,
     "semantics_prototypes": 10,
     "conflicts": 1
    },
    "research": {
     "addresses": 2204,
-    "this_candidates": 1451,
+    "this_candidates": 1465,
     "semantics_prototypes": 10,
     "conflicts": 1
    }
@@ -146,7 +147,8 @@
    "test_ghidra_mock": "18/18",
    "test_ida_mock": "8/8",
    "test_windows_check": "на каждом PDB 20/20: compare OK, 3 внесённые ошибки пойманы, 20 случаев preflight/check_module/main, в том числе «нет манифеста + изменённый PDB → код 2»",
-   "test_slot_forward": "10/10"
+   "test_slot_forward": "10/10",
+   "test_chaincheck": "20/20 с exe (15 синтетических + 5 по FalloutNV.exe)"
   },
   "windows_check_pdb": "ИТОГ: всё совпадает, код 0; другой exe — код 2 (на Windows для v0.5.x ещё не запускался; v0.4.2 — пройдено)",
   "compositions": {
@@ -163,22 +165,25 @@
     "not-checked": 15
    },
    "int": {
-    "not-checked": 309,
-    "consistent": 31
+    "not-checked": 291,
+    "consistent": 35
    },
    "pointer": {
     "consistent": 92,
     "not-checked": 86
    },
-   "blob": 225,
-   "width_verified": 652,
+   "blob": 217,
+   "width_verified": 638,
    "pointer_target_verified": [
     "Font::pFontData"
    ],
    "type_verified": "всегда false",
    "CONFLICT": 0
   },
-  "not_admitted": [],
+  "not_admitted": [
+   "BGSSaveLoadFormHeader",
+   "FontManager::TextData"
+  ],
   "new_classes_v05": 44,
   "vslot_status": {
    "stub": 670,
@@ -211,65 +216,90 @@
    "name": 281,
    "thunk": 3
   },
-  "size_evidence_v054": {
+  "evidence_fields_rows": 8853,
+  "size_status_v055": {
    "BSAudioManager": {
     "size": "0x188",
+    "status": "confirmed",
     "basis": [
      "bounds"
     ]
    },
    "HeapBlock": {
     "size": "0x8",
+    "status": "confirmed",
     "basis": [
      "header-size"
     ]
    },
    "FreeHeapBlock": {
     "size": "0x10",
+    "status": "confirmed",
     "basis": [
      "bounds"
     ]
    },
    "BGSSaveLoadFormHeader": {
     "size": "0x9",
+    "status": "consistent",
     "basis": [
-     "write-size"
+     "last-field"
     ]
    },
    "BGSSaveFormBuffer": {
     "size": "0x24",
+    "status": "confirmed",
     "basis": [
      "stack-frame"
     ]
    },
    "Font::TextData": {
     "size": "0x28",
+    "status": "confirmed",
     "basis": [
      "stack-frame"
     ]
    },
    "FontManager::TextData": {
     "size": "0x40",
+    "status": "consistent",
     "basis": [
-     "stack-frame"
+     "last-field"
     ]
    }
   },
-  "fields_confirmed_v054": [
-   "ShadowSceneLight::pPortalGraph",
-   "BSBatchRenderer::bAlphaGroupZPrePass",
-   "BSShaderAccumulator::bWorldGeometry",
-   "BGSSaveLoadChangesMap::m_ppkHashTable",
-   "BSGameSound::pFilename",
-   "BGSSaveLoadGame::cFileIndexArray",
-   "BGSSaveLoadGame::cReverseFileIndexArray"
+  "fields_confirmed_v055": [
+   "BSBatchRenderer::uiCurrentFirstPass",
+   "BSBatchRenderer::uiCurrentLastPass"
   ],
-  "layout_anchors_accessor": 56,
-  "evidence_fields_rows": 8336
+  "evidence_fields_path": {
+   "linear": 8234,
+   "after-ret": 619
+  },
+  "traced_provenance": {
+   "ok": 41
+  },
+  "out_of_bounds_this_accesses": {
+   "end-address": 3,
+   "explained-derived": 8
+  },
+  "accessor_anchors_rows": 66,
+  "shift_without_accessors": {
+   "no-evidence": 17,
+   "unique": 60,
+   "tie-same-as-xbox": 9
+  },
+  "shift_with_accessors": {
+   "no-evidence": 17,
+   "unique": 59,
+   "tie-same-as-xbox": 10
+  },
+  "layout_anchors_accessor_fields": 56
  },
  "verified_here": [
   "все expected — в Linux-контейнере, где собран пакет (clang/lld 18.1.3), повторно из чистой копии самого пакета",
-  "каждая опорная команда доказательств размера и прослеженных обращений сверяется с exe при каждом прогоне evidence.py",
+  "каждая опорная команда доказательств размера и прослеженных обращений сверяется с exe при каждом прогоне evidence.py (точное сравнение текста, v0.5.5)",
+  "границы stack-frame и звенья ручных цепочек проверяются машинно (tools/chaincheck.py; регрессия — tools/test_chaincheck.py)",
   "скрипты Ghidra/IDA — только на имитации API",
   "windows_check_pdb.py — функция compare() через llvm-pdbutil; DbgHelp для v0.5.x не запускался",
   "независимый проверщик Астры verify_v041_independent.py на этом пакете — манифест и все строки evidence_fields.csv"
@@ -277,32 +307,36 @@
  "not_included": "дампы и файлы Xbox 360 PDB не распространяются; для перегенерации заголовков (gen_headers.py) они нужны, для пересборки PDB и всех проверок — нет",
  "files": {
   "FalloutNV.pdb": {
-   "sha256": "33e8ecf52c6398ad7fad267c48a90405c3a543c3b1df11a141dc6e19312d574e",
+   "sha256": "d3ce51dd097c6cdff3de7f6d0362a2d0b8458a7a19ff28a7c71452a7bfa3b3cf",
    "bytes": 7172096
   },
   "README_RU.md": {
-   "sha256": "1ab32109ce8b16d9c9a5c75551172abc51e84caca8292cb82b19fb09a8b34926",
-   "bytes": 49825
+   "sha256": "d116e4201078146531952cb4f8a301a61c6f20535ed75b3ce680b73fca5017c2",
+   "bytes": 62047
   },
   "evidence/REPORT.md": {
-   "sha256": "2dbeab5cf1bfc2455f1886c8d3a84ef62bbcd96a9378de42f908a2bd5c969d4b",
-   "bytes": 25957
+   "sha256": "27f1edf58160e666b4401d38253578114c3f2ba6d5343bf537e4d8ec28d26d0e",
+   "bytes": 27814
+  },
+  "evidence/accessor_anchors.csv": {
+   "sha256": "35ea2bf45e5b6f969590e23570ba276327d49b0d6000b89ae2510898708690c4",
+   "bytes": 34202
   },
   "evidence/change_flags.csv": {
    "sha256": "3d6765a1fa4778968f265aab98c51e7b80478834b7b0a2200d3de334f439512d",
    "bytes": 10928
   },
   "evidence/compositions.csv": {
-   "sha256": "cd93f3f6cc49585ecc31bf73a97c97d07cf58bb62ed97473161d5b24a672ed54",
-   "bytes": 10923
+   "sha256": "404ab895b9d25060f9ccfa1f2e3942e18813619777861f8c953f13e1470d669d",
+   "bytes": 11118
   },
   "evidence/evidence_fields.csv": {
-   "sha256": "f52b96ed5dd3a72c857289fe78a064c0dc7c7fdf26ee08c074a0e25a94d3f735",
-   "bytes": 1814112
+   "sha256": "95f3b2086756227103860c0e6f59b9550fd4ab5184afb15c2b95a1241836c9ee",
+   "bytes": 1990015
   },
   "evidence/evidence_sizes.csv": {
-   "sha256": "8d18d55ab7756f9826e80294c67691bc8fa82351a8518049fc65f8e0d98f7eab",
-   "bytes": 84334
+   "sha256": "b6f2f419ca9f1d23ec20c302a65ab0bf5c174eb801327b024792e770bd4be5a9",
+   "bytes": 90275
   },
   "evidence/evidence_vslots.csv": {
    "sha256": "f363f9a3e568f96ea4f4288545df75c43bf408a5ef63bbf9ce195db6b1ec268d",
@@ -313,12 +347,12 @@
    "bytes": 1914
   },
   "evidence/identified_functions.csv": {
-   "sha256": "a4f735a139fa8b06862ce67e5dea5a1bdb6eee8e87a9119c3264883f022c997e",
-   "bytes": 6565
+   "sha256": "7a3182ab4a8621617b800a5f013fd78ad88ea82c34b519988f0992dc7d0a4b9b",
+   "bytes": 7019
   },
   "evidence/layout_shift_test.csv": {
-   "sha256": "0249f5bc7c7e30a36ebdcf17dd61ff1fa172bfea4f24be1e071739470e449c54",
-   "bytes": 9261
+   "sha256": "436d30375f5a57f276b8974473ca553d6d958bb568a3f991796d1d894045a132",
+   "bytes": 10965
   },
   "evidence/mem_context.csv": {
    "sha256": "0c2adcf8331174bb99bdd82a809f0b79e43ffb7f771041f1666a2bac619baf09",
@@ -327,6 +361,10 @@
   "evidence/memory_passes.csv": {
    "sha256": "47d32a533abd15b1a0b6de4d5553e27ee7016f1c6e50ba375fbf714b317e7e56",
    "bytes": 1164
+  },
+  "evidence/out_of_bounds_this_accesses.csv": {
+   "sha256": "44cea80ae42e7e4139eb974bc4aca0e5e2108f099f1a42cf654ff9af1d18d2ed",
+   "bytes": 3118
   },
   "evidence/pass_enum.csv": {
    "sha256": "146f5f04fbe18b09a5aca07f0344214c05c291d125a564e91f045106e2f585db",
@@ -345,28 +383,32 @@
    "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "b9a0f135af2488f8a428cdafb21d250496441027170bc5a631284905a70f5944",
-   "bytes": 1355248
+   "sha256": "fac0f17881f69adba0a303a905b020e1d7e81ac3126a291a486ba1b55d0fa6f3",
+   "bytes": 1361320
+  },
+  "evidence/traced_provenance.csv": {
+   "sha256": "d49629c0a53a78292f35ff518a91a450692232cf98c7ae1e940339ef63951fba",
+   "bytes": 4307
   },
   "evidence/xnvse_name_notes.csv": {
    "sha256": "e0ea2971e9dd4f8e08b1d5d64b94316754f7b5a9175b0d68d665f0780d271fa0",
    "bytes": 7736
   },
   "fnv_types_v05.h": {
-   "sha256": "5edcec2a3fc5b618637fced1a85f2763fa10e1c2eaa3594d2b3f7b7a6f07560d",
-   "bytes": 273842
+   "sha256": "0203aef47aa1e40672dfc519a21833dc9c4b2cd6d96c01036ee11aa0bdcc8873",
+   "bytes": 270192
   },
   "fnv_types_v05.meta.json": {
-   "sha256": "f30814c04258d5f0fadc95147ccf92f0e7694deeaa2720255d6e01991d3afef5",
-   "bytes": 346176
+   "sha256": "84af1d2ed17f7a211c476770da030e888e4f26ecafe3cbb78c214227c15fea5d",
+   "bytes": 341573
   },
   "research/FalloutNV.pdb": {
    "sha256": "d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4",
    "bytes": 7180288
   },
   "research/fnv_types_v05_research.h": {
-   "sha256": "a27c94739dbe2580e5e0a0f94739cabc2c51ad663e7d381c316b65854ba1ecc1",
-   "bytes": 276449
+   "sha256": "d7aa3990967e40395159396932a27ba3735a9ba2bdb5cb17356611c546e6fd66",
+   "bytes": 276435
   },
   "research/fnv_types_v05_research.meta.json": {
    "sha256": "f06044b34ee8d81f42b8d40b10ea0311da9fa16b655afdac783e519610fb37d6",
@@ -384,25 +426,29 @@
    "sha256": "f39b9a7b171319a5df929070348bdfd52a1e83bb44be9cc66a0d107c63d70bfe",
    "bytes": 2015
   },
+  "tools/chaincheck.py": {
+   "sha256": "59099d700c3548792236508c6463c98f56ad22d39ccd6fa08ad71fe201760aa8",
+   "bytes": 18967
+  },
   "tools/evidence.py": {
-   "sha256": "06d931e52e6a5dac25deeb6b9e673fa5640019243e0ea5f974d3a96b328df6e6",
-   "bytes": 103937
+   "sha256": "8c7d4afdbcd992fd7c2477863bb70a68069225b4a58fc31488d1db18051114dd",
+   "bytes": 124038
   },
   "tools/evidence_spec.json": {
-   "sha256": "9cb21cd099be60cf535394d87b48546a6370ff85eaa38f712ac4a830b8bb9b86",
-   "bytes": 30963
+   "sha256": "e0fa755208b88617d216a4058e27b073c6585fd9058ecee85b2ce0887f4314a6",
+   "bytes": 38682
   },
   "tools/fnv_types_v05.cpp": {
-   "sha256": "02a28f568c7d8f54a64bfc0cfad239fde47bc4c90be074db4dc7b3560c261bf1",
-   "bytes": 4832
+   "sha256": "0d2c4ad1b514e9dde5db2163be4964d711627259d904121f1245cb33b4509112",
+   "bytes": 4708
   },
   "tools/fnv_types_v05_research.cpp": {
    "sha256": "5c410dfc95aae98d9bd0c451a5731348bbea8cdcc77d8d66cf6a11c144ae669f",
    "bytes": 4841
   },
   "tools/gen_headers.py": {
-   "sha256": "57bafc89f76bc76b54728d4eee99412181d977a42396cd15b4fdc371a1e7fbdc",
-   "bytes": 33990
+   "sha256": "617c37c91cfff46290158e67972b348b622836e147f294dfe659f96a19839d88",
+   "bytes": 34045
   },
   "tools/infer_own_fields.py": {
    "sha256": "07aac094a75b3357e3831908cc859d561fe93cf60a6ab1a2f1e1a9b80b8a3871",
@@ -480,6 +526,10 @@
    "sha256": "68526b39b03581e9630270cd256d6cc46c95793c9e78df4fad9fc907735cb0e9",
    "bytes": 70004
   },
+  "tools/test_chaincheck.py": {
+   "sha256": "c6a60d5dac188f5d36a5c706908abac38a1865b808cf8471ab0aa06ad2cb8c8f",
+   "bytes": 8398
+  },
   "tools/test_slot_forward.py": {
    "sha256": "f6cc9467545db3e4f5649f428f249484eabc7d2f27765f100dffea2d827087e9",
    "bytes": 3453
@@ -513,9 +563,9 @@
    "bytes": 4214
   },
   "tools/windows_check_pdb.py": {
-   "sha256": "0674db039fe2b0de8f10dd7450ae4569e6bda079718620fc88441c4d25e5fc4a",
-   "bytes": 16821
+   "sha256": "29fa0607e1cb1b1193af454e8afd35e668a9eb5b35c4300ef930eef7f3549715",
+   "bytes": 17123
   }
  },
- "changed_vs_v0.5.3": "оба PDB и оба заголовка пересобраны (скрипты Ghidra/IDA побайтно те же, план — из нового summary.json): в строгий допущены 7 классов (размер доказан), +7 подтверждённых полей; в research изменился только HeapBlock (0x10 -> 8 на PC)"
+ "changed_vs_v0.5.4": "строгий PDB пересобран: FontManager::TextData и BGSSaveLoadFormHeader вернулись в research (размер consistent), Header в буферах — байты; +2 подтверждённых поля (BSBatchRenderer::uiCurrentFirstPass/LastPass); research PDB побайтно тот же, что в v0.5.4 (заголовки research изменились только в комментариях); скрипты Ghidra/IDA побайтно те же"
 }

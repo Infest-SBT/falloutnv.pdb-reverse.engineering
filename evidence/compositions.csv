@@ -33,6 +33,7 @@ FalloutRadio::FORadioStation,CurrentState,0x4,FalloutRadio::StationState,proved,
 NiTransform,m_Rotate,0x0,NiMatrix3,pod-layout,,,,,POD без vtable: по ширине подтверждены подполя m_pEntry; противоречий нет
 NiTransform,m_Translate,0x24,NiPoint3,proved,0x00A86C8F,"lea ecx, [edi + 0x24]",0x00A86C92,NiPoint3::LoadBinary,адрес this+0x24 передан как this (ECX) в метод NiPoint3
 NiBound,m_kCenter,0x0,NiPoint3,pod-layout,,,,,"POD без vtable: по ширине подтверждены подполя x, y, z; противоречий нет"
+NiAVObject,m_kLocal,0x34,NiTransform,proved,0x00A5A287,"lea ecx, [ebx + 0x34]",0x00A5A28A,NiTransform::IsNotEqual,адрес this+0x34 передан как this (ECX) в метод NiTransform
 NiAVObject,m_kLocal,0x34,NiTransform,proved,0x00A5AA3E,"lea ecx, [esi + 0x34]",0x00A5AA47,NiTransform::MakeIdentity,адрес this+0x34 передан как this (ECX) в метод NiTransform
 NiAVObject,m_kWorld,0x68,NiTransform,proved,0x00A5AA4C,"lea ecx, [esi + 0x68]",0x00A5AA4F,NiTransform::MakeIdentity,адрес this+0x68 передан как this (ECX) в метод NiTransform
 NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A66B6A,"lea ecx, [esi + 0x10]",0x00A66B6D,NiBound::ComputeFromData,адрес this+0x10 передан как this (ECX) в метод NiBound

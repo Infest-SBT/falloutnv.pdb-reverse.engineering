@@ -4932,66 +4932,6 @@
    "align": 4
   },
   {
-   "name": "BGSSaveLoadFormHeader",
-   "base": null,
-   "pc_size": 9,
-   "xbox_size": 9,
-   "pc_only": false,
-   "vslots": [],
-   "fields": [
-    {
-     "name": "FormIDIndex",
-     "off": 0,
-     "xbox_off": 0,
-     "size": 3,
-     "xbox_type": "BGSNumericIDIndex",
-     "opaque": true,
-     "decl": "unsigned char FormIDIndex[3];",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iChangeFlags",
-     "off": 3,
-     "xbox_off": 3,
-     "size": 4,
-     "xbox_type": "BGSChangeFlags",
-     "opaque": false,
-     "decl": "unsigned iChangeFlags;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "FormInfo",
-     "off": 7,
-     "xbox_off": 7,
-     "size": 1,
-     "xbox_type": "BGSSaveLoadFormInfo",
-     "opaque": true,
-     "decl": "unsigned char FormInfo[1];",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "cVersion",
-     "off": 8,
-     "xbox_off": 8,
-     "size": 1,
-     "xbox_type": "unsigned char",
-     "opaque": false,
-     "decl": "unsigned char cVersion;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    }
-   ],
-   "layout_differs": false,
-   "align": 1
-  },
-  {
    "name": "BGSSaveGameBuffer",
    "base": null,
    "pc_size": 20,
@@ -5091,15 +5031,15 @@
    "vslots": [],
    "fields": [
     {
-     "name": "Header",
+     "name": "_unverified_Header",
      "off": 20,
      "xbox_off": 20,
-     "size": 9,
+     "size": 12,
      "xbox_type": "BGSSaveLoadFormHeader",
-     "opaque": false,
-     "decl": "BGSSaveLoadFormHeader Header;",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char _unverified_Header[12];",
      "source": "xbox_pdb",
-     "class_type": "BGSSaveLoadFormHeader",
+     "class_type": null,
      "class_array_of": null
     },
     {
@@ -5228,15 +5168,15 @@
      "class_array_of": null
     },
     {
-     "name": "Header",
+     "name": "_unverified_Header",
      "off": 20,
      "xbox_off": 20,
-     "size": 9,
+     "size": 12,
      "xbox_type": "BGSSaveLoadFormHeader",
-     "opaque": false,
-     "decl": "BGSSaveLoadFormHeader Header;",
+     "opaque": true,
+     "decl": "alignas(4) unsigned char _unverified_Header[12];",
      "source": "xbox_pdb",
-     "class_type": "BGSSaveLoadFormHeader",
+     "class_type": null,
      "class_array_of": null
     },
     {
@@ -7097,162 +7037,6 @@
      "xbox_type": "int",
      "opaque": false,
      "decl": "int iPageNum;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    }
-   ],
-   "layout_differs": false,
-   "align": 4
-  },
-  {
-   "name": "FontManager::TextData",
-   "base": null,
-   "pc_size": 64,
-   "xbox_size": 64,
-   "pc_only": false,
-   "vslots": [],
-   "fields": [
-    {
-     "name": "iDefaultFont",
-     "off": 0,
-     "xbox_off": 0,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iDefaultFont;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iJustification",
-     "off": 4,
-     "xbox_off": 4,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iJustification;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "xColor",
-     "off": 8,
-     "xbox_off": 8,
-     "size": 16,
-     "xbox_type": "NiColorA",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char xColor[16];",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "cLineSep",
-     "off": 24,
-     "xbox_off": 24,
-     "size": 1,
-     "xbox_type": "char",
-     "opaque": false,
-     "decl": "char cLineSep;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iWidth",
-     "off": 28,
-     "xbox_off": 28,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iWidth;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iHeight",
-     "off": 32,
-     "xbox_off": 32,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iHeight;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iPageNum",
-     "off": 36,
-     "xbox_off": 36,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iPageNum;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iLines",
-     "off": 40,
-     "xbox_off": 40,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iLines;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iNumPages",
-     "off": 44,
-     "xbox_off": 44,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iNumPages;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "iNumLines",
-     "off": 48,
-     "xbox_off": 48,
-     "size": 4,
-     "xbox_type": "int",
-     "opaque": false,
-     "decl": "int iNumLines;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "bIsHypertext",
-     "off": 52,
-     "xbox_off": 52,
-     "size": 1,
-     "xbox_type": "bool",
-     "opaque": false,
-     "decl": "bool bIsHypertext;",
-     "source": "xbox_pdb",
-     "class_type": null,
-     "class_array_of": null
-    },
-    {
-     "name": "xNewText",
-     "off": 56,
-     "xbox_off": 56,
-     "size": 8,
-     "xbox_type": "BSStringT<char>",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char xNewText[8];",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null
@@ -11526,25 +11310,25 @@
      "class_array_of": null
     },
     {
-     "name": "_unverified_uiCurrentFirstPass",
+     "name": "uiCurrentFirstPass",
      "off": 32,
      "xbox_off": 32,
      "size": 4,
      "xbox_type": "unsigned",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char _unverified_uiCurrentFirstPass[4];",
+     "opaque": false,
+     "decl": "unsigned uiCurrentFirstPass;",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null
     },
     {
-     "name": "_unverified_uiCurrentLastPass",
+     "name": "uiCurrentLastPass",
      "off": 36,
      "xbox_off": 36,
      "size": 4,
      "xbox_type": "unsigned",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char _unverified_uiCurrentLastPass[4];",
+     "opaque": false,
+     "decl": "unsigned uiCurrentLastPass;",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null

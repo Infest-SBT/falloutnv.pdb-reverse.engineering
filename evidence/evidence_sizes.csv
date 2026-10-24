@@ -1,451 +1,454 @@
-class,pc_sizeof,evidence,value,match,details
-BaseFormComponent,0x4,subclass-boundary,0x4,True,первое собственное поле TESForm::cFormType на 0x4 (статус поля см. evidence_fields)
-TESForm,0x18,external,0x18,True,xNVSE: static_assert(sizeof(TESForm) == 0x18) — проверено сообществом на живой игре
-TESDataHandler,0x63C,ctor-alloc,0x63C,True,0x0044FF78 push 0x63c; call ourMalloc; результат доходит до ecx; 0x0044FF95 call TESDataHandler::TESDataHandler
-BSGameSound,0x198,subclass-boundary,0x198,True,первое собственное поле BSWin32GameSound::pDirectSound на 0x198 (статус поля см. evidence_fields)
-BSWin32GameSound,0x230,ctor-alloc,0x230,True,0x00AEA5E8 push 0x230; call MemoryManager::Allocate; результат доходит до ecx; 0x00AEA60E call BSWin32GameSound::BSWin32GameSound
-BSAudio,0x38,subclass-boundary,0x38,True,первое собственное поле BSWin32Audio::pDirectSound на 0x38 (статус поля см. evidence_fields)
-BSWin32Audio,0xA4,bounds,0xA4,True,"верхняя граница: объект BSWin32Audio::Instance 0x011F7080, по 0x011F7124 лежит флаг статической инициализации (BSWin32Audio::Create читает/ставит его бит перед вызовом конструктора) => не больше 0xA4; нижняя: поле +0xA0 (4 байта) пишется в Init => не меньше 0xA4"
-BSAudioManager,0x188,bounds,0x188,True,"объект BSAudioManager::Instance 0x011F6EF0; по 0x011F7078 = Instance + 0x188 лежит флаг статической инициализации: BSAudioManager::GetSingleton читает его бит 0 и ставит его перед вызовом конструктора для Instance => не больше 0x188; нижняя граница: последнее поле bIgnoreGlobalTimeMultiplier на +0x184 (≥ 0x185), класс с полями по 4 байта выровнен на 4 => не меньше 0x188; границы совпали [опорные команды проверены по exe: 4]"
-BSSoundHandle,0xC,ctor-alloc,0xC,True,0x0082E315 push 0xc; call ourMalloc; результат доходит до ecx; 0x0082E338 call BSSoundHandle::BSSoundHandle
-HeapBlock,0x8,header-size,0x8,True,"заголовок блока кучи на PC — 8 байт: AbstractHeap::BaseFree: блок = указатель пользователя − 8 (0x00AA9910/0x00AA9913), занятая память уменьшается на размер + 8 (0x00AA992A); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316), остаток = свободное − (размер + 8) (0x00AA9320). Память пользователя начинается сразу за HeapBlock => sizeof(HeapBlock) = 8 (на Xbox 0x10) [опорные команды проверены по exe: 5]"
-FreeHeapBlock,0x10,bounds,0x10,True,"верхняя граница: AbstractHeap::BaseAllocate округляет запрос меньше 8 байт до 8 (0x00AA8F7B cmp [ebp+8], 8; 0x00AA8F81 mov [ebp+8], 8), заголовок HeapBlock — 8 байт => самый маленький блок занимает 0x10, и освобождённый блок хранит в нём pPrevFree/pNextFree (+8/+0xC) => FreeHeapBlock не больше 0x10; нижняя граница: последнее поле pNextFree на +0xC (4 байта) => не меньше 0x10; границы совпали [опорные команды проверены по exe: 3]"
-FreeHeapBlockList,0x8,array-span,0x8,True,"AbstractHeap::pSmallFreeList = 1024 элемента на 0x44..0x2044, следующее поле pLastSmallList на 0x2044 подтверждено => 0x2000/1024 = 8"
-IMemoryHeap,0x4,subclass-boundary,0x4,True,первое собственное поле AbstractHeap::pName на 0x4 (статус поля см. evidence_fields)
-HeapFreeSubBucket,0x8,index-stride,0x8,True,AbstractHeap::BaseAllocate 0x00AA90EB: cmp [eax + edx*8 + 0x2058] — шаг индекса 8; 16 × 8 = 0x80 = AbstractHeap::pSubBuckets от 0x2058 до CriticalSectionO на 0x20D8
-AbstractHeap,0x20F0,subclass-boundary,0x20F0,True,первое собственное поле MemoryHeap::bSupportsSwapping на 0x20F0 (статус поля см. evidence_fields)
-MemoryHeap,0x20F4,ctor-alloc,0x20F4,True,0x00866E76 push 0x20f4; call ourMalloc; результат доходит до ecx; 0x00866EA7 call MemoryHeap::MemoryHeap
-MemoryHeap,0x20F4,ctor-alloc,0x20F4,True,0x00866F5F push 0x20f4; call ourMalloc; результат доходит до ecx; 0x00866F90 call MemoryHeap::MemoryHeap
-ScrapHeap,0x10,ctor-alloc,0x10,True,0x00AA4334 push 0x10; call MemoryManager::Allocate; результат доходит до ecx; 0x00AA4353 call ScrapHeap::ScrapHeap
-MemoryManager,0x138,bounds,0x138,True,"верхняя граница: MemoryManager::Singleton 0x011F6238, следующий глобальный символ 0x011F6370 => не больше 0x138; нижняя граница: MemoryManager::GetMainThreadMemoryProblemPassSignal читает 4 байта по +0x134 => не меньше 0x138; границы совпали"
-BGSSaveLoadFormHeader,0x9,write-size,0x9,True,"BGSSaveFormBuffer::Save пишет заголовок одним куском: push 9; edx = this + 0x14 (поле Header); BGSSaveLoadFile::Write(&Header, 9) (0x00865A62..0x00865A6E); BGSSaveFormBuffer::GetOverhead прибавляет те же 9 (0x00865B39). Последнее поле cVersion на +8 => не меньше 9; записываемый размер = 9 [опорные команды проверены по exe: 5]"
-BGSSaveGameBuffer,0x14,subclass-boundary,0x14,True,первое собственное поле BGSSaveFormBuffer::Header на 0x14 (статус поля см. evidence_fields)
-BGSSaveFormBuffer,0x24,stack-frame,0x24,True,"объект на стеке в BGSLoadGameSubBuffer::SaveAnimation и SaveHavokData: конструктор вызывается для [ebp−0x34] (0x00864F65/0x00864F68 и 0x00865065/0x00865068), объект используется до 0x00864FB3/0x008650B3; слот [ebp−0x10] — другая переменная, она записана до конструктора (0x00864F62/0x00865062) и прочитана после последнего использования объекта (0x00864FB7/0x008650B7), то есть жива всё время жизни объекта => объект кончается не дальше ebp−0x10: не больше 0x24; последнее поле pForm на +0x20 => не меньше 0x24 (код без совмещения слотов стека — каждой переменной свой слот) [опорные команды проверены по exe: 10]"
-BGSLoadGameBuffer,0x10,subclass-boundary,0x10,True,первое собственное поле BGSLoadFormBuffer::iFormID на 0x10 (статус поля см. evidence_fields)
-BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,0x008482E9 push 0x30; call ourMalloc; результат доходит до ecx; 0x0084830F call BGSLoadFormBuffer::BGSLoadFormBuffer
-BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,0x00864E48 push 0x30; call ourMalloc; результат доходит до ecx; 0x00864E65 call BGSLoadFormBuffer::BGSLoadFormBuffer
-BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,0x008664A8 push 0x30; call ourMalloc; результат доходит до ecx; 0x008664C5 call BGSLoadFormBuffer::BGSLoadFormBuffer
-BGSSaveLoadGame,0x24C,ctor-alloc,0x24C,True,0x008474A5 push 0x24c; call ourMalloc; результат доходит до ecx; 0x008474C5 call BGSSaveLoadGame::BGSSaveLoadGame
-BGSSaveLoadManager,0x38,ctor-alloc,0x38,True,0x0084FC95 push 0x38; call ourMalloc; результат доходит до ecx; 0x0084FCB2 call BGSSaveLoadManager::BGSSaveLoadManager
-BGSSaveLoadChangesMap,0x10,ctor-alloc,0x10,True,0x00846FA6 push 0x10; call ourMalloc; результат доходит до ecx; 0x00846FC0 call BGSSaveLoadChangesMap::BGSSaveLoadChangesMap
-BGSSaveLoadChangesMap,0x10,ctor-alloc,0x10,True,0x008481CB push 0x10; call ourMalloc; результат доходит до ecx; 0x008481F1 call BGSSaveLoadChangesMap::BGSSaveLoadChangesMap
-BGSSaveLoadChangesMap,0x10,ctor-alloc,0x10,True,0x00848EA4 push 0x10; call ourMalloc; результат доходит до ecx; 0x00848ECA call BGSSaveLoadChangesMap::BGSSaveLoadChangesMap
-FalloutRadio::FORadioReceiver,0x20,ctor-alloc,0x20,True,0x008326B1 push 0x20; call ourMalloc; результат доходит до ecx; 0x008326CE call FalloutRadio::FORadioReceiver::FORadioReceiver
-FalloutRadio::FORadioReceiver,0x20,ctor-alloc,0x20,True,0x008358CF push 0x20; call ourMalloc; результат доходит до ecx; 0x008358EC call FalloutRadio::FORadioReceiver::FORadioReceiver
-FalloutRadio::FORadioReceiver,0x20,ctor-alloc,0x20,True,0x00836925 push 0x20; call ourMalloc; результат доходит до ecx; 0x00836942 call FalloutRadio::FORadioReceiver::FORadioReceiver
-FalloutRadio::StationState,0x20,contained,0x20,True,StationState встроен в FORadioStation на +4 (RadioEntry::RadioEntry вызывает RadioEntry::Data::Init для this+4); sizeof FORadioStation 0x24 подтверждён выделением => 0x24 − 4 = 0x20
-FalloutRadio::FORadioStation,0x24,ctor-alloc,0x24,True,0x00832CF2 push 0x24; call ourMalloc; результат доходит до ecx; 0x00832D0F call RadioEntry::RadioEntry
-FalloutRadio::FORadioStation,0x24,ctor-alloc,0x24,True,0x008369A7 push 0x24; call ourMalloc; результат доходит до ecx; 0x008369C4 call RadioEntry::RadioEntry
-RadioConvTask,0x38,ctor-alloc,0x38,True,0x00837138 push 0x38; call ourMalloc; результат доходит до ecx; 0x00837159 call RadioConvTask::RadioConvTask
-UVMap,0x8,array-span,0x8,True,"FontLetter::pMapping = UVMap[4] на 0x4..0x24 (Font::AddChar читает все 8 float: +0x4..+0x20), следующее поле fWidth на 0x24 подтверждено => 0x20 / 4 = 8"
-FontLetter,0x38,index-stride,0x38,True,"Font::Load: цикл 0..0x100 (0x00A155C7), индекс imul 0x38 (0x00A155EF), обращения FontData+0x128+i*0x38+0x28/+0x34; 0x100 × 0x38 = 0x3800 = 0x3928 − 0x128 (FontData::pFontLetters до конца FontData)"
-TextureFile,0x24,index-stride,0x24,True,"Font::Load: цикл i < FontData::iTextureCount (+4, 0x00A15A3D), imul 0x24 (0x00A15A55), lea [FontData + 0xC + i*0x24] = pTextureFiles[i].pFilename → BSsprintf(""Textures\\Fonts\\%s""); 8 × 0x24 = 0x120 = 0x8..0x128, следующее поле pFontLetters на 0x128 подтверждено"
-FontData,0x3928,alloc-for-field,0x3928,True,Font::Load 0x00A154AC push 0x3928; call MemoryManager::Allocate; результат записан в Font::pFontData (+0x38) по 0x00A154CD
-Font,0x54,ctor-alloc,0x54,True,0x00A1691C push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1695A call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A16989 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A169C7 call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A169F7 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16A35 call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A16A65 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16AA3 call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A16AD3 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16B11 call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A16B41 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16B7F call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A16BAF push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16BED call Font::Font
-Font,0x54,ctor-alloc,0x54,True,0x00A16C1D push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16C5B call Font::Font
-Font::TextData,0x28,stack-frame,0x28,True,"в PDB xNVSE этот тип — Font::FormatInfo (конструктор Font::FormatInfo::Init 0x00759330). Font::CreateText: объект на [ebp−0x58] (0x00A12903 lea ecx; 0x00A12906 call Init), передаётся в PrepText; слот [ebp−0x30] сразу за 0x28 байтами объекта — другая переменная (счётчик строк): обнуляется (0x00A1295B) и сравнивается в цикле (0x00A12988), пока объект ещё используется (его список xLineWidths [ebp−0x38] — 0x00A12BCE) => не больше 0x28; последнее поле xLineWidths на +0x20 (8 байт) => не меньше 0x28 [опорные команды проверены по exe: 5]"
-FontManager,0x24,ctor-alloc,0x24,True,0x00A167EE push 0x24; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1680D call FontManager::FontManager
-FontManager::CharData,0x38,ctor-alloc,0x38,True,0x00A1A1C9 push 0x38; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A22A call FontManager::CharData::CharData
-FontManager::CharData,0x38,ctor-alloc,0x38,True,0x00A1B688 push 0x38; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1B6DD call FontManager::CharData::CharData
-FontManager::TextLine,0x30,ctor-alloc,0x30,True,0x00A19C8A push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A19CBC call _sub_A1BD40
-FontManager::TextLine,0x30,ctor-alloc,0x30,True,0x00A1A018 push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A051 call _sub_A1BD40
-FontManager::TextLine,0x30,ctor-alloc,0x30,True,0x00A1A151 push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A18A call _sub_A1BD40
-FontManager::TextLine,0x30,ctor-alloc,0x30,True,0x00A1A2F9 push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A332 call _sub_A1BD40
-FontManager::TextPage,0x44,ctor-alloc,0x44,True,0x00A19A79 push 0x44; call MemoryManager::Allocate; результат доходит до ecx; 0x00A19AAE call _sub_A1BC70
-FontManager::TextDoc,0x18,alloc-inline,0x18,True,"FontManager::A18A30 0x00A18AE2 push 0x18; call MemoryManager::Allocate; тот же указатель: NiTListBase::NiTListBase_ (+0 = xPages), затем +0xC/+0x10/+0x14 = TextData::iWidth/iHeight/iPageNum (+0x1C/+0x20/+0x24) — конструктор встроен"
-FontManager::TextData,0x40,stack-frame,0x40,True,"TileText::MakeNode: объект на [ebp−0xAC] передаётся в FontManager::CreateText (0x00A22094 lea eax, [ebp−0xAC]; 0x00A220C6 call); его поля заполняются перед вызовом (bIsHypertext +0x34 = [ebp−0x78], 0x00A2207B) и список xNewText (+0x38 = [ebp−0x74]) используется после (0x00A2215F); слот [ebp−0x68] сразу за 0x40 байтами — другая переменная: записана до (0x00A21B29) и прочитана после (0x00A22429) => не больше 0x40; последнее поле xNewText на +0x38 (8 байт) => не меньше 0x40 [опорные команды проверены по exe: 6]"
-NiRefObject,0x8,subclass-boundary,0x8,True,первое собственное поле NiShader::m_kName на 0x8 (статус поля см. evidence_fields)
-NiRefObject,0x8,subclass-boundary,0x8,True,первое собственное поле ShadowSceneLight::iEnabledPasses на 0x8 (статус поля см. evidence_fields)
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A3CD02 push 0x18; call NiNew; 0x00A3CD16 call NiObject::NiObject; затем 0x00a3cd27: vtable NiFloatData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A3D151 push 0x18; call NiNew; 0x00A3D163 call NiObject::NiObject; затем 0x00a3d168: vtable NiColorData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A415A2 push 0x18; call NiNew; 0x00A415B6 call NiObject::NiObject; затем 0x00a415c7: vtable NiMorphData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A422A6 push 0x18; call NiNew; 0x00A422B8 call NiObject::NiObject; затем 0x00a422bd: vtable NiFloatData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A42476 push 0x18; call NiNew; 0x00A42488 call NiObject::NiObject; затем 0x00a4248d: vtable NiPosData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A43FB1 push 0x18; call NiNew; 0x00A43FC3 call NiObject::NiObject; затем 0x00a43fd7: vtable BSLookIKNote — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A43FF2 push 0x18; call NiNew; 0x00A44006 call NiObject::NiObject; затем 0x00a4401a: vtable BSLookIKNote — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x1C,False,0x00A44381 push 0x1c; call NiNew; 0x00A44393 call NiObject::NiObject; затем 0x00a443a7: vtable BSGrabIKNote — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x1C,False,0x00A443C2 push 0x1c; call NiNew; 0x00A443D6 call NiObject::NiObject; затем 0x00a443ea: vtable BSGrabIKNote — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x10,False,0x00A44941 push 0x10; call NiNew; 0x00A44953 call NiObject::NiObject; затем 0x00a44958: vtable BSAnimNotes — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x14,False,0x00A47151 push 0x14; call NiNew; 0x00A47163 call NiObject::NiObject; затем 0x00a47168: vtable NiStringPalette — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A48112 push 0x18; call NiNew; 0x00A48126 call NiObject::NiObject; затем 0x00a48137: vtable NiRotData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A49022 push 0x18; call NiNew; 0x00A49036 call NiObject::NiObject; затем 0x00a49047: vtable NiPosData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x2C,False,0x00A4E042 push 0x2c; call NiNew; 0x00A4E056 call NiObject::NiObject; затем 0x00a4e080: vtable NiTransformData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A4F6B1 push 0x18; call NiNew; 0x00A4F6C5 call NiObject::NiObject; затем 0x00a4f6cc: vtable NiFloatData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A51E12 push 0x18; call NiNew; 0x00A51E26 call NiObject::NiObject; затем 0x00a51e38: vtable NiBSplineData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x28,False,0x00A52B03 push 0x28; call NiNew; 0x00A52B19 call NiObject::NiObject; затем 0x00a52b24: vtable NiBSplineBasisData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x28,False,0x00A52B61 push 0x28; call NiNew; 0x00A52B73 call NiObject::NiObject; затем 0x00a52b7e: vtable NiBSplineBasisData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00A537F2 push 0x18; call NiNew; 0x00A53806 call NiObject::NiObject; затем 0x00a53817: vtable NiBoolData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x40,False,0x00A6C7C5 push 0x40; call NiNew; 0x00A6C7DB call NiObject::NiObject; затем 0x00a6c802: vtable BSDismemberSkinInstance — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x40,False,0x00A6C8A2 push 0x40; call NiNew; 0x00A6C8B6 call NiObject::NiObject; затем 0x00a6c8e4: vtable BSDismemberSkinInstance — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x1C,False,0x00A6EF72 push 0x1c; call NiNew; 0x00A6EF86 call NiObject::NiObject; затем 0x00a6ef8b: vtable NiDefaultAVObjectPalette — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x1C,False,0x00A6F001 push 0x1c; call NiNew; 0x00A6F013 call NiObject::NiObject; затем 0x00a6f018: vtable NiDefaultAVObjectPalette — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0xC,False,0x00A7B381 push 0xc; call NiNew; 0x00A7B393 call NiObject::NiObject; затем 0x00a7b398: vtable NiExtraData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x74,False,0x00A7C3F2 push 0x74; call NiNew; 0x00A7C406 call NiObject::NiObject; затем 0x00a7c40e: vtable NiPixelData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x10,False,0x00A81FB1 push 0x10; call NiNew; 0x00A81FC3 call NiObject::NiObject; затем 0x00a81fc8: vtable NiSkinPartition — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x48,False,0x00A84D31 push 0x48; call NiNew; 0x00A84D43 call NiObject::NiObject; затем 0x00a84d48: vtable NiSkinData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x34,False,0x00A866F2 push 0x34; call NiNew; 0x00A86706 call NiObject::NiObject; затем 0x00a8670b: vtable NiSkinInstance — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x34,False,0x00A8684D push 0x34; call NiNew; 0x00A86861 call NiObject::NiObject; затем 0x00a86866: vtable NiSkinInstance — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x24,False,0x00A8B222 push 0x24; call NiNew; 0x00A8B236 call NiObject::NiObject; затем 0x00a8b23d: vtable NiPalette — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x14,False,0x00A8F261 push 0x14; call NiNew; 0x00A8F273 call NiObject::NiObject; затем 0x00a8f280: vtable Ni2DBuffer — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x14,False,0x00A8F2D4 push 0x14; call NiNew; 0x00A8F2E6 call NiObject::NiObject; затем 0x00a8f2eb: vtable Ni2DBuffer — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x1C,False,0x00A8FFC1 push 0x1c; call NiNew; 0x00A8FFD3 call NiObject::NiObject; затем 0x00a8ffe7: vtable NiScreenPolygon — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x1C,False,0x00A905C2 push 0x1c; call NiNew; 0x00A905D6 call NiObject::NiObject; затем 0x00a905dd: vtable NiScreenPolygon — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x20,False,0x00A958B2 push 0x20; call NiNew; 0x00A958C6 call NiObject::NiObject; затем 0x00a958cb: vtable NiScreenTexture — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x20,False,0x00A95C13 push 0x20; call NiNew; 0x00A95C29 call NiObject::NiObject; затем 0x00a95c32: vtable NiScreenTexture — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00C1BF26 push 0x18; call NiNew; 0x00C1BF38 call NiObject::NiObject; затем 0x00c1bf3d: vtable NiBoolData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x28,False,0x00C2BA62 push 0x28; call NiNew; 0x00C2BA76 call NiObject::NiObject; затем 0x00c2ba8e: vtable NiPSysEmitterCtlrData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0xC,False,0x00C3B0BA push 0xc; call NiNew; 0x00C3B0DD call NiObject::NiObject; затем 0x00c3b0e9: vtable BSReference — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00C3B2A8 push 0x18; call NiNew; 0x00C3B2C5 call NiObject::NiObject; затем 0x00c3b2d1: vtable BSNodeReferences — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0xC,False,0x00C64835 push 0xc; call NiNew; 0x00C64852 call NiObject::NiObject; затем 0x00c6485a: vtable BSReference — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00C64A15 push 0x18; call NiNew; 0x00C64A32 call NiObject::NiObject; затем 0x00c64a3e: vtable BSNodeReferences — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x20,False,0x00C7EA80 push 0x20; call NiNew; 0x00C7EAA1 call NiObject::NiObject; затем 0x00c7eaa8: vtable bhkRagdollShareData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x30,False,0x00CA34E3 push 0x30; call NiNew; 0x00CA34FF call NiObject::NiObject; затем 0x00ca350a: vtable hkPackedNiTriStripsData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x18,False,0x00CC12B3 push 0x18; call NiNew; 0x00CC12CF call NiObject::NiObject; затем 0x00cc12d4: vtable bhkPoseArray — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x10,False,0x00CCB9C2 push 0x10; call NiNew; 0x00CCB9E0 call NiObject::NiObject; затем 0x00ccb9e5: vtable bhkExtendedMeshShapeData — выделение наследника
-NiObject,0x8,ctor-alloc-derived,0x10,False,0x00CCC9F8 push 0x10; call NiNew; 0x00CCCA29 call NiObject::NiObject; затем 0x00ccca30: vtable bhkExtendedMeshShapeData — выделение наследника
-NiObject,0x8,subclass-boundary,0x8,True,первое собственное поле NiObjectNET::m_kName на 0x8 (статус поля см. evidence_fields)
-NiObject,0x8,subclass-boundary,0x8,True,первое собственное поле NiGeometryData::m_usVertices на 0x8 (статус поля см. evidence_fields)
-NiObject,0x8,subclass-boundary,0x8,True,первое собственное поле NiAccumulator::m_pkCamera на 0x8 (статус поля см. evidence_fields)
-NiObject,0x8,subclass-boundary,0x8,True,первое собственное поле BSBatchRenderer::pRenderPassA на 0x8 (статус поля см. evidence_fields)
-NiObject,0x8,subclass-boundary,0x8,True,первое собственное поле NiRenderer::m_spAccum на 0x8 (статус поля см. evidence_fields)
-NiObjectNET,0x18,ctor-alloc-derived,0x18,True,0x00A47381 push 0x18; call NiNew; 0x00A47393 call NiObjectNET::NiObjectNET; затем 0x00a47398: vtable NiSequenceStreamHelper — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A5CE54 push 0x1c; call NiNew; 0x00A5CE66 call NiObjectNET::NiObjectNET; затем 0x00a5ce70: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A5CEB1 push 0x1c; call NiNew; 0x00A5CEC3 call NiObjectNET::NiObjectNET; затем 0x00a5ced1: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A5CEF1 push 0x1c; call NiNew; 0x00A5CF03 call NiObjectNET::NiObjectNET; затем 0x00a5cf0d: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A5F21A push 0x1c; call NiNew; 0x00A5F22C call NiObjectNET::NiObjectNET; затем 0x00a5f236: vtable NiVertexColorProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A5F281 push 0x1c; call NiNew; 0x00A5F293 call NiObjectNET::NiObjectNET; затем 0x00a5f2a1: vtable NiVertexColorProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A5F51A push 0x1c; call NiNew; 0x00A5F52C call NiObjectNET::NiObjectNET; затем 0x00a5f536: vtable NiZBufferProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x24,False,0x00A6F39A push 0x24; call NiNew; 0x00A6F3AC call NiObjectNET::NiObjectNET; затем 0x00a6f3b6: vtable NiStencilProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x24,False,0x00A6F411 push 0x24; call NiNew; 0x00A6F423 call NiObjectNET::NiObjectNET; затем 0x00a6f431: vtable NiStencilProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x24,False,0x00A6F451 push 0x24; call NiNew; 0x00A6F463 call NiObjectNET::NiObjectNET; затем 0x00a6f46d: vtable NiStencilProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x20,False,0x00A81482 push 0x20; call NiNew; 0x00A81496 call NiObjectNET::NiObjectNET; затем 0x00a814a0: vtable NiShadeProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x20,False,0x00A814E1 push 0x20; call NiNew; 0x00A814F3 call NiObjectNET::NiObjectNET; затем 0x00a81501: vtable NiShadeProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x20,False,0x00A81521 push 0x20; call NiNew; 0x00A81533 call NiObjectNET::NiObjectNET; затем 0x00a8153d: vtable NiShadeProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A8F532 push 0x1c; call NiNew; 0x00A8F546 call NiObjectNET::NiObjectNET; затем 0x00a8f554: vtable NiCullingProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A8F581 push 0x1c; call NiNew; 0x00A8F593 call NiObjectNET::NiObjectNET; затем 0x00a8f5a1: vtable NiCullingProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A8F5B1 push 0x1c; call NiNew; 0x00A8F5C3 call NiObjectNET::NiObjectNET; затем 0x00a8f5d1: vtable NiCullingProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A95112 push 0x1c; call NiNew; 0x00A95126 call NiObjectNET::NiObjectNET; затем 0x00a9512d: vtable NiSpecularProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A95161 push 0x1c; call NiNew; 0x00A95173 call NiObjectNET::NiObjectNET; затем 0x00a9517e: vtable NiSpecularProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x2C,False,0x00A99FD1 push 0x2c; call NiNew; 0x00A99FE3 call NiObjectNET::NiObjectNET; затем 0x00a99fea: vtable NiFogProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x2C,False,0x00A9A091 push 0x2c; call NiNew; 0x00A9A0A3 call NiObjectNET::NiObjectNET; затем 0x00a9a0aa: vtable NiFogProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A9A5F2 push 0x1c; call NiNew; 0x00A9A606 call NiObjectNET::NiObjectNET; затем 0x00a9a60d: vtable NiDitherProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00A9A641 push 0x1c; call NiNew; 0x00A9A653 call NiObjectNET::NiObjectNET; затем 0x00a9a65e: vtable NiDitherProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00B4E293 push 0x1c; call NiNew; 0x00B4E2B1 call NiObjectNET::NiObjectNET; затем 0x00b4e2bb: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00B591A9 push 0x1c; call NiNew; 0x00B591C7 call NiObjectNET::NiObjectNET; затем 0x00b591d1: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00B59205 push 0x1c; call NiNew; 0x00B59233 call NiObjectNET::NiObjectNET; затем 0x00b5923d: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00B625F3 push 0x1c; call NiNew; 0x00B62611 call NiObjectNET::NiObjectNET; затем 0x00b6261b: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00B62656 push 0x1c; call NiNew; 0x00B62678 call NiObjectNET::NiObjectNET; затем 0x00b62682: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00BAFF5F push 0x1c; call NiNew; 0x00BAFF7D call NiObjectNET::NiObjectNET; затем 0x00baff87: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,0x00E8826A push 0x1c; call NiNew; 0x00E88290 call NiObjectNET::NiObjectNET; затем 0x00e8829e: vtable NiAlphaProperty — выделение наследника
-NiObjectNET,0x18,subclass-boundary,0x18,True,первое собственное поле NiAVObject::m_pkParent на 0x18 (статус поля см. evidence_fields)
-NiObjectNET,0x18,subclass-boundary,0x18,True,первое собственное поле NiTexture::m_kFormatPrefs на 0x18 (статус поля см. evidence_fields)
-NiPoint3,0xC,array-span,0xC,True,"NiTransform: m_Translate.x/y/z на +0x24/+0x28/+0x2C, следующее поле m_fScale на +0x30 подтверждено => 0xC; NiBound: m_kCenter.x/y/z на +0/+4/+8, m_fRadius на +0xC"
-NiMatrix3,0x24,array-span,0x24,True,"NiAVObject::m_kWorld.m_Rotate: 9 float подряд на +0x68..+0x88 (подтверждены по ширине 4, в т.ч. NiCamera::WorldToCameraMatrix), следующее поле m_kWorld.m_Translate.x на +0x8C подтверждено => 0x8C − 0x68 = 0x24; то же в собственном коде NiTransform: m_Rotate +0x0..+0x20, m_Translate на +0x24"
-NiTransform,0x34,contained,0x34,True,"NiAVObject: m_kLocal начинается на +0x34 (m_kLocal.m_Translate.x на +0x58 = +0x34 + 0x24, m_kLocal.m_fScale на +0x64), следующий m_kWorld — на +0x68 (m_kWorld.m_Rotate[0] на +0x68 подтверждён) => 0x68 − 0x34 = 0x34; m_kWorld.m_fScale на +0x98 = +0x68 + 0x30"
-NiBound,0x10,ctor-alloc,0x10,True,0x0068CF8B push 0x10; call ourMalloc; результат доходит до ecx; 0x0068CFA8 call NiBound::NiBound
-NiAVObject,0x9C,ctor-alloc-derived,0xAC,False,0x00A5EFA2 push 0xac; call NiNew; 0x00A5EFB9 call NiAVObject::NiAVObject; затем 0x00a5efbe: vtable NiNode — выделение наследника
-NiAVObject,0x9C,ctor-alloc-derived,0xAC,False,0x00A5F031 push 0xac; call NiNew; 0x00A5F046 call NiAVObject::NiAVObject; затем 0x00a5f04b: vtable NiNode — выделение наследника
-NiAVObject,0x9C,subclass-boundary,0x9C,True,первое собственное поле NiNode::m_kChildren на 0x9C (статус поля см. evidence_fields)
-NiAVObject,0x9C,subclass-boundary,0x9C,True,первое собственное поле NiGeometry::m_PropertyState на 0x9C (статус поля см. evidence_fields)
-NiAVObject,0x9C,subclass-boundary,0x9C,True,первое собственное поле NiCamera::m_aafWorldToCam на 0x9C (статус поля см. evidence_fields)
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0043ADFC push 0xac; call NiNew; результат доходит до ecx; 0x0043AE1E call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0043AF07 push 0xac; call NiNew; результат доходит до ecx; 0x0043AF29 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00469DC6 push 0xac; call NiNew; результат доходит до ecx; 0x00469DE8 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004A2571 push 0xac; call NiNew; результат доходит до ecx; 0x004A2599 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004AD593 push 0xac; call NiNew; результат доходит до ecx; 0x004AD5BB call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004BB241 push 0xac; call NiNew; результат доходит до ecx; 0x004BB269 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004BBAEE push 0xac; call NiNew; результат доходит до ecx; 0x004BBB16 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004DED3B push 0xac; call NiNew; результат доходит до ecx; 0x004DED5A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004DF069 push 0xac; call NiNew; результат доходит до ecx; 0x004DF094 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004E0732 push 0xac; call NiNew; результат доходит до ecx; 0x004E0751 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004E08C9 push 0xac; call NiNew; результат доходит до ecx; 0x004E08F4 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x004E178C push 0xac; call NiNew; результат доходит до ecx; 0x004E17AB call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0050D51E push 0xac; call NiNew; результат доходит до ecx; 0x0050D540 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0050D57B push 0xac; call NiNew; результат доходит до ecx; 0x0050D59D call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0050F1C3 push 0xac; call NiNew; результат доходит до ecx; 0x0050F1EB call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00545D6D push 0xac; call NiNew; результат доходит до ecx; 0x00545D8C call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00545DE4 push 0xac; call NiNew; результат доходит до ecx; 0x00545E03 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00545E6D push 0xac; call NiNew; результат доходит до ecx; 0x00545E8C call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00545F06 push 0xac; call NiNew; результат доходит до ecx; 0x00545F25 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00545FA4 push 0xac; call NiNew; результат доходит до ecx; 0x00545FC3 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00546042 push 0xac; call NiNew; результат доходит до ecx; 0x00546061 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054620B push 0xac; call NiNew; результат доходит до ecx; 0x00546233 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x005462A3 push 0xac; call NiNew; результат доходит до ecx; 0x005462CB call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054632F push 0xac; call NiNew; результат доходит до ecx; 0x00546357 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x005463C7 push 0xac; call NiNew; результат доходит до ecx; 0x005463EF call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054645F push 0xac; call NiNew; результат доходит до ecx; 0x00546487 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054650D push 0xac; call NiNew; результат доходит до ecx; 0x00546535 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054669D push 0xac; call NiNew; результат доходит до ecx; 0x005466C5 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054F07B push 0xac; call NiNew; результат доходит до ecx; 0x0054F0A3 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0054F793 push 0xac; call NiNew; результат доходит до ecx; 0x0054F7BB call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0056A0AE push 0xac; call NiNew; результат доходит до ecx; 0x0056A0D9 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0057CFEB push 0xac; call NiNew; результат доходит до ecx; 0x0057D00A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0057D1F6 push 0xac; call NiNew; результат доходит до ecx; 0x0057D215 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0058CC15 push 0xac; call NiNew; результат доходит до ecx; 0x0058CC37 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0058CD5D push 0xac; call NiNew; результат доходит до ecx; 0x0058CD7F call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x005B78CA push 0xac; call NiNew; результат доходит до ecx; 0x005B78EC call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x005B7BA7 push 0xac; call NiNew; результат доходит до ecx; 0x005B7BD2 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00633301 push 0xac; call NiNew; результат доходит до ecx; 0x0063332C call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00635D02 push 0xac; call NiNew; результат доходит до ecx; 0x00635D2A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00635D66 push 0xac; call NiNew; результат доходит до ecx; 0x00635D8E call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00636D5F push 0xac; call NiNew; результат доходит до ecx; 0x00636D81 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0063A983 push 0xac; call NiNew; результат доходит до ecx; 0x0063A9A2 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0063F968 push 0xac; call NiNew; результат доходит до ecx; 0x0063F98A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0066B1AE push 0xac; call NiNew; результат доходит до ecx; 0x0066B1CD call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0066B1FC push 0xac; call NiNew; результат доходит до ecx; 0x0066B21B call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0069F091 push 0xac; call NiNew; результат доходит до ecx; 0x0069F0BC call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x006A3836 push 0xac; call NiNew; результат доходит до ecx; 0x006A3862 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x006C54C0 push 0xac; call NiNew; результат доходит до ecx; 0x006C54E2 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x006E182E push 0xac; call NiNew; результат доходит до ecx; 0x006E1859 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x006E1D1D push 0xac; call NiNew; результат доходит до ecx; 0x006E1D45 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x006FC7B8 push 0xac; call NiNew; результат доходит до ecx; 0x006FC7E0 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x006FC84F push 0xac; call NiNew; результат доходит до ecx; 0x006FC877 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00700702 push 0xac; call NiNew; результат доходит до ecx; 0x00700721 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00700C7F push 0xac; call NiNew; результат доходит до ecx; 0x00700CA7 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0070B000 push 0xac; call NiNew; результат доходит до ecx; 0x0070B01F call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x007130F0 push 0xac; call NiNew; результат доходит до ecx; 0x00713118 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00713212 push 0xac; call NiNew; результат доходит до ecx; 0x0071323A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00732614 push 0xac; call NiNew; результат доходит до ecx; 0x00732636 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0073CC3B push 0xac; call NiNew; результат доходит до ecx; 0x0073CC5D call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0076007B push 0xac; call NiNew; результат доходит до ecx; 0x007600A3 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00760FE5 push 0xac; call NiNew; результат доходит до ecx; 0x00761010 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0078E2A9 push 0xac; call NiNew; результат доходит до ecx; 0x0078E2D4 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x007B97EF push 0xac; call NiNew; результат доходит до ecx; 0x007B981A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x007C1B1E push 0xac; call NiNew; результат доходит до ecx; 0x007C1B49 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x007FD9D6 push 0xac; call NiNew; результат доходит до ecx; 0x007FDA01 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x008034EB push 0xac; call NiNew; результат доходит до ecx; 0x0080350D call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00807305 push 0xac; call NiNew; результат доходит до ecx; 0x00807330 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00807449 push 0xac; call NiNew; результат доходит до ecx; 0x00807474 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00812248 push 0xac; call NiNew; результат доходит до ecx; 0x0081226A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x008122C0 push 0xac; call NiNew; результат доходит до ecx; 0x008122E2 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00813A55 push 0xac; call NiNew; результат доходит до ecx; 0x00813A77 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00820016 push 0xac; call NiNew; результат доходит до ecx; 0x00820041 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0086DA1F push 0xac; call NiNew; результат доходит до ecx; 0x0086DA3E call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0086DBA8 push 0xac; call NiNew; результат доходит до ecx; 0x0086DBD0 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0086DC86 push 0xac; call NiNew; результат доходит до ecx; 0x0086DCAE call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0086DD52 push 0xac; call NiNew; результат доходит до ecx; 0x0086DD7A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0086DE2D push 0xac; call NiNew; результат доходит до ecx; 0x0086DE55 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x0086DF0B push 0xac; call NiNew; результат доходит до ecx; 0x0086DF33 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x008B5499 push 0xac; call NiNew; результат доходит до ecx; 0x008B54C1 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x008B5A82 push 0xac; call NiNew; результат доходит до ecx; 0x008B5AAA call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00987ABA push 0xac; call NiNew; результат доходит до ecx; 0x00987AE5 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00987E35 push 0xac; call NiNew; результат доходит до ecx; 0x00987E60 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00988030 push 0xac; call NiNew; результат доходит до ecx; 0x0098805B call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00991942 push 0xac; call NiNew; результат доходит до ecx; 0x0099196D call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x009AD951 push 0xac; call NiNew; результат доходит до ecx; 0x009AD979 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A0FFA3 push 0xac; call NiNew; результат доходит до ecx; 0x00A0FFC2 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A1F3E3 push 0xac; call NiNew; результат доходит до ecx; 0x00A1F405 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A20294 push 0xac; call NiNew; результат доходит до ecx; 0x00A202BC call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A20857 push 0xac; call NiNew; результат доходит до ecx; 0x00A20879 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A21DF4 push 0xac; call NiNew; результат доходит до ecx; 0x00A21E1C call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A22180 push 0xac; call NiNew; результат доходит до ecx; 0x00A221A8 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc-derived,0xB4,False,0x00A7E712 push 0xb4; call NiNew; 0x00A7E72B call NiNode::NiNode; затем 0x00a7e73d: vtable NiBillboardNode — выделение наследника
-NiNode,0xAC,ctor-alloc-derived,0xB4,False,0x00A7E771 push 0xb4; call NiNew; 0x00A7E788 call NiNode::NiNode; затем 0x00a7e7a1: vtable NiBillboardNode — выделение наследника
-NiNode,0xAC,ctor-alloc-derived,0xB0,False,0x00A952A1 push 0xb0; call NiNew; 0x00A952B8 call NiNode::NiNode; затем 0x00a952bd: vtable NiSortAdjustNode — выделение наследника
-NiNode,0xAC,ctor-alloc-derived,0xB0,False,0x00A953B2 push 0xb0; call NiNew; 0x00A953CB call NiNode::NiNode; затем 0x00a953d0: vtable NiSortAdjustNode — выделение наследника
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00A98B23 push 0xac; call NiNew; результат доходит до ecx; 0x00A98B3A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc-derived,0xCC,False,0x00A9AE02 push 0xcc; call NiNew; 0x00A9AE1B call NiNode::NiNode; затем 0x00a9ae26: vtable NiBSPNode — выделение наследника
-NiNode,0xAC,ctor-alloc-derived,0xCC,False,0x00A9AEA1 push 0xcc; call NiNew; 0x00A9AEB8 call NiNode::NiNode; затем 0x00a9aec3: vtable NiBSPNode — выделение наследника
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00B63445 push 0xac; call NiNew; результат доходит до ecx; 0x00B63463 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc-derived,0xB8,False,0x00BC2A55 push 0xb8; call NiNew; 0x00BC2A78 call NiNode::NiNode; затем 0x00bc2a89: vtable BSClearZNode — выделение наследника
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C4D8B6 push 0xac; call NiNew; результат доходит до ecx; 0x00C4D8D5 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C5196C push 0xac; call NiNew; результат доходит до ecx; 0x00C51994 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C566A9 push 0xac; call NiNew; результат доходит до ecx; 0x00C566D4 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C58D57 push 0xac; call NiNew; результат доходит до ecx; 0x00C58D79 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C5A118 push 0xac; call NiNew; результат доходит до ecx; 0x00C5A13A call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C6BE1D push 0xac; call NiNew; результат доходит до ecx; 0x00C6BE3B call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C6FE74 push 0xac; call NiNew; результат доходит до ecx; 0x00C6FE92 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C85DD1 push 0xac; call NiNew; результат доходит до ecx; 0x00C85DED call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00C8C93B push 0xac; call NiNew; результат доходит до ecx; 0x00C8C95B call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00CB36D9 push 0xac; call NiNew; результат доходит до ecx; 0x00CB36F9 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00CB3744 push 0xac; call NiNew; результат доходит до ecx; 0x00CB3764 call NiNode::NiNode
-NiNode,0xAC,ctor-alloc,0xAC,True,0x00CCF22B push 0xac; call NiNew; результат доходит до ecx; 0x00CCF24B call NiNode::NiNode
-NiNode,0xAC,subclass-boundary,0xAC,True,первое собственное поле BSFadeNode::fNearDistSqr на 0xAC (статус поля см. evidence_fields)
-NiNode,0xAC,subclass-boundary,0xAC,True,первое собственное поле ShadowSceneNode::bFrustumAddedToVis на 0xAC (статус поля см. evidence_fields)
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x0049E71B push 0xe4; call NiNew; результат доходит до ecx; 0x0049E741 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x004A5328 push 0xe4; call NiNew; результат доходит до ecx; 0x004A5348 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x004A642B push 0xe4; call NiNew; результат доходит до ecx; 0x004A644B call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x004A7695 push 0xe4; call NiNew; результат доходит до ecx; 0x004A76B2 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x004E4E7A push 0xe4; call NiNew; результат доходит до ecx; 0x004E4EA3 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x0050D3C6 push 0xe4; call NiNew; результат доходит до ecx; 0x0050D3E3 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x0050FF0E push 0xe4; call NiNew; результат доходит до ecx; 0x0050FF34 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x005E7FBF push 0xe4; call NiNew; результат доходит до ecx; 0x005E7FDF call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x00B4E415 push 0xe4; call NiNew; результат доходит до ecx; 0x00B4E432 call BSFadeNode::BSFadeNode
-BSFadeNode,0xE4,ctor-alloc,0xE4,True,0x00B4EAC1 push 0xe4; call NiNew; результат доходит до ecx; 0x00B4EAE0 call BSFadeNode::BSFadeNode
-NiProperty,0x18,subclass-boundary,0x18,True,первое собственное поле NiShadeProperty::m_uFlags на 0x18 (статус поля см. evidence_fields)
-NiShadeProperty,0x20,subclass-boundary,0x20,True,первое собственное поле BSShaderProperty::ulFlags на 0x20 (статус поля см. evidence_fields)
-BSShaderProperty,0x60,ctor-alloc-derived,0x7C,False,0x00B71826 push 0x7c; call NiNew; 0x00B71842 call BSShaderProperty::BSShaderProperty; затем 0x00b7184a: vtable BSShaderLightingProperty — выделение наследника
-BSShaderProperty,0x60,ctor-alloc-derived,0x7C,False,0x00B71943 push 0x7c; call NiNew; 0x00B7195F call BSShaderProperty::BSShaderProperty; затем 0x00b71967: vtable BSShaderLightingProperty — выделение наследника
-BSShaderProperty,0x60,ctor-alloc,0x60,True,0x00BA9015 push 0x60; call NiNew; результат доходит до ecx; 0x00BA9031 call BSShaderProperty::BSShaderProperty
-BSShaderProperty,0x60,ctor-alloc,0x60,True,0x00BA9271 push 0x60; call NiNew; результат доходит до ecx; 0x00BA928D call BSShaderProperty::BSShaderProperty
-BSShaderProperty,0x60,ctor-alloc-derived,0xA0,False,0x00BB10CE push 0xa0; call NiNew; 0x00BB10F0 call BSShaderProperty::BSShaderProperty; затем 0x00bb10fa: vtable PrecipitationShaderProperty — выделение наследника
-BSShaderProperty,0x60,subclass-boundary,0x60,True,первое собственное поле BSShaderLightingProperty::lLightList на 0x60 (статус поля см. evidence_fields)
-BSShaderProperty::RenderPass,0x10,ctor-alloc,0x10,True,0x00BA9F14 push 0x10; call MemoryManager::Allocate; результат доходит до ecx; 0x00BA9F59 call BSShaderProperty::RenderPass::RenderPass
-BSShaderLightingProperty,0x7C,ctor-alloc-derived,0x8C,False,0x00B58445 push 0x8c; call NiNew; 0x00B58466 call BSShaderLightingProperty::BSShaderLightingProperty; затем 0x00b5846b: vtable DistantLODShaderProperty — выделение наследника
-BSShaderLightingProperty,0x7C,ctor-alloc-derived,0xD4,False,0x00BB4165 push 0xd4; call NiNew; 0x00BB4186 call BSShaderLightingProperty::BSShaderLightingProperty; затем 0x00bb418b: vtable GeometryDecalShaderProperty — выделение наследника
-BSShaderLightingProperty,0x7C,subclass-boundary,0x7C,True,первое собственное поле BSShaderPPLightingProperty::fWaterDepthCameraOffset на 0x7C (статус поля см. evidence_fields)
-BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,0x00539B46 push 0x104; call NiNew; результат доходит до ecx; 0x00539B63 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
-BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,0x00B67635 push 0x104; call NiNew; результат доходит до ecx; 0x00B67652 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
-BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,0x00B68D71 push 0x104; call NiNew; результат доходит до ecx; 0x00B68D90 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
-BSShaderPPLightingProperty,0x104,ctor-alloc-derived,0x104,True,0x00BA8715 push 0x104; call NiNew; 0x00BA8736 call BSShaderPPLightingProperty::BSShaderPPLightingProperty; затем 0x00ba873b: vtable SpeedTreeBillboardShaderProperty — выделение наследника
-BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,0x00BAF155 push 0x104; call NiNew; результат доходит до ecx; 0x00BAF178 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
-BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,0x00BAF18D push 0x104; call NiNew; результат доходит до ecx; 0x00BAF1B0 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
-BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,0x00BAF1C5 push 0x104; call NiNew; результат доходит до ecx; 0x00BAF1E8 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
-BSShaderPPLightingProperty,0x104,ctor-alloc-derived,0x108,False,0x00BB45F2 push 0x108; call NiNew; 0x00BB4613 call BSShaderPPLightingProperty::BSShaderPPLightingProperty; затем 0x00bb4618: vtable Lighting30ShaderProperty — выделение наследника
-BSShaderPPLightingProperty,0x104,ctor-alloc-derived,0x108,False,0x00BB46CC push 0x108; call NiNew; 0x00BB46F2 call BSShaderPPLightingProperty::BSShaderPPLightingProperty; затем 0x00bb46f7: vtable Lighting30ShaderProperty — выделение наследника
-NiPropertyState,0x1C,ctor-alloc,0x1C,True,0x00A5A19A push 0x1c; call MemoryManager::Allocate; результат доходит до ecx; 0x00A5A1B1 call NiPropertyState::NiPropertyState
-NiPropertyState,0x1C,ctor-alloc,0x1C,True,0x00A90601 push 0x1c; call MemoryManager::Allocate; результат доходит до ecx; 0x00A90617 call NiPropertyState::NiPropertyState
-NiGeometryData,0x40,ctor-alloc-derived,0x44,False,0x00A8A701 push 0x44; call NiNew; 0x00A8A713 call NiGeometryData::NiGeometryData; затем 0x00a8a718: vtable NiLinesData — выделение наследника
-NiGeometryData,0x40,ctor-alloc-derived,0x70,False,0x00A96602 push 0x70; call NiNew; 0x00A96616 call NiGeometryData::NiGeometryData; затем 0x00a96620: vtable NiParticlesData — выделение наследника
-NiGeometryData,0x40,ctor-alloc-derived,0x70,False,0x00A96662 push 0x70; call NiNew; 0x00A96676 call NiGeometryData::NiGeometryData; затем 0x00a96680: vtable NiParticlesData — выделение наследника
-NiGeometryData,0x40,subclass-boundary,0x40,True,первое собственное поле NiTriBasedGeomData::m_usTriangles на 0x40 (статус поля см. evidence_fields)
-NiTriBasedGeomData,0x44,ctor-alloc-derived,0x50,False,0x00A75EC1 push 0x50; call NiNew; 0x00A75ED3 call NiTriBasedGeomData::NiTriBasedGeomData; затем 0x00a75ee4: vtable NiTriStripsData — выделение наследника
-NiTriBasedGeomData,0x44,ctor-alloc-derived,0x58,False,0x00A7B792 push 0x58; call NiNew; 0x00A7B7A6 call NiTriBasedGeomData::NiTriBasedGeomData; затем 0x00a7b7be: vtable NiTriShapeData — выделение наследника
-NiTriBasedGeomData,0x44,subclass-boundary,0x44,True,первое собственное поле NiTriShapeData::m_uiTriListLength на 0x44 (статус поля см. evidence_fields)
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x004E7ED3 push 0x58; call NiNew; результат доходит до ecx; 0x004E7F12 call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x0051CAE8 push 0x58; call NiNew; результат доходит до ecx; 0x0051CB2D call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x006691EC push 0x58; call NiNew; результат доходит до ecx; 0x0066923D call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x0068CAB8 push 0x58; call NiNew; результат доходит до ecx; 0x0068CB21 call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x006F8318 push 0x58; call NiNew; результат доходит до ecx; 0x006F835B call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x00A74411 push 0x58; call NiNew; результат доходит до ecx; 0x00A74450 call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x00BA6734 push 0x58; call NiNew; результат доходит до ecx; 0x00BA6763 call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x00BC1752 push 0x58; call NiNew; результат доходит до ecx; 0x00BC1779 call NiTriShapeData::NiTriShapeData
-NiTriShapeData,0x58,ctor-alloc,0x58,True,0x00C4E6AE push 0x58; call NiNew; результат доходит до ecx; 0x00C4E717 call NiTriShapeData::NiTriShapeData
-NiGeometry,0xC4,bounds,0xC4,True,"нижняя граница: последнее поле m_spShader на +0xC0 (4 байта) подтверждено => не меньше 0xC4; верхняя: NiTriShape — наследник через NiTriBasedGeom, собственных полей ни у одного из них нет, выделяется 0xC4 байт (NiNew 0xC4 перед NiTriShape::NiTriShape) => не больше 0xC4"
-NiTriBasedGeom,0xC4,bounds,0xC4,True,база NiGeometry 0xC4 (см. её основание) => не меньше 0xC4; наследник NiTriShape без собственных полей выделяется 0xC4 => не больше 0xC4
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004B2DB2 push 0xc4; call NiNew; результат доходит до ecx; 0x004B2DEA call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004B3497 push 0xc4; call NiNew; результат доходит до ecx; 0x004B34CF call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004B371B push 0xc4; call NiNew; результат доходит до ecx; 0x004B3753 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004DFB5B push 0xc4; call NiNew; результат доходит до ecx; 0x004DFBA5 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004DFC9C push 0xc4; call NiNew; результат доходит до ecx; 0x004DFCE6 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004E139A push 0xc4; call NiNew; результат доходит до ecx; 0x004E13E4 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x004E14DB push 0xc4; call NiNew; результат доходит до ecx; 0x004E1525 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x005B897F push 0xc4; call NiNew; результат доходит до ecx; 0x005B89DA call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x0063599C push 0xc4; call NiNew; результат доходит до ecx; 0x006359ED call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00635A40 push 0xc4; call NiNew; результат доходит до ecx; 0x00635A8E call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x006412D7 push 0xc4; call NiNew; результат доходит до ecx; 0x00641322 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00641449 push 0xc4; call NiNew; результат доходит до ecx; 0x0064149A call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00687DBF push 0xc4; call NiNew; результат доходит до ecx; 0x00687E0E call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x006A552C push 0xc4; call NiNew; результат доходит до ecx; 0x006A557C call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00700DA7 push 0xc4; call NiNew; результат доходит до ecx; 0x00700DE5 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x0076111C push 0xc4; call NiNew; результат доходит до ecx; 0x00761160 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00A200C6 push 0xc4; call NiNew; результат доходит до ecx; 0x00A20106 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00B89B85 push 0xc4; call NiNew; результат доходит до ecx; 0x00B89BC4 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00C5587B push 0xc4; call NiNew; результат доходит до ecx; 0x00C558C0 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00C55C50 push 0xc4; call NiNew; результат доходит до ecx; 0x00C55C88 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00C565E7 push 0xc4; call NiNew; результат доходит до ecx; 0x00C56628 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00C57336 push 0xc4; call NiNew; результат доходит до ecx; 0x00C57389 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00C5A74F push 0xc4; call NiNew; результат доходит до ecx; 0x00C5A790 call NiTriShape::NiTriShape
-NiTriShape,0xC4,ctor-alloc,0xC4,True,0x00C850D8 push 0xc4; call NiNew; результат доходит до ecx; 0x00C8510E call NiTriShape::NiTriShape
-NiTriStrips,0xC4,ctor-alloc,0xC4,True,0x004A74C1 push 0xc4; call NiNew; результат доходит до ecx; 0x004A74FF call NiTriStrips::NiTriStrips
-NiTriStrips,0xC4,ctor-alloc,0xC4,True,0x0053736F push 0xc4; call NiNew; результат доходит до ecx; 0x005373F1 call NiTriStrips::NiTriStrips
-NiTriStrips,0xC4,ctor-alloc,0xC4,True,0x00C57C9E push 0xc4; call NiNew; результат доходит до ecx; 0x00C57CFB call NiTriStrips::NiTriStrips
-NiTriStrips,0xC4,ctor-alloc,0xC4,True,0x00C5836C push 0xc4; call NiNew; результат доходит до ecx; 0x00C583C7 call NiTriStrips::NiTriStrips
-NiTriStrips,0xC4,ctor-alloc,0xC4,True,0x00C58BFD push 0xc4; call NiNew; результат доходит до ecx; 0x00C58C5A call NiTriStrips::NiTriStrips
-NiCamera,0x114,ctor-alloc,0x114,True,0x0049FD99 push 0x114; call NiNew; результат доходит до ecx; 0x0049FDB6 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004BBB4F push 0x114; call NiNew; результат доходит до ecx; 0x004BBB75 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004DEBCD push 0x114; call NiNew; результат доходит до ecx; 0x004DEBEA call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004E05DD push 0x114; call NiNew; результат доходит до ecx; 0x004E05FA call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004E9DB1 push 0x114; call NiNew; результат доходит до ecx; 0x004E9DD7 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004EAA71 push 0x114; call NiNew; результат доходит до ecx; 0x004EAA8E call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004EAFEB push 0x114; call NiNew; результат доходит до ecx; 0x004EB008 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x004EBF61 push 0x114; call NiNew; результат доходит до ecx; 0x004EBF7E call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x0054F00F push 0x114; call NiNew; результат доходит до ecx; 0x0054F038 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x0054F727 push 0x114; call NiNew; результат доходит до ecx; 0x0054F750 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x0077EE7B push 0x114; call NiNew; результат доходит до ecx; 0x0077EE9B call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x0078E92B push 0x114; call NiNew; результат доходит до ecx; 0x0078E94B call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x0079461B push 0x114; call NiNew; результат доходит до ecx; 0x0079463B call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x007C21AB push 0x114; call NiNew; результат доходит до ecx; 0x007C21CB call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x007C99EB push 0x114; call NiNew; результат доходит до ecx; 0x007C9A0B call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x007FD05B push 0x114; call NiNew; результат доходит до ecx; 0x007FD084 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x007FDC57 push 0x114; call NiNew; результат доходит до ecx; 0x007FDC80 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x007FF19D push 0x114; call NiNew; результат доходит до ecx; 0x007FF1C6 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x0086C4AD push 0x114; call NiNew; результат доходит до ecx; 0x0086C4CA call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x00A713E2 push 0x114; call NiNew; результат доходит до ecx; 0x00A713F7 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x00B9E435 push 0x114; call NiNew; результат доходит до ecx; 0x00B9E457 call NiCamera::NiCamera
-NiCamera,0x114,ctor-alloc,0x114,True,0x00C51A71 push 0x114; call NiNew; результат доходит до ecx; 0x00C51A97 call NiCamera::NiCamera
-NiTexture,0x30,subclass-boundary,0x30,True,первое собственное поле NiSourceTexture::m_kFilename на 0x30 (статус поля см. evidence_fields)
-NiSourceTexture,0x48,ctor-alloc,0x48,True,0x00A5FD71 push 0x48; call NiNew; результат доходит до ecx; 0x00A5FD81 call NiSourceTexture::NiSourceTexture
-NiSourceTexture,0x48,ctor-alloc,0x48,True,0x00A5FE31 push 0x48; call NiNew; результат доходит до ecx; 0x00A5FE41 call NiSourceTexture::NiSourceTexture
-NiSourceTexture,0x48,ctor-alloc,0x48,True,0x00A5FF11 push 0x48; call NiNew; результат доходит до ecx; 0x00A5FF21 call NiSourceTexture::NiSourceTexture
-NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,0x00A60F31 push 0x4c; call NiNew; 0x00A60F43 call NiSourceTexture::NiSourceTexture; затем 0x00a60f48: vtable NiSourceCubeMap — выделение наследника
-NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,0x00A60F61 push 0x4c; call NiNew; 0x00A60F73 call NiSourceTexture::NiSourceTexture; затем 0x00a60f78: vtable NiSourceCubeMap — выделение наследника
-NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,0x00A61041 push 0x4c; call NiNew; 0x00A61053 call NiSourceTexture::NiSourceTexture; затем 0x00a61058: vtable NiSourceCubeMap — выделение наследника
-NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,0x00A6116D push 0x4c; call NiNew; 0x00A6118B call NiSourceTexture::NiSourceTexture; затем 0x00a61190: vtable NiSourceCubeMap — выделение наследника
-NiAccumulator,0xC,ctor-alloc-derived,0x30,False,0x00AA0F53 push 0x30; call NiNew; 0x00AA0F69 call NiAccumulator::NiAccumulator; затем 0x00aa0f72: vtable NiBackToFrontAccumulator — выделение наследника
-NiAccumulator,0xC,subclass-boundary,0xC,True,первое собственное поле NiBackToFrontAccumulator::m_kItems на 0xC (статус поля см. evidence_fields)
-NiBackToFrontAccumulator,0x30,ctor-alloc-derived,0x34,False,0x00A9B4B1 push 0x34; call NiNew; 0x00A9B4C3 call NiBackToFrontAccumulator::NiBackToFrontAccumulator; затем 0x00a9b4c8: vtable NiAlphaAccumulator — выделение наследника
-NiBackToFrontAccumulator,0x30,ctor-alloc-derived,0x34,False,0x00A9B732 push 0x34; call NiNew; 0x00A9B746 call NiBackToFrontAccumulator::NiBackToFrontAccumulator; затем 0x00a9b74b: vtable NiAlphaAccumulator — выделение наследника
-NiBackToFrontAccumulator,0x30,subclass-boundary,0x30,True,первое собственное поле NiAlphaAccumulator::m_bObserveNoSortHint на 0x30 (статус поля см. evidence_fields)
-NiAlphaAccumulator,0x34,subclass-boundary,0x34,True,первое собственное поле BSShaderAccumulator::eAccumulationMode на 0x34 (статус поля см. evidence_fields)
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0049FD49 push 0x280; call NiNew; результат доходит до ecx; 0x0049FD6F call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x004BBFD9 push 0x280; call NiNew; результат доходит до ecx; 0x004BC008 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x004E9E47 push 0x280; call NiNew; результат доходит до ecx; 0x004E9E76 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x004EAB3D push 0x280; call NiNew; результат доходит до ecx; 0x004EAB63 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x004EB0AE push 0x280; call NiNew; результат доходит до ecx; 0x004EB0D4 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x004EC08D push 0x280; call NiNew; результат доходит до ecx; 0x004EC0BC call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0054EA96 push 0x280; call NiNew; результат доходит до ecx; 0x0054EAC5 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x006405FD push 0x280; call NiNew; результат доходит до ecx; 0x00640620 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0070A76D push 0x280; call NiNew; результат доходит до ecx; 0x0070A793 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0070A7EE push 0x280; call NiNew; результат доходит до ecx; 0x0070A814 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x007FC178 push 0x280; call NiNew; результат доходит до ecx; 0x007FC1A1 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0080007A push 0x280; call NiNew; результат доходит до ecx; 0x008000A0 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0086C294 push 0x280; call NiNew; результат доходит до ecx; 0x0086C2BA call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0086C2E7 push 0x280; call NiNew; результат доходит до ecx; 0x0086C30D call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0086C368 push 0x280; call NiNew; результат доходит до ecx; 0x0086C38E call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0086C3E9 push 0x280; call NiNew; результат доходит до ecx; 0x0086C40C call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0086C450 push 0x280; call NiNew; результат доходит до ecx; 0x0086C476 call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x0087535C push 0x280; call NiNew; результат доходит до ecx; 0x0087538B call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x00B577D7 push 0x280; call NiNew; результат доходит до ecx; 0x00B577FC call BSShaderAccumulator::BSShaderAccumulator
-BSShaderAccumulator,0x280,ctor-alloc,0x280,True,0x00BD83C4 push 0x280; call NiNew; результат доходит до ecx; 0x00BD8415 call BSShaderAccumulator::BSShaderAccumulator
-BSBatchRenderer,0x98,ctor-alloc,0x98,True,0x00B66308 push 0x98; call NiNew; результат доходит до ecx; 0x00B66341 call BSBatchRenderer::BSBatchRenderer
-BSBatchRenderer,0x98,ctor-alloc,0x98,True,0x00B6635E push 0x98; call NiNew; результат доходит до ecx; 0x00B66382 call BSBatchRenderer::BSBatchRenderer
-BSBatchRenderer,0x98,ctor-alloc,0x98,True,0x00B9AC14 push 0x98; call NiNew; результат доходит до ecx; 0x00B9AC39 call BSBatchRenderer::BSBatchRenderer
-NiRenderer,0x280,subclass-boundary,0x280,True,первое собственное поле NiDX9Renderer::_undescribed_280 на 0x280 (статус поля см. evidence_fields)
-NiDX9Renderer,0xB80,ctor-alloc,0xB80,True,0x00E7624C push 0xb80; call NiNew; результат доходит до ecx; 0x00E7625F call NiDX9Renderer::NiDX9Renderer
-NiShader,0x14,ctor-alloc,0x14,True,0x00A80AAF push 0x14; call NiNew; результат доходит до ecx; 0x00A80ABF call NiShader::NiShader
-NiShader,0x14,subclass-boundary,0x14,True,первое собственное поле NiD3DShaderInterface::m_pkD3DDevice на 0x14 (статус поля см. evidence_fields)
-NiD3DShaderInterface,0x24,subclass-boundary,0x24,True,первое собственное поле NiD3DShader::m_bUsesNiRenderState на 0x24 (статус поля см. evidence_fields)
-NiD3DShader,0x3C,subclass-boundary,0x3C,True,первое собственное поле NiD3DDefaultShader::m_bBaseTextureAlphaNeeded на 0x3C (статус поля см. evidence_fields)
-NiD3DDefaultShader,0x5C,subclass-boundary,0x5C,True,первое собственное поле BSShader::spPass на 0x5C (статус поля см. evidence_fields)
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях ShadowLightShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях BSShaderBloodSplatter:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях WaterShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях SkyShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях ParticleShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях TallGrassShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях PrecipitationShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях SpeedTreeLeafShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях BSDistantTreeShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях Lighting30Shader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях BoltShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях BeamShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях VolumetricFogShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях BSShaderNoLighting:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях TileShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях GeometryDecalShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях DebugShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях SpeedTreeFrondShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях DistantLODShader:: = 0x6C
-BSShader,0x6C,subclass-boundary,0x6C,True,наименьшее смещение ≥ sizeof в функциях ImageSpaceShader:: = 0x6C
-BSShader,0x6C,bounds,0x6C,True,"нижняя граница: iShaderType на +0x68 пишется dword-ом в конструкторах наследников (например, Lighting30Shader::Lighting30Shader) => не меньше 0x6C; верхняя: первые собственные поля наследников на +0x6C (ShadowLightShader 0x00B79B3E, ParticleShader 0x00BA54B2, Lighting30Shader 0x00BBC67C, BoltShader 0x00BC0D35, BeamShader 0x00BC4889) => не больше 0x6C"
-NiD3DPass,0x68,array-new,0x68,True,"пул проходов: 0x00E803AB mul 0x68 (размер элемента в new[]), 0x00E803DC push 0x68; push 0x00E800F0 (NiD3DPass::NiD3DPass) → eh vector ctor iterator; 0x00E804AC add ebp, 0x68 — шаг по массиву"
-ShadowSceneNode,0x200,ctor-alloc,0x200,True,0x0070B465 push 0x200; call NiNew; результат доходит до ecx; 0x0070B482 call ShadowSceneNode::ShadowSceneNode
-ShadowSceneNode,0x200,ctor-alloc,0x200,True,0x0070B4B9 push 0x200; call NiNew; результат доходит до ecx; 0x0070B4D6 call ShadowSceneNode::ShadowSceneNode
-ShadowSceneNode,0x200,ctor-alloc,0x200,True,0x0086D633 push 0x200; call NiNew; результат доходит до ecx; 0x0086D650 call ShadowSceneNode::ShadowSceneNode
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5AB08 push 0x250; call NiNew; результат доходит до ecx; 0x00B5AB2B call ShadowSceneLight::ShadowSceneLight
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5ABAD push 0x250; call NiNew; результат доходит до ecx; 0x00B5ABE0 call ShadowSceneLight::ShadowSceneLight
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5C9BB push 0x250; call NiNew; результат доходит до ecx; 0x00B5C9D6 call ShadowSceneLight::ShadowSceneLight
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5CC27 push 0x250; call NiNew; результат доходит до ecx; 0x00B5CC46 call ShadowSceneLight::ShadowSceneLight
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5E27B push 0x250; call NiNew; результат доходит до ecx; 0x00B5E2A3 call ShadowSceneLight::ShadowSceneLight
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5E2EC push 0x250; call NiNew; результат доходит до ecx; 0x00B5E308 call ShadowSceneLight::ShadowSceneLight
-ShadowSceneLight,0x250,ctor-alloc,0x250,True,0x00B5E3D2 push 0x250; call NiNew; результат доходит до ecx; 0x00B5E3FF call ShadowSceneLight::ShadowSceneLight
-ImageSpaceManager,0x31C,ctor-alloc,0x31C,True,0x00B57572 push 0x31c; call MemoryManager::Allocate; результат доходит до ecx; 0x00B57590 call ImageSpaceManager::ImageSpaceManager
-ImageSpaceManager,0x31C,ctor-alloc,0x31C,True,0x00B5797C push 0x31c; call MemoryManager::Allocate; результат доходит до ecx; 0x00B5799D call ImageSpaceManager::ImageSpaceManager
-MTRenderingSystem,0x33C,bounds,0x33C,True,"верхняя граница: объект MTRenderingSystem::Instance 0x01200088, следующий глобальный символ 0x012003C4 => не больше 0x33C; нижняя: конструктор 0x00BA36D9 push 0x18; push 0x20; lea ecx,[esi+0x3C] → eh vector ctor iterator: 24 × 0x20 = 0x300 от +0x3C => не меньше 0x33C; границы совпали (и TaskStageSema: 3 × 0xC от +0x18 до +0x3C)"
+class,pc_sizeof,evidence,value,match,accepted,details
+BaseFormComponent,0x4,subclass-boundary,0x4,True,True,первое собственное поле TESForm::cFormType на 0x4 (статус поля см. evidence_fields)
+TESForm,0x18,external,0x18,True,True,xNVSE: static_assert(sizeof(TESForm) == 0x18) — проверено сообществом на живой игре
+TESDataHandler,0x63C,ctor-alloc,0x63C,True,True,0x0044FF78 push 0x63c; call ourMalloc; результат доходит до ecx; 0x0044FF95 call TESDataHandler::TESDataHandler
+BSGameSound,0x198,subclass-boundary,0x198,True,True,первое собственное поле BSWin32GameSound::pDirectSound на 0x198 (статус поля см. evidence_fields)
+BSWin32GameSound,0x230,ctor-alloc,0x230,True,True,0x00AEA5E8 push 0x230; call MemoryManager::Allocate; результат доходит до ecx; 0x00AEA60E call BSWin32GameSound::BSWin32GameSound
+BSAudio,0x38,subclass-boundary,0x38,True,True,первое собственное поле BSWin32Audio::pDirectSound на 0x38 (статус поля см. evidence_fields)
+BSWin32Audio,0xA4,bounds,0xA4,True,True,"верхняя граница: объект BSWin32Audio::Instance 0x011F7080, по 0x011F7124 лежит флаг статической инициализации (BSWin32Audio::Create читает/ставит его бит перед вызовом конструктора) => не больше 0xA4; нижняя: поле +0xA0 (4 байта) пишется в Init => не меньше 0xA4"
+BSAudioManager,0x188,bounds,0x188,True,True,"объект BSAudioManager::Instance 0x011F6EF0; по 0x011F7078 = Instance + 0x188 лежит флаг статической инициализации: BSAudioManager::GetSingleton читает его бит 0 и ставит его перед вызовом конструктора для Instance => не больше 0x188; нижняя граница: последнее поле bIgnoreGlobalTimeMultiplier на +0x184 (≥ 0x185), класс с полями по 4 байта выровнен на 4 => не меньше 0x188; границы совпали ДОПУЩЕНИЕ: флаг 0x011F7078 — отдельная guard-переменная компилятора (MSVC кладёт её отдельным глобалом), не часть объекта. [опорные команды проверены по exe: 4]"
+BSSoundHandle,0xC,ctor-alloc,0xC,True,True,0x0082E315 push 0xc; call ourMalloc; результат доходит до ecx; 0x0082E338 call BSSoundHandle::BSSoundHandle
+HeapBlock,0x8,header-size,0x8,True,True,"заголовок блока кучи на PC — 8 байт: AbstractHeap::BaseFree: блок = указатель пользователя − 8 (0x00AA9910/0x00AA9913), занятая память уменьшается на размер + 8 (0x00AA992A); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316), остаток = свободное − (размер + 8) (0x00AA9320). Память пользователя начинается сразу за HeapBlock => sizeof(HeapBlock) = 8 (на Xbox 0x10) [опорные команды проверены по exe: 5]"
+FreeHeapBlock,0x10,bounds,0x10,True,True,"верхняя граница: AbstractHeap::BaseAllocate округляет запрос меньше 8 байт до 8 (0x00AA8F7B cmp [ebp+8], 8; 0x00AA8F81 mov [ebp+8], 8), заголовок HeapBlock — 8 байт => самый маленький блок занимает 0x10, и освобождённый блок хранит в нём pPrevFree/pNextFree (+8/+0xC) => FreeHeapBlock не больше 0x10; нижняя граница: последнее поле pNextFree на +0xC (4 байта) => не меньше 0x10; границы совпали ДОПУЩЕНИЕ: освобождённый блок минимального размера становится элементом списка свободных блоков (FreeHeapBlock) — по коду BaseFree/ListRemove; на живой игре не проверено. [опорные команды проверены по exe: 3]"
+FreeHeapBlockList,0x8,array-span,0x8,True,True,"AbstractHeap::pSmallFreeList = 1024 элемента на 0x44..0x2044, следующее поле pLastSmallList на 0x2044 подтверждено => 0x2000/1024 = 8"
+IMemoryHeap,0x4,subclass-boundary,0x4,True,True,первое собственное поле AbstractHeap::pName на 0x4 (статус поля см. evidence_fields)
+HeapFreeSubBucket,0x8,index-stride,0x8,True,True,AbstractHeap::BaseAllocate 0x00AA90EB: cmp [eax + edx*8 + 0x2058] — шаг индекса 8; 16 × 8 = 0x80 = AbstractHeap::pSubBuckets от 0x2058 до CriticalSectionO на 0x20D8
+AbstractHeap,0x20F0,subclass-boundary,0x20F0,True,True,первое собственное поле MemoryHeap::bSupportsSwapping на 0x20F0 (статус поля см. evidence_fields)
+MemoryHeap,0x20F4,ctor-alloc,0x20F4,True,True,0x00866E76 push 0x20f4; call ourMalloc; результат доходит до ecx; 0x00866EA7 call MemoryHeap::MemoryHeap
+MemoryHeap,0x20F4,ctor-alloc,0x20F4,True,True,0x00866F5F push 0x20f4; call ourMalloc; результат доходит до ecx; 0x00866F90 call MemoryHeap::MemoryHeap
+ScrapHeap,0x10,ctor-alloc,0x10,True,True,0x00AA4334 push 0x10; call MemoryManager::Allocate; результат доходит до ecx; 0x00AA4353 call ScrapHeap::ScrapHeap
+MemoryManager,0x138,bounds,0x138,True,True,"верхняя граница: MemoryManager::Singleton 0x011F6238, следующий глобальный символ 0x011F6370 => не больше 0x138; нижняя граница: MemoryManager::GetMainThreadMemoryProblemPassSignal читает 4 байта по +0x134 => не меньше 0x138; границы совпали"
+BGSSaveLoadFormHeader,0x9,serialized-size,0x9,True,False,"v0.5.5 (аудит Астры v0.5.4, P2): размер ЗАПИСИ, не sizeof. BGSSaveFormBuffer::Save пишет заголовок одним куском: push 9; edx = this + 0x14 (поле Header); BGSSaveLoadFile::Write(&Header, 9) (0x00865A62..0x00865A6E); GetOverhead прибавляет те же 9 (0x00865B39). Это доказывает 9 байт в формате сохранения; sizeof структуры в памяти — от 9 (последнее поле cVersion на +8) до 0xC (следующее подтверждённое поле вмещающих буферов на +0x20 при Header на +0x14); pack(1) следует из iChangeFlags на +3, но хвост не исключён. Размер 9 — по Xbox PDB, consistent [опорные команды проверены по exe: 5]"
+BGSSaveLoadFormHeader,0x9,last-field,0x9,True,False,последнее поле cVersion подтверждено; дальше только выравнивание до 1
+BGSSaveGameBuffer,0x14,subclass-boundary,0x14,True,True,первое собственное поле BGSSaveFormBuffer::Header на 0x14 (статус поля см. evidence_fields)
+BGSSaveFormBuffer,0x24,stack-frame,0x24,True,True,"объект на стеке в BGSLoadGameSubBuffer::SaveAnimation и SaveHavokData: конструктор вызывается для [ebp−0x34] (0x00864F65/0x00864F68 и 0x00865065/0x00865068), объект используется до 0x00864FB3/0x008650B3; слот [ebp−0x10] — другая переменная, она записана до конструктора (0x00864F62/0x00865062) и прочитана после последнего использования объекта (0x00864FB7/0x008650B7), то есть жива всё время жизни объекта => объект кончается не дальше ebp−0x10: не больше 0x24; последнее поле pForm на +0x20 => не меньше 0x24 (код без совмещения слотов стека — каждой переменной свой слот) [опорные команды проверены по exe: 10] || машинная проверка: объект [ebp-0x34] жив 0x00864F65..0x00864FB3 (по адресам); переменная [ebp-0x10] (4 байт): запись 0x00864F62, чтение 0x00864FB7, между ними не перезаписана и входов извне нет; пересечение с жизнью объекта 0x00864F65..0x00864FB3 ⇒ sizeof ≤ 0x24; конец последнего поля 0x24 (с выравниванием 4: sizeof ≥ 0x24)"
+BGSSaveFormBuffer,0x24,stack-frame,0x24,True,True,"объект на стеке в BGSLoadGameSubBuffer::SaveAnimation и SaveHavokData: конструктор вызывается для [ebp−0x34] (0x00864F65/0x00864F68 и 0x00865065/0x00865068), объект используется до 0x00864FB3/0x008650B3; слот [ebp−0x10] — другая переменная, она записана до конструктора (0x00864F62/0x00865062) и прочитана после последнего использования объекта (0x00864FB7/0x008650B7), то есть жива всё время жизни объекта => объект кончается не дальше ebp−0x10: не больше 0x24; последнее поле pForm на +0x20 => не меньше 0x24 (код без совмещения слотов стека — каждой переменной свой слот) [опорные команды проверены по exe: 10] || машинная проверка: объект [ebp-0x34] жив 0x00865065..0x008650B3 (по адресам); переменная [ebp-0x10] (4 байт): запись 0x00865062, чтение 0x008650B7, между ними не перезаписана и входов извне нет; пересечение с жизнью объекта 0x00865065..0x008650B3 ⇒ sizeof ≤ 0x24; конец последнего поля 0x24 (с выравниванием 4: sizeof ≥ 0x24)"
+BGSLoadGameBuffer,0x10,subclass-boundary,0x10,True,True,первое собственное поле BGSLoadFormBuffer::iFormID на 0x10 (статус поля см. evidence_fields)
+BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,True,0x008482E9 push 0x30; call ourMalloc; результат доходит до ecx; 0x0084830F call BGSLoadFormBuffer::BGSLoadFormBuffer
+BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,True,0x00864E48 push 0x30; call ourMalloc; результат доходит до ecx; 0x00864E65 call BGSLoadFormBuffer::BGSLoadFormBuffer
+BGSLoadFormBuffer,0x30,ctor-alloc,0x30,True,True,0x008664A8 push 0x30; call ourMalloc; результат доходит до ecx; 0x008664C5 call BGSLoadFormBuffer::BGSLoadFormBuffer
+BGSSaveLoadGame,0x24C,ctor-alloc,0x24C,True,True,0x008474A5 push 0x24c; call ourMalloc; результат доходит до ecx; 0x008474C5 call BGSSaveLoadGame::BGSSaveLoadGame
+BGSSaveLoadManager,0x38,ctor-alloc,0x38,True,True,0x0084FC95 push 0x38; call ourMalloc; результат доходит до ecx; 0x0084FCB2 call BGSSaveLoadManager::BGSSaveLoadManager
+BGSSaveLoadChangesMap,0x10,ctor-alloc,0x10,True,True,0x00846FA6 push 0x10; call ourMalloc; результат доходит до ecx; 0x00846FC0 call BGSSaveLoadChangesMap::BGSSaveLoadChangesMap
+BGSSaveLoadChangesMap,0x10,ctor-alloc,0x10,True,True,0x008481CB push 0x10; call ourMalloc; результат доходит до ecx; 0x008481F1 call BGSSaveLoadChangesMap::BGSSaveLoadChangesMap
+BGSSaveLoadChangesMap,0x10,ctor-alloc,0x10,True,True,0x00848EA4 push 0x10; call ourMalloc; результат доходит до ecx; 0x00848ECA call BGSSaveLoadChangesMap::BGSSaveLoadChangesMap
+FalloutRadio::FORadioReceiver,0x20,ctor-alloc,0x20,True,True,0x008326B1 push 0x20; call ourMalloc; результат доходит до ecx; 0x008326CE call FalloutRadio::FORadioReceiver::FORadioReceiver
+FalloutRadio::FORadioReceiver,0x20,ctor-alloc,0x20,True,True,0x008358CF push 0x20; call ourMalloc; результат доходит до ecx; 0x008358EC call FalloutRadio::FORadioReceiver::FORadioReceiver
+FalloutRadio::FORadioReceiver,0x20,ctor-alloc,0x20,True,True,0x00836925 push 0x20; call ourMalloc; результат доходит до ecx; 0x00836942 call FalloutRadio::FORadioReceiver::FORadioReceiver
+FalloutRadio::StationState,0x20,contained,0x20,True,True,StationState встроен в FORadioStation на +4 (RadioEntry::RadioEntry вызывает RadioEntry::Data::Init для this+4); sizeof FORadioStation 0x24 подтверждён выделением => 0x24 − 4 = 0x20
+FalloutRadio::FORadioStation,0x24,ctor-alloc,0x24,True,True,0x00832CF2 push 0x24; call ourMalloc; результат доходит до ecx; 0x00832D0F call RadioEntry::RadioEntry
+FalloutRadio::FORadioStation,0x24,ctor-alloc,0x24,True,True,0x008369A7 push 0x24; call ourMalloc; результат доходит до ecx; 0x008369C4 call RadioEntry::RadioEntry
+RadioConvTask,0x38,ctor-alloc,0x38,True,True,0x00837138 push 0x38; call ourMalloc; результат доходит до ecx; 0x00837159 call RadioConvTask::RadioConvTask
+UVMap,0x8,array-span,0x8,True,True,"FontLetter::pMapping = UVMap[4] на 0x4..0x24 (Font::AddChar читает все 8 float: +0x4..+0x20), следующее поле fWidth на 0x24 подтверждено => 0x20 / 4 = 8"
+FontLetter,0x38,index-stride,0x38,True,True,"Font::Load: цикл 0..0x100 (0x00A155C7), индекс imul 0x38 (0x00A155EF), обращения FontData+0x128+i*0x38+0x28/+0x34; 0x100 × 0x38 = 0x3800 = 0x3928 − 0x128 (FontData::pFontLetters до конца FontData)"
+TextureFile,0x24,index-stride,0x24,True,True,"Font::Load: цикл i < FontData::iTextureCount (+4, 0x00A15A3D), imul 0x24 (0x00A15A55), lea [FontData + 0xC + i*0x24] = pTextureFiles[i].pFilename → BSsprintf(""Textures\\Fonts\\%s""); 8 × 0x24 = 0x120 = 0x8..0x128, следующее поле pFontLetters на 0x128 подтверждено"
+FontData,0x3928,alloc-for-field,0x3928,True,True,Font::Load 0x00A154AC push 0x3928; call MemoryManager::Allocate; результат записан в Font::pFontData (+0x38) по 0x00A154CD
+Font,0x54,ctor-alloc,0x54,True,True,0x00A1691C push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1695A call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A16989 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A169C7 call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A169F7 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16A35 call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A16A65 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16AA3 call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A16AD3 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16B11 call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A16B41 push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16B7F call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A16BAF push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16BED call Font::Font
+Font,0x54,ctor-alloc,0x54,True,True,0x00A16C1D push 0x54; call MemoryManager::Allocate; результат доходит до ecx; 0x00A16C5B call Font::Font
+Font::TextData,0x28,stack-frame,0x28,True,True,"в PDB xNVSE этот тип — Font::FormatInfo (конструктор Font::FormatInfo::Init 0x00759330). Font::CreateText: объект на [ebp−0x58] (0x00A12903 lea ecx; 0x00A12906 call Init), передаётся в PrepText; слот [ebp−0x30] сразу за 0x28 байтами объекта — другая переменная (счётчик строк): обнуляется (0x00A1295B) и сравнивается в цикле (0x00A12988), пока объект ещё используется (его список xLineWidths [ebp−0x38] — 0x00A12BCE) => не больше 0x28; последнее поле xLineWidths на +0x20 (8 байт) => не меньше 0x28 [опорные команды проверены по exe: 5] || машинная проверка: объект [ebp-0x58] жив 0x00A12903..0x00A12BCE (по адресам); переменная [ebp-0x30] (4 байт): запись 0x00A1295B, чтение 0x00A12988 внутри жизни объекта (в момент чтения живы оба; звено def→use: вход перехода извне участка: 0x00A129B4 -> 0x00A12982) ⇒ sizeof ≤ 0x28; конец последнего поля 0x28 (с выравниванием 4: sizeof ≥ 0x28)"
+FontManager,0x24,ctor-alloc,0x24,True,True,0x00A167EE push 0x24; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1680D call FontManager::FontManager
+FontManager::CharData,0x38,ctor-alloc,0x38,True,True,0x00A1A1C9 push 0x38; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A22A call FontManager::CharData::CharData
+FontManager::CharData,0x38,ctor-alloc,0x38,True,True,0x00A1B688 push 0x38; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1B6DD call FontManager::CharData::CharData
+FontManager::TextLine,0x30,ctor-alloc,0x30,True,True,0x00A19C8A push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A19CBC call _sub_A1BD40
+FontManager::TextLine,0x30,ctor-alloc,0x30,True,True,0x00A1A018 push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A051 call _sub_A1BD40
+FontManager::TextLine,0x30,ctor-alloc,0x30,True,True,0x00A1A151 push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A18A call _sub_A1BD40
+FontManager::TextLine,0x30,ctor-alloc,0x30,True,True,0x00A1A2F9 push 0x30; call MemoryManager::Allocate; результат доходит до ecx; 0x00A1A332 call _sub_A1BD40
+FontManager::TextPage,0x44,ctor-alloc,0x44,True,True,0x00A19A79 push 0x44; call MemoryManager::Allocate; результат доходит до ecx; 0x00A19AAE call _sub_A1BC70
+FontManager::TextDoc,0x18,alloc-inline,0x18,True,True,"FontManager::A18A30 0x00A18AE2 push 0x18; call MemoryManager::Allocate; тот же указатель: NiTListBase::NiTListBase_ (+0 = xPages), затем +0xC/+0x10/+0x14 = TextData::iWidth/iHeight/iPageNum (+0x1C/+0x20/+0x24) — конструктор встроен"
+FontManager::TextData,0x40,stack-frame-bound,0x44,False,False,"только граница: объект [ebp-0xac] жив 0x00A22094..0x00A2215F (по адресам); переменная [ebp-0x68] (4 байт): запись 0x00A21B29, чтение 0x00A22429, между ними не перезаписана и входов извне нет; пересечение с жизнью объекта 0x00A22094..0x00A2215F ⇒ sizeof ≤ 0x44; конец последнего поля 0x40 (с выравниванием 4: sizeof ≥ 0x40) — верхняя граница 0x44 ≠ заявленной 0x40"
+FontManager::TextData,0x40,last-field,0x40,True,False,последнее поле xNewText подтверждено; дальше только выравнивание до 4
+NiRefObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле NiShader::m_kName на 0x8 (статус поля см. evidence_fields)
+NiRefObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле ShadowSceneLight::iEnabledPasses на 0x8 (статус поля см. evidence_fields)
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A3CD02 push 0x18; call NiNew; 0x00A3CD16 call NiObject::NiObject; затем 0x00a3cd27: vtable NiFloatData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A3D151 push 0x18; call NiNew; 0x00A3D163 call NiObject::NiObject; затем 0x00a3d168: vtable NiColorData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A415A2 push 0x18; call NiNew; 0x00A415B6 call NiObject::NiObject; затем 0x00a415c7: vtable NiMorphData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A422A6 push 0x18; call NiNew; 0x00A422B8 call NiObject::NiObject; затем 0x00a422bd: vtable NiFloatData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A42476 push 0x18; call NiNew; 0x00A42488 call NiObject::NiObject; затем 0x00a4248d: vtable NiPosData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A43FB1 push 0x18; call NiNew; 0x00A43FC3 call NiObject::NiObject; затем 0x00a43fd7: vtable BSLookIKNote — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A43FF2 push 0x18; call NiNew; 0x00A44006 call NiObject::NiObject; затем 0x00a4401a: vtable BSLookIKNote — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x1C,False,False,0x00A44381 push 0x1c; call NiNew; 0x00A44393 call NiObject::NiObject; затем 0x00a443a7: vtable BSGrabIKNote — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x1C,False,False,0x00A443C2 push 0x1c; call NiNew; 0x00A443D6 call NiObject::NiObject; затем 0x00a443ea: vtable BSGrabIKNote — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x10,False,False,0x00A44941 push 0x10; call NiNew; 0x00A44953 call NiObject::NiObject; затем 0x00a44958: vtable BSAnimNotes — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x14,False,False,0x00A47151 push 0x14; call NiNew; 0x00A47163 call NiObject::NiObject; затем 0x00a47168: vtable NiStringPalette — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A48112 push 0x18; call NiNew; 0x00A48126 call NiObject::NiObject; затем 0x00a48137: vtable NiRotData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A49022 push 0x18; call NiNew; 0x00A49036 call NiObject::NiObject; затем 0x00a49047: vtable NiPosData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x2C,False,False,0x00A4E042 push 0x2c; call NiNew; 0x00A4E056 call NiObject::NiObject; затем 0x00a4e080: vtable NiTransformData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A4F6B1 push 0x18; call NiNew; 0x00A4F6C5 call NiObject::NiObject; затем 0x00a4f6cc: vtable NiFloatData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A51E12 push 0x18; call NiNew; 0x00A51E26 call NiObject::NiObject; затем 0x00a51e38: vtable NiBSplineData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x28,False,False,0x00A52B03 push 0x28; call NiNew; 0x00A52B19 call NiObject::NiObject; затем 0x00a52b24: vtable NiBSplineBasisData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x28,False,False,0x00A52B61 push 0x28; call NiNew; 0x00A52B73 call NiObject::NiObject; затем 0x00a52b7e: vtable NiBSplineBasisData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00A537F2 push 0x18; call NiNew; 0x00A53806 call NiObject::NiObject; затем 0x00a53817: vtable NiBoolData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x40,False,False,0x00A6C7C5 push 0x40; call NiNew; 0x00A6C7DB call NiObject::NiObject; затем 0x00a6c802: vtable BSDismemberSkinInstance — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x40,False,False,0x00A6C8A2 push 0x40; call NiNew; 0x00A6C8B6 call NiObject::NiObject; затем 0x00a6c8e4: vtable BSDismemberSkinInstance — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x1C,False,False,0x00A6EF72 push 0x1c; call NiNew; 0x00A6EF86 call NiObject::NiObject; затем 0x00a6ef8b: vtable NiDefaultAVObjectPalette — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x1C,False,False,0x00A6F001 push 0x1c; call NiNew; 0x00A6F013 call NiObject::NiObject; затем 0x00a6f018: vtable NiDefaultAVObjectPalette — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0xC,False,False,0x00A7B381 push 0xc; call NiNew; 0x00A7B393 call NiObject::NiObject; затем 0x00a7b398: vtable NiExtraData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x74,False,False,0x00A7C3F2 push 0x74; call NiNew; 0x00A7C406 call NiObject::NiObject; затем 0x00a7c40e: vtable NiPixelData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x10,False,False,0x00A81FB1 push 0x10; call NiNew; 0x00A81FC3 call NiObject::NiObject; затем 0x00a81fc8: vtable NiSkinPartition — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x48,False,False,0x00A84D31 push 0x48; call NiNew; 0x00A84D43 call NiObject::NiObject; затем 0x00a84d48: vtable NiSkinData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x34,False,False,0x00A866F2 push 0x34; call NiNew; 0x00A86706 call NiObject::NiObject; затем 0x00a8670b: vtable NiSkinInstance — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x34,False,False,0x00A8684D push 0x34; call NiNew; 0x00A86861 call NiObject::NiObject; затем 0x00a86866: vtable NiSkinInstance — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x24,False,False,0x00A8B222 push 0x24; call NiNew; 0x00A8B236 call NiObject::NiObject; затем 0x00a8b23d: vtable NiPalette — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x14,False,False,0x00A8F261 push 0x14; call NiNew; 0x00A8F273 call NiObject::NiObject; затем 0x00a8f280: vtable Ni2DBuffer — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x14,False,False,0x00A8F2D4 push 0x14; call NiNew; 0x00A8F2E6 call NiObject::NiObject; затем 0x00a8f2eb: vtable Ni2DBuffer — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x1C,False,False,0x00A8FFC1 push 0x1c; call NiNew; 0x00A8FFD3 call NiObject::NiObject; затем 0x00a8ffe7: vtable NiScreenPolygon — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x1C,False,False,0x00A905C2 push 0x1c; call NiNew; 0x00A905D6 call NiObject::NiObject; затем 0x00a905dd: vtable NiScreenPolygon — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x20,False,False,0x00A958B2 push 0x20; call NiNew; 0x00A958C6 call NiObject::NiObject; затем 0x00a958cb: vtable NiScreenTexture — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x20,False,False,0x00A95C13 push 0x20; call NiNew; 0x00A95C29 call NiObject::NiObject; затем 0x00a95c32: vtable NiScreenTexture — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00C1BF26 push 0x18; call NiNew; 0x00C1BF38 call NiObject::NiObject; затем 0x00c1bf3d: vtable NiBoolData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x28,False,False,0x00C2BA62 push 0x28; call NiNew; 0x00C2BA76 call NiObject::NiObject; затем 0x00c2ba8e: vtable NiPSysEmitterCtlrData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0xC,False,False,0x00C3B0BA push 0xc; call NiNew; 0x00C3B0DD call NiObject::NiObject; затем 0x00c3b0e9: vtable BSReference — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00C3B2A8 push 0x18; call NiNew; 0x00C3B2C5 call NiObject::NiObject; затем 0x00c3b2d1: vtable BSNodeReferences — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0xC,False,False,0x00C64835 push 0xc; call NiNew; 0x00C64852 call NiObject::NiObject; затем 0x00c6485a: vtable BSReference — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00C64A15 push 0x18; call NiNew; 0x00C64A32 call NiObject::NiObject; затем 0x00c64a3e: vtable BSNodeReferences — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x20,False,False,0x00C7EA80 push 0x20; call NiNew; 0x00C7EAA1 call NiObject::NiObject; затем 0x00c7eaa8: vtable bhkRagdollShareData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x30,False,False,0x00CA34E3 push 0x30; call NiNew; 0x00CA34FF call NiObject::NiObject; затем 0x00ca350a: vtable hkPackedNiTriStripsData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x18,False,False,0x00CC12B3 push 0x18; call NiNew; 0x00CC12CF call NiObject::NiObject; затем 0x00cc12d4: vtable bhkPoseArray — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x10,False,False,0x00CCB9C2 push 0x10; call NiNew; 0x00CCB9E0 call NiObject::NiObject; затем 0x00ccb9e5: vtable bhkExtendedMeshShapeData — выделение наследника
+NiObject,0x8,ctor-alloc-derived,0x10,False,False,0x00CCC9F8 push 0x10; call NiNew; 0x00CCCA29 call NiObject::NiObject; затем 0x00ccca30: vtable bhkExtendedMeshShapeData — выделение наследника
+NiObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле NiObjectNET::m_kName на 0x8 (статус поля см. evidence_fields)
+NiObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле NiGeometryData::m_usVertices на 0x8 (статус поля см. evidence_fields)
+NiObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле NiAccumulator::m_pkCamera на 0x8 (статус поля см. evidence_fields)
+NiObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле BSBatchRenderer::pRenderPassA на 0x8 (статус поля см. evidence_fields)
+NiObject,0x8,subclass-boundary,0x8,True,True,первое собственное поле NiRenderer::m_spAccum на 0x8 (статус поля см. evidence_fields)
+NiObjectNET,0x18,ctor-alloc-derived,0x18,True,True,0x00A47381 push 0x18; call NiNew; 0x00A47393 call NiObjectNET::NiObjectNET; затем 0x00a47398: vtable NiSequenceStreamHelper — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A5CE54 push 0x1c; call NiNew; 0x00A5CE66 call NiObjectNET::NiObjectNET; затем 0x00a5ce70: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A5CEB1 push 0x1c; call NiNew; 0x00A5CEC3 call NiObjectNET::NiObjectNET; затем 0x00a5ced1: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A5CEF1 push 0x1c; call NiNew; 0x00A5CF03 call NiObjectNET::NiObjectNET; затем 0x00a5cf0d: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A5F21A push 0x1c; call NiNew; 0x00A5F22C call NiObjectNET::NiObjectNET; затем 0x00a5f236: vtable NiVertexColorProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A5F281 push 0x1c; call NiNew; 0x00A5F293 call NiObjectNET::NiObjectNET; затем 0x00a5f2a1: vtable NiVertexColorProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A5F51A push 0x1c; call NiNew; 0x00A5F52C call NiObjectNET::NiObjectNET; затем 0x00a5f536: vtable NiZBufferProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x24,False,False,0x00A6F39A push 0x24; call NiNew; 0x00A6F3AC call NiObjectNET::NiObjectNET; затем 0x00a6f3b6: vtable NiStencilProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x24,False,False,0x00A6F411 push 0x24; call NiNew; 0x00A6F423 call NiObjectNET::NiObjectNET; затем 0x00a6f431: vtable NiStencilProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x24,False,False,0x00A6F451 push 0x24; call NiNew; 0x00A6F463 call NiObjectNET::NiObjectNET; затем 0x00a6f46d: vtable NiStencilProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x20,False,False,0x00A81482 push 0x20; call NiNew; 0x00A81496 call NiObjectNET::NiObjectNET; затем 0x00a814a0: vtable NiShadeProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x20,False,False,0x00A814E1 push 0x20; call NiNew; 0x00A814F3 call NiObjectNET::NiObjectNET; затем 0x00a81501: vtable NiShadeProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x20,False,False,0x00A81521 push 0x20; call NiNew; 0x00A81533 call NiObjectNET::NiObjectNET; затем 0x00a8153d: vtable NiShadeProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A8F532 push 0x1c; call NiNew; 0x00A8F546 call NiObjectNET::NiObjectNET; затем 0x00a8f554: vtable NiCullingProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A8F581 push 0x1c; call NiNew; 0x00A8F593 call NiObjectNET::NiObjectNET; затем 0x00a8f5a1: vtable NiCullingProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A8F5B1 push 0x1c; call NiNew; 0x00A8F5C3 call NiObjectNET::NiObjectNET; затем 0x00a8f5d1: vtable NiCullingProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A95112 push 0x1c; call NiNew; 0x00A95126 call NiObjectNET::NiObjectNET; затем 0x00a9512d: vtable NiSpecularProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A95161 push 0x1c; call NiNew; 0x00A95173 call NiObjectNET::NiObjectNET; затем 0x00a9517e: vtable NiSpecularProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x2C,False,False,0x00A99FD1 push 0x2c; call NiNew; 0x00A99FE3 call NiObjectNET::NiObjectNET; затем 0x00a99fea: vtable NiFogProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x2C,False,False,0x00A9A091 push 0x2c; call NiNew; 0x00A9A0A3 call NiObjectNET::NiObjectNET; затем 0x00a9a0aa: vtable NiFogProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A9A5F2 push 0x1c; call NiNew; 0x00A9A606 call NiObjectNET::NiObjectNET; затем 0x00a9a60d: vtable NiDitherProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00A9A641 push 0x1c; call NiNew; 0x00A9A653 call NiObjectNET::NiObjectNET; затем 0x00a9a65e: vtable NiDitherProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00B4E293 push 0x1c; call NiNew; 0x00B4E2B1 call NiObjectNET::NiObjectNET; затем 0x00b4e2bb: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00B591A9 push 0x1c; call NiNew; 0x00B591C7 call NiObjectNET::NiObjectNET; затем 0x00b591d1: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00B59205 push 0x1c; call NiNew; 0x00B59233 call NiObjectNET::NiObjectNET; затем 0x00b5923d: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00B625F3 push 0x1c; call NiNew; 0x00B62611 call NiObjectNET::NiObjectNET; затем 0x00b6261b: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00B62656 push 0x1c; call NiNew; 0x00B62678 call NiObjectNET::NiObjectNET; затем 0x00b62682: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00BAFF5F push 0x1c; call NiNew; 0x00BAFF7D call NiObjectNET::NiObjectNET; затем 0x00baff87: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,ctor-alloc-derived,0x1C,False,False,0x00E8826A push 0x1c; call NiNew; 0x00E88290 call NiObjectNET::NiObjectNET; затем 0x00e8829e: vtable NiAlphaProperty — выделение наследника
+NiObjectNET,0x18,subclass-boundary,0x18,True,True,первое собственное поле NiAVObject::m_pkParent на 0x18 (статус поля см. evidence_fields)
+NiObjectNET,0x18,subclass-boundary,0x18,True,True,первое собственное поле NiTexture::m_kFormatPrefs на 0x18 (статус поля см. evidence_fields)
+NiPoint3,0xC,array-span,0xC,True,True,"NiTransform: m_Translate.x/y/z на +0x24/+0x28/+0x2C, следующее поле m_fScale на +0x30 подтверждено => 0xC; NiBound: m_kCenter.x/y/z на +0/+4/+8, m_fRadius на +0xC"
+NiMatrix3,0x24,array-span,0x24,True,True,"NiAVObject::m_kWorld.m_Rotate: 9 float подряд на +0x68..+0x88 (подтверждены по ширине 4, в т.ч. NiCamera::WorldToCameraMatrix), следующее поле m_kWorld.m_Translate.x на +0x8C подтверждено => 0x8C − 0x68 = 0x24; то же в собственном коде NiTransform: m_Rotate +0x0..+0x20, m_Translate на +0x24"
+NiTransform,0x34,contained,0x34,True,True,"NiAVObject: m_kLocal начинается на +0x34 (m_kLocal.m_Translate.x на +0x58 = +0x34 + 0x24, m_kLocal.m_fScale на +0x64), следующий m_kWorld — на +0x68 (m_kWorld.m_Rotate[0] на +0x68 подтверждён) => 0x68 − 0x34 = 0x34; m_kWorld.m_fScale на +0x98 = +0x68 + 0x30"
+NiBound,0x10,ctor-alloc,0x10,True,True,0x0068CF8B push 0x10; call ourMalloc; результат доходит до ecx; 0x0068CFA8 call NiBound::NiBound
+NiAVObject,0x9C,ctor-alloc-derived,0xAC,False,False,0x00A5EFA2 push 0xac; call NiNew; 0x00A5EFB9 call NiAVObject::NiAVObject; затем 0x00a5efbe: vtable NiNode — выделение наследника
+NiAVObject,0x9C,ctor-alloc-derived,0xAC,False,False,0x00A5F031 push 0xac; call NiNew; 0x00A5F046 call NiAVObject::NiAVObject; затем 0x00a5f04b: vtable NiNode — выделение наследника
+NiAVObject,0x9C,subclass-boundary,0x9C,True,True,первое собственное поле NiNode::m_kChildren на 0x9C (статус поля см. evidence_fields)
+NiAVObject,0x9C,subclass-boundary,0x9C,True,True,первое собственное поле NiGeometry::m_PropertyState на 0x9C (статус поля см. evidence_fields)
+NiAVObject,0x9C,subclass-boundary,0x9C,True,True,первое собственное поле NiCamera::m_aafWorldToCam на 0x9C (статус поля см. evidence_fields)
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0043ADFC push 0xac; call NiNew; результат доходит до ecx; 0x0043AE1E call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0043AF07 push 0xac; call NiNew; результат доходит до ecx; 0x0043AF29 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00469DC6 push 0xac; call NiNew; результат доходит до ecx; 0x00469DE8 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004A2571 push 0xac; call NiNew; результат доходит до ecx; 0x004A2599 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004AD593 push 0xac; call NiNew; результат доходит до ecx; 0x004AD5BB call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004BB241 push 0xac; call NiNew; результат доходит до ecx; 0x004BB269 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004BBAEE push 0xac; call NiNew; результат доходит до ecx; 0x004BBB16 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004DED3B push 0xac; call NiNew; результат доходит до ecx; 0x004DED5A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004DF069 push 0xac; call NiNew; результат доходит до ecx; 0x004DF094 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004E0732 push 0xac; call NiNew; результат доходит до ecx; 0x004E0751 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004E08C9 push 0xac; call NiNew; результат доходит до ecx; 0x004E08F4 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x004E178C push 0xac; call NiNew; результат доходит до ecx; 0x004E17AB call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0050D51E push 0xac; call NiNew; результат доходит до ecx; 0x0050D540 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0050D57B push 0xac; call NiNew; результат доходит до ecx; 0x0050D59D call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0050F1C3 push 0xac; call NiNew; результат доходит до ecx; 0x0050F1EB call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00545D6D push 0xac; call NiNew; результат доходит до ecx; 0x00545D8C call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00545DE4 push 0xac; call NiNew; результат доходит до ecx; 0x00545E03 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00545E6D push 0xac; call NiNew; результат доходит до ecx; 0x00545E8C call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00545F06 push 0xac; call NiNew; результат доходит до ecx; 0x00545F25 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00545FA4 push 0xac; call NiNew; результат доходит до ecx; 0x00545FC3 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00546042 push 0xac; call NiNew; результат доходит до ecx; 0x00546061 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054620B push 0xac; call NiNew; результат доходит до ecx; 0x00546233 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x005462A3 push 0xac; call NiNew; результат доходит до ecx; 0x005462CB call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054632F push 0xac; call NiNew; результат доходит до ecx; 0x00546357 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x005463C7 push 0xac; call NiNew; результат доходит до ecx; 0x005463EF call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054645F push 0xac; call NiNew; результат доходит до ecx; 0x00546487 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054650D push 0xac; call NiNew; результат доходит до ecx; 0x00546535 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054669D push 0xac; call NiNew; результат доходит до ecx; 0x005466C5 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054F07B push 0xac; call NiNew; результат доходит до ecx; 0x0054F0A3 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0054F793 push 0xac; call NiNew; результат доходит до ecx; 0x0054F7BB call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0056A0AE push 0xac; call NiNew; результат доходит до ecx; 0x0056A0D9 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0057CFEB push 0xac; call NiNew; результат доходит до ecx; 0x0057D00A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0057D1F6 push 0xac; call NiNew; результат доходит до ecx; 0x0057D215 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0058CC15 push 0xac; call NiNew; результат доходит до ecx; 0x0058CC37 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0058CD5D push 0xac; call NiNew; результат доходит до ecx; 0x0058CD7F call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x005B78CA push 0xac; call NiNew; результат доходит до ecx; 0x005B78EC call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x005B7BA7 push 0xac; call NiNew; результат доходит до ecx; 0x005B7BD2 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00633301 push 0xac; call NiNew; результат доходит до ecx; 0x0063332C call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00635D02 push 0xac; call NiNew; результат доходит до ecx; 0x00635D2A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00635D66 push 0xac; call NiNew; результат доходит до ecx; 0x00635D8E call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00636D5F push 0xac; call NiNew; результат доходит до ecx; 0x00636D81 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0063A983 push 0xac; call NiNew; результат доходит до ecx; 0x0063A9A2 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0063F968 push 0xac; call NiNew; результат доходит до ecx; 0x0063F98A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0066B1AE push 0xac; call NiNew; результат доходит до ecx; 0x0066B1CD call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0066B1FC push 0xac; call NiNew; результат доходит до ecx; 0x0066B21B call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0069F091 push 0xac; call NiNew; результат доходит до ecx; 0x0069F0BC call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x006A3836 push 0xac; call NiNew; результат доходит до ecx; 0x006A3862 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x006C54C0 push 0xac; call NiNew; результат доходит до ecx; 0x006C54E2 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x006E182E push 0xac; call NiNew; результат доходит до ecx; 0x006E1859 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x006E1D1D push 0xac; call NiNew; результат доходит до ecx; 0x006E1D45 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x006FC7B8 push 0xac; call NiNew; результат доходит до ecx; 0x006FC7E0 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x006FC84F push 0xac; call NiNew; результат доходит до ecx; 0x006FC877 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00700702 push 0xac; call NiNew; результат доходит до ecx; 0x00700721 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00700C7F push 0xac; call NiNew; результат доходит до ecx; 0x00700CA7 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0070B000 push 0xac; call NiNew; результат доходит до ecx; 0x0070B01F call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x007130F0 push 0xac; call NiNew; результат доходит до ecx; 0x00713118 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00713212 push 0xac; call NiNew; результат доходит до ecx; 0x0071323A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00732614 push 0xac; call NiNew; результат доходит до ecx; 0x00732636 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0073CC3B push 0xac; call NiNew; результат доходит до ecx; 0x0073CC5D call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0076007B push 0xac; call NiNew; результат доходит до ecx; 0x007600A3 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00760FE5 push 0xac; call NiNew; результат доходит до ecx; 0x00761010 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0078E2A9 push 0xac; call NiNew; результат доходит до ecx; 0x0078E2D4 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x007B97EF push 0xac; call NiNew; результат доходит до ecx; 0x007B981A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x007C1B1E push 0xac; call NiNew; результат доходит до ecx; 0x007C1B49 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x007FD9D6 push 0xac; call NiNew; результат доходит до ecx; 0x007FDA01 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x008034EB push 0xac; call NiNew; результат доходит до ecx; 0x0080350D call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00807305 push 0xac; call NiNew; результат доходит до ecx; 0x00807330 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00807449 push 0xac; call NiNew; результат доходит до ecx; 0x00807474 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00812248 push 0xac; call NiNew; результат доходит до ecx; 0x0081226A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x008122C0 push 0xac; call NiNew; результат доходит до ecx; 0x008122E2 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00813A55 push 0xac; call NiNew; результат доходит до ecx; 0x00813A77 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00820016 push 0xac; call NiNew; результат доходит до ecx; 0x00820041 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0086DA1F push 0xac; call NiNew; результат доходит до ecx; 0x0086DA3E call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0086DBA8 push 0xac; call NiNew; результат доходит до ecx; 0x0086DBD0 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0086DC86 push 0xac; call NiNew; результат доходит до ecx; 0x0086DCAE call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0086DD52 push 0xac; call NiNew; результат доходит до ecx; 0x0086DD7A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0086DE2D push 0xac; call NiNew; результат доходит до ecx; 0x0086DE55 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x0086DF0B push 0xac; call NiNew; результат доходит до ecx; 0x0086DF33 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x008B5499 push 0xac; call NiNew; результат доходит до ecx; 0x008B54C1 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x008B5A82 push 0xac; call NiNew; результат доходит до ecx; 0x008B5AAA call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00987ABA push 0xac; call NiNew; результат доходит до ecx; 0x00987AE5 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00987E35 push 0xac; call NiNew; результат доходит до ecx; 0x00987E60 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00988030 push 0xac; call NiNew; результат доходит до ecx; 0x0098805B call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00991942 push 0xac; call NiNew; результат доходит до ecx; 0x0099196D call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x009AD951 push 0xac; call NiNew; результат доходит до ecx; 0x009AD979 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A0FFA3 push 0xac; call NiNew; результат доходит до ecx; 0x00A0FFC2 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A1F3E3 push 0xac; call NiNew; результат доходит до ecx; 0x00A1F405 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A20294 push 0xac; call NiNew; результат доходит до ecx; 0x00A202BC call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A20857 push 0xac; call NiNew; результат доходит до ecx; 0x00A20879 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A21DF4 push 0xac; call NiNew; результат доходит до ecx; 0x00A21E1C call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A22180 push 0xac; call NiNew; результат доходит до ecx; 0x00A221A8 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc-derived,0xB4,False,False,0x00A7E712 push 0xb4; call NiNew; 0x00A7E72B call NiNode::NiNode; затем 0x00a7e73d: vtable NiBillboardNode — выделение наследника
+NiNode,0xAC,ctor-alloc-derived,0xB4,False,False,0x00A7E771 push 0xb4; call NiNew; 0x00A7E788 call NiNode::NiNode; затем 0x00a7e7a1: vtable NiBillboardNode — выделение наследника
+NiNode,0xAC,ctor-alloc-derived,0xB0,False,False,0x00A952A1 push 0xb0; call NiNew; 0x00A952B8 call NiNode::NiNode; затем 0x00a952bd: vtable NiSortAdjustNode — выделение наследника
+NiNode,0xAC,ctor-alloc-derived,0xB0,False,False,0x00A953B2 push 0xb0; call NiNew; 0x00A953CB call NiNode::NiNode; затем 0x00a953d0: vtable NiSortAdjustNode — выделение наследника
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00A98B23 push 0xac; call NiNew; результат доходит до ecx; 0x00A98B3A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc-derived,0xCC,False,False,0x00A9AE02 push 0xcc; call NiNew; 0x00A9AE1B call NiNode::NiNode; затем 0x00a9ae26: vtable NiBSPNode — выделение наследника
+NiNode,0xAC,ctor-alloc-derived,0xCC,False,False,0x00A9AEA1 push 0xcc; call NiNew; 0x00A9AEB8 call NiNode::NiNode; затем 0x00a9aec3: vtable NiBSPNode — выделение наследника
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00B63445 push 0xac; call NiNew; результат доходит до ecx; 0x00B63463 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc-derived,0xB8,False,False,0x00BC2A55 push 0xb8; call NiNew; 0x00BC2A78 call NiNode::NiNode; затем 0x00bc2a89: vtable BSClearZNode — выделение наследника
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C4D8B6 push 0xac; call NiNew; результат доходит до ecx; 0x00C4D8D5 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C5196C push 0xac; call NiNew; результат доходит до ecx; 0x00C51994 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C566A9 push 0xac; call NiNew; результат доходит до ecx; 0x00C566D4 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C58D57 push 0xac; call NiNew; результат доходит до ecx; 0x00C58D79 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C5A118 push 0xac; call NiNew; результат доходит до ecx; 0x00C5A13A call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C6BE1D push 0xac; call NiNew; результат доходит до ecx; 0x00C6BE3B call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C6FE74 push 0xac; call NiNew; результат доходит до ecx; 0x00C6FE92 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C85DD1 push 0xac; call NiNew; результат доходит до ecx; 0x00C85DED call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00C8C93B push 0xac; call NiNew; результат доходит до ecx; 0x00C8C95B call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00CB36D9 push 0xac; call NiNew; результат доходит до ecx; 0x00CB36F9 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00CB3744 push 0xac; call NiNew; результат доходит до ecx; 0x00CB3764 call NiNode::NiNode
+NiNode,0xAC,ctor-alloc,0xAC,True,True,0x00CCF22B push 0xac; call NiNew; результат доходит до ecx; 0x00CCF24B call NiNode::NiNode
+NiNode,0xAC,subclass-boundary,0xAC,True,True,первое собственное поле BSFadeNode::fNearDistSqr на 0xAC (статус поля см. evidence_fields)
+NiNode,0xAC,subclass-boundary,0xAC,True,True,первое собственное поле ShadowSceneNode::bFrustumAddedToVis на 0xAC (статус поля см. evidence_fields)
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x0049E71B push 0xe4; call NiNew; результат доходит до ecx; 0x0049E741 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x004A5328 push 0xe4; call NiNew; результат доходит до ecx; 0x004A5348 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x004A642B push 0xe4; call NiNew; результат доходит до ecx; 0x004A644B call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x004A7695 push 0xe4; call NiNew; результат доходит до ecx; 0x004A76B2 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x004E4E7A push 0xe4; call NiNew; результат доходит до ecx; 0x004E4EA3 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x0050D3C6 push 0xe4; call NiNew; результат доходит до ecx; 0x0050D3E3 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x0050FF0E push 0xe4; call NiNew; результат доходит до ecx; 0x0050FF34 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x005E7FBF push 0xe4; call NiNew; результат доходит до ecx; 0x005E7FDF call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x00B4E415 push 0xe4; call NiNew; результат доходит до ecx; 0x00B4E432 call BSFadeNode::BSFadeNode
+BSFadeNode,0xE4,ctor-alloc,0xE4,True,True,0x00B4EAC1 push 0xe4; call NiNew; результат доходит до ecx; 0x00B4EAE0 call BSFadeNode::BSFadeNode
+NiProperty,0x18,subclass-boundary,0x18,True,True,первое собственное поле NiShadeProperty::m_uFlags на 0x18 (статус поля см. evidence_fields)
+NiShadeProperty,0x20,subclass-boundary,0x20,True,True,первое собственное поле BSShaderProperty::ulFlags на 0x20 (статус поля см. evidence_fields)
+BSShaderProperty,0x60,ctor-alloc-derived,0x7C,False,False,0x00B71826 push 0x7c; call NiNew; 0x00B71842 call BSShaderProperty::BSShaderProperty; затем 0x00b7184a: vtable BSShaderLightingProperty — выделение наследника
+BSShaderProperty,0x60,ctor-alloc-derived,0x7C,False,False,0x00B71943 push 0x7c; call NiNew; 0x00B7195F call BSShaderProperty::BSShaderProperty; затем 0x00b71967: vtable BSShaderLightingProperty — выделение наследника
+BSShaderProperty,0x60,ctor-alloc,0x60,True,True,0x00BA9015 push 0x60; call NiNew; результат доходит до ecx; 0x00BA9031 call BSShaderProperty::BSShaderProperty
+BSShaderProperty,0x60,ctor-alloc,0x60,True,True,0x00BA9271 push 0x60; call NiNew; результат доходит до ecx; 0x00BA928D call BSShaderProperty::BSShaderProperty
+BSShaderProperty,0x60,ctor-alloc-derived,0xA0,False,False,0x00BB10CE push 0xa0; call NiNew; 0x00BB10F0 call BSShaderProperty::BSShaderProperty; затем 0x00bb10fa: vtable PrecipitationShaderProperty — выделение наследника
+BSShaderProperty,0x60,subclass-boundary,0x60,True,True,первое собственное поле BSShaderLightingProperty::lLightList на 0x60 (статус поля см. evidence_fields)
+BSShaderProperty::RenderPass,0x10,ctor-alloc,0x10,True,True,0x00BA9F14 push 0x10; call MemoryManager::Allocate; результат доходит до ecx; 0x00BA9F59 call BSShaderProperty::RenderPass::RenderPass
+BSShaderLightingProperty,0x7C,ctor-alloc-derived,0x8C,False,False,0x00B58445 push 0x8c; call NiNew; 0x00B58466 call BSShaderLightingProperty::BSShaderLightingProperty; затем 0x00b5846b: vtable DistantLODShaderProperty — выделение наследника
+BSShaderLightingProperty,0x7C,ctor-alloc-derived,0xD4,False,False,0x00BB4165 push 0xd4; call NiNew; 0x00BB4186 call BSShaderLightingProperty::BSShaderLightingProperty; затем 0x00bb418b: vtable GeometryDecalShaderProperty — выделение наследника
+BSShaderLightingProperty,0x7C,subclass-boundary,0x7C,True,True,первое собственное поле BSShaderPPLightingProperty::fWaterDepthCameraOffset на 0x7C (статус поля см. evidence_fields)
+BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,True,0x00539B46 push 0x104; call NiNew; результат доходит до ecx; 0x00539B63 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
+BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,True,0x00B67635 push 0x104; call NiNew; результат доходит до ecx; 0x00B67652 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
+BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,True,0x00B68D71 push 0x104; call NiNew; результат доходит до ecx; 0x00B68D90 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
+BSShaderPPLightingProperty,0x104,ctor-alloc-derived,0x104,True,True,0x00BA8715 push 0x104; call NiNew; 0x00BA8736 call BSShaderPPLightingProperty::BSShaderPPLightingProperty; затем 0x00ba873b: vtable SpeedTreeBillboardShaderProperty — выделение наследника
+BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,True,0x00BAF155 push 0x104; call NiNew; результат доходит до ecx; 0x00BAF178 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
+BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,True,0x00BAF18D push 0x104; call NiNew; результат доходит до ecx; 0x00BAF1B0 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
+BSShaderPPLightingProperty,0x104,ctor-alloc,0x104,True,True,0x00BAF1C5 push 0x104; call NiNew; результат доходит до ecx; 0x00BAF1E8 call BSShaderPPLightingProperty::BSShaderPPLightingProperty
+BSShaderPPLightingProperty,0x104,ctor-alloc-derived,0x108,False,False,0x00BB45F2 push 0x108; call NiNew; 0x00BB4613 call BSShaderPPLightingProperty::BSShaderPPLightingProperty; затем 0x00bb4618: vtable Lighting30ShaderProperty — выделение наследника
+BSShaderPPLightingProperty,0x104,ctor-alloc-derived,0x108,False,False,0x00BB46CC push 0x108; call NiNew; 0x00BB46F2 call BSShaderPPLightingProperty::BSShaderPPLightingProperty; затем 0x00bb46f7: vtable Lighting30ShaderProperty — выделение наследника
+NiPropertyState,0x1C,ctor-alloc,0x1C,True,True,0x00A5A19A push 0x1c; call MemoryManager::Allocate; результат доходит до ecx; 0x00A5A1B1 call NiPropertyState::NiPropertyState
+NiPropertyState,0x1C,ctor-alloc,0x1C,True,True,0x00A90601 push 0x1c; call MemoryManager::Allocate; результат доходит до ecx; 0x00A90617 call NiPropertyState::NiPropertyState
+NiGeometryData,0x40,ctor-alloc-derived,0x44,False,False,0x00A8A701 push 0x44; call NiNew; 0x00A8A713 call NiGeometryData::NiGeometryData; затем 0x00a8a718: vtable NiLinesData — выделение наследника
+NiGeometryData,0x40,ctor-alloc-derived,0x70,False,False,0x00A96602 push 0x70; call NiNew; 0x00A96616 call NiGeometryData::NiGeometryData; затем 0x00a96620: vtable NiParticlesData — выделение наследника
+NiGeometryData,0x40,ctor-alloc-derived,0x70,False,False,0x00A96662 push 0x70; call NiNew; 0x00A96676 call NiGeometryData::NiGeometryData; затем 0x00a96680: vtable NiParticlesData — выделение наследника
+NiGeometryData,0x40,subclass-boundary,0x40,True,True,первое собственное поле NiTriBasedGeomData::m_usTriangles на 0x40 (статус поля см. evidence_fields)
+NiTriBasedGeomData,0x44,ctor-alloc-derived,0x50,False,False,0x00A75EC1 push 0x50; call NiNew; 0x00A75ED3 call NiTriBasedGeomData::NiTriBasedGeomData; затем 0x00a75ee4: vtable NiTriStripsData — выделение наследника
+NiTriBasedGeomData,0x44,ctor-alloc-derived,0x58,False,False,0x00A7B792 push 0x58; call NiNew; 0x00A7B7A6 call NiTriBasedGeomData::NiTriBasedGeomData; затем 0x00a7b7be: vtable NiTriShapeData — выделение наследника
+NiTriBasedGeomData,0x44,subclass-boundary,0x44,True,True,первое собственное поле NiTriShapeData::m_uiTriListLength на 0x44 (статус поля см. evidence_fields)
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x004E7ED3 push 0x58; call NiNew; результат доходит до ecx; 0x004E7F12 call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x0051CAE8 push 0x58; call NiNew; результат доходит до ecx; 0x0051CB2D call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x006691EC push 0x58; call NiNew; результат доходит до ecx; 0x0066923D call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x0068CAB8 push 0x58; call NiNew; результат доходит до ecx; 0x0068CB21 call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x006F8318 push 0x58; call NiNew; результат доходит до ecx; 0x006F835B call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x00A74411 push 0x58; call NiNew; результат доходит до ecx; 0x00A74450 call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x00BA6734 push 0x58; call NiNew; результат доходит до ecx; 0x00BA6763 call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x00BC1752 push 0x58; call NiNew; результат доходит до ecx; 0x00BC1779 call NiTriShapeData::NiTriShapeData
+NiTriShapeData,0x58,ctor-alloc,0x58,True,True,0x00C4E6AE push 0x58; call NiNew; результат доходит до ecx; 0x00C4E717 call NiTriShapeData::NiTriShapeData
+NiGeometry,0xC4,bounds,0xC4,True,True,"нижняя граница: последнее поле m_spShader на +0xC0 (4 байта) подтверждено => не меньше 0xC4; верхняя: NiTriShape — наследник через NiTriBasedGeom, собственных полей ни у одного из них нет, выделяется 0xC4 байт (NiNew 0xC4 перед NiTriShape::NiTriShape) => не больше 0xC4"
+NiTriBasedGeom,0xC4,bounds,0xC4,True,True,база NiGeometry 0xC4 (см. её основание) => не меньше 0xC4; наследник NiTriShape без собственных полей выделяется 0xC4 => не больше 0xC4
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004B2DB2 push 0xc4; call NiNew; результат доходит до ecx; 0x004B2DEA call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004B3497 push 0xc4; call NiNew; результат доходит до ecx; 0x004B34CF call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004B371B push 0xc4; call NiNew; результат доходит до ecx; 0x004B3753 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004DFB5B push 0xc4; call NiNew; результат доходит до ecx; 0x004DFBA5 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004DFC9C push 0xc4; call NiNew; результат доходит до ecx; 0x004DFCE6 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004E139A push 0xc4; call NiNew; результат доходит до ecx; 0x004E13E4 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x004E14DB push 0xc4; call NiNew; результат доходит до ecx; 0x004E1525 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x005B897F push 0xc4; call NiNew; результат доходит до ecx; 0x005B89DA call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x0063599C push 0xc4; call NiNew; результат доходит до ecx; 0x006359ED call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00635A40 push 0xc4; call NiNew; результат доходит до ecx; 0x00635A8E call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x006412D7 push 0xc4; call NiNew; результат доходит до ecx; 0x00641322 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00641449 push 0xc4; call NiNew; результат доходит до ecx; 0x0064149A call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00687DBF push 0xc4; call NiNew; результат доходит до ecx; 0x00687E0E call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x006A552C push 0xc4; call NiNew; результат доходит до ecx; 0x006A557C call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00700DA7 push 0xc4; call NiNew; результат доходит до ecx; 0x00700DE5 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x0076111C push 0xc4; call NiNew; результат доходит до ecx; 0x00761160 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00A200C6 push 0xc4; call NiNew; результат доходит до ecx; 0x00A20106 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00B89B85 push 0xc4; call NiNew; результат доходит до ecx; 0x00B89BC4 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00C5587B push 0xc4; call NiNew; результат доходит до ecx; 0x00C558C0 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00C55C50 push 0xc4; call NiNew; результат доходит до ecx; 0x00C55C88 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00C565E7 push 0xc4; call NiNew; результат доходит до ecx; 0x00C56628 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00C57336 push 0xc4; call NiNew; результат доходит до ecx; 0x00C57389 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00C5A74F push 0xc4; call NiNew; результат доходит до ecx; 0x00C5A790 call NiTriShape::NiTriShape
+NiTriShape,0xC4,ctor-alloc,0xC4,True,True,0x00C850D8 push 0xc4; call NiNew; результат доходит до ecx; 0x00C8510E call NiTriShape::NiTriShape
+NiTriStrips,0xC4,ctor-alloc,0xC4,True,True,0x004A74C1 push 0xc4; call NiNew; результат доходит до ecx; 0x004A74FF call NiTriStrips::NiTriStrips
+NiTriStrips,0xC4,ctor-alloc,0xC4,True,True,0x0053736F push 0xc4; call NiNew; результат доходит до ecx; 0x005373F1 call NiTriStrips::NiTriStrips
+NiTriStrips,0xC4,ctor-alloc,0xC4,True,True,0x00C57C9E push 0xc4; call NiNew; результат доходит до ecx; 0x00C57CFB call NiTriStrips::NiTriStrips
+NiTriStrips,0xC4,ctor-alloc,0xC4,True,True,0x00C5836C push 0xc4; call NiNew; результат доходит до ecx; 0x00C583C7 call NiTriStrips::NiTriStrips
+NiTriStrips,0xC4,ctor-alloc,0xC4,True,True,0x00C58BFD push 0xc4; call NiNew; результат доходит до ecx; 0x00C58C5A call NiTriStrips::NiTriStrips
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0049FD99 push 0x114; call NiNew; результат доходит до ecx; 0x0049FDB6 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004BBB4F push 0x114; call NiNew; результат доходит до ecx; 0x004BBB75 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004DEBCD push 0x114; call NiNew; результат доходит до ecx; 0x004DEBEA call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004E05DD push 0x114; call NiNew; результат доходит до ecx; 0x004E05FA call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004E9DB1 push 0x114; call NiNew; результат доходит до ecx; 0x004E9DD7 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004EAA71 push 0x114; call NiNew; результат доходит до ecx; 0x004EAA8E call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004EAFEB push 0x114; call NiNew; результат доходит до ecx; 0x004EB008 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x004EBF61 push 0x114; call NiNew; результат доходит до ecx; 0x004EBF7E call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0054F00F push 0x114; call NiNew; результат доходит до ecx; 0x0054F038 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0054F727 push 0x114; call NiNew; результат доходит до ecx; 0x0054F750 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0077EE7B push 0x114; call NiNew; результат доходит до ecx; 0x0077EE9B call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0078E92B push 0x114; call NiNew; результат доходит до ecx; 0x0078E94B call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0079461B push 0x114; call NiNew; результат доходит до ecx; 0x0079463B call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x007C21AB push 0x114; call NiNew; результат доходит до ecx; 0x007C21CB call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x007C99EB push 0x114; call NiNew; результат доходит до ecx; 0x007C9A0B call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x007FD05B push 0x114; call NiNew; результат доходит до ecx; 0x007FD084 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x007FDC57 push 0x114; call NiNew; результат доходит до ecx; 0x007FDC80 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x007FF19D push 0x114; call NiNew; результат доходит до ecx; 0x007FF1C6 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x0086C4AD push 0x114; call NiNew; результат доходит до ecx; 0x0086C4CA call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x00A713E2 push 0x114; call NiNew; результат доходит до ecx; 0x00A713F7 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x00B9E435 push 0x114; call NiNew; результат доходит до ecx; 0x00B9E457 call NiCamera::NiCamera
+NiCamera,0x114,ctor-alloc,0x114,True,True,0x00C51A71 push 0x114; call NiNew; результат доходит до ecx; 0x00C51A97 call NiCamera::NiCamera
+NiTexture,0x30,subclass-boundary,0x30,True,True,первое собственное поле NiSourceTexture::m_kFilename на 0x30 (статус поля см. evidence_fields)
+NiSourceTexture,0x48,ctor-alloc,0x48,True,True,0x00A5FD71 push 0x48; call NiNew; результат доходит до ecx; 0x00A5FD81 call NiSourceTexture::NiSourceTexture
+NiSourceTexture,0x48,ctor-alloc,0x48,True,True,0x00A5FE31 push 0x48; call NiNew; результат доходит до ecx; 0x00A5FE41 call NiSourceTexture::NiSourceTexture
+NiSourceTexture,0x48,ctor-alloc,0x48,True,True,0x00A5FF11 push 0x48; call NiNew; результат доходит до ecx; 0x00A5FF21 call NiSourceTexture::NiSourceTexture
+NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,False,0x00A60F31 push 0x4c; call NiNew; 0x00A60F43 call NiSourceTexture::NiSourceTexture; затем 0x00a60f48: vtable NiSourceCubeMap — выделение наследника
+NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,False,0x00A60F61 push 0x4c; call NiNew; 0x00A60F73 call NiSourceTexture::NiSourceTexture; затем 0x00a60f78: vtable NiSourceCubeMap — выделение наследника
+NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,False,0x00A61041 push 0x4c; call NiNew; 0x00A61053 call NiSourceTexture::NiSourceTexture; затем 0x00a61058: vtable NiSourceCubeMap — выделение наследника
+NiSourceTexture,0x48,ctor-alloc-derived,0x4C,False,False,0x00A6116D push 0x4c; call NiNew; 0x00A6118B call NiSourceTexture::NiSourceTexture; затем 0x00a61190: vtable NiSourceCubeMap — выделение наследника
+NiAccumulator,0xC,ctor-alloc-derived,0x30,False,False,0x00AA0F53 push 0x30; call NiNew; 0x00AA0F69 call NiAccumulator::NiAccumulator; затем 0x00aa0f72: vtable NiBackToFrontAccumulator — выделение наследника
+NiAccumulator,0xC,subclass-boundary,0xC,True,True,первое собственное поле NiBackToFrontAccumulator::m_kItems на 0xC (статус поля см. evidence_fields)
+NiBackToFrontAccumulator,0x30,ctor-alloc-derived,0x34,False,False,0x00A9B4B1 push 0x34; call NiNew; 0x00A9B4C3 call NiBackToFrontAccumulator::NiBackToFrontAccumulator; затем 0x00a9b4c8: vtable NiAlphaAccumulator — выделение наследника
+NiBackToFrontAccumulator,0x30,ctor-alloc-derived,0x34,False,False,0x00A9B732 push 0x34; call NiNew; 0x00A9B746 call NiBackToFrontAccumulator::NiBackToFrontAccumulator; затем 0x00a9b74b: vtable NiAlphaAccumulator — выделение наследника
+NiBackToFrontAccumulator,0x30,subclass-boundary,0x30,True,True,первое собственное поле NiAlphaAccumulator::m_bObserveNoSortHint на 0x30 (статус поля см. evidence_fields)
+NiAlphaAccumulator,0x34,subclass-boundary,0x34,True,True,первое собственное поле BSShaderAccumulator::eAccumulationMode на 0x34 (статус поля см. evidence_fields)
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0049FD49 push 0x280; call NiNew; результат доходит до ecx; 0x0049FD6F call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x004BBFD9 push 0x280; call NiNew; результат доходит до ecx; 0x004BC008 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x004E9E47 push 0x280; call NiNew; результат доходит до ecx; 0x004E9E76 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x004EAB3D push 0x280; call NiNew; результат доходит до ecx; 0x004EAB63 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x004EB0AE push 0x280; call NiNew; результат доходит до ecx; 0x004EB0D4 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x004EC08D push 0x280; call NiNew; результат доходит до ecx; 0x004EC0BC call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0054EA96 push 0x280; call NiNew; результат доходит до ecx; 0x0054EAC5 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x006405FD push 0x280; call NiNew; результат доходит до ecx; 0x00640620 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0070A76D push 0x280; call NiNew; результат доходит до ecx; 0x0070A793 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0070A7EE push 0x280; call NiNew; результат доходит до ecx; 0x0070A814 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x007FC178 push 0x280; call NiNew; результат доходит до ecx; 0x007FC1A1 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0080007A push 0x280; call NiNew; результат доходит до ecx; 0x008000A0 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0086C294 push 0x280; call NiNew; результат доходит до ecx; 0x0086C2BA call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0086C2E7 push 0x280; call NiNew; результат доходит до ecx; 0x0086C30D call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0086C368 push 0x280; call NiNew; результат доходит до ecx; 0x0086C38E call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0086C3E9 push 0x280; call NiNew; результат доходит до ecx; 0x0086C40C call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0086C450 push 0x280; call NiNew; результат доходит до ecx; 0x0086C476 call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x0087535C push 0x280; call NiNew; результат доходит до ecx; 0x0087538B call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x00B577D7 push 0x280; call NiNew; результат доходит до ecx; 0x00B577FC call BSShaderAccumulator::BSShaderAccumulator
+BSShaderAccumulator,0x280,ctor-alloc,0x280,True,True,0x00BD83C4 push 0x280; call NiNew; результат доходит до ecx; 0x00BD8415 call BSShaderAccumulator::BSShaderAccumulator
+BSBatchRenderer,0x98,ctor-alloc,0x98,True,True,0x00B66308 push 0x98; call NiNew; результат доходит до ecx; 0x00B66341 call BSBatchRenderer::BSBatchRenderer
+BSBatchRenderer,0x98,ctor-alloc,0x98,True,True,0x00B6635E push 0x98; call NiNew; результат доходит до ecx; 0x00B66382 call BSBatchRenderer::BSBatchRenderer
+BSBatchRenderer,0x98,ctor-alloc,0x98,True,True,0x00B9AC14 push 0x98; call NiNew; результат доходит до ecx; 0x00B9AC39 call BSBatchRenderer::BSBatchRenderer
+NiRenderer,0x280,subclass-boundary,0x280,True,True,первое собственное поле NiDX9Renderer::_undescribed_280 на 0x280 (статус поля см. evidence_fields)
+NiDX9Renderer,0xB80,ctor-alloc,0xB80,True,True,0x00E7624C push 0xb80; call NiNew; результат доходит до ecx; 0x00E7625F call NiDX9Renderer::NiDX9Renderer
+NiShader,0x14,ctor-alloc,0x14,True,True,0x00A80AAF push 0x14; call NiNew; результат доходит до ecx; 0x00A80ABF call NiShader::NiShader
+NiShader,0x14,subclass-boundary,0x14,True,True,первое собственное поле NiD3DShaderInterface::m_pkD3DDevice на 0x14 (статус поля см. evidence_fields)
+NiD3DShaderInterface,0x24,subclass-boundary,0x24,True,True,первое собственное поле NiD3DShader::m_bUsesNiRenderState на 0x24 (статус поля см. evidence_fields)
+NiD3DShader,0x3C,subclass-boundary,0x3C,True,True,первое собственное поле NiD3DDefaultShader::m_bBaseTextureAlphaNeeded на 0x3C (статус поля см. evidence_fields)
+NiD3DDefaultShader,0x5C,subclass-boundary,0x5C,True,True,первое собственное поле BSShader::spPass на 0x5C (статус поля см. evidence_fields)
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях ShadowLightShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях BSShaderBloodSplatter:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях WaterShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях SkyShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях ParticleShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях TallGrassShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях PrecipitationShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях SpeedTreeLeafShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях BSDistantTreeShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях Lighting30Shader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях BoltShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях BeamShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях VolumetricFogShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях BSShaderNoLighting:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях TileShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях GeometryDecalShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях DebugShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях SpeedTreeFrondShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях DistantLODShader:: = 0x6C
+BSShader,0x6C,subclass-boundary,0x6C,True,True,наименьшее смещение ≥ sizeof в функциях ImageSpaceShader:: = 0x6C
+BSShader,0x6C,bounds,0x6C,True,True,"нижняя граница: iShaderType на +0x68 пишется dword-ом в конструкторах наследников (например, Lighting30Shader::Lighting30Shader) => не меньше 0x6C; верхняя: первые собственные поля наследников на +0x6C (ShadowLightShader 0x00B79B3E, ParticleShader 0x00BA54B2, Lighting30Shader 0x00BBC67C, BoltShader 0x00BC0D35, BeamShader 0x00BC4889) => не больше 0x6C"
+NiD3DPass,0x68,array-new,0x68,True,True,"пул проходов: 0x00E803AB mul 0x68 (размер элемента в new[]), 0x00E803DC push 0x68; push 0x00E800F0 (NiD3DPass::NiD3DPass) → eh vector ctor iterator; 0x00E804AC add ebp, 0x68 — шаг по массиву"
+ShadowSceneNode,0x200,ctor-alloc,0x200,True,True,0x0070B465 push 0x200; call NiNew; результат доходит до ecx; 0x0070B482 call ShadowSceneNode::ShadowSceneNode
+ShadowSceneNode,0x200,ctor-alloc,0x200,True,True,0x0070B4B9 push 0x200; call NiNew; результат доходит до ecx; 0x0070B4D6 call ShadowSceneNode::ShadowSceneNode
+ShadowSceneNode,0x200,ctor-alloc,0x200,True,True,0x0086D633 push 0x200; call NiNew; результат доходит до ecx; 0x0086D650 call ShadowSceneNode::ShadowSceneNode
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5AB08 push 0x250; call NiNew; результат доходит до ecx; 0x00B5AB2B call ShadowSceneLight::ShadowSceneLight
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5ABAD push 0x250; call NiNew; результат доходит до ecx; 0x00B5ABE0 call ShadowSceneLight::ShadowSceneLight
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5C9BB push 0x250; call NiNew; результат доходит до ecx; 0x00B5C9D6 call ShadowSceneLight::ShadowSceneLight
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5CC27 push 0x250; call NiNew; результат доходит до ecx; 0x00B5CC46 call ShadowSceneLight::ShadowSceneLight
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5E27B push 0x250; call NiNew; результат доходит до ecx; 0x00B5E2A3 call ShadowSceneLight::ShadowSceneLight
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5E2EC push 0x250; call NiNew; результат доходит до ecx; 0x00B5E308 call ShadowSceneLight::ShadowSceneLight
+ShadowSceneLight,0x250,ctor-alloc,0x250,True,True,0x00B5E3D2 push 0x250; call NiNew; результат доходит до ecx; 0x00B5E3FF call ShadowSceneLight::ShadowSceneLight
+ImageSpaceManager,0x31C,ctor-alloc,0x31C,True,True,0x00B57572 push 0x31c; call MemoryManager::Allocate; результат доходит до ecx; 0x00B57590 call ImageSpaceManager::ImageSpaceManager
+ImageSpaceManager,0x31C,ctor-alloc,0x31C,True,True,0x00B5797C push 0x31c; call MemoryManager::Allocate; результат доходит до ecx; 0x00B5799D call ImageSpaceManager::ImageSpaceManager
+MTRenderingSystem,0x33C,bounds,0x33C,True,True,"верхняя граница: объект MTRenderingSystem::Instance 0x01200088, следующий глобальный символ 0x012003C4 => не больше 0x33C; нижняя: конструктор 0x00BA36D9 push 0x18; push 0x20; lea ecx,[esi+0x3C] → eh vector ctor iterator: 24 × 0x20 = 0x300 от +0x3C => не меньше 0x33C; границы совпали (и TaskStageSema: 3 × 0xC от +0x18 до +0x3C)"

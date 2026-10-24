@@ -488,7 +488,7 @@ hdr += ['// Сгенерировано gen_headers.py. Источник раск
        '// Сигнатуры виртуальных методов взяты с Xbox; степень их проверки на PC — в evidence_vslots.csv.',
        '// Классы, передаваемые по значению, описаны непрозрачными структурами нужного размера (NiPoint3);',
        '// шаблоны и вложенные типы в параметрах — void*. Упаковка по умолчанию; #pragma pack(1) только у',
-       '// классов, упакованных и в игре (BGSSaveLoadFormHeader). alignof каждого класса следует из типов полей.',
+       '// классов, упакованных и в игре (BGSSaveLoadFormHeader: поле на +3; v0.5.5 — только в research). alignof каждого класса следует из типов полей.',
        '// Уровни достоверности каждого поля и слота — комментарии «PC: …» и evidence/summary.json.',
        '#pragma once', '#if __has_include(<cstddef>)', '#include <cstddef>', '#endif', '#ifndef offsetof', '#define offsetof(t, m) __builtin_offsetof(t, m)', '#endif']
 hdr += [('class' if n in PCC else 'struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class')
