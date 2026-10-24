@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.5",
+ "package": "FalloutNV_PDB_v0.5.1",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -187,12 +187,11 @@
   ],
   "new_classes_v05": 44,
   "vslot_status": {
-   "stub": 667,
+   "stub": 668,
    "name+stack": 858,
    "semantics": 10,
    "stack": 241,
-   "name": 110,
-   "MISMATCH": 1
+   "name": 110
   },
   "pass_enum": {
    "confirmed": 743
@@ -217,7 +216,7 @@
   "проверка сдвигом ловит черновую ошибку раскладки BSShaderPPLightingProperty (AMBIGUOUS, лучшая гипотеза — настоящая)",
   "скрипты Ghidra/IDA — только на имитации API",
   "windows_check_pdb.py — функция compare() через llvm-pdbutil; DbgHelp для v0.5 не запускался",
-  "независимый проверщик Астры verify_v041_independent.py — см. README/ответ"
+  "независимый проверщик Астры verify_v041_independent.py на этом пакете — манифест и все строки evidence_fields.csv"
  ],
  "not_included": "дампы и файлы Xbox 360 PDB не распространяются; для перегенерации заголовков (gen_headers.py) они нужны, для пересборки PDB и всех проверок — нет",
  "files": {
@@ -226,12 +225,12 @@
    "bytes": 7168000
   },
   "README_RU.md": {
-   "sha256": "6f570a8c0b8860b465f7b1daf9193321ffed854155d2ceefd833d08f05dc7359",
-   "bytes": 25454
+   "sha256": "c49b25020d63aace8a902f4a981b9d7ed41e7263300023db5c5ff4710889dbd5",
+   "bytes": 32571
   },
   "evidence/REPORT.md": {
-   "sha256": "3ed94605c915f859563256f1043e79b75014748f1873fee72938237d319f21d9",
-   "bytes": 25227
+   "sha256": "81de78fe63a3bcab9e7815c9f6b8120ee5df24118de012f9a37b1f074d1dacdb",
+   "bytes": 25565
   },
   "evidence/change_flags.csv": {
    "sha256": "3d6765a1fa4778968f265aab98c51e7b80478834b7b0a2200d3de334f439512d",
@@ -250,8 +249,8 @@
    "bytes": 80811
   },
   "evidence/evidence_vslots.csv": {
-   "sha256": "a19f4092323695e37c89677e347b8375788eebf4b056c3be02fa21477792dff7",
-   "bytes": 668806
+   "sha256": "7cb6c44c4a566248d3d5d6967f146b21828c1ff4cafdba06221136785d661977",
+   "bytes": 669692
   },
   "evidence/excluded_functions.csv": {
    "sha256": "4c21b3570448d349576457974fd2f1b7f603f90e31462bd37d6f81ca95606142",
@@ -278,8 +277,8 @@
    "bytes": 61008
   },
   "evidence/platform_differences.csv": {
-   "sha256": "1d8e88c8716a3bb3a03dc35ba6c480b8a2d206500e05695cebcd8b2c8f302931",
-   "bytes": 9231
+   "sha256": "273af7efde5d8411667876b233df5327ec80e69ad42d9952eed5174d98c96fa1",
+   "bytes": 9889
   },
   "evidence/shader_type.csv": {
    "sha256": "367acfdbd9d21367f41ce04845c6cb22b09832b2ed771df38717f646d22fa2b8",
@@ -290,8 +289,8 @@
    "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "74d67ed6d4c4bfe46c17fe4d1cb9e9a508727a2aed554ad58ad279cbed5cee28",
-   "bytes": 1352185
+   "sha256": "04ed2957480ad012f4fbb41e8a32a7f7f05a7bcd21afbe604face33bb95abffb",
+   "bytes": 1352192
   },
   "evidence/xnvse_name_notes.csv": {
    "sha256": "4306f17fc523571b79049c5078e9db61665e8478dfcac87d4dcdfbacef1ef9de",
@@ -330,8 +329,8 @@
    "bytes": 2015
   },
   "tools/evidence.py": {
-   "sha256": "3b36b9bcaf970eb1075659330659a558af68e7aee81dd5103270a3cd37d53a43",
-   "bytes": 92759
+   "sha256": "a27de9965f41e9c6fdb84faa672348376a231d29f69d2b79f873fc87eb9c74e7",
+   "bytes": 95101
   },
   "tools/evidence_spec.json": {
    "sha256": "5732a729b2b50f669314419b3e8346fcecc6d06cdf3536dd0e32431468acea51",
@@ -382,8 +381,8 @@
    "bytes": 1694
   },
   "tools/report_extras.py": {
-   "sha256": "2e02d4306fe600aa2486c035300dd0129a32a3e3548543ca4d238fa98942117c",
-   "bytes": 9124
+   "sha256": "1a5bf3a5aafecd65ae745fa55fd23c4f81df05fe922d0078fc8125ac4f3d256e",
+   "bytes": 10409
   },
   "tools/scripts_src/build.py": {
    "sha256": "4e3e4bfa9340dfdc4e5cd257d9f4f4220f69e7fa8bdd6e643109e5d70d77574d",
@@ -453,5 +452,6 @@
    "sha256": "3ecd1cf054c8226992be94c79b9a4f932861d605ad25ada93c84a19ad5271ea1",
    "bytes": 15291
   }
- }
+ },
+ "same_as_v0.5": "оба PDB, оба заголовка (.h, .meta.json) и оба скрипта побайтно те же, что в v0.5"
 }

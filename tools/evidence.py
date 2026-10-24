@@ -24,7 +24,10 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   name+stack   — имя PC совпадает с Xbox, и очистка стека (ret N) = ожидаемой по прототипу Xbox;
   stack        — имени нет/другое, но ret N совпадает — прототип только согласуется, не доказан;
   name         — имя совпадает, ret N расходится — прототип под сомнением;
-  stub         — заглушка (UnimplementedVirtFunc, ret 0 и т.п.) — ничего не доказывает;
+  stub         — заглушка (UnimplementedVirtFunc, ret 0 и т.п.; v0.5.1 — и «jmp <пустая функция>»: пустые функции
+                 компоновщик сливает в одну, имя такой копии в PDB xNVSE случайно) — ничего не доказывает;
+  thunk        — v0.5.1: ни имя, ни стек не совпали, но функция — переходник «mov r,[ecx]; mov r2,[r+N]; jmp r2»:
+                 вызывает собственный слот N/4 того же объекта; прототип им не проверяется (не ошибка vtable);
   MISMATCH     — ни имя, ни стек не совпали.
 ret N подтверждает только объём аргументов на стеке (thiscall), не их типы и не тип результата.
 """
@@ -279,6 +282,24 @@ def global_users(addr):
         if i < 0:
             return sorted(out)
         out.add(func_start(0x401000 + i))
+
+
+def slot_forward(f):
+    """v0.5.1: короткая функция-переходник в слоте vtable. Возвращает ('stub', цель) для «jmp <пустая функция>»
+    (несколько одинаковых пустых функций компоновщик сливает в одну, и её имя в PDB xNVSE случайно),
+    ('thunk', N) для «mov r, [ecx]; mov r2, [r+N]; jmp r2» — вызов собственного слота N/4 того же объекта; иначе None."""
+    ins = list(md.disasm(img[f - B:f - B + 16], f))[:3]
+    if ins and ins[0].mnemonic == 'jmp' and ins[0].op_str.startswith('0x'):
+        t = int(ins[0].op_str, 16)
+        if STUB.search(name_at(t)):
+            return ('stub', t)
+    if len(ins) == 3 and ins[0].mnemonic == 'mov' and ins[0].op_str.endswith('dword ptr [ecx]') \
+            and ins[1].mnemonic == 'mov' and ins[2].mnemonic == 'jmp':
+        m = re.match(r'(\w+), dword ptr \[(\w+) \+ (0x[0-9a-f]+)\]$', ins[1].op_str)
+        r0 = ins[0].op_str.split(',')[0]
+        if m and m.group(2) == r0 and ins[2].op_str == m.group(1):
+            return ('thunk', int(m.group(3), 16))
+    return None
 
 
 def rets(f):
@@ -912,10 +933,16 @@ for cname, c in CLS.items():
                 nm_ok = v.get('dtor') and pn.startswith('??_E') or (not stub and pn != '?' and (
                     norm(v.get('xbox_name', v['name'])) in norm(pn) or norm(pn) in norm(v.get('xbox_name', v['name']))))
                 st_ok = exp in rn
+                fw = None if stub else slot_forward(fa)
+                fwnote = ''
                 if str(s) in notes and who == cname:
                     st = 'semantics'
                 elif stub:
                     st = 'stub'
+                elif fw and fw[0] == 'stub':
+                    st, fwnote = 'stub', f'переход на пустую функцию 0x{fw[1]:08X} ({name_at(fw[1])}); имя {pn} — от слитой копии'
+                elif fw and fw[0] == 'thunk' and not nm_ok and not st_ok:
+                    st, fwnote = 'thunk', f'переходник: вызывает собственный слот {fw[1] // 4} (vtable+0x{fw[1]:X}) того же объекта'
                 elif nm_ok and st_ok:
                     st = 'name+stack'
                 elif st_ok:
@@ -927,8 +954,8 @@ for cname, c in CLS.items():
                 slot_rows.append({'class': cname, 'checked_on': who, 'slot': s, 'pc_func_va': f'0x{fa:08X}',
                                   'pc_name': pn, 'xbox_name': v.get('xbox_name', v['name']), 'decl': v['decl'],
                                   'expect_ret_n': exp, 'pc_ret_n': ' '.join(map(str, sorted(rn, key=str))),
-                                  'status': st, 'note': notes.get(str(s), '')})
-                order = ['MISMATCH', 'stub', 'name', 'stack', 'name+stack', 'semantics']
+                                  'status': st, 'note': fwnote or notes.get(str(s), '')})
+                order = ['MISMATCH', 'thunk', 'stub', 'name', 'stack', 'name+stack', 'semantics']
                 if best is None or order.index(st) > order.index(best[0]):
                     best = (st, who, fa)
             if best:
@@ -1311,7 +1338,7 @@ rep = ['# Доказательная матрица', '', f'FalloutNV.exe SHA-25
        'регистров и слотов стека, без полного графа потока управления). `CONFLICT = 0` значит «противоречий этим '
        'анализатором не найдено», а не «доказано, что их нет на любом пути исполнения». `confirmed` у поля — '
        'смещение и ширина доступа, а не объявленный C++-тип (см. «Типы полей»).', '',
-       '| Класс | sizeof PC | размер | основание размера | строгий PDB | поля: confirmed / consistent / unverified / CONFLICT | слоты: semantics / name+stack / stack / name / stub / MISMATCH |',
+       '| Класс | sizeof PC | размер | основание размера | строгий PDB | поля: confirmed / consistent / unverified / CONFLICT | слоты: semantics / name+stack / stack / name / stub / thunk / MISMATCH |',
        '|---|---|---|---|---|---|---|']
 tot = collections.Counter()
 for cname, s in summary['classes'].items():
@@ -1323,7 +1350,7 @@ for cname, s in summary['classes'].items():
                f"{'да' + (' (−' + str(len(s['fields']) - len(s['strict_fields'])) + ' полей)' if len(s['strict_fields']) < len(s['fields']) else '') if s.get('strict') else 'нет'} | "
                f"{fc['confirmed']} / {fc['consistent']} / "
                f"{fc['unverified']} / {fc['CONFLICT']} | {vc['semantics']} / {vc['name+stack']} / {vc['stack']} / "
-               f"{vc['name']} / {vc['stub']} / {vc['MISMATCH']} |")
+               f"{vc['name']} / {vc['stub']} / {vc['thunk']} / {vc['MISMATCH']} |")
 tk = collections.Counter((d['declared_kind'], d['type_status']) for sc in summary['classes'].values()
                          for d in sc['field_details'].values())
 rep += ['', '## Типы полей', '',
