@@ -38197,9 +38197,9 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
-     "checked_on": "NiBackToFrontAccumulator",
-     "pc_func_va": 11099296,
+     "status": "stub",
+     "checked_on": "NiAccumulator",
+     "pc_func_va": 10953936,
      "manual": false,
      "note": ""
     },
@@ -38811,7 +38811,7 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "stub",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 11099296,
      "manual": false,
@@ -38830,8 +38830,8 @@
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
      "status": "stub",
-     "checked_on": "NiAlphaAccumulator",
-     "pc_func_va": 10761008,
+     "checked_on": "NiBackToFrontAccumulator",
+     "pc_func_va": 11099296,
      "manual": false,
      "note": ""
     },

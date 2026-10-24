@@ -75,8 +75,8 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `NiCamera` | 0x114 | confirmed | ctor-alloc | да | 6 / 0 / 0 / 0 | 0 / 26 / 3 / 3 / 23 / 0 / 0 |
 | `NiTexture` | 0x30 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 0 / 17 / 4 / 1 / 19 / 0 / 0 |
 | `NiSourceTexture` | 0x48 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 20 / 4 / 1 / 19 / 0 / 0 |
-| `NiAccumulator` | 0xC | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 11 / 4 / 4 / 22 / 0 / 0 |
-| `NiBackToFrontAccumulator` | 0x30 | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 0 / 13 / 3 / 4 / 22 / 0 / 0 |
+| `NiAccumulator` | 0xC | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 11 / 4 / 3 / 23 / 0 / 0 |
+| `NiBackToFrontAccumulator` | 0x30 | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 0 / 13 / 3 / 3 / 23 / 0 / 0 |
 | `NiAlphaAccumulator` | 0x34 | confirmed | subclass-boundary | да | 3 / 0 / 0 / 0 | 0 / 15 / 2 / 3 / 22 / 0 / 0 |
 | `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−4 полей) | 47 / 1 / 3 / 0 | 0 / 15 / 2 / 5 / 23 / 0 / 0 |
 | `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да (−3 полей) | 10 / 0 / 3 / 0 | 0 / 11 / 2 / 2 / 22 / 0 / 0 |
@@ -166,7 +166,9 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 Строк в evidence_fields.csv: 8203, evidence_vslots.csv: 4993, evidence_sizes.csv: 451.
 
-Итого: f_confirmed=870, f_consistent=12, f_unverified=20, v_name=110, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=668
+Итого: f_confirmed=870, f_consistent=12, f_unverified=20, v_name=108, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=670
+
+Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): name=281, name+stack=2184, semantics=10, stack=975, stub=1540, thunk=3.
 
 ## Исключённые функции (имя в PDB xNVSE не соответствует коду)
 

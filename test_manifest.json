@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.5.1",
+ "package": "FalloutNV_PDB_v0.5.2",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -73,7 +73,8 @@
   "python3 tools/test_windows_check.py FalloutNV.pdb fnv_types_v05.meta.json FalloutNV.exe test_manifest.json",
   "python3 tools/test_windows_check.py research/FalloutNV.pdb research/fnv_types_v05_research.meta.json FalloutNV.exe test_manifest.json",
   "python3 tools/scripts_src/test_ghidra_mock.py evidence/summary.json scripts/fnv_apply_ghidra.py",
-  "python3 tools/scripts_src/test_ida_mock.py evidence/summary.json scripts/fnv_apply_ida.py"
+  "python3 tools/scripts_src/test_ida_mock.py evidence/summary.json scripts/fnv_apply_ida.py",
+  "python3 -c \"import csv;print(sum(r['status']=='MISMATCH' for r in csv.DictReader(open('out/evidence_vslots.csv',encoding='utf-8'))))\"  -> 0"
  ],
  "windows_commands": [
   "python tools\\windows_check_pdb.py <FalloutNV.exe> . fnv_types_v05.meta.json",
@@ -187,11 +188,11 @@
   ],
   "new_classes_v05": 44,
   "vslot_status": {
-   "stub": 668,
+   "stub": 670,
    "name+stack": 858,
    "semantics": 10,
    "stack": 241,
-   "name": 110
+   "name": 108
   },
   "pass_enum": {
    "confirmed": 743
@@ -209,7 +210,15 @@
   "layout_anchors_manual": [
    "BSShaderPPLightingProperty::pRenderDepthPass"
   ],
-  "regression": "gen_headers.py со spec v0.4.2 даёт заголовок v0.4.2 (отличие — только пометки PC: confirmed у 3 полей с типом из области имён)"
+  "regression": "gen_headers.py со spec v0.4.2 даёт заголовок v0.4.2 (отличие — только пометки PC: confirmed у 3 полей с типом из области имён)",
+  "vslot_rows_raw": {
+   "stub": 1540,
+   "name+stack": 2184,
+   "semantics": 10,
+   "stack": 975,
+   "name": 281,
+   "thunk": 3
+  }
  },
  "verified_here": [
   "все expected — в Linux-контейнере, где собран пакет (clang/lld 18.1.3), повторно из чистой копии самого пакета",
@@ -225,12 +234,12 @@
    "bytes": 7168000
   },
   "README_RU.md": {
-   "sha256": "c49b25020d63aace8a902f4a981b9d7ed41e7263300023db5c5ff4710889dbd5",
-   "bytes": 32571
+   "sha256": "0bd7f451ed7d1091f35d5374479c69a2c127dc29e8137e5ec28b7bfa848f60c1",
+   "bytes": 36145
   },
   "evidence/REPORT.md": {
-   "sha256": "81de78fe63a3bcab9e7815c9f6b8120ee5df24118de012f9a37b1f074d1dacdb",
-   "bytes": 25565
+   "sha256": "5fb2964c2197fd35156aad9fea32d2b5f419cd1a16811593c68c88e0eb900ecd",
+   "bytes": 25912
   },
   "evidence/change_flags.csv": {
    "sha256": "3d6765a1fa4778968f265aab98c51e7b80478834b7b0a2200d3de334f439512d",
@@ -249,8 +258,8 @@
    "bytes": 80811
   },
   "evidence/evidence_vslots.csv": {
-   "sha256": "7cb6c44c4a566248d3d5d6967f146b21828c1ff4cafdba06221136785d661977",
-   "bytes": 669692
+   "sha256": "5381e125c101fb436035f530e313cc3e8a46c03943aa92bb03b350d9d6dc7c27",
+   "bytes": 671463
   },
   "evidence/excluded_functions.csv": {
    "sha256": "4c21b3570448d349576457974fd2f1b7f603f90e31462bd37d6f81ca95606142",
@@ -277,8 +286,8 @@
    "bytes": 61008
   },
   "evidence/platform_differences.csv": {
-   "sha256": "273af7efde5d8411667876b233df5327ec80e69ad42d9952eed5174d98c96fa1",
-   "bytes": 9889
+   "sha256": "748ff5420f4a06538075037d9d68a4b6278f883d9b87ed1500564c3725acc91a",
+   "bytes": 9970
   },
   "evidence/shader_type.csv": {
    "sha256": "367acfdbd9d21367f41ce04845c6cb22b09832b2ed771df38717f646d22fa2b8",
@@ -289,8 +298,8 @@
    "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "04ed2957480ad012f4fbb41e8a32a7f7f05a7bcd21afbe604face33bb95abffb",
-   "bytes": 1352192
+   "sha256": "f7794c082ed6d92655005a459132155ec845e8f63e887233576529df42775586",
+   "bytes": 1352187
   },
   "evidence/xnvse_name_notes.csv": {
    "sha256": "4306f17fc523571b79049c5078e9db61665e8478dfcac87d4dcdfbacef1ef9de",
@@ -329,8 +338,8 @@
    "bytes": 2015
   },
   "tools/evidence.py": {
-   "sha256": "a27de9965f41e9c6fdb84faa672348376a231d29f69d2b79f873fc87eb9c74e7",
-   "bytes": 95101
+   "sha256": "f9e771998f833a0fb8c3aaf6e64b72f75db37c877c7714ab8b6fdd1db8f62c3f",
+   "bytes": 97552
   },
   "tools/evidence_spec.json": {
    "sha256": "5732a729b2b50f669314419b3e8346fcecc6d06cdf3536dd0e32431468acea51",
@@ -381,8 +390,8 @@
    "bytes": 1694
   },
   "tools/report_extras.py": {
-   "sha256": "1a5bf3a5aafecd65ae745fa55fd23c4f81df05fe922d0078fc8125ac4f3d256e",
-   "bytes": 10409
+   "sha256": "7a04019a2ac2a4458e39c7081598f0cb79dd44b909d60bb63779950538a25244",
+   "bytes": 10541
   },
   "tools/scripts_src/build.py": {
    "sha256": "4e3e4bfa9340dfdc4e5cd257d9f4f4220f69e7fa8bdd6e643109e5d70d77574d",

@@ -24,8 +24,9 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   name+stack   — имя PC совпадает с Xbox, и очистка стека (ret N) = ожидаемой по прототипу Xbox;
   stack        — имени нет/другое, но ret N совпадает — прототип только согласуется, не доказан;
   name         — имя совпадает, ret N расходится — прототип под сомнением;
-  stub         — заглушка (UnimplementedVirtFunc, ret 0 и т.п.; v0.5.1 — и «jmp <пустая функция>»: пустые функции
-                 компоновщик сливает в одну, имя такой копии в PDB xNVSE случайно) — ничего не доказывает;
+  stub         — заглушка (UnimplementedVirtFunc, ret 0 и т.п.; v0.5.2 — и цепочка прямых jmp, которая кончается
+                 функцией из одной команды ret/ret N — проверено по коду, а не по имени: пустые функции компоновщик
+                 сливает в одну, имя такой копии в PDB xNVSE случайно) — ничего не доказывает;
   thunk        — v0.5.1: ни имя, ни стек не совпали, но функция — переходник «mov r,[ecx]; mov r2,[r+N]; jmp r2»:
                  вызывает собственный слот N/4 того же объекта; прототип им не проверяется (не ошибка vtable);
   MISMATCH     — ни имя, ни стек не совпали.
@@ -284,21 +285,44 @@ def global_users(addr):
         out.add(func_start(0x401000 + i))
 
 
-def slot_forward(f):
-    """v0.5.1: короткая функция-переходник в слоте vtable. Возвращает ('stub', цель) для «jmp <пустая функция>»
-    (несколько одинаковых пустых функций компоновщик сливает в одну, и её имя в PDB xNVSE случайно),
-    ('thunk', N) для «mov r, [ecx]; mov r2, [r+N]; jmp r2» — вызов собственного слота N/4 того же объекта; иначе None."""
-    ins = list(md.disasm(img[f - B:f - B + 16], f))[:3]
-    if ins and ins[0].mnemonic == 'jmp' and ins[0].op_str.startswith('0x'):
-        t = int(ins[0].op_str, 16)
-        if STUB.search(name_at(t)):
-            return ('stub', t)
-    if len(ins) == 3 and ins[0].mnemonic == 'mov' and ins[0].op_str.endswith('dword ptr [ecx]') \
-            and ins[1].mnemonic == 'mov' and ins[2].mnemonic == 'jmp':
-        m = re.match(r'(\w+), dword ptr \[(\w+) \+ (0x[0-9a-f]+)\]$', ins[1].op_str)
-        r0 = ins[0].op_str.split(',')[0]
-        if m and m.group(2) == r0 and ins[2].op_str == m.group(1):
-            return ('thunk', int(m.group(3), 16))
+# исполняемые секции образа (для обхода цепочек переходов)
+EXEC = [(B + sc.VirtualAddress, B + sc.VirtualAddress + max(sc.Misc_VirtualSize, sc.SizeOfRawData))
+        for sc in pe.sections if sc.Characteristics & 0x20000000]
+
+
+def _in_exec(va):
+    return any(lo <= va < hi for lo, hi in EXEC)
+
+
+def slot_forward(f, max_hops=8):
+    """v0.5.2: короткая функция-переходник в слоте vtable.
+    ('stub', цепочка, retN) — цепочка прямых jmp (до max_hops, без повторов, только внутри исполняемых секций)
+      кончается функцией, первая команда которой — ret / ret N, то есть пустой функцией. Пустота проверяется по коду,
+      а не по имени (одинаковые пустые функции компоновщик сливает, и имя слитой копии в PDB xNVSE случайно);
+    ('thunk', N, цепочка) — после той же цепочки «mov r, [ecx]; mov r2, [r+N]; jmp r2»: вызов собственного слота N/4;
+    иначе None."""
+    chain, cur, seen = [f], f, {f}
+    for _ in range(max_hops + 1):
+        ins = list(md.disasm(img[cur - B:cur - B + 16], cur))[:3]
+        if not ins:
+            return None
+        if ins[0].mnemonic == 'ret':
+            return ('stub', chain, int(ins[0].op_str, 16) if ins[0].op_str else 0) if len(chain) > 1 else None
+        if ins[0].mnemonic == 'jmp' and ins[0].op_str.startswith('0x'):
+            t = int(ins[0].op_str, 16)
+            if t in seen or not _in_exec(t):
+                return None
+            seen.add(t)
+            chain.append(t)
+            cur = t
+            continue
+        if len(ins) == 3 and ins[0].mnemonic == 'mov' and ins[0].op_str.endswith('dword ptr [ecx]') \
+                and ins[1].mnemonic == 'mov' and ins[2].mnemonic == 'jmp':
+            m = re.match(r'(\w+), dword ptr \[(\w+) \+ (0x[0-9a-f]+)\]$', ins[1].op_str)
+            r0 = ins[0].op_str.split(',')[0]
+            if m and m.group(2) == r0 and ins[2].op_str == m.group(1):
+                return ('thunk', int(m.group(3), 16), chain)
+        return None
     return None
 
 
@@ -940,9 +964,16 @@ for cname, c in CLS.items():
                 elif stub:
                     st = 'stub'
                 elif fw and fw[0] == 'stub':
-                    st, fwnote = 'stub', f'переход на пустую функцию 0x{fw[1]:08X} ({name_at(fw[1])}); имя {pn} — от слитой копии'
+                    ch = ' → '.join(f'0x{a:08X}' for a in fw[1])
+                    st, fwnote = 'stub', (f'цепочка jmp {ch}: последняя функция — ret {fw[2]} (пустая; ожидаемая очистка '
+                                          f'стека {exp} — {"совпадает" if fw[2] == exp else "НЕ совпадает"}); имя {pn} — '
+                                          f'от слитой копии')
                 elif fw and fw[0] == 'thunk' and not nm_ok and not st_ok:
-                    st, fwnote = 'thunk', f'переходник: вызывает собственный слот {fw[1] // 4} (vtable+0x{fw[1]:X}) того же объекта'
+                    tgt = u32(tab + fw[1])
+                    ch = ' → '.join(f'0x{a:08X}' for a in fw[2])
+                    st, fwnote = 'thunk', (f'переходник ({ch}): вызывает собственный слот {fw[1] // 4} (vtable+0x{fw[1]:X}) '
+                                           f'того же объекта; в этой vtable слот {fw[1] // 4} = 0x{tgt:08X} ({name_at(tgt)}), '
+                                           f'ret {" ".join(map(str, sorted(rets(tgt), key=str))) or "?"}')
                 elif nm_ok and st_ok:
                     st = 'name+stack'
                 elif st_ok:
@@ -1403,7 +1434,11 @@ rep += ['', '## Допуск в строгий PDB', '', summary['admission_rule
         'Не допущены: ' + (', '.join(f"`{c}` ({sc['size_status']})" for c, sc in summary['classes'].items() if not sc['strict']) or 'нет') + '.',
         '', 'Функции, прочитанные не до конца (лимит 0x%X байт): %s.' % (READ_LIMIT, ', '.join(summary['truncated_functions']) or 'нет')]
 rep += ['', f'Строк в evidence_fields.csv: {len(field_rows)}, evidence_vslots.csv: {len(slot_rows)}, '
-            f'evidence_sizes.csv: {len(sizes_rows)}.', '', 'Итого: ' + ', '.join(f'{k}={v}' for k, v in sorted(tot.items()))]
+            f'evidence_sizes.csv: {len(sizes_rows)}.', '', 'Итого: ' + ', '.join(f'{k}={v}' for k, v in sorted(tot.items())),
+        '', 'Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала '
+        'evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): '
+        + ', '.join(f'{k}={v}' for k, v in sorted(collections.Counter(r['status'] for r in slot_rows).items())) + '.']
+print('строки evidence_vslots.csv:', dict(sorted(collections.Counter(r['status'] for r in slot_rows).items())))
 if excluded_rows:
     rep += ['', '## Исключённые функции (имя в PDB xNVSE не соответствует коду)', '']
     rep += [f"- `{r['pc_func_va']}` `{r['pc_name']}` — из проверки `{r['class']}`: {r['reason']}" for r in excluded_rows]

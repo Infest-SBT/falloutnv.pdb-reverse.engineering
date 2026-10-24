@@ -54,12 +54,13 @@ for t, (sz, al) in spec.get('pc_type_layout', {}).items():
     diff.append({'kind': 'размер/выравнивание типа', 'item': t, 'xbox': '', 'pc': pc_,
                  'basis': {'NiMatrix3': 'на Xbox 3 строки по 16 байт (VMX); на PC 9 float подряд — evidence (NiAVObject.m_kWorld, NiTransform)',
                            '_RTL_CRITICAL_SECTION': 'CRITICAL_SECTION на PC 0x18 (на Xbox 0x1C)',
-                           'NiCriticalSection': 'на PC, как и на Xbox, 0x80 байт и в классах на смещениях, кратных 0x80, с пустыми '
-                                                'промежутками перед ними (так компилятор раскладывает тип с выравниванием 128): '
-                                                'NiRenderer — секции на +0x80/+0x100/+0x180, BSShaderAccumulator — на +0x200 при '
-                                                'sizeof 0x280 (обращения PC подтверждают эти смещения). Выравнивание самого объекта '
-                                                'в памяти на 128 не доказано (обычное выделение его не гарантирует); в PDB alignof '
-                                                'NiRenderer и BSShaderAccumulator = 4, alignas(128) не вводится'}.get(t, ''),
+                           'NiCriticalSection': 'блок 0x80 байт; обнаружены смещения блоков внутри классов, кратные 0x80, с пустыми '
+                                                'промежутками перед ними: NiRenderer — +0x80/+0x100/+0x180, BSShaderAccumulator — '
+                                                '+0x200 при sizeof 0x280 (смещения подтверждены обращениями PC). Почему так '
+                                                '(выравнивание типа у компилятора, явные заполнители или особая структура) — не '
+                                                'установлено; выравнивание самого объекта в памяти на 128 не доказано (обычное '
+                                                'выделение его не гарантирует). В PDB alignof NiRenderer и BSShaderAccumulator = 4, '
+                                                'alignas(128) не вводится'}.get(t, ''),
                  'consequence': 'классы Gamebryo с NiMatrix3/NiTransform (NiAVObject и все узлы сцены) на PC меньше: смещения пересчитаны'
                  if t == 'NiMatrix3' else ''})
 for cls, fx in spec.get('pc_field_fix', {}).items():
