@@ -4,6 +4,26 @@
 проверенные по коду PC, поверх публичных имён из PDB xNVSE. Номер версии: `x.y` — новый раздел типов,
 `x.y.z` — исправления без нового раздела. Подробности каждой версии — в `README_RU.md` её тега.
 
+## [0.5] — 2026-10-24 — Рендер
+
+### Добавлено
+- 44 класса рендера: основа Gamebryo, `NiPoint3`/`NiMatrix3`/`NiTransform`/`NiBound`, граф сцены (`NiAVObject`,
+  `NiNode`, `BSFadeNode`, `ShadowSceneNode`, `ShadowSceneLight`), свойства и шейдерные свойства, геометрия,
+  `NiCamera`, текстуры, накопители (`BSShaderAccumulator`, `BSBatchRenderer`), `NiRenderer`, шейдеры
+  (`BSShader`, `NiD3DPass` …), `ImageSpaceManager`, `MTRenderingSystem`.
+- `NiDX9Renderer` (только PC, 0xB80): устройство D3D9 +0x288, матрицы вида/проекции +0x980/+0x9C0.
+- `BSShaderManager::eBSSMPassEnum` с нумерацией PC (743 значения по `GetPassName`, 696 отличаются от Xbox) и
+  `ShaderTypeEnum` (20 из 30) — `verify_render_enums.py`.
+- `tools/pclayout.py`: `NiMatrix3` на PC 0x24 (на Xbox 0x30), отсюда пересчёт всех узлов сцены.
+- Проверка сдвигом (`layout_shift_test.csv`) — ловит пропущенное поле среди полей одной ширины.
+
+### Изменено
+- Строгий PDB: поле с противоречием вида типа не типизируется; композиция — и аргументом на стеке, и раскладкой
+  POD-структуры; `AbstractHeap::LargeFreeList` снова с типом.
+
+### Исправлено
+- До выпуска: раскладка `BSShaderPPLightingProperty` (на PC 6 массивов текстур, а не 7).
+
 ## [0.4.2] — 2026-10-22 — Ширина полей и композиция (аудит Астры v0.4.1)
 
 ### Изменено

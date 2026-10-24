@@ -1,4 +1,4 @@
-"""Сводные таблицы для потребителя PDB (v0.4.1+), только из опубликованных данных пакета:
+"""Сводные таблицы для потребителя PDB (v0.4.1+, дополнено в v0.5), только из опубликованных данных пакета:
 
   platform_differences.csv — чем PC 1.4.0.525 отличается от Xbox 360 в описанных типах: размеры типов и классов,
                              поля только PC, слоты vtable, перечисления, классы только одной платформы;
@@ -27,7 +27,7 @@ for t, pcs in spec.get('pc_sizeof', {}).items():
                  'pc': f'0x{pcs:X}', 'basis': 'на PC CRITICAL_SECTION 0x18; поля после него сдвинуты на −4',
                  'consequence': 'смещения полей после каждого BSCriticalSection на PC меньше на 4'})
 for c in meta['classes']:
-    if c.get('pc_only'):
+    if c.get('pc_only') or c['name'] in spec.get('pc_classes', {}):
         continue
     if c['xbox_size'] != c['pc_size']:
         s = summ[c['name']]
@@ -46,16 +46,38 @@ for cls, slots in spec.get('drop_vslots', {}).items():
         diff.append({'kind': 'слот vtable', 'item': f'{cls} слот {sl} (Xbox)', 'xbox': 'есть', 'pc': 'нет',
                      'basis': 'PC-vtable по RTTI: номера слотов после него на 1 меньше',
                      'consequence': 'номера виртуальных методов после него на PC сдвинуты на −1'})
+for t, (sz, al) in spec.get('pc_type_layout', {}).items():
+    diff.append({'kind': 'размер/выравнивание типа', 'item': t, 'xbox': '', 'pc': f'0x{sz:X}, выравнивание {al}',
+                 'basis': {'NiMatrix3': 'на Xbox 3 строки по 16 байт (VMX); на PC 9 float подряд — evidence (NiAVObject.m_kWorld, NiTransform)',
+                           '_RTL_CRITICAL_SECTION': 'CRITICAL_SECTION на PC 0x18 (на Xbox 0x1C)',
+                           'NiCriticalSection': 'на PC, как и на Xbox, 0x80 с выравниванием 128: NiRenderer — секции на +0x80/+0x100/+0x180, '
+                                                'BSShaderAccumulator — на +0x200 при sizeof 0x280'}.get(t, ''),
+                 'consequence': 'классы Gamebryo с NiMatrix3/NiTransform (NiAVObject и все узлы сцены) на PC меньше: смещения пересчитаны'
+                 if t == 'NiMatrix3' else ''})
+for cls, fx in spec.get('pc_field_fix', {}).items():
+    diff.append({'kind': 'поля класса', 'item': cls, 'xbox': 'см. Xbox PDB', 'pc': f"sizeof 0x{fx.get('size', 0):X}" if fx.get('size') else '',
+                 'basis': fx.get('note', ''), 'consequence': 'смещения и размер из Xbox PDB для этих полей на PC неверны'})
 for cls, pc in spec.get('pc_classes', {}).items():
+    if pc.get('xbox_size'):
+        diff.append({'kind': 'раскладка класса', 'item': cls, 'xbox': f"0x{pc['xbox_size']:X}", 'pc': f"0x{pc['size']:X}",
+                     'basis': f"{summ[cls]['size_status']}: {', '.join(summ[cls]['size_basis']) or '—'}", 'consequence': pc.get('note', '')})
+        continue
     diff.append({'kind': 'класс только PC', 'item': f"{cls} : {pc['base']}", 'xbox': 'нет', 'pc': f"0x{pc['size']:X}",
                  'basis': f"{summ[cls]['size_status']}: {', '.join(summ[cls]['size_basis'])}; поля по коду PC (own)",
                  'consequence': pc.get('note', '')})
 for e, vals in spec.get('pc_enum_values', {}).items():
-    for name, v, src in vals:
-        if src:
-            diff.append({'kind': 'значение перечисления', 'item': f'{e}::{name}',
-                         'xbox': ('нет' if src.startswith('own') else src.replace('на Xbox ', '')), 'pc': str(v),
-                         'basis': 'evidence/memory_passes.csv', 'consequence': 'значение на PC другое — Xbox-номер неверен'})
+    changed = [(name, v, src) for name, v, src in vals if src]
+    if len(changed) > 20:
+        moved = sum(1 for _, _, src in changed if src.startswith('на Xbox'))
+        diff.append({'kind': 'нумерация перечисления', 'item': e, 'xbox': f'{moved} значений с другим номером',
+                     'pc': f'{len(vals)} значений, из них {len(changed) - moved} только на PC',
+                     'basis': 'evidence/pass_enum.csv (BSShaderManager::GetPassName)' if 'Pass' in e else '',
+                     'consequence': 'номера из Xbox PDB на PC неверны — брать из этого PDB'})
+        continue
+    for name, v, src in changed:
+        diff.append({'kind': 'значение перечисления', 'item': f'{e}::{name}',
+                     'xbox': ('нет' if src.startswith('own') else src.replace('на Xbox ', '')), 'pc': str(v),
+                     'basis': 'evidence/memory_passes.csv', 'consequence': 'значение на PC другое — Xbox-номер неверен'})
 for r in rows('change_flags.csv'):
     if r['status'] == 'renamed':
         diff.append({'kind': 'имя значения', 'item': f"CHANGE_TYPE {r['pc_value']}", 'xbox': r['xbox_name'], 'pc': r['pc_name'],

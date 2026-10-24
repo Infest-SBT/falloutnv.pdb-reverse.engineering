@@ -5,14 +5,35 @@ kind,item,xbox,pc,basis,consequence
 размер класса,MemoryHeap,0x20F8,0x20F4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 размер класса,MemoryManager,0x134,0x138,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 размер класса,BGSSaveLoadManager,0x30,0x38,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTransform,0x40,0x34,confirmed: contained,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiAVObject,0xC0,0x9C,confirmed: subclass-boundary,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiNode,0xD0,0xAC,"confirmed: ctor-alloc, subclass-boundary",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,BSFadeNode,0x110,0xE4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,BSShaderPPLightingProperty,0x108,0x104,"confirmed: ctor-alloc, ctor-alloc-derived",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiGeometry,0xF0,0xC4,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTriBasedGeom,0xF0,0xC4,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTriShape,0xF0,0xC4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTriStrips,0xF0,0xC4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiCamera,0x140,0x114,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,ShadowSceneNode,0x230,0x200,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 поле только PC,MemoryManager::iMainThreadMemoryProblemPassSignal,нет,+0x134 (unsigned),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
 поле только PC,BGSSaveLoadManager::bShouldSystemSave,нет,+0x11 (bool),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
 поле только PC,BGSSaveLoadManager::sSystemSaveName,нет,+0x30 (BSStringT<char>),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
 слот vtable,BSAudio слот 1 (Xbox),есть,нет,PC-vtable по RTTI: номера слотов после него на 1 меньше,номера виртуальных методов после него на PC сдвинуты на −1
+слот vtable,NiD3DShader слот 59 (Xbox),есть,нет,PC-vtable по RTTI: номера слотов после него на 1 меньше,номера виртуальных методов после него на PC сдвинуты на −1
+слот vtable,NiD3DShader слот 60 (Xbox),есть,нет,PC-vtable по RTTI: номера слотов после него на 1 меньше,номера виртуальных методов после него на PC сдвинуты на −1
+слот vtable,BSShaderPPLightingProperty слот 65 (Xbox),есть,нет,PC-vtable по RTTI: номера слотов после него на 1 меньше,номера виртуальных методов после него на PC сдвинуты на −1
+размер/выравнивание типа,NiMatrix3,,"0x24, выравнивание 4","на Xbox 3 строки по 16 байт (VMX); на PC 9 float подряд — evidence (NiAVObject.m_kWorld, NiTransform)",классы Gamebryo с NiMatrix3/NiTransform (NiAVObject и все узлы сцены) на PC меньше: смещения пересчитаны
+размер/выравнивание типа,_RTL_CRITICAL_SECTION,,"0x18, выравнивание 4",CRITICAL_SECTION на PC 0x18 (на Xbox 0x1C),
+размер/выравнивание типа,NiCriticalSection,,"0x80, выравнивание 128","на PC, как и на Xbox, 0x80 с выравниванием 128: NiRenderer — секции на +0x80/+0x100/+0x180, BSShaderAccumulator — на +0x200 при sizeof 0x280",
+поля класса,BSShaderPPLightingProperty,см. Xbox PDB,sizeof 0x104,"sizeof 0x104 (CreateObject 0x00B68D92 и CreateClone выделяют 0x104). На PC массив spTextures — 6 указателей, а не 7 (конструктор 0x00B66F50 обходит ровно 6 массивов текстур с +0xAC), поэтому все поля после него на 4 байта раньше, чем на Xbox, в том же порядке: pSpecularExponent +0xC4 (конструктор пишет 0x1E в оба байта), usLandscapeTextures +0xC8 (GetLandscapeTextureCount 0x00B671F0 читает word [ecx+0xC8]), pbGlossMap +0xCC, spTangentSpaceData +0xD0 (StoreExtraDataPointers 0x00539F20), TextureClampMode +0xD8 (GetClampNI 0x00B671C0), spTexEffectData +0xDC (SetTexEffectData 0x00B675C0), fRefractionPower +0xE0 (SetRefractionStrength 0x00B66700), fParallaxOccMaxPasses +0xE8 (SetMaxParallaxPasses 0x0068C8B0), fTerrainTexOffsetX/Y/Fade +0xF0/+0xF4/+0xF8 (SetLODTexParams 0x006FB940), pRenderDepthPass +0x100 (GetDepthPass 0x00B66E20)",смещения и размер из Xbox PDB для этих полей на PC неверны
 класс только PC,BSWin32GameSound : BSGameSound,нет,0x230,confirmed: ctor-alloc; поля по коду PC (own),"Аналог на Xbox — BSXenonGameSound (XAudio2), раскладка другая. Тип COM-полей — по набору вызываемых слотов vtable (DirectSound API)"
 класс только PC,BSWin32Audio : BSAudio,нет,0xA4,confirmed: bounds; поля по коду PC (own),Единственный объект — BSWin32Audio::Instance (0x011F7080)
+раскладка класса,NiMatrix3,0x30,0x24,confirmed: array-span,"на Xbox 3 строки по 16 байт (NiPoint4, выравнивание под VMX), на PC — 3×3 float подряд, построчно"
+класс только PC,NiDX9Renderer : NiRenderer,нет,0xB80,confirmed: ctor-alloc; поля по коду PC (own),Рендерер DirectX 9 (только PC): описаны только поля с однозначным назначением по коду PC — геттеры xNVSE и вызовы через указатели; остальные ~0x800 байт не разобраны. Единственный объект — *NiRenderer::ms_pkRenderer (0x011F4748).
 значение перечисления,MemoryPasses::MP_FREE_UNUSED_POOL_PAGES,нет,6,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
 значение перечисления,MemoryPasses::MP_ALLOW_OVER_HEAP,6,7,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
 значение перечисления,MemoryPasses::MP_COMPLETELY_OUT,7,8,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
+нумерация перечисления,BSShaderManager::eBSSMPassEnum,696 значений с другим номером,"743 значений, из них 5 только на PC",evidence/pass_enum.csv (BSShaderManager::GetPassName),номера из Xbox PDB на PC неверны — брать из этого PDB
 имя значения,CHANGE_TYPE 0x00040000,CHANGE_ACTOR_EXTRA_LEVELED_ACTOR,CHANGE_ACTOR_LEVELED_ACTOR,BGSChangeFlags::GetFlagName,"значение то же, строка другая"
 недостижимый код,CHANGE_DOOR_EXTRA_TELEPORT,0x00020000,0x00020000,evidence/change_flags.csv,"мёртвая ветвь на PC: требует formType 28 (DOOR), а сюда доходят только PCBE"

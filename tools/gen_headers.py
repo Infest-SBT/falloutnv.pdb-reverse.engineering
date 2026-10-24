@@ -18,9 +18,10 @@ spec.json:
 (#pragma pack(1) — только у класса, упакованного и на Xbox, и на PC: BGSSaveLoadFormHeader), поэтому раскладка
 в PDB совпадает с проверенной PC-раскладкой байт в байт; для каждого поля, sizeof и alignof — static_assert.
 """
-import json, re, sys, os
+import collections, json, re, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from layout import Types
+from pclayout import PCLayout
 
 types_path, spec_path, out_path = sys.argv[1:4]
 STRICT = '--strict' in sys.argv
@@ -42,6 +43,10 @@ GENUMS = spec.get('global_enums', {})
 PACKED = set(spec.get('packed', []))
 VALUE_AS = spec.get('value_as', {})
 PCC = spec.get('pc_classes', {})   # классы только PC (нет в Xbox PDB): база, размер; поля — в extra_fields
+# v0.5: классы, раскладка которых на PC вычисляется заново по правилам MSVC x86 из состава полей Xbox
+# (а не сдвигом Xbox-смещений): нужны там, где на Xbox поля выровнены под VMX (NiMatrix3 по 16 байт)
+RELAYOUT = set(spec.get('relayout', []))
+PCL = PCLayout(T, {k: tuple(v) for k, v in spec.get('pc_type_layout', {}).items()})
 
 PRIM = {'void', 'bool', 'char', 'signed char', 'unsigned char', 'short', 'unsigned short', 'int', 'unsigned',
         'unsigned int', 'long', 'unsigned long', 'float', 'double', '__int64', 'unsigned __int64',
@@ -111,7 +116,13 @@ def mfunc_sig(ti):
                 a = c_type(mm.group(1)) or 'void*'
                 args.append(a)
                 bt = a.replace('const ', '')
-                nbytes += ARGSZ.get(bt, -(-VALUE_TYPES[bt] // 4) * 4 if bt in VALUE_TYPES else 4)
+                if bt in VALUE_TYPES:
+                    vsz = VALUE_TYPES[bt]
+                elif bt in declared and not bt.endswith('*'):
+                    vsz = PCL.sa(bt)[0]      # v0.5: описанный класс по значению (NiPoint3) — его PC-размер
+                else:
+                    vsz = 4
+                nbytes += ARGSZ.get(bt, -(-vsz // 4) * 4)
     VALUE_OK = False
     if 'returns cxx udt' in body:
         nbytes += 4   # скрытый указатель на результат
@@ -251,22 +262,53 @@ for cls in CLASSES:
             first = False
         L = dict(L, members=sorted(mem), bases=[])
         base = None
+    if cls in RELAYOUT and base and base not in declared:
+        BL0 = T.layout(base)
+        if BL0 and not BL0['members'] and not BL0['virtuals'] and not BL0['bases']:
+            base = None          # пустая база без данных (NiMemObject): в раскладке 0 байт, не описываем
     bsize = pc_size.get(base, 0) if base else 0
     vptr = 0 if base else (4 if L['virtuals'] else 0)
     xb_members = [(o, n, t) for o, n, t in L['members']]
+    PL = PCL.layout(cls) if cls in RELAYOUT and cls not in PCC else None
+    if PL is not None and base:
+        pb = [po for b, xo, po in PL['bases'] if b == base]
+        pbs = PCL.layout(base)['size']
+        assert pb == [0] and pbs == bsize, f'{cls}: база {base}: генератор {bsize:#x}, PCLayout {pbs:#x}'
     # Xbox-смещения -> PC-смещения: накапливаем сдвиг от типов с другим размером на PC
     xb_base_end = (T.layout(base)['size'] if base else 0)
     delta = 0 if cls in PCC else bsize - xb_base_end
     fields = []
-    for k, (o, n, t) in enumerate(xb_members):
+    moved_any = False      # v0.5: смещение хоть одного своего поля на PC не такое, как на Xbox
+    XO = {}                # v0.5: смещение поля на Xbox (для проверки сдвигом в evidence.py)
+    for k, (o, n, t) in enumerate([] if PL is not None else xb_members):
         nxt = xb_members[k + 1][0] if k + 1 < len(xb_members) else L['size']
         xs = nxt - o
         tb = t.split('[')[0].strip()
         ps = PCSZ.get(tb)
         sz = ps if ps is not None else xs
         fields.append((o + delta, n, t, sz))
+        XO[n] = o
+        moved_any = moved_any or bool(delta)
         if ps is not None:
             delta += ps - xs
+    FIX = spec.get('pc_field_fix', {}).get(cls, {})
+    if PL is not None:
+        for po, n, t, s_, xo in PL['members']:
+            if t.startswith('bitfield') or n in FIX.get('drop', []):
+                continue
+            fields.append((FIX.get('move', {}).get(n, po), n, t, PCL.sa(t)[0]))
+            XO[n] = xo
+        fields.sort()
+        # v0.5: массив на PC короче/длиннее, чем на Xbox ('resize': {поле: байт на PC}) — все поля после него
+        # сдвигаются на разницу (порядок полей тот же; основание — код PC, см. note)
+        for rn, rbytes in FIX.get('resize', {}).items():
+            k = next(i for i, f in enumerate(fields) if f[1] == rn)
+            ro, _, rt, rsz = fields[k]
+            assert re.search(r'\[\d+ bytes\]', rt), (cls, rn, rt)
+            d = rbytes - rsz
+            rt2 = re.sub(r'\[\d+ bytes\]', f'[{rbytes} bytes]', rt)
+            fields = [(o + d, n_, t_, s_) if o > ro else f_ for f_ in fields for (o, n_, t_, s_) in [f_]]
+            fields[k] = (ro, rn, rt2, rbytes)
     own_src, own_note = {}, {}
     ext_end = 0
     for e in EXTRA.get(cls, []):
@@ -277,13 +319,21 @@ for cls in CLASSES:
             own_note[fn] = e[5]
         fields.append((fo, fn, ft, esz))
         ext_end = max(ext_end, fo + esz)
-    size = PCC[cls]['size'] if cls in PCC else max(L['size'] + delta, -(-ext_end // 4) * 4)
+    size = PCC[cls]['size'] if cls in PCC else max((PL['size'] if PL is not None else L['size'] + delta),
+                                                   -(-ext_end // 4) * 4)
+    if FIX.get('size'):
+        size = FIX['size']      # v0.5: размер PC по коду (выделение памяти), когда на PC нет части полей Xbox
     pc_size[cls] = size
-    if cls in PCC:
+    if cls in PCC and PCC[cls].get('xbox_size'):
+        lines = [f'// {cls} (Xbox PDB): Xbox sizeof 0x{PCC[cls]["xbox_size"]:X}, PC sizeof 0x{size:X}; раскладка PC другая — '
+                 + PCC[cls].get('note', '')]
+    elif cls in PCC:
         lines = [f'// {cls} (только PC: в Xbox PDB нет): PC sizeof 0x{size:X}; поля восстановлены по коду PC, имена наши (own). '
                  + PCC[cls].get('note', '')]
     else:
         lines = [f'// {cls} (Xbox PDB): Xbox sizeof 0x{L["size"]:X}, PC sizeof 0x{size:X}']
+        if FIX.get('note'):
+            lines.append(f'// PC отличается от Xbox: {FIX["note"]}')
     kw = 'class' if cls in PCC else ('struct' if T.rec[T.byname[cls]][0] == 'LF_STRUCTURE' else 'class')
     lines.append(f'{kw} {cls}' + (f' : public {base}' if base else '') + ' {')
     lines.append('public:')
@@ -302,6 +352,12 @@ for cls in CLASSES:
         BL = T.layout(b)
         b = BL['bases'][0][0] if BL and BL['bases'] else None
     drops = DROP.get(cls, set())                        # слотов НЕТ на PC: номера после них сдвигаются
+    chain_drops = set(drops)                            # v0.5: и слоты, выпавшие в базах, сдвигают номера наследника
+    b = base
+    while b:
+        chain_drops |= DROP.get(b, set())
+        BL = T.layout(b) if b not in PCC else None
+        b = BL['bases'][0][0] if BL and BL['bases'] else None
     omits = set(spec.get('omit_vslots', {}).get(cls, []))   # слоты есть, но не описываются (номера не сдвигаются)
     byslot = {}
     for s, n, ti in vs:
@@ -312,14 +368,22 @@ for cls in CLASSES:
         byslot.setdefault(s, (n, ti))
     xb_slots = sorted(set(s for s, _, _ in vs if s >= base_slots and s not in drops and s not in omits))
     used = {}
-    cm = {'name': cls, 'base': base, 'pc_size': size, 'xbox_size': None if cls in PCC else L['size'],
-          'pc_only': cls in PCC, 'vslots': [], 'fields': []}
+    cm = {'name': cls, 'base': base, 'pc_size': size,
+          'xbox_size': PCC[cls].get('xbox_size') if cls in PCC else L['size'],
+          'pc_only': cls in PCC and not PCC[cls].get('xbox_size'), 'vslots': [], 'fields': []}
+    if PL is not None:
+        cm['relayout'] = True
+    # v0.5: раскладка своих полей на PC отличается от Xbox (PC-класс, правка по коду, другой размер, сдвиг полей) —
+    # такой класс проверка сдвигом (evidence.py) судит строго: неоднозначные поля в строгий PDB не идут
+    xb_off = {n: xo for po, n, t, s_, xo in PL['members']} if PL is not None else {}
+    cm['layout_differs'] = bool(cls in PCC or FIX or moved_any or size != L['size']
+                                or any(xb_off.get(n, fo) != fo for fo, n, t, _ in fields))
     vdd = {s for s, n, _ in vs if n == '__vecDelDtor'}
     for s in xb_slots:
         if s not in byslot and s in vdd:
             byslot[s] = ('~' + cls, None)       # слот только со скалярным деструктором: это деструктор
         n, ti = byslot.get(s, (f'_vslot{s}', None))
-        pcslot = s - sum(1 for d in drops if d < s)
+        pcslot = s - sum(1 for d in chain_drops if d < s)
         if n.startswith('~'):
             lines.append(f'    virtual ~{cls}(); // слот {pcslot}')
             cm['vslots'].append({'slot': pcslot, 'xbox_slot': s, 'name': '~' + cls, 'decl': f'~{cls}()',
@@ -341,11 +405,25 @@ for cls in CLASSES:
         pos = 8   # MSVC: при выравнивании класса 8 указатель на vtable сам добивается до 8 (поля с +8)
     align = 4 if vptr else (meta_align.get(base, 1) if base else 1)
     lines.append('    // поля')
+    UNDESC = cls in PCC and PCC[cls].get('undescribed_blobs')   # v0.5: неразобранные участки — именованные байты
+
+    def gap(a, b_):
+        if UNDESC:
+            # участок класса, который используется кодом PC, но не разобран: непрозрачные байты (не _pad),
+            # чтобы обращения туда считались «внутри неразобранного», а не «в заполнитель»
+            gn = f'_undescribed_{a:X}'
+            lines.append(f'    unsigned char {gn}[0x{b_ - a:X}]; // не разобрано')
+            asserts.append(f'static_assert(offsetof({cls}, {gn}) == 0x{a:X}, "{cls}::{gn}");')
+            cm['fields'].append({'name': gn, 'off': a, 'size': b_ - a, 'xbox_type': 'не разобрано', 'opaque': True,
+                                 'decl': f'unsigned char {gn}[0x{b_ - a:X}];', 'source': 'undescribed',
+                                 'class_type': None, 'class_array_of': None})
+        else:
+            lines.append(f'    unsigned char _pad{a:X}[0x{b_ - a:X}];')
     for po, n, t, sz in sorted(fields):
         if po < pos:
             continue  # перекрытие (union/битовые поля) — пропускаем
         if po > pos:
-            lines.append(f'    unsigned char _pad{pos:X}[0x{po - pos:X}];')
+            gap(pos, po)
         mc = member_c(n, t, sz, packed)
         if mc is None:
             continue
@@ -367,7 +445,8 @@ for cls in CLASSES:
                                          + (f' — {own_note[n]}' if n in own_note else '') if n in own_src else ''))
         align = 1 if packed else max(align, fa)
         asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
-        cm['fields'].append({'name': n, 'off': po, 'size': tsz, 'xbox_type': t, 'opaque': opaque,
+        cm['fields'].append({'name': n, 'off': po, 'xbox_off': XO.get(n[12:] if n.startswith('_unverified_') else n),
+                             'size': tsz, 'xbox_type': t, 'opaque': opaque,
                              'decl': decl.split(' //')[0], 'source': own_src.get(n, 'xbox_pdb'),
                              'class_type': t if (t in declared and t in pc_size) else None,
                              'class_array_of': (re.match(r'(.*)\[\d+ bytes\]$', t).group(1).strip()
@@ -375,7 +454,7 @@ for cls in CLASSES:
                                                 re.match(r'(.*)\[\d+ bytes\]$', t).group(1).strip() in pc_size else None)})
         pos = po + tsz
     if pos < size:
-        lines.append(f'    unsigned char _pad{pos:X}[0x{size - pos:X}];')
+        gap(pos, size)
     meta_align[cls] = align
     cm['align'] = align
     meta['classes'].append(cm)
@@ -436,17 +515,32 @@ def strict_enum_names(e):
         return {r['name'] for r in rows('sound_msg.csv') if r['status'] == 'name-consistent'}
     if e == 'MEM_CONTEXT':
         return {r['name'] for r in rows('mem_context.csv') if r['status'] == 'name-consistent'}
+    if e == 'BSShaderManager::eBSSMPassEnum':
+        return {r['name'] for r in rows('pass_enum.csv') if r['status'] == 'confirmed'}
+    if e == 'BSShaderManager::ShaderTypeEnum':
+        return {r['name'] for r in rows('shader_type.csv') if r['status'] == 'name-consistent'}
     return None
 
 
+SCOPES = collections.OrderedDict()   # v0.5: перечисления внутри неописанного класса (BSShaderManager::…) — в struct-область
+
+
 for e, note in GENUMS.items():
+    scope, short = e.rsplit('::', 1) if '::' in e else (None, e)
+    out = SCOPES.setdefault(scope, []) if scope else hdr
     if e in PCENUM:
         # на PC значения другие, чем на Xbox: публикуем PC-значения (своё имя — с пометкой own)
-        hdr.append(f'// {e} (Xbox PDB, значения PC): {note}')
         items = PCENUM[e]
+        if STRICT:
+            keep = strict_enum_names(e)
+            if keep is not None:
+                n_all = len(items)
+                items = [x for x in items if x[0] in keep]
+                note = f'СТРОГАЯ СБОРКА: только {len(items)} проверенных значений из {n_all}. ' + note
+        out.append(f'// {e} (Xbox PDB, значения PC): {note}')
         body = [f'    {a} = 0x{int(v):X}' + (',' if k + 1 < len(items) else '') + (f' // {src}' if src else '')
                 for k, (a, v, src) in enumerate(items)]
-        hdr.append(f'enum {e} : unsigned int {{\n' + '\n'.join(body) + '\n};')
+        out.append(f'enum {short} : unsigned int {{\n' + '\n'.join(body) + '\n};')
         continue
     eti = T.byname['enum ' + e]
     fl = re.search(r'field list: (0x[0-9A-F]+)', ' '.join(rec(eti)[2]))
@@ -457,8 +551,13 @@ for e, note in GENUMS.items():
             n_all = len(vals)
             vals = [(a, v) for a, v in vals if a in keep]
             note = f'СТРОГАЯ СБОРКА: только {len(vals)} проверенных значений из {n_all}. ' + note
-    hdr.append(f'// {e} (Xbox PDB): {note}')
-    hdr.append(f'enum {e} : unsigned int {{\n' + ',\n'.join(f'    {a} = 0x{int(v) & 0xFFFFFFFF:X}' for a, v in vals) + '\n};')
+    out.append(f'// {e} (Xbox PDB): {note}')
+    out.append(f'enum {short} : unsigned int {{\n' + ',\n'.join(f'    {a} = 0x{int(v) & 0xFFFFFFFF:X}' for a, v in vals) + '\n};')
+for scope, items_ in SCOPES.items():
+    assert scope not in declared, f'{scope}: перечисление описанного класса — объявлять внутри класса'
+    hdr.append(f'struct {scope} {{ // (Xbox PDB) класс только со статическими членами; здесь — лишь область имён перечислений')
+    hdr += items_
+    hdr.append('};')
 hdr += blocks
 hdr += sorted(set(asserts), key=asserts.index)
 open(out_path, 'w', encoding='utf-8').write('\n'.join(hdr) + '\n')

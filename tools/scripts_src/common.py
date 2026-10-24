@@ -4,7 +4,7 @@
 import io
 import json
 
-PDB_VERSION = "0.4.2"
+PDB_VERSION = "0.5"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность

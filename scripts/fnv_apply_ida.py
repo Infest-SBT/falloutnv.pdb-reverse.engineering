@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# Применяет доказательную матрицу FNV PDB v0.4.2 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
-# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.4.2 (File > Load file > PDB file),
+# Применяет доказательную матрицу FNV PDB v0.5 к базе IDA (IDA 7.4+ / 8.x / 9.x, IDAPython 3).
+# Порядок: открыть FalloutNV.exe 1.4.0.525 (GOG), загрузить FalloutNV.pdb v0.5 (File > Load file > PDB file),
 # затем File > Script file > fnv_apply_ida.py > выбрать evidence/summary.json.
 #
-# Безопасность (v0.4.2):
+# Безопасность (v0.5):
 #   * проверка exe: SHA-256 входного файла, база образа 0x400000, x86 32-бит; при несовпадении — остановка;
 #   * по умолчанию — ПРОБНЫЙ ПРОГОН: план пишется в fnv_apply_plan_ida.txt рядом с summary.json и в Output,
 #     применение — только после подтверждения;
@@ -37,7 +37,7 @@ OWN_NODE = "$ fnv_pdb.proto"   # netnode: адрес -> тип, поставле
 import io
 import json
 
-PDB_VERSION = "0.4.2"
+PDB_VERSION = "0.5"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
 IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность

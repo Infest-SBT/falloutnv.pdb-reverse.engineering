@@ -1,5 +1,31 @@
 {
- "pc_subclasses": {},
+ "pc_subclasses": {
+  "NiRenderer": [
+   "NiDX9Renderer"
+  ],
+  "BSShader": [
+   "ShadowLightShader",
+   "BSShaderBloodSplatter",
+   "WaterShader",
+   "SkyShader",
+   "ParticleShader",
+   "TallGrassShader",
+   "PrecipitationShader",
+   "SpeedTreeLeafShader",
+   "BSDistantTreeShader",
+   "Lighting30Shader",
+   "BoltShader",
+   "BeamShader",
+   "VolumetricFogShader",
+   "BSShaderNoLighting",
+   "TileShader",
+   "GeometryDecalShader",
+   "DebugShader",
+   "SpeedTreeFrondShader",
+   "DistantLODShader",
+   "ImageSpaceShader"
+  ]
+ },
  "size_evidence": {
   "TESForm": [
    [
@@ -84,6 +110,62 @@
     164,
     "верхняя граница: объект BSWin32Audio::Instance 0x011F7080, по 0x011F7124 лежит флаг статической инициализации (BSWin32Audio::Create читает/ставит его бит перед вызовом конструктора) => не больше 0xA4; нижняя: поле +0xA0 (4 байта) пишется в Init => не меньше 0xA4"
    ]
+  ],
+  "NiMatrix3": [
+   [
+    "array-span",
+    36,
+    "NiAVObject::m_kWorld.m_Rotate: 9 float подряд на +0x68..+0x88 (подтверждены по ширине 4, в т.ч. NiCamera::WorldToCameraMatrix), следующее поле m_kWorld.m_Translate.x на +0x8C подтверждено => 0x8C − 0x68 = 0x24; то же в собственном коде NiTransform: m_Rotate +0x0..+0x20, m_Translate на +0x24"
+   ]
+  ],
+  "NiPoint3": [
+   [
+    "array-span",
+    12,
+    "NiTransform: m_Translate.x/y/z на +0x24/+0x28/+0x2C, следующее поле m_fScale на +0x30 подтверждено => 0xC; NiBound: m_kCenter.x/y/z на +0/+4/+8, m_fRadius на +0xC"
+   ]
+  ],
+  "NiTransform": [
+   [
+    "contained",
+    52,
+    "NiAVObject: m_kLocal начинается на +0x34 (m_kLocal.m_Translate.x на +0x58 = +0x34 + 0x24, m_kLocal.m_fScale на +0x64), следующий m_kWorld — на +0x68 (m_kWorld.m_Rotate[0] на +0x68 подтверждён) => 0x68 − 0x34 = 0x34; m_kWorld.m_fScale на +0x98 = +0x68 + 0x30"
+   ]
+  ],
+  "NiGeometry": [
+   [
+    "bounds",
+    196,
+    "нижняя граница: последнее поле m_spShader на +0xC0 (4 байта) подтверждено => не меньше 0xC4; верхняя: NiTriShape — наследник через NiTriBasedGeom, собственных полей ни у одного из них нет, выделяется 0xC4 байт (NiNew 0xC4 перед NiTriShape::NiTriShape) => не больше 0xC4"
+   ]
+  ],
+  "NiTriBasedGeom": [
+   [
+    "bounds",
+    196,
+    "база NiGeometry 0xC4 (см. её основание) => не меньше 0xC4; наследник NiTriShape без собственных полей выделяется 0xC4 => не больше 0xC4"
+   ]
+  ],
+  "BSShader": [
+   [
+    "bounds",
+    108,
+    "нижняя граница: iShaderType на +0x68 пишется dword-ом в конструкторах наследников (например, Lighting30Shader::Lighting30Shader) => не меньше 0x6C; верхняя: первые собственные поля наследников на +0x6C (ShadowLightShader 0x00B79B3E, ParticleShader 0x00BA54B2, Lighting30Shader 0x00BBC67C, BoltShader 0x00BC0D35, BeamShader 0x00BC4889) => не больше 0x6C"
+   ]
+  ],
+  "NiD3DPass": [
+   [
+    "array-new",
+    104,
+    "пул проходов: 0x00E803AB mul 0x68 (размер элемента в new[]), 0x00E803DC push 0x68; push 0x00E800F0 (NiD3DPass::NiD3DPass) → eh vector ctor iterator; 0x00E804AC add ebp, 0x68 — шаг по массиву"
+   ]
+  ],
+  "MTRenderingSystem": [
+   [
+    "bounds",
+    828,
+    "верхняя граница: объект MTRenderingSystem::Instance 0x01200088, следующий глобальный символ 0x012003C4 => не больше 0x33C; нижняя: конструктор 0x00BA36D9 push 0x18; push 0x20; lea ecx,[esi+0x3C] → eh vector ctor iterator: 24 × 0x20 = 0x300 от +0x3C => не меньше 0x33C; границы совпали (и TaskStageSema: 3 × 0xC от +0x18 до +0x3C)"
+   ]
   ]
  },
  "slot_notes": {
@@ -135,6 +217,9 @@
   },
   "BSWin32Audio": {
    "obj": "0x011F7080"
+  },
+  "NiDX9Renderer": {
+   "ptr": "0x011F4748"
   }
  },
  "extra_functions": {
@@ -169,6 +254,11 @@
   },
   "BGSLoadGameBuffer": {
    "0x718890": "«BGSLoadGameBuffer::LoadInterfaceManagerHelpMenuFlags» работает не с буфером: передаёт свой this в InterfaceManager::TutorialManager::GetSaveLoadSize и пишет флаги в this[i*8+j] (массив dword до индекса 0x29) — это метод TutorialManager"
+  },
+  "NiD3DPass": {
+   "0xE7FC30": "«NiD3DPass::ReleaseTextureStages» вызывается с ECX = проход+0x20 (0x00E7FF72 lea ebx,[esi+0x20]; mov ecx,ebx; 0x00E80279 lea ecx,[esi+0x20]) — это метод массива m_kStages (NiTObjectArray<NiPointer<NiD3DTextureStage>>): +4 — буфер, +0xA/+0xC — размеры массива",
+   "0xE7FB80": "«NiD3DPass::SetAt» вызывается из NiD3DPass::SetStage с ECX = проход+0x20 (0x00E80316 lea ecx,[edi+0x20]) — метод NiTObjectArray<NiPointer<NiD3DTextureStage>>::SetAt",
+   "0xE7FD20": "«NiD3DPass::SetAtGrow» — тот же массив m_kStages (вызов из NiD3DPass::SetStage), слова +8/+0xA/+0xC — m_usMaxSize/m_usSize/m_usESize массива, а не NiD3DPass::m_szName"
   }
  },
  "pointer_fields": {
@@ -261,5 +351,24 @@
   "RadioConvTask|QueuedFile::": "базовый класс RadioConvTask",
   "RadioConvTask|IOTask::": "базовый класс RadioConvTask",
   "RadioConvTask|BSTask::": "базовый класс RadioConvTask (BSTask<__int64>)"
+ },
+ "stack_arg_pointers": {
+  "BSShaderProperty::RenderPass": [
+   {
+    "func": "0xBA8EC0",
+    "arg": 1,
+    "note": "BSShaderProperty::RenderPass::RenderPass — объект первым аргументом на стеке (не ECX): 0x00BA8ED3 mov esi,[esp+0xC] после двух push = [esp+4] на входе; дальше пишет +0 (геометрия, аргумент 2), +4 (word, аргумент 3) …"
+   },
+   {
+    "func": "0xBA8C50",
+    "arg": 1,
+    "note": "BSShaderProperty::RenderPass::SetLights — объект первым аргументом на стеке: 0x00BA8C56 mov esi,[esp+0xC] после двух push"
+   }
+  ]
+ },
+ "layout_anchors": {
+  "BSShaderPPLightingProperty": {
+   "pRenderDepthPass": "GetDepthPass 0x00B66E20: cmp dword [esi+0x100], 0; если 0 — проход глубины создаётся (0x00BA8EC0, номера проходов 0x1E7/0x1E8/0x1E9) и указатель пишется в [esi+0x100] (0x00B66EFC), затем возвращается (0x00B66F02) — это указатель на проход, а не float fTerrainDetailTexScale"
+  }
  }
 }

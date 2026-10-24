@@ -1,4 +1,4 @@
-# FalloutNV.pdb v0.4.2 — строгий и исследовательский PDB (по аудиту Астры v0.4.1)
+# FalloutNV.pdb v0.5 — раздел «Рендер» (строгий и исследовательский PDB)
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`.
 Оба PDB — с GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE) и теми же 138 171 публичными
@@ -6,215 +6,233 @@
 
 | Файл | SHA-256 | Что внутри |
 |---|---|---|
-| `FalloutNV.pdb` — **строгий** | `6d4de9e74f4ed983d0c39c72000ca6e98477399e15a9f908b349545ea7fb1d25` | 35 классов, 361 запись типов, только доказанное (правило ниже) |
-| `research/FalloutNV.pdb` — исследовательский | `0e689ad1b553b9d27f005fc06d90c737315161c3198a81bc2a8ecf3de1b302a3` | все 42 класса, 417 записей типов; **побайтно тот же, что в v0.4.1** |
+| `FalloutNV.pdb` — **строгий** | `7bfd6f5aee22b1ab5346e7ec1d5db5bce2819920703ce65bbfc63a7ed4300be4` | 79 классов, 845 записей типов, только доказанное |
+| `research/FalloutNV.pdb` — исследовательский | `fa9baabcdb2398bf7c1e194bf152b60ad9549ae46bcb4d37883c84ed04085317` | все 86 классов, 1006 записей типов, с пометками |
 
-Номер версии: `x.y` — новый раздел типов, `x.y.z` — исправления. Новых классов в 0.4.2 нет; изменился только строгий PDB.
+Номер версии: `x.y` — новый раздел типов, `x.y.z` — исправления. **0.5 — раздел «Рендер»**: 44 новых класса
+(43 из Xbox PDB и `NiDX9Renderer`, которого в Xbox PDB нет), два перечисления рендера. Имена из Xbox PDB помечены
+«(Xbox PDB)» и служат подсказкой; всё, что в строгом PDB, проверено по коду PC. Дампы и файлы Xbox PDB в пакет
+не входят.
 
 ## Какой PDB брать
 
-- **Хуки, плагины, всё, что пишет в память игры → строгий `FalloutNV.pdb`.** В нём нет ни одного поля с типом, у
-  которого не подтверждены и смещение, и ширина: такие поля — байты `_unverified_<имя>`, такие слоты vtable —
-  `_unverified_slotN`. Вложенный объект класса типизирован, только если доказано, что там именно этот класс.
-- **Разбор, поиск, чтение кода → `research/FalloutNV.pdb`.** Там всё, включая предварительные классы и поля, с
-  пометками в заголовке и в `summary.json`. Логгеру сохранений нужен он: заголовок формы `BGSSaveLoadFormHeader`
-  (флаги изменений) в строгий не прошёл — его размер подтверждён только по последнему полю.
-- Даже строгий PDB — это **проверенная раскладка** (где что лежит и какой ширины), а не полная проверка C++-типов:
-  `type_verified` у всех полей false. Для записи в память игры по каждому полю смотрите `type_status` (ниже).
+Как в v0.4.2. **Хуки, плагины, запись в память игры → строгий `FalloutNV.pdb`**: поле с типом есть, только если
+подтверждены и смещение, и ширина, и раскладка не допускает сдвига (см. ниже); остальное — байты `_unverified_<имя>`,
+слоты vtable без проверки — `_unverified_slotN`. **Разбор и чтение кода → `research/FalloutNV.pdb`**. Класть рядом с
+exe нужно один из них (оба называются `FalloutNV.pdb`, потому что отладчики ищут PDB по имени).
 
-Оба файла называются `FalloutNV.pdb`, потому что отладчики ищут PDB по имени. Класть рядом с exe нужно один из них.
+## Что нового: классы рендера
 
-## Правило допуска в строгий PDB (v0.4.2)
-
-1. Класс допускается, если его **размер подтверждён** (`confirmed`) и допущены **все его базовые классы**.
-2. В допущенном классе поле типизировано, только если его **смещение `confirmed` и ширина подтверждена**
-   (`width_verified`) хотя бы одним основанием из списка ниже — либо поле и так непрозрачные байты (blob, тип не
-   заявлен). Остальные поля — байты `_unverified_<имя>` того же размера и выравнивания (раскладка не меняется).
-3. Вложенный объект класса (`BSSoundHandle Hndl`) типизирован, только если **композиция доказана** — метод
-   вложенного класса вызывается с ECX = this+смещение — и вложенный класс сам допущен. Иначе — байты.
-4. Слот vtable сохраняет прототип, только если он `semantics` (разобран вручную) или `name+stack`; иначе —
-   `virtual void _unverified_slotN()` (номер слота сохраняется).
-5. Перечисления — только проверенные значения: `CHANGE_TYPE` 69 из 73, `SOUND_MSG` 28 из 67, `MEM_CONTEXT` 17 из 68;
-   `MemoryPasses` (значения PC), `FontManager::enumCharTypes` и `BSSoundHandle::ASSUMED_STATE` — полностью.
-
-**Основания ширины** (`width_basis` у каждого поля в `summary.json`; принимаются первые шесть):
-
-| основание | что значит |
+| группа | классы (sizeof на PC) |
 |---|---|
-| `access-width` | обращение ровно к началу поля шириной sizeof(поля) |
-| `element-width` | массив скаляров: обращение к границе элемента шириной sizeof(элемента) |
-| `int64-halves` | 64-битное целое: обращения к младшему и/или старшему dword |
-| `index-stride` | индексное обращение с шагом, равным sizeof(элемента) (`imul`/масштаб) |
-| `class-array-element` | массив классов: внутри элемента подтверждено подполе по его собственной ширине |
-| `nested-field-width` | поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана |
-| `blob-prefix`, `blob-stride` | непрозрачные байты: обращение к началу / шаг делит размер — ширина не заявляется |
+| основа Gamebryo | `NiRefObject` 0x8, `NiObject` 0x8, `NiObjectNET` 0x18 |
+| математика | `NiPoint3` 0xC, `NiMatrix3` **0x24**, `NiTransform` **0x34**, `NiBound` 0x10 |
+| граф сцены | `NiAVObject` **0x9C**, `NiNode` **0xAC**, `BSFadeNode` **0xE4**, `ShadowSceneNode` **0x200**, `ShadowSceneLight` 0x250 |
+| свойства и шейдерные свойства | `NiProperty` 0x18, `NiShadeProperty` 0x20, `BSShaderProperty` 0x60 (+ `RenderPass` 0x10), `BSShaderLightingProperty` 0x7C, `BSShaderPPLightingProperty` **0x104**, `NiPropertyState` 0x1C |
+| геометрия | `NiGeometryData` 0x40, `NiTriBasedGeomData` 0x44, `NiTriShapeData` 0x58, `NiGeometry` / `NiTriBasedGeom` / `NiTriShape` / `NiTriStrips` **0xC4** |
+| камера, текстуры | `NiCamera` **0x114**, `NiTexture` 0x30, `NiSourceTexture` 0x48 |
+| накопители (очередь отрисовки) | `NiAccumulator` 0xC, `NiBackToFrontAccumulator` 0x30, `NiAlphaAccumulator` 0x34, `BSShaderAccumulator` 0x280, `BSBatchRenderer` 0x98 |
+| рендерер | `NiRenderer` 0x280, **`NiDX9Renderer` 0xB80 (только PC)** |
+| шейдеры | `NiShader` 0x14, `NiD3DShaderInterface` 0x24, `NiD3DShader` 0x3C, `NiD3DDefaultShader` 0x5C, `BSShader` 0x6C, `NiD3DPass` 0x68 |
+| системы | `ImageSpaceManager` 0x31C, `MTRenderingSystem` 0x33C |
 
-Взятие адреса (`lea`, `add reg, N`) ширину **не** подтверждает. Пометка «(элемент X.поле[])» или «(в X.поле)» —
-ширина подтверждена обращением через содержащий класс.
+Жирным — размер на PC другой, чем на Xbox. Все 44 класса — размер `confirmed` (выделение памяти или конструктор
+по коду PC) и допущены в строгий PDB; в них 443 поля, из них в строгий PDB вошли 426 (с типом или как
+непрозрачные байты с подтверждённым смещением).
 
-Итог: 35 классов, в них 358 типизированных полей (273 с подтверждённой шириной + 85 непрозрачных байтов), 15 полей
-заменены байтами, 51 слот без прототипа. Не допущены 7 классов (размер `consistent`): `BSAudioManager`, `HeapBlock`,
-`FreeHeapBlock`, `BGSSaveLoadFormHeader`, `BGSSaveFormBuffer`, `Font::TextData`, `FontManager::TextData`.
+## Почему раскладка PC отличается от Xbox
 
-## Изменения в v0.4.2 — по пунктам аудита
+- **`NiMatrix3` на PC — 0x24 байта** (9 float подряд, построчно), на Xbox — 0x30 (3 строки по 16 байт под VMX).
+  Отсюда `NiTransform` 0x34 вместо 0x40, и все узлы сцены (`NiAVObject` и наследники), геометрия и `NiCamera` на PC
+  меньше: смещения пересчитаны по правилам MSVC (`tools/pclayout.py`), а не взяты из Xbox PDB. Подтверждено кодом:
+  `NiTransform::MakeIdentity` вызывается с `this+0x34` и `this+0x68` (`m_kLocal`, `m_kWorld` в `NiAVObject`).
+- **`NiCriticalSection` — 0x80 байт с выравниванием 128**, как и на Xbox: в `NiRenderer` секции на +0x80/+0x100/+0x180,
+  в `BSShaderAccumulator` — на +0x200 при sizeof 0x280. В PDB они — непрозрачные 128 байт.
+- **`BSShaderPPLightingProperty` — 0x104 вместо 0x108**: на PC массив `spTextures` из 6 указателей, а не из 7
+  (конструктор 0x00B66F50 обходит ровно 6 массивов текстур с +0xAC), поэтому все поля после него на 4 байта раньше,
+  в том же порядке. Основания по каждому полю — в комментарии класса и в `platform_differences.csv`. Согласуется с
+  тем, что в vtable PC нет слота 65 Xbox (`SetSpecularTexture`).
+- **vtable**: у `NiD3DShader` на PC нет слотов 59 и 60 Xbox, у `BSShaderPPLightingProperty` — слота 65; номера после
+  них сдвинуты (проверено по длине vtable через RTTI), наследники пересчитаны.
 
-**P1 — `confirmed` и `width_verified` не совпадали.** Астра права: в v0.4.1 `width_verified` было true, только если
-нашлось обращение шириной во всё поле. У массива (`Font* pFont[8]`) такого обращения нет по природе — читают по
-элементу, — и правило «ширина совпала» не было записано честно. Исправлено двумя способами сразу:
-- для каждого поля записано **основание ширины** (`width_basis`, таблица выше), и `width_verified` теперь значит
-  «есть хотя бы одно принятое основание»;
-- поле без основания ширины в строгий PDB **не попадает**. Сейчас среди `confirmed`-полей таких нет: 334 с
-  подтверждённой шириной, 109 непрозрачных байтов.
+Все отличия — `evidence/platform_differences.csv` (38 строк).
 
-Все 25 полей, на которые указала Астра, разобраны:
+## NiDX9Renderer (только PC)
 
-| поля | основание ширины теперь | в строгом |
-|---|---|---|
-| `TESDataHandler::pFileIndex`, `MemoryManager::pHeapsByContextA`, `FontManager::pFont`, `TextPage::pCharsPerFont` | `element-width` + `index-stride` (массивы скаляров) | да |
-| `AbstractHeap::pSmallFreeList`, `pSubBuckets`, `FontData::pFontLetters` | `class-array-element` + `index-stride` | да |
-| `FontData::pTextureFiles` | `index-stride` (шаг 0x24 в `Font::Load`) | да |
-| `FontLetter::pMapping`; `UVMap::fU`, `fV` | подполя элемента (`Font::AddChar` читает все 8 float) | да |
-| `HeapFreeSubBucket::iCount`, `pFirst`; `FreeHeapBlockList::pHead` | `access-width` внутри элемента массива `AbstractHeap` | да |
-| `RadioConvTask::Key` | `int64-halves` (`__int64`, две половины) | да |
-| `StationState::cTargetPower` | `access-width` через `FORadioStation.CurrentState` | да |
-| `Hndl/StaticHndl.eState`, `.bAssumeSuccess`, `CurrentState.iStationFlags` | `nested-field-width`, композиция доказана | да |
-| `BGSLoadFormBuffer::Header.cVersion` | `nested-field-width`, но `BGSSaveLoadFormHeader` не допущен | нет (как и было: байты) |
-| `FontLetter::iTextureIndex`, `TextureFile::pFilename` | **нет** — в коде только адрес элемента/буфера (`lea`), чтения поля нет | **нет** — теперь байты |
-| `FreeHeapBlockList::pTail` | **нет** — подтверждался только через `AbstractHeap.LargeFreeList`, а она не доказана | **нет** — теперь байты |
+Единственный объект — `*NiRenderer::ms_pkRenderer` (0x011F4748). Размер 0xB80 (выделение в конструкторе). Описаны
+16 своих полей с однозначным назначением по коду PC, имена наши (own): `pD3DDevice` +0x288 (`IDirect3DDevice9*`),
+`eDevType` +0x5C8, `aucBackgroundColor` +0x5E0, `fDepthClear` +0x5E4, `uiStencilClear` +0x5E8, `uiFlags` +0x5EC,
+`pDefaultRenderTargetGroup` +0x884, `pCurrentRenderTargetGroup` +0x888, `uiMaxBuffersPerRenderTargetGroup` +0x8A0,
+`bIndependentBufferBitDepths` +0x8A4, `pGeometryGroupManager` +0x8AC, `pRenderState` +0x8B8, `pLightManager` +0x8C8,
+`kD3DView` +0x980 и `kD3DProj` +0x9C0 (матрицы 4×4 float), `bVerticalDisplay` +0xAD0. Остальные ~0x800 байт не
+разобраны — это именованные непрозрачные участки `_undescribed_XXX` (обращения туда не считаются ошибкой, но и
+ничего не подтверждают). `NiDX9Renderer::ms_pkD3D9` (0x0126F0D8) — `IDirect3D9*`.
 
-Попутно найдена и исправлена несогласованность в самом анализаторе: внутри вложенных классов взятие адреса начала
-поля считалось `confirmed`, а на верхнем уровне — `consistent`. Теперь везде одинаково: `consistent`. Из-за этого два
-поля шрифтов выше и стали `consistent`.
+## Перечисления рендера
 
-**P2 — перенос уверенности через вложенные объекты.** Тоже права: в v0.4.1 для «`Hndl` — это `BSSoundHandle`»
-хватало любого обращения к смещению +4. Теперь нужна **доказанная композиция** — по смещению вызывается метод
-вложенного класса с ECX = this+смещение (`evidence/compositions.csv`, раздел в `REPORT.md`). Без неё поля вложенного
-объекта не засчитываются ни содержащему классу, ни вложенному, а в строгом PDB объект — байты.
+- **`BSShaderManager::eBSSMPassEnum` — номера PC другие, чем на Xbox.** Взяты из PC-функции
+  `BSShaderManager::GetPassName` (0x00B4F9D0): переключатель по номеру прохода (таблица 0x00B5342C, 757 ветвей,
+  743 с именем), каждая ветка возвращает строку-имя. 743 значения: 42 с тем же номером, что на Xbox, 696 с другим
+  (в заголовке пометка «на Xbox N»), 5 только на PC; 39 имён Xbox на PC нет. Все 743 — `confirmed` (`pass_enum.csv`).
+- **`BSShaderManager::ShaderTypeEnum`** — 20 из 30 имён согласуются с PC: конструктор каждого из 20 наследников
+  `BSShader` пишет свой номер в `iShaderType` (+0x68) (`shader_type.csv`). В строгом PDB только эти 20; служебные
+  `UNKNOWN`/`BASE`/`…_FIRST`/`…_LAST`/`COUNT` и `HAIR`, `PARALLAX`, `SKIN`, `STBRANCHSHADER`, `VATS` не проверены.
 
-| где | вложенный | статус | доказательство |
-|---|---|---|---|
-| `FORadioReceiver::Hndl` (+4) | `BSSoundHandle` | доказано | `0x008327F9 add ecx, 4` → `call BSSoundHandle::BSSoundHandle`; ещё `Stop`, `Release` |
-| `FORadioReceiver::StaticHndl` (+0x10) | `BSSoundHandle` | доказано | `0x0083280B add ecx, 0x10` → конструктор; ещё `Stop`, `Release` |
-| `FORadioStation::CurrentState` (+4) | `StationState` | доказано | 22 вызова (`LoadGame`, `GetStationPower` …) |
-| `BGSLoadFormBuffer::Header`, `BGSSaveFormBuffer::Header` (+0x14) | `BGSSaveLoadFormHeader` | доказано | `add ecx, 0x14` → конструктор; но сам класс не допущен — байты |
-| `AbstractHeap::LargeFreeList` (+0x2048) | `FreeHeapBlockList` | **не доказано** | у `FreeHeapBlockList` нет методов — теперь байты в строгом |
+## Ошибка, найденная до выпуска, и проверка сдвигом
 
-**P1 — Windows-проверка не сверяла exe.** `windows_check_pdb.py` теперь до DbgHelp сверяет SHA-256 exe с 1.4.0.525 GOG
-и SHA-256 `FalloutNV.pdb` с `test_manifest.json`; при несовпадении — код 2, DbgHelp не вызывается. После загрузки —
-режим fail closed: нет сведений о модуле, загружен другой файл, GUID/age не те, нет типов или публичных символов —
-ошибка. Тест на Linux проверяет это на заведомо неправильных данных: изменённый exe, изменённый PDB, PDB вне пакета,
-нет exe, 8 видов неверных сведений о модуле, и `main()` целиком с подменённым DbgHelp (коды 0 / 2 / 1) — 17 случаев
-плюс сравнение раскладок, всё проходит. **Настоящие вызовы DbgHelp по-прежнему не запускались.**
+В черновике v0.5 раскладка `BSShaderPPLightingProperty` была неверной: я решил, что на PC поменяны местами
+`usLandscapeTextures` и `pSpecularExponent` и нет `pRenderDepthPass`. Анализатор при этом показывал почти все поля
+`confirmed`: подряд стоят поля по 4 байта, и раскладка, сдвинутая на 4, находит «нужные» обращения по тем же
+смещениям. Ошибку выдало одно противоречие типа: в «int» `iRefractionFirePeriod` код пишет float (`fstp`). Разбор
+конструктора показал настоящую причину (6 массивов текстур вместо 7). Отсюда два новых правила:
 
-**P3** — исправлено описание в `gen_headers.py` (там ещё было про `#pragma pack(1)`; на деле естественное
-выравнивание, `pack(1)` только у `BGSSaveLoadFormHeader`, упакованного и на Xbox, и на PC).
+1. **Поле с противоречием вида типа** (`type_status` = `CONFLICT`) в строгий PDB не идёт — даже если смещение и
+   ширина подтверждены. Сейчас таких полей 0.
+2. **Проверка сдвигом** (`evidence/layout_shift_test.csv`, раздел в `REPORT.md`). Раскладку каждого класса
+   (вложенные объекты — до скалярных полей) сравниваем с гипотезами «поля с k-го до ближайшей опоры сдвинуты на ±4/±8
+   байт». Счёт: объяснённые обращения (начало элемента своей ширины без противоречия вида; целиком внутри
+   непрозрачных байтов; взятие адреса начала поля) минус 3 × противоречия (заполнитель, выход за конец поля,
+   противоречие вида). Место, освобождённое сдвигом, считается неизвестным полем. Опоры — начало вложенного объекта,
+   доказанное вызовом его метода, и разобранные вручную (`evidence_spec.json` → `layout_anchors`, с адресами; сейчас
+   одна: `BSShaderPPLightingProperty::pRenderDepthPass` по `GetDepthPass` 0x00B66E20). Если гипотеза **в точке, где
+   раскладка PC отличается от Xbox**, объясняет код не хуже — `AMBIGUOUS`, эти поля в строгий PDB не идут.
 
-**Проверено и независимым скриптом Астры** `verify_v041_independent.py` из её аудита — на этом пакете без
-изменений: 53/53 файла манифеста, 3 646/3 646 строк доказательств совпали с байтами exe, 10/10 исходных потоков
-сохранены в обоих PDB, 6 перечислений; `strict_width_unverified_nonblob` = **0** (было 25), `strict_width_unverified`
-= 85 — это ровно непрозрачные байты, у которых ширина не заявляется.
+Проверено, что тест ловит исходную ошибку: на черновой раскладке он даёт `AMBIGUOUS`, и лучшая гипотеза — ровно
+настоящая («с `pSpecularExponent` на −4»). На выпущенной раскладке: `unique` — 57 классов, `AMBIGUOUS` — 0,
+`no-evidence` — 17 (меньше двух полей или нет обращений), `tie-same-as-xbox` — 11, `alternative-better-same-as-xbox` — 1.
 
-**Принято без изменений:** `type_verified` остаётся false у всех полей, сигнатуры методов полностью доказанными не
-объявляются (P2 аудита) — так и было в README v0.4.1.
+**`tie-same-as-xbox` — честная граница метода.** Это участки классов, где PC совпадает с Xbox (те же смещения), но в
+длинном ряду полей одной ширины код PC сдвиг не различает: `AbstractHeap`, `BGSSaveLoadChangesMap`,
+`FORadioStation`, `FontData`, `FontManager::TextLine`, `FontManager::TextPage`, `BSShaderPPLightingProperty`
+(поля после `fRefractionPower`), `NiTexture`, `NiBackToFrontAccumulator`, `BSShaderAccumulator`, `ShadowSceneLight`.
+Их раскладка держится на совпадении с Xbox PDB при подтверждённом размере: сдвиг потребовал бы двух отличий PC,
+погашающих друг друга. Поля под вопросом перечислены в `layout_shift_test.csv`; для записи в них из плагина стоит
+одна живая проверка. `alternative-better-same-as-xbox` — `HeapBlock` (не в строгом): обращения +8/+0xC в
+`HeapBlock::ListRemove` относятся к свободному блоку `FreeHeapBlock`.
 
-## Что значит «confirmed» — и чего не значит
+## Правило допуска в строгий PDB (v0.5)
 
-`confirmed` у поля — **на PC есть команда, обращающаяся ровно к началу поля** (или к границе элемента массива).
-Ширина — отдельно, `width_verified` и `width_basis`. Объявленный C++-тип — отдельно:
+1. Класс — если его размер `confirmed` и допущены все базовые классы.
+2. Поле с типом — если смещение `confirmed`, ширина подтверждена (`width_verified`) или поле — непрозрачные байты, вид
+   типа не противоречит командам PC (**новое**) и раскладка не `AMBIGUOUS` по проверке сдвигом (**новое**).
+3. Вложенный объект — если композиция доказана и вложенный класс допущен. Доказательство: метод вложенного класса
+   вызывается с this+смещение в ECX **или первым аргументом на стеке** (новое: `RenderPass` в `BSShaderAccumulator`);
+   для POD-структуры без vtable — **раскладкой** (новое, `pod-layout`): по ширине подтверждены хотя бы два её подполя
+   (или единственное, если поле у неё одно) и нет противоречий. Так доказаны `NiMatrix3` в `NiTransform`,
+   `NiPoint3` в `NiBound`, `ShadowSceneNode` и `ShadowSceneLight`, `FreeHeapBlockList` в `AbstractHeap`.
+4. Слот vtable с прототипом — только `semantics` и `name+stack`.
+5. Перечисления — только проверенные значения (`eBSSMPassEnum` — все 743, `ShaderTypeEnum` — 20; прежние — как в v0.4.2).
 
-| Признак | Что значит |
-|---|---|
-| `offset_verified`, `width_verified`, `width_basis` | смещение / ширина и её основание |
-| `declared_kind` | что объявлено: float, pointer, int, class, blob (непрозрачные байты) |
-| `type_evidence` | что видно в командах: `fpu-float`, `sse-float`, `int-arith`, `bitwise`, `deref` (значение из поля разыменовано или передано как this в метод), `address` |
-| `type_status` | `consistent` — наблюдаемое согласуется с объявленным; `not-checked` — различающих признаков нет; `CONFLICT` — противоречит |
-| `composition` | у полей вложенного объекта: `proved` / `not-proved` |
-| `pointer_target_verified` | указатель доказанно ведёт на объект этого класса (сейчас — `Font::pFontData → FontData`) |
-| `type_verified` | **всегда false** |
+Основания ширины — как в v0.4.2, плюс `class-member`: поле — вложенный объект, внутри него подтверждено подполе по
+собственной ширине.
 
-Типы в строгом PDB (358 полей): float — 22 согласуются, 2 не проверены; указатели — 45 и 38; целые — 19 и 142;
-вложенные классы — 5 не проверены; непрозрачные байты — 85; **противоречий 0**. Все статусы — от статического
-эвристического анализатора (линейный проход, псевдонимы регистров и стека, без полного графа потока управления):
-`CONFLICT = 0` значит «этот анализатор противоречий не нашёл», а не математическое доказательство.
+**Итог строгого PDB:** 79 классов, 787 полей с типом (586 с подтверждённой шириной + 201 непрозрачные байты),
+27 полей заменены байтами, 154 слота без прототипа, 953 `static_assert`. Не допущены, как и раньше, 7 классов
+(размер `consistent`): `BSAudioManager`, `HeapBlock`, `FreeHeapBlock`, `BGSSaveLoadFormHeader`, `BGSSaveFormBuffer`,
+`Font::TextData`, `FontManager::TextData`.
 
-## Что внутри (типы — как в v0.4)
+**Изменения в прежних классах** (из-за композиции раскладкой): в строгом теперь с типом
+`AbstractHeap::LargeFreeList.pHead/.pTail` и `FreeHeapBlockList::pTail` (в v0.4.2 — байты). Остальное в старых
+классах не изменилось.
 
-Основа (`TESForm`, `TESDataHandler`), звук (`BSGameSound`, `BSAudio`, `BSAudioManager`, PC-классы DirectSound
-`BSWin32GameSound` и `BSWin32Audio`), радио (`FalloutRadio::FORadioStation`, `StationState`, `FORadioReceiver`,
-`RadioConvTask`), память (`MemoryManager`, кучи, `HeapFreeSubBucket`), сохранения (буферы, `BGSSaveLoadGame`,
-`BGSSaveLoadManager`, `BGSSaveLoadChangesMap`), шрифты (`FontManager`, `Font`, `FontData` — 256 × `FontLetter`,
-текстовые `TextDoc`/`TextPage`/`TextLine`/`CharData`). Отличия PC от Xbox — `evidence/platform_differences.csv`;
-ошибочные имена xNVSE — `evidence/xnvse_name_notes.csv` (публичные имена в PDB не менялись).
+Типы в строгом PDB (787 полей): float — 97 согласуются, 15 не проверены; указатели — 88 и 81; целые — 27 и 269;
+вложенные классы — 9 не проверены; непрозрачные байты — 201; **противоречий 0**. `type_verified` у всех — false
+(это эвристика по командам, а не доказательство типа; подробно — README v0.4.2, раздел «Что значит confirmed»).
+
+## Изменения анализатора (`tools/evidence.py`)
+
+- Выделение памяти: учтены `NiNew`/`NiAlloc` (Gamebryo). Конструктор наследника, встроенный в место вызова, после
+  выделения распознаётся (`ctor-alloc-derived`) и размер базового класса не подтверждает.
+- Указатель на объект, сохранённый в стек и прочитанный обратно (неоптимизированный код), отслеживается.
+- Двумерные массивы (float[3][3] как float[9]), индекс по подряд идущим полям (`NiPoint3::GetAt`), обращение к
+  части элемента массива, вложенный объект второго уровня (`NiAVObject.m_kWorld.m_Rotate`).
+- Указатель на объект первым аргументом на стеке (`stack_arg_pointers`), участки `_undescribed_` у PC-классов.
+- Размер аргумента по значению для описанных классов (`NiPoint3` — 12 байт, а не 4) — влияет на проверку стека слотов.
+- Проверка сдвигом и правило «противоречие вида типа» (выше).
+- `annotate_header.py`: пометка `PC: confirmed` теперь ставится и у полей с типом из области имён
+  (`FontManager::TextPage* pPage` и т. п.) — раньше пропускалась; на сами типы и PDB не влияет.
+- Исключены 3 функции, чьи имена в PDB xNVSE не соответствуют коду: `NiD3DPass::ReleaseTextureStages`, `SetAt`,
+  `SetAtGrow` (`xnvse_name_notes.csv`, всего 15 строк; публичные имена в PDB не менялись).
+- Один слот `MISMATCH`: `NiObject`/`NiAccumulator` слот 22 (`SaveBinary`) — в vtable PC переход в общую функцию с
+  именем `NiInterpolator::LinkObject` (одинаковый код слит компоновщиком); в строгом — `_unverified_slot22`.
+
+Итого по всем классам: полей `confirmed` 870, `consistent` 12, `unverified` 20, `CONFLICT` 0; композиций 17
+(11 вызовом метода, 6 раскладкой); функций, прочитанных не до конца, — 0.
 
 ## Повторить проверку самому (нужны свой exe и PDB xNVSE)
 
-Зависимости: Python 3.10+, `capstone` 5.0 (проверено с 5.0.7), `pefile` (2024.8.26); LLVM: `llvm-undname`,
-`llvm-pdbutil`, для пересборки — `clang`, `lld-link` (у меня 18.1.3; Астра пересобрала побайтно и с 17). Из корня пакета:
+Зависимости — как в v0.4.2: Python 3.10+, `capstone` 5.0, `pefile`; LLVM (`llvm-undname`, `llvm-pdbutil`, для
+пересборки `clang`, `lld-link`; у меня 18.1.3). Из корня пакета:
 ```
 python3 tools/make_syms.py <PDB xNVSE> syms.tsv
-python3 tools/evidence.py research/fnv_types_v042_research.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out
-python3 tools/verify_change_flags.py   research/fnv_types_v042_research.h FalloutNV.exe out/change_flags.csv
-python3 tools/verify_sound_msg.py      research/fnv_types_v042_research.h syms.tsv FalloutNV.exe out/sound_msg.csv
-python3 tools/verify_mem_context.py    research/fnv_types_v042_research.h syms.tsv FalloutNV.exe out/mem_context.csv
-python3 tools/verify_memory_passes.py  research/fnv_types_v042_research.h syms.tsv FalloutNV.exe out/memory_passes.csv
-python3 tools/report_extras.py tools/spec.json tools/evidence_spec.json research/fnv_types_v042_research.meta.json out
-python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v042.meta.json
-python3 tools/pdb_vs_meta.py research/FalloutNV.pdb research/fnv_types_v042_research.meta.json
-python3 tools/test_windows_check.py FalloutNV.pdb fnv_types_v042.meta.json FalloutNV.exe test_manifest.json
+python3 tools/evidence.py research/fnv_types_v05_research.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out
+python3 tools/verify_change_flags.py   research/fnv_types_v05_research.h FalloutNV.exe out/change_flags.csv
+python3 tools/verify_sound_msg.py      research/fnv_types_v05_research.h syms.tsv FalloutNV.exe out/sound_msg.csv
+python3 tools/verify_mem_context.py    research/fnv_types_v05_research.h syms.tsv FalloutNV.exe out/mem_context.csv
+python3 tools/verify_memory_passes.py  research/fnv_types_v05_research.h syms.tsv FalloutNV.exe out/memory_passes.csv
+python3 tools/verify_render_enums.py   research/fnv_types_v05_research.h syms.tsv FalloutNV.exe out
+python3 tools/report_extras.py tools/spec.json tools/evidence_spec.json research/fnv_types_v05_research.meta.json out
+python3 tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v05.meta.json
+python3 tools/pdb_vs_meta.py research/FalloutNV.pdb research/fnv_types_v05_research.meta.json
+python3 tools/test_windows_check.py FalloutNV.pdb fnv_types_v05.meta.json FalloutNV.exe test_manifest.json
 ```
-`out/` совпадает с `evidence/` побайтно (14 файлов, проверено). Пересборка обоих PDB из опубликованных заголовков:
+`out/` совпадает с `evidence/` побайтно (17 файлов, проверено; `evidence.py` идёт около минуты). Пересборка PDB:
 ```
 clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti ^
-      -Wno-invalid-offsetof -I. tools/fnv_types_v042.cpp -o strict.obj
-clang ... -Iresearch tools/fnv_types_v042_research.cpp -o research.obj
+      -Wno-invalid-offsetof -I. tools/fnv_types_v05.cpp -o strict.obj
+clang ... -Iresearch tools/fnv_types_v05_research.cpp -o research.obj
 lld-link /dll /noentry /nodefaultlib /debug /pdb:strict.pdb /out:strict.dll strict.obj      (и так же research)
 python3 tools/merge_tpi.py <PDB xNVSE> strict.pdb FalloutNV.pdb                            (и так же research)
+python3 tools/scripts_src/build.py scripts
 ```
-Оба дают те же SHA-256 (проверено). Строгий заголовок генерирует `gen_headers.py --strict evidence/summary.json evidence`
-(генерации нужен дамп Xbox PDB — его не распространяем; пересборке из заголовков — нет).
+Оба PDB и оба скрипта получаются побайтно те же (проверено в чистой копии пакета). Генерации заголовков
+(`gen_headers.py`) нужен дамп Xbox PDB — его не распространяем; пересборке и всем проверкам — нет.
 
 ## Привязка к функциям: Ghidra и IDA
 
-Как в v0.4.1: проверка exe, пробный прогон, план по адресам, владение сигнатурами по отпечаткам, пользовательские
-сигнатуры не перезаписываются, одна транзакция, `STRICT = True` по умолчанию. План: строгий — 847 адресов, 477 `this`,
-9 прототипов `semantics`, 0 конфликтов; research — 847 / 522 / 10 / 1. Тесты на имитации API: Ghidra 18, IDA 8 —
-проходят. **На настоящих Ghidra/IDA не запускались** — первый прогон только на копии проекта.
+Как в v0.4.2 (проверка exe, пробный прогон, отпечатки, пользовательские сигнатуры не трогаются, одна транзакция,
+строгий режим по умолчанию). План: строгий — 2193 адреса, 1405 `this`, 9 прототипов `semantics`, 0 конфликтов;
+research — 2193 / 1450 / 10 / 1. Тесты на имитации API: Ghidra 18, IDA 8 — проходят.
+**Ghidra 11.x:** скрипт написан на Jython — если Ghidra пишет, что Python недоступен, поставь расширение Jython
+(File → Install Extensions), как в приёмке v0.4.2. Версия для PyGhidra — в планах.
 
 ## Приёмка на Windows
 
-**Шаг 1 — автоматически** (Python 3.8+, ничего ставить не нужно), из корня пакета:
+**Шаг 1 — автоматически**, из корня пакета:
 ```
-python tools\windows_check_pdb.py "C:\…\FalloutNV.exe" . fnv_types_v042.meta.json
-python tools\windows_check_pdb.py "C:\…\FalloutNV.exe" research research\fnv_types_v042_research.meta.json
+python tools\windows_check_pdb.py "C:\…\FalloutNV.exe" . fnv_types_v05.meta.json
+python tools\windows_check_pdb.py "C:\…\FalloutNV.exe" research research\fnv_types_v05_research.meta.json
 ```
-Ожидается `ИТОГ: всё совпадает`, код 0. Скрипт сначала сверяет SHA-256 exe и PDB, затем загружает PDB через DbgHelp
-(тот же движок, что у WinDbg и Visual Studio) с точным совпадением GUID/age, печатает, какой файл загружен, сверяет
-размер каждого класса, смещение каждого поля и базы и адреса 5 известных символов.
-**Отрицательная проверка** (по аудиту): запустить на любом другом exe (например, Steam-версия или скопированный и
-изменённый на один байт) — должно быть `ИТОГ: ОШИБКА — не тот exe или PDB`, код 2. Если что-то упадёт — пришли
-вывод целиком и версию Windows.
+Ожидается `ИТОГ: всё совпадает`, код 0 (сверка SHA-256, загрузка через DbgHelp, размер каждого класса, смещение
+каждого поля и базы, адреса 7 известных символов — добавлены `NiRenderer::ms_pkRenderer` и
+`BSShaderManager::GetPassName`). На другом exe — `ИТОГ: ОШИБКА — не тот exe или PDB`, код 2.
 
-**Шаг 2 — руками:**
-1. x32dbg / WinDbg / VS: символы грузятся; типы `FontData`, `BSWin32GameSound`, `BGSSaveLoadGame` видны, вложенные
-   (`FontManager::CharData`) и массивы (`FontData::pFontLetters`) раскрываются.
-2. Ghidra на **копии** проекта: Load PDB → `fnv_apply_ghidra.py` → план (847 адресов, 0 конфликтов в строгом) → «Да».
-   Открыть `Font::Load` (0xA15320): `this` — `Font*`. Задать сигнатуру какой-нибудь функции вручную, запустить ещё два
-   раза — она не меняется. То же в IDA. Записать версии программ.
-3. На живой игре: `FontManager::pInstance` (0x011F33F8) → `pFont[0]` → `pFontData` → `pFontLetters[0x41]` («A»):
-   `fWidth`, `fHeight` — разумные числа. `BSWin32Audio::Instance` (0x011F7080): `pDirectSound`, `pPrimaryBuffer` не нули.
+**Шаг 2 — на живой игре (x32dbg), рендер:**
+1. `[011F4748]` — адрес объекта рендерера; первый dword объекта — vtable `0x010EE4BC` (`NiDX9Renderer`).
+2. `[объект+0x288]` — `IDirect3DDevice9*`: первый dword по этому адресу указывает внутрь `d3d9.dll`.
+3. `объект+0x980` — `kD3DView`, 16 float: правдоподобная матрица вида (четвёртый столбец или строка ≈ 0, 0, 0, 1);
+   при повороте камеры числа меняются. `объект+0x9C0` — `kD3DProj`.
+4. `[0126F0D8]` — `IDirect3D9*`, первый dword тоже внутри `d3d9.dll`.
+5. В x32dbg/WinDbg тип `NiDX9Renderer` и `NiAVObject` виден, `m_kWorld` раскрывается до `m_Rotate.m_pEntry`.
+
+## Что не покрыто
+
+- `BSRENDERSTATE`, `etRenderMode`, `GEOMETRY_GROUP_ENUM` — статической проверки на PC не нашлось, в пакет не вошли.
+- `TESMain`/`Main`, внутренности `NiDX9RenderState` (`pRenderState` — только указатель), ~0x800 байт `NiDX9Renderer`.
+- В `BSShaderPPLightingProperty` не подтверждены `fWaterDepthCameraOffset`, `fGeomorphParam`, `fTerrainDetailTexScale`.
+- `ShaderTypeEnum` — 10 имён без проверки (выше).
 
 ## Что этот PDB НЕ доказывает
 
-Знание раскладок — это не готовые хуки. Для каждого плагина нужна своя проверка: кириллица — как текст декодируется
-и измеряется, байты > 127, локали; субтитры радио — смена реплики, пауза, смена станции; замена звука — жизненный
-цикл буферов DirectSound и COM-ссылок, пересоздание устройства, alt-tab, потоки (COM-типы полей восстановлены по
-вызываемым методам — стоит проверить по IID на Windows); DX11 / Jolt — конвейер рендера и шаг физики отдельно.
+Раскладка — не готовые хуки. Для DX11-перехода: время жизни устройства и `Reset`/потеря устройства, alt-tab,
+потоки (`MTRenderingSystem`), порядок проходов — проверять отдельно. Для полей из списка `tie-same-as-xbox` перед
+записью — одна живая проверка. Типы COM-указателей восстановлены по вызовам — стоит сверить по vtable на Windows.
 
 ## Предыдущие версии
 
-- **v0.4.1** — строгий и research PDB; признаки типов полей; основание размера; байты команд в доказательствах;
-  таблицы отличий PC/Xbox и имён xNVSE; `windows_check_pdb.py`; Ghidra/IDA по умолчанию строгие.
-- **v0.4** — шрифты (12 классов), радио (4), DirectSound (2, только PC), `HeapFreeSubBucket`, `BGSSaveLoadChangesMap`;
-  `SOUND_MSG`, `MEM_CONTEXT`, `MemoryPasses` (на PC другое), `enumCharTypes`; третья ошибка имён xNVSE.
-- **v0.3.2** — владение сигнатурами по отпечаткам; регрессионные тесты скриптов. **v0.3.1** — безопасные скрипты.
+- **v0.4.2** — по аудиту Астры v0.4.1: основание ширины (`width_basis`), композиция вложенных объектов, строгий PDB
+  без полей без подтверждённой ширины; приёмка на Windows пройдена (Ghidra, DbgHelp, x32dbg).
+- **v0.4.1** — строгий и research PDB; признаки типов полей; таблицы отличий PC/Xbox и имён xNVSE;
+  `windows_check_pdb.py`. **v0.4** — шрифты, радио, DirectSound, `SOUND_MSG`, `MEM_CONTEXT`, `MemoryPasses`.
+- **v0.3.2** — владение сигнатурами по отпечаткам. **v0.3.1** — безопасные скрипты.
 - **v0.3** — сохранения, `CHANGE_TYPE`. **v0.2** — доказательная матрица. **v0.1** — основа, звук, память.

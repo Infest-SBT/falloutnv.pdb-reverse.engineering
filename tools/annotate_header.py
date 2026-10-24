@@ -16,7 +16,7 @@ for line in open(hdr, encoding='utf-8'):
         cur = None
     if cur in S and line.startswith('    ') and not line.strip().startswith('//'):
         c = S[cur]
-        fm = re.match(r'^\s+(?:alignas\(\d+\) )?[\w\s\*]+?\b(\w+)(?:\[\w+\])?;', line)
+        fm = re.match(r'^\s+(?:alignas\(\d+\) )?[\w\s\*:<>,]+?\b(\w+)(?:\[\w+\])?;', line)
         vm = re.search(r'// слот (\d+)$', line)
         if vm and vm.group(1) in c['vslots']:
             v = c['vslots'][vm.group(1)]

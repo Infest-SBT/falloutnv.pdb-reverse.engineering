@@ -2,8 +2,8 @@
 
 usage (Windows, Python 3.8+, без сторонних пакетов), из корня пакета:
     python windows_check_pdb.py <FalloutNV.exe> <папка с FalloutNV.pdb> <meta.json> [<test_manifest.json>]
-    строгий:      python windows_check_pdb.py FalloutNV.exe .        fnv_types_v042.meta.json
-    research:     python windows_check_pdb.py FalloutNV.exe research research\\fnv_types_v042_research.meta.json
+    строгий:      python windows_check_pdb.py FalloutNV.exe .        fnv_types_v05.meta.json
+    research:     python windows_check_pdb.py FalloutNV.exe research research\\fnv_types_v05_research.meta.json
 
 Что проверяется:
   0) ДО DbgHelp (v0.4.2): SHA-256 FalloutNV.exe = 1.4.0.525 GOG; SHA-256 FalloutNV.pdb в папке = опубликованному
@@ -35,6 +35,8 @@ KNOWN = {  # имя публичного символа (PDB xNVSE) -> адре�
     'BSWin32Audio::Instance': 0x011F7080,
     'BGSChangeFlags::GetFlagName': 0x0083FEF0,
     'MemoryManager::ProcessMemoryProblem': 0x00866A90,
+    'NiRenderer::ms_pkRenderer': 0x011F4748,          # v0.5: указатель на единственный рендерер (NiDX9Renderer)
+    'BSShaderManager::GetPassName': 0x00B4F9D0,       # v0.5: источник номеров проходов eBSSMPassEnum
 }
 
 

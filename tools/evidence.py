@@ -210,6 +210,44 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
     return out
 
 
+def stack_arg_accesses(f, argn, limit):
+    """Обращения через указатель — аргумент №argn (1 = [esp+4] на входе) функции без кадра EBP: учитывается
+    смещение ESP от push/pop/sub/add; регистр, загруженный из этого слота, и его копии — псевдонимы объекта."""
+    out, delta, alias = [], 0, set()
+    end = min(func_end(f), f + 0x2000)
+    for ins in md.disasm(img[f - B:end - B], f):
+        ops = ins.operands
+        m = ins.mnemonic
+        dst = ins.reg_name(ops[0].reg) if ops and ops[0].type == capstone.x86.X86_OP_REG else None
+        for op in ops:
+            if op.type == capstone.x86.X86_OP_MEM and op.mem.base and ins.reg_name(op.mem.base) in alias \
+                    and not op.mem.index and 0 <= op.mem.disp < limit:
+                out.append((op.mem.disp, 0 if m == 'lea' else op.size, ins.address, f'{m} {ins.op_str}',
+                            bool(op.access & capstone.CS_AC_WRITE), None))
+        if m == 'mov' and dst and ops[1].type == capstone.x86.X86_OP_MEM and ops[1].mem.base \
+                and ins.reg_name(ops[1].mem.base) == 'esp' and not ops[1].mem.index and ops[1].mem.disp - delta == 4 * argn:
+            alias.add(dst)
+        elif m == 'mov' and dst and ops[1].type == capstone.x86.X86_OP_REG and ins.reg_name(ops[1].reg) in alias:
+            alias.add(dst)
+        elif dst and m not in ('push', 'cmp', 'test'):
+            alias.discard(dst)
+        if m == 'push':
+            delta += 4
+        elif m == 'pop':
+            delta -= 4
+            if dst:
+                alias.discard(dst)
+        elif m in ('sub', 'add') and dst == 'esp' and ops[1].type == capstone.x86.X86_OP_IMM:
+            delta += ops[1].imm if m == 'sub' else -ops[1].imm
+        elif m == 'call':
+            alias -= {'eax', 'ecx', 'edx'}
+        elif m == 'ret' or (m == 'jmp' and not ins.op_str.startswith('0x')):
+            break
+        elif m.startswith('j') and False:
+            pass
+    return out
+
+
 def reads_ecx_first(f):
     """True, если функция читает ECX раньше, чем пишет в него (признак __thiscall)."""
     end = min(func_end(f), f + 0x200)
@@ -255,7 +293,69 @@ def rets(f):
     return r
 
 
+VT_SYM = {}
+for _a, _ns in byaddr.items():
+    for _n in _ns:
+        _m = re.match(r"const (.+)::`vftable'$", _n)
+        if _m:
+            VT_SYM.setdefault(_m.group(1), _a)
+
+
+VT_ANY = {}
+for _a, _ns in byaddr.items():
+    for _n in _ns:
+        _m = re.match(r"const (.+)::`vftable'", _n)
+        if _m:
+            VT_ANY.setdefault(_a, _m.group(1))
+
+
+def derived_vtable_after(site, cname):
+    """После вызова конструктора базы по адресу site: в тот же объект (ESI/EDI/EAX, куда попал результат
+    конструктора или указатель выделения) пишется непосредственная vtable другого класса? -> (адрес, класс) или None."""
+    own = {'eax'}
+    fs = func_start(site)
+    if site - 0x2000 <= fs < site:
+        for ins in md.disasm(img[fs - B:site - B], fs):
+            if ins.mnemonic == 'mov' and ins.op_str.startswith('ecx, ') and ins.operands[1].type == capstone.x86.X86_OP_REG:
+                own = {'eax', ins.reg_name(ins.operands[1].reg)}      # регистр с объектом, переданный в ECX
+    n = 0
+    for ins in md.disasm(img[site + 5 - B:site + 5 + 0x120 - B], site + 5):
+        n += 1
+        if n > 40 or ins.mnemonic in ('ret', 'jmp') or ins.mnemonic.startswith('j'):
+            break
+        ops = ins.operands
+        if ins.mnemonic == 'mov' and len(ops) == 2:
+            if ops[0].type == capstone.x86.X86_OP_MEM and ops[1].type == capstone.x86.X86_OP_IMM \
+                    and ops[0].mem.base and ins.reg_name(ops[0].mem.base) in own and ops[0].mem.disp == 0:
+                cls_ = VT_ANY.get(ops[1].imm & 0xFFFFFFFF)
+                if cls_ and cls_ != cname:
+                    return ins.address, cls_
+            if ops[0].type == capstone.x86.X86_OP_REG and ops[1].type == capstone.x86.X86_OP_REG \
+                    and ins.reg_name(ops[1].reg) in own:
+                own.add(ins.reg_name(ops[0].reg))
+                continue
+            if ops[0].type == capstone.x86.X86_OP_REG and ops[1].type == capstone.x86.X86_OP_MEM and ops[1].mem.base \
+                    and ins.reg_name(ops[1].mem.base) in ('ebp', 'esp') and not ops[1].mem.index:
+                own.add(ins.reg_name(ops[0].reg))   # неоптимизированный код: указатель на объект перечитан из слота стека
+                continue
+        if ins.mnemonic == 'call':
+            own &= {'esi', 'edi', 'ebx', 'ebp'}
+            continue
+        try:
+            _, w = ins.regs_access()
+        except capstone.CsError:
+            break
+        own -= {ins.reg_name(r) for r in w}
+    return None
+
+
 def find_vtable(cls):
+    """Главная vtable класса: по RTTI (Complete Object Locator со смещением 0), а если RTTI не нашлась —
+    по публичному символу xNVSE «const Класс::`vftable'» (v0.5: у многих классов Bethesda RTTI не находится)."""
+    return _rtti_vtable(cls) or VT_SYM.get(cls)
+
+
+def _rtti_vtable(cls):
     mangled = '@'.join(reversed(cls.split('::'))).encode()
     for pre in (b'.?AV', b'.?AU'):
         pos = img.find(pre + mangled + b'@@\x00')
@@ -331,10 +431,12 @@ def match_in(cls, rel, sz, depth=0):
 
 
 # основания ширины поля, которые принимаются в строгий PDB (v0.4.2); у непрозрачных байтов (blob) ширина не заявляется
-WIDTH_OK = {'access-width', 'element-width', 'int64-halves', 'index-stride', 'class-array-element', 'nested-field-width'}
+WIDTH_OK = {'access-width', 'element-width', 'int64-halves', 'index-stride', 'class-array-element', 'nested-field-width',
+            'class-member'}
+COMP_OK = ('proved', 'pod-layout')     # v0.5: композиция доказана вызовом метода или (для POD без vtable) раскладкой
 
 
-ALLOC = re.compile(r'Allocate|operator new|malloc|FormHeap', re.I)
+ALLOC = re.compile(r'Allocate|operator new|malloc|FormHeap|^NiNew$|^NiAlloc$', re.I)   # v0.5: + NiNew/NiAlloc (Gamebryo)
 
 
 def alloc_reaching(site):
@@ -460,7 +562,7 @@ def composition_proofs(acc, off, sub):
         if o != off or sz != 0 or ia in seen or step is not None:
             continue
         seen.add(ia)
-        regs, n = None, 0
+        regs, n, pushed = None, 0, False
         for ins in md.disasm(img[ia - B:ia - B + 64], ia):
             ops = ins.operands
             if regs is None:
@@ -469,9 +571,14 @@ def composition_proofs(acc, off, sub):
                 regs = {ins.reg_name(ops[0].reg)}
                 continue
             n += 1
+            if ins.mnemonic == 'push':
+                # v0.5: адрес this+off — последний положенный в стек перед вызовом = первый аргумент функции
+                pushed = bool(ops and ops[0].type == capstone.x86.X86_OP_REG and ins.reg_name(ops[0].reg) in regs)
+                continue
             if ins.mnemonic == 'call':
-                if 'ecx' in regs and ins.op_str.startswith('0x') and int(ins.op_str, 16) in subm:
-                    out.append((ia, txt, ins.address, name_at(int(ins.op_str, 16))))
+                if ('ecx' in regs or pushed) and ins.op_str.startswith('0x') and int(ins.op_str, 16) in subm:
+                    out.append((ia, txt + ('' if 'ecx' in regs else ' (первым аргументом на стеке)'), ins.address,
+                                name_at(int(ins.op_str, 16))))
                 break
             if ins.mnemonic in ('ret', 'jmp') or ins.mnemonic.startswith('j') or n > 8:
                 break
@@ -491,6 +598,7 @@ def composition_proofs(acc, off, sub):
 
 
 compositions = {}   # (класс, поле) -> {'sub', 'status', 'evidence'}
+SHIFT_IN = {}       # v0.5: класс -> (поля, обращения, начало своих полей) — для проверки сдвигом
 composition_rows = []
 for cname, c in CLS.items():
     own = c['fields'][:]
@@ -559,12 +667,19 @@ for cname, c in CLS.items():
             continue
         for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], seed_ecx=False, seed_slots=(k,)):
             acc.append((off, sz, ia, txt, name_at(f), f'argument [ebp+0x{k:X}]', wr, step, f))
+    # v0.5: указатель на объект — аргумент на стеке в функции без кадра EBP (cdecl/stdcall, адресация через ESP):
+    # BSShaderProperty::RenderPass::RenderPass(RenderPass*, …) — «конструктор» получает объект первым аргументом
+    for sp in spec.get('stack_arg_pointers', {}).get(cname, []):
+        f = int(sp['func'], 16)
+        for off, sz, ia, txt, wr, step in stack_arg_accesses(f, sp['arg'], c['pc_size']):
+            acc.append((off, sz, ia, txt, name_at(f), f"argument [esp+{4 * sp['arg']}] на входе", wr, step, f))
     # объект, на который указывает поле другого класса (Font::pFontData -> FontData): поля цели по коду владельца
     for pf in spec.get('pointer_fields', {}).get(cname, []):
         holder, poff = pf['holder'], int(pf['field_off'], 16)
         for f in funcs_of(holder):
             for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], chase=poff):
                 acc.append((off, sz, ia, txt, name_at(f), f'pointer {holder}+0x{poff:X}', wr, step, f))
+    SHIFT_IN[cname] = (own, acc, first_own)
     status = {}
     det = collections.defaultdict(lambda: {'insns': 0, 'functions': set(), 'via': set(), 'writes': 0,
                                            'traits': set(), 'widths': set(), 'wbasis': set()})
@@ -593,9 +708,24 @@ for cname, c in CLS.items():
                 # согласуется с «массив элементов по step байт», внутрь элемента не заглядываем
                 st = 'confirmed' if off == s else 'consistent'
                 wb = 'blob-stride'
+            elif step is not None and esz and step != esz and step % esz == 0 and fd['size'] % step == 0 \
+                    and (off - s) % esz == 0 and sz in (esz, 0) and off + max(sz, 1) <= e:
+                # v0.5: двумерный массив (float[3][3] как float[9]): индекс по строкам с шагом, кратным элементу
+                st = 'confirmed' if sz == esz else 'consistent'
+                wb = 'element-width' if sz == esz else None
+            elif step is not None and esz is None and not fd.get('class_type') and step == fd['size'] \
+                    and off == s and sz in (0, fd['size']):
+                # v0.5: индекс по подряд идущим однотипным полям (NiPoint3::GetAt: &x + i) — согласуется,
+                # но ширину и тип отдельного поля не подтверждает
+                st = 'consistent'
             elif step is not None and (esz is None or step != esz):
                 # индексное обращение с шагом, не равным размеру элемента: раскладке не соответствует
                 st = 'CONFLICT'
+            elif fd.get('class_type') in CLS:
+                # v0.5: вложенный объект второго уровня (NiAVObject.m_kWorld.m_Rotate — NiMatrix3): разбор внутрь
+                path, st, wb = match_in(fd['class_type'], off - s, sz)
+                wb = 'class-member' if (st == 'confirmed' and wb in WIDTH_OK) else None
+                path_full = f"{fd['name']}.{path}" if path else None
             elif ecls and esz:
                 path, st, wb = match_in(fd['class_array_of'], (off - s) % esz, sz)
                 if step == esz and st != 'CONFLICT':
@@ -617,6 +747,8 @@ for cname, c in CLS.items():
             elif esz and (off - s) % esz == 0 and sz == esz:
                 st = 'confirmed'   # элемент массива
                 wb = 'element-width'
+            elif esz and sz and sz < esz and (off - s) % esz + sz <= esz:
+                st = 'consistent'  # v0.5: часть элемента массива (байт флагов внутри dword), ширину не подтверждает
             elif off == s or fd.get('opaque'):
                 st = 'consistent'
             else:
@@ -717,6 +849,13 @@ for cname, c in CLS.items():
             hit = alloc_reaching(site)
             if hit:
                 size, pva, ptxt, an = hit
+                dv = derived_vtable_after(site, cname)
+                if dv:
+                    # v0.5: после конструктора базы в объект записана vtable другого класса — это выделение
+                    # наследника со встроенным конструктором (фабрика CreateObject), размер базы оно не доказывает
+                    sz_ev.append(('ctor-alloc-derived', size, f'0x{pva:08X} {ptxt}; call {an}; 0x{site:08X} call '
+                                  f'{name_at(ct)}; затем {dv[0]:#010x}: vtable {dv[1]} — выделение наследника'))
+                    continue
                 sz_ev.append(('ctor-alloc', size, f'0x{pva:08X} {ptxt}; call {an}; результат доходит до ecx; '
                                                 f'0x{site:08X} call {name_at(ct)}'))
     for sc in subclasses(cname):
@@ -813,6 +952,181 @@ for cname, c in CLS.items():
                     if f'0x{f:X}' not in {k.upper().replace('0X', '0x') for k in excl}]})
 
 
+# v0.5: проверка сдвигом (layout_shift_test.csv). Смещение «confirmed» значит: по нему есть обращение нужной ширины.
+# Если подряд стоят поля одной ширины (dword, dword, dword…), раскладка, сдвинутая на 4 байта, объясняет те же
+# обращения так же хорошо, — так прошла бы ошибка «на PC пропущено одно поле» (так и было с
+# BSShaderPPLightingProperty до исправления). Поэтому раскладку класса (до скалярных полей вложенных объектов)
+# сравниваем с гипотезами «поля с k-го до ближайшей опоры сдвинуты на d» (d = ±4, ±8).
+#   счёт = объяснённые обращения − 3 × противоречия; учитываются различные (смещение, ширина, вид) обращения
+#   без индексных. Объяснено: начало элемента своей ширины и вид типа не противоречит; целиком внутри непрозрачных
+#   байтов; взятие адреса начала поля. Противоречие: заполнитель, выход за конец поля, вид типа противоречит.
+#   Место, освобождённое сдвигом (в конце или начале сдвинутой части), — неизвестное поле: обращения туда не считаются.
+#   опоры: начало вложенного объекта, доказанное вызовом его метода (compositions: proved), и разобранные вручную
+#   (evidence_spec layout_anchors, с адресами) — их гипотеза не сдвигает.
+# Гипотеза, набравшая не меньше заявленной раскладки и сдвигающая подтверждённые поля:
+#   — в точке, где раскладка PC отличается от Xbox (поле только PC, тип другого размера, правка по коду): код PC это
+#     отличие не различает — AMBIGUOUS, такие поля в строгий PDB не идут;
+#   — там, где PC совпадает с Xbox: означала бы отличие PC, ничем не подсказанное, — только отмечается
+#     (tie-same-as-xbox): раскладка держится на совпадении с Xbox PDB при подтверждённом размере.
+SHIFT_D = (-8, -4, 4, 8)
+
+
+def _shift_score(fields, accs, size):
+    sc = 0
+    for o, sz, kind in accs:
+        hit = None
+        for fo, fs, fd in fields:
+            if fo <= o < fo + fs and (hit is None or fo > hit[0]):
+                hit = (fo, fs, fd)
+        if hit is None:
+            sc -= 3 if o < size else 0
+            continue
+        fo, fs, fd = hit
+        if fd.get('vacant'):
+            continue                        # место, освобождённое сдвигом: там могло быть неизвестное поле
+        dk = declared_kind(fd)
+        if sz == 0:
+            sc += 1 if o == fo else 0       # взят адрес: в начале поля — объяснено, внутри — ничего не говорит
+            continue
+        if dk in ('blob', 'class'):
+            # непрозрачные байты / вложенный объект: обращение целиком внутри — объяснено (внутри может быть что угодно)
+            sc += 1 if o + sz <= fo + fs else -3
+            continue
+        el = re.search(r'\[(\d+)\];?$', fd.get('decl', ''))
+        esz = fs // int(el.group(1)) if el else fs
+        rel = o - fo
+        if type_status(dk, [kind]) == 'CONFLICT':
+            sc -= 3
+        elif (rel % esz == 0 and sz == esz) or (is_int64(fd) and sz == 4 and rel in (0, 4)):
+            sc += 1
+        elif o + sz > fo + fs:
+            sc -= 3
+    return sc
+
+
+shift_rows = []
+for cname, (own_, acc_, first_) in SHIFT_IN.items():
+    c = CLS[cname]
+    def _leaves(fd, depth=0):
+        sub = CLS.get(fd.get('class_type') or '')
+        if sub and sub['fields'] and depth < 8:     # вложенные объекты — до скалярных полей
+            return [lf for sf in sub['fields']
+                    for lf in _leaves(dict(sf, name=f"{fd['name']}.{sf['name']}", off=fd['off'] + sf['off'],
+                                           xbox_off=(None if fd.get('xbox_off') is None or sf.get('xbox_off') is None
+                                                     else fd['xbox_off'] + sf['xbox_off'])), depth + 1)]
+        return [fd]
+    flds = sorted((lf['off'], lf['size'], lf) for fd in c['fields'] if fd['off'] >= first_ for lf in _leaves(fd))
+    accs = set()
+    for off, sz, ia, txt, fn, owner, wr, step, fva in acc_:
+        if off >= first_ and step is None:
+            k_ = insn_kind(txt, sz)
+            accs.add((off, sz, 'deref' if ia in DEREF else k_))
+    accs = sorted(accs)
+    if len(flds) < 2 or not accs:
+        shift_rows.append({'class': cname, 'layout_differs': bool(c.get('layout_differs')), 'fields': len(flds),
+                           'accesses': len(accs), 'declared_score': '',
+                           'best_alternative': '', 'alternative_score': '', 'margin': '',
+                           'verdict': 'no-evidence', 'ambiguous_fields': '', 'anchors': ''})
+        continue
+    D = _shift_score(flds, accs, c['pc_size'])
+    # опоры: начало вложенного объекта, доказанное вызовом его метода с this+смещение (compositions: proved), и
+    # опоры, разобранные вручную (spec layout_anchors: поле -> обоснование с адресами). Гипотеза сдвигает поля от k-го
+    # до ближайшей опоры (вставка/пропуск поля должны погаситься до неё); опору саму не сдвигаем.
+    comp_ = summary['classes'][cname].get('compositions', {})
+    man_ = spec.get('layout_anchors', {}).get(cname, {})
+    anch = {i for i, (o, s_, fd) in enumerate(flds)
+            if (fd['name'].split('.')[0] in comp_ and comp_[fd['name'].split('.')[0]]['status'] == 'proved'
+                and fd['off'] == {f2['name']: f2['off'] for f2 in c['fields']}.get(fd['name'].split('.')[0]))
+            or fd['name'] in man_}
+    # точки расхождения с Xbox: поле, у которого (PC − Xbox) не такое, как у предыдущего, или поля нет на Xbox
+    def _dx(fd):
+        return None if fd.get('xbox_off') is None else fd['off'] - fd['xbox_off']
+    divp = {i for i in range(len(flds)) if _dx(flds[i][2]) is None or i == 0 or _dx(flds[i][2]) != _dx(flds[i - 1][2])}
+    best, amb, amb_div = None, set(), set()
+    for k in range(1, len(flds)):
+        if k in anch:
+            continue
+        j = next((i for i in sorted(anch) if i > k), len(flds))
+        for d in SHIFT_D:
+            seg = flds[k:j]
+            s0, s1 = seg[0][0], max(o + s_ for o, s_, fd in seg)
+            vac = (s1 + d, -d) if d < 0 else (s0, d)       # освобождённое место: неизвестное поле, ничего не говорит
+            alt = flds[:k] + [(o + d, s_, fd) for o, s_, fd in seg
+                              if first_ <= o + d and o + d + s_ <= c['pc_size']] + flds[j:] \
+                + [(vac[0], vac[1], {'name': '<vacant>', 'vacant': True})]
+            A = _shift_score(alt, accs, c['pc_size'])
+            moved = [fd['name'] for o, s_, fd in flds[k:j]]
+            moved += [n_.rsplit('.', 1)[0] for n_ in moved if '.' in n_]   # и сами вложенные объекты
+            if best is None or A > best[0]:
+                best = (A, flds[k][2]['name'], d)
+            if A >= D:
+                amb |= set(moved)
+                if k in divp:
+                    amb_div |= set(moved)
+    conf = summary['classes'][cname]['fields']
+    amb_c = sorted(n for n in amb if conf.get(n) == 'confirmed')
+    amb_d = sorted(n for n in amb_div if conf.get(n) == 'confirmed')
+    # Гипотеза, начинающаяся там, где PC совпадает с Xbox (то же смещение, что у предыдущего поля), означала бы
+    # отличие PC от Xbox, ничем не подсказанное, — равный счёт здесь только отмечается (tie-same-as-xbox).
+    # Гипотеза в точке, где раскладка PC сама отличается от Xbox (правка по коду, тип другого размера, поле только
+    # PC), проверяет именно это отличие: равный счёт значит, что код PC его не различает, — AMBIGUOUS.
+    verdict = 'AMBIGUOUS' if amb_d else ('unique' if not amb_c else
+                                         'tie-same-as-xbox' if best[0] == D else 'alternative-better-same-as-xbox')
+    amb_c = amb_d if amb_d else amb_c
+    summary['classes'][cname]['shift_test'] = {'declared_score': D,
+                                               'best_alternative': f'{best[1]} {best[2]:+d}' if best else '',
+                                               'alternative_score': best[0] if best else '', 'verdict': verdict,
+                                               'ambiguous_fields': amb_c}
+    shift_rows.append({'class': cname, 'layout_differs': bool(c.get('layout_differs')), 'fields': len(flds),
+                       'accesses': len(accs), 'declared_score': D,
+                       'best_alternative': f'с поля {best[1]} на {best[2]:+d}' if best else '',
+                       'alternative_score': best[0] if best else '', 'margin': D - best[0] if best else '', 'verdict': verdict, 'ambiguous_fields': ' '.join(amb_c),
+                       'anchors': ' '.join(flds[i][2]['name'] + (' (вручную)' if flds[i][2]['name'] in man_ else '')
+                                           for i in sorted(anch))})
+
+
+# v0.5: композиция POD-структур без vtable (NiTransform, NiPoint3, NiMatrix3): у них нет методов, вызов которых доказал
+# бы композицию. Доказательство — раскладка: по коду PC (любого класса, где путь проходит через это поле) подтверждены
+# по ширине хотя бы два разных подполя (или единственное, если оно одно) и нет ни одного противоречия внутри.
+def _pod(sub):
+    b = sub
+    while b:
+        if CLS[b]['vslots']:
+            return False
+        b = CLS[b]['base']
+    return True
+
+
+_ftype = {(c_, fd_['name']): fd_.get('class_type') for c_ in CLS for fd_ in CLS[c_]['fields'] if fd_.get('class_type')}
+_support = collections.defaultdict(set)
+_bad = collections.Counter()
+for r in field_rows:
+    parts = r['field'].split('.')
+    cur = r['class']
+    for i in range(len(parts) - 1):
+        p_ = parts[i]
+        t_ = _ftype.get((cur, p_))
+        if not t_:
+            break
+        if r['status'] == 'confirmed' and int(r['access_size']) > 0:
+            _support[(cur, p_)].add(parts[i + 1].replace('[]', ''))
+        elif r['status'] == 'CONFLICT':
+            _bad[(cur, p_)] += 1
+        cur = t_
+for (xc, xf), cv in compositions.items():
+    if cv['status'] == 'proved' or not _pod(cv['sub']):
+        continue
+    need = min(2, len(CLS[cv['sub']]['fields']))
+    sup = sorted(_support.get((xc, xf), ()))
+    if need and len(sup) >= need and not _bad.get((xc, xf)):
+        cv['status'] = 'pod-layout'
+        cv['evidence'] = [f"POD без vtable: по ширине подтверждены подполя {', '.join(sup)}; противоречий нет"]
+        for r in composition_rows:
+            if r['class'] == xc and r['field'] == xf:
+                r.update({'status': 'pod-layout', 'note': cv['evidence'][0]})
+        summary['classes'][xc]['compositions'][xf] = cv
+
+
 # вложенные классы: поля, подтверждённые внутри содержащего класса (Header.iChangeFlags, LargeFreeList.pHead),
 # засчитываются и самому вложенному классу — v0.4.2: только если композиция доказана (по смещению действительно
 # объект этого класса: его метод вызывается с ECX = this+смещение), см. compositions.csv
@@ -822,7 +1136,7 @@ for xname, xc in CLS.items():
         sub = fd.get('class_type')
         if not sub or sub not in summary['classes']:
             continue
-        if compositions.get((xname, fd['name']), {}).get('status') != 'proved':
+        if compositions.get((xname, fd['name']), {}).get('status') not in COMP_OK:
             continue
         for sf_name in list(summary['classes'][sub]['fields']):
             key = f"{fd['name']}.{sf_name}"
@@ -866,7 +1180,7 @@ for xname, xc in CLS.items():
 for xname, xc in CLS.items():
     for fd in xc['fields']:
         sub = fd.get('class_type')
-        if not sub or sub not in summary['classes'] or compositions.get((xname, fd['name']), {}).get('status') != 'proved':
+        if not sub or sub not in summary['classes'] or compositions.get((xname, fd['name']), {}).get('status') not in COMP_OK:
             continue
         for sf_name, sst in summary['classes'][sub]['fields'].items():
             key = f"{fd['name']}.{sf_name}"
@@ -884,7 +1198,7 @@ for xname, xc in CLS.items():
                 if sd['width_verified'] and not dd['width_verified']:
                     dd['width_verified'] = True
                     dd['width_basis'] = sorted(set(dd['width_basis']) | {'nested-field-width'})
-                dd['composition'] = 'proved'
+                dd['composition'] = compositions[(xname, fd['name'])]['status']
                 dd['composition_evidence'] = compositions[(xname, fd['name'])]['evidence'][:3]
 for cname, sc in summary['classes'].items():
     sc['provisional_fields'] = sorted(k for k, v in sc['fields'].items() if v != 'confirmed')
@@ -910,7 +1224,7 @@ for cname, sc in summary['classes'].items():
         if '.' in k and k.split('.')[0] in comp:
             dd['composition'] = comp[k.split('.')[0]]['status']
     for k, cv in comp.items():
-        cv['strict'] = bool(sc['strict'] and cv['status'] == 'proved' and cv['sub'] in summary['classes']
+        cv['strict'] = bool(sc['strict'] and cv['status'] in COMP_OK and cv['sub'] in summary['classes']
                             and strict_ok(cv['sub']))
 
     def admitted(k, dd):
@@ -920,6 +1234,11 @@ for cname, sc in summary['classes'].items():
             return False   # смещение есть, а ширина ничем не подтверждена (только взятие адреса и т.п.)
         if '.' in k and k.split('.')[0] in comp and not comp[k.split('.')[0]]['strict']:
             return False   # поле вложенного объекта, а сам вложенный объект не доказан / не допущен
+        st_ = sc.get('shift_test', {})
+        if st_.get('verdict') == 'AMBIGUOUS' and k in st_.get('ambiguous_fields', []):
+            return False   # v0.5: раскладка PC отличается от Xbox, а сдвинутая раскладка объясняет код не хуже
+        if dd.get('type_status') == 'CONFLICT':
+            return False   # v0.5: команды PC противоречат объявленному виду типа (int/float/указатель) — не типизируем
         return True
     sc['strict_fields'] = sorted(k for k, dd in sc['field_details'].items() if admitted(k, dd)) if sc['strict'] else []
 summary['truncated_functions'] = sorted(f'0x{f:08X}' for f in TRUNCATED)
@@ -930,14 +1249,19 @@ summary['width_basis_kinds'] = {
     'index-stride': 'индексное обращение с шагом, равным sizeof(элемента) (imul/scale)',
     'class-array-element': 'массив классов: внутри элемента подтверждено подполе по его собственной ширине',
     'nested-field-width': 'поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана',
+    'class-member': 'поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5)',
     'blob-prefix / blob-stride': 'непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются',
     '… (в X.поле) / (элемент X.поле[])': 'ширина подтверждена обращением через содержащий класс'}
-summary['admission_rule'] = ('строгий PDB (v0.4.2): класс допускается, если его размер confirmed и допущены все базовые классы; '
+summary['admission_rule'] = ('строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; '
                              'в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена '
                              'хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); '
                              'вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса '
-                             'вызывается с ECX = this+смещение) и сам вложенный класс допущен; '
-                             'остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack')
+                             'вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — '
+                             'раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет '
+                             'противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, '
+                             'не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже '
+                             '(layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC '
+                             '(type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack')
 
 
 def wcsv(name, rows):
@@ -954,6 +1278,7 @@ wcsv('evidence_sizes.csv', sizes_rows)
 wcsv('evidence_vslots.csv', slot_rows)
 wcsv('excluded_functions.csv', excluded_rows)
 wcsv('compositions.csv', composition_rows)
+wcsv('layout_shift_test.csv', shift_rows)
 # функции, опознанные вручную: без имени, с чужим (xNVSE) именем, или передающие объект аргументом — с обоснованием
 ident_rows = []
 for cname_, fs_ in spec.get('class_functions', {}).items():
@@ -1030,6 +1355,23 @@ for cn_, sc_ in summary['classes'].items():
         ev_ = cv_['evidence']
         proof_ = ('`' + ev_[0] + '`' + (' и ещё %d' % (len(ev_) - 1) if len(ev_) > 1 else '')) if ev_ else '—'
         rep.append(f"| `{cn_}` | `{k_}` (+{cv_['off']}) | `{cv_['sub']}` | {cv_['status']} | {proof_} |")
+shv = collections.Counter(r['verdict'] for r in shift_rows)
+rep += ['', '## Проверка сдвигом (layout_shift_test.csv)', '',
+        'Раскладку каждого класса сравниваем с гипотезами «поля с k-го до ближайшей опоры сдвинуты на ±4/±8 байт» — так '
+        'ловится пропущенное или лишнее поле среди полей одной ширины, которое проверка «по смещению есть обращение нужной '
+        'ширины» не видит. `unique` — каждая гипотеза объясняет код PC хуже; `AMBIGUOUS` — в точке, где раскладка PC '
+        'отличается от Xbox, гипотеза не хуже (такие поля в строгий PDB не идут); `tie-same-as-xbox` — равный счёт там, '
+        'где PC совпадает с Xbox (только отмечается: раскладка держится на совпадении с Xbox PDB при подтверждённом размере); '
+        '`alternative-better-same-as-xbox` — то же, но гипотеза лучше: в заявленной раскладке есть противоречия; '
+        '`no-evidence` — меньше двух полей или нет обращений.', '',
+        'Итог: ' + ', '.join(f'{k} — {v}' for k, v in sorted(shv.items())) + '.', '',
+        '| класс | PC ≠ Xbox | счёт | лучшая гипотеза | её счёт | вердикт | поля под вопросом | опоры |',
+        '|---|---|---|---|---|---|---|---|']
+for r in shift_rows:
+    if r['verdict'] not in ('unique', 'no-evidence'):
+        rep.append(f"| `{r['class']}` | {'да' if r['layout_differs'] else 'нет'} | {r['declared_score']} | "
+                   f"{r['best_alternative']} | {r['alternative_score']} | {r['verdict']} | {r['ambiguous_fields']} | "
+                   f"{r['anchors'] or '—'} |")
 rep += ['', '## Допуск в строгий PDB', '', summary['admission_rule'] + '.', '',
         'Не допущены: ' + (', '.join(f"`{c}` ({sc['size_status']})" for c, sc in summary['classes'].items() if not sc['strict']) or 'нет') + '.',
         '', 'Функции, прочитанные не до конца (лимит 0x%X байт): %s.' % (READ_LIMIT, ', '.join(summary['truncated_functions']) or 'нет')]

@@ -1,0 +1,31 @@
+name,value,classes,status
+BSSM_SHADERTYPE_UNKNOWN,-1,,not-checked
+BSSM_SHADERTYPE_BASE,0,,not-checked
+BSSM_SHADERTYPE_SHADOWLIGHT_FIRST,1,ShadowLightShader (ShadowLightShader::ShadowLightShader 0x00B79B63),not-checked
+BSSM_SHADERTYPE_MP_SHADOWLIGHTSHADER,1,ShadowLightShader (ShadowLightShader::ShadowLightShader 0x00B79B63),name-consistent
+BSSM_SHADERTYPE_HAIR,2,,not-checked
+BSSM_SHADERTYPE_PARALLAX,3,,not-checked
+BSSM_SHADERTYPE_SKIN,4,,not-checked
+BSSM_SHADERTYPE_STBRANCHSHADER,5,,not-checked
+BSSM_SHADERTYPE_SHADOWLIGHT_LAST,5,,not-checked
+BSSM_SHADERTYPE_TALLGRASSSHADER,6,TallGrassShader (TallGrassShader::TallGrassShader 0x00BACDE5),name-consistent
+BSSM_SHADERTYPE_DISTANTLODSHADER,7,DistantLODShader (DistantLODShader::DistantLODShader 0x00BD57A1),name-consistent
+BSSM_SHADERTYPE_STFRONDSHADER,8,SpeedTreeFrondShader (SpeedTreeFrondShader::SpeedTreeFrondShader 0x00BD2C0C),name-consistent
+BSSM_SHADERTYPE_STLEAFSHADER,9,SpeedTreeLeafShader (SpeedTreeLeafShader::SpeedTreeLeafShader 0x00BB2AA0),name-consistent
+BSSM_SHADERTYPE_RENDERDEBUGTEXTURE,10,DebugShader (DebugShader::DebugShader 0x00BD19CE),name-consistent
+BSSM_SHADERTYPE_SKY,11,SkyShader (SkyShader::SkyShader 0x00B8A281),name-consistent
+BSSM_SHADERTYPE_GEOMETRYDECAL,12,GeometryDecalShader (GeometryDecalShader::GeometryDecalShader 0x00BCBF9D),name-consistent
+BSSM_SHADERTYPE_WATER,13,WaterShader (WaterShader::WaterShader 0x00B86C80),name-consistent
+BSSM_SHADERTYPE_PARTICLE,14,ParticleShader (ParticleShader::ParticleShader 0x00BA54A7),name-consistent
+BSSM_SHADERTYPE_BOLT,15,BoltShader (BoltShader::BoltShader 0x00BC0D2A),name-consistent
+BSSM_SHADERTYPE_BEAM,16,BeamShader (BeamShader::BeamShader 0x00BC487E),name-consistent
+BSSM_SHADERTYPE_SM3LIGHTING,17,Lighting30Shader (Lighting30Shader::Lighting30Shader 0x00BBC6B9),name-consistent
+BSSM_SHADERTYPE_PRECIPITATION,18,PrecipitationShader (PrecipitationShader::PrecipitationShader 0x00BB04DF),name-consistent
+BSSM_SHADERTYPE_VFOG,19,VolumetricFogShader (VolumetricFogShader::VolumetricFogShader 0x00BC5961),name-consistent
+BSSM_SHADERTYPE_TILESHADER,20,TileShader (TileShader::TileShader 0x00BCAD4C),name-consistent
+BSSM_SHADERTYPE_VATS,21,,not-checked
+BSSM_SHADERTYPE_NOLIGHTING,22,BSShaderNoLighting (BSShaderNoLighting::BSShaderNoLighting 0x00BC905D),name-consistent
+BSSM_SHADERTYPE_BLOODSPLATTER,23,BSShaderBloodSplatter (BSShaderBloodSplatter::BSShaderBloodSplatter 0x00B80DE6),name-consistent
+BSSM_SHADERTYPE_IMAGESPACE,24,ImageSpaceShader (ImageSpaceShader::ImageSpaceShader 0x00C045D7),name-consistent
+BSSM_SHADERTYPE_DISTANT_TREE,25,BSDistantTreeShader (BSDistantTreeShader::BSDistantTreeShader 0x00BB6D67),name-consistent
+BSSM_SHADERTYPE_COUNT,26,,not-checked

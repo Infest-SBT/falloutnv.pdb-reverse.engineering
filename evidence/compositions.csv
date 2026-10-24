@@ -1,5 +1,5 @@
 class,field,field_off,nested_class,status,insn_va,insn,call_va,callee,note
-AbstractHeap,LargeFreeList,0x2048,FreeHeapBlockList,not-proved,,,,,вызова метода вложенного класса с ECX = this+смещение не найдено
+AbstractHeap,LargeFreeList,0x2048,FreeHeapBlockList,pod-layout,,,,,"POD без vtable: по ширине подтверждены подполя pHead, pTail; противоречий нет"
 BGSSaveFormBuffer,Header,0x14,BGSSaveLoadFormHeader,proved,0x00865A01,"add ecx, 0x14",0x00865A04,BGSSaveLoadFormHeader::BGSSaveLoadFormHeader,адрес this+0x14 передан как this (ECX) в метод BGSSaveLoadFormHeader
 BGSLoadFormBuffer,Header,0x14,BGSSaveLoadFormHeader,proved,0x008643FB,"add ecx, 0x14",0x008643FE,BGSSaveLoadFormHeader::BGSSaveLoadFormHeader,адрес this+0x14 передан как this (ECX) в метод BGSSaveLoadFormHeader
 FalloutRadio::FORadioReceiver,Hndl,0x4,BSSoundHandle,proved,0x008327F9,"add ecx, 4",0x008327FC,BSSoundHandle::BSSoundHandle,адрес this+0x4 передан как this (ECX) в метод BSSoundHandle
@@ -30,3 +30,20 @@ FalloutRadio::FORadioStation,CurrentState,0x4,FalloutRadio::StationState,proved,
 FalloutRadio::FORadioStation,CurrentState,0x4,FalloutRadio::StationState,proved,0x00832FE6,"add ecx, 4",0x00832FE9,FalloutRadio::StationState::IsContBroadcast,адрес this+0x4 передан как this (ECX) в метод FalloutRadio::StationState
 FalloutRadio::FORadioStation,CurrentState,0x4,FalloutRadio::StationState,proved,0x00832FF5,"add ecx, 4",0x00832FF8,FalloutRadio::StationState::SetTransmitting,адрес this+0x4 передан как this (ECX) в метод FalloutRadio::StationState
 FalloutRadio::FORadioStation,CurrentState,0x4,FalloutRadio::StationState,proved,0x00833002,"add ecx, 4",0x00833005,FalloutRadio::StationState::SetJustTurnedOn,адрес this+0x4 передан как this (ECX) в метод FalloutRadio::StationState
+NiTransform,m_Rotate,0x0,NiMatrix3,pod-layout,,,,,POD без vtable: по ширине подтверждены подполя m_pEntry; противоречий нет
+NiTransform,m_Translate,0x24,NiPoint3,proved,0x00A86C8F,"lea ecx, [edi + 0x24]",0x00A86C92,NiPoint3::LoadBinary,адрес this+0x24 передан как this (ECX) в метод NiPoint3
+NiBound,m_kCenter,0x0,NiPoint3,pod-layout,,,,,"POD без vtable: по ширине подтверждены подполя x, y, z; противоречий нет"
+NiAVObject,m_kLocal,0x34,NiTransform,proved,0x00A5AA3E,"lea ecx, [esi + 0x34]",0x00A5AA47,NiTransform::MakeIdentity,адрес this+0x34 передан как this (ECX) в метод NiTransform
+NiAVObject,m_kWorld,0x68,NiTransform,proved,0x00A5AA4C,"lea ecx, [esi + 0x68]",0x00A5AA4F,NiTransform::MakeIdentity,адрес this+0x68 передан как this (ECX) в метод NiTransform
+NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A66B6A,"lea ecx, [esi + 0x10]",0x00A66B6D,NiBound::ComputeFromData,адрес this+0x10 передан как this (ECX) в метод NiBound
+NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A6721E,"lea ecx, [esi + 0x10]",0x00A67221,NiBound::ComputeFromData,адрес this+0x10 передан как this (ECX) в метод NiBound
+NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A67BAC,"lea ecx, [esi + 0x10]",0x00A67BAF,NiBound::ComputeFromData,адрес this+0x10 передан как this (ECX) в метод NiBound
+NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A681CB,"lea ecx, [esi + 0x10]",0x00A681CE,NiBound::LoadBinary,адрес this+0x10 передан как this (ECX) в метод NiBound
+NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A6870B,"lea ecx, [edi + 0x10]",0x00A6870E,NiBound::SaveBinary,адрес this+0x10 передан как this (ECX) в метод NiBound
+NiGeometryData,m_kBound,0x10,NiBound,proved,0x00A689F4,"lea ecx, [edi + 0x10]",0x00A689F7,NiBound::GetViewerStrings,адрес this+0x10 передан как this (ECX) в метод NiBound
+NiGeometry,m_PropertyState,0x9C,NiPropertyState,proved,0x00A804E8,"lea ecx, [esi + 0x9c]",0x00A804F4,NiPropertyState::NiPropertyState_0,адрес this+0x9C передан как this (ECX) в метод NiPropertyState
+NiGeometry,m_PropertyState,0x9C,NiPropertyState,proved,0x00A80548,"lea ecx, [esi + 0x9c]",0x00A80554,NiPropertyState::NiPropertyState_0,адрес this+0x9C передан как this (ECX) в метод NiPropertyState
+BSShaderAccumulator,kAlphaRenderPass,0x1A4,BSShaderProperty::RenderPass,proved,0x00B661D3,"lea edx, [esi + 0x1a4] (первым аргументом на стеке)",0x00B661E0,BSShaderProperty::RenderPass::RenderPass,адрес this+0x1A4 передан как this (ECX) в метод BSShaderProperty::RenderPass
+ShadowSceneNode,kLightingOffset,0x1E4,NiPoint3,pod-layout,,,,,"POD без vtable: по ширине подтверждены подполя x, y, z; противоречий нет"
+ShadowSceneNode,kEyePosition,0x1F0,NiPoint3,pod-layout,,,,,"POD без vtable: по ширине подтверждены подполя x, y, z; противоречий нет"
+ShadowSceneLight,bPointPosition,0x100,NiPoint3,pod-layout,,,,,"POD без vtable: по ширине подтверждены подполя x, y, z; противоречий нет"

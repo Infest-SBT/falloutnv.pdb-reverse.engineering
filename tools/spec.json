@@ -41,7 +41,51 @@
   "FontManager::TextLine",
   "FontManager::TextPage",
   "FontManager::TextDoc",
-  "FontManager::TextData"
+  "FontManager::TextData",
+  "NiRefObject",
+  "NiObject",
+  "NiObjectNET",
+  "NiPoint3",
+  "NiMatrix3",
+  "NiTransform",
+  "NiBound",
+  "NiAVObject",
+  "NiNode",
+  "BSFadeNode",
+  "NiProperty",
+  "NiShadeProperty",
+  "BSShaderProperty",
+  "BSShaderProperty::RenderPass",
+  "BSShaderLightingProperty",
+  "BSShaderPPLightingProperty",
+  "NiPropertyState",
+  "NiGeometryData",
+  "NiTriBasedGeomData",
+  "NiTriShapeData",
+  "NiGeometry",
+  "NiTriBasedGeom",
+  "NiTriShape",
+  "NiTriStrips",
+  "NiCamera",
+  "NiTexture",
+  "NiSourceTexture",
+  "NiAccumulator",
+  "NiBackToFrontAccumulator",
+  "NiAlphaAccumulator",
+  "BSShaderAccumulator",
+  "BSBatchRenderer",
+  "NiRenderer",
+  "NiDX9Renderer",
+  "NiShader",
+  "NiD3DShaderInterface",
+  "NiD3DShader",
+  "NiD3DDefaultShader",
+  "BSShader",
+  "NiD3DPass",
+  "ShadowSceneNode",
+  "ShadowSceneLight",
+  "ImageSpaceManager",
+  "MTRenderingSystem"
  ],
  "pc_sizeof": {
   "BSCriticalSection": 24
@@ -49,6 +93,13 @@
  "drop_vslots": {
   "BSAudio": [
    1
+  ],
+  "NiD3DShader": [
+   59,
+   60
+  ],
+  "BSShaderPPLightingProperty": [
+   65
   ]
  },
  "extra_fields": {
@@ -344,6 +395,146 @@
     "own",
     "окно: Init сохраняет аргумент и передаёт его в SetCooperativeLevel"
    ]
+  ],
+  "NiMatrix3": [
+   [
+    "float[36 bytes]",
+    "m_pEntry",
+    0,
+    36,
+    "pc-layout",
+    "9 float: строка 0 — [0..2], строка 1 — [3..5], строка 2 — [6..8]"
+   ]
+  ],
+  "NiDX9Renderer": [
+   [
+    "IDirect3DDevice9*",
+    "pD3DDevice",
+    648,
+    4,
+    "own",
+    "NiDX9Renderer::GetD3DDevice (0x004DC020) возвращает это поле; через него вызываются методы IDirect3DDevice9 по номерам d3d9.h: 41/42/43 BeginScene/EndScene/Clear, 82 DrawIndexedPrimitive, 100 SetStreamSource, 104 SetIndices"
+   ],
+   [
+    "int",
+    "eDevType",
+    1480,
+    4,
+    "own",
+    "NiDX9Renderer::GetDevType (0x004DD220) возвращает это поле (D3DDEVTYPE)"
+   ],
+   [
+    "unsigned char[4 bytes]",
+    "aucBackgroundColor",
+    1504,
+    4,
+    "own",
+    "цвет фона D3DCOLOR побайтно (B, G, R, A): GetBackgroundColor (0x00E759C0) читает байты +0x5E0..+0x5E3; InitToDefault пишет dword 0xFF808080"
+   ],
+   [
+    "float",
+    "fDepthClear",
+    1508,
+    4,
+    "own",
+    "GetDepthClear 0x00E75830 / SetDepthClear 0x00E75820"
+   ],
+   [
+    "unsigned",
+    "uiStencilClear",
+    1512,
+    4,
+    "own",
+    "GetStencilClear 0x00E75A30 / SetStencilClear 0x00E75A20"
+   ],
+   [
+    "unsigned",
+    "uiFlags",
+    1516,
+    4,
+    "own",
+    "GetFlags 0x00E757D0"
+   ],
+   [
+    "NiRenderTargetGroup*",
+    "pDefaultRenderTargetGroup",
+    2180,
+    4,
+    "own",
+    "GetDefaultRenderTargetGroup 0x00E69600; создаётся NiRenderTargetGroup::Create; GetDefaultBackBuffer/GetDefaultDepthStencilBuffer вызывают через него виртуальные методы"
+   ],
+   [
+    "NiRenderTargetGroup*",
+    "pCurrentRenderTargetGroup",
+    2184,
+    4,
+    "own",
+    "GetCurrentRenderTargetGroup 0x00E75810"
+   ],
+   [
+    "unsigned",
+    "uiMaxBuffersPerRenderTargetGroup",
+    2208,
+    4,
+    "own",
+    "GetMaxBuffersPerRenderTargetGroup 0x00E695E0"
+   ],
+   [
+    "bool",
+    "bIndependentBufferBitDepths",
+    2212,
+    1,
+    "own",
+    "GetIndependentBufferBitDepths 0x00E695F0"
+   ],
+   [
+    "NiD3DGeometryGroupManager*",
+    "pGeometryGroupManager",
+    2220,
+    4,
+    "own",
+    "результат конструктора NiD3DGeometryGroupManager записывается сюда"
+   ],
+   [
+    "NiDX9RenderState*",
+    "pRenderState",
+    2232,
+    4,
+    "own",
+    "GetRenderState 0x004ECAF0; создаётся NiDX9RenderState::Create; GetMaxFogValue/GetLeftRightSwap вызывают через него виртуальные методы"
+   ],
+   [
+    "NiDX9LightManager*",
+    "pLightManager",
+    2248,
+    4,
+    "own",
+    "результат конструктора NiDX9LightManager записывается сюда"
+   ],
+   [
+    "float[64 bytes]",
+    "kD3DView",
+    2432,
+    64,
+    "own",
+    "GetD3DView 0x004ED1F0 возвращает this+0x980: D3DXMATRIX вида (16 float), Do_SetCameraData пишет"
+   ],
+   [
+    "float[64 bytes]",
+    "kD3DProj",
+    2496,
+    64,
+    "own",
+    "GetD3DProj 0x004ED210 возвращает this+0x9C0: D3DXMATRIX проекции (16 float)"
+   ],
+   [
+    "bool",
+    "bVerticalDisplay",
+    2768,
+    1,
+    "own",
+    "IsVerticalDisplay 0x00E757C0"
+   ]
   ]
  },
  "asserts": {
@@ -425,7 +616,9 @@
   "CHANGE_TYPE": "флаги изменений форм в сохранениях. 69 из 73 значений сверены с PC по BGSChangeFlags::GetFlagName (0x83FEF0) — evidence/change_flags.csv (там же — типы форм для каждого флага). На PC имя CHANGE_ACTOR_EXTRA_LEVELED_ACTOR выводится как CHANGE_ACTOR_LEVELED_ACTOR (то же значение); строка CHANGE_DOOR_EXTRA_TELEPORT на PC недостижима (значение совпало). Не проверяемы этим способом: CHANGE_FORM_CREATED, CHANGE_OBJECT_EMPTY, CHANGE_REPUTATION_VALUES, CHANGE_CHALLENGE_VALUE",
   "SOUND_MSG": "сообщения звукового потока, первый аргумент BSAudioManager::ComposeMessage (0xADB1A0). Сверено по именам вызывающих функций PC: 28 значений совпали по имени (Play=1, Stop=4, SetVolume=16 … SetModFrequency=66), 9 частично, 0 противоречий, значений вне перечисления на PC нет — evidence/sound_msg.csv",
   "MEM_CONTEXT": "контекст памяти потока (TLS + 0x2B4), ставится при входе в функции. 17 значений из 68 согласуются с именами функций PC (16 HAVOK — 313 функций bhk*, 11 AUDIO — BSAudio, 12 FONTS — Font, 13 INTERFACE — Tile, …), 0 противоречий; остальные на PC этим способом не встречаются — evidence/mem_context.csv. Проверка по смыслу, не по строкам",
-  "MemoryPasses": "проходы освобождения памяти, MemoryManager::ProcessMemoryProblem (0x866A90). НА PC НЕ ТАК, КАК НА XBOX: 9 проходов вместо 8 — вставлен проход 6 (MemoryPool::FreeUnusedPagesForAllPools), MP_ALLOW_OVER_HEAP и MP_COMPLETELY_OUT сдвинуты с 6/7 на 7/8. Ниже — значения PC; evidence/memory_passes.csv"
+  "MemoryPasses": "проходы освобождения памяти, MemoryManager::ProcessMemoryProblem (0x866A90). НА PC НЕ ТАК, КАК НА XBOX: 9 проходов вместо 8 — вставлен проход 6 (MemoryPool::FreeUnusedPagesForAllPools), MP_ALLOW_OVER_HEAP и MP_COMPLETELY_OUT сдвинуты с 6/7 на 7/8. Ниже — значения PC; evidence/memory_passes.csv",
+  "BSShaderManager::eBSSMPassEnum": "номер прохода шейдера (BSShaderProperty::RenderPass::usPassEnum, BSShader::ePass). НА PC НУМЕРАЦИЯ ДРУГАЯ, ЧЕМ НА XBOX: значения и имена взяты из PC-функции BSShaderManager::GetPassName (0x00B4F9D0) — переключатель по номеру, каждая ветка возвращает строку-имя. 743 проходов: с тем же номером, что на Xbox — 42, с другим — 696 (пометка «на Xbox N»), только на PC — 5; 39 имён Xbox на PC нет (служебные границы диапазонов и проходы, которых нет в PC-сборке) — evidence/pass_enum.csv",
+  "BSShaderManager::ShaderTypeEnum": "тип шейдера (BSShader::iShaderType, +0x68). Значения Xbox; 20 из 26 сверены с PC: конструктор каждого наследника BSShader пишет свой номер в iShaderType (TallGrassShader → 6, Lighting30Shader → 17 …) — evidence/shader_type.csv"
  },
  "value_as": {
   "BGSChangeFlags": "unsigned"
@@ -477,6 +670,3723 @@
     8,
     "на Xbox 7"
    ]
+  ],
+  "BSShaderManager::eBSSMPassEnum": [
+   [
+    "BSSM_ZONLY",
+    1,
+    ""
+   ],
+   [
+    "BSSM_ZONLY_At",
+    2,
+    ""
+   ],
+   [
+    "BSSM_ZONLY_S",
+    3,
+    ""
+   ],
+   [
+    "BSSM_ZONLY_TEXEFFECT",
+    4,
+    ""
+   ],
+   [
+    "BSSM_ZONLY_TEXEFFECT_S",
+    5,
+    ""
+   ],
+   [
+    "BSSM_CONSTALPHA",
+    6,
+    ""
+   ],
+   [
+    "BSSM_CONSTALPHA_At",
+    7,
+    ""
+   ],
+   [
+    "BSSM_CONSTALPHA_S",
+    8,
+    ""
+   ],
+   [
+    "BSSM_AMBIENT_OCCLUSION",
+    9,
+    ""
+   ],
+   [
+    "BSSM_3XZONLY",
+    10,
+    ""
+   ],
+   [
+    "BSSM_3XZONLY_S",
+    11,
+    ""
+   ],
+   [
+    "BSSM_3XZONLY_Vc",
+    12,
+    ""
+   ],
+   [
+    "BSSM_3XZONLY_SVc",
+    13,
+    ""
+   ],
+   [
+    "BSSM_3XZONLY_TEXEFFECT",
+    14,
+    ""
+   ],
+   [
+    "BSSM_3XZONLY_TEXEFFECT_S",
+    15,
+    ""
+   ],
+   [
+    "BSSM_DEPTHMAP",
+    16,
+    ""
+   ],
+   [
+    "BSSM_DEPTHMAP_At",
+    17,
+    ""
+   ],
+   [
+    "BSSM_DEPTHMAP_S",
+    18,
+    ""
+   ],
+   [
+    "BSSM_DEPTHMAP_SAt",
+    19,
+    ""
+   ],
+   [
+    "BSSM_SELFILLUMALPHABLOCK",
+    20,
+    "на Xbox 754"
+   ],
+   [
+    "BSSM_SELFILLUMALPHABLOCK_S",
+    21,
+    "на Xbox 755"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LF",
+    22,
+    "на Xbox 20"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LV",
+    23,
+    "на Xbox 21"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFS",
+    24,
+    "на Xbox 22"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVS",
+    25,
+    "на Xbox 23"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFP",
+    26,
+    "на Xbox 24"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVP",
+    27,
+    "на Xbox 25"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFSP",
+    28,
+    "на Xbox 26"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVSP",
+    29,
+    "на Xbox 27"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFShp",
+    30,
+    "на Xbox 28"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVShp",
+    31,
+    "на Xbox 29"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFSShp",
+    32,
+    "на Xbox 30"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVSShp",
+    33,
+    "на Xbox 31"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFPShp",
+    34,
+    "на Xbox 32"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVPShp",
+    35,
+    "на Xbox 33"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFSPShp",
+    36,
+    "на Xbox 34"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LVSPShp",
+    37,
+    "на Xbox 35"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFB",
+    38,
+    "на Xbox 36"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFSB",
+    39,
+    "на Xbox 37"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFPB",
+    40,
+    "на Xbox 38"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_DIRONLY_LFSPB",
+    41,
+    "на Xbox 39"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LF",
+    42,
+    "на Xbox 40"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LV",
+    43,
+    "на Xbox 41"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFS",
+    44,
+    "на Xbox 42"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVS",
+    45,
+    "на Xbox 43"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFP",
+    46,
+    "на Xbox 44"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVP",
+    47,
+    "на Xbox 45"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFSP",
+    48,
+    "на Xbox 46"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVSP",
+    49,
+    "на Xbox 47"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFShp",
+    50,
+    "на Xbox 48"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVShp",
+    51,
+    "на Xbox 49"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFSShp",
+    52,
+    "на Xbox 50"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVSShp",
+    53,
+    "на Xbox 51"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFPShp",
+    54,
+    "на Xbox 52"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVPShp",
+    55,
+    "на Xbox 53"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFSPShp",
+    56,
+    "на Xbox 54"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LVSPShp",
+    57,
+    "на Xbox 55"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFB",
+    58,
+    "на Xbox 56"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFSB",
+    59,
+    "на Xbox 57"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFPB",
+    60,
+    "на Xbox 58"
+   ],
+   [
+    "BSSM_GRASS_NOALPHA_1POINT_LFSPB",
+    61,
+    "на Xbox 59"
+   ],
+   [
+    "BSSM_LEAVES_AD",
+    62,
+    "на Xbox 60"
+   ],
+   [
+    "BSSM_LEAVES_ADPt",
+    63,
+    "на Xbox 61"
+   ],
+   [
+    "BSSM_FRONDS",
+    64,
+    "на Xbox 62"
+   ],
+   [
+    "BSSM_PARTICLE_PREPASS",
+    65,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING",
+    66,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_VC",
+    67,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_TexVC",
+    68,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_MAT",
+    69,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_S",
+    70,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_VC_S",
+    71,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_TexVC_S",
+    72,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_MAT_S",
+    73,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_FALLOFF",
+    74,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_VC_FALLOFF",
+    75,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_TexVC_FALLOFF",
+    76,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_MAT_FALLOFF",
+    77,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_FALLOFF_S",
+    78,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_VC_FALLOFF_S",
+    79,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_TexVC_FALLOFF_S",
+    80,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_MAT_FALLOFF_S",
+    81,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_PSYS",
+    82,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_PSYS_SUBTEX_OFFSET",
+    83,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_PSYS_PREMULT_ALPHA",
+    84,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_PSYS_SUBTEX_OFFSET_PREMULT_ALPHA",
+    85,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_STRIP_PSYS",
+    86,
+    ""
+   ],
+   [
+    "BSSM_NOLIGHTING_STRIP_PSYS_SUBTEX",
+    87,
+    ""
+   ],
+   [
+    "BSSM_AMBIENT",
+    88,
+    "на Xbox 673"
+   ],
+   [
+    "BSSM_AMBIENT_G",
+    89,
+    "на Xbox 674"
+   ],
+   [
+    "BSSM_AMBIENT_At",
+    90,
+    "на Xbox 675"
+   ],
+   [
+    "BSSM_AMBIENT_GAt",
+    91,
+    "на Xbox 676"
+   ],
+   [
+    "BSSM_AMBIENT_S",
+    92,
+    "на Xbox 677"
+   ],
+   [
+    "BSSM_AMBIENT_SG",
+    93,
+    "на Xbox 678"
+   ],
+   [
+    "BSSM_AMBIENT_SAt",
+    94,
+    "на Xbox 679"
+   ],
+   [
+    "BSSM_AMBIENT_SGAt",
+    95,
+    "на Xbox 680"
+   ],
+   [
+    "BSSM_AMBIENT_Sb",
+    96,
+    "на Xbox 681"
+   ],
+   [
+    "BSSM_AMBIENT_Mn",
+    97,
+    "на Xbox 88"
+   ],
+   [
+    "BSSM_AMBIENT_F",
+    98,
+    "на Xbox 89"
+   ],
+   [
+    "BSSM_AMBIENT_FAt",
+    99,
+    "на Xbox 90"
+   ],
+   [
+    "BSSM_AMBDIFFTEX",
+    100,
+    "на Xbox 700"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_Vc",
+    101,
+    "на Xbox 701"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_G",
+    102,
+    "на Xbox 704"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_GVc",
+    103,
+    "на Xbox 705"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_Fg",
+    104,
+    "на Xbox 708"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_A",
+    105,
+    "на Xbox 709"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_AVc",
+    106,
+    "на Xbox 710"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_GA",
+    107,
+    "на Xbox 713"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_GAVc",
+    108,
+    "на Xbox 714"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FgA",
+    109,
+    "на Xbox 715"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_GFgA",
+    110,
+    "на Xbox 719"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_S",
+    111,
+    "на Xbox 721"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SVc",
+    112,
+    "на Xbox 722"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SG",
+    113,
+    "на Xbox 725"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SGVc",
+    114,
+    "на Xbox 726"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFg",
+    115,
+    "на Xbox 729"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SA",
+    116,
+    "на Xbox 752"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SAVc",
+    117,
+    "на Xbox 753"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SGA",
+    118,
+    "на Xbox 733"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SGAVc",
+    119,
+    "на Xbox 734"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFgA",
+    120,
+    "на Xbox 735"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SGFgA",
+    121,
+    "на Xbox 738"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_Sb",
+    122,
+    "на Xbox 740"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SbF",
+    123,
+    "на Xbox 741"
+   ],
+   [
+    "BSSM_AMBDIFFDIRANDPT",
+    124,
+    "на Xbox 742"
+   ],
+   [
+    "BSSM_AMBDIFFDIRANDPT_S",
+    125,
+    "на Xbox 743"
+   ],
+   [
+    "BSSM_AMBDIFFDIRANDPT_Sb",
+    126,
+    "на Xbox 744"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_F",
+    127,
+    "на Xbox 702"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FVc",
+    128,
+    "на Xbox 703"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FG",
+    129,
+    "на Xbox 706"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FGVc",
+    130,
+    "на Xbox 707"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FA",
+    131,
+    "на Xbox 711"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FAVc",
+    132,
+    "на Xbox 712"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FFg",
+    133,
+    "на Xbox 716"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FGA",
+    134,
+    "на Xbox 717"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FGAVc",
+    135,
+    "на Xbox 718"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_FGFgA",
+    136,
+    "на Xbox 720"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SF",
+    137,
+    "на Xbox 723"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFVc",
+    138,
+    "на Xbox 724"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFG",
+    139,
+    "на Xbox 727"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFGVc",
+    140,
+    "на Xbox 728"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFA",
+    141,
+    "на Xbox 731"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFAVc",
+    142,
+    "на Xbox 732"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFFg",
+    143,
+    "на Xbox 730"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFGA",
+    144,
+    "на Xbox 736"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFGAVc",
+    145,
+    "на Xbox 737"
+   ],
+   [
+    "BSSM_AMBDIFFTEX_SFGFgA",
+    146,
+    "на Xbox 739"
+   ],
+   [
+    "BSSM_LANDAD",
+    147,
+    "на Xbox 63"
+   ],
+   [
+    "BSSM_LANDAD_Shp",
+    148,
+    "на Xbox 64"
+   ],
+   [
+    "BSSM_ADTS",
+    149,
+    "на Xbox 91"
+   ],
+   [
+    "BSSM_ADTS_G",
+    150,
+    "на Xbox 92"
+   ],
+   [
+    "BSSM_ADTS_H",
+    151,
+    "на Xbox 93"
+   ],
+   [
+    "BSSM_ADTS_Fg",
+    152,
+    "на Xbox 94"
+   ],
+   [
+    "BSSM_ADTS_Px",
+    153,
+    "на Xbox 95"
+   ],
+   [
+    "BSSM_ADTS_GPx",
+    154,
+    "на Xbox 96"
+   ],
+   [
+    "BSSM_ADTS_S",
+    155,
+    "на Xbox 97"
+   ],
+   [
+    "BSSM_ADTS_SG",
+    156,
+    "на Xbox 99"
+   ],
+   [
+    "BSSM_ADTS_SH",
+    157,
+    "на Xbox 98"
+   ],
+   [
+    "BSSM_ADTS_SFg",
+    158,
+    "на Xbox 100"
+   ],
+   [
+    "BSSM_ADTS_Sb",
+    159,
+    "на Xbox 101"
+   ],
+   [
+    "BSSM_ADTS_Shp",
+    160,
+    "на Xbox 102"
+   ],
+   [
+    "BSSM_ADTS_GShp",
+    161,
+    "на Xbox 103"
+   ],
+   [
+    "BSSM_ADTS_HShp",
+    162,
+    "на Xbox 104"
+   ],
+   [
+    "BSSM_ADTS_FgShp",
+    163,
+    "на Xbox 105"
+   ],
+   [
+    "BSSM_ADTS_PxShp",
+    164,
+    "на Xbox 106"
+   ],
+   [
+    "BSSM_ADTS_GPxShp",
+    165,
+    "на Xbox 107"
+   ],
+   [
+    "BSSM_ADTS_SShp",
+    166,
+    "на Xbox 108"
+   ],
+   [
+    "BSSM_ADTS_SGShp",
+    167,
+    "на Xbox 109"
+   ],
+   [
+    "BSSM_ADTS_SHShp",
+    168,
+    "на Xbox 110"
+   ],
+   [
+    "BSSM_ADTS_SFgShp",
+    169,
+    "на Xbox 111"
+   ],
+   [
+    "BSSM_ADTS_SbShp",
+    170,
+    "на Xbox 112"
+   ],
+   [
+    "BSSM_ADTS2",
+    171,
+    "на Xbox 113"
+   ],
+   [
+    "BSSM_ADTS2_G",
+    172,
+    "на Xbox 114"
+   ],
+   [
+    "BSSM_ADTS2_H",
+    173,
+    "на Xbox 115"
+   ],
+   [
+    "BSSM_ADTS2_Fg",
+    174,
+    "на Xbox 116"
+   ],
+   [
+    "BSSM_ADTS2_Px",
+    175,
+    "на Xbox 117"
+   ],
+   [
+    "BSSM_ADTS2_GPx",
+    176,
+    "на Xbox 118"
+   ],
+   [
+    "BSSM_ADTS2_S",
+    177,
+    "на Xbox 119"
+   ],
+   [
+    "BSSM_ADTS2_SG",
+    178,
+    "на Xbox 120"
+   ],
+   [
+    "BSSM_ADTS2_SH",
+    179,
+    "на Xbox 121"
+   ],
+   [
+    "BSSM_ADTS2_SFg",
+    180,
+    "на Xbox 122"
+   ],
+   [
+    "BSSM_ADTS2_Sb",
+    181,
+    "на Xbox 123"
+   ],
+   [
+    "BSSM_ADTS2_Shp",
+    182,
+    "на Xbox 124"
+   ],
+   [
+    "BSSM_ADTS2_GShp",
+    183,
+    "на Xbox 125"
+   ],
+   [
+    "BSSM_ADTS2_HShp",
+    184,
+    "на Xbox 126"
+   ],
+   [
+    "BSSM_ADTS2_FgShp",
+    185,
+    "на Xbox 127"
+   ],
+   [
+    "BSSM_ADTS2_PxShp",
+    186,
+    "на Xbox 128"
+   ],
+   [
+    "BSSM_ADTS2_GPxShp",
+    187,
+    "на Xbox 129"
+   ],
+   [
+    "BSSM_ADTS2_SShp",
+    188,
+    "на Xbox 130"
+   ],
+   [
+    "BSSM_ADTS2_SGShp",
+    189,
+    "на Xbox 131"
+   ],
+   [
+    "BSSM_ADTS2_SHShp",
+    190,
+    "на Xbox 132"
+   ],
+   [
+    "BSSM_ADTS2_SFgShp",
+    191,
+    "на Xbox 133"
+   ],
+   [
+    "BSSM_ADTS2_SbShp",
+    192,
+    "на Xbox 134"
+   ],
+   [
+    "BSSM_ADTS_ONELIGHT",
+    193,
+    "на Xbox 135"
+   ],
+   [
+    "BSSM_ADTS_DIRANDPT",
+    194,
+    "на Xbox 136"
+   ],
+   [
+    "BSSM_ADT10",
+    195,
+    "на Xbox 137"
+   ],
+   [
+    "BSSM_ADT10_G",
+    196,
+    "на Xbox 138"
+   ],
+   [
+    "BSSM_ADT10_Fg",
+    197,
+    "на Xbox 139"
+   ],
+   [
+    "BSSM_ADT10_S",
+    198,
+    "на Xbox 140"
+   ],
+   [
+    "BSSM_ADT10_SG",
+    199,
+    "на Xbox 141"
+   ],
+   [
+    "BSSM_ADT10_SFg",
+    200,
+    "на Xbox 142"
+   ],
+   [
+    "BSSM_ADT4",
+    201,
+    "на Xbox 143"
+   ],
+   [
+    "BSSM_ADT4_Opt",
+    202,
+    "на Xbox 144"
+   ],
+   [
+    "BSSM_ADT4_G",
+    203,
+    "на Xbox 145"
+   ],
+   [
+    "BSSM_ADT4_Fg",
+    204,
+    "на Xbox 146"
+   ],
+   [
+    "BSSM_ADT4_S",
+    205,
+    "на Xbox 147"
+   ],
+   [
+    "BSSM_ADT4_SG",
+    206,
+    "на Xbox 148"
+   ],
+   [
+    "BSSM_ADT4_SFg",
+    207,
+    "на Xbox 149"
+   ],
+   [
+    "BSSM_ADTS10",
+    208,
+    "на Xbox 150"
+   ],
+   [
+    "BSSM_ADTS10_Opt",
+    209,
+    "на Xbox 151"
+   ],
+   [
+    "BSSM_ADTS10_G",
+    210,
+    "на Xbox 152"
+   ],
+   [
+    "BSSM_ADTS10_Fg",
+    211,
+    "на Xbox 153"
+   ],
+   [
+    "BSSM_ADTS10_S",
+    212,
+    "на Xbox 154"
+   ],
+   [
+    "BSSM_ADTS10_SG",
+    213,
+    "на Xbox 155"
+   ],
+   [
+    "BSSM_ADTS10_SFg",
+    214,
+    "на Xbox 156"
+   ],
+   [
+    "BSSM_AD2",
+    215,
+    "на Xbox 157"
+   ],
+   [
+    "BSSM_AD2_G",
+    216,
+    "на Xbox 158"
+   ],
+   [
+    "BSSM_AD2_Px",
+    217,
+    "на Xbox 159"
+   ],
+   [
+    "BSSM_AD2_GPx",
+    218,
+    "на Xbox 160"
+   ],
+   [
+    "BSSM_AD2_Fg",
+    219,
+    "на Xbox 161"
+   ],
+   [
+    "BSSM_AD2_S",
+    220,
+    "на Xbox 162"
+   ],
+   [
+    "BSSM_AD2_SG",
+    221,
+    "на Xbox 163"
+   ],
+   [
+    "BSSM_AD2_SFg",
+    222,
+    "на Xbox 164"
+   ],
+   [
+    "BSSM_AD2_Sb",
+    223,
+    "на Xbox 165"
+   ],
+   [
+    "BSSM_AD2_Shp",
+    224,
+    "на Xbox 166"
+   ],
+   [
+    "BSSM_AD2_GShp",
+    225,
+    "на Xbox 167"
+   ],
+   [
+    "BSSM_AD2_PxShp",
+    226,
+    "на Xbox 168"
+   ],
+   [
+    "BSSM_AD2_GPxShp",
+    227,
+    "на Xbox 169"
+   ],
+   [
+    "BSSM_AD2_FgShp",
+    228,
+    "на Xbox 170"
+   ],
+   [
+    "BSSM_AD2_SShp",
+    229,
+    "на Xbox 171"
+   ],
+   [
+    "BSSM_AD2_SGShp",
+    230,
+    "на Xbox 172"
+   ],
+   [
+    "BSSM_AD2_SFgShp",
+    231,
+    "на Xbox 173"
+   ],
+   [
+    "BSSM_AD2_SbShp",
+    232,
+    "на Xbox 174"
+   ],
+   [
+    "BSSM_AD3",
+    233,
+    "на Xbox 175"
+   ],
+   [
+    "BSSM_AD3_G",
+    234,
+    "на Xbox 176"
+   ],
+   [
+    "BSSM_AD3_Px",
+    235,
+    "на Xbox 177"
+   ],
+   [
+    "BSSM_AD3_GPx",
+    236,
+    "на Xbox 178"
+   ],
+   [
+    "BSSM_AD3_Fg",
+    237,
+    "на Xbox 179"
+   ],
+   [
+    "BSSM_AD3_S",
+    238,
+    "на Xbox 180"
+   ],
+   [
+    "BSSM_AD3_SG",
+    239,
+    "на Xbox 181"
+   ],
+   [
+    "BSSM_AD3_SFg",
+    240,
+    "на Xbox 182"
+   ],
+   [
+    "BSSM_AD3_Sb",
+    241,
+    "на Xbox 183"
+   ],
+   [
+    "BSSM_AD3_Shp",
+    242,
+    "на Xbox 184"
+   ],
+   [
+    "BSSM_AD3_GShp",
+    243,
+    "на Xbox 185"
+   ],
+   [
+    "BSSM_AD3_PxShp",
+    244,
+    "на Xbox 186"
+   ],
+   [
+    "BSSM_AD3_GPxShp",
+    245,
+    "на Xbox 187"
+   ],
+   [
+    "BSSM_AD3_FgShp",
+    246,
+    "на Xbox 188"
+   ],
+   [
+    "BSSM_AD3_SShp",
+    247,
+    "на Xbox 189"
+   ],
+   [
+    "BSSM_AD3_SGShp",
+    248,
+    "на Xbox 190"
+   ],
+   [
+    "BSSM_AD3_SFgShp",
+    249,
+    "на Xbox 191"
+   ],
+   [
+    "BSSM_AD3_SbShp",
+    250,
+    "на Xbox 192"
+   ],
+   [
+    "BSSM_ADT",
+    251,
+    "на Xbox 193"
+   ],
+   [
+    "BSSM_ADT_Opt",
+    252,
+    "на Xbox 194"
+   ],
+   [
+    "BSSM_ADT_OptLOD",
+    253,
+    "на Xbox 195"
+   ],
+   [
+    "BSSM_ADT_Mn",
+    254,
+    "на Xbox 196"
+   ],
+   [
+    "BSSM_ADT_G",
+    255,
+    "на Xbox 197"
+   ],
+   [
+    "BSSM_ADT_Fg",
+    256,
+    "на Xbox 198"
+   ],
+   [
+    "BSSM_ADT_Px",
+    257,
+    "на Xbox 199"
+   ],
+   [
+    "BSSM_ADT_PxOpt",
+    258,
+    "на Xbox 200"
+   ],
+   [
+    "BSSM_ADT_GPx",
+    259,
+    "на Xbox 201"
+   ],
+   [
+    "BSSM_ADT_H",
+    260,
+    "на Xbox 202"
+   ],
+   [
+    "BSSM_ADT_S",
+    261,
+    "на Xbox 203"
+   ],
+   [
+    "BSSM_ADT_SG",
+    262,
+    "на Xbox 204"
+   ],
+   [
+    "BSSM_ADT_SFg",
+    263,
+    "на Xbox 205"
+   ],
+   [
+    "BSSM_ADT_Sb",
+    264,
+    "на Xbox 206"
+   ],
+   [
+    "BSSM_ADT_SH",
+    265,
+    "на Xbox 207"
+   ],
+   [
+    "BSSM_ADT_Shp",
+    266,
+    "на Xbox 208"
+   ],
+   [
+    "BSSM_ADT_MnShp",
+    267,
+    "на Xbox 209"
+   ],
+   [
+    "BSSM_ADT_GShp",
+    268,
+    "на Xbox 210"
+   ],
+   [
+    "BSSM_ADT_FgShp",
+    269,
+    "на Xbox 211"
+   ],
+   [
+    "BSSM_ADT_PxShp",
+    270,
+    "на Xbox 212"
+   ],
+   [
+    "BSSM_ADT_GPxShp",
+    271,
+    "на Xbox 213"
+   ],
+   [
+    "BSSM_ADT_HShp",
+    272,
+    "на Xbox 214"
+   ],
+   [
+    "BSSM_ADT_SShp",
+    273,
+    "на Xbox 215"
+   ],
+   [
+    "BSSM_ADT_SGShp",
+    274,
+    "на Xbox 216"
+   ],
+   [
+    "BSSM_ADT_SFgShp",
+    275,
+    "на Xbox 217"
+   ],
+   [
+    "BSSM_ADT_SbShp",
+    276,
+    "на Xbox 218"
+   ],
+   [
+    "BSSM_ADT_SHShp",
+    277,
+    "на Xbox 219"
+   ],
+   [
+    "BSSM_ADT2",
+    278,
+    "на Xbox 220"
+   ],
+   [
+    "BSSM_ADT2_G",
+    279,
+    "на Xbox 221"
+   ],
+   [
+    "BSSM_ADT2_Fg",
+    280,
+    "на Xbox 222"
+   ],
+   [
+    "BSSM_ADT2_Px",
+    281,
+    "на Xbox 223"
+   ],
+   [
+    "BSSM_ADT2_GPx",
+    282,
+    "на Xbox 224"
+   ],
+   [
+    "BSSM_ADT2_H",
+    283,
+    "на Xbox 225"
+   ],
+   [
+    "BSSM_ADT2_S",
+    284,
+    "на Xbox 226"
+   ],
+   [
+    "BSSM_ADT2_SG",
+    285,
+    "на Xbox 227"
+   ],
+   [
+    "BSSM_ADT2_SFg",
+    286,
+    "на Xbox 228"
+   ],
+   [
+    "BSSM_ADT2_Sb",
+    287,
+    "на Xbox 229"
+   ],
+   [
+    "BSSM_ADT2_SH",
+    288,
+    "на Xbox 230"
+   ],
+   [
+    "BSSM_ADT2_Shp",
+    289,
+    "на Xbox 231"
+   ],
+   [
+    "BSSM_ADT2_GShp",
+    290,
+    "на Xbox 232"
+   ],
+   [
+    "BSSM_ADT2_FgShp",
+    291,
+    "на Xbox 233"
+   ],
+   [
+    "BSSM_ADT2_PxShp",
+    292,
+    "на Xbox 234"
+   ],
+   [
+    "BSSM_ADT2_GPxShp",
+    293,
+    "на Xbox 235"
+   ],
+   [
+    "BSSM_ADT2_HShp",
+    294,
+    "на Xbox 236"
+   ],
+   [
+    "BSSM_ADT2_SShp",
+    295,
+    "на Xbox 237"
+   ],
+   [
+    "BSSM_ADT2_SGShp",
+    296,
+    "на Xbox 238"
+   ],
+   [
+    "BSSM_ADT2_SFgShp",
+    297,
+    "на Xbox 239"
+   ],
+   [
+    "BSSM_ADT2_SbShp",
+    298,
+    "на Xbox 240"
+   ],
+   [
+    "BSSM_ADT2_SHShp",
+    299,
+    "на Xbox 241"
+   ],
+   [
+    "BSSM_DIFFUSEDIR",
+    300,
+    "на Xbox 686"
+   ],
+   [
+    "BSSM_DIFFUSEPT",
+    301,
+    "на Xbox 687"
+   ],
+   [
+    "BSSM_DIFFUSEDIR_S",
+    302,
+    "на Xbox 688"
+   ],
+   [
+    "BSSM_DIFFUSEPT_S",
+    303,
+    "на Xbox 689"
+   ],
+   [
+    "BSSM_DIFFUSEDIR_Sb",
+    304,
+    "на Xbox 690"
+   ],
+   [
+    "BSSM_DIFFUSEPT_Sb",
+    305,
+    "на Xbox 691"
+   ],
+   [
+    "BSSM_DIFFUSEPT2",
+    306,
+    "на Xbox 242"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_Fg",
+    307,
+    "на Xbox 243"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_Px",
+    308,
+    "на Xbox 244"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_S",
+    309,
+    "на Xbox 245"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_SFg",
+    310,
+    "на Xbox 246"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_Sb",
+    311,
+    "на Xbox 247"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_Shp",
+    312,
+    "на Xbox 248"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_FgShp",
+    313,
+    "на Xbox 249"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_PxShp",
+    314,
+    "на Xbox 250"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_SShp",
+    315,
+    "на Xbox 251"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_SFgShp",
+    316,
+    "на Xbox 252"
+   ],
+   [
+    "BSSM_DIFFUSEPT2_SbShp",
+    317,
+    "на Xbox 253"
+   ],
+   [
+    "BSSM_DIFFUSEPT3",
+    318,
+    "на Xbox 254"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_Fg",
+    319,
+    "на Xbox 255"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_Px",
+    320,
+    "на Xbox 256"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_S",
+    321,
+    "на Xbox 257"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_SFg",
+    322,
+    "на Xbox 258"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_Sb",
+    323,
+    "на Xbox 259"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_Shp",
+    324,
+    "на Xbox 260"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_FgShp",
+    325,
+    "на Xbox 261"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_PxShp",
+    326,
+    "на Xbox 262"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_SShp",
+    327,
+    "на Xbox 263"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_SFgShp",
+    328,
+    "на Xbox 264"
+   ],
+   [
+    "BSSM_DIFFUSEPT3_SbShp",
+    329,
+    "на Xbox 265"
+   ],
+   [
+    "BSSM_TEXTURE",
+    330,
+    "на Xbox 266"
+   ],
+   [
+    "BSSM_TEXTURE_Fg",
+    331,
+    "на Xbox 267"
+   ],
+   [
+    "BSSM_TEXTURE_H",
+    332,
+    "на Xbox 268"
+   ],
+   [
+    "BSSM_TEXTURE_S",
+    333,
+    "на Xbox 269"
+   ],
+   [
+    "BSSM_TEXTURE_Vc",
+    334,
+    "на Xbox 270"
+   ],
+   [
+    "BSSM_TEXTURE_SVc",
+    335,
+    "на Xbox 271"
+   ],
+   [
+    "BSSM_TEXTURE_SFg",
+    336,
+    "на Xbox 272"
+   ],
+   [
+    "BSSM_TEXTURE_Sb",
+    337,
+    "на Xbox 273"
+   ],
+   [
+    "BSSM_TEXTURE_SH",
+    338,
+    "на Xbox 274"
+   ],
+   [
+    "BSSM_TEXTURE_Px",
+    339,
+    "на Xbox 275"
+   ],
+   [
+    "BSSM_SPECULARDIR",
+    340,
+    "на Xbox 694"
+   ],
+   [
+    "BSSM_SPECULARPT",
+    341,
+    "на Xbox 695"
+   ],
+   [
+    "BSSM_SPECULARDIR_S",
+    342,
+    "на Xbox 696"
+   ],
+   [
+    "BSSM_SPECULARPT_S",
+    343,
+    "на Xbox 697"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR",
+    346,
+    "на Xbox 276"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_H",
+    347,
+    "на Xbox 277"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_Px",
+    348,
+    "на Xbox 278"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_S",
+    349,
+    "на Xbox 279"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_SH",
+    350,
+    "на Xbox 280"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_Sb",
+    351,
+    "на Xbox 281"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_Shp",
+    352,
+    "на Xbox 282"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_HShp",
+    353,
+    "на Xbox 283"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_PxShp",
+    354,
+    "на Xbox 284"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_SShp",
+    355,
+    "на Xbox 285"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_SHShp",
+    356,
+    "на Xbox 286"
+   ],
+   [
+    "BSSM_2x_SPECULARDIR_SbShp",
+    357,
+    "на Xbox 287"
+   ],
+   [
+    "BSSM_2x_SPECULARPT",
+    358,
+    "на Xbox 288"
+   ],
+   [
+    "BSSM_2x_SPECULARPT_H",
+    359,
+    "на Xbox 289"
+   ],
+   [
+    "BSSM_2x_SPECULARPT_Px",
+    360,
+    "на Xbox 290"
+   ],
+   [
+    "BSSM_2x_SPECULARPT_S",
+    361,
+    "на Xbox 291"
+   ],
+   [
+    "BSSM_2x_SPECULARPT_SH",
+    362,
+    "на Xbox 292"
+   ],
+   [
+    "BSSM_2x_SPECULARPT_Sb",
+    363,
+    "на Xbox 293"
+   ],
+   [
+    "BSSM_2x_SPECULARPT2",
+    364,
+    "на Xbox 294"
+   ],
+   [
+    "BSSM_2x_SPECULARPT2_H",
+    365,
+    "на Xbox 295"
+   ],
+   [
+    "BSSM_2x_SPECULARPT2_Px",
+    366,
+    "на Xbox 296"
+   ],
+   [
+    "BSSM_2x_SPECULARPT2_S",
+    367,
+    "на Xbox 297"
+   ],
+   [
+    "BSSM_2x_SPECULARPT2_SH",
+    368,
+    "на Xbox 298"
+   ],
+   [
+    "BSSM_2x_SPECULARPT2_Sb",
+    369,
+    "на Xbox 299"
+   ],
+   [
+    "BSSM_2x_SPECULARPT3",
+    370,
+    "на Xbox 300"
+   ],
+   [
+    "BSSM_2x_SPECULARPT3_H",
+    371,
+    "на Xbox 301"
+   ],
+   [
+    "BSSM_2x_SPECULARPT3_Px",
+    372,
+    "на Xbox 302"
+   ],
+   [
+    "BSSM_2x_SPECULARPT3_S",
+    373,
+    "на Xbox 303"
+   ],
+   [
+    "BSSM_2x_SPECULARPT3_SH",
+    374,
+    "на Xbox 304"
+   ],
+   [
+    "BSSM_2x_SPECULARPT3_Sb",
+    375,
+    "на Xbox 305"
+   ],
+   [
+    "BSSM_3XOCCLUSION",
+    376,
+    "на Xbox 306"
+   ],
+   [
+    "BSSM_3XLIGHTING",
+    383,
+    "на Xbox 313"
+   ],
+   [
+    "BSSM_3XLIGHTING_S",
+    384,
+    "на Xbox 314"
+   ],
+   [
+    "BSSM_3XLIGHTING_H",
+    385,
+    "на Xbox 315"
+   ],
+   [
+    "BSSM_3XLIGHTING_Px",
+    386,
+    "на Xbox 316"
+   ],
+   [
+    "BSSM_3XLIGHTING_Pxo",
+    387,
+    "на Xbox 317"
+   ],
+   [
+    "BSSM_3XLIGHTING_Fg",
+    388,
+    "на Xbox 318"
+   ],
+   [
+    "BSSM_3XLIGHTING_SFg",
+    389,
+    "на Xbox 319"
+   ],
+   [
+    "BSSM_3XLIGHTING_G",
+    390,
+    "на Xbox 320"
+   ],
+   [
+    "BSSM_3XLIGHTING_SG",
+    391,
+    "на Xbox 321"
+   ],
+   [
+    "BSSM_3XLIGHTING_Vc",
+    392,
+    "на Xbox 322"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcS",
+    393,
+    "на Xbox 323"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPx",
+    394,
+    "на Xbox 324"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxo",
+    395,
+    "на Xbox 325"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcG",
+    396,
+    "на Xbox 326"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSG",
+    397,
+    "на Xbox 327"
+   ],
+   [
+    "BSSM_3XLIGHTING_Spc",
+    398,
+    "на Xbox 328"
+   ],
+   [
+    "BSSM_3XLIGHTING_SSpc",
+    399,
+    "на Xbox 329"
+   ],
+   [
+    "BSSM_3XLIGHTING_HSpc",
+    400,
+    "на Xbox 330"
+   ],
+   [
+    "BSSM_3XLIGHTING_PxSpc",
+    401,
+    "на Xbox 331"
+   ],
+   [
+    "BSSM_3XLIGHTING_PxoSpc",
+    402,
+    "на Xbox 332"
+   ],
+   [
+    "BSSM_3XLIGHTING_FgSpc",
+    403,
+    "на Xbox 333"
+   ],
+   [
+    "BSSM_3XLIGHTING_SFgSpc",
+    404,
+    "на Xbox 334"
+   ],
+   [
+    "BSSM_3XLIGHTING_GSpc",
+    405,
+    "на Xbox 335"
+   ],
+   [
+    "BSSM_3XLIGHTING_SGSpc",
+    406,
+    "на Xbox 336"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSpc",
+    407,
+    "на Xbox 337"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSSpc",
+    408,
+    "на Xbox 338"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxSpc",
+    409,
+    "на Xbox 339"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxoSpc",
+    410,
+    "на Xbox 340"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcGSpc",
+    411,
+    "на Xbox 341"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSGSpc",
+    412,
+    "на Xbox 342"
+   ],
+   [
+    "BSSM_3XLIGHTING_Shp",
+    413,
+    "на Xbox 343"
+   ],
+   [
+    "BSSM_3XLIGHTING_SShp",
+    414,
+    "на Xbox 344"
+   ],
+   [
+    "BSSM_3XLIGHTING_HShp",
+    415,
+    "на Xbox 345"
+   ],
+   [
+    "BSSM_3XLIGHTING_PxShp",
+    416,
+    "на Xbox 346"
+   ],
+   [
+    "BSSM_3XLIGHTING_PxoShp",
+    417,
+    "на Xbox 347"
+   ],
+   [
+    "BSSM_3XLIGHTING_FgShp",
+    418,
+    "на Xbox 348"
+   ],
+   [
+    "BSSM_3XLIGHTING_SFgShp",
+    419,
+    "на Xbox 349"
+   ],
+   [
+    "BSSM_3XLIGHTING_GShp",
+    420,
+    "на Xbox 350"
+   ],
+   [
+    "BSSM_3XLIGHTING_SGShp",
+    421,
+    "на Xbox 351"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcShp",
+    422,
+    "на Xbox 352"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSShp",
+    423,
+    "на Xbox 353"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxShp",
+    424,
+    "на Xbox 354"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxoShp",
+    425,
+    "на Xbox 355"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcGShp",
+    426,
+    "на Xbox 356"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSGShp",
+    427,
+    "на Xbox 357"
+   ],
+   [
+    "BSSM_3XLIGHTING_ShpSpc",
+    428,
+    "на Xbox 358"
+   ],
+   [
+    "BSSM_3XLIGHTING_SShpSpc",
+    429,
+    "на Xbox 359"
+   ],
+   [
+    "BSSM_3XLIGHTING_HShpSpc",
+    430,
+    "на Xbox 360"
+   ],
+   [
+    "BSSM_3XLIGHTING_PxShpSpc",
+    431,
+    "на Xbox 361"
+   ],
+   [
+    "BSSM_3XLIGHTING_PxoShpSpc",
+    432,
+    "на Xbox 362"
+   ],
+   [
+    "BSSM_3XLIGHTING_FgShpSpc",
+    433,
+    "на Xbox 363"
+   ],
+   [
+    "BSSM_3XLIGHTING_SFgShpSpc",
+    434,
+    "на Xbox 364"
+   ],
+   [
+    "BSSM_3XLIGHTING_GShpSpc",
+    435,
+    "на Xbox 365"
+   ],
+   [
+    "BSSM_3XLIGHTING_SGShpSpc",
+    436,
+    "на Xbox 366"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcShpSpc",
+    437,
+    "на Xbox 367"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSShpSpc",
+    438,
+    "на Xbox 368"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxShpSpc",
+    439,
+    "на Xbox 369"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcPxoShpSpc",
+    440,
+    "на Xbox 370"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcGShpSpc",
+    441,
+    "на Xbox 371"
+   ],
+   [
+    "BSSM_3XLIGHTING_VcSGShpSpc",
+    442,
+    "на Xbox 372"
+   ],
+   [
+    "BSSM_3XSILHOUETTE",
+    443,
+    "на Xbox 373"
+   ],
+   [
+    "BSSM_3XSILHOUETTE_Vc",
+    444,
+    "на Xbox 374"
+   ],
+   [
+    "BSSM_3XENVMAP",
+    445,
+    "на Xbox 375"
+   ],
+   [
+    "BSSM_3XENVMAP_W",
+    446,
+    "на Xbox 376"
+   ],
+   [
+    "BSSM_3XENVMAP_Vc",
+    447,
+    "на Xbox 377"
+   ],
+   [
+    "BSSM_3XENVMAP_WVc",
+    448,
+    "на Xbox 378"
+   ],
+   [
+    "BSSM_3XENVMAP_S",
+    449,
+    "на Xbox 379"
+   ],
+   [
+    "BSSM_3XENVMAP_SVc",
+    450,
+    "на Xbox 380"
+   ],
+   [
+    "BSSM_3XENVMAP_EYE",
+    451,
+    "на Xbox 381"
+   ],
+   [
+    "BSSM_3XLIGHTING_SIMPLESHADOW",
+    452,
+    "на Xbox 382"
+   ],
+   [
+    "BSSM_3XLIGHTING_SIMPLESHADOW_Vc",
+    453,
+    "на Xbox 383"
+   ],
+   [
+    "BSSM_3XLIGHTING_SIMPLESHADOW_S",
+    454,
+    "на Xbox 384"
+   ],
+   [
+    "BSSM_3XLIGHTING_SIMPLESHADOW_VcS",
+    455,
+    "на Xbox 385"
+   ],
+   [
+    "BSSM_3XDEPTHMAP",
+    456,
+    "на Xbox 386"
+   ],
+   [
+    "BSSM_3XDEPTHMAP_Vc",
+    457,
+    "на Xbox 387"
+   ],
+   [
+    "BSSM_3XDEPTHMAP_S",
+    458,
+    "на Xbox 388"
+   ],
+   [
+    "BSSM_3XDEPTHMAP_VcS",
+    459,
+    "на Xbox 389"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS",
+    460,
+    "на Xbox 390"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS_Vc",
+    461,
+    "own: имени нет в Xbox PDB, строка из PC"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS_S",
+    462,
+    "на Xbox 391"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS_VcS",
+    463,
+    "own: имени нет в Xbox PDB, строка из PC"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS_FIRE",
+    464,
+    "на Xbox 392"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS_CLEAR",
+    465,
+    "на Xbox 393"
+   ],
+   [
+    "BSSM_3XRENDERNORMALS_CLEAR_S",
+    466,
+    "на Xbox 394"
+   ],
+   [
+    "BSSM_3XCONSTALPHA",
+    467,
+    "на Xbox 395"
+   ],
+   [
+    "BSSM_3XCONSTALPHA_Vc",
+    468,
+    "на Xbox 396"
+   ],
+   [
+    "BSSM_3XCONSTALPHA_S",
+    469,
+    "на Xbox 397"
+   ],
+   [
+    "BSSM_3XCONSTALPHA_SVc",
+    470,
+    "на Xbox 398"
+   ],
+   [
+    "BSSM_3XDEPTH",
+    471,
+    "на Xbox 399"
+   ],
+   [
+    "BSSM_3XDEPTH_Vc",
+    472,
+    "на Xbox 400"
+   ],
+   [
+    "BSSM_3XDEPTH_S",
+    473,
+    "на Xbox 401"
+   ],
+   [
+    "BSSM_3XDEPTH_SVc",
+    474,
+    "на Xbox 402"
+   ],
+   [
+    "BSSM_3XVELOCITY",
+    475,
+    "на Xbox 403"
+   ],
+   [
+    "BSSM_3XVELOCITY_S",
+    476,
+    "на Xbox 404"
+   ],
+   [
+    "BSSM_3XLOCALMAP",
+    477,
+    "на Xbox 405"
+   ],
+   [
+    "BSSM_3XLOCALMAP_S",
+    478,
+    "на Xbox 406"
+   ],
+   [
+    "BSSM_3XLOCALMAP_CLEAR",
+    479,
+    "на Xbox 407"
+   ],
+   [
+    "BSSM_3XTEXEFFECT",
+    480,
+    "на Xbox 408"
+   ],
+   [
+    "BSSM_3XTEXEFFECT_S",
+    481,
+    "на Xbox 409"
+   ],
+   [
+    "BSSM_RENDERNORMALS",
+    482,
+    "на Xbox 410"
+   ],
+   [
+    "BSSM_RENDERNORMALS_S",
+    483,
+    "на Xbox 411"
+   ],
+   [
+    "BSSM_RENDERNORMALS_FIRE",
+    484,
+    "на Xbox 412"
+   ],
+   [
+    "BSSM_RENDERNORMALS_CLEAR",
+    485,
+    "на Xbox 413"
+   ],
+   [
+    "BSSM_RENDERNORMALS_CLEAR_S",
+    486,
+    "на Xbox 414"
+   ],
+   [
+    "BSSM_DEPTH",
+    487,
+    "на Xbox 415"
+   ],
+   [
+    "BSSM_DEPTH_S",
+    488,
+    "на Xbox 416"
+   ],
+   [
+    "BSSM_DEPTH_Mn",
+    489,
+    "на Xbox 417"
+   ],
+   [
+    "BSSM_VELOCITY",
+    490,
+    "на Xbox 418"
+   ],
+   [
+    "BSSM_VELOCITY_S",
+    491,
+    "на Xbox 419"
+   ],
+   [
+    "BSSM_LOCALMAP",
+    492,
+    "на Xbox 420"
+   ],
+   [
+    "BSSM_LOCALMAP_S",
+    493,
+    "на Xbox 421"
+   ],
+   [
+    "BSSM_LOCALMAP_CLEAR",
+    494,
+    "на Xbox 422"
+   ],
+   [
+    "BSSM_LANDDIFF",
+    495,
+    "на Xbox 747"
+   ],
+   [
+    "BSSM_LAND2xDIFF",
+    496,
+    "на Xbox 423"
+   ],
+   [
+    "BSSM_LAND_G",
+    497,
+    "на Xbox 424"
+   ],
+   [
+    "BSSM_LANDAD_A",
+    498,
+    "на Xbox 425"
+   ],
+   [
+    "BSSM_LANDAD_AShp",
+    499,
+    "на Xbox 426"
+   ],
+   [
+    "BSSM_LAND_GA",
+    500,
+    "на Xbox 427"
+   ],
+   [
+    "BSSM_LANDDIFF_A",
+    501,
+    "на Xbox 748"
+   ],
+   [
+    "BSSM_LAND2xDIFF_A",
+    502,
+    "на Xbox 428"
+   ],
+   [
+    "BSSM_LAND1O",
+    503,
+    "на Xbox 429"
+   ],
+   [
+    "BSSM_LAND1O_Shp",
+    504,
+    "на Xbox 430"
+   ],
+   [
+    "BSSM_LAND1O_Simple",
+    505,
+    "на Xbox 431"
+   ],
+   [
+    "BSSM_LAND1O_SimpleShp",
+    506,
+    "на Xbox 432"
+   ],
+   [
+    "BSSM_LAND1O4",
+    507,
+    "на Xbox 433"
+   ],
+   [
+    "BSSM_LAND1O4_Shp",
+    508,
+    "на Xbox 434"
+   ],
+   [
+    "BSSM_LAND1O4_Simple",
+    509,
+    "на Xbox 435"
+   ],
+   [
+    "BSSM_LAND1O4_SimpleShp",
+    510,
+    "на Xbox 436"
+   ],
+   [
+    "BSSM_LAND2O",
+    511,
+    "на Xbox 437"
+   ],
+   [
+    "BSSM_LAND2O_Shp",
+    512,
+    "на Xbox 438"
+   ],
+   [
+    "BSSM_LAND2O_Simple",
+    513,
+    "на Xbox 439"
+   ],
+   [
+    "BSSM_LAND2O_SimpleShp",
+    514,
+    "на Xbox 440"
+   ],
+   [
+    "BSSM_LAND2O4",
+    515,
+    "на Xbox 441"
+   ],
+   [
+    "BSSM_LAND2O4_Shp",
+    516,
+    "на Xbox 442"
+   ],
+   [
+    "BSSM_LAND2O4_Simple",
+    517,
+    "на Xbox 443"
+   ],
+   [
+    "BSSM_LAND2O4_SimpleShp",
+    518,
+    "на Xbox 444"
+   ],
+   [
+    "BSSM_LAND3O",
+    519,
+    "на Xbox 445"
+   ],
+   [
+    "BSSM_LAND3O_Shp",
+    520,
+    "на Xbox 446"
+   ],
+   [
+    "BSSM_LAND3O_Simple",
+    521,
+    "на Xbox 447"
+   ],
+   [
+    "BSSM_LAND3O_SimpleShp",
+    522,
+    "на Xbox 448"
+   ],
+   [
+    "BSSM_LAND3O4",
+    523,
+    "на Xbox 449"
+   ],
+   [
+    "BSSM_LAND3O4_Shp",
+    524,
+    "на Xbox 450"
+   ],
+   [
+    "BSSM_LAND3O4_Simple",
+    525,
+    "на Xbox 451"
+   ],
+   [
+    "BSSM_LAND3O4_SimpleShp",
+    526,
+    "на Xbox 452"
+   ],
+   [
+    "BSSM_LAND4O",
+    527,
+    "на Xbox 453"
+   ],
+   [
+    "BSSM_LAND4O_Shp",
+    528,
+    "на Xbox 454"
+   ],
+   [
+    "BSSM_LAND4O_Simple",
+    529,
+    "на Xbox 455"
+   ],
+   [
+    "BSSM_LAND4O_SimpleShp",
+    530,
+    "на Xbox 456"
+   ],
+   [
+    "BSSM_LAND4O4",
+    531,
+    "на Xbox 457"
+   ],
+   [
+    "BSSM_LAND4O4_Shp",
+    532,
+    "на Xbox 458"
+   ],
+   [
+    "BSSM_LAND4O4_Simple",
+    533,
+    "на Xbox 459"
+   ],
+   [
+    "BSSM_LAND4O4_SimpleShp",
+    534,
+    "на Xbox 460"
+   ],
+   [
+    "BSSM_LAND5O",
+    535,
+    "на Xbox 461"
+   ],
+   [
+    "BSSM_LAND5O_Shp",
+    536,
+    "на Xbox 462"
+   ],
+   [
+    "BSSM_LAND5O_Simple",
+    537,
+    "на Xbox 463"
+   ],
+   [
+    "BSSM_LAND5O_SimpleShp",
+    538,
+    "на Xbox 464"
+   ],
+   [
+    "BSSM_LAND5O4",
+    539,
+    "на Xbox 465"
+   ],
+   [
+    "BSSM_LAND5O4_Shp",
+    540,
+    "на Xbox 466"
+   ],
+   [
+    "BSSM_LAND5O4_Simple",
+    541,
+    "на Xbox 467"
+   ],
+   [
+    "BSSM_LAND5O4_SimpleShp",
+    542,
+    "на Xbox 468"
+   ],
+   [
+    "BSSM_LAND6O",
+    543,
+    "на Xbox 469"
+   ],
+   [
+    "BSSM_LAND6O_Shp",
+    544,
+    "на Xbox 470"
+   ],
+   [
+    "BSSM_LAND6O_Simple",
+    545,
+    "на Xbox 471"
+   ],
+   [
+    "BSSM_LAND6O_SimpleShp",
+    546,
+    "на Xbox 472"
+   ],
+   [
+    "BSSM_LAND6O4",
+    547,
+    "на Xbox 473"
+   ],
+   [
+    "BSSM_LAND6O4_Shp",
+    548,
+    "на Xbox 474"
+   ],
+   [
+    "BSSM_LAND6O4_Simple",
+    549,
+    "на Xbox 475"
+   ],
+   [
+    "BSSM_LAND6O4_SimpleShp",
+    550,
+    "на Xbox 476"
+   ],
+   [
+    "BSSM_LAND7O",
+    551,
+    "на Xbox 477"
+   ],
+   [
+    "BSSM_LAND7O_Shp",
+    552,
+    "на Xbox 478"
+   ],
+   [
+    "BSSM_LAND7O_Simple",
+    553,
+    "на Xbox 479"
+   ],
+   [
+    "BSSM_LAND7O_SimpleShp",
+    554,
+    "на Xbox 480"
+   ],
+   [
+    "BSSM_LAND7O4",
+    555,
+    "на Xbox 481"
+   ],
+   [
+    "BSSM_LAND7O4_Shp",
+    556,
+    "на Xbox 482"
+   ],
+   [
+    "BSSM_LAND7O4_Simple",
+    557,
+    "на Xbox 483"
+   ],
+   [
+    "BSSM_LAND7O4_SimpleShp",
+    558,
+    "на Xbox 484"
+   ],
+   [
+    "BSSM_LANDO_Am",
+    559,
+    "на Xbox 485"
+   ],
+   [
+    "BSSM_LANDLO_A",
+    560,
+    "на Xbox 486"
+   ],
+   [
+    "BSSM_2x_SIMPLESHADOW",
+    561,
+    "на Xbox 487"
+   ],
+   [
+    "BSSM_2x_SIMPLESHADOW_S",
+    562,
+    "на Xbox 488"
+   ],
+   [
+    "BSSM_2x_SIMPLESHADOW_LAND",
+    563,
+    "на Xbox 489"
+   ],
+   [
+    "BSSM_2x_SIMPLESHADOW_Sb",
+    564,
+    "на Xbox 490"
+   ],
+   [
+    "BSSM_ADT_Sbb",
+    565,
+    "на Xbox 491"
+   ],
+   [
+    "BSSM_DISTANT_TREE_BASE",
+    566,
+    "на Xbox 492"
+   ],
+   [
+    "BSSM_SKYBASEPRE",
+    568,
+    "на Xbox 494"
+   ],
+   [
+    "BSSM_SKY",
+    569,
+    "на Xbox 495"
+   ],
+   [
+    "BSSM_SKY_MOON_STARS_MASK",
+    570,
+    "на Xbox 496"
+   ],
+   [
+    "BSSM_SKY_STARS",
+    571,
+    "на Xbox 497"
+   ],
+   [
+    "BSSM_SKY_TEXTURE",
+    572,
+    "на Xbox 498"
+   ],
+   [
+    "BSSM_SKY_CLOUDS",
+    573,
+    "на Xbox 499"
+   ],
+   [
+    "BSSM_SKY_CLOUDS_UNDERWATER",
+    574,
+    "на Xbox 500"
+   ],
+   [
+    "BSSM_WATER_LOD",
+    575,
+    "на Xbox 501"
+   ],
+   [
+    "BSSM_WATER_LOD_NO_REFLECTIONS",
+    576,
+    "на Xbox 502"
+   ],
+   [
+    "BSSM_PARTICLE",
+    577,
+    "на Xbox 503"
+   ],
+   [
+    "BSSM_BOLT",
+    578,
+    "на Xbox 504"
+   ],
+   [
+    "BSSM_BEAM",
+    579,
+    "на Xbox 505"
+   ],
+   [
+    "BSSM_ENVMAP",
+    580,
+    "на Xbox 682"
+   ],
+   [
+    "BSSM_ENVMAP_Vc",
+    581,
+    "на Xbox 683"
+   ],
+   [
+    "BSSM_ENVMAP_S",
+    582,
+    "на Xbox 684"
+   ],
+   [
+    "BSSM_ENVMAP_SVc",
+    583,
+    "на Xbox 685"
+   ],
+   [
+    "BSSM_2x_ENVMAP",
+    584,
+    "на Xbox 506"
+   ],
+   [
+    "BSSM_2x_ENVMAP_S",
+    585,
+    "на Xbox 507"
+   ],
+   [
+    "BSSM_2x_ENVMAP_W",
+    586,
+    "на Xbox 508"
+   ],
+   [
+    "BSSM_2x_ENVMAP_EYE",
+    587,
+    "на Xbox 509"
+   ],
+   [
+    "BSSM_GEOMDECAL",
+    588,
+    "на Xbox 510"
+   ],
+   [
+    "BSSM_GEOMDECAL_S",
+    589,
+    "на Xbox 511"
+   ],
+   [
+    "BSSM_TEXEFFECT",
+    590,
+    "на Xbox 745"
+   ],
+   [
+    "BSSM_TEXEFFECT_S",
+    591,
+    "на Xbox 746"
+   ],
+   [
+    "BSSM_2x_TEXEFFECT",
+    592,
+    "на Xbox 512"
+   ],
+   [
+    "BSSM_2x_TEXEFFECT_S",
+    593,
+    "на Xbox 513"
+   ],
+   [
+    "BSSM_FOG",
+    594,
+    "на Xbox 514"
+   ],
+   [
+    "BSSM_FOG_A",
+    595,
+    "на Xbox 515"
+   ],
+   [
+    "BSSM_FOG_S",
+    596,
+    "на Xbox 516"
+   ],
+   [
+    "BSSM_FOG_SA",
+    597,
+    "на Xbox 517"
+   ],
+   [
+    "BSSM_FOG_Sb",
+    598,
+    "на Xbox 518"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LF",
+    604,
+    "на Xbox 524"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LV",
+    605,
+    "на Xbox 525"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFS",
+    606,
+    "на Xbox 526"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVS",
+    607,
+    "на Xbox 527"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFP",
+    608,
+    "на Xbox 528"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVP",
+    609,
+    "на Xbox 529"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFSP",
+    610,
+    "на Xbox 530"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVSP",
+    611,
+    "на Xbox 531"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFShp",
+    612,
+    "на Xbox 532"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVShp",
+    613,
+    "на Xbox 533"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFSShp",
+    614,
+    "на Xbox 534"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVSShp",
+    615,
+    "на Xbox 535"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFPShp",
+    616,
+    "на Xbox 536"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVPShp",
+    617,
+    "на Xbox 537"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFSPShp",
+    618,
+    "на Xbox 538"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LVSPShp",
+    619,
+    "на Xbox 539"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFB",
+    620,
+    "на Xbox 540"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFSB",
+    621,
+    "на Xbox 541"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFPB",
+    622,
+    "на Xbox 542"
+   ],
+   [
+    "BSSM_GRASS_DIRONLY_LFSPB",
+    623,
+    "на Xbox 543"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LF",
+    624,
+    "на Xbox 544"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LV",
+    625,
+    "на Xbox 545"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFS",
+    626,
+    "на Xbox 546"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVS",
+    627,
+    "на Xbox 547"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFP",
+    628,
+    "на Xbox 548"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVP",
+    629,
+    "на Xbox 549"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFSP",
+    630,
+    "на Xbox 550"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVSP",
+    631,
+    "на Xbox 551"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFShp",
+    632,
+    "на Xbox 552"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVShp",
+    633,
+    "на Xbox 553"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFSShp",
+    634,
+    "на Xbox 554"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVSShp",
+    635,
+    "на Xbox 555"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFPShp",
+    636,
+    "на Xbox 556"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVPShp",
+    637,
+    "на Xbox 557"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFSPShp",
+    638,
+    "на Xbox 558"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LVSPShp",
+    639,
+    "на Xbox 559"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFB",
+    640,
+    "на Xbox 560"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFSB",
+    641,
+    "на Xbox 561"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFPB",
+    642,
+    "на Xbox 562"
+   ],
+   [
+    "BSSM_GRASS_1POINT_LFSPB",
+    643,
+    "на Xbox 563"
+   ],
+   [
+    "BSSM_GRASS_SHADOW_L",
+    644,
+    "на Xbox 564"
+   ],
+   [
+    "BSSM_GRASS_SHADOW_LS",
+    645,
+    "на Xbox 565"
+   ],
+   [
+    "BSSM_GRASS_SHADOW_LB",
+    646,
+    "на Xbox 566"
+   ],
+   [
+    "BSSM_GRASS_SHADOW_LSB",
+    647,
+    "на Xbox 567"
+   ],
+   [
+    "BSSM_WATER_STENCIL",
+    648,
+    "на Xbox 568"
+   ],
+   [
+    "BSSM_WATER_STENCIL_Vc",
+    649,
+    "на Xbox 569"
+   ],
+   [
+    "BSSM_WATER_WADING",
+    650,
+    "на Xbox 570"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_REFLECTIONS_NO_REFRACTIONS",
+    651,
+    "на Xbox 571"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_REFRACTIONS",
+    652,
+    "на Xbox 572"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_REFLECTIONS",
+    653,
+    "на Xbox 573"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH",
+    654,
+    "на Xbox 574"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_NO_REFLECTIONS_NO_REFRACTIONS",
+    655,
+    "на Xbox 575"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_NO_REFRACTIONS",
+    656,
+    "на Xbox 576"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_NO_REFLECTIONS",
+    657,
+    "на Xbox 577"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING",
+    658,
+    "на Xbox 578"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_REFLECTIONS_NO_REFRACTIONS",
+    659,
+    "на Xbox 579"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_REFRACTIONS",
+    660,
+    "на Xbox 580"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_REFLECTIONS",
+    661,
+    "на Xbox 581"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH",
+    662,
+    "на Xbox 582"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_NO_REFLECTIONS_NO_REFRACTIONS",
+    663,
+    "на Xbox 583"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_NO_REFRACTIONS",
+    664,
+    "на Xbox 584"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_NO_REFLECTIONS",
+    665,
+    "на Xbox 585"
+   ],
+   [
+    "BSSM_WATER_WADING_SPECULAR_LIGHTING",
+    666,
+    "на Xbox 586"
+   ],
+   [
+    "BSSM_WATER_WADING_Vc",
+    667,
+    "на Xbox 587"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_REFLECTIONS_Vc",
+    668,
+    "на Xbox 588"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_REFRACTIONS_Vc",
+    669,
+    "на Xbox 589"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    670,
+    "на Xbox 590"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_Vc",
+    671,
+    "на Xbox 591"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_NO_REFLECTIONS_Vc",
+    672,
+    "на Xbox 592"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_NO_REFRACTIONS_Vc",
+    673,
+    "на Xbox 593"
+   ],
+   [
+    "BSSM_WATER_WADING_NO_DEPTH_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    674,
+    "на Xbox 594"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_Vc",
+    675,
+    "на Xbox 595"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_REFLECTIONS_Vc",
+    676,
+    "на Xbox 596"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_REFRACTIONS_Vc",
+    677,
+    "на Xbox 597"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    678,
+    "на Xbox 598"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_Vc",
+    679,
+    "на Xbox 599"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_NO_REFLECTIONS_Vc",
+    680,
+    "на Xbox 600"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_NO_REFRACTIONS_Vc",
+    681,
+    "на Xbox 601"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_WADING_NO_DEPTH_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    682,
+    "на Xbox 602"
+   ],
+   [
+    "BSSM_WATER_WADING_SPECULAR_LIGHTING_Vc",
+    683,
+    "на Xbox 603"
+   ],
+   [
+    "BSSM_WATER",
+    684,
+    "на Xbox 604"
+   ],
+   [
+    "BSSM_WATER_NO_REFLECTIONS_NO_REFRACTIONS",
+    685,
+    "на Xbox 605"
+   ],
+   [
+    "BSSM_WATER_NO_REFRACTIONS",
+    686,
+    "на Xbox 606"
+   ],
+   [
+    "BSSM_WATER_NO_REFLECTIONS",
+    687,
+    "на Xbox 607"
+   ],
+   [
+    "BSSM_WATER_INTERIOR",
+    688,
+    "на Xbox 608"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NO_REFLECTIONS_NO_REFRACTIONS",
+    689,
+    "на Xbox 609"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NO_REFRACTIONS",
+    690,
+    "на Xbox 610"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NO_REFLECTIONS",
+    691,
+    "на Xbox 611"
+   ],
+   [
+    "BSSM_WATER_NODEPTH",
+    692,
+    "на Xbox 612"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_NO_REFLECTIONS",
+    693,
+    "на Xbox 613"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_NO_REFRACTIONS",
+    694,
+    "на Xbox 614"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_NO_REFLECTIONS_NO_REFRACTIONS",
+    695,
+    "на Xbox 615"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH",
+    696,
+    "на Xbox 616"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_NO_REFLECTIONS_NO_REFRACTIONS",
+    697,
+    "на Xbox 617"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_NO_REFRACTIONS",
+    698,
+    "на Xbox 618"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_NO_REFLECTIONS",
+    699,
+    "на Xbox 619"
+   ],
+   [
+    "BSSM_WATER_SPECULAR_LIGHTING",
+    700,
+    "на Xbox 620"
+   ],
+   [
+    "BSSM_WATER_UNDERWATER",
+    701,
+    "на Xbox 621"
+   ],
+   [
+    "BSSM_WATER_Vc",
+    702,
+    "на Xbox 622"
+   ],
+   [
+    "BSSM_WATER_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    703,
+    "на Xbox 623"
+   ],
+   [
+    "BSSM_WATER_NO_REFRACTIONS_Vc",
+    704,
+    "на Xbox 624"
+   ],
+   [
+    "BSSM_WATER_NO_REFLECTIONS_Vc",
+    705,
+    "на Xbox 625"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_Vc",
+    706,
+    "на Xbox 626"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    707,
+    "на Xbox 627"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NO_REFRACTIONS_Vc",
+    708,
+    "на Xbox 628"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NO_REFLECTIONS_Vc",
+    709,
+    "на Xbox 629"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_Vc",
+    710,
+    "на Xbox 630"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_NO_REFLECTIONS_Vc",
+    711,
+    "на Xbox 631"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_NO_REFRACTIONS_Vc",
+    712,
+    "на Xbox 632"
+   ],
+   [
+    "BSSM_WATER_NODEPTH_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    713,
+    "на Xbox 633"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_Vc",
+    714,
+    "на Xbox 634"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_NO_REFLECTIONS_NO_REFRACTIONS_Vc",
+    715,
+    "на Xbox 635"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_NO_REFRACTIONS_Vc",
+    716,
+    "на Xbox 636"
+   ],
+   [
+    "BSSM_WATER_INTERIOR_NODEPTH_NO_REFLECTIONS_Vc",
+    717,
+    "на Xbox 637"
+   ],
+   [
+    "BSSM_WATER_SPECULAR_LIGHTING_Vc",
+    718,
+    "на Xbox 638"
+   ],
+   [
+    "BSSM_PRECIPITATION_RAIN",
+    719,
+    "на Xbox 639"
+   ],
+   [
+    "BSSM_SKYBASEPOST",
+    720,
+    "на Xbox 640"
+   ],
+   [
+    "BSSM_SELFILLUM_SKY",
+    721,
+    "на Xbox 751"
+   ],
+   [
+    "BSSM_SKY_SUNGLARE",
+    722,
+    "на Xbox 641"
+   ],
+   [
+    "BSSM_SELFILLUM_SKY_SUN",
+    723,
+    "own: имени нет в Xbox PDB, строка из PC"
+   ],
+   [
+    "BSSM_SELFILLUM_SKY_CLOUDS",
+    724,
+    "own: имени нет в Xbox PDB, строка из PC"
+   ],
+   [
+    "BSSM_SELFILLUM_SKY_SKY_QUAD",
+    725,
+    "own: имени нет в Xbox PDB, строка из PC"
+   ],
+   [
+    "BSSM_SELFILLUMALPHA",
+    726,
+    "на Xbox 749"
+   ],
+   [
+    "BSSM_SELFILLUMALPHA_S",
+    727,
+    "на Xbox 750"
+   ],
+   [
+    "BSSM_WATER_DEPTH",
+    728,
+    "на Xbox 642"
+   ],
+   [
+    "BSSM_WATER_DEPTH_S",
+    729,
+    "на Xbox 643"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH",
+    730,
+    "на Xbox 644"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_S",
+    731,
+    "на Xbox 645"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH",
+    732,
+    "на Xbox 646"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_S",
+    733,
+    "на Xbox 647"
+   ],
+   [
+    "BSSM_WATER_DEPTH_At",
+    734,
+    "на Xbox 648"
+   ],
+   [
+    "BSSM_WATER_DEPTH_SAt",
+    735,
+    "на Xbox 649"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_At",
+    736,
+    "на Xbox 650"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_SAt",
+    737,
+    "на Xbox 651"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_At",
+    738,
+    "на Xbox 652"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_At_S",
+    739,
+    "на Xbox 653"
+   ],
+   [
+    "BSSM_WATER_DEPTH_Vc",
+    740,
+    "на Xbox 654"
+   ],
+   [
+    "BSSM_WATER_DEPTH_SVc",
+    741,
+    "на Xbox 655"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_Vc",
+    742,
+    "на Xbox 656"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_SVc",
+    743,
+    "на Xbox 657"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_Vc",
+    744,
+    "на Xbox 658"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_Vc_S",
+    745,
+    "на Xbox 659"
+   ],
+   [
+    "BSSM_WATER_DEPTH_AtVc",
+    746,
+    "на Xbox 660"
+   ],
+   [
+    "BSSM_WATER_DEPTH_SAtVc",
+    747,
+    "на Xbox 661"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_AtVc",
+    748,
+    "на Xbox 662"
+   ],
+   [
+    "BSSM_3XWATER_DEPTH_SAtVc",
+    749,
+    "на Xbox 663"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_AtVc",
+    750,
+    "на Xbox 664"
+   ],
+   [
+    "BSSM_NLWATER_DEPTH_AtVc_S",
+    751,
+    "на Xbox 665"
+   ],
+   [
+    "BSSM_BLOOD_SPLATTER_FLARE",
+    752,
+    "на Xbox 666"
+   ],
+   [
+    "BSSM_BLOOD_SPLATTER",
+    753,
+    "на Xbox 667"
+   ],
+   [
+    "BSSM_SHADOWVOLUME_BACK",
+    754,
+    "на Xbox 668"
+   ],
+   [
+    "BSSM_SHADOWVOLUME_FRONT",
+    755,
+    "на Xbox 669"
+   ],
+   [
+    "BSSM_SHADOWVOLUME_WIRE",
+    756,
+    "на Xbox 670"
+   ],
+   [
+    "BSSM_TILE",
+    757,
+    "на Xbox 671"
+   ]
   ]
  },
  "pc_classes": {
@@ -489,6 +4399,18 @@
    "base": "BSAudio",
    "size": 164,
    "note": "Единственный объект — BSWin32Audio::Instance (0x011F7080)"
+  },
+  "NiMatrix3": {
+   "base": null,
+   "size": 36,
+   "xbox_size": 48,
+   "note": "на Xbox 3 строки по 16 байт (NiPoint4, выравнивание под VMX), на PC — 3×3 float подряд, построчно"
+  },
+  "NiDX9Renderer": {
+   "base": "NiRenderer",
+   "size": 2944,
+   "note": "Рендерер DirectX 9 (только PC): описаны только поля с однозначным назначением по коду PC — геттеры xNVSE и вызовы через указатели; остальные ~0x800 байт не разобраны. Единственный объект — *NiRenderer::ms_pkRenderer (0x011F4748).",
+   "undescribed_blobs": true
   }
  },
  "omit_vslots": {
@@ -498,5 +4420,72 @@
  },
  "notes": {
   "omit_vslots": "слоты, которые на PC есть, но не описываются: у RadioConvTask слоты баз (QueuedFileEntry → … → BSTask) не описаны, поэтому Cancel (слот 12) не объявлен"
+ },
+ "relayout": [
+  "NiRefObject",
+  "NiObject",
+  "NiObjectNET",
+  "NiPoint3",
+  "NiTransform",
+  "NiBound",
+  "NiAVObject",
+  "NiNode",
+  "BSFadeNode",
+  "NiProperty",
+  "NiShadeProperty",
+  "BSShaderProperty",
+  "BSShaderProperty::RenderPass",
+  "BSShaderLightingProperty",
+  "BSShaderPPLightingProperty",
+  "NiPropertyState",
+  "NiGeometryData",
+  "NiTriBasedGeomData",
+  "NiTriShapeData",
+  "NiGeometry",
+  "NiTriBasedGeom",
+  "NiTriShape",
+  "NiTriStrips",
+  "NiCamera",
+  "NiTexture",
+  "NiSourceTexture",
+  "NiAccumulator",
+  "NiBackToFrontAccumulator",
+  "NiAlphaAccumulator",
+  "BSShaderAccumulator",
+  "BSBatchRenderer",
+  "NiRenderer",
+  "NiShader",
+  "NiD3DShaderInterface",
+  "NiD3DShader",
+  "NiD3DDefaultShader",
+  "BSShader",
+  "NiD3DPass",
+  "ShadowSceneNode",
+  "ShadowSceneLight",
+  "ImageSpaceManager",
+  "MTRenderingSystem"
+ ],
+ "pc_type_layout": {
+  "NiMatrix3": [
+   36,
+   4
+  ],
+  "_RTL_CRITICAL_SECTION": [
+   24,
+   4
+  ],
+  "NiCriticalSection": [
+   128,
+   128
+  ]
+ },
+ "pc_field_fix": {
+  "BSShaderPPLightingProperty": {
+   "resize": {
+    "spTextures": 24
+   },
+   "size": 260,
+   "note": "sizeof 0x104 (CreateObject 0x00B68D92 и CreateClone выделяют 0x104). На PC массив spTextures — 6 указателей, а не 7 (конструктор 0x00B66F50 обходит ровно 6 массивов текстур с +0xAC), поэтому все поля после него на 4 байта раньше, чем на Xbox, в том же порядке: pSpecularExponent +0xC4 (конструктор пишет 0x1E в оба байта), usLandscapeTextures +0xC8 (GetLandscapeTextureCount 0x00B671F0 читает word [ecx+0xC8]), pbGlossMap +0xCC, spTangentSpaceData +0xD0 (StoreExtraDataPointers 0x00539F20), TextureClampMode +0xD8 (GetClampNI 0x00B671C0), spTexEffectData +0xDC (SetTexEffectData 0x00B675C0), fRefractionPower +0xE0 (SetRefractionStrength 0x00B66700), fParallaxOccMaxPasses +0xE8 (SetMaxParallaxPasses 0x0068C8B0), fTerrainTexOffsetX/Y/Fade +0xF0/+0xF4/+0xF8 (SetLODTexParams 0x006FB940), pRenderDepthPass +0x100 (GetDepthPass 0x00B66E20)"
+  }
  }
 }
