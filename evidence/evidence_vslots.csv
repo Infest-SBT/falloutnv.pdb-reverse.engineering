@@ -426,7 +426,7 @@ NiObject,NiRenderer,19,0x00A5D610,NiObject::LoadBinary,LoadBinary,void LoadBinar
 NiObject,NiObject,20,0x00A89AF0,nullsub_3,LinkObject,void LinkObject(NiStream*),4,4,stub,
 NiObject,NiObjectNET,20,0x00A5C0E0,NiObjectNET::LinkObject,LinkObject,void LinkObject(NiStream*),4,4,name+stack,
 NiObject,NiGeometryData,20,0x00A677E0,NiGeometryData::LinkObject,LinkObject,void LinkObject(NiStream*),4,4,name+stack,
-NiObject,NiAccumulator,20,0x00A724D0,NiInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
+NiObject,NiAccumulator,20,0x00A724D0,NiInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
 NiObject,BSBatchRenderer,20,0x00A89AF0,nullsub_3,LinkObject,void LinkObject(NiStream*),4,4,stub,
 NiObject,NiRenderer,20,0x00A89AF0,nullsub_3,LinkObject,void LinkObject(NiStream*),4,4,stub,
 NiObject,NiObject,21,0x00A5D2F0,NiObject::RegisterStreamables,RegisterStreamables,bool RegisterStreamables(NiStream*),4,,name,
@@ -438,7 +438,7 @@ NiObject,NiRenderer,21,0x00A5D2F0,NiObject::RegisterStreamables,RegisterStreamab
 NiObject,NiObject,22,0x00A89AF0,nullsub_3,SaveBinary,void SaveBinary(NiStream*),4,4,stub,
 NiObject,NiObjectNET,22,0x00A5C5B0,NiObjectNET::SaveBinary,SaveBinary,void SaveBinary(NiStream*),4,4,name+stack,
 NiObject,NiGeometryData,22,0x00A68520,NiGeometryData::SaveBinary,SaveBinary,void SaveBinary(NiStream*),4,4,name+stack,
-NiObject,NiAccumulator,22,0x00A724D0,NiInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
+NiObject,NiAccumulator,22,0x00A724D0,NiInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
 NiObject,BSBatchRenderer,22,0x00A89AF0,nullsub_3,SaveBinary,void SaveBinary(NiStream*),4,4,stub,
 NiObject,NiRenderer,22,0x00A89AF0,nullsub_3,SaveBinary,void SaveBinary(NiStream*),4,4,stub,
 NiObject,NiObject,23,0x00A5D470,NiObject::IsEqual,IsEqual,bool IsEqual(NiObject*),4,4,name+stack,
@@ -2411,12 +2411,12 @@ NiAccumulator,NiAccumulator,18,0x00A44840,NiObject::CreateClone,CreateClone,NiOb
 NiAccumulator,NiBackToFrontAccumulator,18,0x00AA0F50,NiBackToFrontAccumulator::Clone,CreateClone,NiObject* CreateClone(NiCloningProcess*),4,4,name+stack,
 NiAccumulator,NiAccumulator,19,0x00A88A40,_NiObject::LoadBinary,LoadBinary,void LoadBinary(NiStream*),4,tailjmp,name,
 NiAccumulator,NiBackToFrontAccumulator,19,0x00AA0AC0,j_j_NiObject::LoadBinary,LoadBinary,void LoadBinary(NiStream*),4,tailjmp,name,
-NiAccumulator,NiAccumulator,20,0x00A724D0,NiInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
-NiAccumulator,NiBackToFrontAccumulator,20,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
+NiAccumulator,NiAccumulator,20,0x00A724D0,NiInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
+NiAccumulator,NiBackToFrontAccumulator,20,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
 NiAccumulator,NiAccumulator,21,0x00A81FE0,NiInterpolator::RegisterStreamables,RegisterStreamables,bool RegisterStreamables(NiStream*),4,tailjmp,name,
 NiAccumulator,NiBackToFrontAccumulator,21,0x00AA0AD0,NiKeyBasedInterpolator::RegisterStreamables,RegisterStreamables,bool RegisterStreamables(NiStream*),4,tailjmp,name,
-NiAccumulator,NiAccumulator,22,0x00A724D0,NiInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
-NiAccumulator,NiBackToFrontAccumulator,22,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
+NiAccumulator,NiAccumulator,22,0x00A724D0,NiInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiInterpolator::LinkObject — от слитой копии
+NiAccumulator,NiBackToFrontAccumulator,22,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
 NiAccumulator,NiAccumulator,23,0x00BA87D0,j_NiObject::IsEqual,IsEqual,bool IsEqual(NiObject*),4,tailjmp,name,
 NiAccumulator,NiBackToFrontAccumulator,23,0x00AA0AE0,NiBackToFrontAccumulator::IsEqual,IsEqual,bool IsEqual(NiObject*),4,4,name+stack,
 NiAccumulator,NiAccumulator,24,0x00A5D6E0,NiObject::GetViewerStrings,GetViewerStrings,void GetViewerStrings(void*),4,4,name+stack,
@@ -2493,11 +2493,11 @@ NiBackToFrontAccumulator,NiBackToFrontAccumulator,18,0x00AA0F50,NiBackToFrontAcc
 NiBackToFrontAccumulator,NiAlphaAccumulator,18,0x00A9B730,NiAlphaAccumulator::CreateClone,CreateClone,NiObject* CreateClone(NiCloningProcess*),4,4,name+stack,
 NiBackToFrontAccumulator,NiBackToFrontAccumulator,19,0x00AA0AC0,j_j_NiObject::LoadBinary,LoadBinary,void LoadBinary(NiStream*),4,tailjmp,name,
 NiBackToFrontAccumulator,NiAlphaAccumulator,19,0x00A9B4F0,NiAlphaAccumulator::LoadBinary,LoadBinary,void LoadBinary(NiStream*),4,tailjmp,name,
-NiBackToFrontAccumulator,NiBackToFrontAccumulator,20,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
+NiBackToFrontAccumulator,NiBackToFrontAccumulator,20,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
 NiBackToFrontAccumulator,NiAlphaAccumulator,20,0x00A43330,j_j_j_nullsub_3,LinkObject,void LinkObject(NiStream*),4,tailjmp,stub,
 NiBackToFrontAccumulator,NiBackToFrontAccumulator,21,0x00AA0AD0,NiKeyBasedInterpolator::RegisterStreamables,RegisterStreamables,bool RegisterStreamables(NiStream*),4,tailjmp,name,
 NiBackToFrontAccumulator,NiAlphaAccumulator,21,0x00A9B500,NiAlphaAccumulator::RegisterStreamables,RegisterStreamables,bool RegisterStreamables(NiStream*),4,tailjmp,name,
-NiBackToFrontAccumulator,NiBackToFrontAccumulator,22,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
+NiBackToFrontAccumulator,NiBackToFrontAccumulator,22,0x00A95CA0,NiKeyBasedInterpolator::LinkObject,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,цепочка jmp 0x00A95CA0 → 0x00A724D0 → 0x00A89AF0: последняя функция — ret 4 (байты C2 04 00; пустая; ожидаемая очистка стека 4 — совпадает); имя NiKeyBasedInterpolator::LinkObject — от слитой копии
 NiBackToFrontAccumulator,NiAlphaAccumulator,22,0x00A43330,j_j_j_nullsub_3,SaveBinary,void SaveBinary(NiStream*),4,tailjmp,stub,
 NiBackToFrontAccumulator,NiBackToFrontAccumulator,23,0x00AA0AE0,NiBackToFrontAccumulator::IsEqual,IsEqual,bool IsEqual(NiObject*),4,4,name+stack,
 NiBackToFrontAccumulator,NiAlphaAccumulator,23,0x00A9B510,NiAlphaAccumulator::IsEqual,IsEqual,bool IsEqual(NiObject*),4,4,name+stack,

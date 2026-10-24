@@ -7,7 +7,7 @@ usage: python3 -I test_windows_check.py <FalloutNV.pdb> <meta.json> [<FalloutNV.
 """
 import copy, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from windows_check_pdb import compare, preflight, check_module, PDB_GUID
+from windows_check_pdb import compare, preflight, check_module, PDB_GUID, PUBLISHED_PDB
 
 pdb, meta_path = sys.argv[1:3]
 import json
@@ -75,7 +75,11 @@ if len(sys.argv) > 4:
                  ('правильные exe и PDB', preflight(exe, pdb_dir, man, q) == 0),
                  ('изменённый exe отвергнут', preflight(bad_exe, pdb_dir, man, q) == 1),
                  ('PDB вне пакета (нет в манифесте) отвергнут', preflight(exe, bad_dir, man, q) == 1),
-                 ('нет exe — отвергнуто', preflight(os.path.join(t, 'нет.exe'), pdb_dir, man, q) == 1)]
+                 ('нет exe — отвергнуто', preflight(os.path.join(t, 'нет.exe'), pdb_dir, man, q) == 1),
+                 # v0.5.3 (аудит Астры v0.5.2, P1): без манифеста — только по встроенному списку, иначе ошибка
+                 ('нет манифеста + изменённый PDB — отвергнуто', preflight(exe, bad_dir, os.path.join(t, 'нет.json'), q) == 1),
+                 ('нет манифеста + опубликованный PDB — по встроенному списку',
+                  preflight(exe, pdb_dir, os.path.join(t, 'нет.json'), q) == (0 if sha256(pdb) in PUBLISHED_PDB else 1))]
         good = {'loaded_pdb': os.path.join(pdb_dir, 'FalloutNV.pdb'), 'sym_type': 3, 'guid': PDB_GUID, 'age': 1,
                 'type_info': True, 'publics': True, 'pdb_unmatched': False}
         cases.append(('сведения о модуле верные', check_module(good, pdb_dir, q) == 0))
@@ -104,6 +108,9 @@ if len(sys.argv) > 4:
         cases.append(('main: всё верно — код 0', run([exe, pdb_dir, meta_path, man]) == 0))
         n0 = len(calls)
         cases.append(('main: не тот exe — код 2, DbgHelp не вызывался', run([bad_exe, pdb_dir, meta_path, man]) == 2 and len(calls) == n0))
+        n0 = len(calls)
+        cases.append(('main: нет манифеста + изменённый PDB — код 2, DbgHelp не вызывался',
+                      run([exe, bad_dir, meta_path, os.path.join(t, 'нет.json')]) == 2 and len(calls) == n0))
         fake_info[0] = None
         cases.append(('main: нет сведений о модуле — код 1', run([exe, pdb_dir, meta_path, man]) == 1))
         W.dbghelp_backend = real

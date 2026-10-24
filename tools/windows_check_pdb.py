@@ -7,7 +7,8 @@ usage (Windows, Python 3.8+, без сторонних пакетов), из к�
 
 Что проверяется:
   0) ДО DbgHelp (v0.4.2): SHA-256 FalloutNV.exe = 1.4.0.525 GOG; SHA-256 FalloutNV.pdb в папке = опубликованному
-     (по test_manifest.json пакета, если он рядом); при любом несовпадении — стоп, DbgHelp не вызывается;
+     (по test_manifest.json пакета; v0.5.3 — если манифеста нет, по встроенному списку PUBLISHED_PDB, а PDB, которого
+     нет ни там, ни там, — ошибка: fail closed); при любом несовпадении — стоп, DbgHelp не вызывается;
   1) DbgHelp загружает PDB именно из указанной папки и с точным совпадением GUID/age (SYMOPT_EXACT_SYMBOLS,
      путь из exe игнорируется — SYMOPT_IGNORE_CVREC); печатается, какой файл загружен. Строгий режим: если сведения
      о модуле получить не удалось, загружен другой файл, GUID/age не те, нет типов или публичных символов — ОШИБКА
@@ -28,6 +29,12 @@ import sys
 EXE_SHA256 = '42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c'   # FalloutNV.exe 1.4.0.525 GOG
 PDB_GUID = '91960891-62EE-4D29-BF48-E8D767B32DB9'
 PDB_AGE = 1
+# v0.5.3: опубликованные PDB, с которыми согласован meta.json этого пакета (v0.5–v0.5.3 — побайтно одни и те же).
+# Нужны, когда test_manifest.json рядом нет: тогда PDB сверяется с этим списком, а неизвестный PDB — ошибка.
+PUBLISHED_PDB = {
+    '7bfd6f5aee22b1ab5346e7ec1d5db5bce2819920703ce65bbfc63a7ed4300be4': 'строгий FalloutNV.pdb v0.5.x',
+    'fa9baabcdb2398bf7c1e194bf152b60ad9549ae46bcb4d37883c84ed04085317': 'research/FalloutNV.pdb v0.5.x',
+}
 
 KNOWN = {  # имя публичного символа (PDB xNVSE) -> адрес; если символ не найден или адрес другой — ошибка
     'FontManager::pInstance': 0x011F33F8,
@@ -103,11 +110,19 @@ def preflight(exe, pdb_dir, manifest_path, out):
             out(f'  ОШИБКА    {rel} нет в {os.path.basename(manifest_path)} — это не PDB из пакета')
             return bad + 1
     got = sha256(pdb)
-    if want and got != want:
-        out(f'  ОШИБКА    SHA-256 {pdb} {got} не совпадает с опубликованным {want}')
+    if want:
+        if got != want:
+            out(f'  ОШИБКА    SHA-256 {pdb} {got} не совпадает с опубликованным {want}')
+            bad += 1
+        else:
+            out(f'  OK        SHA-256 PDB {got} (как в test_manifest.json)')
+    elif got in PUBLISHED_PDB:   # v0.5.3: манифеста нет — сверка со встроенным списком
+        out(f'  OK        SHA-256 PDB {got} ({PUBLISHED_PDB[got]}; test_manifest.json не найден — сверено по '
+            f'встроенному списку)')
+    else:                        # v0.5.3: fail closed — неизвестный PDB без манифеста не проверяется
+        out(f'  ОШИБКА    SHA-256 {pdb} {got}: test_manifest.json не найден, и такого PDB нет среди опубликованных — '
+            f'подлинность не подтверждена')
         bad += 1
-    else:
-        out(f'  OK        SHA-256 PDB {got}' + (' (как в test_manifest.json)' if want else ' (test_manifest.json не найден — не сверено)'))
     return bad
 
 

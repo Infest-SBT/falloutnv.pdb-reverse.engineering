@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.5.2",
+ "package": "FalloutNV_PDB_v0.5.3",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -74,7 +74,8 @@
   "python3 tools/test_windows_check.py research/FalloutNV.pdb research/fnv_types_v05_research.meta.json FalloutNV.exe test_manifest.json",
   "python3 tools/scripts_src/test_ghidra_mock.py evidence/summary.json scripts/fnv_apply_ghidra.py",
   "python3 tools/scripts_src/test_ida_mock.py evidence/summary.json scripts/fnv_apply_ida.py",
-  "python3 -c \"import csv;print(sum(r['status']=='MISMATCH' for r in csv.DictReader(open('out/evidence_vslots.csv',encoding='utf-8'))))\"  -> 0"
+  "python3 -c \"import csv;print(sum(r['status']=='MISMATCH' for r in csv.DictReader(open('out/evidence_vslots.csv',encoding='utf-8'))))\"  -> 0",
+  "python3 tools/test_slot_forward.py  -> ИТОГ: всё прошло (10)"
  ],
  "windows_commands": [
   "python tools\\windows_check_pdb.py <FalloutNV.exe> . fnv_types_v05.meta.json",
@@ -145,7 +146,8 @@
   "script_tests": {
    "test_ghidra_mock": "18/18",
    "test_ida_mock": "8/8",
-   "test_windows_check": "на каждом PDB: compare OK, 3 внесённые ошибки пойманы, 17 случаев preflight/check_module/main"
+   "test_windows_check": "на каждом PDB 20/20: compare OK, 3 внесённые ошибки пойманы, 20 случаев preflight/check_module/main, в том числе «нет манифеста + изменённый PDB → код 2»",
+   "test_slot_forward": "10/10"
   },
   "windows_check_pdb": "ИТОГ: всё совпадает, код 0; другой exe — код 2 (на Windows для v0.5 ещё не запускался; v0.4.2 — пройдено)",
   "compositions": {
@@ -234,8 +236,8 @@
    "bytes": 7168000
   },
   "README_RU.md": {
-   "sha256": "0bd7f451ed7d1091f35d5374479c69a2c127dc29e8137e5ec28b7bfa848f60c1",
-   "bytes": 36145
+   "sha256": "5bbec736168a34c7f6b1c9b660d5d96415452f62400483b247d17b9464116d15",
+   "bytes": 39187
   },
   "evidence/REPORT.md": {
    "sha256": "5fb2964c2197fd35156aad9fea32d2b5f419cd1a16811593c68c88e0eb900ecd",
@@ -258,8 +260,8 @@
    "bytes": 80811
   },
   "evidence/evidence_vslots.csv": {
-   "sha256": "5381e125c101fb436035f530e313cc3e8a46c03943aa92bb03b350d9d6dc7c27",
-   "bytes": 671463
+   "sha256": "f363f9a3e568f96ea4f4288545df75c43bf408a5ef63bbf9ce195db6b1ec268d",
+   "bytes": 671631
   },
   "evidence/excluded_functions.csv": {
    "sha256": "4c21b3570448d349576457974fd2f1b7f603f90e31462bd37d6f81ca95606142",
@@ -338,8 +340,8 @@
    "bytes": 2015
   },
   "tools/evidence.py": {
-   "sha256": "f9e771998f833a0fb8c3aaf6e64b72f75db37c877c7714ab8b6fdd1db8f62c3f",
-   "bytes": 97552
+   "sha256": "f3e47c9fe6f642ee9b1df34c24ed9beedb33c9ffb7f1d02eedb66e4fe18e26dc",
+   "bytes": 96558
   },
   "tools/evidence_spec.json": {
    "sha256": "5732a729b2b50f669314419b3e8346fcecc6d06cdf3536dd0e32431468acea51",
@@ -425,13 +427,21 @@
    "sha256": "37d374a7422d47f5c53d500bfe6a417d23b5b211353025eebe0d9338f9097924",
    "bytes": 5107
   },
+  "tools/slotfwd.py": {
+   "sha256": "ca3e60f59704484ccc6929dfcf1826aec26afb296633efde4ddedfbb1095894a",
+   "bytes": 3060
+  },
   "tools/spec.json": {
    "sha256": "51387e72e13244e8cf6bf55b6e99adbe9d40715b1bee94a2cf56ea511cf08f66",
    "bytes": 69457
   },
+  "tools/test_slot_forward.py": {
+   "sha256": "f6cc9467545db3e4f5649f428f249484eabc7d2f27765f100dffea2d827087e9",
+   "bytes": 3453
+  },
   "tools/test_windows_check.py": {
-   "sha256": "d62547d21d3424abdb11f2b449cb0538272d8f5bd5898495cf13f51f2a0f0fd3",
-   "bytes": 7143
+   "sha256": "b5952152b94f601869e09fe3ee16c7c505170932bda2a4de7c7b4aa36b32f739",
+   "bytes": 8013
   },
   "tools/verify_change_flags.py": {
    "sha256": "ef48facb6dbb0defae51b7278775ff4ed71e936cd57746b595b90bfe96710c0d",
@@ -458,8 +468,8 @@
    "bytes": 4214
   },
   "tools/windows_check_pdb.py": {
-   "sha256": "3ecd1cf054c8226992be94c79b9a4f932861d605ad25ada93c84a19ad5271ea1",
-   "bytes": 15291
+   "sha256": "7ccbe2d963284b67b2eba660d0a9b962252085d8d4893199fc3b6992c2ec40f4",
+   "bytes": 16688
   }
  },
  "same_as_v0.5": "оба PDB, оба заголовка (.h, .meta.json) и оба скрипта побайтно те же, что в v0.5"

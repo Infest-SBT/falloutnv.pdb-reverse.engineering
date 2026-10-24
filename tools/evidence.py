@@ -27,12 +27,16 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   stub         — заглушка (UnimplementedVirtFunc, ret 0 и т.п.; v0.5.2 — и цепочка прямых jmp, которая кончается
                  функцией из одной команды ret/ret N — проверено по коду, а не по имени: пустые функции компоновщик
                  сливает в одну, имя такой копии в PDB xNVSE случайно) — ничего не доказывает;
+  stub-stack-mismatch — v0.5.3: цепочка кончается пустой функцией, но её ret N не равен ожидаемой очистке стека —
+                 соглашение о вызове не сходится; прототипа нет, отдельный статус для ручного разбора;
   thunk        — v0.5.1: ни имя, ни стек не совпали, но функция — переходник «mov r,[ecx]; mov r2,[r+N]; jmp r2»:
                  вызывает собственный слот N/4 того же объекта; прототип им не проверяется (не ошибка vtable);
   MISMATCH     — ни имя, ни стек не совпали.
 ret N подтверждает только объём аргументов на стеке (thiscall), не их типы и не тип результата.
 """
 import bisect, collections, csv, hashlib, json, os, re, struct, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from slotfwd import slot_forward as _slot_forward, stub_status   # v0.5.3
 import capstone, pefile
 
 meta_path, spec_path, syms_path, exe_path, out_dir = sys.argv[1:6]
@@ -295,35 +299,8 @@ def _in_exec(va):
 
 
 def slot_forward(f, max_hops=8):
-    """v0.5.2: короткая функция-переходник в слоте vtable.
-    ('stub', цепочка, retN) — цепочка прямых jmp (до max_hops, без повторов, только внутри исполняемых секций)
-      кончается функцией, первая команда которой — ret / ret N, то есть пустой функцией. Пустота проверяется по коду,
-      а не по имени (одинаковые пустые функции компоновщик сливает, и имя слитой копии в PDB xNVSE случайно);
-    ('thunk', N, цепочка) — после той же цепочки «mov r, [ecx]; mov r2, [r+N]; jmp r2»: вызов собственного слота N/4;
-    иначе None."""
-    chain, cur, seen = [f], f, {f}
-    for _ in range(max_hops + 1):
-        ins = list(md.disasm(img[cur - B:cur - B + 16], cur))[:3]
-        if not ins:
-            return None
-        if ins[0].mnemonic == 'ret':
-            return ('stub', chain, int(ins[0].op_str, 16) if ins[0].op_str else 0) if len(chain) > 1 else None
-        if ins[0].mnemonic == 'jmp' and ins[0].op_str.startswith('0x'):
-            t = int(ins[0].op_str, 16)
-            if t in seen or not _in_exec(t):
-                return None
-            seen.add(t)
-            chain.append(t)
-            cur = t
-            continue
-        if len(ins) == 3 and ins[0].mnemonic == 'mov' and ins[0].op_str.endswith('dword ptr [ecx]') \
-                and ins[1].mnemonic == 'mov' and ins[2].mnemonic == 'jmp':
-            m = re.match(r'(\w+), dword ptr \[(\w+) \+ (0x[0-9a-f]+)\]$', ins[1].op_str)
-            r0 = ins[0].op_str.split(',')[0]
-            if m and m.group(2) == r0 and ins[2].op_str == m.group(1):
-                return ('thunk', int(m.group(3), 16), chain)
-        return None
-    return None
+    """Переходник в слоте vtable — см. tools/slotfwd.py (там же регрессионный тест test_slot_forward.py)."""
+    return _slot_forward(lambda va, n: img[va - B:va - B + n], md, f, _in_exec, max_hops)
 
 
 def rets(f):
@@ -965,7 +942,8 @@ for cname, c in CLS.items():
                     st = 'stub'
                 elif fw and fw[0] == 'stub':
                     ch = ' → '.join(f'0x{a:08X}' for a in fw[1])
-                    st, fwnote = 'stub', (f'цепочка jmp {ch}: последняя функция — ret {fw[2]} (пустая; ожидаемая очистка '
+                    rb = ' '.join(f'{x:02X}' for x in img[fw[1][-1] - B:fw[1][-1] - B + (1 if fw[2] == 0 and img[fw[1][-1] - B] == 0xC3 else 3)])
+                    st, fwnote = stub_status(fw, exp), (f'цепочка jmp {ch}: последняя функция — ret {fw[2]} (байты {rb}; пустая; ожидаемая очистка '
                                           f'стека {exp} — {"совпадает" if fw[2] == exp else "НЕ совпадает"}); имя {pn} — '
                                           f'от слитой копии')
                 elif fw and fw[0] == 'thunk' and not nm_ok and not st_ok:
@@ -986,7 +964,7 @@ for cname, c in CLS.items():
                                   'pc_name': pn, 'xbox_name': v.get('xbox_name', v['name']), 'decl': v['decl'],
                                   'expect_ret_n': exp, 'pc_ret_n': ' '.join(map(str, sorted(rn, key=str))),
                                   'status': st, 'note': fwnote or notes.get(str(s), '')})
-                order = ['MISMATCH', 'thunk', 'stub', 'name', 'stack', 'name+stack', 'semantics']
+                order = ['MISMATCH', 'stub-stack-mismatch', 'thunk', 'stub', 'name', 'stack', 'name+stack', 'semantics']
                 if best is None or order.index(st) > order.index(best[0]):
                     best = (st, who, fa)
             if best:
