@@ -50,9 +50,27 @@
   ],
   "BSAudioManager": [
    [
-    "upper-bound",
-    400,
-    "верхняя граница: BSAudioManager::Instance 0x011F6EF0, следующий объект BSWin32Audio::Instance 0x011F7080 (выровнен на 16) => не больше 0x190; последнее поле на 0x184 => не меньше 0x185; выбран 0x188 по выравниванию 4"
+    "bounds",
+    392,
+    "объект BSAudioManager::Instance 0x011F6EF0; по 0x011F7078 = Instance + 0x188 лежит флаг статической инициализации: BSAudioManager::GetSingleton читает его бит 0 и ставит его перед вызовом конструктора для Instance => не больше 0x188; нижняя граница: последнее поле bIgnoreGlobalTimeMultiplier на +0x184 (≥ 0x185), класс с полями по 4 байта выровнен на 4 => не меньше 0x188; границы совпали",
+    [
+     [
+      "0xAD9082",
+      "mov eax, dword ptr [0x11f7078]"
+     ],
+     [
+      "0xAD9095",
+      "mov dword ptr [0x11f7078], ecx"
+     ],
+     [
+      "0xAD90A2",
+      "mov ecx, 0x11f6ef0"
+     ],
+     [
+      "0xAD90A7",
+      "call 0xad90e0"
+     ]
+    ]
    ]
   ],
   "FontData": [
@@ -166,6 +184,196 @@
     828,
     "верхняя граница: объект MTRenderingSystem::Instance 0x01200088, следующий глобальный символ 0x012003C4 => не больше 0x33C; нижняя: конструктор 0x00BA36D9 push 0x18; push 0x20; lea ecx,[esi+0x3C] → eh vector ctor iterator: 24 × 0x20 = 0x300 от +0x3C => не меньше 0x33C; границы совпали (и TaskStageSema: 3 × 0xC от +0x18 до +0x3C)"
    ]
+  ],
+  "HeapBlock": [
+   [
+    "header-size",
+    8,
+    "заголовок блока кучи на PC — 8 байт: AbstractHeap::BaseFree: блок = указатель пользователя − 8 (0x00AA9910/0x00AA9913), занятая память уменьшается на размер + 8 (0x00AA992A); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316), остаток = свободное − (размер + 8) (0x00AA9320). Память пользователя начинается сразу за HeapBlock => sizeof(HeapBlock) = 8 (на Xbox 0x10)",
+    [
+     [
+      "0xAA9910",
+      "mov ecx, dword ptr [ebp + 8]"
+     ],
+     [
+      "0xAA9913",
+      "sub ecx, 8"
+     ],
+     [
+      "0xAA992A",
+      "add ecx, 8"
+     ],
+     [
+      "0xAA9316",
+      "lea eax, [edx + ecx + 8]"
+     ],
+     [
+      "0xAA9320",
+      "add ecx, 8"
+     ]
+    ]
+   ]
+  ],
+  "FreeHeapBlock": [
+   [
+    "bounds",
+    16,
+    "верхняя граница: AbstractHeap::BaseAllocate округляет запрос меньше 8 байт до 8 (0x00AA8F7B cmp [ebp+8], 8; 0x00AA8F81 mov [ebp+8], 8), заголовок HeapBlock — 8 байт => самый маленький блок занимает 0x10, и освобождённый блок хранит в нём pPrevFree/pNextFree (+8/+0xC) => FreeHeapBlock не больше 0x10; нижняя граница: последнее поле pNextFree на +0xC (4 байта) => не меньше 0x10; границы совпали",
+    [
+     [
+      "0xAA8F7B",
+      "cmp dword ptr [ebp + 8], 8"
+     ],
+     [
+      "0xAA8F81",
+      "mov dword ptr [ebp + 8], 8"
+     ],
+     [
+      "0xAA9913",
+      "sub ecx, 8"
+     ]
+    ]
+   ]
+  ],
+  "BGSSaveLoadFormHeader": [
+   [
+    "write-size",
+    9,
+    "BGSSaveFormBuffer::Save пишет заголовок одним куском: push 9; edx = this + 0x14 (поле Header); BGSSaveLoadFile::Write(&Header, 9) (0x00865A62..0x00865A6E); BGSSaveFormBuffer::GetOverhead прибавляет те же 9 (0x00865B39). Последнее поле cVersion на +8 => не меньше 9; записываемый размер = 9",
+    [
+     [
+      "0x865A62",
+      "push 9"
+     ],
+     [
+      "0x865A67",
+      "add edx, 0x14"
+     ],
+     [
+      "0x865A6A",
+      "push edx"
+     ],
+     [
+      "0x865A6E",
+      "call 0x846330"
+     ],
+     [
+      "0x865B39",
+      "add eax, 9"
+     ]
+    ]
+   ]
+  ],
+  "BGSSaveFormBuffer": [
+   [
+    "stack-frame",
+    36,
+    "объект на стеке в BGSLoadGameSubBuffer::SaveAnimation и SaveHavokData: конструктор вызывается для [ebp−0x34] (0x00864F65/0x00864F68 и 0x00865065/0x00865068), объект используется до 0x00864FB3/0x008650B3; слот [ebp−0x10] — другая переменная, она записана до конструктора (0x00864F62/0x00865062) и прочитана после последнего использования объекта (0x00864FB7/0x008650B7), то есть жива всё время жизни объекта => объект кончается не дальше ebp−0x10: не больше 0x24; последнее поле pForm на +0x20 => не меньше 0x24 (код без совмещения слотов стека — каждой переменной свой слот)",
+    [
+     [
+      "0x864F62",
+      "mov dword ptr [ebp - 0x10], edx"
+     ],
+     [
+      "0x864F65",
+      "lea ecx, [ebp - 0x34]"
+     ],
+     [
+      "0x864F68",
+      "call 0x8659c0"
+     ],
+     [
+      "0x864FB3",
+      "lea ecx, [ebp - 0x34]"
+     ],
+     [
+      "0x864FB7",
+      "mov ecx, dword ptr [ebp - 0x10]"
+     ],
+     [
+      "0x865062",
+      "mov dword ptr [ebp - 0x10], edx"
+     ],
+     [
+      "0x865065",
+      "lea ecx, [ebp - 0x34]"
+     ],
+     [
+      "0x865068",
+      "call 0x8659c0"
+     ],
+     [
+      "0x8650B3",
+      "lea ecx, [ebp - 0x34]"
+     ],
+     [
+      "0x8650B7",
+      "mov ecx, dword ptr [ebp - 0x10]"
+     ]
+    ]
+   ]
+  ],
+  "Font::TextData": [
+   [
+    "stack-frame",
+    40,
+    "в PDB xNVSE этот тип — Font::FormatInfo (конструктор Font::FormatInfo::Init 0x00759330). Font::CreateText: объект на [ebp−0x58] (0x00A12903 lea ecx; 0x00A12906 call Init), передаётся в PrepText; слот [ebp−0x30] сразу за 0x28 байтами объекта — другая переменная (счётчик строк): обнуляется (0x00A1295B) и сравнивается в цикле (0x00A12988), пока объект ещё используется (его список xLineWidths [ebp−0x38] — 0x00A12BCE) => не больше 0x28; последнее поле xLineWidths на +0x20 (8 байт) => не меньше 0x28",
+    [
+     [
+      "0xA12903",
+      "lea ecx, [ebp - 0x58]"
+     ],
+     [
+      "0xA12906",
+      "call 0x759330"
+     ],
+     [
+      "0xA1295B",
+      "mov dword ptr [ebp - 0x30], 0"
+     ],
+     [
+      "0xA12988",
+      "cmp edx, dword ptr [ebp - 0x30]"
+     ],
+     [
+      "0xA12BCE",
+      "lea eax, [ebp - 0x38]"
+     ]
+    ]
+   ]
+  ],
+  "FontManager::TextData": [
+   [
+    "stack-frame",
+    64,
+    "TileText::MakeNode: объект на [ebp−0xAC] передаётся в FontManager::CreateText (0x00A22094 lea eax, [ebp−0xAC]; 0x00A220C6 call); его поля заполняются перед вызовом (bIsHypertext +0x34 = [ebp−0x78], 0x00A2207B) и список xNewText (+0x38 = [ebp−0x74]) используется после (0x00A2215F); слот [ebp−0x68] сразу за 0x40 байтами — другая переменная: записана до (0x00A21B29) и прочитана после (0x00A22429) => не больше 0x40; последнее поле xNewText на +0x38 (8 байт) => не меньше 0x40",
+    [
+     [
+      "0xA22094",
+      "lea eax, [ebp - 0xac]"
+     ],
+     [
+      "0xA220C6",
+      "call 0xa18f00"
+     ],
+     [
+      "0xA2207B",
+      "mov byte ptr [ebp - 0x78], dl"
+     ],
+     [
+      "0xA2215F",
+      "lea ecx, [ebp - 0x74]"
+     ],
+     [
+      "0xA21B29",
+      "mov dword ptr [ebp - 0x68], eax"
+     ],
+     [
+      "0xA22429",
+      "cmp dword ptr [ebp - 0x68], 0"
+     ]
+    ]
+   ]
   ]
  },
  "slot_notes": {
@@ -220,6 +428,9 @@
   },
   "NiDX9Renderer": {
    "ptr": "0x011F4748"
+  },
+  "ShadowSceneNode": {
+   "ptr": "0x011F91C8"
   }
  },
  "extra_functions": {
@@ -293,6 +504,14 @@
    },
    "0xA19F70": {
     "note": "TextLine::AddChar (имени нет): вызывается из конструктора TextLine с тем же this"
+   }
+  },
+  "BGSSaveLoadChangesMap": {
+   "0x845B30": {
+    "note": "NiTPointerMap<uint, BGSFormChanges*>::NiTPointerMap — конструктор базового класса: BGSSaveLoadChangesMap::BGSSaveLoadChangesMap (0x00845550) вызывает его с ECX = this (0x0084555C mov ecx,[ebp-4]; 0x0084555F call) и hashSize 0x13AF"
+   },
+   "0x845B90": {
+    "note": "NiTMapBase<NiTPointerAllocator<uint>, uint, BGSFormChanges*>::NiTMapBase — конструктор базы базы: вызывается из NiTPointerMap::NiTPointerMap (0x00845B30) с тем же this; пишет +4 = m_uiHashSize (аргумент), +0xC = m_uiCount = 0, выделяет hashSize×4 и пишет указатель в +8 = m_ppkHashTable, затем обнуляет таблицу"
    }
   }
  },
@@ -370,5 +589,207 @@
   "BSShaderPPLightingProperty": {
    "pRenderDepthPass": "GetDepthPass 0x00B66E20: cmp dword [esi+0x100], 0; если 0 — проход глубины создаётся (0x00BA8EC0, номера проходов 0x1E7/0x1E8/0x1E9) и указатель пишется в [esi+0x100] (0x00B66EFC), затем возвращается (0x00B66F02) — это указатель на проход, а не float fTerrainDetailTexScale"
   }
+ },
+ "traced_accesses": {
+  "BSBatchRenderer": [
+   {
+    "access": "0xB640C8",
+    "access_text": "cmp byte ptr [edx + 0x38], 0",
+    "anchors": [
+     [
+      "0xB64024",
+      "mov esi, dword ptr [esp + 0x10]"
+     ],
+     [
+      "0xB640B4",
+      "div dword ptr [esi + 0x18c]"
+     ],
+     [
+      "0xB640BA",
+      "mov edx, dword ptr [esi + edx*4 + 0x174]"
+     ],
+     [
+      "0xB640C1",
+      "mov eax, dword ptr [edx + 0x34]"
+     ]
+    ],
+    "note": "BSShaderAccumulator::RegisterObject_Standard (статическая): esi = 1-й аргумент — аккумулятор (дальше [esi+0x18C] = uiBatchRendererCount, [esi+0x164] = bWaterReflection); edx = pBatchRenderer[i] (+0x174, индекс = остаток от деления на uiBatchRendererCount) — объект BSBatchRenderer; читаются iGroupingAlphas (+0x34, dword) и байт +0x38 — bAlphaGroupZPrePass: «если iGroupingAlphas > 0 и bAlphaGroupZPrePass»"
+   },
+   {
+    "access": "0xB640C1",
+    "access_text": "mov eax, dword ptr [edx + 0x34]",
+    "anchors": [
+     [
+      "0xB64024",
+      "mov esi, dword ptr [esp + 0x10]"
+     ],
+     [
+      "0xB640BA",
+      "mov edx, dword ptr [esi + edx*4 + 0x174]"
+     ]
+    ],
+    "note": "то же: BSBatchRenderer::iGroupingAlphas (+0x34) элемента pBatchRenderer[i] аккумулятора — 1-го аргумента RegisterObject_Standard"
+   }
+  ],
+  "BSShaderAccumulator": [
+   {
+    "access": "0x8732A6",
+    "access_text": "mov byte ptr [eax + 0x38], bl",
+    "anchors": [
+     [
+      "0x873229",
+      "mov dword ptr [ebp - 0x1a8], ecx"
+     ],
+     [
+      "0x873295",
+      "mov ecx, dword ptr [ebp - 0x1a8]"
+     ],
+     [
+      "0x87329B",
+      "add ecx, 0x88"
+     ],
+     [
+      "0x8732A1",
+      "call 0x559450"
+     ],
+     [
+      "0x86C185",
+      "mov dword ptr [ebp - 0x44], ecx"
+     ],
+     [
+      "0x86C2D9",
+      "mov ecx, dword ptr [ebp - 0x44]"
+     ],
+     [
+      "0x86C2DC",
+      "add ecx, 0x88"
+     ],
+     [
+      "0x86C2E2",
+      "call 0x66b0d0"
+     ],
+     [
+      "0x86C2BA",
+      "call 0xb660d0"
+     ]
+    ],
+    "note": "TESMain::DrawWorld_DrawScene (this = TESMain, [ebp−0x1A8]): TESMain+0x88 — NiPointer на аккумулятор мира (Xbox Main::spDrawWorldAccum на +0x90; на PC на 8 байт раньше — две BSPackedTaskQueue с CRITICAL_SECTION на 4 байта меньше). Что там именно BSShaderAccumulator, видно в TESMain::TESMain: выделено 0x280, вызван BSShaderAccumulator::BSShaderAccumulator (0x0086C2BA) и результат присвоен NiPointer'у this+0x88 (0x0086C2D9..0x0086C2E2). Разыменование NiPointer (0x00559450) → аккумулятор, байт +0x38 = bWorldGeometry (пишется флаг из аргумента)"
+   },
+   {
+    "access": "0x874226",
+    "access_text": "mov byte ptr [eax + 0x38], 0",
+    "anchors": [
+     [
+      "0x874215",
+      "mov ecx, dword ptr [ebp - 0x1a8]"
+     ],
+     [
+      "0x87421B",
+      "add ecx, 0x88"
+     ],
+     [
+      "0x874221",
+      "call 0x559450"
+     ]
+    ],
+    "note": "там же, в конце DrawWorld_DrawScene: bWorldGeometry аккумулятора мира сбрасывается в 0"
+   }
+  ],
+  "BSGameSound": [
+   {
+    "access": "0xAE9491",
+    "access_text": "add edx, 0x36",
+    "buffer_size": 260,
+    "anchors": [
+     [
+      "0xAE9466",
+      "mov dword ptr [ebp - 0x18], ecx"
+     ],
+     [
+      "0xAE9489",
+      "push 0x104"
+     ],
+     [
+      "0xAE948E",
+      "mov edx, dword ptr [ebp - 0x18]"
+     ],
+     [
+      "0xAE9494",
+      "push edx"
+     ],
+     [
+      "0xAE9495",
+      "call 0xec65a6"
+     ]
+    ],
+    "note": "BSGameSound::SetFilename (this = [ebp−0x18]): strcpy_s(this + 0x36, 0x104, имя) — адрес начала pFilename передан вместе с размером буфера 0x104 = 260 = sizeof(pFilename)"
+   }
+  ],
+  "BGSSaveLoadGame": [
+   {
+    "access": "0x8471AB",
+    "access_text": "add eax, 0x44",
+    "buffer_size": 255,
+    "anchors": [
+     [
+      "0x846F55",
+      "mov dword ptr [ebp - 0x50], ecx"
+     ],
+     [
+      "0x84719E",
+      "push 0xff"
+     ],
+     [
+      "0x8471A3",
+      "push 0xff"
+     ],
+     [
+      "0x8471A8",
+      "mov eax, dword ptr [ebp - 0x50]"
+     ],
+     [
+      "0x8471AE",
+      "push eax"
+     ],
+     [
+      "0x8471AF",
+      "call 0x403d30"
+     ]
+    ],
+    "note": "BGSSaveLoadGame::BGSSaveLoadGame (this = [ebp−0x50]): ourMemset(this + 0x44, 0xFF, 0xFF) — cFileIndexArray заполняется целиком: размер 0xFF = 255 = sizeof(cFileIndexArray)"
+   },
+   {
+    "access": "0x8471C4",
+    "access_text": "add ecx, 0x143",
+    "buffer_size": 255,
+    "anchors": [
+     [
+      "0x846F55",
+      "mov dword ptr [ebp - 0x50], ecx"
+     ],
+     [
+      "0x8471B7",
+      "push 0xff"
+     ],
+     [
+      "0x8471BC",
+      "push 0xff"
+     ],
+     [
+      "0x8471C1",
+      "mov ecx, dword ptr [ebp - 0x50]"
+     ],
+     [
+      "0x8471CA",
+      "push ecx"
+     ],
+     [
+      "0x8471CB",
+      "call 0x403d30"
+     ]
+    ],
+    "note": "то же для cReverseFileIndexArray: ourMemset(this + 0x143, 0xFF, 0xFF), 255 = sizeof(cReverseFileIndexArray)"
+   }
+  ]
  }
 }

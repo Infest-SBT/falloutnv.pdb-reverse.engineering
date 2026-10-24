@@ -23,6 +23,7 @@ class BGSSaveFormBuffer;
 class BGSSaveGameBuffer;
 class BGSSaveLoadChangesMap;
 class BGSSaveLoadFile;
+struct BGSSaveLoadFormHeader;
 class BGSSaveLoadFormIDMap;
 class BGSSaveLoadGame;
 class BGSSaveLoadHistory;
@@ -31,6 +32,8 @@ class BGSSaveLoadQueuedSubBufferMap;
 class BGSSaveLoadReferencesMap;
 class BSAudio;
 class BSAudioListener;
+class BSAudioManager;
+class BSAudioManagerThread;
 class BSBatchRenderer;
 class BSFadeNode;
 class BSFileEntry;
@@ -1268,7 +1271,7 @@ public:
     TESEffectShader* pCateyeMobileShader; // PC: confirmed
 };
 // BSGameSound (Xbox PDB): Xbox sizeof 0x198, PC sizeof 0x198
-// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pFilename)
+// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964
 class BSGameSound {
 public:
     virtual ~BSGameSound(); // слот 0 | PC: name+stack (0xAE9EC0)
@@ -1316,7 +1319,7 @@ public:
     float fEndTime; // PC: confirmed
     unsigned iWeatherFlags; // PC: confirmed
     unsigned short iSamplesPerSecond; // PC: confirmed
-    unsigned char _unverified_pFilename[260]; // строгая сборка: не подтверждено (char[260 bytes])
+    char pFilename[260]; // PC: confirmed
     unsigned char _pad13A[0x2];
     float fMaxDist; // PC: confirmed
     float fMinDist; // PC: confirmed
@@ -1417,6 +1420,60 @@ public:
     alignas(4) unsigned char Caps[96]; // DSCAPS // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — DSCAPS: Init пишет dwSize = 0x60 и вызывает GetCaps | PC: confirmed
     void* hWnd; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — окно: Init сохраняет аргумент и передаёт его в SetCooperativeLevel | PC: confirmed
 };
+// BSAudioManager (Xbox PDB): Xbox sizeof 0x19C, PC sizeof 0x188
+// PC: sizeof 0x188 — confirmed; alignof 4; vtable 0x010A3368
+class BSAudioManager {
+public:
+    virtual ~BSAudioManager(); // слот 0 | PC: name+stack (0xAE77A0)
+    // поля
+    int iMessageListIndex; // PC: confirmed
+    int iMessageProcessingListIndex; // PC: confirmed
+    alignas(4) unsigned char Messages[24]; // NiTPointerList<BSSoundMessage *>[24 bytes] | PC: confirmed
+    alignas(4) unsigned char FreeMessages[16]; // AudioMessageStack | PC: confirmed
+    alignas(4) unsigned char FreeQueueMessages[16]; // AudioMessageStack | PC: confirmed
+    alignas(4) unsigned char GarbageMessages[16]; // AudioMessageStack | PC: confirmed
+    alignas(4) unsigned char SoundList[16]; // NiTPointerMap<int,BSGameSound *> | PC: confirmed
+    alignas(4) unsigned char SoundStateMap[16]; // NiTPointerMap<int,BSSoundInfo *> | PC: confirmed
+    alignas(4) unsigned char StateUpdateMap[16]; // NiTPointerMap<int,BSSoundInfo *> | PC: confirmed
+    alignas(4) unsigned char MovingRefrList[16]; // NiTPointerMap<int,NiPointer<NiAVObject> > | PC: confirmed
+    alignas(4) unsigned char CachedSoundList[12]; // NiTPointerList<BSGameSound *> | PC: confirmed
+    unsigned iCurrentCachSize; // PC: confirmed
+    unsigned iWeatherFlags; // PC: confirmed
+    float fCurrentGamehour; // PC: confirmed
+    alignas(4) unsigned char MessageCritSection[24]; // BSCriticalSection | PC: confirmed
+    alignas(4) unsigned char StateCritSection[24]; // BSCriticalSection | PC: confirmed
+    alignas(4) unsigned char CacheCritSection[24]; // BSCriticalSection | PC: confirmed
+    alignas(4) unsigned char ProcessingCritSection[24]; // BSCriticalSection | PC: confirmed
+    alignas(4) unsigned char CacheLoadTaskCritSection[24]; // BSCriticalSection | PC: confirmed
+    alignas(4) unsigned char CacheLoadTaskList[12]; // NiTPointerList<AudioLoadTask *> | PC: confirmed
+    unsigned iDelayTimerDelta; // PC: confirmed
+    bool bPrecacheCompleted; // PC: confirmed
+    bool bListenerMoved; // PC: confirmed
+    unsigned char _pad136[0x2];
+    unsigned long dwAudioThreadID; // PC: confirmed
+    BSAudioManagerThread* pUpdateThread; // PC: confirmed
+    float fMasterVolume; // PC: confirmed
+    float fFootVolume; // PC: confirmed
+    float fVoiceVolume; // PC: confirmed
+    float fEffectsVolume; // PC: confirmed
+    float fMusicVolume; // PC: confirmed
+    float fRadioVolume; // PC: confirmed
+    float fMasterSecondaryVolume; // PC: confirmed
+    float fFootSecondaryVolume; // PC: confirmed
+    float fVoiceSecondaryVolume; // PC: confirmed
+    float fEffectsSecondaryVolume; // PC: confirmed
+    float fMusicSecondaryVolume; // PC: confirmed
+    float fRadioSecondaryVolume; // PC: confirmed
+    unsigned iMuteMask; // PC: confirmed
+    bool bDialogueFade; // PC: confirmed
+    bool bListenerUnderwater; // PC: confirmed
+    unsigned char _pad176[0x2];
+    void* pPauseEntries; // PC: confirmed
+    unsigned iPauseListSize; // PC: confirmed
+    unsigned iNextID; // PC: confirmed
+    bool bIgnoreGlobalTimeMultiplier; // PC: confirmed
+    unsigned char _pad185[0x3];
+};
 // BSSoundHandle (Xbox PDB): Xbox sizeof 0xC, PC sizeof 0xC
 // PC: sizeof 0xC — confirmed; alignof 4
 class BSSoundHandle {
@@ -1427,6 +1484,25 @@ public:
     bool bAssumeSuccess; // PC: confirmed
     unsigned char _pad5[0x3];
     int eState; // PC: confirmed
+};
+// HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x8
+// PC отличается от Xbox: на PC заголовок блока кучи — 8 байт, а не 0x10, как на Xbox: AbstractHeap::BaseFree получает блок как «указатель − 8» (0x00AA9913 sub ecx, 8), учитывает размер блока + 8 (0x00AA992A add ecx, 8); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316 lea eax, [edx + ecx + 8]). Поля pPrevious/iMemSize те же; на Xbox заголовок добит до 16 байт
+// PC: sizeof 0x8 — confirmed; alignof 4
+class HeapBlock {
+public:
+    // поля
+    HeapBlock* pPrevious; // PC: confirmed
+    unsigned iMemSize; // PC: confirmed
+};
+// FreeHeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
+// PC: sizeof 0x10 — confirmed; alignof 4
+class FreeHeapBlock {
+public:
+    // поля
+    HeapBlock* pPrevious; // PC: confirmed
+    unsigned iMemSize; // PC: confirmed
+    FreeHeapBlock* pPrevFree; // PC: confirmed
+    FreeHeapBlock* pNextFree; // PC: confirmed
 };
 // FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
 // PC: sizeof 0x8 — confirmed; alignof 4
@@ -1537,6 +1613,18 @@ public:
     unsigned iMallocBytes; // PC: confirmed
     unsigned iMainThreadMemoryProblemPassSignal; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
+#pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)
+// BGSSaveLoadFormHeader (Xbox PDB): Xbox sizeof 0x9, PC sizeof 0x9
+// PC: sizeof 0x9 — confirmed; alignof 1
+struct BGSSaveLoadFormHeader {
+public:
+    // поля
+    unsigned char FormIDIndex[3]; // BGSNumericIDIndex | PC: confirmed
+    unsigned iChangeFlags; // BGSChangeFlags | PC: confirmed
+    unsigned char FormInfo[1]; // BGSSaveLoadFormInfo | PC: confirmed
+    unsigned char cVersion; // PC: confirmed
+};
+#pragma pack(pop)
 // BGSSaveGameBuffer (Xbox PDB): Xbox sizeof 0x14, PC sizeof 0x14
 // PC: sizeof 0x14 — confirmed; alignof 4; vtable 0x01082324
 class BGSSaveGameBuffer {
@@ -1549,6 +1637,15 @@ public:
     unsigned iBufferSize; // PC: confirmed
     unsigned iBufferPosition; // PC: confirmed
     unsigned iDebugOverhead; // PC: confirmed
+};
+// BGSSaveFormBuffer (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
+// PC: sizeof 0x24 — confirmed; alignof 4; vtable 0x01082308
+class BGSSaveFormBuffer : public BGSSaveGameBuffer {
+public:
+    // поля
+    BGSSaveLoadFormHeader Header;
+    unsigned char _pad1D[0x3];
+    TESForm* pForm; // PC: confirmed
 };
 // BGSLoadGameBuffer (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
 // PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x01082048
@@ -1569,14 +1666,15 @@ class BGSLoadFormBuffer : public BGSLoadGameBuffer {
 public:
     // поля
     unsigned iFormID; // PC: confirmed
-    alignas(4) unsigned char _unverified_Header[12]; // строгая сборка: не подтверждено (BGSSaveLoadFormHeader)
+    BGSSaveLoadFormHeader Header;
+    unsigned char _pad1D[0x3];
     unsigned iSize; // PC: confirmed
     TESForm* pForm; // PC: confirmed
     unsigned iFlags; // PC: confirmed
     unsigned iOldChangeFlags; // BGSChangeFlags | PC: confirmed
 };
 // BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
-// PC: sizeof 0x24C — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: cFileIndexArray, cReverseFileIndexArray)
+// PC: sizeof 0x24C — confirmed; alignof 4
 class BGSSaveLoadGame {
 public:
     // поля
@@ -1591,8 +1689,8 @@ public:
     BGSReconstructFormsInAllFilesMap* pReconstructForms; // PC: confirmed
     alignas(4) unsigned char FormBufferArray[16]; // BSSimpleArray<BGSLoadFormBuffer *,1024> | PC: confirmed
     alignas(4) unsigned char QueuedInitPackageLocationsActorMap[16]; // NiTMap<unsigned int,Actor *> | PC: confirmed
-    unsigned char _unverified_cFileIndexArray[255]; // строгая сборка: не подтверждено (unsigned char[255 bytes])
-    unsigned char _unverified_cReverseFileIndexArray[255]; // строгая сборка: не подтверждено (unsigned char[255 bytes])
+    unsigned char cFileIndexArray[255]; // PC: confirmed
+    unsigned char cReverseFileIndexArray[255]; // PC: confirmed
     unsigned char _pad242[0x2];
     unsigned iGlobalFlags; // PC: confirmed
     unsigned char cCurrentMinorVersion; // PC: confirmed
@@ -1627,13 +1725,13 @@ public:
     alignas(4) unsigned char sSystemSaveName[8]; // BSStringT<char> // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
 // BGSSaveLoadChangesMap (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x0107ED68; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: m_ppkHashTable)
+// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x0107ED68
 class BGSSaveLoadChangesMap {
 public:
     virtual ~BGSSaveLoadChangesMap(); // слот 0 | PC: name+stack (0x845580)
     // поля
     unsigned m_uiHashSize; // PC: confirmed
-    alignas(4) unsigned char _unverified_m_ppkHashTable[4]; // строгая сборка: не подтверждено (NiTMapItem<unsigned int,BGSFormChanges *>**)
+    void** m_ppkHashTable; // PC: confirmed
     alignas(4) unsigned char m_kAllocator[4]; // NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BGSFormChanges *>::AntiBloatAllocator | PC: confirmed
 };
 // FalloutRadio::FORadioReceiver (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
@@ -1733,6 +1831,7 @@ public:
 // PC: sizeof 0x54 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iLineOverlap)
 class Font {
 public:
+    class TextData;
     // поля
     unsigned short iRefCount; // PC: confirmed
     unsigned char _pad2[0x2];
@@ -1746,6 +1845,21 @@ public:
     alignas(4) unsigned char IconAtlasTextureName[8]; // BSStringT<char> | PC: confirmed
     alignas(4) unsigned char ButtonIcons[16]; // BSSimpleArray<ButtonIcon,1024> | PC: confirmed
 };
+// Font::TextData (Xbox PDB): Xbox sizeof 0x28, PC sizeof 0x28
+// PC: sizeof 0x28 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: xNewText)
+class Font::TextData {
+public:
+    // поля
+    alignas(4) unsigned char _unverified_xNewText[8]; // строгая сборка: не подтверждено (BSStringT<char>)
+    int iWidth; // PC: confirmed
+    int iHeight; // PC: confirmed
+    int iLineStart; // PC: confirmed
+    int iLineEnd; // PC: confirmed
+    int iCharCount; // PC: confirmed
+    char cLineSep; // PC: confirmed
+    unsigned char _pad1D[0x3];
+    alignas(4) unsigned char xLineWidths[8]; // BSSimpleList<int> | PC: confirmed
+};
 // FontManager (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
 // PC: sizeof 0x24 — confirmed; alignof 4
 class FontManager {
@@ -1755,6 +1869,7 @@ public:
     class TextLine;
     class TextPage;
     class TextDoc;
+    class TextData;
     // поля
     Font* pFont[8]; // PC: confirmed
     bool bUseNewFonts; // PC: confirmed
@@ -1816,6 +1931,26 @@ public:
     int iPageWidth; // PC: confirmed
     int iPageHeight; // PC: confirmed
     int iPageNum; // PC: confirmed
+};
+// FontManager::TextData (Xbox PDB): Xbox sizeof 0x40, PC sizeof 0x40
+// PC: sizeof 0x40 — confirmed; alignof 4
+class FontManager::TextData {
+public:
+    // поля
+    int iDefaultFont; // PC: confirmed
+    int iJustification; // PC: confirmed
+    alignas(4) unsigned char xColor[16]; // NiColorA | PC: confirmed
+    char cLineSep; // PC: confirmed
+    unsigned char _pad19[0x3];
+    int iWidth; // PC: confirmed
+    int iHeight; // PC: confirmed
+    int iPageNum; // PC: confirmed
+    int iLines; // PC: confirmed
+    int iNumPages; // PC: confirmed
+    int iNumLines; // PC: confirmed
+    bool bIsHypertext; // PC: confirmed
+    unsigned char _pad35[0x3];
+    alignas(4) unsigned char xNewText[8]; // BSStringT<char> | PC: confirmed
 };
 // NiRefObject (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
 // PC: sizeof 0x8 — confirmed; alignof 4; vtable 0x0101DCE4
@@ -2286,7 +2421,7 @@ public:
     unsigned char _pad33[0x1];
 };
 // BSShaderAccumulator (Xbox PDB): Xbox sizeof 0x280, PC sizeof 0x280
-// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, bWorldGeometry, eAccumulationMode, kAlphaRenderPass.pGeometry)
+// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, eAccumulationMode, kAlphaRenderPass.pGeometry)
 class BSShaderAccumulator : public NiAlphaAccumulator {
 public:
     virtual void FinishAccumulatingPreResolveDepth(); // слот 42 | PC: name+stack (0xB66520)
@@ -2294,7 +2429,7 @@ public:
     virtual void _unverified_slot44(); // слот 44 | PC: stub (0xD070A0)
     // поля
     alignas(4) unsigned char _unverified_eAccumulationMode[4]; // строгая сборка: не подтверждено (BSShaderAccumulator::etAccumulationMode)
-    unsigned char _unverified_bWorldGeometry[1]; // строгая сборка: не подтверждено (bool)
+    bool bWorldGeometry; // PC: confirmed
     unsigned char _unverified_bCacheGeometry[1]; // строгая сборка: не подтверждено (bool)
     bool bDoDepthPasses; // PC: confirmed
     unsigned char _pad3B[0x1];
@@ -2344,7 +2479,7 @@ public:
     alignas(4) unsigned char BSCPSharedCrit[128]; // NiCriticalSection | PC: confirmed
 };
 // BSBatchRenderer (Xbox PDB): Xbox sizeof 0x98, PC sizeof 0x98
-// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bAlphaGroupZPrePass, uiCurrentFirstPass, uiCurrentLastPass)
+// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: uiCurrentFirstPass, uiCurrentLastPass)
 class BSBatchRenderer : public NiObject {
 public:
     virtual void RegisterPass(BSShaderProperty::RenderPass*, unsigned); // слот 35 | PC: name+stack (0xB99C90)
@@ -2358,7 +2493,7 @@ public:
     BSInstanceRendering* pInstanceRenderer; // PC: confirmed
     alignas(4) unsigned char kActivePassIndexList[8]; // BSSimpleList<unsigned short> | PC: confirmed
     int iGroupingAlphas; // PC: confirmed
-    unsigned char _unverified_bAlphaGroupZPrePass[1]; // строгая сборка: не подтверждено (bool)
+    bool bAlphaGroupZPrePass; // PC: confirmed
     unsigned char _pad39[0x3];
     void* pGeometryGroupsA[13]; // PC: confirmed
     void* pAlphaGroupA[2]; // PC: confirmed
@@ -2629,7 +2764,7 @@ public:
     unsigned char _pad1FD[0x3];
 };
 // ShadowSceneLight (Xbox PDB): Xbox sizeof 0x250, PC sizeof 0x250
-// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses, pPortalGraph, pfClipSpacePlanes)
+// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses, pfClipSpacePlanes)
 class ShadowSceneLight : public NiRefObject {
 public:
     // поля
@@ -2677,7 +2812,7 @@ public:
     alignas(4) unsigned char kMultiboundRooms[16]; // BSSimpleArray<BSMultiBoundNode *,1024> | PC: confirmed
     alignas(4) unsigned char kPortals[16]; // BSSimpleArray<BSPortal *,1024> | PC: confirmed
     alignas(4) unsigned char kProcessedNodes[16]; // BSSimpleArray<NiNode *,1024> | PC: confirmed
-    alignas(4) unsigned char _unverified_pPortalGraph[4]; // строгая сборка: не подтверждено (BSPortalGraph*)
+    BSPortalGraph* pPortalGraph; // PC: confirmed
     unsigned char _pad244[0xC];
 };
 // ImageSpaceManager (Xbox PDB): Xbox sizeof 0x31C, PC sizeof 0x31C
@@ -2877,7 +3012,7 @@ static_assert(offsetof(BSGameSound, fBeginTime) == 0x28, "BSGameSound::fBeginTim
 static_assert(offsetof(BSGameSound, fEndTime) == 0x2C, "BSGameSound::fEndTime");
 static_assert(offsetof(BSGameSound, iWeatherFlags) == 0x30, "BSGameSound::iWeatherFlags");
 static_assert(offsetof(BSGameSound, iSamplesPerSecond) == 0x34, "BSGameSound::iSamplesPerSecond");
-static_assert(offsetof(BSGameSound, _unverified_pFilename) == 0x36, "BSGameSound::_unverified_pFilename");
+static_assert(offsetof(BSGameSound, pFilename) == 0x36, "BSGameSound::pFilename");
 static_assert(offsetof(BSGameSound, fMaxDist) == 0x13C, "BSGameSound::fMaxDist");
 static_assert(offsetof(BSGameSound, fMinDist) == 0x140, "BSGameSound::fMinDist");
 static_assert(offsetof(BSGameSound, iSoundHash) == 0x144, "BSGameSound::iSoundHash");
@@ -2958,11 +3093,73 @@ static_assert(offsetof(BSWin32Audio, hWnd) == 0xA0, "BSWin32Audio::hWnd");
 static_assert(alignof(BSWin32Audio) == 4, "alignof BSWin32Audio: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BSWin32Audio) == 0xA4, "sizeof BSWin32Audio");
 static_assert(sizeof(BSWin32Audio) == 0xA4, "PC-проверка sizeof BSWin32Audio");
+static_assert(offsetof(BSAudioManager, iMessageListIndex) == 0x4, "BSAudioManager::iMessageListIndex");
+static_assert(offsetof(BSAudioManager, iMessageProcessingListIndex) == 0x8, "BSAudioManager::iMessageProcessingListIndex");
+static_assert(offsetof(BSAudioManager, Messages) == 0xC, "BSAudioManager::Messages");
+static_assert(offsetof(BSAudioManager, FreeMessages) == 0x24, "BSAudioManager::FreeMessages");
+static_assert(offsetof(BSAudioManager, FreeQueueMessages) == 0x34, "BSAudioManager::FreeQueueMessages");
+static_assert(offsetof(BSAudioManager, GarbageMessages) == 0x44, "BSAudioManager::GarbageMessages");
+static_assert(offsetof(BSAudioManager, SoundList) == 0x54, "BSAudioManager::SoundList");
+static_assert(offsetof(BSAudioManager, SoundStateMap) == 0x64, "BSAudioManager::SoundStateMap");
+static_assert(offsetof(BSAudioManager, StateUpdateMap) == 0x74, "BSAudioManager::StateUpdateMap");
+static_assert(offsetof(BSAudioManager, MovingRefrList) == 0x84, "BSAudioManager::MovingRefrList");
+static_assert(offsetof(BSAudioManager, CachedSoundList) == 0x94, "BSAudioManager::CachedSoundList");
+static_assert(offsetof(BSAudioManager, iCurrentCachSize) == 0xA0, "BSAudioManager::iCurrentCachSize");
+static_assert(offsetof(BSAudioManager, iWeatherFlags) == 0xA4, "BSAudioManager::iWeatherFlags");
+static_assert(offsetof(BSAudioManager, fCurrentGamehour) == 0xA8, "BSAudioManager::fCurrentGamehour");
+static_assert(offsetof(BSAudioManager, MessageCritSection) == 0xAC, "BSAudioManager::MessageCritSection");
+static_assert(offsetof(BSAudioManager, StateCritSection) == 0xC4, "BSAudioManager::StateCritSection");
+static_assert(offsetof(BSAudioManager, CacheCritSection) == 0xDC, "BSAudioManager::CacheCritSection");
+static_assert(offsetof(BSAudioManager, ProcessingCritSection) == 0xF4, "BSAudioManager::ProcessingCritSection");
+static_assert(offsetof(BSAudioManager, CacheLoadTaskCritSection) == 0x10C, "BSAudioManager::CacheLoadTaskCritSection");
+static_assert(offsetof(BSAudioManager, CacheLoadTaskList) == 0x124, "BSAudioManager::CacheLoadTaskList");
+static_assert(offsetof(BSAudioManager, iDelayTimerDelta) == 0x130, "BSAudioManager::iDelayTimerDelta");
+static_assert(offsetof(BSAudioManager, bPrecacheCompleted) == 0x134, "BSAudioManager::bPrecacheCompleted");
+static_assert(offsetof(BSAudioManager, bListenerMoved) == 0x135, "BSAudioManager::bListenerMoved");
+static_assert(offsetof(BSAudioManager, dwAudioThreadID) == 0x138, "BSAudioManager::dwAudioThreadID");
+static_assert(offsetof(BSAudioManager, pUpdateThread) == 0x13C, "BSAudioManager::pUpdateThread");
+static_assert(offsetof(BSAudioManager, fMasterVolume) == 0x140, "BSAudioManager::fMasterVolume");
+static_assert(offsetof(BSAudioManager, fFootVolume) == 0x144, "BSAudioManager::fFootVolume");
+static_assert(offsetof(BSAudioManager, fVoiceVolume) == 0x148, "BSAudioManager::fVoiceVolume");
+static_assert(offsetof(BSAudioManager, fEffectsVolume) == 0x14C, "BSAudioManager::fEffectsVolume");
+static_assert(offsetof(BSAudioManager, fMusicVolume) == 0x150, "BSAudioManager::fMusicVolume");
+static_assert(offsetof(BSAudioManager, fRadioVolume) == 0x154, "BSAudioManager::fRadioVolume");
+static_assert(offsetof(BSAudioManager, fMasterSecondaryVolume) == 0x158, "BSAudioManager::fMasterSecondaryVolume");
+static_assert(offsetof(BSAudioManager, fFootSecondaryVolume) == 0x15C, "BSAudioManager::fFootSecondaryVolume");
+static_assert(offsetof(BSAudioManager, fVoiceSecondaryVolume) == 0x160, "BSAudioManager::fVoiceSecondaryVolume");
+static_assert(offsetof(BSAudioManager, fEffectsSecondaryVolume) == 0x164, "BSAudioManager::fEffectsSecondaryVolume");
+static_assert(offsetof(BSAudioManager, fMusicSecondaryVolume) == 0x168, "BSAudioManager::fMusicSecondaryVolume");
+static_assert(offsetof(BSAudioManager, fRadioSecondaryVolume) == 0x16C, "BSAudioManager::fRadioSecondaryVolume");
+static_assert(offsetof(BSAudioManager, iMuteMask) == 0x170, "BSAudioManager::iMuteMask");
+static_assert(offsetof(BSAudioManager, bDialogueFade) == 0x174, "BSAudioManager::bDialogueFade");
+static_assert(offsetof(BSAudioManager, bListenerUnderwater) == 0x175, "BSAudioManager::bListenerUnderwater");
+static_assert(offsetof(BSAudioManager, pPauseEntries) == 0x178, "BSAudioManager::pPauseEntries");
+static_assert(offsetof(BSAudioManager, iPauseListSize) == 0x17C, "BSAudioManager::iPauseListSize");
+static_assert(offsetof(BSAudioManager, iNextID) == 0x180, "BSAudioManager::iNextID");
+static_assert(offsetof(BSAudioManager, bIgnoreGlobalTimeMultiplier) == 0x184, "BSAudioManager::bIgnoreGlobalTimeMultiplier");
+static_assert(alignof(BSAudioManager) == 4, "alignof BSAudioManager: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BSAudioManager) == 0x188, "sizeof BSAudioManager");
+static_assert(sizeof(BSAudioManager) == 0x188, "PC-проверка sizeof BSAudioManager");
+static_assert(offsetof(BSAudioManager, fMasterVolume) == 0x140, "PC-проверка BSAudioManager::fMasterVolume");
+static_assert(offsetof(BSAudioManager, fMasterSecondaryVolume) == 0x158, "PC-проверка BSAudioManager::fMasterSecondaryVolume");
+static_assert(offsetof(BSAudioManager, bListenerUnderwater) == 0x175, "PC-проверка BSAudioManager::bListenerUnderwater");
+static_assert(offsetof(BSAudioManager, iNextID) == 0x180, "PC-проверка BSAudioManager::iNextID");
+static_assert(offsetof(BSAudioManager, bIgnoreGlobalTimeMultiplier) == 0x184, "PC-проверка BSAudioManager::bIgnoreGlobalTimeMultiplier");
 static_assert(offsetof(BSSoundHandle, iSoundID) == 0x0, "BSSoundHandle::iSoundID");
 static_assert(offsetof(BSSoundHandle, bAssumeSuccess) == 0x4, "BSSoundHandle::bAssumeSuccess");
 static_assert(offsetof(BSSoundHandle, eState) == 0x8, "BSSoundHandle::eState");
 static_assert(alignof(BSSoundHandle) == 4, "alignof BSSoundHandle: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BSSoundHandle) == 0xC, "sizeof BSSoundHandle");
+static_assert(offsetof(HeapBlock, pPrevious) == 0x0, "HeapBlock::pPrevious");
+static_assert(offsetof(HeapBlock, iMemSize) == 0x4, "HeapBlock::iMemSize");
+static_assert(alignof(HeapBlock) == 4, "alignof HeapBlock: следует из типов полей (MSVC x86)");
+static_assert(sizeof(HeapBlock) == 0x8, "sizeof HeapBlock");
+static_assert(offsetof(FreeHeapBlock, pPrevious) == 0x0, "FreeHeapBlock::pPrevious");
+static_assert(offsetof(FreeHeapBlock, iMemSize) == 0x4, "FreeHeapBlock::iMemSize");
+static_assert(offsetof(FreeHeapBlock, pPrevFree) == 0x8, "FreeHeapBlock::pPrevFree");
+static_assert(offsetof(FreeHeapBlock, pNextFree) == 0xC, "FreeHeapBlock::pNextFree");
+static_assert(alignof(FreeHeapBlock) == 4, "alignof FreeHeapBlock: следует из типов полей (MSVC x86)");
+static_assert(sizeof(FreeHeapBlock) == 0x10, "sizeof FreeHeapBlock");
 static_assert(offsetof(FreeHeapBlockList, pHead) == 0x0, "FreeHeapBlockList::pHead");
 static_assert(offsetof(FreeHeapBlockList, pTail) == 0x4, "FreeHeapBlockList::pTail");
 static_assert(alignof(FreeHeapBlockList) == 4, "alignof FreeHeapBlockList: следует из типов полей (MSVC x86)");
@@ -3028,19 +3225,31 @@ static_assert(alignof(MemoryManager) == 4, "alignof MemoryManager: следуе�
 static_assert(sizeof(MemoryManager) == 0x138, "sizeof MemoryManager");
 static_assert(sizeof(MemoryManager) == 0x138, "PC-проверка sizeof MemoryManager");
 static_assert(offsetof(MemoryManager, ppPhysicalHeaps) == 0x124, "PC-проверка MemoryManager::ppPhysicalHeaps");
+static_assert(offsetof(BGSSaveLoadFormHeader, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader::FormIDIndex");
+static_assert(offsetof(BGSSaveLoadFormHeader, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader::iChangeFlags");
+static_assert(offsetof(BGSSaveLoadFormHeader, FormInfo) == 0x7, "BGSSaveLoadFormHeader::FormInfo");
+static_assert(offsetof(BGSSaveLoadFormHeader, cVersion) == 0x8, "BGSSaveLoadFormHeader::cVersion");
+static_assert(alignof(BGSSaveLoadFormHeader) == 1, "alignof BGSSaveLoadFormHeader: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "sizeof BGSSaveLoadFormHeader");
+static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "PC-проверка sizeof BGSSaveLoadFormHeader");
 static_assert(offsetof(BGSSaveGameBuffer, pBuffer) == 0x4, "BGSSaveGameBuffer::pBuffer");
 static_assert(offsetof(BGSSaveGameBuffer, iBufferSize) == 0x8, "BGSSaveGameBuffer::iBufferSize");
 static_assert(offsetof(BGSSaveGameBuffer, iBufferPosition) == 0xC, "BGSSaveGameBuffer::iBufferPosition");
 static_assert(offsetof(BGSSaveGameBuffer, iDebugOverhead) == 0x10, "BGSSaveGameBuffer::iDebugOverhead");
 static_assert(alignof(BGSSaveGameBuffer) == 4, "alignof BGSSaveGameBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSSaveGameBuffer) == 0x14, "sizeof BGSSaveGameBuffer");
+static_assert(offsetof(BGSSaveFormBuffer, Header) == 0x14, "BGSSaveFormBuffer::Header");
+static_assert(offsetof(BGSSaveFormBuffer, pForm) == 0x20, "BGSSaveFormBuffer::pForm");
+static_assert(alignof(BGSSaveFormBuffer) == 4, "alignof BGSSaveFormBuffer: следует из типов полей (MSVC x86)");
+static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "sizeof BGSSaveFormBuffer");
+static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "PC-проверка sizeof BGSSaveFormBuffer");
 static_assert(offsetof(BGSLoadGameBuffer, pBuffer) == 0x4, "BGSLoadGameBuffer::pBuffer");
 static_assert(offsetof(BGSLoadGameBuffer, iBufferSize) == 0x8, "BGSLoadGameBuffer::iBufferSize");
 static_assert(offsetof(BGSLoadGameBuffer, iBufferPosition) == 0xC, "BGSLoadGameBuffer::iBufferPosition");
 static_assert(alignof(BGSLoadGameBuffer) == 4, "alignof BGSLoadGameBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSLoadGameBuffer) == 0x10, "sizeof BGSLoadGameBuffer");
 static_assert(offsetof(BGSLoadFormBuffer, iFormID) == 0x10, "BGSLoadFormBuffer::iFormID");
-static_assert(offsetof(BGSLoadFormBuffer, _unverified_Header) == 0x14, "BGSLoadFormBuffer::_unverified_Header");
+static_assert(offsetof(BGSLoadFormBuffer, Header) == 0x14, "BGSLoadFormBuffer::Header");
 static_assert(offsetof(BGSLoadFormBuffer, iSize) == 0x20, "BGSLoadFormBuffer::iSize");
 static_assert(offsetof(BGSLoadFormBuffer, pForm) == 0x24, "BGSLoadFormBuffer::pForm");
 static_assert(offsetof(BGSLoadFormBuffer, iFlags) == 0x28, "BGSLoadFormBuffer::iFlags");
@@ -3059,8 +3268,8 @@ static_assert(offsetof(BGSSaveLoadGame, pHistory) == 0x1C, "BGSSaveLoadGame::pHi
 static_assert(offsetof(BGSSaveLoadGame, pReconstructForms) == 0x20, "BGSSaveLoadGame::pReconstructForms");
 static_assert(offsetof(BGSSaveLoadGame, FormBufferArray) == 0x24, "BGSSaveLoadGame::FormBufferArray");
 static_assert(offsetof(BGSSaveLoadGame, QueuedInitPackageLocationsActorMap) == 0x34, "BGSSaveLoadGame::QueuedInitPackageLocationsActorMap");
-static_assert(offsetof(BGSSaveLoadGame, _unverified_cFileIndexArray) == 0x44, "BGSSaveLoadGame::_unverified_cFileIndexArray");
-static_assert(offsetof(BGSSaveLoadGame, _unverified_cReverseFileIndexArray) == 0x143, "BGSSaveLoadGame::_unverified_cReverseFileIndexArray");
+static_assert(offsetof(BGSSaveLoadGame, cFileIndexArray) == 0x44, "BGSSaveLoadGame::cFileIndexArray");
+static_assert(offsetof(BGSSaveLoadGame, cReverseFileIndexArray) == 0x143, "BGSSaveLoadGame::cReverseFileIndexArray");
 static_assert(offsetof(BGSSaveLoadGame, iGlobalFlags) == 0x244, "BGSSaveLoadGame::iGlobalFlags");
 static_assert(offsetof(BGSSaveLoadGame, cCurrentMinorVersion) == 0x248, "BGSSaveLoadGame::cCurrentMinorVersion");
 static_assert(alignof(BGSSaveLoadGame) == 4, "alignof BGSSaveLoadGame: следует из типов полей (MSVC x86)");
@@ -3089,7 +3298,7 @@ static_assert(alignof(BGSSaveLoadManager) == 4, "alignof BGSSaveLoadManager: с�
 static_assert(sizeof(BGSSaveLoadManager) == 0x38, "sizeof BGSSaveLoadManager");
 static_assert(sizeof(BGSSaveLoadManager) == 0x38, "PC-проверка sizeof BGSSaveLoadManager");
 static_assert(offsetof(BGSSaveLoadChangesMap, m_uiHashSize) == 0x4, "BGSSaveLoadChangesMap::m_uiHashSize");
-static_assert(offsetof(BGSSaveLoadChangesMap, _unverified_m_ppkHashTable) == 0x8, "BGSSaveLoadChangesMap::_unverified_m_ppkHashTable");
+static_assert(offsetof(BGSSaveLoadChangesMap, m_ppkHashTable) == 0x8, "BGSSaveLoadChangesMap::m_ppkHashTable");
 static_assert(offsetof(BGSSaveLoadChangesMap, m_kAllocator) == 0xC, "BGSSaveLoadChangesMap::m_kAllocator");
 static_assert(alignof(BGSSaveLoadChangesMap) == 4, "alignof BGSSaveLoadChangesMap: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSSaveLoadChangesMap) == 0x10, "sizeof BGSSaveLoadChangesMap");
@@ -3163,6 +3372,16 @@ static_assert(offsetof(Font, IconAtlasTextureName) == 0x3C, "Font::IconAtlasText
 static_assert(offsetof(Font, ButtonIcons) == 0x44, "Font::ButtonIcons");
 static_assert(alignof(Font) == 4, "alignof Font: следует из типов полей (MSVC x86)");
 static_assert(sizeof(Font) == 0x54, "sizeof Font");
+static_assert(offsetof(Font::TextData, _unverified_xNewText) == 0x0, "Font::TextData::_unverified_xNewText");
+static_assert(offsetof(Font::TextData, iWidth) == 0x8, "Font::TextData::iWidth");
+static_assert(offsetof(Font::TextData, iHeight) == 0xC, "Font::TextData::iHeight");
+static_assert(offsetof(Font::TextData, iLineStart) == 0x10, "Font::TextData::iLineStart");
+static_assert(offsetof(Font::TextData, iLineEnd) == 0x14, "Font::TextData::iLineEnd");
+static_assert(offsetof(Font::TextData, iCharCount) == 0x18, "Font::TextData::iCharCount");
+static_assert(offsetof(Font::TextData, cLineSep) == 0x1C, "Font::TextData::cLineSep");
+static_assert(offsetof(Font::TextData, xLineWidths) == 0x20, "Font::TextData::xLineWidths");
+static_assert(alignof(Font::TextData) == 4, "alignof Font::TextData: следует из типов полей (MSVC x86)");
+static_assert(sizeof(Font::TextData) == 0x28, "sizeof Font::TextData");
 static_assert(offsetof(FontManager, pFont) == 0x0, "FontManager::pFont");
 static_assert(offsetof(FontManager, bUseNewFonts) == 0x20, "FontManager::bUseNewFonts");
 static_assert(alignof(FontManager) == 4, "alignof FontManager: следует из типов полей (MSVC x86)");
@@ -3207,6 +3426,20 @@ static_assert(offsetof(FontManager::TextDoc, iPageHeight) == 0x10, "FontManager:
 static_assert(offsetof(FontManager::TextDoc, iPageNum) == 0x14, "FontManager::TextDoc::iPageNum");
 static_assert(alignof(FontManager::TextDoc) == 4, "alignof FontManager::TextDoc: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FontManager::TextDoc) == 0x18, "sizeof FontManager::TextDoc");
+static_assert(offsetof(FontManager::TextData, iDefaultFont) == 0x0, "FontManager::TextData::iDefaultFont");
+static_assert(offsetof(FontManager::TextData, iJustification) == 0x4, "FontManager::TextData::iJustification");
+static_assert(offsetof(FontManager::TextData, xColor) == 0x8, "FontManager::TextData::xColor");
+static_assert(offsetof(FontManager::TextData, cLineSep) == 0x18, "FontManager::TextData::cLineSep");
+static_assert(offsetof(FontManager::TextData, iWidth) == 0x1C, "FontManager::TextData::iWidth");
+static_assert(offsetof(FontManager::TextData, iHeight) == 0x20, "FontManager::TextData::iHeight");
+static_assert(offsetof(FontManager::TextData, iPageNum) == 0x24, "FontManager::TextData::iPageNum");
+static_assert(offsetof(FontManager::TextData, iLines) == 0x28, "FontManager::TextData::iLines");
+static_assert(offsetof(FontManager::TextData, iNumPages) == 0x2C, "FontManager::TextData::iNumPages");
+static_assert(offsetof(FontManager::TextData, iNumLines) == 0x30, "FontManager::TextData::iNumLines");
+static_assert(offsetof(FontManager::TextData, bIsHypertext) == 0x34, "FontManager::TextData::bIsHypertext");
+static_assert(offsetof(FontManager::TextData, xNewText) == 0x38, "FontManager::TextData::xNewText");
+static_assert(alignof(FontManager::TextData) == 4, "alignof FontManager::TextData: следует из типов полей (MSVC x86)");
+static_assert(sizeof(FontManager::TextData) == 0x40, "sizeof FontManager::TextData");
 static_assert(offsetof(NiRefObject, m_uiRefCount) == 0x4, "NiRefObject::m_uiRefCount");
 static_assert(alignof(NiRefObject) == 4, "alignof NiRefObject: следует из типов полей (MSVC x86)");
 static_assert(sizeof(NiRefObject) == 0x8, "sizeof NiRefObject");
@@ -3414,7 +3647,7 @@ static_assert(offsetof(NiAlphaAccumulator, m_bInterfaceSort) == 0x32, "NiAlphaAc
 static_assert(alignof(NiAlphaAccumulator) == 4, "alignof NiAlphaAccumulator: следует из типов полей (MSVC x86)");
 static_assert(sizeof(NiAlphaAccumulator) == 0x34, "sizeof NiAlphaAccumulator");
 static_assert(offsetof(BSShaderAccumulator, _unverified_eAccumulationMode) == 0x34, "BSShaderAccumulator::_unverified_eAccumulationMode");
-static_assert(offsetof(BSShaderAccumulator, _unverified_bWorldGeometry) == 0x38, "BSShaderAccumulator::_unverified_bWorldGeometry");
+static_assert(offsetof(BSShaderAccumulator, bWorldGeometry) == 0x38, "BSShaderAccumulator::bWorldGeometry");
 static_assert(offsetof(BSShaderAccumulator, _unverified_bCacheGeometry) == 0x39, "BSShaderAccumulator::_unverified_bCacheGeometry");
 static_assert(offsetof(BSShaderAccumulator, bDoDepthPasses) == 0x3A, "BSShaderAccumulator::bDoDepthPasses");
 static_assert(offsetof(BSShaderAccumulator, uiSunPixelCount) == 0x3C, "BSShaderAccumulator::uiSunPixelCount");
@@ -3466,7 +3699,7 @@ static_assert(offsetof(BSBatchRenderer, _unverified_uiCurrentLastPass) == 0x24, 
 static_assert(offsetof(BSBatchRenderer, pInstanceRenderer) == 0x28, "BSBatchRenderer::pInstanceRenderer");
 static_assert(offsetof(BSBatchRenderer, kActivePassIndexList) == 0x2C, "BSBatchRenderer::kActivePassIndexList");
 static_assert(offsetof(BSBatchRenderer, iGroupingAlphas) == 0x34, "BSBatchRenderer::iGroupingAlphas");
-static_assert(offsetof(BSBatchRenderer, _unverified_bAlphaGroupZPrePass) == 0x38, "BSBatchRenderer::_unverified_bAlphaGroupZPrePass");
+static_assert(offsetof(BSBatchRenderer, bAlphaGroupZPrePass) == 0x38, "BSBatchRenderer::bAlphaGroupZPrePass");
 static_assert(offsetof(BSBatchRenderer, pGeometryGroupsA) == 0x3C, "BSBatchRenderer::pGeometryGroupsA");
 static_assert(offsetof(BSBatchRenderer, pAlphaGroupA) == 0x70, "BSBatchRenderer::pAlphaGroupA");
 static_assert(offsetof(BSBatchRenderer, AlphaGroupList) == 0x78, "BSBatchRenderer::AlphaGroupList");
@@ -3641,7 +3874,7 @@ static_assert(offsetof(ShadowSceneLight, spShadowAccumulator) == 0x20C, "ShadowS
 static_assert(offsetof(ShadowSceneLight, kMultiboundRooms) == 0x210, "ShadowSceneLight::kMultiboundRooms");
 static_assert(offsetof(ShadowSceneLight, kPortals) == 0x220, "ShadowSceneLight::kPortals");
 static_assert(offsetof(ShadowSceneLight, kProcessedNodes) == 0x230, "ShadowSceneLight::kProcessedNodes");
-static_assert(offsetof(ShadowSceneLight, _unverified_pPortalGraph) == 0x240, "ShadowSceneLight::_unverified_pPortalGraph");
+static_assert(offsetof(ShadowSceneLight, pPortalGraph) == 0x240, "ShadowSceneLight::pPortalGraph");
 static_assert(alignof(ShadowSceneLight) == 4, "alignof ShadowSceneLight: следует из типов полей (MSVC x86)");
 static_assert(sizeof(ShadowSceneLight) == 0x250, "sizeof ShadowSceneLight");
 static_assert(offsetof(ImageSpaceManager, pEOFDest) == 0x0, "ImageSpaceManager::pEOFDest");

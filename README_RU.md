@@ -1,4 +1,4 @@
-# FalloutNV.pdb v0.5.3 — раздел «Рендер» (строгий и исследовательский PDB), исправления по аудитам Астры v0.5–v0.5.2
+# FalloutNV.pdb v0.5.4 — раздел «Рендер» (строгий и исследовательский PDB): все 86 классов в строгом PDB
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`.
 Оба PDB — с GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE) и теми же 138 171 публичными
@@ -6,17 +6,78 @@
 
 | Файл | SHA-256 | Что внутри |
 |---|---|---|
-| `FalloutNV.pdb` — **строгий** | `7bfd6f5aee22b1ab5346e7ec1d5db5bce2819920703ce65bbfc63a7ed4300be4` | 79 классов, 845 записей типов, только доказанное |
-| `research/FalloutNV.pdb` — исследовательский | `fa9baabcdb2398bf7c1e194bf152b60ad9549ae46bcb4d37883c84ed04085317` | все 86 классов, 1006 записей типов, с пометками |
+| `FalloutNV.pdb` — **строгий** | `33e8ecf52c6398ad7fad267c48a90405c3a543c3b1df11a141dc6e19312d574e` | все 86 классов, 872 записи типов, только доказанное |
+| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками |
 
-**v0.5.1–v0.5.3 — исправления по аудитам Астры** (разделы ниже). Оба PDB, оба заголовка (`.h`, `.meta.json`) и
-оба скрипта **побайтно те же, что в v0.5**: кто уже поставил PDB v0.5, может его не менять. Изменились доказательства
-по слотам vtable, формулировки и README.
+**v0.5.4 — закрытие пробелов перед разделом Havok.** Доказаны размеры 7 классов, которых не было в строгом PDB
+(теперь в нём все 86), подтверждены ещё 7 полей, добавлены опоры для проверки сдвигом. **Оба PDB изменились** —
+поставь новый. В research PDB изменился один класс: `HeapBlock` — 8 байт на PC, а не 0x10, как в Xbox PDB.
+v0.5.1–v0.5.3 PDB не меняли (исправления инструментов по аудитам Астры).
 
 Номер версии: `x.y` — новый раздел типов, `x.y.z` — исправления. **0.5 — раздел «Рендер»**: 44 новых класса
 (43 из Xbox PDB и `NiDX9Renderer`, которого в Xbox PDB нет), два перечисления рендера. Имена из Xbox PDB помечены
 «(Xbox PDB)» и служат подсказкой; всё, что в строгом PDB, проверено по коду PC. Дампы и файлы Xbox PDB в пакет
 не входят.
+
+## Изменения в v0.5.4 — размеры, поля и опоры (пункты А, Б, В)
+
+### А. Размеры 7 классов доказаны — в строгом PDB все 86 классов
+
+В v0.5.3 у этих классов размер был `consistent` (совпадает с Xbox PDB, но не доказан кодом PC). Теперь у каждого
+есть ручное доказательство размера с **опорными командами**: адрес и текст каждой команды сверяются с exe при
+каждом прогоне `evidence.py`; если хоть одна не совпала — `claim-failed`, размер становится `CONFLICT`, класс
+не допускается.
+
+| класс | размер PC | основание | доказательство (адреса — `FalloutNV.exe` 1.4.0.525) |
+|---|---|---|---|
+| `BSAudioManager` | 0x188 | `bounds` | сверху: `BSAudioManager::GetSingleton` читает и ставит флаг статической инициализации `[0x011F7078]` = `Instance` (0x011F6EF0) + 0x188, затем вызывает конструктор для `Instance` (0x00AD9082 `mov eax, [0x11f7078]`, 0x00AD9095, 0x00AD90A2 `mov ecx, 0x11f6ef0`, 0x00AD90A7 `call 0xad90e0`) ⇒ не больше 0x188; снизу: последнее поле на +0x184, выравнивание 4 ⇒ не меньше 0x188 |
+| `HeapBlock` | **0x8** (Xbox: 0x10) | `header-size` | `BaseFree` 0x00AA9913 `sub ecx, 8` (от указателя пользователя к заголовку), 0x00AA992A `add ecx, 8`; `BaseAllocate` 0x00AA9316 `lea eax, [edx + ecx + 8]`. Заголовок блока кучи на PC — 8 байт. **Ошибка research PDB v0.4–v0.5.3** (там 0x10, по Xbox): поля `HeapBlock` те же, хвостовые 8 байт заполнения удалены |
+| `FreeHeapBlock` | 0x10 | `bounds` | сверху: `BaseAllocate` поднимает запрос меньше 8 байт до 8 (0x00AA8F7B `cmp [ebp+8], 8`, 0x00AA8F81 `mov [ebp+8], 8`), заголовок 8 (0x00AA9913) ⇒ самый маленький блок 0x10, и в нём свободный блок хранит `pPrevFree`/`pNextFree` (+8/+0xC); снизу: последнее поле на +0xC ⇒ не меньше 0x10 |
+| `BGSSaveLoadFormHeader` | 0x9 | `write-size` | `BGSSaveFormBuffer::Save`: 0x00865A62 `push 9`, 0x00865A67 `add edx, 0x14` (адрес `Header`), 0x00865A6E `call 0x846330` (`BGSSaveLoadFile::Write`); 0x00865B39 `add eax, 9` |
+| `BGSSaveFormBuffer` | 0x24 | `stack-frame` | `BGSLoadGameSubBuffer::SaveAnimation` и `SaveHavokData`: объект на `[ebp−0x34]` (конструктор 0x00864F68/0x00865068), а переменная `[ebp−0x10]` записана до конструктора (0x00864F62) и прочитана после последнего использования объекта (0x00864FB7) ⇒ не больше 0x24; последнее поле `pForm` на +0x20 ⇒ не меньше 0x24 |
+| `Font::TextData` | 0x28 | `stack-frame` | `Font::CreateText`: 0x00A12903, 0x00A12906 `call 0x759330` (конструктор), 0x00A1295B, 0x00A12988, 0x00A12BCE. В xNVSE этот тип называется `Font::FormatInfo` |
+| `FontManager::TextData` | 0x40 | `stack-frame` | `TileText::MakeNode`: 0x00A2207B, 0x00A22094, 0x00A220C6, 0x00A2215F, 0x00A21B29, 0x00A22429 |
+
+### Б. Подтверждены 7 полей (поля: `confirmed` 877, `consistent` 9, `unverified` 16; было 870 / 12 / 20)
+
+- **Анализатор не обрывает функцию на первом `ret`**, если на код после него есть переход вперёд (ранний выход,
+  например `ret 8` в начале `ShadowSceneNode::AddLight`). Это дало +89 строк доказательств и 0 новых противоречий;
+  так подтверждено `ShadowSceneLight::pPortalGraph` (+0x240).
+- **Прослеженные вручную обращения** (`traced_accesses` в `evidence_spec.json`): указатель на объект доказан
+  цепочкой опорных команд, каждая сверяется с exe (несовпадение — остановка прогона). Подтверждены:
+  - `BSBatchRenderer::bAlphaGroupZPrePass` (+0x38): `BSShaderAccumulator::RegisterObject_Standard`, указатель —
+    элемент `pBatchRenderer[]` (0x00B640BA `mov edx, [esi + edx*4 + 0x174]`), обращение 0x00B640C8
+    `cmp byte ptr [edx + 0x38], 0`;
+  - `BSShaderAccumulator::bWorldGeometry` (+0x38): через `TESMain+0x88` (`spDrawWorldAccum`): 0x0087329B
+    `add ecx, 0x88`, 0x008732A6 `mov byte ptr [eax + 0x38], bl`; второе — 0x00874226;
+  - `BSGameSound::pFilename` (+0x36): адрес поля передаётся в `strcpy_s` с размером 0x104 (0x00AE9491 `add edx, 0x36`);
+  - `BGSSaveLoadGame::cFileIndexArray` (+0x44) и `cReverseFileIndexArray` (+0x143): `ourMemset(…, 0xFF)` по 0xFF байт
+    (0x008471AB, 0x008471C4).
+  Для размера буфера введено основание ширины `buffer-size` (адрес поля + размер буфера в вызове).
+- `BGSSaveLoadChangesMap::m_ppkHashTable`: в функции класса добавлены конструкторы баз `NiTPointerMap` (0x00845B30)
+  и `NiTMapBase` (0x00845B90).
+- Глобальный указатель `BSShaderManager::pShadowSceneNode` (`[0x011F91C8]`) — больше доказательств для
+  `ShadowSceneNode`, новых полей не дал.
+
+Остальные 25 полей (16 `unverified`, 9 `consistent`) — обращений на PC не найдено (методы, наследники, слоты vtable,
+вызывающие конструктор, глобальные указатели, ветви после раннего выхода); в строгом PDB они по-прежнему байты.
+Список — в «Что не покрыто».
+
+### В. Опоры для проверки сдвигом
+
+- **Опоры-аксессоры** (автоматически): короткий метод `Get`/`Set`/`Is`/`Has`, в котором ровно одно обращение к
+  this+смещение, а имя совпадает с именем поля без венгерского префикса, — опора: гипотеза, сдвигающая это поле,
+  противоречит коду. Найдено 56 таких опор; в `layout_shift_test.csv` они помечены «(аксессор)», ручные — «(вручную)».
+- Неразобранные участки `_undescribed_*` в неоднозначность не входят (их сдвиг ничего не значит).
+- Итог проверки сдвигом: `unique` 59, `no-evidence` 17, `tie-same-as-xbox` 10, `AMBIGUOUS` 0,
+  `alternative-better-same-as-xbox` 0 (был `HeapBlock` — снято исправлением размера). Из `tie` ушли
+  `BGSSaveLoadChangesMap` и `ShadowSceneLight`; добавился `TESDataHandler`: опоры-аксессоры разбили его на короткие
+  участки, и в участке `iNumCompile`/`listFiles`/`pFileIndex` код сдвиг на +4 не различает (раньше длинный участок
+  это скрывал). Раскладка `TESDataHandler` не изменилась.
+
+PDB и заголовки пересобраны; скрипты Ghidra/IDA побайтно те же, что в v0.5.3 (план они строят при запуске по
+`evidence/summary.json`, а он изменился — отсюда новые числа плана ниже). Тесты на имитации API проходят; проверка «в режиме research
+назначений `this` больше, чем в строгом» теперь требует равенства, если все классы строгие (так и есть), иначе — как раньше.
 
 ## Изменения в v0.5.3 — по аудиту Астры v0.5.2 и v0.4.2
 
@@ -159,20 +220,22 @@ exe нужно один из них (оба называются `FalloutNV.pdb`
    раскладка PC отличается от Xbox**, объясняет код не хуже — `AMBIGUOUS`, эти поля в строгий PDB не идут.
 
 Проверено, что тест ловит исходную ошибку: на черновой раскладке он даёт `AMBIGUOUS`, и лучшая гипотеза — ровно
-настоящая («с `pSpecularExponent` на −4»). На выпущенной раскладке: `unique` — 57 классов, `AMBIGUOUS` — 0,
-`no-evidence` — 17 (меньше двух полей или нет обращений), `tie-same-as-xbox` — 11, `alternative-better-same-as-xbox` — 1.
+настоящая («с `pSpecularExponent` на −4»). На выпущенной раскладке: `unique` — 59 классов, `AMBIGUOUS` — 0,
+`no-evidence` — 17 (меньше двух полей или нет обращений), `tie-same-as-xbox` — 10, `alternative-better-same-as-xbox` — 0
+(v0.5.4; в v0.5.3 — 57 / 17 / 11 / 1).
 `unique` значит: ни одна гипотеза с не худшим счётом не сдвигает подтверждённое поле. Сдвиги одних неразобранных
 байтов не считаются — так у `NiDX9Renderer`: равный счёт даёт сдвиг только хвоста `_undescribed_AD1`, а именованные
 поля (`pD3DDevice`, матрицы) он не трогает.
 
 **`tie-same-as-xbox` — честная граница метода.** Это участки классов, где PC совпадает с Xbox (те же смещения), но в
-длинном ряду полей одной ширины код PC сдвиг не различает: `AbstractHeap`, `BGSSaveLoadChangesMap`,
+длинном ряду полей одной ширины код PC сдвиг не различает: `TESDataHandler`, `AbstractHeap`,
 `FORadioStation`, `FontData`, `FontManager::TextLine`, `FontManager::TextPage`, `BSShaderPPLightingProperty`
-(поля после `fRefractionPower`), `NiTexture`, `NiBackToFrontAccumulator`, `BSShaderAccumulator`, `ShadowSceneLight`.
+(поля после `fRefractionPower`), `NiTexture`, `NiBackToFrontAccumulator`, `BSShaderAccumulator`.
 Их раскладка держится на совпадении с Xbox PDB при подтверждённом размере: сдвиг потребовал бы двух отличий PC,
 погашающих друг друга. Поля под вопросом перечислены в `layout_shift_test.csv`; для записи в них из плагина стоит
-одна живая проверка. `alternative-better-same-as-xbox` — `HeapBlock` (не в строгом): обращения +8/+0xC в
-`HeapBlock::ListRemove` относятся к свободному блоку `FreeHeapBlock`.
+одна живая проверка. В v0.5.3 `HeapBlock` был `alternative-better-same-as-xbox` (обращения +8/+0xC в
+`HeapBlock::ListRemove` относятся к свободному блоку `FreeHeapBlock`); после исправления размера `HeapBlock` на 8 —
+`unique`.
 
 ## Правило допуска в строгий PDB (v0.5)
 
@@ -190,17 +253,16 @@ exe нужно один из них (оба называются `FalloutNV.pdb`
 Основания ширины — как в v0.4.2, плюс `class-member`: поле — вложенный объект, внутри него подтверждено подполе по
 собственной ширине.
 
-**Итог строгого PDB:** 79 классов, 787 полей с типом (586 с подтверждённой шириной + 201 непрозрачные байты),
-27 полей заменены байтами, 154 слота без прототипа, 953 `static_assert`. Не допущены, как и раньше, 7 классов
-(размер `consistent`): `BSAudioManager`, `HeapBlock`, `FreeHeapBlock`, `BGSSaveLoadFormHeader`, `BGSSaveFormBuffer`,
-`Font::TextData`, `FontManager::TextData`.
+**Итог строгого PDB (v0.5.4):** 86 классов, 877 полей с типом (652 с подтверждённой шириной + 225 непрозрачные байты),
+20 полей заменены байтами, 154 слота без прототипа, 1051 `static_assert`. Не допущенных классов нет (в v0.5.3 —
+79 классов, 787 полей, 27 байтами; не допущены 7 классов с размером `consistent`).
 
 **Изменения в прежних классах** (из-за композиции раскладкой): в строгом теперь с типом
 `AbstractHeap::LargeFreeList.pHead/.pTail` и `FreeHeapBlockList::pTail` (в v0.4.2 — байты). Остальное в старых
 классах не изменилось.
 
-Типы в строгом PDB (787 полей): float — 97 согласуются, 15 не проверены; указатели — 88 и 81; целые — 27 и 269;
-вложенные классы — 9 не проверены; непрозрачные байты — 201; **противоречий 0**. `type_verified` у всех — false
+Типы в строгом PDB (877 полей): float — 110 согласуются, 15 не проверены; указатели — 92 и 86; целые — 31 и 309;
+вложенные классы — 9 не проверены; непрозрачные байты — 225; **противоречий 0**. `type_verified` у всех — false
 (это эвристика по командам, а не доказательство типа; подробно — README v0.4.2, раздел «Что значит confirmed»).
 
 ## Изменения анализатора (`tools/evidence.py`)
@@ -221,8 +283,11 @@ exe нужно один из них (оба называются `FalloutNV.pdb`
   `stub` (пустота проверена по коду; имя слитой копии случайно); «вызов собственного слота того же объекта» — `thunk`.
   `MISMATCH` — 0 и в сводке, и в сырых строках журнала (в v0.5 было 7 строк). В журнале слотов 4993 строки — это
   проверки на vtable класса и всех описанных наследников, а не число методов.
+- v0.5.4: доказательства размера с опорными командами (`claim-failed` при несовпадении), чтение функции после раннего
+  `ret`, прослеженные вручную обращения (`traced_accesses`) и основание ширины `buffer-size`, опоры-аксессоры в проверке
+  сдвигом (раздел «Изменения в v0.5.4»). Строк в `evidence_fields.csv` — 8336.
 
-Итого по всем классам: полей `confirmed` 870, `consistent` 12, `unverified` 20, `CONFLICT` 0; композиций 17
+Итого по всем классам: полей `confirmed` 877, `consistent` 9, `unverified` 16, `CONFLICT` 0; композиций 17
 (11 вызовом метода, 6 раскладкой); функций, прочитанных не до конца, — 0.
 
 ## Повторить проверку самому (нужны свой exe и PDB xNVSE)
@@ -260,8 +325,9 @@ python3 tools/scripts_src/build.py scripts
 ## Привязка к функциям: Ghidra и IDA
 
 Как в v0.4.2 (проверка exe, пробный прогон, отпечатки, пользовательские сигнатуры не трогаются, одна транзакция,
-строгий режим по умолчанию). План: строгий — 2193 адреса, 1405 `this`, 9 прототипов `semantics`, 0 конфликтов;
-research — 2193 / 1450 / 10 / 1. Тесты на имитации API: Ghidra 18, IDA 8 — проходят.
+строгий режим по умолчанию). План (v0.5.4): строгий и research одинаковы — 2204 адреса, 1451 `this`, 10 прототипов `semantics`,
+1 конфликт (0x008A81C0: `BGSSaveFormBuffer::GetVersion` — общая функция с `BGSLoadFormBuffer`, `this` скрипт там не
+ставит). В v0.5.3 строгий был 2193 / 1405 / 9 / 0. Тесты на имитации API: Ghidra 18, IDA 8 — проходят.
 **Ghidra 11.x:** скрипт написан на Jython — если Ghidra пишет, что Python недоступен, поставь расширение Jython
 (File → Install Extensions), как в приёмке v0.4.2. Версия для PyGhidra — в планах.
 
@@ -289,7 +355,18 @@ python tools\windows_check_pdb.py "C:\…\FalloutNV.exe" research research\fnv_t
 
 - `BSRENDERSTATE`, `etRenderMode`, `GEOMETRY_GROUP_ENUM` — статической проверки на PC не нашлось, в пакет не вошли.
 - `TESMain`/`Main`, внутренности `NiDX9RenderState` (`pRenderState` — только указатель), ~0x800 байт `NiDX9Renderer`.
-- В `BSShaderPPLightingProperty` не подтверждены `fWaterDepthCameraOffset`, `fGeomorphParam`, `fTerrainDetailTexScale`.
+- 25 полей без подтверждения на PC (в строгом PDB — байты `_unverified_<имя>`; в research — с типом по Xbox PDB):
+  - `unverified` (16): `FORadioReceiver::bInRange`, `TextureFile::iType`, `Font::iLineOverlap`,
+    `Font::TextData::xNewText`, `FontManager::TextLine::iY`, `FontManager::TextPage::iWidth`,
+    `BSShaderPPLightingProperty::fWaterDepthCameraOffset`, `fGeomorphParam`, `fTerrainDetailTexScale`,
+    `BSShaderAccumulator::eAccumulationMode`, `bCacheGeometry`, `BSBatchRenderer::uiCurrentFirstPass`,
+    `uiCurrentLastPass`, `ShadowSceneNode::bFrustumAddedToVis`, `fStoredFarClip`, `ShadowSceneLight::iEnabledPasses`;
+  - `consistent` (9): `FORadioReceiver::Hndl.iSoundID`, `StaticHndl.iSoundID`, `RadioConvTask::iRefCount`,
+    `FontLetter::iTextureIndex`, `TextureFile::pFilename`, `NiAVObject::m_kLocal.m_Rotate`,
+    `BSShaderAccumulator::kAlphaRenderPass.pGeometry`, `NiDX9Renderer::_undescribed_AD1`,
+    `ShadowSceneLight::pfClipSpacePlanes`.
+  У `BSBatchRenderer::uiCurrentFirstPass/LastPass` есть кандидат — `BSShaderAccumulator::RenderBatches`
+  (0x00B6381C/0x00B6381F, элементы `pBatchRenderer`, скопированные на стек), но цепочка через стек не доказана.
 - `ShaderTypeEnum` — 10 имён без проверки (выше).
 
 ## Что этот PDB НЕ доказывает
@@ -305,6 +382,8 @@ python tools\windows_check_pdb.py "C:\…\FalloutNV.exe" research research\fnv_t
 
 ## Предыдущие версии
 
+- **v0.5.3** — по аудиту v0.5.2 и v0.4.2: `windows_check_pdb.py` fail closed (`PUBLISHED_PDB`), статус
+  `stub-stack-mismatch`, `tools/slotfwd.py` и его тест. PDB — как в v0.5. Аудит Астры: принят («P1 и P2 закрыты»).
 - **v0.5.2** — по аудиту v0.5.1: цепочки `jmp` до пустой функции, подсчёт сырых строк журнала слотов (`MISMATCH` 0).
   Аудит Астры: принят; замечания к `windows_check_pdb.py` и `ret N` у заглушек — закрыты в v0.5.3.
 - **v0.5.1** — по аудиту v0.5: `NiCriticalSection` без заявления о выравнивании 128, слоты-переходники (`stub`/`thunk`),

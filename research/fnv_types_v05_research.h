@@ -1375,7 +1375,7 @@ public:
     TESEffectShader* pCateyeMobileShader; // PC: confirmed
 };
 // BSGameSound (Xbox PDB): Xbox sizeof 0x198, PC sizeof 0x198
-// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: pFilename)
+// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964
 class BSGameSound {
 public:
     virtual ~BSGameSound(); // слот 0 | PC: name+stack (0xAE9EC0)
@@ -1423,7 +1423,7 @@ public:
     float fEndTime; // PC: confirmed
     unsigned iWeatherFlags; // PC: confirmed
     unsigned short iSamplesPerSecond; // PC: confirmed
-    char pFilename[260]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    char pFilename[260]; // PC: confirmed
     unsigned char _pad13A[0x2];
     float fMaxDist; // PC: confirmed
     float fMinDist; // PC: confirmed
@@ -1525,7 +1525,7 @@ public:
     void* hWnd; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — окно: Init сохраняет аргумент и передаёт его в SetCooperativeLevel | PC: confirmed
 };
 // BSAudioManager (Xbox PDB): Xbox sizeof 0x19C, PC sizeof 0x188
-// PC: sizeof 0x188 — consistent; alignof 4; vtable 0x010A3368; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+// PC: sizeof 0x188 — confirmed; alignof 4; vtable 0x010A3368
 class BSAudioManager {
 public:
     virtual ~BSAudioManager(); // слот 0 | PC: name+stack (0xAE77A0)
@@ -1589,17 +1589,17 @@ public:
     unsigned char _pad5[0x3];
     int eState; // PC: confirmed
 };
-// HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+// HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x8
+// PC отличается от Xbox: на PC заголовок блока кучи — 8 байт, а не 0x10, как на Xbox: AbstractHeap::BaseFree получает блок как «указатель − 8» (0x00AA9913 sub ecx, 8), учитывает размер блока + 8 (0x00AA992A add ecx, 8); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316 lea eax, [edx + ecx + 8]). Поля pPrevious/iMemSize те же; на Xbox заголовок добит до 16 байт
+// PC: sizeof 0x8 — confirmed; alignof 4
 class HeapBlock {
 public:
     // поля
     HeapBlock* pPrevious; // PC: confirmed
     unsigned iMemSize; // PC: confirmed
-    unsigned char _pad8[0x8];
 };
 // FreeHeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+// PC: sizeof 0x10 — confirmed; alignof 4
 class FreeHeapBlock {
 public:
     // поля
@@ -1719,7 +1719,7 @@ public:
 };
 #pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)
 // BGSSaveLoadFormHeader (Xbox PDB): Xbox sizeof 0x9, PC sizeof 0x9
-// PC: sizeof 0x9 — consistent; alignof 1; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+// PC: sizeof 0x9 — confirmed; alignof 1
 struct BGSSaveLoadFormHeader {
 public:
     // поля
@@ -1743,7 +1743,7 @@ public:
     unsigned iDebugOverhead; // PC: confirmed
 };
 // BGSSaveFormBuffer (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — consistent; alignof 4; vtable 0x01082308; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+// PC: sizeof 0x24 — confirmed; alignof 4; vtable 0x01082308
 class BGSSaveFormBuffer : public BGSSaveGameBuffer {
 public:
     // поля
@@ -1778,7 +1778,7 @@ public:
     unsigned iOldChangeFlags; // BGSChangeFlags | PC: confirmed
 };
 // BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
-// PC: sizeof 0x24C — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: cFileIndexArray, cReverseFileIndexArray)
+// PC: sizeof 0x24C — confirmed; alignof 4
 class BGSSaveLoadGame {
 public:
     // поля
@@ -1793,8 +1793,8 @@ public:
     BGSReconstructFormsInAllFilesMap* pReconstructForms; // PC: confirmed
     alignas(4) unsigned char FormBufferArray[16]; // BSSimpleArray<BGSLoadFormBuffer *,1024> | PC: confirmed
     alignas(4) unsigned char QueuedInitPackageLocationsActorMap[16]; // NiTMap<unsigned int,Actor *> | PC: confirmed
-    unsigned char cFileIndexArray[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
-    unsigned char cReverseFileIndexArray[255]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    unsigned char cFileIndexArray[255]; // PC: confirmed
+    unsigned char cReverseFileIndexArray[255]; // PC: confirmed
     unsigned char _pad242[0x2];
     unsigned iGlobalFlags; // PC: confirmed
     unsigned char cCurrentMinorVersion; // PC: confirmed
@@ -1829,13 +1829,13 @@ public:
     alignas(4) unsigned char sSystemSaveName[8]; // BSStringT<char> // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
 // BGSSaveLoadChangesMap (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x0107ED68; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: m_ppkHashTable)
+// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x0107ED68
 class BGSSaveLoadChangesMap {
 public:
     virtual ~BGSSaveLoadChangesMap(); // слот 0 | PC: name+stack (0x845580)
     // поля
     unsigned m_uiHashSize; // PC: confirmed
-    void** m_ppkHashTable; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    void** m_ppkHashTable; // PC: confirmed
     alignas(4) unsigned char m_kAllocator[4]; // NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BGSFormChanges *>::AntiBloatAllocator | PC: confirmed
 };
 // FalloutRadio::FORadioReceiver (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
@@ -1950,7 +1950,7 @@ public:
     alignas(4) unsigned char ButtonIcons[16]; // BSSimpleArray<ButtonIcon,1024> | PC: confirmed
 };
 // Font::TextData (Xbox PDB): Xbox sizeof 0x28, PC sizeof 0x28
-// PC: sizeof 0x28 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён, поля без подтверждения: xNewText)
+// PC: sizeof 0x28 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: xNewText)
 class Font::TextData {
 public:
     // поля
@@ -2037,7 +2037,7 @@ public:
     int iPageNum; // PC: confirmed
 };
 // FontManager::TextData (Xbox PDB): Xbox sizeof 0x40, PC sizeof 0x40
-// PC: sizeof 0x40 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
+// PC: sizeof 0x40 — confirmed; alignof 4
 class FontManager::TextData {
 public:
     // поля
@@ -2525,7 +2525,7 @@ public:
     unsigned char _pad33[0x1];
 };
 // BSShaderAccumulator (Xbox PDB): Xbox sizeof 0x280, PC sizeof 0x280
-// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, bWorldGeometry, eAccumulationMode, kAlphaRenderPass.pGeometry)
+// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, eAccumulationMode, kAlphaRenderPass.pGeometry)
 class BSShaderAccumulator : public NiAlphaAccumulator {
 public:
     virtual void FinishAccumulatingPreResolveDepth(); // слот 42 | PC: name+stack (0xB66520)
@@ -2533,7 +2533,7 @@ public:
     virtual void RenderPassList(unsigned short, bool); // слот 44 | PC: stub (0xD070A0)
     // поля
     int eAccumulationMode; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
-    bool bWorldGeometry; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    bool bWorldGeometry; // PC: confirmed
     bool bCacheGeometry; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
     bool bDoDepthPasses; // PC: confirmed
     unsigned char _pad3B[0x1];
@@ -2583,7 +2583,7 @@ public:
     alignas(4) unsigned char BSCPSharedCrit[128]; // NiCriticalSection | PC: confirmed
 };
 // BSBatchRenderer (Xbox PDB): Xbox sizeof 0x98, PC sizeof 0x98
-// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bAlphaGroupZPrePass, uiCurrentFirstPass, uiCurrentLastPass)
+// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: uiCurrentFirstPass, uiCurrentLastPass)
 class BSBatchRenderer : public NiObject {
 public:
     virtual void RegisterPass(BSShaderProperty::RenderPass*, unsigned); // слот 35 | PC: name+stack (0xB99C90)
@@ -2597,7 +2597,7 @@ public:
     BSInstanceRendering* pInstanceRenderer; // PC: confirmed
     alignas(4) unsigned char kActivePassIndexList[8]; // BSSimpleList<unsigned short> | PC: confirmed
     int iGroupingAlphas; // PC: confirmed
-    bool bAlphaGroupZPrePass; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    bool bAlphaGroupZPrePass; // PC: confirmed
     unsigned char _pad39[0x3];
     void* pGeometryGroupsA[13]; // PC: confirmed
     void* pAlphaGroupA[2]; // PC: confirmed
@@ -2868,7 +2868,7 @@ public:
     unsigned char _pad1FD[0x3];
 };
 // ShadowSceneLight (Xbox PDB): Xbox sizeof 0x250, PC sizeof 0x250
-// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses, pPortalGraph, pfClipSpacePlanes)
+// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses, pfClipSpacePlanes)
 class ShadowSceneLight : public NiRefObject {
 public:
     // поля
@@ -2916,7 +2916,7 @@ public:
     alignas(4) unsigned char kMultiboundRooms[16]; // BSSimpleArray<BSMultiBoundNode *,1024> | PC: confirmed
     alignas(4) unsigned char kPortals[16]; // BSSimpleArray<BSPortal *,1024> | PC: confirmed
     alignas(4) unsigned char kProcessedNodes[16]; // BSSimpleArray<NiNode *,1024> | PC: confirmed
-    BSPortalGraph* pPortalGraph; // PC: unverified — ПРЕДВАРИТЕЛЬНО, не для хуков
+    BSPortalGraph* pPortalGraph; // PC: confirmed
     unsigned char _pad244[0xC];
 };
 // ImageSpaceManager (Xbox PDB): Xbox sizeof 0x31C, PC sizeof 0x31C
@@ -3257,7 +3257,7 @@ static_assert(sizeof(BSSoundHandle) == 0xC, "sizeof BSSoundHandle");
 static_assert(offsetof(HeapBlock, pPrevious) == 0x0, "HeapBlock::pPrevious");
 static_assert(offsetof(HeapBlock, iMemSize) == 0x4, "HeapBlock::iMemSize");
 static_assert(alignof(HeapBlock) == 4, "alignof HeapBlock: следует из типов полей (MSVC x86)");
-static_assert(sizeof(HeapBlock) == 0x10, "sizeof HeapBlock");
+static_assert(sizeof(HeapBlock) == 0x8, "sizeof HeapBlock");
 static_assert(offsetof(FreeHeapBlock, pPrevious) == 0x0, "FreeHeapBlock::pPrevious");
 static_assert(offsetof(FreeHeapBlock, iMemSize) == 0x4, "FreeHeapBlock::iMemSize");
 static_assert(offsetof(FreeHeapBlock, pPrevFree) == 0x8, "FreeHeapBlock::pPrevFree");

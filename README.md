@@ -9,7 +9,7 @@
 *Types for Fallout: New Vegas 1.4.0.525 (GOG): class layouts, vtables and enums hinted by the leaked Xbox 360 PDB and
 verified against the PC executable, merged into the xNVSE community PDB. Documentation is in Russian.*
 
-**Текущая версия: v0.5.3.** Что менялось — [`CHANGELOG.md`](CHANGELOG.md); подробно о версии —
+**Текущая версия: v0.5.4.** Что менялось — [`CHANGELOG.md`](CHANGELOG.md); подробно о версии —
 [`README_RU.md`](README_RU.md).
 
 ## Где взять PDB

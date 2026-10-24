@@ -29,11 +29,12 @@ import sys
 EXE_SHA256 = '42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c'   # FalloutNV.exe 1.4.0.525 GOG
 PDB_GUID = '91960891-62EE-4D29-BF48-E8D767B32DB9'
 PDB_AGE = 1
-# v0.5.3: опубликованные PDB, с которыми согласован meta.json этого пакета (v0.5–v0.5.3 — побайтно одни и те же).
-# Нужны, когда test_manifest.json рядом нет: тогда PDB сверяется с этим списком, а неизвестный PDB — ошибка.
+# v0.5.3: опубликованные PDB, с которыми согласован meta.json этого пакета. Нужны, когда test_manifest.json рядом нет:
+# тогда PDB сверяется с этим списком, а неизвестный PDB — ошибка. v0.5.4: PDB новые (HeapBlock 8 байт, все классы
+# в строгом), PDB v0.5–v0.5.3 с meta.json v0.5.4 не согласованы и в список не входят.
 PUBLISHED_PDB = {
-    '7bfd6f5aee22b1ab5346e7ec1d5db5bce2819920703ce65bbfc63a7ed4300be4': 'строгий FalloutNV.pdb v0.5.x',
-    'fa9baabcdb2398bf7c1e194bf152b60ad9549ae46bcb4d37883c84ed04085317': 'research/FalloutNV.pdb v0.5.x',
+    '33e8ecf52c6398ad7fad267c48a90405c3a543c3b1df11a141dc6e19312d574e': 'строгий FalloutNV.pdb v0.5.4',
+    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4',
 }
 
 KNOWN = {  # имя публичного символа (PDB xNVSE) -> адрес; если символ не найден или адрес другой — ошибка

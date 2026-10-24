@@ -4053,7 +4053,7 @@
   {
    "name": "HeapBlock",
    "base": null,
-   "pc_size": 16,
+   "pc_size": 8,
    "xbox_size": 16,
    "pc_only": false,
    "vslots": [],
@@ -4083,7 +4083,7 @@
      "class_array_of": null
     }
    ],
-   "layout_differs": false,
+   "layout_differs": true,
    "align": 4
   },
   {

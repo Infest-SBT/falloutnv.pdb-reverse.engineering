@@ -9,14 +9,14 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `BaseFormComponent` | 0x4 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 2 / 0 / 0 / 2 / 0 / 0 |
 | `TESForm` | 0x18 | confirmed | external | да | 4 / 0 / 0 / 0 | 6 / 34 / 0 / 0 / 38 / 0 / 0 |
 | `TESDataHandler` | 0x63C | confirmed | ctor-alloc | да | 86 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BSGameSound` | 0x198 | confirmed | subclass-boundary | да (−1 полей) | 36 / 1 / 0 / 0 | 3 / 23 / 1 / 0 / 1 / 0 / 0 |
+| `BSGameSound` | 0x198 | confirmed | subclass-boundary | да | 37 / 0 / 0 / 0 | 3 / 23 / 1 / 0 / 1 / 0 / 0 |
 | `BSWin32GameSound` | 0x230 | confirmed | ctor-alloc | да | 29 / 0 / 0 / 0 | 0 / 24 / 3 / 0 / 1 / 0 / 0 |
 | `BSAudio` | 0x38 | confirmed | subclass-boundary | да | 14 / 0 / 0 / 0 | 0 / 3 / 2 / 0 / 3 / 0 / 0 |
 | `BSWin32Audio` | 0xA4 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 3 / 2 / 0 / 3 / 0 / 0 |
-| `BSAudioManager` | 0x188 | consistent | — | нет | 45 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
+| `BSAudioManager` | 0x188 | confirmed | bounds | да | 45 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
 | `BSSoundHandle` | 0xC | confirmed | ctor-alloc | да | 3 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `HeapBlock` | 0x10 | consistent | — | нет | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FreeHeapBlock` | 0x10 | consistent | last-field | нет | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `HeapBlock` | 0x8 | confirmed | header-size | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FreeHeapBlock` | 0x10 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlockList` | 0x8 | confirmed | array-span | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `IMemoryHeap` | 0x4 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 7 / 1 / 0 / 4 / 0 / 0 |
 | `HeapFreeSubBucket` | 0x8 | confirmed | index-stride | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
@@ -24,14 +24,14 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `MemoryHeap` | 0x20F4 | confirmed | ctor-alloc | да | 2 / 0 / 0 / 0 | 0 / 17 / 1 / 0 / 0 / 0 / 0 |
 | `ScrapHeap` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MemoryManager` | 0x138 | confirmed | bounds | да | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadFormHeader` | 0x9 | consistent | last-field | нет | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadFormHeader` | 0x9 | confirmed | write-size | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveGameBuffer` | 0x14 | confirmed | subclass-boundary | да | 5 / 0 / 0 / 0 | 0 / 2 / 1 / 0 / 0 / 0 / 0 |
-| `BGSSaveFormBuffer` | 0x24 | consistent | last-field | нет | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveFormBuffer` | 0x24 | confirmed | stack-frame | да | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `BGSLoadGameBuffer` | 0x10 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
-| `BGSLoadFormBuffer` | 0x30 | confirmed | ctor-alloc | да (−4 полей) | 9 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadGame` | 0x24C | confirmed | ctor-alloc | да (−2 полей) | 13 / 2 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSLoadFormBuffer` | 0x30 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadGame` | 0x24C | confirmed | ctor-alloc | да | 15 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadManager` | 0x38 | confirmed | ctor-alloc | да | 19 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadChangesMap` | 0x10 | confirmed | ctor-alloc | да (−1 полей) | 3 / 0 / 1 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadChangesMap` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
 | `FalloutRadio::FORadioReceiver` | 0x20 | confirmed | ctor-alloc | да (−3 полей) | 8 / 2 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FalloutRadio::StationState` | 0x20 | confirmed | contained | да | 8 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FalloutRadio::FORadioStation` | 0x24 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
@@ -41,13 +41,13 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `TextureFile` | 0x24 | confirmed | index-stride | да (−2 полей) | 0 / 1 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontData` | 0x3928 | confirmed | alloc-for-field | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `Font` | 0x54 | confirmed | ctor-alloc | да (−1 полей) | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `Font::TextData` | 0x28 | consistent | last-field | нет | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `Font::TextData` | 0x28 | confirmed | stack-frame | да (−1 полей) | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager` | 0x24 | confirmed | ctor-alloc | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::CharData` | 0x38 | confirmed | ctor-alloc | да | 10 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextLine` | 0x30 | confirmed | ctor-alloc | да (−1 полей) | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextPage` | 0x44 | confirmed | ctor-alloc | да (−1 полей) | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextDoc` | 0x18 | confirmed | alloc-inline | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FontManager::TextData` | 0x40 | consistent | last-field | нет | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FontManager::TextData` | 0x40 | confirmed | stack-frame | да | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiRefObject` | 0x8 | confirmed | subclass-boundary | да | 2 / 0 / 0 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `NiObject` | 0x8 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 0 / 17 / 0 / 1 / 17 / 0 / 0 |
 | `NiObjectNET` | 0x18 | confirmed | ctor-alloc-derived, subclass-boundary | да | 5 / 0 / 0 / 0 | 0 / 14 / 2 / 1 / 18 / 0 / 0 |
@@ -78,8 +78,8 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `NiAccumulator` | 0xC | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 11 / 4 / 3 / 23 / 0 / 0 |
 | `NiBackToFrontAccumulator` | 0x30 | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 0 / 13 / 3 / 3 / 23 / 0 / 0 |
 | `NiAlphaAccumulator` | 0x34 | confirmed | subclass-boundary | да | 3 / 0 / 0 / 0 | 0 / 15 / 2 / 3 / 22 / 0 / 0 |
-| `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−4 полей) | 47 / 1 / 3 / 0 | 0 / 15 / 2 / 5 / 23 / 0 / 0 |
-| `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да (−3 полей) | 10 / 0 / 3 / 0 | 0 / 11 / 2 / 2 / 22 / 0 / 0 |
+| `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−3 полей) | 48 / 1 / 2 / 0 | 0 / 15 / 2 / 5 / 23 / 0 / 0 |
+| `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да (−2 полей) | 11 / 0 / 2 / 0 | 0 / 11 / 2 / 2 / 22 / 0 / 0 |
 | `NiRenderer` | 0x280 | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 0 / 9 / 2 / 2 / 23 / 0 / 0 |
 | `NiDX9Renderer` | 0xB80 | confirmed | ctor-alloc | да (−1 полей) | 26 / 1 / 0 / 0 | 0 / 9 / 2 / 2 / 23 / 0 / 0 |
 | `NiShader` | 0x14 | confirmed | ctor-alloc, subclass-boundary | да | 3 / 0 / 0 / 0 | 0 / 6 / 29 / 0 / 12 / 0 / 0 |
@@ -89,7 +89,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `BSShader` | 0x6C | confirmed | bounds, subclass-boundary | да | 4 / 0 / 0 / 0 | 0 / 46 / 26 / 2 / 5 / 0 / 0 |
 | `NiD3DPass` | 0x68 | confirmed | array-new | да | 21 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
 | `ShadowSceneNode` | 0x200 | confirmed | ctor-alloc | да (−2 полей) | 30 / 0 / 2 / 0 | 0 / 38 / 3 / 3 / 20 / 0 / 0 |
-| `ShadowSceneLight` | 0x250 | confirmed | ctor-alloc | да (−3 полей) | 37 / 1 / 2 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
+| `ShadowSceneLight` | 0x250 | confirmed | ctor-alloc | да (−2 полей) | 38 / 1 / 1 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `ImageSpaceManager` | 0x31C | confirmed | ctor-alloc | да | 61 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MTRenderingSystem` | 0x33C | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 
@@ -101,15 +101,15 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 |---|---|---|---|
 | float | 110 | 20 | 0 |
 | pointer | 92 | 87 | 0 |
-| int | 28 | 328 | 0 |
+| int | 31 | 325 | 0 |
 | class | 0 | 10 | 0 |
 | blob | 0 | 227 | 0 |
 
 ## Ширина полей
 
-`width_verified` — ширина поля подтверждена хотя бы одним основанием (`width_basis` у поля в summary.json): `access-width` — обращение ровно к началу поля шириной sizeof(поля); `element-width` — массив скаляров: обращение к границе элемента шириной sizeof(элемента); `int64-halves` — 64-битное целое: обращения к младшему и/или старшему dword; `index-stride` — индексное обращение с шагом, равным sizeof(элемента) (imul/scale); `class-array-element` — массив классов: внутри элемента подтверждено подполе по его собственной ширине; `nested-field-width` — поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана; `class-member` — поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5); `blob-prefix / blob-stride` — непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются; `… (в X.поле) / (элемент X.поле[])` — ширина подтверждена обращением через содержащий класс.
+`width_verified` — ширина поля подтверждена хотя бы одним основанием (`width_basis` у поля в summary.json): `access-width` — обращение ровно к началу поля шириной sizeof(поля); `element-width` — массив скаляров: обращение к границе элемента шириной sizeof(элемента); `int64-halves` — 64-битное целое: обращения к младшему и/или старшему dword; `index-stride` — индексное обращение с шагом, равным sizeof(элемента) (imul/scale); `class-array-element` — массив классов: внутри элемента подтверждено подполе по его собственной ширине; `nested-field-width` — поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана; `class-member` — поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5); `buffer-size` — поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses); `blob-prefix / blob-stride` — непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются; `… (в X.поле) / (элемент X.поле[])` — ширина подтверждена обращением через содержащий класс.
 
-Поля confirmed: ширина подтверждена — 645, только смещение (ширина не подтверждена) — 0, непрозрачные байты — 225. Поля «только смещение» в строгий PDB не входят.
+Поля confirmed: ширина подтверждена — 652, только смещение (ширина не подтверждена) — 0, непрозрачные байты — 225. Поля «только смещение» в строгий PDB не входят.
 
 ## Вложенные объекты (композиция)
 
@@ -139,34 +139,32 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 Раскладку каждого класса сравниваем с гипотезами «поля с k-го до ближайшей опоры сдвинуты на ±4/±8 байт» — так ловится пропущенное или лишнее поле среди полей одной ширины, которое проверка «по смещению есть обращение нужной ширины» не видит. `unique` — каждая гипотеза объясняет код PC хуже; `AMBIGUOUS` — в точке, где раскладка PC отличается от Xbox, гипотеза не хуже (такие поля в строгий PDB не идут); `tie-same-as-xbox` — равный счёт там, где PC совпадает с Xbox (только отмечается: раскладка держится на совпадении с Xbox PDB при подтверждённом размере); `alternative-better-same-as-xbox` — то же, но гипотеза лучше: в заявленной раскладке есть противоречия; `no-evidence` — меньше двух полей или нет обращений.
 
-Итог: alternative-better-same-as-xbox — 1, no-evidence — 17, tie-same-as-xbox — 11, unique — 57.
+Итог: no-evidence — 17, tie-same-as-xbox — 10, unique — 59.
 
 | класс | PC ≠ Xbox | счёт | лучшая гипотеза | её счёт | вердикт | поля под вопросом | опоры |
 |---|---|---|---|---|---|---|---|
-| `HeapBlock` | нет | -16 | с поля iMemSize на +8 | 4 | alternative-better-same-as-xbox | iMemSize | — |
-| `AbstractHeap` | да | 46 | с поля pLastSmallList на -8 | 46 | tie-same-as-xbox | CriticalSectionO LargeFreeList.pHead LargeFreeList.pTail iNextDelayedFreeIndex pDelayedFreeBlocksA pLastSmallList pSubBuckets | — |
-| `BGSSaveLoadChangesMap` | нет | 2 | с поля m_ppkHashTable на +4 | 2 | tie-same-as-xbox | m_kAllocator | — |
+| `TESDataHandler` | нет | 96 | с поля listFiles на +4 | 96 | tie-same-as-xbox | iNumCompile listFiles pFileIndex | pRegionList (аксессор) pActiveFile (аксессор) bMasterSave (аксессор) bSaveLoadGame (аксессор) bSaveLoad (аксессор) bClearingData (аксессор) bCheckingModels (аксессор) bLoadingFiles (аксессор) bDontRemoveIDs (аксессор) |
+| `AbstractHeap` | да | 46 | с поля pLastSmallList на -8 | 46 | tie-same-as-xbox | CriticalSectionO LargeFreeList.pHead LargeFreeList.pTail iNextDelayedFreeIndex pDelayedFreeBlocksA pLastSmallList pSubBuckets | pName (аксессор) |
 | `FalloutRadio::FORadioStation` | нет | 14 | с поля CurrentState.iCurrentItemDuration на -8 | 14 | tie-same-as-xbox | CurrentState.cStationPower CurrentState.cTargetPower CurrentState.iCurrentItemDuration | CurrentState.pConvo |
 | `FontData` | нет | 33 | с поля iTextureCount на -8 | 33 | tie-same-as-xbox | iTextureCount pFontLetters pTextureFiles | — |
 | `FontManager::TextLine` | нет | 17 | с поля iY на +4 | 17 | tie-same-as-xbox | pPage | — |
 | `FontManager::TextPage` | нет | 11 | с поля iWidth на +4 | 11 | tie-same-as-xbox | iHeight iLastFontHeight iPageHeight iPageWidth pCharsPerFont pDoc | — |
-| `BSShaderPPLightingProperty` | да | 49 | с поля iRefractionFirePeriod на -4 | 49 | tie-same-as-xbox | fParallaxOccMaxPasses fParallaxOccScale fTerrainTexFade fTerrainTexOffsetX fTerrainTexOffsetY iRefractionFirePeriod | pRenderDepthPass (вручную) |
+| `BSShaderPPLightingProperty` | да | 49 | с поля iRefractionFirePeriod на -4 | 49 | tie-same-as-xbox | fParallaxOccMaxPasses fParallaxOccScale fTerrainTexFade fTerrainTexOffsetX fTerrainTexOffsetY iRefractionFirePeriod | iTextureCount (аксессор) pRenderDepthPass (вручную) |
 | `NiTexture` | нет | 10 | с поля m_pkRendererData на -8 | 10 | tie-same-as-xbox | m_pkNext m_pkPrev m_pkRendererData | — |
 | `NiBackToFrontAccumulator` | нет | 19 | с поля m_kItemsToSortAndRender на -4 | 19 | tie-same-as-xbox | m_iCurrItem m_iMaxItems m_iNumItems m_kItemsToSortAndRender m_pfDepths m_ppkItems | — |
-| `BSShaderAccumulator` | нет | 92 | с поля pInstanceRenderer на +4 | 92 | tie-same-as-xbox | eRenderMode pActiveShadowSceneNode pBatchRenderer pInstanceRenderer pbcurrentActiveA pbcurrentFirstPassA picurrentBucketA puicurrentPassA spShadowLight spWaterFogRenderTarget uiBatchRendererCount uiBatchRendererPassCount | kAlphaRenderPass.pGeometry |
-| `ShadowSceneLight` | нет | 95 | с поля bClipSpacePlanesReady на -4 | 95 | tie-same-as-xbox | bClipSpacePlanesReady kMultiboundRooms kPortals kProcessedNodes spShadowAccumulator | — |
+| `BSShaderAccumulator` | нет | 93 | с поля pInstanceRenderer на +4 | 93 | tie-same-as-xbox | pActiveShadowSceneNode pBatchRenderer pInstanceRenderer pbcurrentActiveA pbcurrentFirstPassA picurrentBucketA puicurrentPassA spWaterFogRenderTarget uiBatchRendererCount uiBatchRendererPassCount | bWaterReflection (аксессор) iCurrentWaterHeight (аксессор) eRenderMode (аксессор) kAlphaRenderPass.pGeometry |
 
 ## Допуск в строгий PDB
 
 строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack.
 
-Не допущены: `BSAudioManager` (consistent), `HeapBlock` (consistent), `FreeHeapBlock` (consistent), `BGSSaveLoadFormHeader` (consistent), `BGSSaveFormBuffer` (consistent), `Font::TextData` (consistent), `FontManager::TextData` (consistent).
+Не допущены: нет.
 
 Функции, прочитанные не до конца (лимит 0x10000 байт): нет.
 
-Строк в evidence_fields.csv: 8203, evidence_vslots.csv: 4993, evidence_sizes.csv: 451.
+Строк в evidence_fields.csv: 8336, evidence_vslots.csv: 4993, evidence_sizes.csv: 450.
 
-Итого: f_confirmed=870, f_consistent=12, f_unverified=20, v_name=108, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=670
+Итого: f_confirmed=877, f_consistent=9, f_unverified=16, v_name=108, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=670
 
 Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): name=281, name+stack=2184, semantics=10, stack=975, stub=1540, thunk=3.
 

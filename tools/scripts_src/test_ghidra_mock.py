@@ -261,7 +261,10 @@ check('строгий режим: this только классам строго�
 n_strict = n_this(w)
 w = World()
 w.run(extra=['--research'])
-check('режим --research: назначений this больше', n_this(w) > n_strict, '%d > %d' % (n_this(w), n_strict))
+# v0.5.4: если в строгий PDB допущены все классы, назначений в research столько же — тогда равенство законно
+_all_strict = all(c.get('strict') for c in SUMM['classes'].values())
+check('режим --research: назначений this ' + ('столько же (все классы строгие)' if _all_strict else 'больше'),
+      n_this(w) == n_strict if _all_strict else n_this(w) > n_strict, '%d / %d' % (n_this(w), n_strict))
 
 # 8. ошибка посреди применения
 w = World()

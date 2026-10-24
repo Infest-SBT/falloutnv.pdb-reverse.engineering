@@ -4,6 +4,30 @@
 проверенные по коду PC, поверх публичных имён из PDB xNVSE. Номер версии: `x.y` — новый раздел типов,
 `x.y.z` — исправления без нового раздела. Подробности каждой версии — в `README_RU.md` её коммита («vX.Y: …»).
 
+## [0.5.4] — 2026-10-25 — Все 86 классов в строгом PDB: размеры, поля, опоры
+
+### Добавлено
+- Доказательства размера 7 классов, которых не было в строгом PDB (`BSAudioManager`, `HeapBlock`, `FreeHeapBlock`,
+  `BGSSaveLoadFormHeader`, `BGSSaveFormBuffer`, `Font::TextData`, `FontManager::TextData`), с опорными командами:
+  каждая сверяется с exe, несовпадение — `claim-failed`. Строгий PDB: 86 классов (было 79), 877 полей с типом.
+- Прослеженные вручную обращения (`traced_accesses`) с опорными командами и основание ширины `buffer-size`.
+  Подтверждены `BSBatchRenderer::bAlphaGroupZPrePass`, `BSShaderAccumulator::bWorldGeometry`,
+  `BSGameSound::pFilename`, `BGSSaveLoadGame::cFileIndexArray`/`cReverseFileIndexArray`,
+  `BGSSaveLoadChangesMap::m_ppkHashTable`, `ShadowSceneLight::pPortalGraph`.
+- Опоры-аксессоры в проверке сдвигом (56): короткий `Get`/`Set`/`Is`/`Has` с одним обращением к полю того же имени.
+
+### Исправлено
+- `HeapBlock` на PC — 8 байт, а не 0x10 (по Xbox PDB): `AbstractHeap::BaseFree` `sub ecx, 8`,
+  `BaseAllocate` `lea eax, [edx + ecx + 8]`. Касается и research PDB v0.4–v0.5.3.
+- Анализатор обрывал функцию на первом `ret` и терял код после раннего выхода (+89 строк доказательств,
+  0 новых противоречий).
+
+### Изменено
+- Поля: `confirmed` 877, `consistent` 9, `unverified` 16 (было 870 / 12 / 20). Проверка сдвигом: `unique` 59,
+  `tie-same-as-xbox` 10, `AMBIGUOUS` 0, `alternative-better` 0.
+- Оба PDB и заголовки пересобраны (строгий `33e8ecf5…`, research `d0cb8d90…`); скрипты Ghidra/IDA те же —
+  план они строят по новому `evidence/summary.json` (2204 адреса, 1451 `this`).
+
 ## [0.5.3] — 2026-10-24 — Исправления по аудиту Астры v0.5.2 и v0.4.2
 
 ### Исправлено

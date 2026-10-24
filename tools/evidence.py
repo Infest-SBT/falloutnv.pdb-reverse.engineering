@@ -114,8 +114,13 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
     end = min(func_end(f), f + READ_LIMIT)   # до следующего символа PDB xNVSE, но не дальше READ_LIMIT
     if func_end(f) > f + READ_LIMIT:
         TRUNCATED.add(f)
+    fwd = set()                              # v0.5.4: цели переходов вперёд — код после ret, если на него есть переход
     for ins in md.disasm(img[f - B:end - B], f):
         ops = ins.operands
+        if ins.mnemonic.startswith('j') and ins.op_str.startswith('0x'):
+            t_ = int(ins.op_str, 16)
+            if ins.address < t_ < end:
+                fwd.add(t_)
         dst = ins.reg_name(ops[0].reg) if ops and ops[0].type == capstone.x86.X86_OP_REG else None
         for op in ops:                                  # значение из поля используется как адрес -> поле-указатель
             if op.type == capstone.x86.X86_OP_MEM and op.mem.base and ins.reg_name(op.mem.base) in loadreg \
@@ -214,7 +219,10 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
             for r in ('eax', 'ecx', 'edx'):
                 idx.pop(r, None)
         if ins.mnemonic == 'ret':
-            break
+            # v0.5.4: ранний выход — читаем дальше, только если на код после ret есть переход из уже прочитанной
+            # части функции (раньше чтение кончалось на первом ret, и ветви после раннего выхода терялись)
+            if not any(t_ > ins.address for t_ in fwd):
+                break
     return out
 
 
@@ -454,7 +462,7 @@ def match_in(cls, rel, sz, depth=0):
 
 # основания ширины поля, которые принимаются в строгий PDB (v0.4.2); у непрозрачных байтов (blob) ширина не заявляется
 WIDTH_OK = {'access-width', 'element-width', 'int64-halves', 'index-stride', 'class-array-element', 'nested-field-width',
-            'class-member'}
+            'class-member', 'buffer-size'}
 COMP_OK = ('proved', 'pod-layout')     # v0.5: композиция доказана вызовом метода или (для POD без vtable) раскладкой
 
 
@@ -621,6 +629,7 @@ def composition_proofs(acc, off, sub):
 
 compositions = {}   # (класс, поле) -> {'sub', 'status', 'evidence'}
 SHIFT_IN = {}       # v0.5: класс -> (поля, обращения, начало своих полей) — для проверки сдвигом
+TRACED_NOTES = {}   # v0.5.4: (класс, адрес) -> обоснование прослеженного вручную обращения
 composition_rows = []
 for cname, c in CLS.items():
     own = c['fields'][:]
@@ -701,6 +710,31 @@ for cname, c in CLS.items():
         for f in funcs_of(holder):
             for off, sz, ia, txt, wr, step in this_accesses(f, c['pc_size'], chase=poff):
                 acc.append((off, sz, ia, txt, name_at(f), f'pointer {holder}+0x{poff:X}', wr, step, f))
+    # v0.5.4: прослеженные вручную обращения (evidence_spec traced_accesses): объект класса попадает в регистр
+    # не через this, а через цепочку, которую анализатор сам не прослеживает (аргумент статической функции →
+    # массив указателей → объект; поле-NiPointer другого класса …). Каждая опорная команда цепочки и само
+    # обращение сверяются с exe; несовпадение — остановка сборки доказательств (ошибка не может пройти тихо).
+    for tr in spec.get('traced_accesses', {}).get(cname, []):
+        for va_s, want in tr['anchors'] + [[tr['access'], tr['access_text']]]:
+            va_ = int(va_s, 16)
+            got = next(iter(md.disasm(img[va_ - B:va_ - B + 16], va_)), None)
+            txt_ = f'{got.mnemonic} {got.op_str}' if got else '?'
+            if txt_ != want:
+                sys.exit(f'traced_accesses {cname}: 0x{va_:08X} «{txt_}», ожидалось «{want}»')
+        va_ = int(tr['access'], 16)
+        ins_ = next(iter(md.disasm(img[va_ - B:va_ - B + 16], va_)))
+        if 'buffer_size' in tr:
+            # адрес начала буфера (add reg, imm / lea reg, [base+disp]) передан в функцию вместе с размером буфера
+            # (strcpy_s(dst, N, …), memset(dst, v, N)): размер N — это ширина поля-массива (основание buffer-size)
+            o_ = ins_.operands[1]
+            off_ = o_.imm if o_.type == capstone.x86.X86_OP_IMM else o_.mem.disp
+            acc.append((off_, tr['buffer_size'], va_, f'{ins_.mnemonic} {ins_.op_str}', name_at(func_start(va_)),
+                        'traced-buffer', True, None, func_start(va_)))
+        else:
+            mem_ = [o for o in ins_.operands if o.type == capstone.x86.X86_OP_MEM][0]
+            acc.append((mem_.mem.disp, 0 if ins_.mnemonic == 'lea' else mem_.size, va_, f'{ins_.mnemonic} {ins_.op_str}',
+                        name_at(func_start(va_)), 'traced', bool(mem_.access & capstone.CS_AC_WRITE), None, func_start(va_)))
+        TRACED_NOTES[(cname, va_)] = tr['note']
     SHIFT_IN[cname] = (own, acc, first_own)
     status = {}
     det = collections.defaultdict(lambda: {'insns': 0, 'functions': set(), 'via': set(), 'writes': 0,
@@ -766,6 +800,8 @@ for cname, c in CLS.items():
             elif off == s and (sz == fd['size'] or (fd.get('opaque') and sz <= fd['size']) or (esz and sz == esz)):
                 st = 'confirmed'
                 wb = ('blob-prefix' if fd.get('opaque') else 'access-width' if sz == fd['size'] else 'element-width')
+                if owner == 'traced-buffer' and wb == 'access-width':
+                    wb = 'buffer-size'     # v0.5.4: размер буфера, переданный в функцию вместе с адресом поля
             elif esz and (off - s) % esz == 0 and sz == esz:
                 st = 'confirmed'   # элемент массива
                 wb = 'element-width'
@@ -779,6 +815,7 @@ for cname, c in CLS.items():
                f'via-{owner.split(" ", 1)[1]}' if owner.startswith('pointer') else
                'argument-pointer' if owner.startswith('argument') else
                'new-object' if owner.startswith('new-object') else
+               'traced-manual' if owner in ('traced', 'traced-buffer') else
                'class-method-this' if owner == cname else 'subclass-method-this')
         ik = insn_kind(txt, sz)
         drf = ia in DEREF
@@ -789,7 +826,7 @@ for cname, c in CLS.items():
                            'insn_kind': ik, 'value_dereferenced': drf,
                            'func_va': f'0x{fva:08X}', 'func_end': f'0x{min(func_end(fva), fva + READ_LIMIT):08X}',
                            'source': 'Xbox PDB', 'status': st,
-                           'note': known or ('индекс, шаг 0x%X' % step + (' = sizeof(элемента): массив confirmed' if st_arr and st != 'confirmed' else '')
+                           'note': TRACED_NOTES.get((cname, ia)) or known or ('индекс, шаг 0x%X' % step + (' = sizeof(элемента): массив confirmed' if st_arr and st != 'confirmed' else '')
                                              if step else '')})
         rank = {'CONFLICT': 3, 'confirmed': 2, 'consistent': 1, 'explained': 0}
         if sub_key:
@@ -892,10 +929,25 @@ for cname, c in CLS.items():
             if mins:
                 m = min(mins)
                 sz_ev.append(('subclass-boundary', m, f'наименьшее смещение ≥ sizeof в функциях {sc}:: = 0x{m:X}'))
-    for kind, val, note in spec.get('size_evidence', {}).get(cname, []):
+    for ent in spec.get('size_evidence', {}).get(cname, []):
+        kind, val, note = ent[:3]
+        # v0.5.4: у ручного доказательства размера могут быть «опорные команды» [адрес, текст]: каждая проверяется
+        # по exe; если хоть одна не совпала — доказательство не принимается (статус CONFLICT, см. evidence_sizes.csv)
+        miss = []
+        for va_s, want in (ent[3] if len(ent) > 3 else []):
+            va = int(va_s, 16)
+            got = next(iter(md.disasm(img[va - B:va - B + 16], va)), None)
+            txt = f'{got.mnemonic} {got.op_str}' if got else '?'
+            if want not in txt:
+                miss.append(f'0x{va:08X}: «{txt}», ожидалось «{want}»')
+        if miss:
+            sz_ev.append(('claim-failed', val, f'{kind}: опорные команды не совпали — ' + '; '.join(miss)))
+            continue
+        if len(ent) > 3:
+            note += f' [опорные команды проверены по exe: {len(ent[3])}]'
         sz_ev.append((kind, val, note))
-    good = [e for e in sz_ev if e[1] == c['pc_size']]
-    bad = [e for e in sz_ev if e[1] != c['pc_size'] and e[0] == 'ctor-alloc']
+    good = [e for e in sz_ev if e[1] == c['pc_size'] and e[0] != 'claim-failed']
+    bad = [e for e in sz_ev if (e[1] != c['pc_size'] and e[0] == 'ctor-alloc') or e[0] == 'claim-failed']
     s_status = 'CONFLICT' if bad else ('confirmed' if good else 'unverified')
     if not good and not bad and c['fields']:
         last = max(c['fields'], key=lambda fd: fd['off'])
@@ -1005,6 +1057,7 @@ for cname, c in CLS.items():
 #   — там, где PC совпадает с Xbox: означала бы отличие PC, ничем не подсказанное, — только отмечается
 #     (tie-same-as-xbox): раскладка держится на совпадении с Xbox PDB при подтверждённом размере.
 SHIFT_D = (-8, -4, 4, 8)
+ACCESSOR_ANCHORS = []   # v0.5.4: опоры проверки сдвигом по методам-аксессорам (см. ниже)
 
 
 def _shift_score(fields, accs, size):
@@ -1069,7 +1122,36 @@ for cname, (own_, acc_, first_) in SHIFT_IN.items():
     # опоры, разобранные вручную (spec layout_anchors: поле -> обоснование с адресами). Гипотеза сдвигает поля от k-го
     # до ближайшей опоры (вставка/пропуск поля должны погаситься до неё); опору саму не сдвигаем.
     comp_ = summary['classes'][cname].get('compositions', {})
-    man_ = spec.get('layout_anchors', {}).get(cname, {})
+    man_ = dict(spec.get('layout_anchors', {}).get(cname, {}))
+    # v0.5.4: опоры по методам-аксессорам: короткий метод класса (≤ 12 команд до ret), который обращается к this
+    # ровно по одному смещению, а его имя (Get/Set/Is/Has/Q + имя) совпадает с именем поля по этому смещению
+    # без венгерских приставок (m_, sp, p, pk, i, ui, us, f, b, k, e, c, s) — имя метода связывает смещение с полем
+    def _bare(n):
+        n = n.split('.')[-1]
+        n = re.sub(r'^m_', '', n)
+        n = re.sub(r'^(spk|sp|pk|pf|ui|us|uc|p|i|f|b|k|e|c|s|h|fn)(?=[A-Z])', '', n)
+        return n.lower()
+    root_fields = {fd['off']: fd for fd in c['fields']}
+    for fa_ in funcs_of(cname):
+        mn_ = re.match(r'^(?:Get|Set|Is|Has|Q)(\w+)$', name_at(fa_).split('::')[-1])
+        if not mn_:
+            continue
+        body_ = []
+        for ins_ in md.disasm(img[fa_ - B:min(func_end(fa_), fa_ + 0x60) - B], fa_):
+            body_.append(ins_)
+            if ins_.mnemonic == 'ret' or len(body_) > 12:
+                break
+        if not body_ or body_[-1].mnemonic != 'ret':
+            continue
+        offs_ = {o for o, sz_, *_ in this_accesses(fa_, c['pc_size']) if sz_}
+        if len(offs_) != 1:
+            continue
+        o_ = offs_.pop()
+        fd_ = root_fields.get(o_)
+        if fd_ and len(_bare(fd_['name'])) >= 4 and _bare(fd_['name']) == mn_.group(1).lower():
+            man_.setdefault(fd_['name'], f'аксессор {name_at(fa_)} (0x{fa_:08X}): единственное обращение к this+0x{o_:X}')
+            ACCESSOR_ANCHORS.append({'class': cname, 'field': fd_['name'], 'off': f'0x{o_:X}', 'function': name_at(fa_),
+                                     'func_va': f'0x{fa_:08X}'})
     anch = {i for i, (o, s_, fd) in enumerate(flds)
             if (fd['name'].split('.')[0] in comp_ and comp_[fd['name'].split('.')[0]]['status'] == 'proved'
                 and fd['off'] == {f2['name']: f2['off'] for f2 in c['fields']}.get(fd['name'].split('.')[0]))
@@ -1100,8 +1182,9 @@ for cname, (own_, acc_, first_) in SHIFT_IN.items():
                 if k in divp:
                     amb_div |= set(moved)
     conf = summary['classes'][cname]['fields']
-    amb_c = sorted(n for n in amb if conf.get(n) == 'confirmed')
-    amb_d = sorted(n for n in amb_div if conf.get(n) == 'confirmed')
+    # v0.5.4: неразобранные участки PC-класса (_undescribed_*) — не утверждения о раскладке, в счёт не идут
+    amb_c = sorted(n for n in amb if conf.get(n) == 'confirmed' and not n.startswith('_undescribed_'))
+    amb_d = sorted(n for n in amb_div if conf.get(n) == 'confirmed' and not n.startswith('_undescribed_'))
     # Гипотеза, начинающаяся там, где PC совпадает с Xbox (то же смещение, что у предыдущего поля), означала бы
     # отличие PC от Xbox, ничем не подсказанное, — равный счёт здесь только отмечается (tie-same-as-xbox).
     # Гипотеза в точке, где раскладка PC сама отличается от Xbox (правка по коду, тип другого размера, поле только
@@ -1117,7 +1200,8 @@ for cname, (own_, acc_, first_) in SHIFT_IN.items():
                        'accesses': len(accs), 'declared_score': D,
                        'best_alternative': f'с поля {best[1]} на {best[2]:+d}' if best else '',
                        'alternative_score': best[0] if best else '', 'margin': D - best[0] if best else '', 'verdict': verdict, 'ambiguous_fields': ' '.join(amb_c),
-                       'anchors': ' '.join(flds[i][2]['name'] + (' (вручную)' if flds[i][2]['name'] in man_ else '')
+                       'anchors': ' '.join(flds[i][2]['name'] + ((' (вручную)' if flds[i][2]['name'] in spec.get('layout_anchors', {}).get(cname, {})
+                                                                   else ' (аксессор)') if flds[i][2]['name'] in man_ else '')
                                            for i in sorted(anch))})
 
 
@@ -1286,6 +1370,7 @@ summary['width_basis_kinds'] = {
     'class-array-element': 'массив классов: внутри элемента подтверждено подполе по его собственной ширине',
     'nested-field-width': 'поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана',
     'class-member': 'поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5)',
+    'buffer-size': 'поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses)',
     'blob-prefix / blob-stride': 'непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются',
     '… (в X.поле) / (элемент X.поле[])': 'ширина подтверждена обращением через содержащий класс'}
 summary['admission_rule'] = ('строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; '
