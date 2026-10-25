@@ -37,7 +37,9 @@ for line in open(hdr, encoding='utf-8'):
         vm = re.search(r'// слот (\d+)$', line)
         if vm and vm.group(1) in c['vslots']:
             v = c['vslots'][vm.group(1)]
-            line += f' | PC: {v["status"]} (0x{v["pc_func_va"]:X})'
+            lvl_ = (v.get('proof') or {}).get('prototype_level')
+            line += f' | PC: {v["status"]}' + (f' [{"прототип только совместим по ABI" if lvl_ == "abi-compatible" else "прототип доказан"}]'
+                                              if lvl_ else '') + f' (0x{v["pc_func_va"]:X})'
         elif fm and fm.group(1) in c['fields']:
             st = c["fields"][fm.group(1)]
             tag = f'PC: {st}' + ('' if st == 'confirmed' else ' — ПРЕДВАРИТЕЛЬНО, не для хуков')

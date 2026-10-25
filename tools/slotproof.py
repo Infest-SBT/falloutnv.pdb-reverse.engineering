@@ -82,6 +82,10 @@ class Unsupported(Exception):
     pass
 
 
+class FallthroughPastFunction(Unsupported):
+    """v0.6.1: путь без перехода дошёл до конца тела функции (или команда пересекает конец)."""
+
+
 class DepthLimit(Unsupported):
     """Отказ из-за глубины/рекурсии вызовов — не кэшируется (зависит от того, откуда пришли)."""
 
@@ -275,7 +279,15 @@ class Analyzer:
             while True:
                 if p.n >= MAX_INSN:
                     raise Unsupported(f'путь длиннее {MAX_INSN} команд')
+                # v0.6.1 (аудит Астры v0.6, P1): последовательное чтение не выходит за тело функции —
+                # и начало команды, и её последний байт внутри [lo, hi); иначе отказ fallthrough-past-function
+                if not (lo <= va < hi):
+                    raise FallthroughPastFunction(f'fallthrough-past-function: путь дошёл до 0x{va:08X} за концом '
+                                                  f'функции 0x{lo:08X}..0x{hi:08X}')
                 ins = self.insn(va)
+                if va + ins.size > hi:
+                    raise FallthroughPastFunction(f'fallthrough-past-function: команда @0x{va:08X} (размер {ins.size}) '
+                                                  f'пересекает конец функции 0x{hi:08X}')
                 p.trace.append(va)
                 p.n += 1
                 m = ins.mnemonic
@@ -408,7 +420,7 @@ class Analyzer:
             cfg = chaincheck.CFG(self.ctx, f)
         except Exception:
             return None
-        if not cfg.ok:
+        if not cfg.ok or _lost_targets(cfg):
             return None
         for a in cfg.reach:
             i = cfg.L[cfg.at[a]]
@@ -437,6 +449,8 @@ class Analyzer:
             return None
         if not cfg.ok or f not in cfg.at:
             return None
+        if _lost_targets(cfg):
+            return None                               # v0.6.1: цель перехода вне прочитанного тела — граф неполон
         vals = set()
         for a in cfg.reach:
             i = cfg.L[cfg.at[a]]
@@ -682,6 +696,44 @@ def classify_path(r):
     return ({8: 'w8', 16: 'w16', 32: 'w32'}[r['eax_w']], r['eax'])
 
 
+def bool_value(k, v):
+    """Что известно о значении результата для bool: 'yes' — 0/1 по данным (setcc, neg/sbb/neg, cmp/sbb/neg);
+    'const01' — константа 0 или 1; 'no' — константа вне {0, 1}; 'byte' — байт из памяти (movzx); 'unknown'."""
+    if v == BOOL or v == ('bool8',) or v == ('low8', ('bool8',)):
+        return 'yes'
+    if is_const(v):
+        x = v[1] & (0xFF if k == 'w8' else 0xFFFFFFFF)
+        return 'const01' if x in (0, 1) else 'no'
+    if v[0] == 'low8' and is_const(v[1]):
+        return 'const01' if (v[1][1] & 0xFF) in (0, 1) else 'no'
+    if v[0] == 'ext' and v[3] == 1:
+        return 'byte'
+    return 'unknown'
+
+
+def return_semantics(paths, ret_t, enums=()):
+    """v0.6.1 (аудит Астры v0.6, P2): семантический тип результата доказан ТОЛЬКО так:
+      void — eax/ax/al и стек x87 не писались ни на одном пути (вернуть значение нечем);
+      указатель — на всех путях возвращается this (класс сверен в check_decl): это указатель на объект
+                  проверяемой vtable;
+      bool — на всех путях 0/1, и хотя бы на одном — значение из сравнения (setcc, sbb-идиомы): предикат.
+    Остальное (константа 0 как указатель/число/bool, ширина eax/ax/al, st0) — только совместимость по ABI.
+    -> (bool, основание)."""
+    rc = ret_class(ret_t, enums)
+    if any(r['end'] != 'ret' for r in paths) or not paths:
+        return False, 'есть хвостовой переход'
+    ks = [classify_path(r) for r in paths]
+    if rc == 'void' and all(k == 'none' for k, _ in ks):
+        return True, 'eax и стек x87 не пишутся — результата нет'
+    if rc == 'ptr' and all(k == 'w32' and v == THIS for k, v in ks):
+        return True, 'на всех путях возвращается this'
+    if rc == 'bool':
+        bv = [bool_value(k.rstrip('?'), v) for k, v in ks]
+        if all(b in ('yes', 'const01') for b in bv) and 'yes' in bv and not any(k.endswith('?') for k, _ in ks):
+            return True, 'на всех путях 0/1, значение — результат сравнения'
+    return False, 'только совместимость по ABI (ширина регистра / форма результата)'
+
+
 def check_decl(paths, ret_t, args, expect_n, is_a=lambda cls, base: cls == base, cls=None, enums=()):
     """Совместимость путей (только ret, без хвостовых) с прототипом. -> (вердикт, причины, факты).
     вердикт: 'proven' — результат и аргументы доказаны/не противоречат; 'contradicted'; 'unsupported'."""
@@ -710,8 +762,12 @@ def check_decl(paths, ret_t, args, expect_n, is_a=lambda cls, base: cls == base,
         elif rc == 'float':
             ok = k == 'float'
         elif rc == 'bool':
-            ok = (k == 'w8') or (k == 'w32' and (v == BOOL or (is_const(v) and v[1] in (0, 1))
-                                                  or (v[0] == 'ext' and v[3] == 1)))
+            bv = bool_value(k, v)
+            # v0.6.1 (аудит Астры v0.6, P2): известная константа должна быть 0 или 1; al неизвестного
+            # происхождения — только совместимость по ABI
+            ok = bv != 'no' and ((k == 'w8') or (k == 'w32' and bv in ('yes', 'const01', 'byte')))
+            if bv == 'no':
+                why.append(f'bool: на пути @0x{r["end_va"]:08X} константа {v}, а не 0/1')
         elif rc == 'int8':
             ok = k in ('w8', 'w32')
         elif rc == 'int16':
@@ -792,6 +848,11 @@ def check_manual(ctx, f, proof, expect_n):
     if not cfg.ok:
         # косвенный переход — граф может быть неполон; fail closed
         return False, ['граф потока управления неполон (косвенный переход)']
+    if _lost_targets(cfg):
+        return False, ['v0.6.1: цель условного перехода вне прочитанного тела функции — граф неполон']
+    if cfg.L and cfg.L[-1].address in cfg.reach and not cfg.succ.get(cfg.L[-1].address) \
+            and cfg.L[-1].mnemonic not in RETS + ('jmp', 'int3'):
+        return False, ['v0.6.1: fallthrough-past-function — последняя команда тела ведёт за конец функции']
     other = {}
     for fc in proof.get('facts', []):
         va = int(fc['va'], 16)
@@ -828,6 +889,19 @@ def check_manual(ctx, f, proof, expect_n):
             if bad:
                 why.append(f'ret @0x{r:08X} достижим в обход определений результата: {bad}')
     return not why, why
+
+
+def _lost_targets(cfg):
+    """v0.6.1: достижимые условные переходы, чья прямая цель не попала в граф (за телом функции или внутрь
+    команды). chaincheck.CFG такие рёбра молча отбрасывает — для доказательств это неполный граф."""
+    out = []
+    for a in cfg.reach:
+        i = cfg.L[cfg.at[a]]
+        m = i.mnemonic
+        if (m.startswith('j') or m.startswith('loop')) and m != 'jmp' and i.operands \
+                and i.operands[0].type == x86.X86_OP_IMM and (i.operands[0].imm & 0xFFFFFFFF) not in cfg.at:
+            out.append(a)
+    return out
 
 
 def _writes_eax(i):

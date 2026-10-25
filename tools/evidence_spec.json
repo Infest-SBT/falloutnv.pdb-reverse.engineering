@@ -1342,7 +1342,7 @@
   }
  },
  "slot_proofs": {
-  "_doc": "v0.6 (пункт Г): ручные структурированные доказательства прототипов слотов. Ключ — класс проверяемой vtable, затем номер слота. va — функция в слоте (сверяется). facts — команды с точным текстом; проверка: команда по адресу, в теле функции (или в вызываемой функции, поле in), достижима от входа. return_defs — каждая достижимая ret достигается только через одну из этих команд. return_verified / args_verified — утверждения автора, допускаются только при прохождении всех проверок; основание — facts.",
+  "_doc": "v0.6 (пункт Г): ручные структурированные доказательства прототипов слотов. Ключ — класс проверяемой vtable, затем номер слота. va — функция в слоте (сверяется). facts — команды с точным текстом; проверка: команда по адресу, в теле функции (или в вызываемой функции, поле in), достижима от входа. return_defs — каждая достижимая ret достигается только через одну из этих команд. v0.6.1: return_semantic_verified (+ return_semantic_basis) / args_semantic_verified — утверждения автора о семантическом типе, не только о совместимости по ABI; допускаются только при прохождении всех проверок; основание — facts; ручное толкование вызовов указывается в basis.",
   "BSGameSound": {
    "8": {
     "va": "0x00AE9FD0",
@@ -1350,8 +1350,10 @@
     "return_defs": [
      "0x00AE9FEB"
     ],
-    "return_verified": true,
-    "args_verified": true,
+    "return_semantic_verified": true,
+    "return_semantic_basis": "машинно: cmp edx, [ecx+0x188]; sbb eax, eax; neg eax — значение 0/1 из сравнения (предикат)",
+    "args_semantic_verified": true,
+    "args_semantic_basis": "машинно: аргумент разыменовывается по +0x188 — тому же смещению iPriority, что и у this",
     "facts": [
      {
       "va": "0x00AE9FDA",
@@ -1399,8 +1401,10 @@
     "return_defs": [
      "0x00AEA62C"
     ],
-    "return_verified": true,
-    "args_verified": true,
+    "return_semantic_verified": true,
+    "return_semantic_basis": "ручное толкование: Allocate(0x230) = доказанный sizeof BSWin32GameSound, затем конструктор BSWin32GameSound на этом блоке; результат — его this или 0 (сами вызовы по командам не доказываются)",
+    "args_semantic_verified": true,
+    "args_semantic_basis": "ручное толкование: в конструкторе аргумент передаётся strlen и strcpy_s как источник — строка (CRT опознан по именам xNVSE)",
     "facts": [
      {
       "va": "0x00AEA5E8",
@@ -1470,8 +1474,9 @@
     "va": "0x00AEA640",
     "decl": "void FixSoundPath(char*)",
     "return_defs": null,
-    "return_verified": false,
-    "args_verified": true,
+    "return_semantic_verified": false,
+    "args_semantic_verified": true,
+    "args_semantic_basis": "ручное толкование: аргумент читается побайтно и служит приёмником strcpy_s/strcat_s с размером 0x104 — изменяемая строка (CRT опознан по именам xNVSE)",
     "facts": [
      {
       "va": "0x00AEA663",

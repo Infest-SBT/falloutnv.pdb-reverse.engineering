@@ -11,7 +11,8 @@ OK   ключ функции: (exe_id, RVA, исходное имя, вид си
 OK   подтверждённый прототип — только у функций с ручным разбором слота (semantics), не по имени/S_PUB32/классу 
 OK   у всех адресов плана с прототипом semantics — привязка слота в semantic_bindings 16 в плане, 38 с привязками
 OK   v0.6: привязки без единственного кандидата плана на функцию не переносятся 
-OK   v0.6: прототип на функцию — только при полностью доказанном слоте (return_verified и args_verified) 
+OK   v0.6.1 (P2 Астры): прототип на функцию — только при prototype_level = semantic (имя слота + семантика результата и аргументов), не по совместимости с ABI 
+OK   v0.6.1: единственная функция Confirmed — 0x00AE9FD0 BSGameSound::PriorityTest (слот с именем, предикат, аргумент) 
 OK   v0.5.13 P1: Confirmed — только привязка имени matched; ICF/чужое имя — VerifiedPrefix без прототипа Confirmed 1 из 38
 OK   v0.5.13 P1: адреса из аудита — не Confirmed, прототип только у слота 0x004011B0 TESForm::GetHavokDeath → icf-shared, 0x004011D0 TESForm::GetNeedToChangeProcess → icf-shared, 0x00549580 TESForm::GetLODTree → name-conflict, 0x007AF430 TESObjectREFR::GetObjectReference → name-conflict
 OK   v0.5.13 P3: this_supported и this_basis вместо this_verified {'None': 695, 'method-heuristic': 1065, 'vtable-slot': 446}
@@ -28,4 +29,4 @@ OK   остальные публичные символы xNVSE — в coverage_
 OK   verification_coverage.csv: все классы и функции реестра 
 OK   чувствительность: слот semantics → name+stack ⇒ функция VerifiedPrefix, прототип снят, имя то же 0x00AE9FD0 BSGameSound::PriorityTest
 OK   чувствительность: размер BSAudioManager не доказан ⇒ класс без статуса, в coverage_gaps, this его методам снят 
-ИТОГ: всё прошло (30 проверок)
+ИТОГ: всё прошло (31 проверок)

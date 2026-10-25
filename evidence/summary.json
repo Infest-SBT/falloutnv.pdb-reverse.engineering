@@ -576,9 +576,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -605,9 +612,16 @@
        41
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -634,9 +648,16 @@
        44
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -654,9 +675,16 @@
        44
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -701,9 +729,16 @@
        49
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "48": {
@@ -757,9 +792,16 @@
        53
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "53": {
@@ -5669,9 +5711,16 @@
        3
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "3": {
@@ -5725,9 +5774,16 @@
        8
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -5745,9 +5801,16 @@
        10
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "машинно: cmp edx, [ecx+0x188]; sbb eax, eax; neg eax — значение 0/1 из сравнения (предикат)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "машинно: аргумент разыменовывается по +0x188 — тому же смещению iPriority, что и у this",
+      "slot_identity": "name",
+      "slot_position": "anchors",
+      "prototype_level": "semantic"
      }
     },
     "9": {
@@ -5882,9 +5945,16 @@
        23
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "23": {
@@ -6908,9 +6978,16 @@
        3
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "3": {
@@ -6964,9 +7041,16 @@
        8
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -7110,9 +7194,16 @@
        23
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "23": {
@@ -7803,9 +7894,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "ручное толкование: Allocate(0x230) = доказанный sizeof BSWin32GameSound, затем конструктор BSWin32GameSound на этом блоке; результат — его this или 0 (сами вызовы по командам не доказываются)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "ручное толкование: в конструкторе аргумент передаётся strlen и strcpy_s как источник — строка (CRT опознан по именам xNVSE)",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -7823,9 +7921,16 @@
        "end"
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "не заявлено",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "ручное толкование: аргумент читается побайтно и служит приёмником strcpy_s/strcat_s с размером 0x104 — изменяемая строка (CRT опознан по именам xNVSE)",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -8438,9 +8543,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "ручное толкование: Allocate(0x230) = доказанный sizeof BSWin32GameSound, затем конструктор BSWin32GameSound на этом блоке; результат — его this или 0 (сами вызовы по командам не доказываются)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "ручное толкование: в конструкторе аргумент передаётся strlen и strcpy_s как источник — строка (CRT опознан по именам xNVSE)",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -8458,9 +8570,16 @@
        "end"
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "не заявлено",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "ручное толкование: аргумент читается побайтно и служит приёмником strcpy_s/strcat_s с размером 0x104 — изменяемая строка (CRT опознан по именам xNVSE)",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -11938,9 +12057,16 @@
        17
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -11976,9 +12102,16 @@
        17
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "15": {
@@ -11996,9 +12129,16 @@
        17
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "16": {
@@ -12401,9 +12541,16 @@
        12
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -13843,9 +13990,16 @@
        1
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "1": {
@@ -14125,9 +14279,16 @@
        1
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "1": {
@@ -21825,9 +21986,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -21845,9 +22013,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -22432,9 +22607,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -22452,9 +22634,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -24044,9 +24233,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -24082,9 +24278,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -24319,9 +24522,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -24339,9 +24549,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -24449,9 +24666,16 @@
        44
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -25273,9 +25497,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -25293,9 +25524,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -25549,9 +25787,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -25569,9 +25814,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -26528,9 +26780,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -26548,9 +26807,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -26808,9 +27074,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -26828,9 +27101,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -27744,9 +28024,16 @@
        36
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -27764,9 +28051,16 @@
        36
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -28256,9 +28550,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -28276,9 +28577,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -29117,9 +29425,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -29137,9 +29452,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -29203,9 +29525,16 @@
        "end"
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -29223,9 +29552,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -29243,9 +29579,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -29263,9 +29606,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -29283,9 +29633,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -29312,9 +29669,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "45": {
@@ -29332,9 +29696,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -30401,9 +30772,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -30421,9 +30799,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -30487,9 +30872,16 @@
        49
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -30507,9 +30899,16 @@
        49
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -30527,9 +30926,16 @@
        49
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -30547,9 +30953,16 @@
        49
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -30567,9 +30980,16 @@
        49
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -30587,9 +31007,16 @@
        44
       ],
       "return_verdict": "consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -30607,9 +31034,16 @@
        49
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "45": {
@@ -30627,9 +31061,16 @@
        49
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -31768,9 +32209,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -31788,9 +32236,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -31854,9 +32309,16 @@
        39
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -31901,9 +32363,16 @@
        44
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -31921,9 +32390,16 @@
        44
       ],
       "return_verdict": "consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -32076,9 +32552,16 @@
        60
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "60": {
@@ -32168,9 +32651,16 @@
        69
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "69": {
@@ -33486,9 +33976,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "37": {
@@ -33506,9 +34003,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "38": {
@@ -33526,9 +34030,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -34247,9 +34758,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "37": {
@@ -34267,9 +34785,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "38": {
@@ -34287,9 +34812,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -34334,9 +34866,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -34925,9 +35464,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "37": {
@@ -34945,9 +35491,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "38": {
@@ -34965,9 +35518,16 @@
        39
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -35012,9 +35572,16 @@
        43
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -35348,9 +35915,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -35368,9 +35942,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -35598,9 +36179,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -35618,9 +36206,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -35728,9 +36323,16 @@
        44
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -36233,9 +36835,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -36253,9 +36862,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -36273,9 +36889,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -36293,9 +36916,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -36510,9 +37140,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -36530,9 +37167,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -36640,9 +37284,16 @@
        44
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -36950,9 +37601,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -36970,9 +37628,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -36999,9 +37664,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -37216,9 +37888,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -37236,9 +37915,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -37346,9 +38032,16 @@
        44
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -37698,9 +38391,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -37718,9 +38418,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -37738,9 +38445,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -37964,9 +38678,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -37984,9 +38705,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -38094,9 +38822,16 @@
        44
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -38818,9 +39553,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -38838,9 +39580,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -38948,9 +39697,16 @@
        44
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -39697,9 +40453,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -39717,9 +40480,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -39791,9 +40561,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -39811,9 +40588,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     }
    },
@@ -40468,9 +41252,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -40488,9 +41279,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -40562,9 +41360,16 @@
        41
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -40582,9 +41387,16 @@
        41
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -41161,9 +41973,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -41181,9 +42000,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -41246,9 +42072,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -41266,9 +42099,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -41832,9 +42672,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -41852,9 +42699,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -41917,9 +42771,16 @@
        41
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -41937,9 +42798,16 @@
        41
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -42458,9 +43326,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -42478,9 +43353,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -42552,9 +43434,16 @@
        41
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "40": {
@@ -44231,9 +45120,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -44251,9 +45147,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -45499,9 +46402,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -45519,9 +46429,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -46330,9 +47247,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -46350,9 +47274,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -48621,9 +49552,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -48641,9 +49579,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -48661,9 +49606,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -48681,9 +49633,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -48701,9 +49660,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -48721,9 +49687,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -48741,9 +49714,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -48761,9 +49741,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "11": {
@@ -48781,9 +49768,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -48801,9 +49795,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "13": {
@@ -48821,9 +49822,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "14": {
@@ -48841,9 +49849,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "15": {
@@ -48861,9 +49876,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "16": {
@@ -48881,9 +49903,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "17": {
@@ -48901,9 +49930,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "18": {
@@ -48939,9 +49975,16 @@
        22
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "21": {
@@ -48959,9 +50002,16 @@
        22
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "22": {
@@ -48988,9 +50038,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "24": {
@@ -49035,9 +50092,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "28": {
@@ -49064,9 +50128,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "30": {
@@ -49138,9 +50209,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "37": {
@@ -49158,9 +50236,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "38": {
@@ -49178,9 +50263,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -49207,9 +50299,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -49227,9 +50326,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -49247,9 +50353,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -49267,9 +50380,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -49296,9 +50416,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -49316,9 +50443,16 @@
        "end"
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-vtable",
+      "prototype_level": "abi-compatible"
      }
     }
    },
@@ -49557,9 +50691,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -49577,9 +50718,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -49597,9 +50745,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -49617,9 +50772,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -49637,9 +50799,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -49657,9 +50826,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -49677,9 +50853,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -49697,9 +50880,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "11": {
@@ -49717,9 +50907,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -49737,9 +50934,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "13": {
@@ -49757,9 +50961,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "14": {
@@ -49777,9 +50988,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "15": {
@@ -49797,9 +51015,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "16": {
@@ -49817,9 +51042,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "17": {
@@ -49837,9 +51069,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "18": {
@@ -49875,9 +51114,16 @@
        22
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "21": {
@@ -49895,9 +51141,16 @@
        22
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "22": {
@@ -49924,9 +51177,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "24": {
@@ -49971,9 +51231,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "28": {
@@ -50000,9 +51267,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "30": {
@@ -50074,9 +51348,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "37": {
@@ -50094,9 +51375,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "38": {
@@ -50114,9 +51402,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -50143,9 +51438,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -50163,9 +51465,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -50183,9 +51492,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "43": {
@@ -50203,9 +51519,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -50232,9 +51555,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -50252,9 +51582,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "47": {
@@ -50272,9 +51609,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "48": {
@@ -50337,9 +51681,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "54": {
@@ -50357,9 +51708,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "55": {
@@ -50377,9 +51735,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "56": {
@@ -50397,9 +51762,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "57": {
@@ -50744,9 +52116,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -50764,9 +52143,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -50784,9 +52170,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -50804,9 +52197,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -50824,9 +52224,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -50844,9 +52251,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -50864,9 +52278,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -50884,9 +52305,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "11": {
@@ -50904,9 +52332,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -50924,9 +52359,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "13": {
@@ -50944,9 +52386,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "14": {
@@ -50964,9 +52413,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "15": {
@@ -50984,9 +52440,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "16": {
@@ -51004,9 +52467,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "17": {
@@ -51024,9 +52494,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "18": {
@@ -51225,9 +52702,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -51254,9 +52738,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -51274,9 +52765,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -51303,9 +52801,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -51332,9 +52837,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -51352,9 +52864,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "47": {
@@ -51435,9 +52954,16 @@
        55
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "55": {
@@ -51464,9 +52990,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "57": {
@@ -52016,9 +53549,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -52036,9 +53576,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -52056,9 +53603,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -52076,9 +53630,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -52096,9 +53657,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -52116,9 +53684,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -52136,9 +53711,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -52156,9 +53738,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "11": {
@@ -52176,9 +53765,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -52196,9 +53792,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "13": {
@@ -52216,9 +53819,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "14": {
@@ -52236,9 +53846,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "15": {
@@ -52256,9 +53873,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "16": {
@@ -52276,9 +53900,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "17": {
@@ -52296,9 +53927,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "18": {
@@ -52496,9 +54134,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -52525,9 +54170,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -52545,9 +54197,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -52574,9 +54233,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -52603,9 +54269,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -52623,9 +54296,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "47": {
@@ -52706,9 +54386,16 @@
        55
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "55": {
@@ -52735,9 +54422,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "57": {
@@ -53039,9 +54733,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -53059,9 +54760,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "5": {
@@ -53079,9 +54787,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "6": {
@@ -53099,9 +54814,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "7": {
@@ -53119,9 +54841,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "8": {
@@ -53139,9 +54868,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "9": {
@@ -53159,9 +54895,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "10": {
@@ -53179,9 +54922,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "11": {
@@ -53199,9 +54949,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "12": {
@@ -53219,9 +54976,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "13": {
@@ -53239,9 +55003,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "14": {
@@ -53259,9 +55030,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "15": {
@@ -53279,9 +55057,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "16": {
@@ -53299,9 +55084,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "17": {
@@ -53319,9 +55111,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "18": {
@@ -53519,9 +55318,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "39": {
@@ -53548,9 +55354,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "41": {
@@ -53568,9 +55381,16 @@
        42
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "42": {
@@ -53597,9 +55417,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "44": {
@@ -53626,9 +55453,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": false,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": false,
+      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "46": {
@@ -53646,9 +55480,16 @@
        47
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "47": {
@@ -53730,9 +55571,16 @@
        55
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "55": {
@@ -53759,9 +55607,16 @@
        57
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "57": {
@@ -53905,9 +55760,16 @@
        72
       ],
       "return_verdict": "void-consistent",
-      "return_verified": false,
-      "args_verified": false,
-      "stack_basis": "cfg"
+      "stack_basis": "cfg",
+      "return_abi_verified": false,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "нет разбора путей",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "72": {
@@ -53953,9 +55815,16 @@
        76
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "76": {
@@ -53982,9 +55851,16 @@
        78
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "78": {
@@ -55779,9 +57655,16 @@
        18
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "на всех путях возвращается this",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "4": {
@@ -56044,9 +57927,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "32": {
@@ -56064,9 +57954,16 @@
        35
       ],
       "return_verdict": "proven",
-      "return_verified": true,
-      "args_verified": true,
-      "stack_basis": "paths"
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "anchors",
+      "prototype_level": "abi-compatible"
      }
     },
     "33": {
@@ -60355,5 +62252,5 @@
   "… (в X.поле) / (элемент X.поле[])": "ширина подтверждена обращением через содержащий класс"
  },
  "admission_rule": "строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack",
- "metadata_schema_version": 5
+ "metadata_schema_version": 6
 }

@@ -23,6 +23,8 @@ v0.5.13 (аудит Астры v0.5.12):
   v0.5.14 (аудит Астры v0.5.13): A — this класса, не связанного с классом в исходном имени (other-class), не
        назначается без отдельного межклассового доказательства (CROSS_CLASS_THIS); фасет name_class; B — пустой
        bound_method_names (сравнивать не с чем) — unassessed, а не matched; name_binding_verified = false;
+  v0.6.1 (аудит Астры v0.6, P2): return_verified/args_verified разделены на *_abi_verified и *_semantic_verified;
+       на функцию переносится только prototype_level = semantic;
   v0.6 (пункт Г): слот semantics доказывается структурировано (tools/slotproof.py, evidence/slot_proofs.csv):
        машинный разбор тела или ручные факты с адресами + опоры положения слота. У доказательства — фасеты
        return_verified и args_verified; прототип переносится на функцию (Confirmed), только если оба true (вместе с
@@ -40,7 +42,8 @@ CLI: python3 -I verification.py <evidence_dir> <strict.pdb> <research.pdb> <syms
 """
 import csv, hashlib, json, os, sys
 
-SCHEMA = 5          # v0.5.13: this_supported, привязка имени, привязки слотов; v0.5.14: unassessed, name_class (аудит Астры v0.5.13);
+SCHEMA = 6          # v0.6.1: фасеты ABI / семантика, prototype_level, slot_identity (аудит Астры v0.6, P2);
+                    # v0.5.13: this_supported, привязка имени, привязки слотов; v0.5.14: unassessed, name_class (аудит Астры v0.5.13);
                     # v0.6: доказательства слотов (summary vslots.proof), фасеты привязки return_verified / args_verified
 STATUSES = ('Confirmed', 'VerifiedPrefix')
 IMAGE_BASE = 0x400000
@@ -186,7 +189,9 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
                        else 'method-heuristic') if this_ok else None)
         sem_slots = [o for o in slot_of_this if o['status'] == 'semantics'] if this_ok else []
         # v0.6: на функцию переносится только полностью доказанный прототип слота (результат и аргументы)
-        full = lambda o: bool((o.get('proof') or {}).get('return_verified')) and bool((o.get('proof') or {}).get('args_verified'))
+        # v0.6.1 (аудит Астры v0.6, P2): переносится только prototype_level = semantic (имя слота + семантика результата
+        # и аргументов), а не совместимость по ABI
+        full = lambda o: (o.get('proof') or {}).get('prototype_level') == 'semantic'
         proto_r, proto_s = plan_r.get(va, {}).get('proto'), plan_s.get(va, {}).get('proto')
         sem = any(full(o) for o in sem_slots) and bool(proto_r or proto_s)
         # P1: привязка исходного имени адреса к доказанным методам (имена слотов vtable по Xbox PDB, имена методов
@@ -226,8 +231,10 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
                      'status': 'semantics', 'prototype_scope': 'binding',
                      'proof_kind': (o.get('proof') or {}).get('kind'),
                      'slot_anchor': (o.get('proof') or {}).get('anchor'),
-                     'return_verified': bool((o.get('proof') or {}).get('return_verified')),
-                     'args_verified': bool((o.get('proof') or {}).get('args_verified')),
+                     **{k: (o.get('proof') or {}).get(k) for k in (
+                         'prototype_level', 'slot_identity', 'slot_position', 'return_abi_verified',
+                         'return_semantic_verified', 'return_semantic_basis', 'args_abi_verified',
+                         'args_semantic_verified', 'args_semantic_basis')},
                      'prototype_verified_for_binding': full(o),
                      'applies_to_function': proto_ok and full(o)} for o in sem_slots]
         key = {'exe_id': summary['exe_sha256'][:16], 'rva': f'0x{va - IMAGE_BASE:08X}', 'original_name': name0,

@@ -57,7 +57,7 @@ PROTO_STATUSES = ("semantics",)           # IDA: кандидаты на про�
 # привязка исходного имени адреса к доказанному методу (name_binding_status); прототип слота — semantic_bindings.
 # v0.5.14 (аудит Астры v0.5.13): схема 4 — unassessed (нет независимого имени для сравнения), фасет name_class;
 # this класса, не связанного с классом в исходном имени, — только с межклассовым доказательством.
-SCHEMA = 5
+SCHEMA = 6
 STATUSES = ("Confirmed", "VerifiedPrefix")
 NAME_BINDING = ("matched", "unassessed", "alias", "icf-shared", "name-conflict")
 NAME_CLASS = ("same-chain", "no-class-in-name", "other-class")
@@ -126,6 +126,11 @@ def field_comment(name, fd, provisional_class):
 
 def slot_line(cls, slot, v):
     s = "%s слот %s: %s — %s" % (cls, slot, v["decl"], v["status"])
+    lvl = (v.get("proof") or {}).get("prototype_level")
+    if lvl == "abi-compatible":
+        s += " (прототип Xbox только совместим с PC по ABI)"
+    elif lvl == "semantic":
+        s += " (прототип доказан семантически)"
     if v.get("manual"):
         s += " (ручной разбор)"
     if v.get("checked_on") and v["checked_on"] != cls:

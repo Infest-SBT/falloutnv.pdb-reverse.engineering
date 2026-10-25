@@ -29,7 +29,10 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   semantics    — v0.6: прототип доказан по коду PC (tools/slotproof.py, slot_proofs.csv): очистка стека, положение
                  слота по опорам name+stack (или концу vtable), тело не противоречит прототипу Xbox — машинный разбор
                  всех путей или ручное структурированное доказательство (evidence_spec.json → slot_proofs, адреса
-                 команд). До v0.6 — текстовые записи slot_notes (теперь только пояснения, статус не дают);
+                 команд). До v0.6 — текстовые записи slot_notes (теперь только пояснения, статус не дают).
+                 v0.6.1: semantics — не «полный прототип»: у доказательства prototype_level = semantic (имя слота
+                 совпало и семантические фасеты результата и аргументов доказаны) или abi-compatible (прототип Xbox
+                 только совместим с кодом PC по ABI; положение слота — по опорам);
   name+stack   — имя PC совпадает с Xbox, и очистка стека (ret N) = ожидаемой по прототипу Xbox (v0.6: у переходника —
                  ret N функции, к которой ведёт хвостовой переход; stack_basis = tail);
   stack        — имени нет/другое, но ret N совпадает — прототип только согласуется, не доказан;
@@ -367,13 +370,18 @@ def vt_len(tab):
 SP_ROWS = []                                                   # v0.6: slot_proofs.csv
 
 
-def _sp_row(r, check, ok, basis, n, chain_=(), lo=None, hi=None, verdict='', ret_ver='', args_ver='', facts=(), why=()):
+def _sp_row(r, check, ok, basis, n, chain_=(), lo=None, hi=None, verdict='', fac=None, facts=(), why=()):
+    fac = fac or {}
     return {'class': r['class'], 'checked_on': r['checked_on'], 'slot': r['slot'], 'pc_func_va': r['pc_func_va'],
             'pc_name': r['pc_name'], 'decl': r['decl'], 'status_before': r['status'], 'check': check, 'passed': ok,
             'expect_ret_n': r['expect_ret_n'], 'cleanup_n': '' if n is None else n, 'cleanup_basis': basis,
             'tail_chain': ' → '.join(f'0x{a:08X}>{k}>0x{t:08X}' for a, k, t in chain_),
             'anchor_below': '' if lo is None else lo, 'anchor_above': '' if hi is None else hi,
-            'decl_verdict': verdict, 'return_verified': ret_ver, 'args_verified': args_ver,
+            'decl_verdict': verdict,
+            **{k: fac.get(k, '') for k in ('return_abi_verified', 'return_semantic_verified', 'return_semantic_basis',
+                                           'args_abi_verified', 'args_semantic_verified', 'args_semantic_basis',
+                                           'slot_identity',
+                                           'slot_position', 'prototype_level')},
             'facts': ' | '.join(facts), 'reasons': ' | '.join(why)}
 
 
@@ -1261,6 +1269,7 @@ for cname, c in CLS.items():
             lo_, hi_ = slotproof.anchors(byvt_[who_], r_['slot'], vt_len(r_['_tab']), nsl_)
             anchored_ = lo_ is not None and hi_ is not None
             n_, basis_ = an_.cleanup_ex(fa_)
+            paths_ = None
             if mp_:
                 ok_, why_ = slotproof.check_manual(CC, fa_, mp_, r_['expect_ret_n'])
                 if int(mp_['va'], 16) != fa_:
@@ -1268,8 +1277,12 @@ for cname, c in CLS.items():
                 verd_ = mp_.get('verdict', 'proven') if ok_ else 'contradicted'
                 facts_ = [f"{x['role']}: 0x{int(x['va'], 16):08X} «{x['insn']}» — {x.get('note', '')}" for x in mp_.get('facts', [])]
                 kind_ = 'manual'
-                ret_ver_ = ok_ and mp_.get('return_verified', False)
-                args_ver_ = ok_ and mp_.get('args_verified', False)
+                ret_abi_ = ok_ and verd_ == 'proven'
+                ret_sem_ = ok_ and bool(mp_.get('return_semantic_verified', False))
+                ret_sem_basis_ = mp_.get('return_semantic_basis', '') if ret_sem_ else 'не заявлено'
+                args_abi_ = ok_
+                args_sem_ = ok_ and bool(mp_.get('args_semantic_verified', False))
+                args_sem_basis_ = mp_.get('args_semantic_basis', '') if args_sem_ else 'не заявлено'
             else:
                 try:
                     paths_ = an_.analyze(fa_)
@@ -1281,21 +1294,33 @@ for cname, c in CLS.items():
                     else:
                         verd_, why_, facts_ = 'unsupported', [str(e_)], []
                 kind_ = 'machine'
-                ret_ver_ = verd_ == 'proven'
-                args_ver_ = verd_ == 'proven' and not v_['args']
+                # v0.6.1 (аудит Астры v0.6, P2): ABI-совместимость и семантический тип — разные фасеты
+                ret_abi_ = verd_ == 'proven'
+                ret_sem_, ret_sem_basis_ = (slotproof.return_semantics(paths_, v_['ret']) if verd_ == 'proven'
+                                            and paths_ is not None else (False, 'нет разбора путей'))
+                args_abi_ = verd_ in ('proven', 'void-consistent', 'consistent')
+                args_sem_ = args_abi_ and not v_['args']
+                args_sem_basis_ = 'аргументов нет' if args_sem_ else 'типы аргументов — с Xbox, по коду только ширина/очистка стека'
             stack_ok_ = n_ == r_['expect_ret_n']
             ok_all_ = anchored_ and stack_ok_ and verd_ in ('proven', 'void-consistent', 'consistent')
-            row_ = _sp_row(r_, 'semantics-' + kind_, ok_all_, basis_, n_, [], lo_, hi_, verd_, ret_ver_, args_ver_,
+            ident_ = 'name' if r_['status_raw'] in ('name+stack', 'name') else 'position'
+            level_ = 'semantic' if (ident_ == 'name' and ret_sem_ and args_sem_) else 'abi-compatible'
+            fac_ = {'return_abi_verified': bool(ret_abi_), 'return_semantic_verified': bool(ret_sem_),
+                    'return_semantic_basis': ret_sem_basis_, 'args_abi_verified': bool(args_abi_),
+                    'args_semantic_verified': bool(args_sem_), 'args_semantic_basis': args_sem_basis_,
+                    'slot_identity': ident_,
+                    'slot_position': 'end-of-vtable' if hi_ == 'end' else 'anchors', 'prototype_level': level_}
+            row_ = _sp_row(r_, 'semantics-' + kind_, ok_all_, basis_, n_, [], lo_, hi_, verd_, fac_,
                            facts_, why_ + ([] if anchored_ else ['нет опоры name+stack ниже/выше на этой vtable'])
                            + ([] if stack_ok_ else [f'очистка стека {n_} ({basis_}) ≠ {r_["expect_ret_n"]}']))
             SP_ROWS.append(row_)
             if ok_all_:
                 r_['status'] = 'semantics'
                 r_['stack_basis'] = r_['stack_basis'] or basis_
-                r_['proof'] = (f"{kind_}; опоры {lo_}..{hi_}; результат {verd_}; " + '; '.join(facts_))[:600]
-                r_['_sem'] = {'kind': kind_, 'anchor': [lo_, hi_], 'return_verdict': verd_,
-                              'return_verified': bool(ret_ver_), 'args_verified': bool(args_ver_),
-                              'stack_basis': basis_}
+                r_['proof'] = (f"{kind_}; прототип {level_}; опоры {lo_}..{hi_}; результат {verd_}; "
+                               + '; '.join(facts_))[:600]
+                r_['_sem'] = dict({'kind': kind_, 'anchor': [lo_, hi_], 'return_verdict': verd_, 'stack_basis': basis_},
+                                  **fac_)
         # ---- фаза 3: лучший статус слота ----
         order = ['MISMATCH', 'stub-stack-mismatch', 'thunk', 'stub', 'name', 'stack', 'name+stack', 'semantics']
         bests = {}
@@ -1995,8 +2020,12 @@ rep += ['', '## v0.6: прототипы слотов vtable (пункт Г, slo
         'name+stack, или выше — конец vtable, длина которой равна числу слотов класса; (3) прототип Xbox не противоречит '
         'телу: машинный разбор всех путей (результат: регистр нужной ширины / st0 / ничего; this; чтение аргументов) или '
         'ручное структурированное доказательство (evidence_spec.json → slot_proofs: адреса команд, точный текст, '
-        'достижимость, определения результата перед каждым ret). Фасеты return_verified / args_verified — в summary.json '
-        '(vslots.proof) и verification.json; на функцию прототип переносится только при обоих true.',
+        'достижимость, определения результата перед каждым ret). v0.6.1 (аудит Астры v0.6, P2): фасеты разделены — '
+        'return_abi_verified / args_abi_verified (ширина регистра, форма результата, очистка стека — совместимость по ABI) '
+        'и return_semantic_verified / args_semantic_verified (семантический тип: this, предикат 0/1, отсутствие результата; '
+        'ручные — с основанием); slot_identity = name | position (опоры подтверждают положение, не тождество метода); '
+        'prototype_level = semantic (имя + оба семантических фасета) | abi-compatible. Тип по Xbox у abi-compatible только '
+        'совместим с PC. На функцию прототип переносится только при prototype_level = semantic.',
         '',
         '| проверка | прошла | не прошла |', '|---|---|---|']
 for _k in ('stack-tail', 'semantics-machine', 'semantics-manual'):

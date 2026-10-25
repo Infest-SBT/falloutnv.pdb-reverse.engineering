@@ -1,4 +1,4 @@
-"""v0.6 (пункт Г): регрессионный тест доказательств слотов vtable (tools/slotproof.py).
+"""v0.6–v0.6.1 (пункт Г; аудит Астры v0.6: P1 граница тела, P2 ABI ≠ семантика): регрессионный тест доказательств слотов vtable (tools/slotproof.py).
 
 usage: python3 -I tools/test_slotproof.py [FalloutNV.exe syms.tsv [evidence_dir evidence_spec.json]]
 
@@ -127,6 +127,53 @@ an = sp.Analyzer(FL)
 check('float от вызванной функции остаётся результатом', decl(FL, 'float', [], 0) == 'proven')
 check('…и не принимается за указатель', decl(FL, 'NiNode*', [], 0) == 'contradicted')
 
+# ---------- 2а. v0.6.1, аудит Астры v0.6, P1: граница тела функции ----------
+def sem_of(ctx, ret, f=BASE):
+    return sp.return_semantics(sp.Analyzer(ctx).analyze(f), ret)[0]
+
+
+def refused(ctx, f=BASE):
+    try:
+        sp.Analyzer(ctx).analyze(f)
+        return False
+    except sp.FallthroughPastFunction:
+        return True
+
+
+check('P1: ret последней командой тела — принят', not refused(ctx_funcs([(0, '90C3'), (2, 'C3')])))
+check('P1: ret соседней функции после nop — fallthrough-past-function', refused(ctx_funcs([(0, '9090'), (2, 'C3')])))
+check('P1: команда пересекает конец функции — fallthrough-past-function',
+      refused(ctx_funcs([(0, '90B8'), (2, 'C3000000C3')])))
+check('P1: ret внутри тела перед соседней функцией — принят', not refused(ctx_funcs([(0, '7401C3C3'), (4, 'C3')])))
+an = sp.Analyzer(ctx_funcs([(0, '9090'), (2, 'C20400')]))
+check('P1: очистка стека не берётся у соседней функции (ни путями, ни по графу)', an.cleanup(BASE) is None,
+      an.cleanup_ex(BASE))
+LT = ctx_funcs([(0, '7404' 'C3'), (3, 'C20400')])          # je за конец тела — цель в чужой функции
+check('P1: условный переход за конец тела — граф неполон, очистка не определяется',
+      sp.Analyzer(LT).cleanup(BASE) is None, sp.Analyzer(LT).cleanup_ex(BASE))
+check('P1: ручное доказательство на теле с переходом за конец — отказ',
+      not sp.check_manual(LT, BASE, {'facts': [], 'return_defs': None}, 0)[0])
+check('P1: ручное доказательство на теле без ret в конце (уход в соседнюю) — отказ',
+      not sp.check_manual(ctx_funcs([(0, '9090'), (2, 'C3')]), BASE, {'facts': []}, 0)[0])
+
+# ---------- 2б. v0.6.1, аудит Астры v0.6, P2: ABI-совместимость ≠ семантический тип ----------
+check('P2: mov al,5; ret → bool — противоречие (константа не 0/1)', decl(one('B005C3'), 'bool', [], 0) == 'contradicted')
+check('P2: mov eax,5; ret → bool — противоречие', decl(K, 'bool', [], 0) == 'contradicted')
+check('P2: xor eax,eax → NiNode*: ABI да, семантика нет', decl(X, 'NiNode*', [], 0) == 'proven' and not sem_of(X, 'NiNode*'))
+check('P2: xor eax,eax → bool: ABI да, семантика нет (константа — не предикат)', not sem_of(X, 'bool'))
+check('P2: xor al,al; ret 4 → bool: семантика нет', not sem_of(A8, 'bool'))
+check('P2: mov ax,[ecx+8] → unsigned short: семантика нет (только ширина)', not sem_of(W, 'unsigned short'))
+check('P2: fld → float: семантика нет (только st0)', not sem_of(F, 'float'))
+check('P2: return this → указатель: семантика да', sem_of(T, 'NiTriShape*'))
+check('P2: neg/sbb/neg → bool: семантика да (предикат)', sem_of(B, 'bool'))
+SE = one('8B4110' '85C0' '0F95C0' 'C3')                     # mov eax,[ecx+0x10]; test; setne al; ret
+check('P2: setne al поверх неизвестного eax → bool: ABI да', decl(SE, 'bool', [], 0) == 'proven')
+check('P2: setne al → bool: семантика да (al = 0/1 из сравнения)', sem_of(SE, 'bool'))
+AU = one('8A4108C3')                                         # mov al, [ecx+8]; ret — al неизвестного происхождения
+check('P2: al из памяти → bool: ABI да, семантика нет', decl(AU, 'bool', [], 0) == 'proven' and not sem_of(AU, 'bool'))
+check('P2: пустое тело → void: семантика да (результата нет)', sem_of(E, 'void'))
+check('P2: xor eax,eax → void: семантика нет (eax занят)', not sem_of(X, 'void'))
+
 # ---------- 3. опоры ----------
 st = {0: 'name+stack', 1: 'stack', 2: 'stack', 3: 'name+stack', 4: 'stack'}
 check('опоры 0..3 для слота 1', sp.anchors(st, 1) == (0, 3))
@@ -202,9 +249,17 @@ if len(sys.argv) >= 5 and len(sys.argv) >= 3:
           not badanch, len(badanch))
     stk = [r for r in rows if r['passed'] == 'True' and str(r['cleanup_n']) != str(r['expect_ret_n'])]
     check('пакет: у каждого прошедшего очистка стека = ожидаемой', not stk, len(stk))
-    full_ok = all(v.get('proof') for c in summ['classes'].values() for v in (c.get('vslots') or {}).values()
-                  if v['status'] == 'semantics')
-    check('пакет: у каждого слота semantics в summary.json есть proof с фасетами', full_ok)
+    full_ok = all(v.get('proof') and v['proof'].get('prototype_level') in ('semantic', 'abi-compatible')
+                  for c in summ['classes'].values() for v in (c.get('vslots') or {}).values() if v['status'] == 'semantics')
+    check('пакет: у каждого слота semantics в summary.json есть proof с prototype_level', full_ok)
+    sem_rows = [r for r in rows if r['passed'] == 'True' and r['check'].startswith('semantics')]
+    check('пакет v0.6.1: prototype_level = semantic ⇔ имя слота совпало и оба семантических фасета true', all(
+        (r['prototype_level'] == 'semantic') == (r['slot_identity'] == 'name' and r['return_semantic_verified'] == 'True'
+                                                 and r['args_semantic_verified'] == 'True') for r in sem_rows))
+    check('пакет v0.6.1: семантический результат не бывает без ABI-совместимости (кроме void без записи eax)', all(
+        r['return_abi_verified'] == 'True' for r in sem_rows if r['return_semantic_verified'] == 'True'))
+    check('пакет v0.6.1: у позиционных слотов (опоры) уровень только abi-compatible',
+          all(r['prototype_level'] == 'abi-compatible' for r in sem_rows if r['slot_identity'] == 'position'))
     spec = json.load(open(specp, encoding='utf-8'))
     for who, d in spec.get('slot_proofs', {}).items():
         if who.startswith('_'):

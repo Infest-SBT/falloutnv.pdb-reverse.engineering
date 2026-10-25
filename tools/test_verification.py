@@ -85,11 +85,16 @@ if len(sys.argv) > 3:
     # (несколько прототипов) — привязки слотов записаны, но на функцию не переносятся
     check('v0.6: привязки без единственного кандидата плана на функцию не переносятся',
           all(not b['applies_to_function'] for f in sb if int(f['va'], 16) not in pp for b in f['semantic_bindings']))
-    full = lambda f: any(b['return_verified'] and b['args_verified'] for b in f['semantic_bindings'])
-    check('v0.6: прототип на функцию — только при полностью доказанном слоте (return_verified и args_verified)',
+    full = lambda f: any(b['prototype_level'] == 'semantic' for b in f['semantic_bindings'])
+    check('v0.6.1 (P2 Астры): прототип на функцию — только при prototype_level = semantic (имя слота + семантика результата и '
+          'аргументов), не по совместимости с ABI',
           all(full(f) for f in reg['functions'] if f['prototype_verified'] is True)
-          and all(b['prototype_verified_for_binding'] == (b['return_verified'] and b['args_verified'])
-                  for f in sb for b in f['semantic_bindings']))
+          and all(b['prototype_verified_for_binding'] == (b['prototype_level'] == 'semantic')
+                  for f in sb for b in f['semantic_bindings'])
+          and all(b['prototype_level'] == 'abi-compatible' for f in sb for b in f['semantic_bindings']
+                  if b['slot_identity'] == 'position' or not b['return_semantic_verified'] or not b['args_semantic_verified']))
+    check('v0.6.1: единственная функция Confirmed — 0x00AE9FD0 BSGameSound::PriorityTest (слот с именем, предикат, аргумент)',
+          [f['va'] for f in reg['functions'] if f['verification_status'] == 'Confirmed'] == ['0x00AE9FD0'])
     check('v0.5.13 P1: Confirmed — только привязка имени matched; ICF/чужое имя — VerifiedPrefix без прототипа',
           all((f['verification_status'] == 'Confirmed') == (f['name_binding_status'] == 'matched'
                                                                and int(f['va'], 16) in pp and full(f)

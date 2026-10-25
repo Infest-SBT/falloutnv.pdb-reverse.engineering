@@ -1,5 +1,5 @@
 {
- "metadata_schema_version": 5,
+ "metadata_schema_version": 6,
  "statuses": [
   "Confirmed",
   "VerifiedPrefix"
@@ -7,7 +7,7 @@
  "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
  "exe_id": "42fee7d6cd74e801",
  "image_base": "0x400000",
- "summary_sha256": "1b6803e2d126ea41eae053c05442b8ab93430fe963d86f5512abd5c5c6293bc8",
+ "summary_sha256": "267119a3fda52689465081efbf54119ab3254b8546a861bb09087773e6e39c56",
  "pdbs": {
   "strict": {
    "path": "FalloutNV.pdb",
@@ -542,9 +542,16 @@
       39,
       41
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -644,9 +651,16 @@
       41,
       44
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -739,9 +753,16 @@
       41,
       44
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -17733,8 +17754,15 @@
       51,
       53
      ],
-     "return_verified": false,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": false,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "нет разбора путей",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -18043,8 +18071,15 @@
       46,
       49
      ],
-     "return_verified": false,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": false,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "нет разбора путей",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -29651,9 +29686,16 @@
       37,
       39
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -34885,9 +34927,16 @@
       2,
       18
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях возвращается this",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -36755,9 +36804,16 @@
       "start",
       1
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -56314,8 +56370,15 @@
       22,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -58843,8 +58906,15 @@
       42,
       44
      ],
-     "return_verified": false,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": false,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "нет разбора путей",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -67825,9 +67895,16 @@
       38,
       41
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -69011,9 +69088,16 @@
       29,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -69110,9 +69194,16 @@
       29,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -70025,9 +70116,16 @@
       33,
       39
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -76479,9 +76577,16 @@
       37,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -76580,9 +76685,16 @@
       39,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -83579,8 +83691,15 @@
       19,
       22
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     },
@@ -83596,8 +83715,15 @@
       22,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     },
@@ -83613,8 +83739,15 @@
       22,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -83861,8 +83994,15 @@
       22,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -84111,8 +84251,15 @@
       22,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -84227,8 +84374,15 @@
       22,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -92145,9 +92299,16 @@
       8,
       17
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -93040,8 +93201,15 @@
       8,
       17
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     },
@@ -93057,8 +93225,15 @@
       8,
       17
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -108580,9 +108755,16 @@
       1,
       3
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -109002,8 +109184,15 @@
       6,
       10
      ],
-     "return_verified": true,
-     "args_verified": true,
+     "prototype_level": "semantic",
+     "slot_identity": "name",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "машинно: cmp edx, [ecx+0x188]; sbb eax, eax; neg eax — значение 0/1 из сравнения (предикат)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "машинно: аргумент разыменовывается по +0x188 — тому же смещению iPriority, что и у this",
      "prototype_verified_for_binding": true,
      "applies_to_function": true
     }
@@ -109101,8 +109290,15 @@
       6,
       8
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -109548,9 +109744,16 @@
       2,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "ручное толкование: Allocate(0x230) = доказанный sizeof BSWin32GameSound, затем конструктор BSWin32GameSound на этом блоке; результат — его this или 0 (сами вызовы по командам не доказываются)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "ручное толкование: в конструкторе аргумент передаётся strlen и strcpy_s как источник — строка (CRT опознан по именам xNVSE)",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -109648,8 +109851,15 @@
       2,
       "end"
      ],
-     "return_verified": false,
-     "args_verified": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": false,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "не заявлено",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "ручное толкование: аргумент читается побайтно и служит приёмником strcpy_s/strcat_s с размером 0x104 — изменяемая строка (CRT опознан по именам xNVSE)",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -110836,8 +111046,15 @@
       21,
       23
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -113571,8 +113788,15 @@
       37,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -117770,9 +117994,16 @@
       74,
       76
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     },
     {
@@ -117787,9 +118018,16 @@
       76,
       78
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -122217,9 +122455,16 @@
       67,
       69
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -122397,8 +122642,15 @@
       41,
       44
      ],
-     "return_verified": false,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": false,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "нет разбора путей",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -122857,9 +123109,16 @@
       58,
       60
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -136380,8 +136639,15 @@
       37,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -137258,8 +137524,15 @@
       37,
       "end"
      ],
-     "return_verified": false,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": false,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "нет разбора путей",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -142439,8 +142712,15 @@
       37,
       "end"
      ],
-     "return_verified": true,
-     "args_verified": false,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "end-of-vtable",
+     "return_abi_verified": true,
+     "return_semantic_verified": false,
+     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+     "args_abi_verified": true,
+     "args_semantic_verified": false,
+     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
      "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
@@ -155858,9 +156138,16 @@
       53,
       55
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
@@ -155987,9 +156274,16 @@
       55,
       57
      ],
-     "return_verified": true,
-     "args_verified": true,
-     "prototype_verified_for_binding": true,
+     "prototype_level": "abi-compatible",
+     "slot_identity": "position",
+     "slot_position": "anchors",
+     "return_abi_verified": true,
+     "return_semantic_verified": true,
+     "return_semantic_basis": "на всех путях 0/1, значение — результат сравнения",
+     "args_abi_verified": true,
+     "args_semantic_verified": true,
+     "args_semantic_basis": "аргументов нет",
+     "prototype_verified_for_binding": false,
      "applies_to_function": false
     }
    ],
