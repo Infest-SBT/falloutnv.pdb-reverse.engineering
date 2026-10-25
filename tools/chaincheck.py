@@ -51,6 +51,23 @@ class Ctx:
             return True
         return any(s <= va and va + n <= e and (executable is None or ex == executable) for s, e, ex in self.sections)
 
+    def decode(self, va, max_n, executable=True, stop=('jmp', 'ret')):
+        """v0.5.9 (аудит Астры v0.5.8, P3): пошаговое чтение команд с va. Перед каждой командой проверяется, что её
+        первый байт, а после декодирования — все её байты лежат в образе и в секции нужного вида; иначе чтение
+        прекращается с ok = False. Останов — после команды из stop или max_n команд. (команды, ok)."""
+        out, a = [], va
+        while len(out) < max_n:
+            if not self.inside(a, 1, executable):
+                return out, False
+            i = next(iter(self.md.disasm(self.img[a - self.B:a - self.B + 16], a)), None)
+            if i is None or not self.inside(a, i.size, executable):
+                return out, False
+            out.append(i)
+            if i.mnemonic in stop:
+                return out, True
+            a += i.size
+        return out, True
+
     def insn(self, va):
         return next(iter(self.md.disasm(self.img[va - self.B:va - self.B + 16], va)), None)
 
@@ -323,13 +340,79 @@ KNOWN_STUB_CALLS = {
         ['0xEC408C', 'cmp ecx, dword ptr [0x11c16bc]'], ['0xEC4092', 'jne 0xec4096'], ['0xEC4094', 'repz ret'],
         ['0xEC4096', 'jmp 0xed159c']]),
 }
-STUB_MNEMONICS = {'mov', 'lea', 'xor', 'call'}
+STUB_MNEMONICS = {'mov', 'lea', 'xor', 'call'}   # v0.5.8; в v0.5.9 заменено точным шаблоном (STUB_TEMPLATE)
+
+# v0.5.9 (аудит Астры v0.5.8, P2): заглушка кадра EH проверяется не по названиям команд, а по точному шаблону
+# MSVC /GS («__ehhandler$функция»): только регистры edx/eax/ecx, ни одной записи в память, esp/ebp не меняются
+# (кроме проверенного вызова). В FalloutNV.exe 1.4.0.525 6500 кадров «push -1; push H; mov eax, fs:[0]» ссылаются на
+# 4339 разных заглушек — шаблону соответствуют все 4339, и все ведут в __CxxFrameHandler3 0x00EC3D33.
+#   mov edx, dword ptr [esp + 8]            ; edx = кадр (EstablisherFrame)
+#   lea eax, [edx ± K]                      ; eax = база для проверки cookie
+#   ( [add eax, K]                          ; 1–2 проверки cookie
+#     mov ecx, dword ptr [edx ± K]
+#     xor ecx, eax
+#     call <проверенная __security_check_cookie> ) ×1..2
+#   mov eax, FuncInfo
+#   jmp <проверенный обработчик>
+_NUM = r'(?:0x[0-9a-f]+|\d+)'
+STUB_RE = {
+    'frame': re.compile(r'mov edx, dword ptr \[esp \+ 8\]'),
+    'base': re.compile(r'lea eax, \[edx(?: [+-] ' + _NUM + r')?\]'),
+    'add': re.compile(r'add eax, ' + _NUM),
+    'cookie': re.compile(r'mov ecx, dword ptr \[edx(?: [+-] ' + _NUM + r')?\]'),
+    'xor': re.compile(r'xor ecx, eax'),
+    'call': re.compile(r'call (0x[0-9a-f]+)'),
+    'fi': re.compile(r'mov eax, (0x[0-9a-f]+)'),
+    'jmp': re.compile(r'jmp (0x[0-9a-f]+)'),
+}
+
+
+def match_stub(ins, stub_calls, verify_seq):
+    """(ok, FuncInfo, цель jmp, причина, проверок cookie): команды заглушки строго по шаблону (см. STUB_RE);
+    verify_seq(список [адрес, текст]) — сверка тела вызываемой функции."""
+    tx = [canon(f'{i.mnemonic} {i.op_str}') for i in ins]
+    k = 0
+    def need(key):
+        nonlocal k
+        m = STUB_RE[key].fullmatch(tx[k]) if k < len(tx) else None
+        if m:
+            k += 1
+        return m
+    if not need('frame'):
+        return False, None, None, f'команда {k}: ожидалось «mov edx, dword ptr [esp + 8]»', 0
+    if not need('base'):
+        return False, None, None, f'команда {k}: ожидалось «lea eax, [edx ± K]»', 0
+    checks = 0
+    while k < len(tx) and not STUB_RE['fi'].fullmatch(tx[k]):
+        need('add')
+        if not need('cookie') or not need('xor'):
+            return False, None, None, f'команда {k} «{tx[k] if k < len(tx) else "—"}» вне шаблона заглушки', 0
+        m = need('call')
+        if not m:
+            return False, None, None, f'команда {k}: ожидался вызов проверки cookie', 0
+        ct = int(m.group(1), 16)
+        if ct not in stub_calls or not verify_seq(stub_calls[ct][1]):
+            return False, None, None, f'вызов 0x{ct:08X} — не проверенная функция', 0
+        checks += 1
+    if not 1 <= checks <= 2:
+        return False, None, None, f'проверок cookie {checks} (шаблон: 1–2)', 0
+    m = need('fi')
+    if not m:
+        return False, None, None, 'нет «mov eax, FuncInfo»', 0
+    j = need('jmp')
+    if not j:
+        return False, None, None, 'после «mov eax, FuncInfo» нет прямого jmp', 0
+    if k != len(tx):
+        return False, None, None, 'лишние команды после jmp', 0
+    return True, int(m.group(1), 16), int(j.group(1), 16), 'ok', checks
 
 
 def match_seq(ctx, seq):
     """Команды [адрес, текст] стоят подряд и точно совпадают."""
     a0 = int(seq[0][0], 16)
-    L = ctx.listing(a0, a0 + 16 * len(seq) + 16)
+    L, ok = ctx.decode(a0, len(seq), executable=True, stop=())   # v0.5.9: каждая команда — после проверки границ
+    if len(L) < len(seq):
+        return False
     for k, (a, want) in enumerate(seq):
         if k >= len(L) or L[k].address != int(a, 16) or canon(f'{L[k].mnemonic} {L[k].op_str}') != canon(want):
             return False
@@ -358,25 +441,12 @@ def eh_frame(ctx, f, handlers=None, stub_calls=None):
     handlers = KNOWN_EH_HANDLERS if handlers is None else handlers
     stub_calls = KNOWN_STUB_CALLS if stub_calls is None else stub_calls
     H = int(L[k - 1].op_str, 16)
-    if not ctx.inside(H, 16, executable=True):
-        return False, f'заглушка 0x{H:08X} вне исполняемой секции'
-    stub = ctx.listing(H, H + 0x40)
-    fi = target = None
-    for j in range(len(stub) - 1):
-        a, b = stub[j], stub[j + 1]
-        if a.mnemonic == 'mov' and a.op_str.startswith('eax, 0x') and b.mnemonic == 'jmp':
-            fi = int(a.op_str.split(', ')[1], 16)
-            target = int(b.op_str, 16) if b.op_str.startswith('0x') else None
-            break
-        # v0.5.8: до «mov eax, FuncInfo» — только mov/lea/xor и вызов проверенной функции (security cookie)
-        if a.mnemonic not in STUB_MNEMONICS:
-            return False, f'заглушка 0x{H:08X}: команда «{a.mnemonic} {a.op_str}» вне допустимого шаблона'
-        if a.mnemonic == 'call':
-            ct = int(a.op_str, 16) if a.op_str.startswith('0x') else None
-            if ct not in stub_calls or not match_seq(ctx, stub_calls[ct][1]):
-                return False, f'заглушка 0x{H:08X}: вызов {a.op_str} — не проверенная функция'
-    if fi is None:
-        return False, f'обработчик 0x{H:08X} не «mov eax, FuncInfo; jmp …» (не C++ EH — например, SEH __except)'
+    stub, ok_d = ctx.decode(H, 16, executable=True, stop=('jmp', 'ret'))   # v0.5.9: пошагово, с проверкой границ
+    if not ok_d or not stub or stub[-1].mnemonic != 'jmp':
+        return False, f'заглушка 0x{H:08X}: не прочитана целиком в исполняемой секции или не кончается jmp'
+    ok_s, fi, target, why_s, n_ck = match_stub(stub, stub_calls, lambda seq: match_seq(ctx, seq))
+    if not ok_s:
+        return False, f'заглушка 0x{H:08X} вне шаблона MSVC /GS EH: {why_s}'
     if target not in handlers:
         return False, (f'заглушка 0x{H:08X}: jmp на {"0x%08X" % target if target else "косвенный адрес"} — не проверенный '
                        'обработчик C++ EH')
@@ -407,11 +477,9 @@ def eh_frame(ctx, f, handlers=None, stub_calls=None):
             continue
         if not ctx.inside(act, 16, executable=True):
             return False, f'действие раскрутки 0x{act:08X} вне исполняемой секции'
-        body = []
-        for i in ctx.listing(act, act + 0x40):
-            body.append(i)
-            if i.mnemonic in ('jmp', 'ret') or len(body) > 8:
-                break
+        body, ok_b = ctx.decode(act, 9, executable=True, stop=('jmp', 'ret'))   # v0.5.9: пошагово
+        if not ok_b or not body:
+            return False, f'действие раскрутки 0x{act:08X}: не прочитано в исполняемой секции'
         last = body[-1]
         if last.mnemonic not in ('jmp', 'ret') or any(is_branch(x.mnemonic) and x.mnemonic != 'jmp' for x in body):
             return False, f'действие раскрутки 0x{act:08X} — не прямой код до jmp/ret'
@@ -423,7 +491,8 @@ def eh_frame(ctx, f, handlers=None, stub_calls=None):
                 return False, f'действие раскрутки 0x{act:08X} переходит внутрь функции (0x{tg:08X})'
         acts.append(f'{s}→{to}: 0x{act:08X} «' + '; '.join(f'{x.mnemonic} {x.op_str}' for x in body) + '»')
     flags = rd(fi + 0x20) if magic >= 0x19930522 else None
-    return True, (f'кадр C++ EH: заглушка 0x{H:08X} → {handlers[target][0]} 0x{target:08X} (тело сверено); '
+    return True, (f'кадр C++ EH: заглушка 0x{H:08X} по шаблону MSVC /GS ({len(stub)} команд, проверок cookie {n_ck}) → '
+                  f'{handlers[target][0]} 0x{target:08X} (тело сверено); '
                   f'FuncInfo 0x{fi:08X} (магия 0x{magic:08X}, состояний {max_state}, блоков try/catch 0'
                   + (f', EHFlags {flags}' if flags is not None else '') + '); исключение только раскручивает кадр — '
                   'действия раскрутки ' + '; '.join(acts) + ' — и уходит из функции, внутрь не возвращается')

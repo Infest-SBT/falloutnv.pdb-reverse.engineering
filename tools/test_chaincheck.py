@@ -1,4 +1,4 @@
-"""v0.5.5–v0.5.8: регрессионный тест машинных проверок (tools/chaincheck.py) — по аудиту Астры v0.5.4 (П1, П3, П5, П7).
+"""v0.5.5–v0.5.9: регрессионный тест машинных проверок (tools/chaincheck.py) — по аудиту Астры v0.5.4 (П1, П3, П5, П7).
 
 usage: python3 -I tools/test_chaincheck.py [FalloutNV.exe syms.tsv]
 
@@ -107,48 +107,77 @@ ok, why = cc.defuse_link(K2, 0x1007, 'edx', 0x100A)
 check('loop: вход перехода loop в участок def→use — отказ', not ok and 'вход перехода' in why, why)
 
 
-# L (v0.5.7–v0.5.8, §5): кадр C++ EH — может ли исключение вернуться внутрь функции
+# L (v0.5.7–v0.5.9, §5): кадр C++ EH — может ли исключение вернуться внутрь функции
 H_SYN = {0x1300: ('синтетический обработчик', [['0x1300', 'ret']])}
 C_SYN = {0x1310: ('синтетическая проверка cookie', [['0x1310', 'ret']])}
 
 
-def eh_ctx(ntry=0, act_jmp=0x1300, with_fs=True, stub=None, max_state=1, fi=0x1200):
+def gs_stub(fi=0x1200, cookie=0x1310, handler=0x1300, before_fi=b'', checks=1, prefix=b''):
+    """Заглушка по шаблону MSVC /GS с адреса 0x1100: mov edx, [esp+8]; lea eax, [edx+0xc];
+    (mov ecx, [edx-0x34]; xor ecx, eax; call cookie) × checks; [before_fi]; mov eax, FuncInfo; jmp handler."""
+    s = bytearray(prefix + bytes.fromhex('8B542408' '8D420C'))
+    for _ in range(checks):
+        s += bytes.fromhex('8B4ACC' '33C8')
+        s += b'\xE8' + struct.pack('<i', cookie - (0x1100 + len(s) + 5))
+    s += before_fi + b'\xB8' + struct.pack('<I', fi)
+    s += b'\xE9' + struct.pack('<i', handler - (0x1100 + len(s) + 5))
+    return bytes(s)
+
+
+def eh_ctx(ntry=0, act_jmp=0x1300, with_fs=True, stub=None, max_state=1, fi=0x1200, sections=None):
     img = bytearray(b'\xcc' * 0x400)
     code = (bytes.fromhex('558BEC' '6AFF' '6800110000' '64A100000000' 'C3') if with_fs else bytes.fromhex('558BEC' 'C3'))
     img[0:len(code)] = code
-    # 0x1100: заглушка — по умолчанию «mov eax, FuncInfo; jmp 0x1300»
-    st = stub if stub is not None else (b'\xB8' + struct.pack('<I', fi) + b'\xE9' + struct.pack('<i', 0x1300 - 0x110A))
+    st = stub if stub is not None else gs_stub(fi=fi)
     img[0x100:0x100 + len(st)] = st
     img[0x200:0x224] = struct.pack('<IiIIIIIII', 0x19930522, max_state, 0x1220, ntry, 0, 0, 0, 0, 1)
     img[0x220:0x228] = struct.pack('<iI', -1, 0x1240)
     img[0x240:0x248] = bytes.fromhex('8D4DF0' 'E9') + struct.pack('<i', act_jmp - 0x1248)  # lea ecx, [ebp-0x10]; jmp
     img[0x300] = 0xC3            # 0x1300: «обработчик»
     img[0x310] = 0xC3            # 0x1310: «проверка cookie»
-    return cc.Ctx(md, bytes(img), 0x1000, lambda va: 0x1000, lambda f: 0x1000 + len(code))
-ok, why = cc.eh_frame(eh_ctx(), 0x1000, H_SYN, C_SYN)
-check('EH: catch-блоков нет, раскрутка уходит из функции — принято', ok, why[:80])
-ok, why = cc.eh_frame(eh_ctx(ntry=1), 0x1000, H_SYN, C_SYN)
+    return cc.Ctx(md, bytes(img), 0x1000, lambda va: 0x1000, lambda f: 0x1000 + len(code), sections=sections)
+
+
+def eh(ctx_):
+    return cc.eh_frame(ctx_, 0x1000, H_SYN, C_SYN)
+ok, why = eh(eh_ctx())
+check('EH: заглушка по шаблону /GS, catch-блоков нет, раскрутка уходит — принято', ok, why[:80])
+ok, why = eh(eh_ctx(stub=gs_stub(checks=2)))
+check('EH: две проверки cookie (вариант шаблона) — принято', ok, why[:80])
+ok, why = eh(eh_ctx(ntry=1))
 check('EH: есть блок try/catch — отказ (продолжение после catch не моделируется)', not ok, why[:80])
-ok, why = cc.eh_frame(eh_ctx(act_jmp=0x1003), 0x1000, H_SYN, C_SYN)
+ok, why = eh(eh_ctx(act_jmp=0x1003))
 check('EH: действие раскрутки переходит внутрь функции — отказ', not ok, why[:80])
-ok, why = cc.eh_frame(eh_ctx(with_fs=False), 0x1000, H_SYN, C_SYN)
+ok, why = eh(eh_ctx(with_fs=False))
 check('EH: кадра fs:[0] нет — принято', ok, why[:80])
-# v0.5.8 (аудит Астры v0.5.7): обработчик — только проверенный, заглушка — по шаблону, FuncInfo — в границах
-ok, why = cc.eh_frame(eh_ctx(), 0x1000)
+ok, why = cc.eh_frame(eh_ctx(), 0x1000, stub_calls=C_SYN)
 check('EH: jmp заглушки на непроверенный обработчик — отказ', not ok and 'не проверенный' in why, why[:90])
-ok, why = cc.eh_frame(eh_ctx(stub=bytes.fromhex('50') + b'\xB8' + struct.pack('<I', 0x1200) + b'\xE9' +
-                                struct.pack('<i', 0x1300 - 0x110B)), 0x1000, H_SYN, C_SYN)
-check('EH: в заглушке команда вне шаблона (push) — отказ', not ok and 'вне допустимого' in why, why[:90])
-ok, why = cc.eh_frame(eh_ctx(stub=b'\xE8' + struct.pack('<i', 0x1320 - 0x1105) + b'\xB8' + struct.pack('<I', 0x1200) +
-                                b'\xE9' + struct.pack('<i', 0x1300 - 0x110F)), 0x1000, H_SYN, C_SYN)
+# v0.5.9 (аудит Астры v0.5.8, P2): контрпримеры Астры — команды с допустимым названием, но недопустимым действием
+for name_, extra_ in (('mov esp, 0', 'BC00000000'), ('mov dword ptr [ecx], 0', 'C70100000000'),
+                      ('mov dword ptr [0x120c], 1', 'C7050C12000001000000'), ('push eax', '50'),
+                      ('mov ebp, eax', '89C5')):
+    ok, why = eh(eh_ctx(stub=gs_stub(before_fi=bytes.fromhex(extra_))))
+    check(f'EH: в заглушке «{name_}» перед mov eax, FuncInfo — отказ', not ok and 'шаблон' in why, why[:90])
+ok, why = eh(eh_ctx(stub=gs_stub(checks=0)))
+check('EH: заглушка без проверки cookie — отказ (вне шаблона)', not ok, why[:90])
+ok, why = eh(eh_ctx(stub=gs_stub(cookie=0x1320)))
 check('EH: в заглушке вызов непроверенной функции — отказ', not ok and 'не проверенная' in why, why[:90])
-ok, why = cc.eh_frame(eh_ctx(stub=b'\xE8' + struct.pack('<i', 0x1310 - 0x1105) + b'\xB8' + struct.pack('<I', 0x1200) +
-                                b'\xE9' + struct.pack('<i', 0x1300 - 0x110F)), 0x1000, H_SYN, C_SYN)
-check('EH: в заглушке вызов проверенной функции (cookie) — принято', ok, why[:90])
-ok, why = cc.eh_frame(eh_ctx(max_state=0x7FFFFFFF), 0x1000, H_SYN, C_SYN)
+ok, why = eh(eh_ctx(stub=gs_stub(prefix=bytes.fromhex('BC00000000'))))
+check('EH: «mov esp, 0» в начале заглушки — отказ', not ok, why[:90])
+ok, why = eh(eh_ctx(max_state=0x7FFFFFFF))
 check('EH: maxState 0x7FFFFFFF — отказ (повреждённая FuncInfo)', not ok and 'maxState' in why, why[:90])
-ok, why = cc.eh_frame(eh_ctx(fi=0x9000), 0x1000, H_SYN, C_SYN)
+ok, why = eh(eh_ctx(fi=0x9000))
 check('EH: FuncInfo вне образа — отказ без чтения за границей', not ok and 'вне' in why, why[:90])
+# v0.5.9 (P3): заглушка читается по командам, и каждая команда целиком должна лежать в исполняемой секции
+sec_ok = [(0x1000, 0x1200, True), (0x1200, 0x1240, False), (0x1240, 0x1400, True)]
+ok, why = eh(eh_ctx(sections=sec_ok))
+check('EH: секции заданы, всё на месте — принято', ok, why[:80])
+sec_cut = [(0x1000, 0x1118, True), (0x1200, 0x1240, False), (0x1240, 0x1400, True)]
+ok, why = eh(eh_ctx(sections=sec_cut))
+check('EH: исполняемая секция кончается посреди заглушки — отказ', not ok and 'не прочитана' in why, why[:90])
+sec_act = [(0x1000, 0x1200, True), (0x1200, 0x1244, False), (0x1244, 0x1400, True)]
+ok, why = eh(eh_ctx(sections=sec_act))
+check('EH: действие раскрутки не в исполняемой секции — отказ', not ok, why[:90])
 # I: точное сравнение текста
 I_ = ctx_of(bytes.fromhex('6A09' '6890000000' 'C3'))
 check('точное сравнение: «push 9» = «push 9»', I_.same(0x1000, 'push 9'))
