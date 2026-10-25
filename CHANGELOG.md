@@ -4,6 +4,27 @@
 проверенные по коду PC, поверх публичных имён из PDB xNVSE. Номер версии: `x.y` — новый раздел типов,
 `x.y.z` — исправления без нового раздела. Подробности каждой версии — в `README_RU.md` её коммита («vX.Y: …»).
 
+## [0.5.11] — 2026-10-25 — Представления verified-prefix (ТЗ Астры)
+
+### Добавлено
+- В строгом PDB — два отдельных типа-представления подтверждённой части объекта:
+  `BGSSaveLoadFormHeader_VerifiedPrefix` (9 байт) и `FontManager_TextData_VerifiedPrefix` (0x40 байт). Это не полные
+  классы: размер объектов игры на PC не доказан (9…0xC и 0x40…0x44), исходные классы остаются в research.
+  Статистика строгого PDB — 84 полных класса + 2 представления.
+- `BGSSaveFormBuffer`/`BGSLoadFormBuffer`: +0x14 `Header` — представление (9 байт), +0x1D `_unverified_HeaderTail[3]`;
+  размеры и остальные смещения буферов не изменились.
+- `tools/prefixview.py` — решение о допуске (условия 1–8 ТЗ, fail closed); отрицательный поиск и журнал
+  `evidence/verified_prefix_candidates.csv`; в `summary.json` — `engine_size_status`, `strict_representation`,
+  `verified_prefix_checks`, `verified_prefix_facts`.
+- `tools/test_prefixview.py` (27 случаев отказа + проверки пакета, 63 всего), `tools/tpi_diff.py`,
+  `tools/msf_streams_diff.py`.
+- Скрипты Ghidra/IDA: журнал разделяет `full_type_applied` и `prefix_view_applied` (всегда 0); класс с представлением
+  в строгом режиме не получает `this` (fail closed). Тесты на имитации: Ghidra 23, IDA 10.
+
+### Изменено
+- Строгий PDB (только поток типов и его хэш-поток); README — запреты на выделение памяти, массивы, копирование и
+  передачу по значению по `sizeof` представления. Research PDB побайтно тот же.
+
 ## [0.5.10] — 2026-10-25 — Границы двух research-классов (по аудиту Астры v0.5.9)
 
 ### Исправлено

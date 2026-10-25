@@ -1,0 +1,61 @@
+engine_class,view,item,result,detail
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,1 поля,ok,полей 4; не подходят: нет; проверка сдвигом: unique
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,2 нижняя граница,ok,"конец последнего поля 0x9, alignof представления 1 ⇒ 0x9; заявлено 0x9"
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,3 верхняя граница,ok,"доказанные верхние границы: 0xC, 0xC, 0xC, 0xC; заявлено 0xC; интервал 3 байт"
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,4 отрицательный поиск,ok,находок 0
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,5 вмещающие классы,ok,"BGSSaveFormBuffer::Header +0x14, следующее pForm +0x20; BGSLoadFormBuffer::Header +0x14, следующее iSize +0x20"
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,7 vtable / базы / массивы,ok,"vtable нет, база нет, массивы нет"
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,решение,verified-prefix,"в строгий PDB — отдельный тип BGSSaveLoadFormHeader_VerifiedPrefix (sizeof 0x9); размер BGSSaveLoadFormHeader на PC — 0x9…0xC, не доказан"
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00428110 BGSLoadFormBuffer::GetChangeFlags (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00428130 BGSLoadFormBuffer::SetChangeFlags (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x0042CE30 BGSLoadFormBuffer::GetOldChangeFlags (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x0042CE50 BGSLoadFormBuffer::SetReconstructedForm (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x0042CE90 BGSLoadFormBuffer::GetReconstructedForm (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x005621F0 BGSSaveFormBuffer::RemoveChange (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00562D00 BGSLoadFormBuffer::GetRevertOnly (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00847DB0 BGSSaveFormBuffer::ClearPosition (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00848D50 BGSLoadFormBuffer::ClearBuffer (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00848D90 BGSLoadFormBuffer::SetSkipForm (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00848DD0 BGSLoadFormBuffer::GetSkipForm (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00849240 BGSLoadFormBuffer::SetRevertOnly (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00849590 BGSLoadFormBuffer::GetCellChanged (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x0084A360 BGSLoadFormBuffer::SetFormPending (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x0084F880 BGSLoadFormBuffer::SetFlag10 (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00853DC0 BGSSaveFormBuffer::GetDataSize (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008643B0 BGSLoadFormBuffer::BGSLoadFormBuffer (вызывает конструктор 0x00864450)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008643B0 BGSLoadFormBuffer::BGSLoadFormBuffer (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00864450 BGSSaveLoadFormHeader::BGSSaveLoadFormHeader (метод)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008644B0 BGSLoadFormBuffer::LoadHeader (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00864540 BGSLoadFormBuffer::LoadDataFromFile (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00864580 BGSLoadFormBuffer::SkipData (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008645B0 BGSLoadFormBuffer::GetForm (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00864610 BGSLoadFormBuffer::GetReference (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00864660 BGSLoadFormBuffer::GetActor (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008647F0 BGSLoadFormBuffer::SetBuffer (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008659C0 BGSSaveFormBuffer::BGSSaveFormBuffer (вызывает конструктор 0x00864450)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008659C0 BGSSaveFormBuffer::BGSSaveFormBuffer (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00865A30 BGSSaveFormBuffer::Save (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00865AD0 BGSSaveFormBuffer::SetHeader (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00865B10 BGSSaveFormBuffer::GetOverhead (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00865B40 BGSSaveFormBuffer::GetReference (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00865B80 BGSSaveFormBuffer::GetActor (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00865DF0 BGSSaveFormBuffer::SaveFormID (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00866140 BGSSaveFormBuffer::ShiftBuffer (метод вмещающего BGSSaveFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00866200 BGSUnloadedFormBuffer::Save (вызывает конструктор 0x00864450)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x00866200 BGSUnloadedFormBuffer::Save (объект на стеке [ebp-0x1c])
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008662C0 BGSUnloadedFormBuffer::Load (вызывает конструктор 0x00864450)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008662C0 BGSUnloadedFormBuffer::Load (объект на стеке [ebp-0x24])
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008665B0 BGSLoadFormBuffer::GetFormType (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x0086CF00 BGSLoadFormBuffer::SetCurrentFormChange (метод вмещающего BGSLoadFormBuffer)
+BGSSaveLoadFormHeader,BGSSaveLoadFormHeader_VerifiedPrefix,охват поиска,,0x008A81C0 BGSSaveFormBuffer::GetVersion (метод вмещающего BGSSaveFormBuffer)
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,1 поля,ok,полей 12; не подходят: нет; проверка сдвигом: unique
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,2 нижняя граница,ok,"конец последнего поля 0x40, alignof представления 4 ⇒ 0x40; заявлено 0x40"
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,3 верхняя граница,ok,доказанные верхние границы: 0x44; заявлено 0x44; интервал 4 байт
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,4 отрицательный поиск,ok,находок 0
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,5 вмещающие классы,ok,не вложен
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,7 vtable / базы / массивы,ok,"vtable нет, база нет, массивы нет"
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,решение,verified-prefix,"в строгий PDB — отдельный тип FontManager_TextData_VerifiedPrefix (sizeof 0x40); размер FontManager::TextData на PC — 0x40…0x44, не доказан"
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,охват поиска,,0x00A18A30 FontManager::A18A30 (указатель в [ebp+0xC])
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,охват поиска,,0x00A18F00 FontManager::CreateText (указатель в [ebp+0x10])
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,охват поиска,,0x00A19060 FontManager::TextDoc::Render (указатель в [ebp+0xC])
+FontManager::TextData,FontManager_TextData_VerifiedPrefix,охват поиска,,0x00A21AF0 TileText::MakeNode (объект на стеке [ebp-0xac])

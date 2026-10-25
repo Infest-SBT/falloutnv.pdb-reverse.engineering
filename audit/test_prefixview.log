@@ -1,0 +1,64 @@
+OK   исходный кандидат допускается, все условия ok []
+OK   отказ: противоречие типа поля (CONFLICT) → 1 поля
+OK   отказ: неподтверждённое смещение поля (consistent) → 1 поля
+OK   отказ: неподтверждённое смещение поля (unverified) → 1 поля
+OK   отказ: ширина не подтверждена и не байты → 1 поля
+OK   отказ: проверка сдвигом AMBIGUOUS → 1 поля
+OK   отказ: нет полей → 1 поля, 2 нижняя граница
+OK   отказ: нижняя граница не = концу полей (заявлено 0xA) → 2 нижняя граница
+OK   отказ: нижняя граница: alignof представления 4 даёт 0xC, заявлено 9 → 2 нижняя граница
+OK   отказ: расширение верхней границы: заявлено 0x10, доказано 0xC → 3 верхняя граница, 5 вмещающие классы
+OK   отказ: сужение верхней границы: заявлено 0xB, доказано 0xC → 3 верхняя граница, 5 вмещающие классы
+OK   отказ: доказанная граница меньше заявленной (одна из границ 0xA) → 3 верхняя граница
+OK   отказ: верхняя граница не доказана → 3 верхняя граница
+OK   отказ: интервал больше 4 байт (9..0x10, доказано 0x10) → 3 верхняя граница, 5 вмещающие классы
+OK   отказ: обращение в хвост [нижняя, верхняя) → 4 отрицательный поиск
+OK   отказ: копия целиком (rep movs) → 4 отрицательный поиск
+OK   отказ: шаг массива = размеру из интервала → 4 отрицательный поиск
+OK   отказ: размер из интервала передан в выделение/копирование → 4 отрицательный поиск
+OK   отказ: нарушение композиции: не доказана → 5 вмещающие классы
+OK   отказ: нарушение композиции: вложен другой класс → 5 вмещающие классы
+OK   отказ: подполе во вмещающем не confirmed → 5 вмещающие классы
+OK   отказ: следующее поле вмещающего не на смещение + верхняя граница → 5 вмещающие классы
+OK   отказ: следующее поле вмещающего не confirmed → 5 вмещающие классы
+OK   отказ: размер вмещающего не доказан → 5 вмещающие классы
+OK   отказ: обращение к промежутку во вмещающем → 5 вмещающие классы
+OK   отказ: у класса vtable → 7 vtable / базы / массивы
+OK   отказ: у класса база → 7 vtable / базы / массивы
+OK   отказ: класс — элемент массива → 7 vtable / базы / массивы
+OK   без вмещающих классов: условие 5 ok («не вложен») 
+OK   нейтральный тип: int без подтверждения вида → unsigned int 
+OK   тип сохраняется, если вид подтверждён командами PC 
+OK   bool без подтверждения → unsigned char 
+OK   непрозрачные байты: выравнивание по смещению, не больше alignof представления 
+OK   опубликовано представлений: 2 BGSSaveLoadFormHeader, FontManager::TextData
+OK   полных классов в строгом: 84 84
+OK   BGSSaveLoadFormHeader: класс не в строгом, размер не confirmed consistent
+OK   BGSSaveLoadFormHeader: все условия ok в summary 
+OK   BGSSaveLoadFormHeader: решение пересчитано по verified_prefix_facts и совпадает 
+OK   BGSSaveLoadFormHeader: флаги запрета 
+OK   BGSSaveLoadFormHeader: sizeof представления = нижняя граница < верхней 
+OK   BGSSaveLoadFormHeader: полный класс не объявлен в строгом заголовке 
+OK   BGSSaveLoadFormHeader: нет static_assert на sizeof/offsetof полного класса 
+OK   BGSSaveLoadFormHeader_VerifiedPrefix: static_assert sizeof = 0x9 и alignof = 1 
+OK   BGSSaveLoadFormHeader_VerifiedPrefix: offsetof каждого поля 
+OK   BGSSaveLoadFormHeader_VerifiedPrefix: в meta.json как представление BGSSaveLoadFormHeader 
+OK   BGSSaveLoadFormHeader: в meta.json строгой сборки нет полного класса 
+OK   BGSSaveFormBuffer: Header — представление BGSSaveLoadFormHeader_VerifiedPrefix на +0x14 
+OK   BGSSaveFormBuffer: за ним явные байты _unverified_HeaderTail[3] 
+OK   BGSSaveFormBuffer: следующее поле на +0x20, sizeof 0x24 = доказанный (confirmed) 
+OK   BGSLoadFormBuffer: Header — представление BGSSaveLoadFormHeader_VerifiedPrefix на +0x14 
+OK   BGSLoadFormBuffer: за ним явные байты _unverified_HeaderTail[3] 
+OK   BGSLoadFormBuffer: следующее поле на +0x20, sizeof 0x30 = доказанный (confirmed) 
+OK   FontManager::TextData: класс не в строгом, размер не confirmed consistent
+OK   FontManager::TextData: все условия ok в summary 
+OK   FontManager::TextData: решение пересчитано по verified_prefix_facts и совпадает 
+OK   FontManager::TextData: флаги запрета 
+OK   FontManager::TextData: sizeof представления = нижняя граница < верхней 
+OK   FontManager::TextData: полный класс не объявлен в строгом заголовке 
+OK   FontManager::TextData: нет static_assert на sizeof/offsetof полного класса 
+OK   FontManager_TextData_VerifiedPrefix: static_assert sizeof = 0x40 и alignof = 4 
+OK   FontManager_TextData_VerifiedPrefix: offsetof каждого поля 
+OK   FontManager_TextData_VerifiedPrefix: в meta.json как представление FontManager::TextData 
+OK   FontManager::TextData: в meta.json строгой сборки нет полного класса 
+ИТОГ: всё прошло (63 проверок, из них отказов 27)

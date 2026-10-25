@@ -5031,14 +5031,27 @@
    "vslots": [],
    "fields": [
     {
-     "name": "_unverified_Header",
+     "name": "Header",
      "off": 20,
      "xbox_off": 20,
-     "size": 12,
+     "size": 9,
      "xbox_type": "BGSSaveLoadFormHeader",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char _unverified_Header[12];",
+     "opaque": false,
+     "decl": "BGSSaveLoadFormHeader_VerifiedPrefix Header;",
      "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null,
+     "view_type": "BGSSaveLoadFormHeader_VerifiedPrefix"
+    },
+    {
+     "name": "_unverified_HeaderTail",
+     "off": 29,
+     "xbox_off": null,
+     "size": 3,
+     "xbox_type": "не приписано BGSSaveLoadFormHeader",
+     "opaque": true,
+     "decl": "unsigned char _unverified_HeaderTail[3];",
+     "source": "verified-prefix-gap",
      "class_type": null,
      "class_array_of": null
     },
@@ -5168,14 +5181,27 @@
      "class_array_of": null
     },
     {
-     "name": "_unverified_Header",
+     "name": "Header",
      "off": 20,
      "xbox_off": 20,
-     "size": 12,
+     "size": 9,
      "xbox_type": "BGSSaveLoadFormHeader",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char _unverified_Header[12];",
+     "opaque": false,
+     "decl": "BGSSaveLoadFormHeader_VerifiedPrefix Header;",
      "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null,
+     "view_type": "BGSSaveLoadFormHeader_VerifiedPrefix"
+    },
+    {
+     "name": "_unverified_HeaderTail",
+     "off": 29,
+     "xbox_off": null,
+     "size": 3,
+     "xbox_type": "не приписано BGSSaveLoadFormHeader",
+     "opaque": true,
+     "decl": "unsigned char _unverified_HeaderTail[3];",
+     "source": "verified-prefix-gap",
      "class_type": null,
      "class_array_of": null
     },
@@ -15052,6 +15078,212 @@
    "relayout": true,
    "layout_differs": false,
    "align": 4
+  },
+  {
+   "name": "BGSSaveLoadFormHeader_VerifiedPrefix",
+   "pc_size": 9,
+   "base": null,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "FormIDIndex",
+     "off": 0,
+     "size": 3,
+     "decl": "unsigned char FormIDIndex[3];",
+     "xbox_type": "unsigned char FormIDIndex[3];",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iChangeFlags",
+     "off": 3,
+     "size": 4,
+     "decl": "unsigned int iChangeFlags;",
+     "xbox_type": "unsigned iChangeFlags;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "FormInfo",
+     "off": 7,
+     "size": 1,
+     "decl": "unsigned char FormInfo[1];",
+     "xbox_type": "unsigned char FormInfo[1];",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cVersion",
+     "off": 8,
+     "size": 1,
+     "decl": "unsigned char cVersion;",
+     "xbox_type": "unsigned char cVersion;",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 1,
+   "verified_prefix_of": "BGSSaveLoadFormHeader",
+   "engine_size_bounds": [
+    9,
+    12
+   ],
+   "usable_as_complete_engine_object": false
+  },
+  {
+   "name": "FontManager_TextData_VerifiedPrefix",
+   "pc_size": 64,
+   "base": null,
+   "vslots": [],
+   "fields": [
+    {
+     "name": "iDefaultFont",
+     "off": 0,
+     "size": 4,
+     "decl": "unsigned int iDefaultFont;",
+     "xbox_type": "int iDefaultFont;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iJustification",
+     "off": 4,
+     "size": 4,
+     "decl": "unsigned int iJustification;",
+     "xbox_type": "int iJustification;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xColor",
+     "off": 8,
+     "size": 16,
+     "decl": "alignas(4) unsigned char xColor[16];",
+     "xbox_type": "alignas(4) unsigned char xColor[16];",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "cLineSep",
+     "off": 24,
+     "size": 1,
+     "decl": "unsigned char cLineSep;",
+     "xbox_type": "char cLineSep;",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iWidth",
+     "off": 28,
+     "size": 4,
+     "decl": "unsigned int iWidth;",
+     "xbox_type": "int iWidth;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iHeight",
+     "off": 32,
+     "size": 4,
+     "decl": "int iHeight;",
+     "xbox_type": "int iHeight;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iPageNum",
+     "off": 36,
+     "size": 4,
+     "decl": "unsigned int iPageNum;",
+     "xbox_type": "int iPageNum;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iLines",
+     "off": 40,
+     "size": 4,
+     "decl": "unsigned int iLines;",
+     "xbox_type": "int iLines;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iNumPages",
+     "off": 44,
+     "size": 4,
+     "decl": "unsigned int iNumPages;",
+     "xbox_type": "int iNumPages;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "iNumLines",
+     "off": 48,
+     "size": 4,
+     "decl": "unsigned int iNumLines;",
+     "xbox_type": "int iNumLines;",
+     "opaque": false,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "bIsHypertext",
+     "off": 52,
+     "size": 1,
+     "decl": "unsigned char bIsHypertext;",
+     "xbox_type": "bool bIsHypertext;",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    },
+    {
+     "name": "xNewText",
+     "off": 56,
+     "size": 8,
+     "decl": "alignas(4) unsigned char xNewText[8];",
+     "xbox_type": "alignas(4) unsigned char xNewText[8];",
+     "opaque": true,
+     "source": "xbox_pdb",
+     "class_type": null,
+     "class_array_of": null
+    }
+   ],
+   "align": 4,
+   "verified_prefix_of": "FontManager::TextData",
+   "engine_size_bounds": [
+    64,
+    68
+   ],
+   "usable_as_complete_engine_object": false
   }
  ]
 }

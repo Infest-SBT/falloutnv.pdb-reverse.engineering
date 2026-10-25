@@ -6,6 +6,7 @@ usage: python3 -I test_ghidra_mock.py <evidence/summary.json> <scripts/fnv_apply
 структура; ошибка посреди применения -> откат.
 """
 import json
+import os
 import sys
 import types
 
@@ -125,7 +126,7 @@ class World:
             for m in v['methods'][::2]:
                 w.funcs[m['va']] = Func(m['va'], w)
 
-    def run(w, apply=True, sha=EXE, extra=()):
+    def run(w, apply=True, sha=EXE, extra=(), sp=None):
         out = []
         w2 = w
 
@@ -151,7 +152,7 @@ class World:
             w2.funcs[a] = Func(a, w2)
             return w2.funcs[a]
 
-        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [SP] + (['--apply'] if apply else []) + list(extra),
+        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [sp or SP] + (['--apply'] if apply else []) + list(extra),
                  isRunningHeadless=lambda: True, askFile=None, println=out.append, popup=lambda m: None,
                  toAddr=lambda v: v, getFunctionAt=lambda a: w2.funcs.get(a), createFunction=create,
                  getMemoryBlock=lambda a: types.SimpleNamespace(isExecute=lambda: True),
@@ -265,6 +266,46 @@ w.run(extra=['--research'])
 _all_strict = all(c.get('strict') for c in SUMM['classes'].values())
 check('режим --research: назначений this ' + ('столько же (все классы строгие)' if _all_strict else 'больше'),
       n_this(w) == n_strict if _all_strict else n_this(w) > n_strict, '%d / %d' % (n_this(w), n_strict))
+
+# 7г. v0.5.11: представления verified-prefix — скрипт их не назначает; класс с представлением не получает this
+VIEWS = {c: v['strict_representation'] for c, v in SUMM['classes'].items() if v.get('strict_representation')}
+VIEW_SHORT = {c.split('::')[-1] for c in VIEWS}
+
+
+def owners_of(w):
+    return {f.params[0].getDataType().getName()[:-2] for f in w.funcs.values() if f.params and f.params[0].getName() == 'this'}
+
+
+w = World()
+out = w.run()
+plan_txt = open(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt', encoding='utf-8').read()
+check('представления: план разделяет full_type_applied и prefix_view_applied',
+      'full_type_applied (this полного класса): %d; prefix_view_applied: 0' % n_this(w) in plan_txt
+      and any('full_type_applied %d, prefix_view_applied 0' % n_this(w) in l for l in out))
+check('представления: перечислены в плане как неприменяемые', VIEWS and all(
+    ('%s — представление подтверждённой части %s' % (v['type_name'], c)) in plan_txt for c, v in VIEWS.items()),
+      ', '.join(v['type_name'] for v in VIEWS.values()))
+check('представления: ни this, ни тип-представление не назначены',
+      not (owners_of(w) & (VIEW_SHORT | {v['type_name'] for v in VIEWS.values()})))
+# fail closed: испорченный summary — класс помечен strict И у него есть представление -> всё равно не типизируется
+import tempfile
+bad_s = json.loads(json.dumps(SUMM))
+for c in VIEWS:
+    bad_s['classes'][c]['strict'] = True
+    for m in bad_s['classes'][c]['methods']:
+        m['uses_this'] = m['touches_fields'] = True
+tf = tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, dir=SP.rsplit('/', 1)[0], encoding='utf-8')
+json.dump(bad_s, tf, ensure_ascii=False)
+tf.close()
+w = World()
+w.run(sp=tf.name)
+check('fail closed: strict=True + представление -> this не ставится', not (owners_of(w) & VIEW_SHORT),
+      ', '.join(sorted(owners_of(w) & VIEW_SHORT)))
+w = World()
+w.run(sp=tf.name, extra=['--research'])
+check('…а в режиме --research те же методы получают полный класс (тест чувствителен)', owners_of(w) & VIEW_SHORT,
+      ', '.join(sorted(owners_of(w) & VIEW_SHORT)))
+os.remove(tf.name)
 
 # 8. ошибка посреди применения
 w = World()

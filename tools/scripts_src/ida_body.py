@@ -116,7 +116,9 @@ def main():
               "создать функций: %d, комментариев: %d, прототипов: %d (APPLY_PROTOTYPES=%s), имён vtable: %d" % (
                   counts.get("create", 0), counts.get("comment", 0), counts.get("proto", 0), APPLY_PROTOTYPES,
                   counts.get("vtname", 0)),
-              "", "Конфликты:"] + (conflicts or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+              "full_type_applied (прототипы полного класса): %d; prefix_view_applied: 0" % counts.get("proto", 0),
+              "", "Конфликты:"] + (conflicts or ["нет"]) + \
+             ["", "Представления verified-prefix (не применяются):"] + (prefix_view_lines(S, STRICT) or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + x) if x else "") for va, act, x in actions]
     plan_path = os.path.join(os.path.dirname(path), "fnv_apply_plan_ida.txt")
     try:
@@ -170,6 +172,7 @@ def main():
             done["vtcmt"] += 1
     print("FNV: создано функций %(create)d, комментариев %(comment)d, прототипов %(proto)d (ошибок %(proto_fail)d), "
           "имён vtable %(vtname)d, комментариев vtable %(vtcmt)d" % done)
+    print("FNV: full_type_applied %d, prefix_view_applied 0" % done["proto"])
 
 
 main()

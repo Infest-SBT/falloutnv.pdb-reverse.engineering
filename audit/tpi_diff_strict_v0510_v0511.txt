@@ -1,0 +1,59 @@
+записей TPI: было 864, стало 872
+только в первом: 2
+  - LF_FIELDLIST `` - LF_BCLASS type = <BGSLoadGameBuffer>, offset = 0, attrs = public - LF_MEMBER [name = `iFormID`, Type = <unsigned>, offset = 16, attrs = public] - LF_MEMBER [name = `_unverified_Header`, Type = <unsigned char[12 bytes]>, offset = 20, attrs = public] - LF_MEMBER [name = `iSize`, Type = <unsigned>, offset = 32, attrs = public] - LF_MEMBER [name = `pForm`, Type = <TESForm*>, offset = 36, attrs = public] - LF_MEMBER [name = `iFlags`, Type = <unsigned>, offset = 40, attrs = public] - LF_MEMBER [name = `iOldChangeFlags`, Type = <unsigned>, offset = 44, attrs = public]
+  - LF_FIELDLIST `` - LF_BCLASS type = <BGSSaveGameBuffer>, offset = 0, attrs = public - LF_MEMBER [name = `_unverified_Header`, Type = <unsigned char[12 bytes]>, offset = 20, attrs = public] - LF_MEMBER [name = `pForm`, Type = <TESForm*>, offset = 32, attrs = public]
+только во втором: 10
+  + LF_FIELDLIST `` - LF_BCLASS type = <BGSLoadGameBuffer>, offset = 0, attrs = public - LF_MEMBER [name = `iFormID`, Type = <unsigned>, offset = 16, attrs = public] - LF_MEMBER [name = `Header`, Type = <BGSSaveLoadFormHeader_VerifiedPrefix>, offset = 20, attrs = public] - LF_MEMBER [name = `_unverified_HeaderTail`, Type = <unsigned char[3 bytes]>, offset = 29, attrs = public] - LF_MEMBER [name = `iSize`, Type = <unsigned>, offset = 32, attrs = public] - LF_MEMBER [name = `pForm`, Type = <TESForm*>, offset = 36, attrs = public] - LF_MEMBER [name = `iFlags`, Type = <unsigned>, offset = 40, attrs = public] - LF_MEMBER [name = `iOldChangeFlags`, Type = <unsigned>, offset = 44, attrs = public]
+  + LF_FIELDLIST `` - LF_BCLASS type = <BGSSaveGameBuffer>, offset = 0, attrs = public - LF_MEMBER [name = `Header`, Type = <BGSSaveLoadFormHeader_VerifiedPrefix>, offset = 20, attrs = public] - LF_MEMBER [name = `_unverified_HeaderTail`, Type = <unsigned char[3 bytes]>, offset = 29, attrs = public] - LF_MEMBER [name = `pForm`, Type = <TESForm*>, offset = 32, attrs = public]
+  + LF_FIELDLIST `` - LF_MEMBER [name = `FormIDIndex`, Type = <unsigned char[3 bytes]>, offset = 0, attrs = public] - LF_MEMBER [name = `iChangeFlags`, Type = <unsigned>, offset = 3, attrs = public] - LF_MEMBER [name = `FormInfo`, Type = <unsigned char[1 bytes]>, offset = 7, attrs = public] - LF_MEMBER [name = `cVersion`, Type = <unsigned char>, offset = 8, attrs = public]
+  + LF_FIELDLIST `` - LF_MEMBER [name = `iDefaultFont`, Type = <unsigned>, offset = 0, attrs = public] - LF_MEMBER [name = `iJustification`, Type = <unsigned>, offset = 4, attrs = public] - LF_MEMBER [name = `xColor`, Type = <unsigned char[16 bytes]>, offset = 8, attrs = public] - LF_MEMBER [name = `cLineSep`, Type = <unsigned char>, offset = 24, attrs = public] - LF_MEMBER [name = `_pad19`, Type = <unsigned char[3 bytes]>, offset = 25, attrs = public] - LF_MEMBER [name = `iWidth`, Type = <unsigned>, offset = 28, attrs = public] - LF_MEMBER [name = `iHeight`, Type = <int>, offset = 32, attrs = public] - LF_MEMBER [name = `iPageNum`, Type = <unsigned>, offset = 36, attrs = public] - LF_MEMBER [name = `iLines`, Type = <unsigned>, offset = 40, attrs = public] - LF_MEMBER [name = `iNumPages`, Type = <unsigned>, offset = 44, attrs = public] - LF_MEMBER [name = `iNumLines`, Type = <unsigned>, offset = 48, attrs = public] - LF_MEMBER [name = `bIsHypertext`, Type = <unsigned char>, offset = 52, attrs = public] - LF_MEMBER [name = `_pad35`, Type = <unsigned char[3 bytes]>, offset = 53, attrs = public] - LF_MEMBER [name = `xNewText`, Type = <unsigned char[8 bytes]>, offset = 56, attrs = public]
+  + LF_POINTER `` referent = <BGSSaveLoadFormHeader_VerifiedPrefix>, mode = pointer, opts = None, kind = ptr32
+  + LF_POINTER `` referent = <FontManager_TextData_VerifiedPrefix>, mode = pointer, opts = None, kind = ptr32
+  + LF_STRUCTURE `BGSSaveLoadFormHeader_VerifiedPrefix`  vtable: <no type>, base list: <no type>, field list: <LF_FIELDLIST> options: has unique name, sizeof 9
+  + LF_STRUCTURE `BGSSaveLoadFormHeader_VerifiedPrefix`  vtable: <no type>, base list: <no type>, field list: <no type> options: forward ref (-> <BGSSaveLoadFormHeader_VerifiedPrefix>) | has unique name, sizeof 0
+  + LF_STRUCTURE `FontManager_TextData_VerifiedPrefix`  vtable: <no type>, base list: <no type>, field list: <LF_FIELDLIST> options: has unique name, sizeof 64
+  + LF_STRUCTURE `FontManager_TextData_VerifiedPrefix`  vtable: <no type>, base list: <no type>, field list: <no type> options: forward ref (-> <FontManager_TextData_VerifiedPrefix>) | has unique name, sizeof 0
+BGSSaveFormBuffer [было]: sizeof 0x24; базы [('BGSSaveGameBuffer', 0)]
+    +0x14 _unverified_Header: unsigned char[12 bytes]
+    +0x20 pForm: TESForm*
+BGSSaveFormBuffer [стало]: sizeof 0x24; базы [('BGSSaveGameBuffer', 0)]
+    +0x14 Header: BGSSaveLoadFormHeader_VerifiedPrefix
+    +0x1D _unverified_HeaderTail: unsigned char[3 bytes]
+    +0x20 pForm: TESForm*
+BGSLoadFormBuffer [было]: sizeof 0x30; базы [('BGSLoadGameBuffer', 0)]
+    +0x10 iFormID: unsigned
+    +0x14 _unverified_Header: unsigned char[12 bytes]
+    +0x20 iSize: unsigned
+    +0x24 pForm: TESForm*
+    +0x28 iFlags: unsigned
+    +0x2C iOldChangeFlags: unsigned
+BGSLoadFormBuffer [стало]: sizeof 0x30; базы [('BGSLoadGameBuffer', 0)]
+    +0x10 iFormID: unsigned
+    +0x14 Header: BGSSaveLoadFormHeader_VerifiedPrefix
+    +0x1D _unverified_HeaderTail: unsigned char[3 bytes]
+    +0x20 iSize: unsigned
+    +0x24 pForm: TESForm*
+    +0x28 iFlags: unsigned
+    +0x2C iOldChangeFlags: unsigned
+BGSSaveLoadFormHeader_VerifiedPrefix [было]: нет
+BGSSaveLoadFormHeader_VerifiedPrefix [стало]: sizeof 0x9; базы []
+    +0x00 FormIDIndex: unsigned char[3 bytes]
+    +0x03 iChangeFlags: unsigned
+    +0x07 FormInfo: unsigned char[1 bytes]
+    +0x08 cVersion: unsigned char
+FontManager_TextData_VerifiedPrefix [было]: нет
+FontManager_TextData_VerifiedPrefix [стало]: sizeof 0x40; базы []
+    +0x00 iDefaultFont: unsigned
+    +0x04 iJustification: unsigned
+    +0x08 xColor: unsigned char[16 bytes]
+    +0x18 cLineSep: unsigned char
+    +0x19 _pad19: unsigned char[3 bytes]
+    +0x1C iWidth: unsigned
+    +0x20 iHeight: int
+    +0x24 iPageNum: unsigned
+    +0x28 iLines: unsigned
+    +0x2C iNumPages: unsigned
+    +0x30 iNumLines: unsigned
+    +0x34 bIsHypertext: unsigned char
+    +0x35 _pad35: unsigned char[3 bytes]
+    +0x38 xNewText: unsigned char[8 bytes]

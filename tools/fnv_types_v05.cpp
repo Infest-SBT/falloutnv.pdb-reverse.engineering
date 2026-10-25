@@ -84,6 +84,8 @@ ShadowSceneNode* g_ref_ShadowSceneNode = nullptr;
 ShadowSceneLight* g_ref_ShadowSceneLight = nullptr;
 ImageSpaceManager* g_ref_ImageSpaceManager = nullptr;
 MTRenderingSystem* g_ref_MTRenderingSystem = nullptr;
+BGSSaveLoadFormHeader_VerifiedPrefix* g_ref_BGSSaveLoadFormHeader_VerifiedPrefix = nullptr;
+FontManager_TextData_VerifiedPrefix* g_ref_FontManager_TextData_VerifiedPrefix = nullptr;
 BSSoundHandle::ASSUMED_STATE g_ref_BSSoundHandle__ASSUMED_STATE;
 FontManager::enumCharTypes g_ref_FontManager__enumCharTypes;
 CHANGE_TYPE g_ref_CHANGE_TYPE;

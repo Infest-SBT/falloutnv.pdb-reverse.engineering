@@ -34,6 +34,18 @@ if STRICT:
     EVDIR = sys.argv[sys.argv.index('--strict') + 2]
     CLASSES = [c for c in CLASSES if SUMM[c]['strict']]
     STRICT_SLOT_OK = ('semantics', 'name+stack')
+# v0.5.11 (ТЗ Астры «Verified Prefix»): классы, у которых в строгую сборку идёт только отдельное представление
+# подтверждённой части (summary: strict_representation, решение prefixview.evaluate). Полный класс в строгой сборке
+# не объявляется; представление — отдельный тип со своим именем и своим sizeof (= нижняя граница).
+VIEWS = {}
+if STRICT:
+    for c_ in spec['classes']:
+        r_ = SUMM.get(c_, {}).get('strict_representation')
+        if r_:
+            assert not SUMM[c_]['strict'], f'{c_}: полный класс и представление одновременно — недопустимо'
+            assert r_['kind'] == 'verified-prefix' and not r_['usable_as_complete_engine_object']
+            VIEWS[c_] = r_
+VIEW_IN = {(x['class'], x['field']): eng for eng, r_ in VIEWS.items() for x in r_['containers']}
 PCSZ = spec.get('pc_sizeof', {})
 DROP = {k: set(v) for k, v in spec.get('drop_vslots', {}).items()}
 EXTRA = spec.get('extra_fields', {})
@@ -53,6 +65,10 @@ PRIM = {'void', 'bool', 'char', 'signed char', 'unsigned char', 'short', 'unsign
         'wchar_t', 'long long', 'unsigned long long'}
 fwd = set()
 declared = set(CLASSES)
+
+
+def ru_bytes(k):
+    return f'{k} ' + ('байт' if k % 10 == 1 and k % 100 != 11 else 'байта' if k % 10 in (2, 3, 4) and k % 100 not in (12, 13, 14) else 'байт')
 
 
 def ident(name):
@@ -437,6 +453,30 @@ for cls in CLASSES:
                 # скаляр, указатель, массив (в том числе массив допущенных классов — класс не допущен, тогда байты и так):
                 # смещение confirmed и ширина подтверждена (width_basis) — см. strict_fields
                 kept = n in SUMM[cls]['strict_fields']
+            if not kept and VIEW_IN.get((cls, n)) == sub and t == sub:
+                # v0.5.11: вложенный класс без доказанного размера — представление подтверждённой части + явные
+                # байты до следующего поля (не хвост класса). Смещение и размер участка поля не меняются.
+                r_ = VIEWS[sub]
+                vs = r_['representation_size']
+                tail = tsz - vs
+                assert tail == next(x['tail'] for x in r_['containers'] if x['class'] == cls and x['field'] == n) > 0
+                tn = f'_unverified_{n}Tail'
+                lines.append(f'    {r_["type_name"]} {n}; // строгая сборка: только подтверждённая часть {sub} '
+                             f'(0x{vs:X} байт); это не полный класс')
+                lines.append(f'    unsigned char {tn}[{tail}]; // строгая сборка: {ru_bytes(tail)} до следующего поля — '
+                             f'не приписаны {sub} (размер {sub} на PC: 0x{vs:X}…0x{tsz:X}, не доказан)')
+                asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
+                asserts.append(f'static_assert(offsetof({cls}, {tn}) == 0x{po + vs:X}, "{cls}::{tn}");')
+                cm['fields'].append({'name': n, 'off': po, 'xbox_off': XO.get(n), 'size': vs, 'xbox_type': t,
+                                     'opaque': False, 'decl': f'{r_["type_name"]} {n};', 'source': 'xbox_pdb',
+                                     'class_type': None, 'class_array_of': None, 'view_type': r_['type_name']})
+                cm['fields'].append({'name': tn, 'off': po + vs, 'xbox_off': None, 'size': tail,
+                                     'xbox_type': f'не приписано {sub}', 'opaque': True,
+                                     'decl': f'unsigned char {tn}[{tail}];', 'source': 'verified-prefix-gap',
+                                     'class_type': None, 'class_array_of': None})
+                align = 1 if packed else max(align, r_['representation_align'])
+                pos = po + tsz
+                continue
             if not kept:
                 n = f'_unverified_{n}'
                 decl = (f'alignas({fa}) ' if fa > 1 and not packed else '') + f'unsigned char {n}[{tsz}]; // строгая сборка: не подтверждено ({t})'
@@ -558,13 +598,55 @@ for scope, items_ in SCOPES.items():
     hdr.append(f'struct {scope} {{ // (Xbox PDB) класс только со статическими членами; здесь — лишь область имён перечислений')
     hdr += items_
     hdr.append('};')
+VIEW_BLOCKS, VIEW_ASSERTS = [], []
+for eng, r_ in VIEWS.items():
+    vn, lo, hi = r_['type_name'], r_['representation_size'], SUMM[eng]['engine_size_upper_bound']
+    vl = [f'// {vn} — ПРЕДСТАВЛЕНИЕ подтверждённой части {eng} (verified-prefix, v0.5.11). НЕ полный класс движка.',
+          f'// Размер {eng} на PC не доказан: 0x{lo:X} <= sizeof <= 0x{hi:X}; sizeof({vn}) = 0x{lo:X} — только размер представления.',
+          f'// Нельзя по sizeof({vn}): выделять память под объект игры, создавать массивы, копировать объект, передавать по значению,',
+          f'// вызывать конструктор/деструктор игры. Можно: читать/писать подтверждённые поля уже существующего объекта игры по указателю.',
+          f'// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).']
+    if r_['packed']:
+        vl.append('#pragma pack(push, 1) // поле iChangeFlags на +3: упаковано и в игре')
+    vl.append(f'struct {vn} {{')
+    vpos, valign, vfields = 0, 1, []
+    for f_ in r_['fields']:
+        if f_['off'] > vpos:
+            vl.append(f'    unsigned char _pad{vpos:X}[0x{f_["off"] - vpos:X}];')
+        vl.append(f'    {f_["decl"]} // +0x{f_["off"]:X}, {ru_bytes(f_["size"])}; {f_["type_basis"]}; Xbox PDB: {f_["xbox_decl"]}')
+        am = re.match(r'alignas\((\d+)\)', f_['decl'])
+        fa_ = 1 if r_['packed'] else int(am.group(1)) if am else (
+            1 if 'unsigned char' in f_['decl'] else {1: 1, 2: 2}.get(f_['size'], 4))
+        valign = max(valign, fa_)
+        VIEW_ASSERTS.append(f'static_assert(offsetof({vn}, {f_["name"]}) == 0x{f_["off"]:X}, "{vn}::{f_["name"]}");')
+        vfields.append({'name': f_['name'], 'off': f_['off'], 'size': f_['size'], 'decl': f_['decl'],
+                        'xbox_type': f_['xbox_decl'], 'opaque': f_['decl'].startswith(('unsigned char', 'alignas')),
+                        'source': 'xbox_pdb', 'class_type': None, 'class_array_of': None})
+        vpos = f_['off'] + f_['size']
+    assert valign == r_['representation_align'], (vn, valign)
+    if vpos < lo:
+        vl.append(f'    unsigned char _pad{vpos:X}[0x{lo - vpos:X}]; // выравнивание представления')
+    vl.append('};')
+    if r_['packed']:
+        vl.append('#pragma pack(pop)')
+    VIEW_ASSERTS.append(f'static_assert(sizeof({vn}) == 0x{lo:X}, "sizeof {vn}: только представление, НЕ sizeof {eng}");')
+    VIEW_ASSERTS.append(f'static_assert(alignof({vn}) == {valign}, "alignof {vn}");')
+    VIEW_BLOCKS.append('\n'.join(vl))
+    meta['classes'].append({'name': vn, 'pc_size': lo, 'base': None, 'vslots': [], 'fields': vfields, 'align': valign,
+                            'verified_prefix_of': eng, 'engine_size_bounds': [lo, hi],
+                            'usable_as_complete_engine_object': False})
+if VIEWS:
+    hdr.append('// v0.5.11: представления verified-prefix — отдельные типы подтверждённой части объекта (не полные классы)')
+hdr += VIEW_BLOCKS
 hdr += blocks
+hdr += VIEW_ASSERTS
 hdr += sorted(set(asserts), key=asserts.index)
 open(out_path, 'w', encoding='utf-8').write('\n'.join(hdr) + '\n')
 json.dump(meta, open(re.sub(r'\.h$', '', out_path) + '.meta.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 cpp = [f'// Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.',
        f'#include "{os.path.basename(out_path)}"']
 cpp += [f'{c}* g_ref_{ident(c)} = nullptr;' for c in CLASSES]
+cpp += [f'{r_["type_name"]}* g_ref_{ident(r_["type_name"])} = nullptr;' for r_ in VIEWS.values()]   # v0.5.11
 cpp += [f'{e} g_ref_{ident(e)};' for e in ENUMS] + [f'{e} g_ref_{ident(e)};' for e in GENUMS]
 cpp += ['extern "C" int __stdcall _DllMainCRTStartup(void*, unsigned, void*) { return 1; }']
 open(re.sub(r'\.h$', '', out_path) + '.cpp', 'w', encoding='utf-8').write('\n'.join(cpp) + '\n')

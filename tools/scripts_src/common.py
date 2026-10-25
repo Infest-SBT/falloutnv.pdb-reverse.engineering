@@ -92,8 +92,13 @@ def build_plan(summary, all_this=False, strict=True):
     for cls in sorted(classes):
         c = classes[cls]
         prov = " [класс предварительный]" if c.get("provisional") else ""
-        typed = c.get("strict", False) or not strict      # можно ли назначать типы этого класса
-        if strict and not c.get("strict", False):
+        view = c.get("strict_representation")             # v0.5.11: в строгом PDB только представление (verified-prefix)
+        # можно ли назначать типы этого класса; класс с представлением в строгом режиме — никогда (fail closed)
+        typed = (c.get("strict", False) and not view) or not strict
+        if strict and view:
+            prov += (" [в строгом PDB нет полного класса — только представление %s (verified-prefix): "
+                     "подтверждённые поля, размер класса не доказан; this и прототип не ставятся]" % view["type_name"])
+        elif strict and not c.get("strict", False):
             prov += " [нет в строгом PDB — только research/FalloutNV.pdb]"
         for m in c.get("methods", []):
             e = entry(m["va"])
@@ -147,5 +152,21 @@ def merge_comment(old, new):
 def summarize_plan(by_va, conflicts):
     n_this = sum(1 for e in by_va.values() if e["this"])
     n_proto = sum(1 for e in by_va.values() if e["proto"])
-    return ("адресов: %d, кандидатов на this: %d, кандидатов на прототип (semantics): %d, конфликтов: %d"
-            % (len(by_va), n_this, n_proto, len(conflicts)))
+    return ("адресов: %d, кандидатов на this: %d (полный тип класса), кандидатов на прототип (semantics): %d, "
+            "конфликтов: %d" % (len(by_va), n_this, n_proto, len(conflicts)))
+
+
+def prefix_view_lines(summary, strict):
+    """v0.5.11: представления verified-prefix. Скрипт их не назначает (prefix_view_applied всегда 0): они есть в PDB
+    как отдельные типы и как тип поля во вмещающих классах; полный класс движка ими не подменяется."""
+    out = []
+    for cls in sorted(summary["classes"]):
+        v = summary["classes"][cls].get("strict_representation")
+        if v and strict:
+            out.append("%s — представление подтверждённой части %s (0x%X байт; размер %s на PC 0x%X…0x%X не доказан): "
+                       "this, прототипы, массивы и размещение по нему не назначаются; во вмещающих: %s" % (
+                           v["type_name"], cls, v["representation_size"], cls,
+                           summary["classes"][cls].get("engine_size_lower_bound", v["representation_size"]),
+                           summary["classes"][cls].get("engine_size_upper_bound", v["representation_size"]),
+                           ", ".join("%s::%s" % (x["class"], x["field"]) for x in v.get("containers", [])) or "нет"))
+    return out

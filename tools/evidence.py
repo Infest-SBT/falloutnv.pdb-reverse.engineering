@@ -12,6 +12,7 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   evidence_vslots.csv  — слоты vtable: адрес PC, имя PC, имя Xbox, ожидаемый и фактический ret N, статус;
   summary.json         — уровни достоверности по каждому элементу (для скриптов Ghidra/IDA);
   REPORT.md            — сводка;
+  verified_prefix_candidates.csv — v0.5.11: решения о представлениях verified-prefix, условия, охват поиска, находки;
   v0.5.5 (аудит Астры v0.5.4):
   traced_provenance.csv — звенья ручных цепочек (def→use, this на входе, тела вызываемых функций) и их проверка;
   out_of_bounds_this_accesses.csv — обращения собственных методов класса за sizeof и их объяснение;
@@ -44,6 +45,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from slotfwd import slot_forward as _slot_forward, stub_status   # v0.5.3
 import capstone, pefile
 import chaincheck                                                 # v0.5.5
+import prefixview                                                 # v0.5.11
 
 meta_path, spec_path, syms_path, exe_path, out_dir = sys.argv[1:6]
 os.makedirs(out_dir, exist_ok=True)
@@ -1041,16 +1043,20 @@ for cname, c in CLS.items():
                 continue
             lfe = max((fd['off'] + fd['size'] for fd in c['fields']), default=0)
             for pp in (par if isinstance(par, list) else [par]):
-                ok_, up_, life_ = chaincheck.check_stack_frame(CC, pp, val, lfe, c['align'])
                 if kind == 'stack-frame-bound':
-                    sz_ev.append(('stack-frame-bound', up_, f'только граница: {life_}'))
-                elif ok_:
+                    # v0.5.11: граница принимается, только если доказана одновременная жизнь (по графу, EH)
+                    ok_, up_, life_ = chaincheck.check_stack_frame(CC, pp, None, lfe, c['align'])
+                    sz_ev.append(('stack-frame-bound' if ok_ else 'stack-frame-bound-unproven', up_ or 0,
+                                  f'только граница{"" if ok_ else " (НЕ доказана)"}: {life_}'))
+                    continue
+                ok_, up_, life_ = chaincheck.check_stack_frame(CC, pp, val, lfe, c['align'])
+                if ok_:
                     sz_ev.append((kind, val, f'{note} || машинная проверка: {life_}'))
                 else:
                     sz_ev.append(('claim-failed', val, f'stack-frame: {life_}'))
             continue
         sz_ev.append((kind, val, note))
-    INFO_KINDS = {'serialized-size', 'stack-frame-bound'}   # v0.5.5: сведения о размере, не доказательство
+    INFO_KINDS = {'serialized-size', 'stack-frame-bound', 'stack-frame-bound-unproven'}   # v0.5.5: сведения, не доказательство
     good = [e for e in sz_ev if e[1] == c['pc_size'] and e[0] != 'claim-failed' and e[0] not in INFO_KINDS]
     bad = [e for e in sz_ev if (e[1] != c['pc_size'] and e[0] == 'ctor-alloc') or e[0] == 'claim-failed']
     s_status = 'CONFLICT' if bad else ('confirmed' if good else 'unverified')
@@ -1558,6 +1564,129 @@ for cname, sc in summary['classes'].items():
             return False   # v0.5: команды PC противоречат объявленному виду типа (int/float/указатель) — не типизируем
         return True
     sc['strict_fields'] = sorted(k for k, dd in sc['field_details'].items() if admitted(k, dd)) if sc['strict'] else []
+
+# ---------------- v0.5.11: представления подтверждённой части (verified-prefix, ТЗ Астры) ----------------
+# Класс с подтверждёнными полями, но недоказанным размером остаётся в research (consistent). В строгий PDB может
+# пойти только ОТДЕЛЬНОЕ представление <имя>_VerifiedPrefix (sizeof = нижняя граница); решение — prefixview.evaluate,
+# факты собираются здесь; журнал решений и охват отрицательного поиска — verified_prefix_candidates.csv.
+PREFIX_ROWS = []
+SIZE_HINT_CALL = re.compile(r'(?i)memcpy|memmove|memset|alloc|operator new|\?\?2@|::Allocate')
+for eng, vp in spec.get('verified_prefix', {}).items():
+    sc = summary['classes'][eng]
+    c = CLS[eng]
+    lo, hi = vp['lower'], vp['upper']
+    findings, scanned = [], []
+
+    def scan_generic(fva, why):
+        f0, e0 = fva, min(func_end(fva), fva + READ_LIMIT)
+        scanned.append(f'0x{fva:08X} {name_at(fva)} ({why})')
+        L_ = CC.listing(f0, e0)
+        for k_, i_ in enumerate(L_):
+            if i_.mnemonic.startswith('rep') and 'movs' in i_.mnemonic + i_.op_str:
+                findings.append({'kind': 'copy', 'where': f'0x{i_.address:08X} {i_.mnemonic} {i_.op_str} ({name_at(fva)})'})
+            ops_ = i_.operands
+            if i_.mnemonic == 'imul' and len(ops_) == 3 and ops_[2].type == capstone.x86.X86_OP_IMM and lo <= ops_[2].imm <= hi:
+                findings.append({'kind': 'stride', 'where': f'0x{i_.address:08X} {i_.mnemonic} {i_.op_str} ({name_at(fva)})'})
+            if i_.mnemonic == 'push' and ops_ and ops_[0].type == capstone.x86.X86_OP_IMM and lo <= ops_[0].imm <= hi:
+                for j_ in L_[k_ + 1:k_ + 5]:
+                    if j_.mnemonic == 'call' and j_.op_str.startswith('0x') and SIZE_HINT_CALL.search(name_at(int(j_.op_str, 16))):
+                        findings.append({'kind': 'size-arg', 'where': f'0x{i_.address:08X} push {ops_[0].imm:#x} → '
+                                         f'0x{j_.address:08X} call {name_at(int(j_.op_str, 16))} ({name_at(fva)})'})
+                        break
+
+    # 1) методы самого класса (this): обращения к хвосту [нижняя, верхняя)
+    meths = sorted(set(funcs_of(eng)) | {int(k_, 16) for k_ in spec.get('class_functions', {}).get(eng, {})})
+    for fva in meths:
+        scan_generic(fva, 'метод')
+        for off, sz_, ia, txt, wr, step in this_accesses(fva, 0x10000):
+            if lo <= off < hi and step is None:
+                findings.append({'kind': 'tail-access', 'where': f'0x{ia:08X} {txt} ({name_at(fva)}, this+0x{off:X})'})
+    # 2) вызывающие конструктор: копии, шаг, размер в вызове
+    short_ = eng.split('::')[-1]
+    for ct in [a_ for a_, ns in byaddr.items() if any(n == f'{eng}::{short_}' for n in ns)]:
+        for site in calls_index().get(ct, []):
+            scan_generic(func_start(site), f'вызывает конструктор 0x{ct:08X}')
+    # 3) объект на стеке (параметры кадров из size_evidence): обращения к хвосту по [ebp+d]
+    for ent in spec.get('size_evidence', {}).get(eng, []):
+        if len(ent) > 4 and ent[0] in ('stack-frame', 'stack-frame-bound'):
+            for pp in (ent[4] if isinstance(ent[4], list) else [ent[4]]):
+                fva = func_start(int(pp['obj_first'], 16))
+                od = int(str(pp['obj_disp']), 0)
+                scan_generic(fva, f'объект на стеке [ebp{od:+#x}]')
+                for i_ in CC.listing(fva, min(func_end(fva), fva + READ_LIMIT)):
+                    for o_ in i_.operands:
+                        if o_.type == capstone.x86.X86_OP_MEM and o_.mem.base and i_.reg_name(o_.mem.base) == 'ebp' \
+                                and od + lo <= o_.mem.disp < od + hi:
+                            findings.append({'kind': 'tail-access', 'where': f'0x{i_.address:08X} {i_.mnemonic} {i_.op_str} '
+                                             f'(хвост объекта [ebp{od:+#x}] + 0x{o_.mem.disp - od:X})'})
+    # 4) функции, получающие объект указателем (spec: аргумент [ebp+K])
+    for pu in vp.get('pointer_users', []):
+        fva, k_ = int(pu['func'], 16), int(pu['arg'], 16)
+        scan_generic(fva, f'указатель в [ebp+0x{k_:X}]')
+        for off, sz_, ia, txt, wr, step in this_accesses(fva, 0x10000, seed_ecx=False, seed_slots=(k_,)):
+            if lo <= off < hi and step is None:
+                findings.append({'kind': 'tail-access', 'where': f'0x{ia:08X} {txt} ({name_at(fva)}, ptr+0x{off:X})'})
+    # 5) вмещающие классы: следующее поле и обращения к промежутку (по журналу доказательств вмещающего класса)
+    conts, uppers = [], []
+    for cv in vp.get('containers', []):
+        cc_ = CLS[cv['class']]
+        fo = next(fd for fd in cc_['fields'] if fd['name'] == cv['field'])
+        nx = next(fd for fd in cc_['fields'] if fd['name'] == cv['next_field'])
+        csum = summary['classes'][cv['class']]
+        gap_hits = [r for r in field_rows if r['class'] == cv['class']
+                    and fo['off'] + lo <= int(r['access_off'], 16) < nx['off']]
+        for fva in funcs_of(cv['class']):
+            scan_generic(fva, f'метод вмещающего {cv["class"]}')
+        conts.append({'class': cv['class'], 'field': cv['field'], 'off': fo['off'], 'next_field': cv['next_field'],
+                      'next_off': nx['off'], 'next_status': csum['fields'].get(cv['next_field']),
+                      'size_status': csum['size_status'], 'gap_accesses': len(gap_hits),
+                      'composition': csum.get('compositions', {}).get(cv['field'], {}).get('status'),
+                      'composition_sub': csum.get('compositions', {}).get(cv['field'], {}).get('sub'),
+                      'sub_fields': {k_.split('.', 1)[1]: v_ for k_, v_ in csum['fields'].items()
+                                     if k_.startswith(cv['field'] + '.')}})
+        if csum['size_status'] == 'confirmed' and csum['fields'].get(cv['next_field']) == 'confirmed':
+            uppers.append(nx['off'] - fo['off'])
+    uppers += [int(r['value'], 16) for r in sizes_rows if r['class'] == eng and r['evidence'] == 'stack-frame-bound']
+    flds = [{'name': fd['name'], 'off': fd['off'], 'size': fd['size'], 'status': sc['fields'].get(fd['name']),
+             'width_verified': sc['field_details'][fd['name']]['width_verified'],
+             'blob': sc['field_details'][fd['name']]['declared_kind'] == 'blob',
+             'type_status': sc['field_details'][fd['name']].get('type_status')} for fd in c['fields']]
+    used_arr = [f"{x['name']}::{fd['name']}" for x in meta['classes'] for fd in x['fields'] if fd.get('class_array_of') == eng]
+    facts = {'engine': eng, 'view': vp['view'], 'lower': lo, 'upper': hi, 'view_align': vp['view_align'],
+             'fields': flds, 'shift_verdict': sc.get('shift_test', {}).get('verdict', 'no-evidence'),
+             'has_vtable': bool(c['vslots']), 'base': c['base'], 'used_as_array': used_arr,
+             'proven_uppers': uppers, 'findings': findings, 'containers': conts}
+    ok_v, checks_v = prefixview.evaluate(facts)
+    sc['engine_size_status'] = sc['size_status']
+    sc['engine_size_lower_bound'], sc['engine_size_upper_bound'] = lo, hi
+    sc['strict_representation'] = ({'kind': 'verified-prefix', 'type_name': vp['view'], 'representation_size': lo,
+                                    'representation_align': vp['view_align'], 'packed': bool(vp.get('packed')),
+                                    'usable_as_complete_engine_object': False, 'allow_object_allocation': False,
+                                    'allow_array_stride': False, 'allow_by_value_abi': False,
+                                    'allow_implicit_copy_or_lifetime': False,
+                                    'fields': [prefixview.view_field(fd, sc['field_details'][fd['name']], vp)
+                                               for fd in c['fields']],
+                                    'evidence': {'field_offsets_and_widths': 'confirmed', 'engine_exact_size': 'unproven',
+                                                 'negative_search_scope': f'просмотрено функций: {len(set(scanned))}; '
+                                                 'verified_prefix_candidates.csv (охват поиска)',
+                                                 'negative_search_result': 'не обнаружено в исследованном коде'},
+                                    'containers': [{'class': x['class'], 'field': x['field'], 'off': x['off'],
+                                                    'tail': hi - lo} for x in conts]}
+                                   if ok_v else None)
+    sc['verified_prefix_checks'] = [{'check': n_, 'ok': o_, 'detail': d_} for n_, o_, d_ in checks_v]
+    sc['verified_prefix_facts'] = facts     # вход prefixview.evaluate: решение можно пересчитать без exe
+    for n_, o_, d_ in checks_v:
+        PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': n_, 'result': 'ok' if o_ else 'ОТКАЗ', 'detail': d_})
+    PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': 'решение',
+                        'result': 'verified-prefix' if ok_v else 'отказ',
+                        'detail': (f'в строгий PDB — отдельный тип {vp["view"]} (sizeof 0x{lo:X}); размер {eng} на PC — '
+                                   f'0x{lo:X}…0x{hi:X}, не доказан' if ok_v else 'представление не публикуется')})
+    for s_ in sorted(set(scanned)):
+        PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': 'охват поиска', 'result': '', 'detail': s_})
+    for x in findings:
+        PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': 'находка ' + x['kind'], 'result': 'ОТКАЗ',
+                            'detail': x['where']})
+
 summary['truncated_functions'] = sorted(f'0x{f:08X}' for f in TRUNCATED)
 summary['width_basis_kinds'] = {
     'access-width': 'обращение ровно к началу поля шириной sizeof(поля)',
@@ -1597,6 +1726,7 @@ wcsv('evidence_vslots.csv', slot_rows)
 wcsv('excluded_functions.csv', excluded_rows)
 wcsv('compositions.csv', composition_rows)
 wcsv('accessor_anchors.csv', ACCESSOR_ANCHORS or [{'class': ''}])
+wcsv('verified_prefix_candidates.csv', PREFIX_ROWS or [{'engine_class': ''}])   # v0.5.11
 wcsv('out_of_bounds_this_accesses.csv', OOB_ROWS or [{'class': '', 'sizeof': '', 'pc_function': '', 'func_va': '',
                                                      'insn_va': '', 'insn': '', 'access_off': '', 'access_size': '',
                                                      'category': '', 'explanation': ''}])
@@ -1702,7 +1832,10 @@ for r in shift_rows:
                    f"{r['best_alternative']} | {r['alternative_score']} | {r['verdict']} | {r['ambiguous_fields']} | "
                    f"{r['anchors'] or '—'} |")
 rep += ['', '## Допуск в строгий PDB', '', summary['admission_rule'] + '.', '',
-        'Не допущены: ' + (', '.join(f"`{c}` ({sc['size_status']})" for c, sc in summary['classes'].items() if not sc['strict']) or 'нет') + '.',
+        'Не допущены полным классом: ' + (', '.join(f"`{c}` ({sc['size_status']}" + (
+            f"; в строгом — только представление `{sc['strict_representation']['type_name']}`, v0.5.11"
+            if sc.get('strict_representation') else '') + ')' for c, sc in summary['classes'].items() if not sc['strict'])
+            or 'нет') + '.',
         '', 'Функции, прочитанные не до конца (лимит 0x%X байт): %s.' % (READ_LIMIT, ', '.join(summary['truncated_functions']) or 'нет')]
 rep += ['', f'Строк в evidence_fields.csv: {len(field_rows)}, evidence_vslots.csv: {len(slot_rows)}, '
             f'evidence_sizes.csv: {len(sizes_rows)}.', '', 'Итого: ' + ', '.join(f'{k}={v}' for k, v in sorted(tot.items())),
@@ -1728,6 +1861,28 @@ rep += ['', '## v0.5.5: путь, ручные цепочки, обращени�
         f"Обращения собственных методов за sizeof (out_of_bounds_this_accesses.csv): "
         f"{', '.join(f'{k} — {v}' for k, v in sorted(_oob.items())) or 'нет'}. `unexplained` не даёт подтвердить размер.", '',
         f"Опоры-аксессоры (accessor_anchors.csv): {len(ACCESSOR_ANCHORS)} методов, {len({(a['class'], a['field']) for a in ACCESSOR_ANCHORS})} полей."]
+_vp = [(c_, sc_) for c_, sc_ in summary['classes'].items() if 'verified_prefix_checks' in sc_]
+if _vp:
+    _n_view = sum(1 for _, sc_ in _vp if sc_.get('strict_representation'))
+    rep += ['', '## v0.5.11: представления verified-prefix (verified_prefix_candidates.csv)', '',
+            f"В строгий PDB: полных классов {sum(1 for sc_ in summary['classes'].values() if sc_['strict'])} + "
+            f"представлений {_n_view}. Представление — ОТДЕЛЬНЫЙ тип `<класс>_VerifiedPrefix` с подтверждёнными полями "
+            "класса, у которого точный размер на PC не доказан (известны нижняя и верхняя границы). Это НЕ полный класс "
+            "движка: его sizeof — нижняя граница, а не размер объекта игры. **Нельзя** по нему выделять память под объект "
+            "игры, создавать массивы, копировать объект, передавать по значению, вызывать конструктор или деструктор "
+            "игры. Можно — обращаться к подтверждённым полям уже существующего объекта игры по указателю. Сам класс "
+            "остаётся в research с прежним size_status. Решение пересчитывается при каждом прогоне (prefixview.evaluate); "
+            "любое невыполненное условие снимает представление. Отрицательный поиск — «не обнаружено в исследованном "
+            "коде», не доказательство отсутствия; охват — строки «охват поиска» в CSV.", '',
+            '| класс движка | представление | size_status класса | границы | решение | условия | просмотрено функций |',
+            '|---|---|---|---|---|---|---|']
+    for c_, sc_ in _vp:
+        _r = sc_.get('strict_representation')
+        _vn = spec['verified_prefix'][c_]['view']
+        rep.append(f"| `{c_}` | `{_vn}` | {sc_['size_status']} | 0x{sc_['engine_size_lower_bound']:X}…"
+                   f"0x{sc_['engine_size_upper_bound']:X} | {'verified-prefix' if _r else 'отказ'} | "
+                   + ', '.join(f"{x['check'].split()[0]} {'ok' if x['ok'] else 'ОТКАЗ'}" for x in sc_['verified_prefix_checks'])
+                   + f" | {sum(1 for r in PREFIX_ROWS if r['engine_class'] == c_ and r['item'] == 'охват поиска')} |")
 print('строки evidence_vslots.csv:', dict(sorted(collections.Counter(r['status'] for r in slot_rows).items())))
 if excluded_rows:
     rep += ['', '## Исключённые функции (имя в PDB xNVSE не соответствует коду)', '']

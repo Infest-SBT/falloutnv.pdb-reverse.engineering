@@ -656,6 +656,8 @@ def check_stack_frame(ctx, p, claimed, last_field_end, align):
             f'⇒ sizeof ≤ 0x{upper:X}; конец последнего поля 0x{last_field_end:X}')
     lower = -(-last_field_end // align) * align
     life += f' (с выравниванием {align}: sizeof ≥ 0x{lower:X})'
+    if claimed is None:
+        return True, upper, life        # v0.5.11: нужна только доказанная верхняя граница
     if upper != claimed:
         return False, upper, life + f' — верхняя граница 0x{upper:X} ≠ заявленной 0x{claimed:X}'
     if lower != claimed:

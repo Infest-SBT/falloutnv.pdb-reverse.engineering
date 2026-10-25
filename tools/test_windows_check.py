@@ -48,7 +48,9 @@ broken['classes'][1]['pc_size'] += 4
 broken['classes'][2]['fields'][0]['off'] += 1
 broken['classes'].append({'name': 'NoSuchClass', 'pc_size': 4, 'fields': [], 'base': None})
 bad2 = compare(broken, lambda n: udt.get(n), lambda s: None)
-print('compare на настоящем PDB:', 'OK' if ok1 else f'расхождений {bad}', f'({len(meta["classes"])} классов)')
+_nv = sum(1 for c in meta['classes'] if c.get('verified_prefix_of'))
+print('compare на настоящем PDB:', 'OK' if ok1 else f'расхождений {bad}',
+      f'({len(meta["classes"]) - _nv} полных классов' + (f' + {_nv} представления verified-prefix)' if _nv else ')'))
 print('compare ловит 3 внесённые ошибки:', 'OK' if bad2 == 3 else f'нашёл {bad2}')
 if not ok1:
     print('\n'.join(l for l in lines if 'OK' not in l))

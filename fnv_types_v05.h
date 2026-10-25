@@ -1080,6 +1080,41 @@ enum ShaderTypeEnum : unsigned int {
     BSSM_SHADERTYPE_DISTANT_TREE = 0x19
 };
 };
+// v0.5.11: представления verified-prefix — отдельные типы подтверждённой части объекта (не полные классы)
+// BGSSaveLoadFormHeader_VerifiedPrefix — ПРЕДСТАВЛЕНИЕ подтверждённой части BGSSaveLoadFormHeader (verified-prefix, v0.5.11). НЕ полный класс движка.
+// Размер BGSSaveLoadFormHeader на PC не доказан: 0x9 <= sizeof <= 0xC; sizeof(BGSSaveLoadFormHeader_VerifiedPrefix) = 0x9 — только размер представления.
+// Нельзя по sizeof(BGSSaveLoadFormHeader_VerifiedPrefix): выделять память под объект игры, создавать массивы, копировать объект, передавать по значению,
+// вызывать конструктор/деструктор игры. Можно: читать/писать подтверждённые поля уже существующего объекта игры по указателю.
+// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).
+#pragma pack(push, 1) // поле iChangeFlags на +3: упаковано и в игре
+struct BGSSaveLoadFormHeader_VerifiedPrefix {
+    unsigned char FormIDIndex[3]; // +0x0, 3 байта; непрозрачные байты; Xbox PDB: unsigned char FormIDIndex[3];
+    unsigned int iChangeFlags; // +0x3, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: unsigned iChangeFlags;
+    unsigned char FormInfo[1]; // +0x7, 1 байт; непрозрачные байты; Xbox PDB: unsigned char FormInfo[1];
+    unsigned char cVersion; // +0x8, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: unsigned char cVersion;
+};
+#pragma pack(pop)
+// FontManager_TextData_VerifiedPrefix — ПРЕДСТАВЛЕНИЕ подтверждённой части FontManager::TextData (verified-prefix, v0.5.11). НЕ полный класс движка.
+// Размер FontManager::TextData на PC не доказан: 0x40 <= sizeof <= 0x44; sizeof(FontManager_TextData_VerifiedPrefix) = 0x40 — только размер представления.
+// Нельзя по sizeof(FontManager_TextData_VerifiedPrefix): выделять память под объект игры, создавать массивы, копировать объект, передавать по значению,
+// вызывать конструктор/деструктор игры. Можно: читать/писать подтверждённые поля уже существующего объекта игры по указателю.
+// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).
+struct FontManager_TextData_VerifiedPrefix {
+    unsigned int iDefaultFont; // +0x0, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iDefaultFont;
+    unsigned int iJustification; // +0x4, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iJustification;
+    alignas(4) unsigned char xColor[16]; // +0x8, 16 байт; непрозрачные байты; Xbox PDB: alignas(4) unsigned char xColor[16];
+    unsigned char cLineSep; // +0x18, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: char cLineSep;
+    unsigned char _pad19[0x3];
+    unsigned int iWidth; // +0x1C, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iWidth;
+    int iHeight; // +0x20, 4 байта; тип Xbox PDB, вид подтверждён командами PC; Xbox PDB: int iHeight;
+    unsigned int iPageNum; // +0x24, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iPageNum;
+    unsigned int iLines; // +0x28, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iLines;
+    unsigned int iNumPages; // +0x2C, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iNumPages;
+    unsigned int iNumLines; // +0x30, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iNumLines;
+    unsigned char bIsHypertext; // +0x34, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: bool bIsHypertext;
+    unsigned char _pad35[0x3];
+    alignas(4) unsigned char xNewText[8]; // +0x38, 8 байт; непрозрачные байты; Xbox PDB: alignas(4) unsigned char xNewText[8];
+};
 // BaseFormComponent (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
 // PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x01011D68
 class BaseFormComponent {
@@ -1630,7 +1665,8 @@ public:
 class BGSSaveFormBuffer : public BGSSaveGameBuffer {
 public:
     // поля
-    alignas(4) unsigned char _unverified_Header[12]; // строгая сборка: не подтверждено (BGSSaveLoadFormHeader)
+    BGSSaveLoadFormHeader_VerifiedPrefix Header; // строгая сборка: только подтверждённая часть BGSSaveLoadFormHeader (0x9 байт); это не полный класс
+    unsigned char _unverified_HeaderTail[3]; // строгая сборка: 3 байта до следующего поля — не приписаны BGSSaveLoadFormHeader (размер BGSSaveLoadFormHeader на PC: 0x9…0xC, не доказан)
     TESForm* pForm; // PC: confirmed
 };
 // BGSLoadGameBuffer (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
@@ -1652,7 +1688,8 @@ class BGSLoadFormBuffer : public BGSLoadGameBuffer {
 public:
     // поля
     unsigned iFormID; // PC: confirmed
-    alignas(4) unsigned char _unverified_Header[12]; // строгая сборка: не подтверждено (BGSSaveLoadFormHeader)
+    BGSSaveLoadFormHeader_VerifiedPrefix Header; // строгая сборка: только подтверждённая часть BGSSaveLoadFormHeader (0x9 байт); это не полный класс
+    unsigned char _unverified_HeaderTail[3]; // строгая сборка: 3 байта до следующего поля — не приписаны BGSSaveLoadFormHeader (размер BGSSaveLoadFormHeader на PC: 0x9…0xC, не доказан)
     unsigned iSize; // PC: confirmed
     TESForm* pForm; // PC: confirmed
     unsigned iFlags; // PC: confirmed
@@ -2859,6 +2896,26 @@ public:
     alignas(4) unsigned char TaskStageSema[36]; // BSMTRSemaphore[36 bytes] | PC: confirmed
     alignas(4) unsigned char pTaskArray[768]; // MTRenderingSystem::AccumTask[768 bytes] | PC: confirmed
 };
+static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader_VerifiedPrefix::FormIDIndex");
+static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader_VerifiedPrefix::iChangeFlags");
+static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, FormInfo) == 0x7, "BGSSaveLoadFormHeader_VerifiedPrefix::FormInfo");
+static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, cVersion) == 0x8, "BGSSaveLoadFormHeader_VerifiedPrefix::cVersion");
+static_assert(sizeof(BGSSaveLoadFormHeader_VerifiedPrefix) == 0x9, "sizeof BGSSaveLoadFormHeader_VerifiedPrefix: только представление, НЕ sizeof BGSSaveLoadFormHeader");
+static_assert(alignof(BGSSaveLoadFormHeader_VerifiedPrefix) == 1, "alignof BGSSaveLoadFormHeader_VerifiedPrefix");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iDefaultFont) == 0x0, "FontManager_TextData_VerifiedPrefix::iDefaultFont");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iJustification) == 0x4, "FontManager_TextData_VerifiedPrefix::iJustification");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, xColor) == 0x8, "FontManager_TextData_VerifiedPrefix::xColor");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, cLineSep) == 0x18, "FontManager_TextData_VerifiedPrefix::cLineSep");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iWidth) == 0x1C, "FontManager_TextData_VerifiedPrefix::iWidth");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iHeight) == 0x20, "FontManager_TextData_VerifiedPrefix::iHeight");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iPageNum) == 0x24, "FontManager_TextData_VerifiedPrefix::iPageNum");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iLines) == 0x28, "FontManager_TextData_VerifiedPrefix::iLines");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iNumPages) == 0x2C, "FontManager_TextData_VerifiedPrefix::iNumPages");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iNumLines) == 0x30, "FontManager_TextData_VerifiedPrefix::iNumLines");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, bIsHypertext) == 0x34, "FontManager_TextData_VerifiedPrefix::bIsHypertext");
+static_assert(offsetof(FontManager_TextData_VerifiedPrefix, xNewText) == 0x38, "FontManager_TextData_VerifiedPrefix::xNewText");
+static_assert(sizeof(FontManager_TextData_VerifiedPrefix) == 0x40, "sizeof FontManager_TextData_VerifiedPrefix: только представление, НЕ sizeof FontManager::TextData");
+static_assert(alignof(FontManager_TextData_VerifiedPrefix) == 4, "alignof FontManager_TextData_VerifiedPrefix");
 static_assert(alignof(BaseFormComponent) == 4, "alignof BaseFormComponent: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BaseFormComponent) == 0x4, "sizeof BaseFormComponent");
 static_assert(offsetof(TESForm, cFormType) == 0x4, "TESForm::cFormType");
@@ -3195,7 +3252,8 @@ static_assert(offsetof(BGSSaveGameBuffer, iBufferPosition) == 0xC, "BGSSaveGameB
 static_assert(offsetof(BGSSaveGameBuffer, iDebugOverhead) == 0x10, "BGSSaveGameBuffer::iDebugOverhead");
 static_assert(alignof(BGSSaveGameBuffer) == 4, "alignof BGSSaveGameBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSSaveGameBuffer) == 0x14, "sizeof BGSSaveGameBuffer");
-static_assert(offsetof(BGSSaveFormBuffer, _unverified_Header) == 0x14, "BGSSaveFormBuffer::_unverified_Header");
+static_assert(offsetof(BGSSaveFormBuffer, Header) == 0x14, "BGSSaveFormBuffer::Header");
+static_assert(offsetof(BGSSaveFormBuffer, _unverified_HeaderTail) == 0x1D, "BGSSaveFormBuffer::_unverified_HeaderTail");
 static_assert(offsetof(BGSSaveFormBuffer, pForm) == 0x20, "BGSSaveFormBuffer::pForm");
 static_assert(alignof(BGSSaveFormBuffer) == 4, "alignof BGSSaveFormBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSSaveFormBuffer) == 0x24, "sizeof BGSSaveFormBuffer");
@@ -3206,7 +3264,8 @@ static_assert(offsetof(BGSLoadGameBuffer, iBufferPosition) == 0xC, "BGSLoadGameB
 static_assert(alignof(BGSLoadGameBuffer) == 4, "alignof BGSLoadGameBuffer: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BGSLoadGameBuffer) == 0x10, "sizeof BGSLoadGameBuffer");
 static_assert(offsetof(BGSLoadFormBuffer, iFormID) == 0x10, "BGSLoadFormBuffer::iFormID");
-static_assert(offsetof(BGSLoadFormBuffer, _unverified_Header) == 0x14, "BGSLoadFormBuffer::_unverified_Header");
+static_assert(offsetof(BGSLoadFormBuffer, Header) == 0x14, "BGSLoadFormBuffer::Header");
+static_assert(offsetof(BGSLoadFormBuffer, _unverified_HeaderTail) == 0x1D, "BGSLoadFormBuffer::_unverified_HeaderTail");
 static_assert(offsetof(BGSLoadFormBuffer, iSize) == 0x20, "BGSLoadFormBuffer::iSize");
 static_assert(offsetof(BGSLoadFormBuffer, pForm) == 0x24, "BGSLoadFormBuffer::pForm");
 static_assert(offsetof(BGSLoadFormBuffer, iFlags) == 0x28, "BGSLoadFormBuffer::iFlags");

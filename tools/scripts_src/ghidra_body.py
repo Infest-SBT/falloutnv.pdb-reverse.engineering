@@ -154,7 +154,9 @@ def main():
               summarize_plan(plan, conflicts),
               "создать функций: %d, комментариев к адресам: %d, установить this: %d, комментариев к полям: %d" % (
                   counts.get("create", 0), counts.get("comment", 0), counts.get("this", 0), n_fields),
-              "", "Конфликты:"] + (conflicts or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+              "full_type_applied (this полного класса): %d; prefix_view_applied: 0" % counts.get("this", 0),
+              "", "Конфликты:"] + (conflicts or ["нет"]) + \
+             ["", "Представления verified-prefix (не применяются):"] + (prefix_view_lines(S, STRICT) or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + plan[va]["this"]) if act == "this" else "")
                                              for va, act in actions]
     plan_path = os.path.join(os.path.dirname(summary_path), "fnv_apply_plan_ghidra.txt")
@@ -249,6 +251,7 @@ def main():
 
     println("FNV: создано функций %(create)d, комментариев %(comment)d, this %(this)d, полей %(fields)d, "
             "меток vtable %(labels)d" % done)
+    println("FNV: full_type_applied %d, prefix_view_applied 0" % done["this"])
 
 
 main()

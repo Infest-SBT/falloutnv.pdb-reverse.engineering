@@ -1292,5 +1292,53 @@
     ]
    }
   ]
+ },
+ "verified_prefix": {
+  "BGSSaveLoadFormHeader": {
+   "view": "BGSSaveLoadFormHeader_VerifiedPrefix",
+   "lower": 9,
+   "upper": 12,
+   "view_align": 1,
+   "packed": true,
+   "note": "заголовок записи формы в файле сохранения; поля +0/+3/+7/+8 подтверждены, pack(1) — по полю на +3; размер на PC 9…0xC",
+   "pointer_users": [],
+   "containers": [
+    {
+     "class": "BGSSaveFormBuffer",
+     "field": "Header",
+     "next_field": "pForm"
+    },
+    {
+     "class": "BGSLoadFormBuffer",
+     "field": "Header",
+     "next_field": "iSize"
+    }
+   ]
+  },
+  "FontManager::TextData": {
+   "view": "FontManager_TextData_VerifiedPrefix",
+   "lower": 64,
+   "upper": 68,
+   "view_align": 4,
+   "note": "параметры отрисовки текста (TileText::MakeNode → FontManager::CreateText); 12 полей подтверждены; размер на PC 0x40…0x44",
+   "pointer_users": [
+    {
+     "func": "0xA18F00",
+     "arg": "0x10",
+     "note": "FontManager::CreateText: TextData* — 2-й аргумент (MakeNode 0x00A22094 lea eax, [ebp-0xac]; push eax)"
+    },
+    {
+     "func": "0xA18A30",
+     "arg": "0xc",
+     "note": "FontManager::A18A30: TextData* из CreateText [ebp+0x10] (0x00A18F3F mov ecx, [ebp+0x10]; push ecx) — 2-й аргумент"
+    },
+    {
+     "func": "0xA19060",
+     "arg": "0xc",
+     "note": "FontManager::TextDoc::Render: TextData* из CreateText [ebp+0x10] (0x00A18F58) — 2-й аргумент"
+    }
+   ],
+   "containers": []
+  }
  }
 }

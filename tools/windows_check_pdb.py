@@ -35,8 +35,8 @@ PDB_AGE = 1
 # (84 класса — FontManager::TextData и BGSSaveLoadFormHeader вернулись в research), research — тот же, что в v0.5.4;
 # строгий v0.5.4 с meta.json v0.5.5 не согласован и в список не входит. v0.5.6–v0.5.10: оба PDB те же, что в v0.5.5.
 PUBLISHED_PDB = {
-    'd3ce51dd097c6cdff3de7f6d0362a2d0b8458a7a19ff28a7c71452a7bfa3b3cf': 'строгий FalloutNV.pdb v0.5.5–v0.5.10',
-    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4–v0.5.10',
+    '64c1eabe070bfbf06a9c4299ba2a8d5084a05ed850dd666b5576ad2e6e89d4fe': 'строгий FalloutNV.pdb v0.5.11 (84 класса + 2 представления verified-prefix)',
+    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4–v0.5.11',
 }
 
 KNOWN = {  # имя публичного символа (PDB xNVSE) -> адрес; если символ не найден или адрес другой — ошибка
@@ -75,7 +75,8 @@ def compare(meta, backend, out):
             bad += 1
             out(f"  ОШИБКА    {c['name']}: " + '; '.join(errs))
         else:
-            out(f"  OK        {c['name']:40} sizeof {size:#x}, полей {len(c['fields'])}")
+            out(f"  OK        {c['name']:40} sizeof {size:#x}, полей {len(c['fields'])}"
+                + (f" — представление verified-prefix {c['verified_prefix_of']}, НЕ полный класс" if c.get('verified_prefix_of') else ''))
     return bad
 
 
@@ -278,7 +279,9 @@ def main():
         sys.exit(2)
     layout, public, info = dbghelp_backend(exe, pdb_dir, out)
     bad = check_module(info, pdb_dir, out)
-    out(f"Классов в {os.path.basename(meta_path)}: {len(meta['classes'])}")
+    n_view = sum(1 for c in meta['classes'] if c.get('verified_prefix_of'))
+    out(f"Типов в {os.path.basename(meta_path)}: {len(meta['classes'])} — полных классов {len(meta['classes']) - n_view}"
+        + (f", представлений verified-prefix {n_view}" if n_view else ''))
     bad += compare(meta, layout, out)
     for name, va in KNOWN.items():
         got = public(name)

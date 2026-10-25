@@ -114,6 +114,18 @@ w.run(protos=True)
 w.run(protos=True)
 check('прототип, изменённый человеком, не тронут', w.types[va] == 'int __thiscall f(void *this, int edited)', '0x%X' % va)
 
+# v0.5.11: представления verified-prefix не применяются; журнал разделяет полный тип и представление
+VIEWS = {c: v['strict_representation'] for c, v in SUMM['classes'].items() if v.get('strict_representation')}
+w = World()
+out = w.run(protos=True)
+plan_txt = open(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ida.txt', encoding='utf-8').read()
+check('представления: full_type_applied / prefix_view_applied в плане и в итоге',
+      'full_type_applied (прототипы полного класса): %d; prefix_view_applied: 0' % len(w.types) in plan_txt
+      and any('full_type_applied %d, prefix_view_applied 0' % len(w.types) in l for l in out))
+check('представления: перечислены, ни один прототип не ссылается на них или на их классы', VIEWS and all(
+    v['type_name'] in plan_txt for v in VIEWS.values()) and not any(
+    v['type_name'] in t or ('%s *this' % c) in t for t in w.types.values() for c, v in VIEWS.items()))
+
 os.remove(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ida.txt')
 print('ИТОГ:', 'всё прошло' if not fails else 'провалено: %s' % ', '.join(fails))
 sys.exit(1 if fails else 0)

@@ -13033,7 +13033,210 @@
    "provisional_fields": [],
    "provisional": true,
    "strict": false,
-   "strict_fields": []
+   "strict_fields": [],
+   "engine_size_status": "consistent",
+   "engine_size_lower_bound": 9,
+   "engine_size_upper_bound": 12,
+   "strict_representation": {
+    "kind": "verified-prefix",
+    "type_name": "BGSSaveLoadFormHeader_VerifiedPrefix",
+    "representation_size": 9,
+    "representation_align": 1,
+    "packed": true,
+    "usable_as_complete_engine_object": false,
+    "allow_object_allocation": false,
+    "allow_array_stride": false,
+    "allow_by_value_abi": false,
+    "allow_implicit_copy_or_lifetime": false,
+    "fields": [
+     {
+      "name": "FormIDIndex",
+      "off": 0,
+      "size": 3,
+      "decl": "unsigned char FormIDIndex[3];",
+      "xbox_decl": "unsigned char FormIDIndex[3];",
+      "type_basis": "непрозрачные байты",
+      "width_basis": []
+     },
+     {
+      "name": "iChangeFlags",
+      "off": 3,
+      "size": 4,
+      "decl": "unsigned int iChangeFlags;",
+      "xbox_decl": "unsigned iChangeFlags;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width (в BGSSaveFormBuffer.Header)"
+      ]
+     },
+     {
+      "name": "FormInfo",
+      "off": 7,
+      "size": 1,
+      "decl": "unsigned char FormInfo[1];",
+      "xbox_decl": "unsigned char FormInfo[1];",
+      "type_basis": "непрозрачные байты",
+      "width_basis": []
+     },
+     {
+      "name": "cVersion",
+      "off": 8,
+      "size": 1,
+      "decl": "unsigned char cVersion;",
+      "xbox_decl": "unsigned char cVersion;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     }
+    ],
+    "evidence": {
+     "field_offsets_and_widths": "confirmed",
+     "engine_exact_size": "unproven",
+     "negative_search_scope": "просмотрено функций: 42; verified_prefix_candidates.csv (охват поиска)",
+     "negative_search_result": "не обнаружено в исследованном коде"
+    },
+    "containers": [
+     {
+      "class": "BGSSaveFormBuffer",
+      "field": "Header",
+      "off": 20,
+      "tail": 3
+     },
+     {
+      "class": "BGSLoadFormBuffer",
+      "field": "Header",
+      "off": 20,
+      "tail": 3
+     }
+    ]
+   },
+   "verified_prefix_checks": [
+    {
+     "check": "1 поля",
+     "ok": true,
+     "detail": "полей 4; не подходят: нет; проверка сдвигом: unique"
+    },
+    {
+     "check": "2 нижняя граница",
+     "ok": true,
+     "detail": "конец последнего поля 0x9, alignof представления 1 ⇒ 0x9; заявлено 0x9"
+    },
+    {
+     "check": "3 верхняя граница",
+     "ok": true,
+     "detail": "доказанные верхние границы: 0xC, 0xC, 0xC, 0xC; заявлено 0xC; интервал 3 байт"
+    },
+    {
+     "check": "4 отрицательный поиск",
+     "ok": true,
+     "detail": "находок 0"
+    },
+    {
+     "check": "5 вмещающие классы",
+     "ok": true,
+     "detail": "BGSSaveFormBuffer::Header +0x14, следующее pForm +0x20; BGSLoadFormBuffer::Header +0x14, следующее iSize +0x20"
+    },
+    {
+     "check": "7 vtable / базы / массивы",
+     "ok": true,
+     "detail": "vtable нет, база нет, массивы нет"
+    }
+   ],
+   "verified_prefix_facts": {
+    "engine": "BGSSaveLoadFormHeader",
+    "view": "BGSSaveLoadFormHeader_VerifiedPrefix",
+    "lower": 9,
+    "upper": 12,
+    "view_align": 1,
+    "fields": [
+     {
+      "name": "FormIDIndex",
+      "off": 0,
+      "size": 3,
+      "status": "confirmed",
+      "width_verified": false,
+      "blob": true,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iChangeFlags",
+      "off": 3,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "FormInfo",
+      "off": 7,
+      "size": 1,
+      "status": "confirmed",
+      "width_verified": false,
+      "blob": true,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "cVersion",
+      "off": 8,
+      "size": 1,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     }
+    ],
+    "shift_verdict": "unique",
+    "has_vtable": false,
+    "base": null,
+    "used_as_array": [],
+    "proven_uppers": [
+     12,
+     12,
+     12,
+     12
+    ],
+    "findings": [],
+    "containers": [
+     {
+      "class": "BGSSaveFormBuffer",
+      "field": "Header",
+      "off": 20,
+      "next_field": "pForm",
+      "next_off": 32,
+      "next_status": "confirmed",
+      "size_status": "confirmed",
+      "gap_accesses": 0,
+      "composition": "proved",
+      "composition_sub": "BGSSaveLoadFormHeader",
+      "sub_fields": {
+       "FormIDIndex": "confirmed",
+       "iChangeFlags": "confirmed",
+       "FormInfo": "confirmed",
+       "cVersion": "confirmed"
+      }
+     },
+     {
+      "class": "BGSLoadFormBuffer",
+      "field": "Header",
+      "off": 20,
+      "next_field": "iSize",
+      "next_off": 32,
+      "next_status": "confirmed",
+      "size_status": "confirmed",
+      "gap_accesses": 0,
+      "composition": "proved",
+      "composition_sub": "BGSSaveLoadFormHeader",
+      "sub_fields": {
+       "FormIDIndex": "confirmed",
+       "iChangeFlags": "confirmed",
+       "FormInfo": "confirmed",
+       "cVersion": "confirmed"
+      }
+     }
+    ]
+   }
   },
   "BGSSaveGameBuffer": {
    "vtable_va": 17310500,
@@ -20151,7 +20354,317 @@
    "provisional_fields": [],
    "provisional": true,
    "strict": false,
-   "strict_fields": []
+   "strict_fields": [],
+   "engine_size_status": "consistent",
+   "engine_size_lower_bound": 64,
+   "engine_size_upper_bound": 68,
+   "strict_representation": {
+    "kind": "verified-prefix",
+    "type_name": "FontManager_TextData_VerifiedPrefix",
+    "representation_size": 64,
+    "representation_align": 4,
+    "packed": false,
+    "usable_as_complete_engine_object": false,
+    "allow_object_allocation": false,
+    "allow_array_stride": false,
+    "allow_by_value_abi": false,
+    "allow_implicit_copy_or_lifetime": false,
+    "fields": [
+     {
+      "name": "iDefaultFont",
+      "off": 0,
+      "size": 4,
+      "decl": "unsigned int iDefaultFont;",
+      "xbox_decl": "int iDefaultFont;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iJustification",
+      "off": 4,
+      "size": 4,
+      "decl": "unsigned int iJustification;",
+      "xbox_decl": "int iJustification;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "xColor",
+      "off": 8,
+      "size": 16,
+      "decl": "alignas(4) unsigned char xColor[16];",
+      "xbox_decl": "alignas(4) unsigned char xColor[16];",
+      "type_basis": "непрозрачные байты",
+      "width_basis": []
+     },
+     {
+      "name": "cLineSep",
+      "off": 24,
+      "size": 1,
+      "decl": "unsigned char cLineSep;",
+      "xbox_decl": "char cLineSep;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iWidth",
+      "off": 28,
+      "size": 4,
+      "decl": "unsigned int iWidth;",
+      "xbox_decl": "int iWidth;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iHeight",
+      "off": 32,
+      "size": 4,
+      "decl": "int iHeight;",
+      "xbox_decl": "int iHeight;",
+      "type_basis": "тип Xbox PDB, вид подтверждён командами PC",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iPageNum",
+      "off": 36,
+      "size": 4,
+      "decl": "unsigned int iPageNum;",
+      "xbox_decl": "int iPageNum;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iLines",
+      "off": 40,
+      "size": 4,
+      "decl": "unsigned int iLines;",
+      "xbox_decl": "int iLines;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iNumPages",
+      "off": 44,
+      "size": 4,
+      "decl": "unsigned int iNumPages;",
+      "xbox_decl": "int iNumPages;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "iNumLines",
+      "off": 48,
+      "size": 4,
+      "decl": "unsigned int iNumLines;",
+      "xbox_decl": "int iNumLines;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "bIsHypertext",
+      "off": 52,
+      "size": 1,
+      "decl": "unsigned char bIsHypertext;",
+      "xbox_decl": "bool bIsHypertext;",
+      "type_basis": "нейтральный тип ширины поля; семантика не подтверждена",
+      "width_basis": [
+       "access-width"
+      ]
+     },
+     {
+      "name": "xNewText",
+      "off": 56,
+      "size": 8,
+      "decl": "alignas(4) unsigned char xNewText[8];",
+      "xbox_decl": "alignas(4) unsigned char xNewText[8];",
+      "type_basis": "непрозрачные байты",
+      "width_basis": []
+     }
+    ],
+    "evidence": {
+     "field_offsets_and_widths": "confirmed",
+     "engine_exact_size": "unproven",
+     "negative_search_scope": "просмотрено функций: 4; verified_prefix_candidates.csv (охват поиска)",
+     "negative_search_result": "не обнаружено в исследованном коде"
+    },
+    "containers": []
+   },
+   "verified_prefix_checks": [
+    {
+     "check": "1 поля",
+     "ok": true,
+     "detail": "полей 12; не подходят: нет; проверка сдвигом: unique"
+    },
+    {
+     "check": "2 нижняя граница",
+     "ok": true,
+     "detail": "конец последнего поля 0x40, alignof представления 4 ⇒ 0x40; заявлено 0x40"
+    },
+    {
+     "check": "3 верхняя граница",
+     "ok": true,
+     "detail": "доказанные верхние границы: 0x44; заявлено 0x44; интервал 4 байт"
+    },
+    {
+     "check": "4 отрицательный поиск",
+     "ok": true,
+     "detail": "находок 0"
+    },
+    {
+     "check": "5 вмещающие классы",
+     "ok": true,
+     "detail": "не вложен"
+    },
+    {
+     "check": "7 vtable / базы / массивы",
+     "ok": true,
+     "detail": "vtable нет, база нет, массивы нет"
+    }
+   ],
+   "verified_prefix_facts": {
+    "engine": "FontManager::TextData",
+    "view": "FontManager_TextData_VerifiedPrefix",
+    "lower": 64,
+    "upper": 68,
+    "view_align": 4,
+    "fields": [
+     {
+      "name": "iDefaultFont",
+      "off": 0,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iJustification",
+      "off": 4,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "xColor",
+      "off": 8,
+      "size": 16,
+      "status": "confirmed",
+      "width_verified": false,
+      "blob": true,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "cLineSep",
+      "off": 24,
+      "size": 1,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iWidth",
+      "off": 28,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iHeight",
+      "off": 32,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "consistent"
+     },
+     {
+      "name": "iPageNum",
+      "off": 36,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iLines",
+      "off": 40,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iNumPages",
+      "off": 44,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "iNumLines",
+      "off": 48,
+      "size": 4,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "bIsHypertext",
+      "off": 52,
+      "size": 1,
+      "status": "confirmed",
+      "width_verified": true,
+      "blob": false,
+      "type_status": "not-checked"
+     },
+     {
+      "name": "xNewText",
+      "off": 56,
+      "size": 8,
+      "status": "confirmed",
+      "width_verified": false,
+      "blob": true,
+      "type_status": "not-checked"
+     }
+    ],
+    "shift_verdict": "unique",
+    "has_vtable": false,
+    "base": null,
+    "used_as_array": [],
+    "proven_uppers": [
+     68
+    ],
+    "findings": [],
+    "containers": []
+   }
   },
   "NiRefObject": {
    "vtable_va": 16899300,
