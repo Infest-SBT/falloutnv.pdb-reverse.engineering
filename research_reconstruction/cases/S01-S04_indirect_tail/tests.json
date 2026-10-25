@@ -1,0 +1,85 @@
+{
+ "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "tests": [
+  {
+   "test": "writer:0x00A59D00 NiAVObject::AttachParent",
+   "kind": "запись поля исполнением с метками",
+   "stop": "returned",
+   "result": "поле := аргумент 0",
+   "writes": [
+    "0x0A0A0A0A"
+   ]
+  },
+  {
+   "test": "writer:0x00A59D00 NiAVObject::AttachParent",
+   "kind": "запись поля исполнением с метками",
+   "stop": "returned",
+   "result": "поле := аргумент 0",
+   "writes": [
+    "0x0A0A0A0A"
+   ]
+  },
+  {
+   "test": "writer:0x00A59CC0 NiAVObject::PreAttachUpdate",
+   "kind": "запись поля исполнением с метками",
+   "stop": "returned",
+   "result": "поле := аргумент 0 только на время вызова слота 41 (UpdateDownwardPass по Xbox), затем 0",
+   "writes": [
+    "0x0A0A0A0A",
+    "0x00000000"
+   ]
+  },
+  {
+   "test": "writer:0x00A5A430 NiAVObject::PreAttachUpdateProperties",
+   "kind": "запись поля исполнением с метками",
+   "stop": "returned",
+   "result": "поле := аргумент 0 только на время вызова 0x00A5A040, затем 0",
+   "writes": [
+    "0x0A0A0A0A",
+    "0x00000000"
+   ]
+  },
+  {
+   "test": "caller:0x0081FA0B",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "константа 0"
+  },
+  {
+   "test": "caller:0x008204D2",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "константа 0"
+  },
+  {
+   "test": "caller:0x00821D98",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "константа 0"
+  },
+  {
+   "test": "caller:0x00A5ED31",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "this вызывающей"
+  },
+  {
+   "test": "caller:0x00A5EDDD",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "this вызывающей"
+  },
+  {
+   "test": "caller:0x00A5EE54",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "this вызывающей"
+  },
+  {
+   "test": "caller:0x00A5EF0B",
+   "kind": "аргумент 0 в месте вызова",
+   "stop": "stopped-at-call@0x00A59D00",
+   "result": "this вызывающей"
+  }
+ ]
+}

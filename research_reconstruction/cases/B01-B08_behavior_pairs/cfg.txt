@@ -1,0 +1,164 @@
+# FalloutNV.exe SHA-256 42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c
+# граф: chaincheck.CFG (пакет tools/); границы функции — по символам xNVSE
+
+== 0x00549580 TESForm::GetLODTree  граф полон: True  достижимых команд: 11
+  блок 0x00549580:
+    0x00549580  55               push ebp
+    0x00549581  8bec             mov ebp, esp
+    0x00549583  51               push ecx
+    0x00549584  894dfc           mov dword ptr [ebp - 4], ecx
+    0x00549587  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x0054958A  8b4808           mov ecx, dword ptr [eax + 8]
+    0x0054958D  83e140           and ecx, 0x40
+    0x00549590  0f95c0           setne al
+    0x00549593  8be5             mov esp, ebp
+    0x00549595  5d               pop ebp
+    0x00549596  c3               ret    -> выход
+
+== 0x004848B0 TESForm::SetTalkedToPC  граф полон: True  достижимых команд: 27
+  блок 0x004848B0:
+    0x004848B0  55               push ebp
+    0x004848B1  8bec             mov ebp, esp
+    0x004848B3  51               push ecx
+    0x004848B4  894dfc           mov dword ptr [ebp - 4], ecx
+    0x004848B7  0fb64508         movzx eax, byte ptr [ebp + 8]
+    0x004848BB  85c0             test eax, eax
+    0x004848BD  7411             je 0x4848d0   -> 0x004848D0, 0x004848BF
+  блок 0x004848BF:
+    0x004848BF  8b4dfc           mov ecx, dword ptr [ebp - 4]
+    0x004848C2  8b5108           mov edx, dword ptr [ecx + 8]
+    0x004848C5  83ca40           or edx, 0x40
+    0x004848C8  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x004848CB  895008           mov dword ptr [eax + 8], edx
+    0x004848CE  eb0f             jmp 0x4848df   -> 0x004848DF
+  блок 0x004848D0:
+    0x004848D0  8b4dfc           mov ecx, dword ptr [ebp - 4]
+    0x004848D3  8b5108           mov edx, dword ptr [ecx + 8]
+    0x004848D6  83e2bf           and edx, 0xffffffbf
+    0x004848D9  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x004848DC  895008           mov dword ptr [eax + 8], edx
+  блок 0x004848DF:
+    0x004848DF  6a01             push 1
+    0x004848E1  8b4dfc           mov ecx, dword ptr [ebp - 4]
+    0x004848E4  8b11             mov edx, dword ptr [ecx]
+    0x004848E6  8b4dfc           mov ecx, dword ptr [ebp - 4]
+    0x004848E9  8b4248           mov eax, dword ptr [edx + 0x48]
+    0x004848EC  ffd0             call eax
+    0x004848EE  8be5             mov esp, ebp
+    0x004848F0  5d               pop ebp
+    0x004848F1  c20400           ret 4   -> выход
+
+== 0x00401250 TESForm::GetOnLocalMap  граф полон: True  достижимых команд: 11
+  блок 0x00401250:
+    0x00401250  55               push ebp
+    0x00401251  8bec             mov ebp, esp
+    0x00401253  51               push ecx
+    0x00401254  894dfc           mov dword ptr [ebp - 4], ecx
+    0x00401257  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x0040125A  8b4808           mov ecx, dword ptr [eax + 8]
+    0x0040125D  81e100020000     and ecx, 0x200
+    0x00401263  0f95c0           setne al
+    0x00401266  8be5             mov esp, ebp
+    0x00401268  5d               pop ebp
+    0x00401269  c3               ret    -> выход
+
+== 0x004849D0 TESForm::SetCastsShadows  граф полон: True  достижимых команд: 21
+  блок 0x004849D0:
+    0x004849D0  55               push ebp
+    0x004849D1  8bec             mov ebp, esp
+    0x004849D3  51               push ecx
+    0x004849D4  894dfc           mov dword ptr [ebp - 4], ecx
+    0x004849D7  0fb64508         movzx eax, byte ptr [ebp + 8]
+    0x004849DB  85c0             test eax, eax
+    0x004849DD  7414             je 0x4849f3   -> 0x004849F3, 0x004849DF
+  блок 0x004849DF:
+    0x004849DF  8b4dfc           mov ecx, dword ptr [ebp - 4]
+    0x004849E2  8b5108           mov edx, dword ptr [ecx + 8]
+    0x004849E5  81ca00020000     or edx, 0x200
+    0x004849EB  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x004849EE  895008           mov dword ptr [eax + 8], edx
+    0x004849F1  eb12             jmp 0x484a05   -> 0x00484A05
+  блок 0x004849F3:
+    0x004849F3  8b4dfc           mov ecx, dword ptr [ebp - 4]
+    0x004849F6  8b5108           mov edx, dword ptr [ecx + 8]
+    0x004849F9  81e2fffdffff     and edx, 0xfffffdff
+    0x004849FF  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x00484A02  895008           mov dword ptr [eax + 8], edx
+  блок 0x00484A05:
+    0x00484A05  8be5             mov esp, ebp
+    0x00484A07  5d               pop ebp
+    0x00484A08  c20400           ret 4   -> выход
+
+== 0x004011B0 TESForm::GetHavokDeath  граф полон: True  достижимых команд: 11
+  блок 0x004011B0:
+    0x004011B0  55               push ebp
+    0x004011B1  8bec             mov ebp, esp
+    0x004011B3  51               push ecx
+    0x004011B4  894dfc           mov dword ptr [ebp - 4], ecx
+    0x004011B7  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x004011BA  8b4808           mov ecx, dword ptr [eax + 8]
+    0x004011BD  81e100000100     and ecx, 0x10000
+    0x004011C3  0f95c0           setne al
+    0x004011C6  8be5             mov esp, ebp
+    0x004011C8  5d               pop ebp
+    0x004011C9  c3               ret    -> выход
+
+== 0x004011D0 TESForm::GetNeedToChangeProcess  граф полон: True  достижимых команд: 11
+  блок 0x004011D0:
+    0x004011D0  55               push ebp
+    0x004011D1  8bec             mov ebp, esp
+    0x004011D3  51               push ecx
+    0x004011D4  894dfc           mov dword ptr [ebp - 4], ecx
+    0x004011D7  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x004011DA  8b4808           mov ecx, dword ptr [eax + 8]
+    0x004011DD  81e100000200     and ecx, 0x20000
+    0x004011E3  0f95c0           setne al
+    0x004011E6  8be5             mov esp, ebp
+    0x004011E8  5d               pop ebp
+    0x004011E9  c3               ret    -> выход
+
+== 0x004011F0 TESForm::GetHasSpecificTextures  граф полон: True  достижимых команд: 11
+  блок 0x004011F0:
+    0x004011F0  55               push ebp
+    0x004011F1  8bec             mov ebp, esp
+    0x004011F3  51               push ecx
+    0x004011F4  894dfc           mov dword ptr [ebp - 4], ecx
+    0x004011F7  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x004011FA  8b4808           mov ecx, dword ptr [eax + 8]
+    0x004011FD  81e100000800     and ecx, 0x80000
+    0x00401203  0f95c0           setne al
+    0x00401206  8be5             mov esp, ebp
+    0x00401208  5d               pop ebp
+    0x00401209  c3               ret    -> выход
+
+== 0x00AE9F10 BSGameSound::GetState80000  граф полон: True  достижимых команд: 13
+  блок 0x00AE9F10:
+    0x00AE9F10  55               push ebp
+    0x00AE9F11  8bec             mov ebp, esp
+    0x00AE9F13  51               push ecx
+    0x00AE9F14  894dfc           mov dword ptr [ebp - 4], ecx
+    0x00AE9F17  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x00AE9F1A  8b4010           mov eax, dword ptr [eax + 0x10]
+    0x00AE9F1D  2500000800       and eax, 0x80000
+    0x00AE9F22  f7d8             neg eax
+    0x00AE9F24  1bc0             sbb eax, eax
+    0x00AE9F26  f7d8             neg eax
+    0x00AE9F28  8be5             mov esp, ebp
+    0x00AE9F2A  5d               pop ebp
+    0x00AE9F2B  c3               ret    -> выход
+
+== 0x00AEA000 BSGameSound::ComparePriority  граф полон: True  достижимых команд: 12
+  блок 0x00AEA000:
+    0x00AEA000  55               push ebp
+    0x00AEA001  8bec             mov ebp, esp
+    0x00AEA003  51               push ecx
+    0x00AEA004  894dfc           mov dword ptr [ebp - 4], ecx
+    0x00AEA007  8b45fc           mov eax, dword ptr [ebp - 4]
+    0x00AEA00A  8b8888010000     mov ecx, dword ptr [eax + 0x188]
+    0x00AEA010  3b4d08           cmp ecx, dword ptr [ebp + 8]
+    0x00AEA013  1bc0             sbb eax, eax
+    0x00AEA015  f7d8             neg eax
+    0x00AEA017  8be5             mov esp, ebp
+    0x00AEA019  5d               pop ebp
+    0x00AEA01A  c20400           ret 4   -> выход
+

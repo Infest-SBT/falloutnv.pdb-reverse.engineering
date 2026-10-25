@@ -1,0 +1,84 @@
+{
+ "case": "C2",
+ "f": "0x00BA8F60",
+ "pc_name": "BSShaderProperty::CopyData",
+ "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "seed": 20261026,
+ "env_model": "образ exe по своим адресам, только чтение; стек и объект — отдельные области; vtable объекта — поддельная, слоты → заглушки с очисткой и результатом из модели теста; любой другой выход наружу — останов (inconclusive); импорты InterlockedIncrement/Decrement — модели (±1 по адресу, вернуть новое значение)",
+ "claims": {
+  "machine_fact": [
+   "тело 0x00BA8F60: граф полон (cfg.txt), очистка ret 4",
+   "BSShaderProperty[37] (name+stack: CopyTo) = mov eax,[ecx]; mov eax,[eax+0x98]; jmp eax — хвостовой переход в собственный слот 38 с тем же стеком"
+  ],
+  "validated_on_tests": [
+   "приёмник (аргумент) получает поля this: +0x20/+0x24 (ulFlags), +0x28 fAlpha, +0x2C fFadeAlpha, +0x58 iShader, +0x5C fDepthBias; +0x38 iLastRenderPassState = 0; другие байты приёмника и this не меняются",
+   "m_spControllers (+0xC): если у this контроллер есть — присваивание NiPointer (Decrement старого, слот 1 старого при нуле, Increment нового) и вызов слота 38 контроллера с приёмником; если нет — контроллер приёмника НЕ трогается",
+   "float копируется через x87: сигнальный NaN становится тихим (наивная побитовая модель ловится)"
+  ],
+  "semantically_proven": [],
+  "inconclusive": [
+   "что аргумент — именно BSShaderProperty* (по коду: объект той же раскладки в копируемых полях)",
+   "имя слота 38 у контроллера (NiTimeController) — по Xbox; не проверялось"
+  ]
+ },
+ "xbox_link": "Xbox BSShaderProperty: CopyTo (vftable 148 = слот 37) и CopyToMembers (152 = слот 38), оба virtual(BSShaderProperty*); метода CopyData в классе Xbox нет (конкурента у имени PC нет)",
+ "copy_to_body": [
+  [
+   "0x00BA8AA0",
+   "mov",
+   "eax, dword ptr [ecx]"
+  ],
+  [
+   "0x00BA8AA2",
+   "mov",
+   "eax, dword ptr [eax + 0x98]"
+  ],
+  [
+   "0x00BA8AA8",
+   "jmp",
+   "eax"
+  ]
+ ],
+ "negative_tests": [
+  {
+   "test": "неверная модель: копирует ещё и +0x30 (fEnvmapScale)",
+   "counterexamples": 300,
+   "detected": true
+  },
+  {
+   "test": "испорченный код: запись нуля в +0x3C вместо +0x38 (копия образа)",
+   "counterexamples": 100,
+   "detected": true
+  },
+  {
+   "test": "импорты не смоделированы",
+   "stop": "import-not-modelled:kernel32.dll!InterlockedDecrement",
+   "detected": true
+  }
+ ],
+ "x87_snan_probe": {
+  "rows": [
+   {
+    "src_bits": "0x7F800001",
+    "emulator_dst": "0x7F800001",
+    "intel_sdm_expected": "0x7FC00001"
+   },
+   {
+    "src_bits": "0x7FA00000",
+    "emulator_dst": "0x7FA00000",
+    "intel_sdm_expected": "0x7FE00000"
+   },
+   {
+    "src_bits": "0xFF800001",
+    "emulator_dst": "0xFF800001",
+    "intel_sdm_expected": "0xFFC00001"
+   },
+   {
+    "src_bits": "0x7FBFFFFF",
+    "emulator_dst": "0x7FBFFFFF",
+    "intel_sdm_expected": "0x7FFFFFFF"
+   }
+  ],
+  "verdict": "inconclusive — эмулятор (Unicorn 2.1, x87 из QEMU) НЕ превращает SNaN в QNaN при fld m32, Intel SDM требует превращать. Для таких входов эмулятор не годится как эталон; основные тесты идут без SNaN, поведение SNaN — только по SDM или на настоящем CPU."
+ }
+}

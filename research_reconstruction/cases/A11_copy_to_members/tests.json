@@ -1,0 +1,41 @@
+{
+ "seed": 20261026,
+ "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "tests": [
+  {
+   "test": "C2:none",
+   "kind": "original-vs-model",
+   "f": "0x00BA8F60",
+   "cases": 300,
+   "failed": 0
+  },
+  {
+   "test": "C2:same",
+   "kind": "original-vs-model",
+   "f": "0x00BA8F60",
+   "cases": 300,
+   "failed": 0
+  },
+  {
+   "test": "C2:replace",
+   "kind": "original-vs-model",
+   "f": "0x00BA8F60",
+   "cases": 300,
+   "failed": 0
+  },
+  {
+   "test": "C2:replace-last-ref",
+   "kind": "original-vs-model",
+   "f": "0x00BA8F60",
+   "cases": 300,
+   "failed": 0
+  },
+  {
+   "test": "C2:from-null",
+   "kind": "original-vs-model",
+   "f": "0x00BA8F60",
+   "cases": 300,
+   "failed": 0
+  }
+ ]
+}

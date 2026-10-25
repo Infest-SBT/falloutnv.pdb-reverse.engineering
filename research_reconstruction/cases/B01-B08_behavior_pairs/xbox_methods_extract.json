@@ -1,0 +1,2278 @@
+{
+"TESForm": {
+"Activate": [
+[
+292,
+"public intro virtual"
+]
+],
+"AddChange": [
+[
+72,
+"public intro virtual"
+]
+],
+"AddChunk": [
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+]
+],
+"AddChunkArray": [
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+],
+[
+-1,
+"public static"
+]
+],
+"AddChunkArray16": [
+[
+-1,
+"private static"
+]
+],
+"AddChunkArray32": [
+[
+-1,
+"private static"
+]
+],
+"AddCompileIndex": [
+[
+-1,
+"public static"
+]
+],
+"BelongsInGroup": [
+[
+272,
+"public intro virtual"
+]
+],
+"CanBeOnLocalMap": [
+[
+-1,
+"public static"
+]
+],
+"CheckSaveGame": [
+[
+128,
+"public intro virtual"
+]
+],
+"ClearData": [
+[
+24,
+"public intro virtual"
+]
+],
+"ClearDataAllComponents": [
+[
+-1,
+"public"
+]
+],
+"ClearDataComponent": [
+[
+-1,
+"public virtual"
+]
+],
+"ClearFiles": [
+[
+-1,
+"public"
+]
+],
+"CloseForm": [
+[
+-1,
+"public"
+]
+],
+"Compare": [
+[
+268,
+"public intro virtual"
+]
+],
+"CompareAllComponents": [
+[
+-1,
+"public"
+]
+],
+"CompareComponent": [
+[
+-1,
+"public virtual"
+]
+],
+"CompressSaveBuffer": [
+[
+-1,
+"public static"
+]
+],
+"Copy": [
+[
+264,
+"public intro virtual"
+]
+],
+"CopyAllComponents": [
+[
+-1,
+"public"
+]
+],
+"CopyComponent": [
+[
+-1,
+"public virtual"
+]
+],
+"CreateDuplicateForm": [
+[
+64,
+"public intro virtual"
+]
+],
+"CreateGroupData": [
+[
+276,
+"public intro virtual"
+]
+],
+"ExpandChunk": [
+[
+-1,
+"public"
+]
+],
+"FindInFileFast": [
+[
+124,
+"public intro virtual"
+]
+],
+"FinishInitLoadGame": [
+[
+108,
+"public intro virtual"
+]
+],
+"FinishLoadGame": [
+[
+132,
+"public intro virtual"
+]
+],
+"ForceChange": [
+[
+-1,
+"public"
+]
+],
+"FormIDMatchesWithoutIndex": [
+[
+-1,
+"public"
+]
+],
+"FreeFormBuffer": [
+[
+-1,
+"public"
+]
+],
+"GetAltered": [
+[
+-1,
+"public"
+]
+],
+"GetBorderRegion": [
+[
+-1,
+"public"
+]
+],
+"GetChildCanUse": [
+[
+-1,
+"public"
+]
+],
+"GetContinuousBroadcast": [
+[
+180,
+"public intro virtual"
+]
+],
+"GetDangerous": [
+[
+168,
+"public intro virtual"
+]
+],
+"GetDataSizeAdded": [
+[
+-1,
+"public"
+]
+],
+"GetDelete": [
+[
+-1,
+"public"
+]
+],
+"GetDeleted": [
+[
+-1,
+"public"
+]
+],
+"GetDestroyed": [
+[
+-1,
+"public"
+]
+],
+"GetDestructible": [
+[
+-1,
+"public"
+]
+],
+"GetDisableFade": [
+[
+-1,
+"public"
+]
+],
+"GetDisabled": [
+[
+-1,
+"public"
+]
+],
+"GetDisabledOrDeleted": [
+[
+-1,
+"public"
+]
+],
+"GetEmittanceColor": [
+[
+192,
+"public intro virtual"
+]
+],
+"GetEmpty": [
+[
+-1,
+"public"
+]
+],
+"GetFile": [
+[
+-1,
+"public"
+]
+],
+"GetFileCount": [
+[
+-1,
+"public"
+]
+],
+"GetFileList": [
+[
+-1,
+"public"
+]
+],
+"GetFireOff": [
+[
+-1,
+"public"
+]
+],
+"GetFormBuffer": [
+[
+-1,
+"public"
+]
+],
+"GetFormBufferSize": [
+[
+-1,
+"public"
+]
+],
+"GetFormByEditorID": [
+[
+-1,
+"public static"
+]
+],
+"GetFormByFullName": [
+[
+-1,
+"public static"
+]
+],
+"GetFormByNumericID": [
+[
+-1,
+"public static"
+]
+],
+"GetFormDetailedString": [
+[
+144,
+"public intro virtual"
+]
+],
+"GetFormEditorID": [
+[
+304,
+"public intro virtual"
+]
+],
+"GetFormEditorIDLength": [
+[
+-1,
+"public"
+]
+],
+"GetFormFlags": [
+[
+-1,
+"public"
+]
+],
+"GetFormID": [
+[
+-1,
+"public"
+]
+],
+"GetFormIDAsSaved": [
+[
+-1,
+"public"
+]
+],
+"GetFormIDWithoutIndex": [
+[
+-1,
+"public"
+]
+],
+"GetFormType": [
+[
+-1,
+"public"
+]
+],
+"GetFormTypeFromFormString": [
+[
+-1,
+"public static"
+]
+],
+"GetFormTypeString": [
+[
+-1,
+"public static"
+],
+[
+-1,
+"public"
+]
+],
+"GetGlobalConstant": [
+[
+-1,
+"public"
+]
+],
+"GetHasPLSpecTex": [
+[
+172,
+"public intro virtual"
+]
+],
+"GetHasResults": [
+[
+-1,
+"public"
+]
+],
+"GetHasSpokenFlag": [
+[
+152,
+"public intro virtual"
+]
+],
+"GetHavokDeath": [
+[
+156,
+"public intro virtual"
+]
+],
+"GetIgnore": [
+[
+-1,
+"public"
+]
+],
+"GetIgnoreFriendlyHits": [
+[
+-1,
+"public"
+]
+],
+"GetInPlaceableWater": [
+[
+-1,
+"public"
+]
+],
+"GetInitialized": [
+[
+-1,
+"public"
+]
+],
+"GetLODTree": [
+[
+-1,
+"public"
+]
+],
+"GetLockMultiBound": [
+[
+-1,
+"public"
+]
+],
+"GetMaster": [
+[
+-1,
+"public"
+]
+],
+"GetMustBeVisibleDistant": [
+[
+-1,
+"public"
+]
+],
+"GetNeedtoChangeProcess": [
+[
+164,
+"public intro virtual"
+]
+],
+"GetNoAIAcquire": [
+[
+-1,
+"public"
+]
+],
+"GetNoCollision": [
+[
+-1,
+"public"
+]
+],
+"GetObjectTypeName": [
+[
+300,
+"public intro virtual"
+]
+],
+"GetObstacle": [
+[
+176,
+"public intro virtual"
+]
+],
+"GetOnLocalMap": [
+[
+184,
+"public intro virtual"
+]
+],
+"GetOwnerMaster": [
+[
+-1,
+"public"
+]
+],
+"GetQuestObject": [
+[
+148,
+"public intro virtual"
+]
+],
+"GetRandomAnim": [
+[
+160,
+"public intro virtual"
+]
+],
+"GetRefCount": [
+[
+260,
+"public intro virtual"
+]
+],
+"GetReflectedByAutoWater": [
+[
+-1,
+"public"
+]
+],
+"GetRefractedByAutoWater": [
+[
+-1,
+"public"
+]
+],
+"GetResetDestruct": [
+[
+-1,
+"public"
+]
+],
+"GetSaveSize": [
+[
+80,
+"public intro virtual"
+]
+],
+"GetSavedFormType": [
+[
+140,
+"public intro virtual"
+]
+],
+"GetTemporary": [
+[
+-1,
+"public"
+]
+],
+"GetVATSTargetOverride": [
+[
+-1,
+"public"
+]
+],
+"InitItem": [
+[
+136,
+"public intro virtual"
+]
+],
+"InitLoadGame": [
+[
+100,
+"public intro virtual"
+],
+[
+104,
+"public intro virtual"
+]
+],
+"InitializeData": [
+[
+20,
+"public intro virtual"
+]
+],
+"InitializeDataAllComponents": [
+[
+-1,
+"public"
+]
+],
+"InitializeDataComponent": [
+[
+-1,
+"public virtual"
+]
+],
+"InitializeFormDataStructures": [
+[
+-1,
+"private static"
+]
+],
+"IsActor": [
+[
+256,
+"public intro virtual"
+]
+],
+"IsActorBase": [
+[
+248,
+"public intro virtual"
+]
+],
+"IsArmorAddon": [
+[
+244,
+"public intro virtual"
+]
+],
+"IsBoundObject": [
+[
+228,
+"public intro virtual"
+]
+],
+"IsDefaultForm": [
+[
+-1,
+"public"
+],
+[
+-1,
+"public static"
+]
+],
+"IsFormTypeChild": [
+[
+288,
+"public intro virtual"
+]
+],
+"IsInFile": [
+[
+-1,
+"public"
+]
+],
+"IsMagicItem": [
+[
+236,
+"public intro virtual"
+]
+],
+"IsMobileObject": [
+[
+252,
+"public intro virtual"
+]
+],
+"IsObject": [
+[
+232,
+"public intro virtual"
+]
+],
+"IsParentForm": [
+[
+280,
+"public intro virtual"
+]
+],
+"IsParentFormTree": [
+[
+284,
+"public intro virtual"
+]
+],
+"IsRecentPCDrop": [
+[
+-1,
+"public"
+]
+],
+"IsReference": [
+[
+240,
+"public intro virtual"
+]
+],
+"IsStillLoading": [
+[
+-1,
+"public"
+]
+],
+"Load": [
+[
+32,
+"public intro virtual"
+]
+],
+"LoadData": [
+[
+-1,
+"public"
+]
+],
+"LoadEdit": [
+[
+48,
+"public intro virtual"
+]
+],
+"LoadForm": [
+[
+-1,
+"public"
+]
+],
+"LoadGame": [
+[
+92,
+"public intro virtual"
+],
+[
+96,
+"public intro virtual"
+]
+],
+"LoadGameDataOLD": [
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+]
+],
+"LoadNumericID": [
+[
+-1,
+"public"
+]
+],
+"LoadObjectBound": [
+[
+224,
+"public intro virtual"
+]
+],
+"LoadPartial": [
+[
+36,
+"public intro virtual"
+]
+],
+"LoadQueuedFormData": [
+[
+120,
+"public intro virtual"
+]
+],
+"PostDuplicateProcess": [
+[
+68,
+"public intro virtual"
+]
+],
+"ProcessBeforeSave": [
+[
+28,
+"public intro virtual"
+]
+],
+"QEndianSwapOnSave": [
+[
+-1,
+"public static"
+]
+],
+"ReleaseFormDataStructures": [
+[
+-1,
+"public static"
+]
+],
+"RemoveChange": [
+[
+76,
+"public intro virtual"
+]
+],
+"RemoveFromDataStructures": [
+[
+-1,
+"public"
+]
+],
+"Revert": [
+[
+112,
+"public intro virtual"
+],
+[
+116,
+"public intro virtual"
+]
+],
+"RunPostDuplicateProcess": [
+[
+-1,
+"public static"
+]
+],
+"Save": [
+[
+40,
+"public intro virtual"
+],
+[
+44,
+"public intro virtual"
+]
+],
+"SaveData": [
+[
+-1,
+"public"
+]
+],
+"SaveEdit": [
+[
+52,
+"public intro virtual"
+]
+],
+"SaveGame": [
+[
+84,
+"public intro virtual"
+],
+[
+88,
+"public intro virtual"
+]
+],
+"SaveGameDataOLD": [
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+]
+],
+"SaveNumericID": [
+[
+-1,
+"public"
+]
+],
+"SaveObjectBound": [
+[
+220,
+"public intro virtual"
+]
+],
+"SavesBefore": [
+[
+56,
+"public intro virtual"
+],
+[
+60,
+"public intro virtual"
+]
+],
+"SetAltered": [
+[
+200,
+"public intro virtual"
+]
+],
+"SetBorderRegion": [
+[
+-1,
+"public"
+]
+],
+"SetChildCanUse": [
+[
+-1,
+"public"
+]
+],
+"SetDelete": [
+[
+196,
+"public intro virtual"
+]
+],
+"SetDestroyed": [
+[
+-1,
+"public"
+]
+],
+"SetDestructible": [
+[
+-1,
+"public"
+]
+],
+"SetDisableFade": [
+[
+-1,
+"public"
+]
+],
+"SetDisabled": [
+[
+-1,
+"public"
+]
+],
+"SetEmpty": [
+[
+-1,
+"public"
+]
+],
+"SetEndianSwapOnSave": [
+[
+-1,
+"public static"
+]
+],
+"SetFile": [
+[
+-1,
+"public"
+]
+],
+"SetFireOff": [
+[
+-1,
+"public"
+]
+],
+"SetFormEditorID": [
+[
+308,
+"public intro virtual"
+]
+],
+"SetFormFlags": [
+[
+-1,
+"public"
+]
+],
+"SetFormID": [
+[
+296,
+"public intro virtual"
+]
+],
+"SetFormType": [
+[
+-1,
+"public"
+]
+],
+"SetGlobalConstant": [
+[
+-1,
+"public"
+]
+],
+"SetHasPLSpecTex": [
+[
+-1,
+"public"
+]
+],
+"SetHasResults": [
+[
+-1,
+"public"
+]
+],
+"SetHasSpokenFlag": [
+[
+208,
+"public intro virtual"
+]
+],
+"SetHavokDeath": [
+[
+212,
+"public intro virtual"
+]
+],
+"SetIgnore": [
+[
+-1,
+"public"
+]
+],
+"SetIgnoreFriendlyHits": [
+[
+-1,
+"public"
+]
+],
+"SetInPlaceableWater": [
+[
+-1,
+"public"
+]
+],
+"SetInitialized": [
+[
+-1,
+"public"
+]
+],
+"SetLODTree": [
+[
+-1,
+"public"
+]
+],
+"SetLockMultiBound": [
+[
+-1,
+"public"
+]
+],
+"SetMaster": [
+[
+-1,
+"public"
+]
+],
+"SetMustBeVisibleDistant": [
+[
+-1,
+"public"
+]
+],
+"SetNeedToChangeProcess": [
+[
+216,
+"public intro virtual"
+]
+],
+"SetNoAIAcquire": [
+[
+-1,
+"public"
+]
+],
+"SetNoCollision": [
+[
+-1,
+"public"
+]
+],
+"SetObstacle": [
+[
+-1,
+"public"
+]
+],
+"SetOnLocalMap": [
+[
+188,
+"public intro virtual"
+]
+],
+"SetQuestObject": [
+[
+204,
+"public intro virtual"
+]
+],
+"SetRandomAnim": [
+[
+-1,
+"public"
+]
+],
+"SetRecentPCDrop": [
+[
+-1,
+"public"
+]
+],
+"SetReflectedByAutoWater": [
+[
+-1,
+"public"
+]
+],
+"SetRefractedByAutoWater": [
+[
+-1,
+"public"
+]
+],
+"SetResetDestruct": [
+[
+-1,
+"public"
+]
+],
+"SetStillLoading": [
+[
+-1,
+"public"
+]
+],
+"SetTemporary": [
+[
+-1,
+"public"
+]
+],
+"SetVATSTargetOverride": [
+[
+-1,
+"public"
+]
+],
+"StartForm": [
+[
+-1,
+"public"
+]
+],
+"TESForm": [
+[
+-1,
+"public compiler-generated"
+],
+[
+-1,
+"public"
+]
+],
+"__AddChunkData": [
+[
+-1,
+"public static"
+]
+],
+"__SaveData": [
+[
+-1,
+"public"
+]
+],
+"__local_vftable_ctor_closure": [
+[
+-1,
+"public compiler-generated"
+]
+],
+"__vecDelDtor": [
+[
+16,
+"public intro virtual compiler-generated"
+]
+],
+"operator=": [
+[
+-1,
+"public compiler-generated"
+]
+],
+"~TESForm": [
+[
+16,
+"public intro virtual"
+]
+]
+},
+"BSGameSound": {
+"BSGameSound": [
+[
+-1,
+"public compiler-generated"
+],
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+]
+],
+"CalculateHashes": [
+[
+-1,
+"public"
+]
+],
+"CanPlayNow": [
+[
+-1,
+"public"
+]
+],
+"ClearSynchStartTime": [
+[
+-1,
+"public"
+]
+],
+"Copy": [
+[
+44,
+"public intro virtual"
+]
+],
+"GetBeamEnd": [
+[
+-1,
+"public"
+]
+],
+"GetBeginTime": [
+[
+-1,
+"public"
+]
+],
+"GetCleanupDelay": [
+[
+-1,
+"public"
+]
+],
+"GetCompletionCallback": [
+[
+-1,
+"public"
+]
+],
+"GetCompletionContext": [
+[
+-1,
+"public"
+]
+],
+"GetDirHash": [
+[
+-1,
+"public"
+]
+],
+"GetDistanceAttenuation": [
+[
+-1,
+"public"
+]
+],
+"GetDuration": [
+[
+-1,
+"public"
+]
+],
+"GetEmitterPosition": [
+[
+84,
+"public pure intro virtual"
+]
+],
+"GetEndTime": [
+[
+-1,
+"public"
+]
+],
+"GetEnvironmentType": [
+[
+-1,
+"public"
+]
+],
+"GetFaderAttenuation": [
+[
+-1,
+"public"
+]
+],
+"GetFileName": [
+[
+-1,
+"public"
+]
+],
+"GetFreqVariance": [
+[
+-1,
+"public"
+]
+],
+"GetFrequency": [
+[
+104,
+"public pure intro virtual"
+]
+],
+"GetID": [
+[
+-1,
+"public"
+]
+],
+"GetLastDistanceToListener": [
+[
+-1,
+"public"
+]
+],
+"GetLoopEnd": [
+[
+-1,
+"public"
+]
+],
+"GetLoopStart": [
+[
+-1,
+"public"
+]
+],
+"GetMax": [
+[
+-1,
+"public"
+]
+],
+"GetMaxDistance": [
+[
+-1,
+"public"
+]
+],
+"GetMessageQueue": [
+[
+-1,
+"public"
+]
+],
+"GetMin": [
+[
+-1,
+"public"
+]
+],
+"GetMinDistance": [
+[
+-1,
+"public"
+]
+],
+"GetModFlags": [
+[
+-1,
+"public"
+]
+],
+"GetModFrequency": [
+[
+-1,
+"public"
+]
+],
+"GetMuteWhenSumberged": [
+[
+-1,
+"public"
+]
+],
+"GetName": [
+[
+-1,
+"public"
+]
+],
+"GetNameHash": [
+[
+-1,
+"public static"
+]
+],
+"GetPlayCallback": [
+[
+-1,
+"public"
+]
+],
+"GetPlayContext": [
+[
+-1,
+"public"
+]
+],
+"GetPriority": [
+[
+-1,
+"public"
+]
+],
+"GetRadioPause": [
+[
+-1,
+"public"
+]
+],
+"GetReverbAttenuation": [
+[
+-1,
+"public"
+]
+],
+"GetSize": [
+[
+-1,
+"public"
+]
+],
+"GetSoundHash": [
+[
+-1,
+"public"
+]
+],
+"GetSoundType": [
+[
+-1,
+"public"
+]
+],
+"GetStaticAttenuation": [
+[
+-1,
+"public"
+]
+],
+"GetSynchStartTime": [
+[
+-1,
+"public"
+]
+],
+"GetSystemAttenuation": [
+[
+-1,
+"public"
+]
+],
+"GetVolume": [
+[
+16,
+"public intro virtual"
+]
+],
+"HandlePlayCallback": [
+[
+-1,
+"public"
+]
+],
+"HasBeenOpened": [
+[
+-1,
+"public"
+]
+],
+"HasPlayed": [
+[
+-1,
+"public"
+]
+],
+"HasQueuedMessages": [
+[
+-1,
+"public"
+]
+],
+"HasVariableFreq": [
+[
+-1,
+"public"
+]
+],
+"HaveHashedBeenCalculated": [
+[
+-1,
+"public"
+]
+],
+"Init": [
+[
+-1,
+"public"
+]
+],
+"Is2DRadiusSound": [
+[
+-1,
+"public"
+]
+],
+"Is3DSound": [
+[
+-1,
+"public"
+]
+],
+"IsBattleSound": [
+[
+-1,
+"public"
+]
+],
+"IsBeamEmitter": [
+[
+-1,
+"public"
+]
+],
+"IsCached": [
+[
+-1,
+"public"
+]
+],
+"IsEnvelopeLoop": [
+[
+-1,
+"public"
+]
+],
+"IsEnvelopeLoopFast": [
+[
+-1,
+"public"
+]
+],
+"IsEnvelopeLoopSlow": [
+[
+-1,
+"public"
+]
+],
+"IsExternallySynched": [
+[
+-1,
+"public"
+]
+],
+"IsFading": [
+[
+-1,
+"public"
+]
+],
+"IsInDecay": [
+[
+8,
+"public intro virtual"
+]
+],
+"IsInMemory": [
+[
+-1,
+"public"
+]
+],
+"IsInaudible": [
+[
+-1,
+"public"
+]
+],
+"IsLoopingSound": [
+[
+-1,
+"public"
+]
+],
+"IsOneShot": [
+[
+-1,
+"public"
+]
+],
+"IsOpening": [
+[
+-1,
+"public"
+]
+],
+"IsPaused": [
+[
+12,
+"public intro virtual"
+]
+],
+"IsPlaying": [
+[
+4,
+"public intro virtual"
+]
+],
+"IsReady": [
+[
+-1,
+"public"
+]
+],
+"IsRegionSound": [
+[
+-1,
+"public"
+]
+],
+"IsSeeking": [
+[
+-1,
+"public"
+]
+],
+"IsSilent": [
+[
+-1,
+"public"
+]
+],
+"IsSimpleLoop": [
+[
+-1,
+"public"
+]
+],
+"IsSoundFinished": [
+[
+-1,
+"public"
+]
+],
+"IsStreaming": [
+[
+-1,
+"public"
+]
+],
+"IsSynchPaused": [
+[
+-1,
+"public"
+]
+],
+"IsTimeRestricted": [
+[
+-1,
+"public"
+]
+],
+"IsValid": [
+[
+-1,
+"public"
+]
+],
+"IsValidBeam": [
+[
+-1,
+"public"
+]
+],
+"IsVoice": [
+[
+-1,
+"public"
+]
+],
+"MatchesDirectoryHash": [
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+]
+],
+"MatchesSoundHash": [
+[
+-1,
+"public"
+],
+[
+-1,
+"public"
+]
+],
+"Open": [
+[
+36,
+"public pure intro virtual"
+]
+],
+"OpenResult": [
+[
+-1,
+"protected"
+]
+],
+"Pause": [
+[
+52,
+"public pure intro virtual"
+]
+],
+"Play": [
+[
+48,
+"public pure intro virtual"
+]
+],
+"Prepare": [
+[
+40,
+"public intro virtual"
+]
+],
+"PriorityTest": [
+[
+28,
+"public intro virtual"
+],
+[
+32,
+"public intro virtual"
+]
+],
+"ProcessDataRequest": [
+[
+72,
+"public pure intro virtual"
+]
+],
+"QueueMessage": [
+[
+-1,
+"public"
+]
+],
+"Seek": [
+[
+108,
+"public pure intro virtual"
+]
+],
+"SetAttenuationCurve": [
+[
+96,
+"public pure intro virtual"
+]
+],
+"SetBeamEnd": [
+[
+-1,
+"public"
+]
+],
+"SetBeginTime": [
+[
+-1,
+"public"
+]
+],
+"SetCached": [
+[
+-1,
+"public"
+]
+],
+"SetCleanupDelay": [
+[
+-1,
+"public"
+]
+],
+"SetCompletionCallback": [
+[
+-1,
+"public"
+]
+],
+"SetCompletionContext": [
+[
+-1,
+"public"
+]
+],
+"SetDistanceAttenuation": [
+[
+-1,
+"public"
+]
+],
+"SetDistanceToListener": [
+[
+-1,
+"public"
+]
+],
+"SetDuration": [
+[
+-1,
+"public"
+]
+],
+"SetEmitterOrientation": [
+[
+88,
+"public pure intro virtual"
+]
+],
+"SetEmitterPosition": [
+[
+76,
+"public pure intro virtual"
+],
+[
+80,
+"public pure intro virtual"
+]
+],
+"SetEndTime": [
+[
+-1,
+"public"
+]
+],
+"SetEnvironmentType": [
+[
+24,
+"public intro virtual"
+]
+],
+"SetFaderAttenuation": [
+[
+-1,
+"public"
+]
+],
+"SetFading": [
+[
+-1,
+"public"
+]
+],
+"SetFilename": [
+[
+-1,
+"public"
+]
+],
+"SetFreqVariance": [
+[
+-1,
+"public"
+]
+],
+"SetFrequency": [
+[
+100,
+"public pure intro virtual"
+]
+],
+"SetHasPlayed": [
+[
+-1,
+"public"
+]
+],
+"SetID": [
+[
+-1,
+"public"
+]
+],
+"SetInMemory": [
+[
+-1,
+"public"
+]
+],
+"SetInaudible": [
+[
+20,
+"public intro virtual"
+]
+],
+"SetIsInDecay": [
+[
+-1,
+"public"
+]
+],
+"SetLoopPoints": [
+[
+-1,
+"public"
+]
+],
+"SetMinMax": [
+[
+92,
+"public pure intro virtual"
+]
+],
+"SetModFlags": [
+[
+-1,
+"public"
+]
+],
+"SetModFrequency": [
+[
+-1,
+"public"
+]
+],
+"SetMuteWhenSumberged": [
+[
+-1,
+"public"
+]
+],
+"SetOpening": [
+[
+-1,
+"public"
+]
+],
+"SetPaused": [
+[
+-1,
+"public"
+]
+],
+"SetPlayCallback": [
+[
+-1,
+"public"
+]
+],
+"SetPlayContext": [
+[
+-1,
+"public"
+]
+],
+"SetPlaying": [
+[
+-1,
+"public"
+]
+],
+"SetPriority": [
+[
+-1,
+"public"
+]
+],
+"SetRadioPause": [
+[
+-1,
+"public"
+]
+],
+"SetReady": [
+[
+-1,
+"public"
+]
+],
+"SetReverbAttenuation": [
+[
+-1,
+"public"
+]
+],
+"SetSeeking": [
+[
+-1,
+"public"
+]
+],
+"SetSilent": [
+[
+-1,
+"public"
+]
+],
+"SetSoundFinished": [
+[
+-1,
+"public"
+]
+],
+"SetSoundType": [
+[
+-1,
+"public"
+]
+],
+"SetStaticAttenuation": [
+[
+-1,
+"public"
+]
+],
+"SetStreaming": [
+[
+-1,
+"public"
+]
+],
+"SetSynchPause": [
+[
+-1,
+"public"
+]
+],
+"SetSynchStartTime": [
+[
+-1,
+"public"
+]
+],
+"SetSystemAttenuation": [
+[
+-1,
+"public"
+]
+],
+"SetTimeRestricted": [
+[
+-1,
+"public"
+]
+],
+"SetValid": [
+[
+-1,
+"public"
+]
+],
+"SetValidBeam": [
+[
+-1,
+"public"
+]
+],
+"SetVariableFreq": [
+[
+-1,
+"public"
+]
+],
+"SetVolume": [
+[
+60,
+"public pure intro virtual"
+]
+],
+"SetWeatherFlags": [
+[
+-1,
+"public"
+]
+],
+"Stop": [
+[
+56,
+"public pure intro virtual"
+]
+],
+"Update": [
+[
+68,
+"public intro virtual"
+]
+],
+"UpdateEmitterPosition": [
+[
+64,
+"public pure intro virtual"
+]
+],
+"VolumeChanged": [
+[
+-1,
+"public"
+]
+],
+"__local_vftable_ctor_closure": [
+[
+-1,
+"public compiler-generated"
+]
+],
+"__vecDelDtor": [
+[
+0,
+"public intro virtual compiler-generated"
+]
+],
+"operator=": [
+[
+-1,
+"public compiler-generated"
+]
+],
+"~BSGameSound": [
+[
+0,
+"public intro virtual"
+]
+]
+}
+}

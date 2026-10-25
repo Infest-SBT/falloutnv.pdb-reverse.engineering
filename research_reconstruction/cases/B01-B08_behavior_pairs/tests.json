@@ -1,0 +1,150 @@
+{
+ "seed": 20261026,
+ "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "tests": [
+  {
+   "test": "TESForm[37]/[51]:get",
+   "kind": "getter-vs-model",
+   "f": "0x00401190",
+   "model": "(this+0x8 & 0x400) != 0",
+   "cases": 415,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[37]/[51]:set",
+   "kind": "setter-vs-model",
+   "f": "0x00484860",
+   "model": "b&0xFF ? this+0x8 | 0x400 : this+0x8 & ~0x400; прочие байты не меняются",
+   "cases": 1890,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[37]/[51]:rt",
+   "kind": "round-trip set→get",
+   "set": "0x00484860",
+   "get": "0x00401190",
+   "cases": 430,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[38]/[52]:get",
+   "kind": "getter-vs-model",
+   "f": "0x00549580",
+   "model": "(this+0x8 & 0x40) != 0",
+   "cases": 415,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[38]/[52]:set",
+   "kind": "setter-vs-model",
+   "f": "0x004848B0",
+   "model": "b&0xFF ? this+0x8 | 0x40 : this+0x8 & ~0x40; прочие байты не меняются",
+   "cases": 1890,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[38]/[52]:rt",
+   "kind": "round-trip set→get",
+   "set": "0x004848B0",
+   "get": "0x00549580",
+   "cases": 430,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[39]/[53]:get",
+   "kind": "getter-vs-model",
+   "f": "0x004011B0",
+   "model": "(this+0x8 & 0x10000) != 0",
+   "cases": 415,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[39]/[53]:set",
+   "kind": "setter-vs-model",
+   "f": "0x00484900",
+   "model": "b&0xFF ? this+0x8 | 0x10000 : this+0x8 & ~0x10000; прочие байты не меняются",
+   "cases": 1890,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[39]/[53]:rt",
+   "kind": "round-trip set→get",
+   "set": "0x00484900",
+   "get": "0x004011B0",
+   "cases": 430,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[41]/[54]:get",
+   "kind": "getter-vs-model",
+   "f": "0x004011D0",
+   "model": "(this+0x8 & 0x20000) != 0",
+   "cases": 415,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[41]/[54]:set",
+   "kind": "setter-vs-model",
+   "f": "0x00484950",
+   "model": "b&0xFF ? this+0x8 | 0x20000 : this+0x8 & ~0x20000; прочие байты не меняются",
+   "cases": 1890,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[41]/[54]:rt",
+   "kind": "round-trip set→get",
+   "set": "0x00484950",
+   "get": "0x004011D0",
+   "cases": 430,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[46]/[47]:get",
+   "kind": "getter-vs-model",
+   "f": "0x00401250",
+   "model": "(this+0x8 & 0x200) != 0",
+   "cases": 415,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[46]/[47]:set",
+   "kind": "setter-vs-model",
+   "f": "0x004849D0",
+   "model": "b&0xFF ? this+0x8 | 0x200 : this+0x8 & ~0x200; прочие байты не меняются",
+   "cases": 1890,
+   "failed": 0
+  },
+  {
+   "test": "TESForm[46]/[47]:rt",
+   "kind": "round-trip set→get",
+   "set": "0x004849D0",
+   "get": "0x00401250",
+   "cases": 430,
+   "failed": 0
+  },
+  {
+   "test": "BSGameSound[7]:cmp",
+   "kind": "comparator-vs-model",
+   "f": "0x00AEA000",
+   "model": "eax = (unsigned)this->iPriority(+0x188) < (unsigned)arg ? 1 : 0",
+   "cases": 5120,
+   "failed": 0
+  },
+  {
+   "test": "NEG:wrong-mask",
+   "kind": "getter-vs-model",
+   "f": "0x00549580",
+   "model": "(this+0x8 & 0x80) != 0",
+   "cases": 65,
+   "failed": 29
+  },
+  {
+   "test": "NEG:pair 39/51",
+   "kind": "round-trip set→get",
+   "set": "0x00484860",
+   "get": "0x004011B0",
+   "cases": 90,
+   "failed": 45
+  }
+ ]
+}

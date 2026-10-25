@@ -7,24 +7,11 @@ PDBS-IDENTICAL
 SCRIPTS-IDENTICAL
 ИТОГ: всё совпадает
 ИТОГ: всё совпадает
-OK   ошибка: транзакция завершена с откатом (ok=False) 
-ИТОГ: всё прошло
-OK   чувствительность: функция Confirmed → VerifiedPrefix — её прототип снят, остальные на месте 0x00AE9FD0 BSGameSound::PriorityTest: 1 → 0
-ИТОГ: всё прошло
 d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e  FalloutNV.pdb
 d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4  research/FalloutNV.pdb
-RAW-MISMATCH 0
 ИТОГ: всё прошло
-20
-20
-ИТОГ: всё прошло
-ИТОГ: всё прошло
-ИТОГ: всё прошло (67 проверок, из них отказов 27)
-ИТОГ: всё прошло (33 проверок, из них отказов 27)
-12
 ИТОГ: всё прошло (31 проверок)
-ИТОГ: всё прошло (6 проверок)
-ИТОГ: всё прошло (16 проверок)
-ИТОГ: всё прошло
-ИТОГ: всё прошло
 FIELD-SCOPE-IDENTICAL
+ИТОГ: всё прошло
+RESEARCH-RECONSTRUCTION-IDENTICAL
+PROBE-DLL-IDENTICAL

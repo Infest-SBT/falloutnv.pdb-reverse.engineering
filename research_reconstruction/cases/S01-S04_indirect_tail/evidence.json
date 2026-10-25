@@ -1,0 +1,366 @@
+{
+ "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
+ "env_model": "образ exe по своим адресам, только чтение; стек и объект — отдельные области; vtable объекта — поддельная, слоты → заглушки с очисткой и результатом из модели теста; любой другой выход наружу — останов (inconclusive)",
+ "cases": {
+  "PostAttachUpdate": {
+   "tail_function": "0x00A59CF0",
+   "field": "NiAVObject+0x18",
+   "scope": {
+    "family_classes": 49,
+    "functions": 909,
+    "what": "функции первичных vtable всех классов семейства (RTTI) + функции с именами этих классов"
+   },
+   "stores_total": 13,
+   "stores_zero": 8,
+   "stores_nonzero": [
+    {
+     "va": "0x00A59CCF",
+     "insn": "mov dword ptr [esi + 0x18], eax",
+     "base": "esi",
+     "zero": false,
+     "src": "eax (= mov eax, dword ptr [esp + 4] @0x00A59CC0)",
+     "func": "0x00A59CC0",
+     "name": "NiAVObject::PreAttachUpdate"
+    },
+    {
+     "va": "0x00A59D19",
+     "insn": "mov dword ptr [esi + 0x18], eax",
+     "base": "esi",
+     "zero": false,
+     "src": "eax (= mov eax, dword ptr [esp + 8] @0x00A59D15)",
+     "func": "0x00A59D00",
+     "name": "NiAVObject::AttachParent"
+    },
+    {
+     "va": "0x00A59D24",
+     "insn": "mov dword ptr [esi + 0x18], ecx",
+     "base": "esi",
+     "zero": false,
+     "src": "ecx (= mov ecx, dword ptr [esp + 8] @0x00A59D20)",
+     "func": "0x00A59D00",
+     "name": "NiAVObject::AttachParent"
+    },
+    {
+     "va": "0x00A5A437",
+     "insn": "mov dword ptr [esi + 0x18], eax",
+     "base": "esi",
+     "zero": false,
+     "src": "eax (= mov eax, dword ptr [esp + 4] @0x00A5A430)",
+     "func": "0x00A5A430",
+     "name": "NiAVObject::PreAttachUpdateProperties"
+    },
+    {
+     "va": "0x00C507A8",
+     "insn": "mov dword ptr [edx + 0x18], eax",
+     "base": "edx",
+     "zero": false,
+     "src": "eax (= mov eax, dword ptr [ebp - 0x20] @0x00C507A5)",
+     "func": "0x00C50610",
+     "name": "BSParticleSystemManager::UpdateParallel"
+    }
+   ],
+   "target_family": {
+    "base": "NiNode",
+    "slot": 63,
+    "verdict": "determined",
+    "cleanup": 0,
+    "n_classes": 24,
+    "n_impls": 2,
+    "witnesses": {
+     "0": [
+      "0x00C3A5E0"
+     ]
+    }
+   },
+   "target_impls": [
+    [
+     "0x00A5DB30",
+     "NiNode::UpdateUpwardPass",
+     null,
+     22
+    ],
+    [
+     "0x00C3A5E0",
+     "BSMultiBoundNode::UpdateUpwardPass",
+     0,
+     2
+    ]
+   ]
+  },
+  "CalculateNormals": {
+   "tail_function": "0x00A7FF60",
+   "field": "NiGeometry+0xB8",
+   "scope": {
+    "family_classes": 15,
+    "functions": 248,
+    "what": "функции первичных vtable всех классов семейства (RTTI) + функции с именами этих классов"
+   },
+   "stores_total": 4,
+   "stores_zero": 1,
+   "stores_nonzero": [
+    {
+     "va": "0x00A804FD",
+     "insn": "mov dword ptr [esi + 0xb8], eax",
+     "base": "esi",
+     "zero": false,
+     "src": "eax (= mov eax, dword ptr [esp + 8] @0x00A804F9)",
+     "func": "0x00A804E0",
+     "name": "NiGeometry::NiGeometry"
+    },
+    {
+     "va": "0x00A806F5",
+     "insn": "mov dword ptr [esi + 0xb8], ebp",
+     "base": "esi",
+     "zero": false,
+     "src": "ebp",
+     "func": "0x00A80680",
+     "name": "NiGeometry::SetModelData"
+    },
+    {
+     "va": "0x00A80B8E",
+     "insn": "mov dword ptr [esi + 0xb8], ebx",
+     "base": "esi",
+     "zero": false,
+     "src": "ebx",
+     "func": "0x00A80B50",
+     "name": "NiGeometry::LinkObject"
+    }
+   ],
+   "target_family": {
+    "base": "NiGeometryData",
+    "slot": 40,
+    "verdict": "determined",
+    "cleanup": 0,
+    "n_classes": 14,
+    "n_impls": 4,
+    "witnesses": {
+     "0": [
+      "0x00A29680",
+      "0x00A8ED40",
+      "0x00A8AB40"
+     ]
+    }
+   },
+   "target_impls": [
+    [
+     "0x00A29680",
+     "nullsub",
+     0,
+     7
+    ],
+    [
+     "0x00A8AB40",
+     "NiTriStripsData::CalculateNormals",
+     0,
+     2
+    ],
+    [
+     "0x00A8ED40",
+     "NiTriShapeData::CalculateNormals",
+     0,
+     3
+    ],
+    [
+     "0x00EC60FA",
+     "UnimplementedVirtFunc",
+     null,
+     2
+    ]
+   ]
+  }
+ },
+ "writer_runs": [
+  {
+   "func": "0x00A59D00 NiAVObject::AttachParent",
+   "old_parent": "0x00000000",
+   "stop": "returned",
+   "cleanup": 4,
+   "writes_to_field": [
+    "0x0A0A0A0A"
+   ],
+   "field_after": "0x0A0A0A0A",
+   "stub_calls": [],
+   "meaning": "поле := аргумент 0"
+  },
+  {
+   "func": "0x00A59D00 NiAVObject::AttachParent",
+   "old_parent": "0x20002000",
+   "stop": "returned",
+   "cleanup": 4,
+   "writes_to_field": [
+    "0x0A0A0A0A"
+   ],
+   "field_after": "0x0A0A0A0A",
+   "stub_calls": [
+    [
+     58,
+     "0x20002000",
+     [
+      "0x20000000"
+     ]
+    ]
+   ],
+   "meaning": "поле := аргумент 0"
+  },
+  {
+   "func": "0x00A59CC0 NiAVObject::PreAttachUpdate",
+   "stop": "returned",
+   "cleanup": 8,
+   "writes_to_field": [
+    "0x0A0A0A0A",
+    "0x00000000"
+   ],
+   "field_after": "0x00000000",
+   "stub_calls": [
+    [
+     41,
+     [
+      "0x0A1A1A1A",
+      "0x00000000"
+     ]
+    ]
+   ],
+   "meaning": "поле := аргумент 0 только на время вызова слота 41 (UpdateDownwardPass по Xbox), затем 0"
+  },
+  {
+   "func": "0x00A5A430 NiAVObject::PreAttachUpdateProperties",
+   "stop": "returned",
+   "cleanup": 4,
+   "writes_to_field": [
+    "0x0A0A0A0A",
+    "0x00000000"
+   ],
+   "field_after": "0x00000000",
+   "meaning": "поле := аргумент 0 только на время вызова 0x00A5A040, затем 0"
+  }
+ ],
+ "manual_store_notes": {
+  "0x00C507A8": "BSParticleSystemManager::UpdateParallel: база edx = [ebp-0x24]*0x20 + [ebp-0x18] — элемент массива записей по 0x20 байт (шаг shl 5); объект размером 0x20 не может быть NiAVObject (sizeof 0x9C): не поле m_pkParent"
+ },
+ "callers": [
+  {
+   "target": "0x00A59D00 NiAVObject::AttachParent",
+   "direct_call_sites": 7,
+   "dword_refs": 0,
+   "in_rtti_vtables": 0,
+   "vtable_slots": []
+  },
+  {
+   "site": "0x0081FA0B",
+   "caller": "0x0081F770 ??1MagicShaderHitEffect@@6A@",
+   "stop": "unmapped-access@0x00000000",
+   "local_run": {
+    "start": "0x0081F9F9",
+    "stop": "stopped-at-call@0x00A59D00",
+    "models": {
+     "0x00559450 class NiPointer NiPointer::operator->(class NiPointer const &) const": 0
+    }
+   },
+   "arg0_at_call": "константа 0",
+   "caller_in_vtables_of": 0,
+   "caller_vtable_classes_all_NiNode_family": false,
+   "caller_direct_call_sites": 1
+  },
+  {
+   "site": "0x008204D2",
+   "caller": "0x0081FC70 MagicShaderHitEffect::Init",
+   "stop": "unmapped-access@0x00000000",
+   "local_run": {
+    "start": "0x008204C0",
+    "stop": "stopped-at-call@0x00A59D00",
+    "models": {
+     "0x00559450 class NiPointer NiPointer::operator->(class NiPointer const &) const": 0
+    }
+   },
+   "arg0_at_call": "константа 0",
+   "caller_in_vtables_of": 1,
+   "caller_vtable_classes_all_NiNode_family": false,
+   "caller_direct_call_sites": 0
+  },
+  {
+   "site": "0x00821D98",
+   "caller": "0x00821BD0 MagicShaderHitEffect::End",
+   "stop": "left-function@0x00559450",
+   "local_run": {
+    "start": "0x00821D89",
+    "stop": "stopped-at-call@0x00A59D00",
+    "models": {
+     "0x00559450 class NiPointer NiPointer::operator->(class NiPointer const &) const": 0
+    }
+   },
+   "arg0_at_call": "константа 0",
+   "caller_in_vtables_of": 1,
+   "caller_vtable_classes_all_NiNode_family": false,
+   "caller_direct_call_sites": 0
+  },
+  {
+   "site": "0x00A5ED31",
+   "caller": "0x00A5ED10 NiNode::AttachChild",
+   "stop": "stopped-at-call@0x00A59D00",
+   "local_run": null,
+   "arg0_at_call": "this вызывающей",
+   "caller_in_vtables_of": 20,
+   "caller_vtable_classes_all_NiNode_family": true,
+   "caller_direct_call_sites": 7
+  },
+  {
+   "site": "0x00A5EDDD",
+   "caller": "0x00A5EDC0 NiNode::InsertChildAt",
+   "stop": "stopped-at-call@0x00A59D00",
+   "local_run": null,
+   "arg0_at_call": "this вызывающей",
+   "caller_in_vtables_of": 24,
+   "caller_vtable_classes_all_NiNode_family": true,
+   "caller_direct_call_sites": 0
+  },
+  {
+   "site": "0x00A5EE54",
+   "caller": "0x00A5EE30 NiNode::SetAt",
+   "stop": "stopped-at-call@0x00A59D00",
+   "local_run": null,
+   "arg0_at_call": "this вызывающей",
+   "caller_in_vtables_of": 21,
+   "caller_vtable_classes_all_NiNode_family": true,
+   "caller_direct_call_sites": 1
+  },
+  {
+   "site": "0x00A5EF0B",
+   "caller": "0x00A5EE30 NiNode::SetAt",
+   "stop": "stopped-at-call@0x00A59D00",
+   "local_run": null,
+   "arg0_at_call": "this вызывающей",
+   "caller_in_vtables_of": 21,
+   "caller_vtable_classes_all_NiNode_family": true,
+   "caller_direct_call_sites": 1
+  },
+  {
+   "target": "0x00A59CC0 NiAVObject::PreAttachUpdate",
+   "direct_call_sites": 0,
+   "dword_refs": 56,
+   "in_rtti_vtables": 49,
+   "vtable_slots": [
+    49
+   ]
+  },
+  {
+   "target": "0x00A5A430 NiAVObject::PreAttachUpdateProperties",
+   "direct_call_sites": 0,
+   "dword_refs": 56,
+   "in_rtti_vtables": 49,
+   "vtable_slots": [
+    50
+   ]
+  }
+ ],
+ "gaps": [
+  "0x00A59CC0 NiAVObject::PreAttachUpdate: виртуальный (слоты [49]), вызывающие по vtable не найдены — аргумент неизвестен",
+  "0x00A5A430 NiAVObject::PreAttachUpdateProperties: виртуальный (слоты [50]), вызывающие по vtable не найдены — аргумент неизвестен",
+  "0x00A5ED10 NiNode::AttachChild: есть прямые вызовы (7) — тип ecx в них не проверен",
+  "0x00A5EE30 NiNode::SetAt: есть прямые вызовы (1) — тип ecx в них не проверен",
+  "записи поля вне области (функции, не входящие в vtable/имена семейства) не анализировались"
+ ],
+ "verdict": {
+  "PostAttachUpdate": "conditional: если в +0x18 лежит 0 или объект семейства NiNode (RTTI), очистка = очистка NiNode[63] = 0; условие доказано не полностью (пробелов: 5) — статус не повышается",
+  "CalculateNormals": "не разобран глубже переписи: записи +0xB8 и вызывающие — см. stores_nonzero; статус не повышается"
+ }
+}

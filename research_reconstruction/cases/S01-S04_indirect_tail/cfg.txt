@@ -1,0 +1,66 @@
+# FalloutNV.exe SHA-256 42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c
+# граф: chaincheck.CFG (пакет tools/); границы функции — по символам xNVSE
+
+== 0x00A59CF0 NiAVObject::PostAttachUpdate  граф полон: False  достижимых команд: 4
+  блок 0x00A59CF0:
+    0x00A59CF0  8b4918           mov ecx, dword ptr [ecx + 0x18]
+    0x00A59CF3  8b01             mov eax, dword ptr [ecx]
+    0x00A59CF5  8b90fc000000     mov edx, dword ptr [eax + 0xfc]
+    0x00A59CFB  ffe2             jmp edx   -> выход
+
+== 0x00A59D00 NiAVObject::AttachParent  граф полон: True  достижимых команд: 17
+  блок 0x00A59D00:
+    0x00A59D00  56               push esi
+    0x00A59D01  8bf1             mov esi, ecx
+    0x00A59D03  8b4e18           mov ecx, dword ptr [esi + 0x18]
+    0x00A59D06  85c9             test ecx, ecx
+    0x00A59D08  7416             je 0xa59d20   -> 0x00A59D20, 0x00A59D0A
+  блок 0x00A59D0A:
+    0x00A59D0A  8b01             mov eax, dword ptr [ecx]
+    0x00A59D0C  8b90e8000000     mov edx, dword ptr [eax + 0xe8]
+    0x00A59D12  56               push esi
+    0x00A59D13  ffd2             call edx
+    0x00A59D15  8b442408         mov eax, dword ptr [esp + 8]
+    0x00A59D19  894618           mov dword ptr [esi + 0x18], eax
+    0x00A59D1C  5e               pop esi
+    0x00A59D1D  c20400           ret 4   -> выход
+  блок 0x00A59D20:
+    0x00A59D20  8b4c2408         mov ecx, dword ptr [esp + 8]
+    0x00A59D24  894e18           mov dword ptr [esi + 0x18], ecx
+    0x00A59D27  5e               pop esi
+    0x00A59D28  c20400           ret 4   -> выход
+
+== 0x00A59CC0 NiAVObject::PreAttachUpdate  граф полон: True  достижимых команд: 13
+  блок 0x00A59CC0:
+    0x00A59CC0  8b442404         mov eax, dword ptr [esp + 4]
+    0x00A59CC4  56               push esi
+    0x00A59CC5  8bf1             mov esi, ecx
+    0x00A59CC7  8b16             mov edx, dword ptr [esi]
+    0x00A59CC9  8b92a4000000     mov edx, dword ptr [edx + 0xa4]
+    0x00A59CCF  894618           mov dword ptr [esi + 0x18], eax
+    0x00A59CD2  8b44240c         mov eax, dword ptr [esp + 0xc]
+    0x00A59CD6  6a00             push 0
+    0x00A59CD8  50               push eax
+    0x00A59CD9  ffd2             call edx
+    0x00A59CDB  c7461800000000   mov dword ptr [esi + 0x18], 0
+    0x00A59CE2  5e               pop esi
+    0x00A59CE3  c20800           ret 8   -> выход
+
+== 0x00A5A430 NiAVObject::PreAttachUpdateProperties  граф полон: True  достижимых команд: 8
+  блок 0x00A5A430:
+    0x00A5A430  8b442404         mov eax, dword ptr [esp + 4]
+    0x00A5A434  56               push esi
+    0x00A5A435  8bf1             mov esi, ecx
+    0x00A5A437  894618           mov dword ptr [esi + 0x18], eax
+    0x00A5A43A  e801fcffff       call 0xa5a040
+    0x00A5A43F  c7461800000000   mov dword ptr [esi + 0x18], 0
+    0x00A5A446  5e               pop esi
+    0x00A5A447  c20400           ret 4   -> выход
+
+== 0x00A7FF60 NiGeometry::CalculateNormals  граф полон: False  достижимых команд: 4
+  блок 0x00A7FF60:
+    0x00A7FF60  8b89b8000000     mov ecx, dword ptr [ecx + 0xb8]
+    0x00A7FF66  8b01             mov eax, dword ptr [ecx]
+    0x00A7FF68  8b90a0000000     mov edx, dword ptr [eax + 0xa0]
+    0x00A7FF6E  ffe2             jmp edx   -> выход
+

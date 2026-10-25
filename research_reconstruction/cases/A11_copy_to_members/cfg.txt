@@ -1,0 +1,70 @@
+# FalloutNV.exe SHA-256 42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c
+# граф: chaincheck.CFG (пакет tools/); границы функции — по символам xNVSE
+
+== 0x00BA8F60 BSShaderProperty::CopyData  граф полон: True  достижимых команд: 50
+  блок 0x00BA8F60:
+    0x00BA8F60  56               push esi
+    0x00BA8F61  8b742408         mov esi, dword ptr [esp + 8]
+    0x00BA8F65  57               push edi
+    0x00BA8F66  8bf9             mov edi, ecx
+    0x00BA8F68  8b4720           mov eax, dword ptr [edi + 0x20]
+    0x00BA8F6B  894620           mov dword ptr [esi + 0x20], eax
+    0x00BA8F6E  8b4f24           mov ecx, dword ptr [edi + 0x24]
+    0x00BA8F71  894e24           mov dword ptr [esi + 0x24], ecx
+    0x00BA8F74  d94728           fld dword ptr [edi + 0x28]
+    0x00BA8F77  d95e28           fstp dword ptr [esi + 0x28]
+    0x00BA8F7A  d9472c           fld dword ptr [edi + 0x2c]
+    0x00BA8F7D  c7463800000000   mov dword ptr [esi + 0x38], 0
+    0x00BA8F84  d95e2c           fstp dword ptr [esi + 0x2c]
+    0x00BA8F87  8b5758           mov edx, dword ptr [edi + 0x58]
+    0x00BA8F8A  895658           mov dword ptr [esi + 0x58], edx
+    0x00BA8F8D  d9475c           fld dword ptr [edi + 0x5c]
+    0x00BA8F90  d95e5c           fstp dword ptr [esi + 0x5c]
+    0x00BA8F93  837f0c00         cmp dword ptr [edi + 0xc], 0
+    0x00BA8F97  7447             je 0xba8fe0   -> 0x00BA8FE0, 0x00BA8F99
+  блок 0x00BA8F99:
+    0x00BA8F99  53               push ebx
+    0x00BA8F9A  8b5e0c           mov ebx, dword ptr [esi + 0xc]
+    0x00BA8F9D  3b5f0c           cmp ebx, dword ptr [edi + 0xc]
+    0x00BA8FA0  742f             je 0xba8fd1   -> 0x00BA8FD1, 0x00BA8FA2
+  блок 0x00BA8FA2:
+    0x00BA8FA2  85db             test ebx, ebx
+    0x00BA8FA4  7417             je 0xba8fbd   -> 0x00BA8FBD, 0x00BA8FA6
+  блок 0x00BA8FA6:
+    0x00BA8FA6  8d4304           lea eax, [ebx + 4]
+    0x00BA8FA9  50               push eax
+    0x00BA8FAA  ff15c4f1fd00     call dword ptr [0xfdf1c4]
+    0x00BA8FB0  85c0             test eax, eax
+    0x00BA8FB2  7509             jne 0xba8fbd   -> 0x00BA8FBD, 0x00BA8FB4
+  блок 0x00BA8FB4:
+    0x00BA8FB4  8b13             mov edx, dword ptr [ebx]
+    0x00BA8FB6  8b4204           mov eax, dword ptr [edx + 4]
+    0x00BA8FB9  8bcb             mov ecx, ebx
+    0x00BA8FBB  ffd0             call eax
+  блок 0x00BA8FBD:
+    0x00BA8FBD  8b7f0c           mov edi, dword ptr [edi + 0xc]
+    0x00BA8FC0  897e0c           mov dword ptr [esi + 0xc], edi
+    0x00BA8FC3  85ff             test edi, edi
+    0x00BA8FC5  740a             je 0xba8fd1   -> 0x00BA8FD1, 0x00BA8FC7
+  блок 0x00BA8FC7:
+    0x00BA8FC7  83c704           add edi, 4
+    0x00BA8FCA  57               push edi
+    0x00BA8FCB  ff15c0f1fd00     call dword ptr [0xfdf1c0]
+  блок 0x00BA8FD1:
+    0x00BA8FD1  8b4e0c           mov ecx, dword ptr [esi + 0xc]
+    0x00BA8FD4  8b11             mov edx, dword ptr [ecx]
+    0x00BA8FD6  8b8298000000     mov eax, dword ptr [edx + 0x98]
+    0x00BA8FDC  56               push esi
+    0x00BA8FDD  ffd0             call eax
+    0x00BA8FDF  5b               pop ebx
+  блок 0x00BA8FE0:
+    0x00BA8FE0  5f               pop edi
+    0x00BA8FE1  5e               pop esi
+    0x00BA8FE2  c20400           ret 4   -> выход
+
+== 0x00BA8AA0 BSShaderProperty::CopyTo  граф полон: False  достижимых команд: 3
+  блок 0x00BA8AA0:
+    0x00BA8AA0  8b01             mov eax, dword ptr [ecx]
+    0x00BA8AA2  8b8098000000     mov eax, dword ptr [eax + 0x98]
+    0x00BA8AA8  ffe0             jmp eax   -> выход
+
