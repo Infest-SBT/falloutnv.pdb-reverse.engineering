@@ -1,0 +1,620 @@
+kind,class,item,area,why
+field-type,AbstractHeap,LargeFreeList.pHead,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,LargeFreeList.pTail,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,pBlockHead,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,pBlockTail,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,pDelayedFreeBlocksA,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,pLastSmallList,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,pMemHeap,прочее,указатель: тип цели не доказан
+field-type,AbstractHeap,pName,прочее,указатель: тип цели не доказан
+field-type,BGSLoadFormBuffer,pForm,прочее,указатель: тип цели не доказан
+field-type,BGSLoadGameBuffer,pBuffer,прочее,указатель: тип цели не доказан
+field-type,BGSSaveFormBuffer,pForm,прочее,указатель: тип цели не доказан
+field-type,BGSSaveGameBuffer,pBuffer,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadChangesMap,m_ppkHashTable,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pChangedFormIDMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pChangesMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pFormIDMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pHistory,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pOldChangesMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pQueuedSubBuffersMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pReconstructForms,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pReferencesMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadGame,pWorldspaceFormIDMap,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadManager,pMostRecentSaveGame,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadManager,pSaveGameList,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadManager,pSaveLoadFile,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadManager,pSysUtilLoadCompleteCallback,прочее,указатель: тип цели не доказан
+field-type,BGSSaveLoadManager,pSysUtilSaveCompleteCallback,прочее,указатель: тип цели не доказан
+field-type,BSAudio,pListener,звук/радио,указатель: тип цели не доказан
+field-type,BSAudio,pfnIDCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSAudio,pfnNameCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSAudio,pfnRandomFilenameCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSAudio,pfnSettingsCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSAudio,pfnSynchPausedCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSAudio,pfnSynchUnPausedCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSAudioManager,pPauseEntries,прочее,указатель: тип цели не доказан
+field-type,BSAudioManager,pUpdateThread,прочее,указатель: тип цели не доказан
+field-type,BSBatchRenderer,pAlphaGroupA,прочее,указатель: тип цели не доказан
+field-type,BSBatchRenderer,pCurrentAlphaGroup,прочее,указатель: тип цели не доказан
+field-type,BSBatchRenderer,pGeometryGroupsA,прочее,указатель: тип цели не доказан
+field-type,BSBatchRenderer,pInstanceRenderer,прочее,указатель: тип цели не доказан
+field-type,BSBatchRenderer,pRenderPassA,прочее,указатель: тип цели не доказан
+field-type,BSFadeNode,pBoundArray,прочее,указатель: тип цели не доказан
+field-type,BSFadeNode,pUserData,прочее,указатель: тип цели не доказан
+field-type,BSGameSound,fnCompletionCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSGameSound,fnPlayedCallback,звук/радио,указатель: тип цели не доказан
+field-type,BSGameSound,pSoundCompletionContext,звук/радио,указатель: тип цели не доказан
+field-type,BSGameSound,pSoundPlayContext,звук/радио,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,kAlphaRenderPass.pGeometry,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,kAlphaRenderPass.ppSceneLights,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,pActiveShadowSceneNode,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,pBatchRenderer,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,pInstanceRenderer,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,pbcurrentActiveA,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,pbcurrentFirstPassA,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,picurrentBucketA,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,ppOcclusionQuery,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderAccumulator,puicurrentPassA,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderLightingProperty,kLightListFence,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderPPLightingProperty,pRenderDepthPass,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderPPLightingProperty,pSpecularExponent,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderPPLightingProperty,pTextureSplatVertexData,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderPPLightingProperty,pbGlossMap,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderPPLightingProperty,spTextures,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pConstAlphaRenderPassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pDepthMapRenderPassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pLocalMapRenderPassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pRenderPassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pSIBlockRenderPassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pSilhouettePassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty,pWaterFogRenderPassList,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty::RenderPass,pGeometry,шейдеры,указатель: тип цели не доказан
+field-type,BSShaderProperty::RenderPass,ppSceneLights,шейдеры,указатель: тип цели не доказан
+field-type,BSWin32Audio,hWnd,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32Audio,pDirectSound,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32Audio,pPrimaryBuffer,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pDS3DBuffer,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pDSBuffer,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pDSBuffer2,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pDirectSound,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc1CC,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc1D0,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc1D8,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc1DC,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc1E0,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc208,звук/радио,указатель: тип цели не доказан
+field-type,BSWin32GameSound,pc228,звук/радио,указатель: тип цели не доказан
+field-type,FalloutRadio::FORadioReceiver,pRadio,звук/радио,указатель: тип цели не доказан
+field-type,FalloutRadio::FORadioStation,CurrentState.pConvo,звук/радио,указатель: тип цели не доказан
+field-type,FalloutRadio::FORadioStation,CurrentState.pNextConvo,звук/радио,указатель: тип цели не доказан
+field-type,FalloutRadio::FORadioStation,pStation,звук/радио,указатель: тип цели не доказан
+field-type,FalloutRadio::StationState,pConvo,звук/радио,указатель: тип цели не доказан
+field-type,FalloutRadio::StationState,pNextConvo,звук/радио,указатель: тип цели не доказан
+field-type,Font,pFontData,шрифты,указатель: тип цели не доказан
+field-type,Font,pFontFile,шрифты,указатель: тип цели не доказан
+field-type,FontManager,pFont,шрифты,указатель: тип цели не доказан
+field-type,FontManager::TextLine,pPage,шрифты,указатель: тип цели не доказан
+field-type,FontManager::TextPage,pDoc,шрифты,указатель: тип цели не доказан
+field-type,FreeHeapBlock,pNextFree,прочее,указатель: тип цели не доказан
+field-type,FreeHeapBlock,pPrevFree,прочее,указатель: тип цели не доказан
+field-type,FreeHeapBlock,pPrevious,прочее,указатель: тип цели не доказан
+field-type,FreeHeapBlockList,pHead,прочее,указатель: тип цели не доказан
+field-type,FreeHeapBlockList,pTail,прочее,указатель: тип цели не доказан
+field-type,HeapBlock,pPrevious,прочее,указатель: тип цели не доказан
+field-type,HeapFreeSubBucket,pFirst,прочее,указатель: тип цели не доказан
+field-type,ImageSpaceManager,pBaseParameterData,прочее,указатель: тип цели не доказан
+field-type,ImageSpaceManager,pEOFDest,прочее,указатель: тип цели не доказан
+field-type,ImageSpaceManager,pOverRideBaseParameterData,прочее,указатель: тип цели не доказан
+field-type,ImageSpaceManager,pSwapTarget,прочее,указатель: тип цели не доказан
+field-type,MTRenderingSystem,TaskThreadArray,прочее,указатель: тип цели не доказан
+field-type,MemoryManager,pHeapsByContextA,прочее,указатель: тип цели не доказан
+field-type,MemoryManager,ppHeaps,прочее,указатель: тип цели не доказан
+field-type,MemoryManager,ppPhysicalHeaps,прочее,указатель: тип цели не доказан
+field-type,NiAVObject,m_kWorldBound,прочее,указатель: тип цели не доказан
+field-type,NiAVObject,m_pkParent,прочее,указатель: тип цели не доказан
+field-type,NiAccumulator,m_pkCamera,прочее,указатель: тип цели не доказан
+field-type,NiBackToFrontAccumulator,m_kItemsToSortAndRender,прочее,указатель: тип цели не доказан
+field-type,NiBackToFrontAccumulator,m_pfDepths,прочее,указатель: тип цели не доказан
+field-type,NiBackToFrontAccumulator,m_ppkItems,прочее,указатель: тип цели не доказан
+field-type,NiD3DDefaultShader,m_peFogPassArray,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DDefaultShader,m_pkLastState,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pcPixelShaderEntryPoint,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pcPixelShaderProgramFile,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pcPixelShaderTarget,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pcVertexShaderEntryPoint,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pcVertexShaderProgramFile,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pcVertexShaderTarget,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DPass,m_pkRenderStateGroup,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DShader,m_pkRenderStateGroup,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DShaderInterface,m_pkD3DDevice,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DShaderInterface,m_pkD3DRenderState,шейдеры,указатель: тип цели не доказан
+field-type,NiD3DShaderInterface,m_pkD3DRenderer,шейдеры,указатель: тип цели не доказан
+field-type,NiDX9Renderer,pCurrentRenderTargetGroup,прочее,указатель: тип цели не доказан
+field-type,NiDX9Renderer,pD3DDevice,прочее,указатель: тип цели не доказан
+field-type,NiDX9Renderer,pDefaultRenderTargetGroup,прочее,указатель: тип цели не доказан
+field-type,NiDX9Renderer,pGeometryGroupManager,прочее,указатель: тип цели не доказан
+field-type,NiDX9Renderer,pLightManager,прочее,указатель: тип цели не доказан
+field-type,NiDX9Renderer,pRenderState,прочее,указатель: тип цели не доказан
+field-type,NiGeometry,m_spShader,геометрия,указатель: тип цели не доказан
+field-type,NiGeometryData,m_pkBuffData,геометрия,указатель: тип цели не доказан
+field-type,NiGeometryData,m_pkColor,геометрия,указатель: тип цели не доказан
+field-type,NiGeometryData,m_pkNormal,геометрия,указатель: тип цели не доказан
+field-type,NiGeometryData,m_pkTexture,геометрия,указатель: тип цели не доказан
+field-type,NiGeometryData,m_pkVertex,геометрия,указатель: тип цели не доказан
+field-type,NiObjectNET,m_ppkExtra,прочее,указатель: тип цели не доказан
+field-type,NiRenderer,m_pkCurrEffects,прочее,указатель: тип цели не доказан
+field-type,NiRenderer,m_pkCurrProp,прочее,указатель: тип цели не доказан
+field-type,NiSourceTexture,m_pFile,шрифты,указатель: тип цели не доказан
+field-type,NiTexture,m_pkNext,шрифты,указатель: тип цели не доказан
+field-type,NiTexture,m_pkPrev,шрифты,указатель: тип цели не доказан
+field-type,NiTexture,m_pkRendererData,шрифты,указатель: тип цели не доказан
+field-type,NiTriShapeData,m_pkSNAMemoryBlocks,геометрия,указатель: тип цели не доказан
+field-type,NiTriShapeData,m_pkSharedNormals,геометрия,указатель: тип цели не доказан
+field-type,NiTriShapeData,m_pusTriList,геометрия,указатель: тип цели не доказан
+field-type,RadioConvTask,pAdditionalParents,звук/радио,указатель: тип цели не доказан
+field-type,RadioConvTask,pChildren,звук/радио,указатель: тип цели не доказан
+field-type,RadioConvTask,pFileEntry,звук/радио,указатель: тип цели не доказан
+field-type,RadioConvTask,pFileName,звук/радио,указатель: тип цели не доказан
+field-type,RadioConvTask,pStation,звук/радио,указатель: тип цели не доказан
+field-type,ScrapHeap,pCurrentStackLoc,прочее,указатель: тип цели не доказан
+field-type,ScrapHeap,pEndHeap,прочее,указатель: тип цели не доказан
+field-type,ScrapHeap,pLastBlock,прочее,указатель: тип цели не доказан
+field-type,ScrapHeap,pMemHeap,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneLight,kGeomListFence,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneLight,pPortalGraph,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneNode,kShadowLightActiveFence,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneNode,kShadowLightFadingInFence,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneNode,kShadowLightListIterator,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneNode,pBSPortalGraph,прочее,указатель: тип цели не доказан
+field-type,ShadowSceneNode,pSunLight,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pActiveFile,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pBarterContainer,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pCateyeMobileShader,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pFileIndex,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pItemDetectedShader,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pObjectList,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pRecipeContainer,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pRegionDataManager,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pRegionList,прочее,указатель: тип цели не доказан
+field-type,TESDataHandler,pSpotterShader,прочее,указатель: тип цели не доказан
+slot-prototype,BSAudio,[0] ~BSAudio(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSAudio,[1] void Init(void*),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSAudio,[2] void Shutdown(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[0] ~BSGameSound(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[1] bool IsPlaying(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[3] bool IsPaused(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[4] float GetVolume(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[5] void SetInaudible(bool),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[6] void SetEnvironmentType(unsigned),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[10] bool Prepare(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,"[11] void Copy(BSGameSound*, bool)",звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSGameSound,[17] bool Update(unsigned),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[18] bool IsInitialized(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[19] bool Initialize(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[20] bool SetupGeometry(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[21] unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[22] unsigned UpdatePipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[23] unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[24] unsigned SetupTransformations(NiGeometry*, const NiSkinInstance*, void*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[26] unsigned SetupShaderPrograms(NiGeometry*, const NiSkinInstance*, void*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[27] void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[29] unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[32] void SetupGeometryAlphaBlending(const NiPropertyState*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[33] void SetupGeometryAlphaTesting(const NiPropertyState*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[34] void SetupGeometryRenderStates(const NiPropertyState*, bool)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[36] unsigned FirstPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[37] unsigned NextPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[42] bool SetUsesNiRenderState(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[47] NiD3DShaderDeclaration* GetShaderDecl(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[48] void SetShaderDecl(NiD3DShaderDeclaration*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[51] void DestroyRendererData(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[52] void RecreateRendererData(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[53] bool GetVSPresentAllPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[55] bool GetPSPresentAllPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[57] bool GetIsBestImplementation(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[58] void SetIsBestImplementation(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[59] void ResetPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[61] void SetupPassShaders(unsigned),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[64] void SetupPassRenderStates(unsigned),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[65] void RestorePassRenderStates(unsigned),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[66] void ApplyTextureStages(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[67] void ApplyTextureStagesFlags(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[68] void SetupGeometryNonFirstPass(const NiPropertyState*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[69] void RestoreGeometryNonFirstPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[70] NiD3DShaderDeclaration* GetShaderDecl(NiGeometry*, BSShaderProperty*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[73] void ClearPassStages(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[74] void ClearPass(NiD3DPass*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,[76] bool CreateStagesAndPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShader,"[78] void SetCurrentPass(int, bool)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[18] NiObject* CreateClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[19] void LoadBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[21] bool RegisterStreamables(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[23] bool IsEqual(NiObject*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[24] void GetViewerStrings(void*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[26] void ProcessClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[28] bool StreamCanSkip(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[29] const NiRTTI* GetStreamableRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[35] void StartAccumulating(const NiCamera*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[36] void FinishAccumulating(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[37] void RegisterObjectArray(NiVisibleArray*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[38] bool RegisterObject(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[39] bool AddShared(NiAVObject*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[40] void ClearSharedMap(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[41] void Sort(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[42] void FinishAccumulatingPreResolveDepth(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderAccumulator,[43] void FinishAccumulatingPostResolveDepth(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[18] NiObject* CreateClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[19] void LoadBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[20] void LinkObject(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[21] bool RegisterStreamables(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[22] void SaveBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[23] bool IsEqual(NiObject*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[24] void GetViewerStrings(void*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[26] void ProcessClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[27] void PostLinkObject(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[28] bool StreamCanSkip(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[29] const NiRTTI* GetStreamableRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[35] int Type(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[36] void Update(NiUpdateData*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[37] void CopyTo(BSShaderProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderLightingProperty,[49] void CopyTo(BSShaderLightingProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[18] NiObject* CreateClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[19] void LoadBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[20] void LinkObject(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[21] bool RegisterStreamables(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[22] void SaveBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[23] bool IsEqual(NiObject*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[24] void GetViewerStrings(void*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[26] void ProcessClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[27] void PostLinkObject(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[28] bool StreamCanSkip(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[29] const NiRTTI* GetStreamableRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[35] int Type(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[36] void Update(NiUpdateData*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[37] void CopyTo(BSShaderProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[39] bool SetupGeometry(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[40] void* GetRenderPasses(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[41] unsigned short GetNumberofPasses(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[44] BSShaderProperty* ClarifyShader(NiGeometry*, bool, bool)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[45] NiTexture* GetBaseTexture(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[46] void* GetWaterFogPassList(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[48] void PrecacheTextures(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[49] void CopyTo(BSShaderLightingProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[51] void CopyTo(BSShaderPPLightingProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[52] void CopyToMembers(BSShaderPPLightingProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[53] NiAdditionalGeometryData* CreateRendererSpecificProperty(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[55] void SetClampD3D(int),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[56] int GetClampNI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[57] void SetClampNI(int),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[58] unsigned short GetTextureCount(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[60] void SetTexture(int, unsigned, NiTexture*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[61] NiTexture* GetTexture(int, unsigned)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[62] void SetTextures(BSShaderTextureSet*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[63] void SetDiffuseTexture(unsigned, NiTexture*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[64] void SetNormalTexture(unsigned, NiTexture*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[65] void SetGlowTexture(unsigned, NiTexture*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[66] void SetFlagsFromTextures(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,[67] float GetSpecularLODFade(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[69] void GetRenderPasses_1x(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderPPLightingProperty,"[70] void GetRenderPasses_2x(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[18] NiObject* CreateClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[19] void LoadBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[20] void LinkObject(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[21] bool RegisterStreamables(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[22] void SaveBinary(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[23] bool IsEqual(NiObject*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[24] void GetViewerStrings(void*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[26] void ProcessClone(NiCloningProcess*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[27] void PostLinkObject(NiStream*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[28] bool StreamCanSkip(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[29] const NiRTTI* GetStreamableRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[35] int Type(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[36] void Update(NiUpdateData*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSShaderProperty,[37] void CopyTo(BSShaderProperty*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32Audio,[0] ~BSAudio(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32Audio,[1] void Init(void*),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32Audio,[2] void Shutdown(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[0] ~BSGameSound(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[1] bool IsPlaying(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[3] bool IsPaused(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[4] float GetVolume(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[5] void SetInaudible(bool),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[6] void SetEnvironmentType(unsigned),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[8] bool PriorityTest_2(BSGameSound*),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[9] bool Open(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[10] bool Prepare(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,"[11] void Copy(BSGameSound*, bool)",звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[12] bool Play(bool),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[13] bool Pause(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[14] bool Stop(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[15] bool SetVolume(float),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[16] void UpdateEmitterPosition(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[17] bool Update(unsigned),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[19] void SetEmitterPosition(NiPoint3),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,"[20] void SetEmitterPosition_2(float, float, float)",звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[21] NiPoint3 GetEmitterPosition(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,"[23] void SetMinMax(float, float)",звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,"[24] void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)",звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[25] bool SetFrequency(float),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[26] float GetFrequency(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,BSWin32GameSound,[27] void Seek(unsigned),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[18] bool IsInitialized(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[19] bool Initialize(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[20] bool SetupGeometry(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[21] unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[22] unsigned UpdatePipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[23] unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[24] unsigned SetupTransformations(NiGeometry*, const NiSkinInstance*, void*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[26] unsigned SetupShaderPrograms(NiGeometry*, const NiSkinInstance*, void*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[27] void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,"[29] unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[36] unsigned FirstPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[37] unsigned NextPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[42] bool SetUsesNiRenderState(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[47] NiD3DShaderDeclaration* GetShaderDecl(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[48] void SetShaderDecl(NiD3DShaderDeclaration*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[51] void DestroyRendererData(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[52] void RecreateRendererData(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[53] bool GetVSPresentAllPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[55] bool GetPSPresentAllPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[57] bool GetIsBestImplementation(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[58] void SetIsBestImplementation(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DDefaultShader,[59] void ResetPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DPass,[0] ~NiD3DPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DPass,"[1] unsigned SetupShaderPrograms(NiGeometry*, const NiSkinInstance*, void*, NiGeometryBufferData*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*, unsigned)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DPass,"[2] unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, NiGeometryBufferData*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*, unsigned)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DPass,[3] unsigned PostProcessRenderingPass(unsigned),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[18] bool IsInitialized(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[19] bool Initialize(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[20] bool SetupGeometry(NiGeometry*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[21] unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[22] unsigned UpdatePipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[23] unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[24] unsigned SetupTransformations(NiGeometry*, const NiSkinInstance*, void*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[26] unsigned SetupShaderPrograms(NiGeometry*, const NiSkinInstance*, void*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[27] void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,"[29] unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[36] unsigned FirstPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[37] unsigned NextPass(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[42] bool SetUsesNiRenderState(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[47] NiD3DShaderDeclaration* GetShaderDecl(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[48] void SetShaderDecl(NiD3DShaderDeclaration*),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[51] void DestroyRendererData(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[52] void RecreateRendererData(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[53] bool GetVSPresentAllPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[55] bool GetPSPresentAllPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[57] bool GetIsBestImplementation(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[58] void SetIsBestImplementation(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShader,[59] void ResetPasses(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[18] bool IsInitialized(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[19] bool Initialize(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,"[22] unsigned UpdatePipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[57] bool GetIsBestImplementation(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiD3DShaderInterface,[58] void SetIsBestImplementation(bool),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[27] void PostLinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[35] void UpdateControllers(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,"[36] void ApplyTransform(const NiMatrix3*, const NiPoint3*, bool)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[39] NiAVObject* GetObjectByName(const NiFixedString*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,"[40] void SetSelectiveUpdateFlags(bool*, bool, bool*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,"[41] void UpdateDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,"[42] void UpdateSelectedDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[44] void UpdatePropertiesDownward(NiPropertyState*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[46] void UpdateWorldData(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[47] void UpdateWorldBound(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[48] void UpdateTransformAndBounds(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,"[49] void PreAttachUpdate(NiNode*, NiUpdateData*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[50] void PreAttachUpdateProperties(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[51] void PreAttachUpdateEffects(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[53] void OnVisible(NiCullingProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[54] void PurgeRendererData(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[55] void RenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[56] void OnlyRenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[57] void SetModelData(NiGeometryData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometry,[59] void CalculateConsistency(bool),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[31] unsigned GetBlockAllocationSize(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[32] NiObjectGroup* GetGroup(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[33] void SetGroup(NiObjectGroup*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiGeometryData,[39] bool ContainsVertexData(int),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiShader,[0] ~NiRefObject(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiShader,[1] void DeleteThis(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiShader,[2] const NiRTTI* GetRTTI(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiShader,[18] bool IsInitialized(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiShader,[19] bool Initialize(),шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiShader,"[22] unsigned UpdatePipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",шейдеры,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[27] void PostLinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[35] void UpdateControllers(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,"[36] void ApplyTransform(const NiMatrix3*, const NiPoint3*, bool)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[39] NiAVObject* GetObjectByName(const NiFixedString*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,"[40] void SetSelectiveUpdateFlags(bool*, bool, bool*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,"[41] void UpdateDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,"[42] void UpdateSelectedDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[44] void UpdatePropertiesDownward(NiPropertyState*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[46] void UpdateWorldData(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[47] void UpdateWorldBound(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[48] void UpdateTransformAndBounds(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,"[49] void PreAttachUpdate(NiNode*, NiUpdateData*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[50] void PreAttachUpdateProperties(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[51] void PreAttachUpdateEffects(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[53] void OnVisible(NiCullingProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[54] void PurgeRendererData(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[55] void RenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[56] void OnlyRenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[57] void SetModelData(NiGeometryData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeom,[59] void CalculateConsistency(bool),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[31] unsigned GetBlockAllocationSize(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[32] NiObjectGroup* GetGroup(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[33] void SetGroup(NiObjectGroup*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriBasedGeomData,[39] bool ContainsVertexData(int),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[27] void PostLinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[35] void UpdateControllers(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,"[36] void ApplyTransform(const NiMatrix3*, const NiPoint3*, bool)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[39] NiAVObject* GetObjectByName(const NiFixedString*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,"[40] void SetSelectiveUpdateFlags(bool*, bool, bool*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,"[41] void UpdateDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,"[42] void UpdateSelectedDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[44] void UpdatePropertiesDownward(NiPropertyState*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[46] void UpdateWorldData(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[47] void UpdateWorldBound(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[48] void UpdateTransformAndBounds(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,"[49] void PreAttachUpdate(NiNode*, NiUpdateData*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[50] void PreAttachUpdateProperties(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[51] void PreAttachUpdateEffects(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[53] void OnVisible(NiCullingProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[54] void PurgeRendererData(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[55] void RenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[56] void OnlyRenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[57] void SetModelData(NiGeometryData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,[59] void CalculateConsistency(bool),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShape,"[60] void GetModelTriangle(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[31] unsigned GetBlockAllocationSize(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[32] NiObjectGroup* GetGroup(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[33] void SetGroup(NiObjectGroup*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[39] bool ContainsVertexData(int),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,[40] void CalculateNormals(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,"[43] void GetTriangleIndices(unsigned short, unsigned short*, unsigned short*, unsigned short*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriShapeData,"[44] void GetStripData(unsigned short*, const unsigned short**, const unsigned short**, unsigned*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[0] ~NiRefObject(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[1] void DeleteThis(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[2] const NiRTTI* GetRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[18] NiObject* CreateClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[19] void LoadBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[20] void LinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[21] bool RegisterStreamables(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[22] void SaveBinary(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[23] bool IsEqual(NiObject*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[24] void GetViewerStrings(void*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[26] void ProcessClone(NiCloningProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[27] void PostLinkObject(NiStream*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[28] bool StreamCanSkip(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[29] const NiRTTI* GetStreamableRTTI(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[30] void SetBound(BSNiBound*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[35] void UpdateControllers(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,"[36] void ApplyTransform(const NiMatrix3*, const NiPoint3*, bool)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[39] NiAVObject* GetObjectByName(const NiFixedString*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,"[40] void SetSelectiveUpdateFlags(bool*, bool, bool*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,"[41] void UpdateDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,"[42] void UpdateSelectedDownwardPass(NiUpdateData*, unsigned)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[44] void UpdatePropertiesDownward(NiPropertyState*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[46] void UpdateWorldData(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[47] void UpdateWorldBound(),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[48] void UpdateTransformAndBounds(NiUpdateData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,"[49] void PreAttachUpdate(NiNode*, NiUpdateData*)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[50] void PreAttachUpdateProperties(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[51] void PreAttachUpdateEffects(NiNode*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[53] void OnVisible(NiCullingProcess*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[54] void PurgeRendererData(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[55] void RenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[56] void OnlyRenderImmediate(NiRenderer*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[57] void SetModelData(NiGeometryData*),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,[59] void CalculateConsistency(bool),геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,NiTriStrips,"[60] void GetModelTriangle(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**)",геометрия,имя и стек совпали; типы аргументов/результата по Xbox
+slot-prototype,RadioConvTask,[0] ~RadioConvTask(),звук/радио,имя и стек совпали; типы аргументов/результата по Xbox

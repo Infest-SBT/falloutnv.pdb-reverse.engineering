@@ -1,0 +1,18 @@
+class,field,status,off,size,functions_searched,hits_any_base,hits_this_base,hit_samples
+BSShaderAccumulator,bCacheGeometry,unverified,0x39,1,80,0,0,
+BSShaderAccumulator,eAccumulationMode,unverified,0x34,4,80,4,0,"0x00B640C1 mov eax, dword ptr [edx + 0x34] | 0x00B643BB mov ecx, dword ptr [ebx + 0x34] | 0x00B64C96 mov ecx, dword ptr [edi + 0x34] | 0x00B65492 mov eax, dword ptr [eax + 0x34]"
+BSShaderPPLightingProperty,fGeomorphParam,unverified,0x80,4,70,0,0,
+BSShaderPPLightingProperty,fTerrainDetailTexScale,unverified,0xFC,4,70,0,0,
+BSShaderPPLightingProperty,fWaterDepthCameraOffset,unverified,0x7C,4,70,0,0,
+FalloutRadio::FORadioReceiver,bInRange,unverified,0x1E,1,2,0,0,
+Font,iLineOverlap,unverified,0x34,4,17,4,0,0x00A1432E fld dword ptr [edx + 0x34] | 0x00A1437A fld dword ptr [eax + 0x34] | 0x00A143D1 fld dword ptr [ecx + 0x34] | 0x00A14438 fld dword ptr [eax + 0x34]
+Font::TextData,xNewText,unverified,0x0,8,0,0,0,
+FontLetter,iTextureIndex,consistent,0x0,4,0,0,0,
+FontManager::TextLine,iY,unverified,0x28,4,2,2,0,"0x00A1A55F mov eax, dword ptr [edx + 0x28] | 0x00A1A6C1 mov ecx, dword ptr [eax + 0x28]"
+FontManager::TextPage,iWidth,unverified,0xC,4,2,0,0,
+NiDX9Renderer,_undescribed_AD1,consistent,0xAD1,175,160,36,30,"0x00E7568A mov dword ptr [esi + 0xad8], edi [this] | 0x00E75690 mov dword ptr [esi + 0xad4], 0x10ede18 [this] | 0x00E7569C mov word ptr [esi + 0xadc], dx [this] | 0x00E756A3 mov word ptr [esi + 0xae0], dx [this] | 0x00E756AF mov word ptr [esi + 0xae2], ax [this] | 0x00E756B8 mov word ptr [esi + 0xade], cx [this]"
+ShadowSceneLight,iEnabledPasses,unverified,0x8,4,38,24,0,"0x00B9CC74 mov eax, dword ptr [eax + 8] | 0x00B9CC9E mov eax, dword ptr [eax + 8] | 0x00B9D08D mov ecx, dword ptr [ecx + 8] | 0x00B9D242 mov eax, dword ptr [eax + 8] | 0x00B9D9B6 mov dword ptr [eax + 8], ecx | 0x00B9DAF4 mov edx, dword ptr [eax + 8]"
+ShadowSceneNode,bFrustumAddedToVis,unverified,0xAC,1,110,9,0,"0x00A5DF96 mov edx, dword ptr [edx + 0xac] | 0x00A5E048 mov edx, dword ptr [edx + 0xac] | 0x00A5E260 mov eax, dword ptr [eax + 0xac] | 0x00B5BA8D mov ebp, dword ptr [edx + 0xac] | 0x00B5BAAA mov eax, dword ptr [edx + 0xac] | 0x00B5BACB mov eax, dword ptr [esi + 0xac]"
+ShadowSceneNode,fStoredFarClip,unverified,0xB0,4,110,5,0,"0x00A5DBA6 mov eax, dword ptr [eax + 0xb0] | 0x00B5D0F2 lea ecx, [eax + 0xb0] | 0x00B5D513 lea ecx, [eax + 0xb0] | 0x00B5D58D lea esi, [eax + 0xb0] | 0x00B5D6EF lea esi, [eax + 0xb0]"
+TextureFile,iType,unverified,0x0,4,0,0,0,
+TextureFile,pFilename,consistent,0x4,32,0,0,0,

@@ -33,6 +33,16 @@ if STRICT:
     SUMM = json.load(open(sys.argv[sys.argv.index('--strict') + 1], encoding='utf-8'))['classes']
     EVDIR = sys.argv[sys.argv.index('--strict') + 2]
     STRICT_SLOT_OK = ('semantics', 'name+stack')
+
+    def strict_slot_ok(v):
+        """v0.6.2 (этап Research, политика Астры P1 «а»): в строгий PDB идёт объявление слота, только если метод опознан
+        по имени (name+stack, или semantics с slot_identity = name) либо прототип доказан семантически
+        (prototype_level = semantic). Прототип Xbox, лишь совместимый с PC по ABI (положение слота — по опорам),
+        в строгом PDB — _unverified_slotN; полное объявление — в research PDB и в метаданных (summary.json: decl, proof)."""
+        st = v.get('status')
+        pr = v.get('proof') or {}
+        return st == 'name+stack' or (st == 'semantics' and (pr.get('prototype_level') == 'semantic'
+                                                             or pr.get('slot_identity') == 'name'))
 # v0.5.11 (ТЗ Астры «Verified Prefix»): классы, у которых в строгую сборку идёт только представление подтверждённой
 # части (summary: strict_representation, решение prefixview.evaluate). v0.5.12 (ТЗ Астры по идее Андрея): представление
 # носит ИСХОДНОЕ имя класса (BGSSaveLoadFormHeader, вложенное FontManager::TextData); степень доказанности — в
@@ -466,7 +476,7 @@ for cls in CLASSES:
         used[n] = used.get(n, 0) + 1
         nm = n if used[n] == 1 else f'{n}_{used[n]}'
         ret, args, nbytes = mfunc_sig(ti) if ti else ('void', [], 0)
-        if STRICT and SUMM[cls]['vslots'].get(str(pcslot), {}).get('status') not in STRICT_SLOT_OK:
+        if STRICT and not strict_slot_ok(SUMM[cls]['vslots'].get(str(pcslot), {})):
             nm, ret, args, nbytes = f'_unverified_slot{pcslot}', 'void', [], 0
         lines.append(f'    virtual {ret} {nm}({", ".join(args)}); // слот {pcslot}')
         cm['vslots'].append({'slot': pcslot, 'xbox_slot': s, 'name': nm, 'xbox_name': n,

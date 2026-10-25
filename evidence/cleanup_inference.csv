@@ -1,0 +1,3 @@
+function,name,inferred_cleanup,call_sites,witnesses,callers_any_n,callers_unsupported
+0x00A5D2F0,NiObject::RegisterStreamables,4,20,0x00A84C75 в 0x00A84C70 NiAVObjectPalette::RegisterStreamables: [4],0x00C4FA30 | 0x00C64B70,17
+0x00A7FD90,NiGeometry::OnVisible,4,1,0x00A9B2D5 в 0x00A9B2A0 NiParticles::OnVisible: [4],,0

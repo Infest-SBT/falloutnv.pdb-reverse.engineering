@@ -1,4 +1,4 @@
-# FalloutNV.pdb v0.6.1 — прототипы слотов vtable (строгий и исследовательский PDB)
+# FalloutNV.pdb v0.6.2 — закрытие Research перед Havok (строгий и исследовательский PDB)
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`.
 Оба PDB — с GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE) и теми же 138 171 публичными
@@ -6,8 +6,32 @@
 
 | Файл | SHA-256 | Что внутри |
 |---|---|---|
-| `FalloutNV.pdb` — **строгий** | `3eab1841a655fe3f193f7526c57bc2c10bf028104dd7abf711053273861b3c46` | 86 классов с исходными именами: **84 `Confirmed` + 2 `VerifiedPrefix`**, 944 записи типов (было 872 в v0.5.14: +72 — прототипы слотов), только доказанное (побайтно как в v0.6) |
-| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками (побайтно как в v0.5.4–v0.6) |
+| `FalloutNV.pdb` — **строгий** | `d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e` | 86 классов с исходными именами: **84 `Confirmed` + 2 `VerifiedPrefix`**, 875 записей типов (было 944 в v0.6.1, 872 в v0.5.14): только доказанное; прототип слота — только если метод опознан по имени или прототип доказан по смыслу |
+| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками (побайтно как в v0.5.4–v0.6.1) |
+
+**v0.6.2 — закрытие Research перед Havok** (план Андрея и Астры после v0.6.1). Цель — закрыть исследовательские
+вопросы, ничего не повышая для удобства. Всё по этапу — в папке **`research_closure/`**: реестр 80 вопросов
+(`research_open_issues.csv`), итог (`research_resolution.md`), нерешаемое с границами (`blocked_with_bounds.md`),
+область поиска по полям (`field_search_scope.csv`), 42 тела ABI-слотов (`abi_bodies.csv`), очередь P3.
+- **Поля: 6 подтверждены по коду PC** — `FORadioReceiver::Hndl.iSoundID`, `StaticHndl.iSoundID`,
+  `BSShaderAccumulator::kAlphaRenderPass.pGeometry` (вложенный объект), `NiAVObject::m_kLocal.m_Rotate` (вложение
+  второго уровня), `RadioConvTask::iRefCount` (аргумент `InterlockedDecrement`/`Increment`), `ShadowSceneLight::
+  pfClipSpacePlanes` (`memcpy` на 0x60). 16 — blocked с записанной областью поиска, 1 (`NiDX9Renderer::
+  _undescribed_AD1`) отложено в пункт Д. Поля: `confirmed` 885, `consistent` 3, `unverified` 14 (было 879 / 9 / 14).
+- **Слоты: из 9 слабых адресов разрешены 7.** Новое правило: очистка стека по прямым вызовам — у вызывающей стек
+  сходится к `ret` ровно при одном N (`evidence/cleanup_inference.csv`). Так получено `NiObject::RegisterStreamables`
+  = 4 и `NiGeometry::OnVisible` = 4 (и три функции, переходящие к первой). Второе правило: опора «конец секции
+  базового класса» — если vtable предка на PC ровно его длины, начало vtable наследника — его раскладка
+  (`IMemoryHeap[11]`, `NiDX9Renderer[31,32]`). Остались `PostAttachUpdate` и `CalculateNormals` (13 слотов) — переход
+  к методу объекта в поле, прямых вызовов нет. Слоты: `name+stack` 953, `semantics` 251, `name` 13, `stack` 0.
+- **Политика строгого PDB.** Прототип слота, который только совместим с PC по ABI, а метод опознан лишь по положению,
+  в строгом PDB больше не объявляется (`_unverified_slotN`; полное — в research). 8 слотов `TESForm` / `BSGameSound`,
+  опознанных раньше текстовым доводом, тоже ушли в research — нужен структурированный довод (вопрос Астре).
+  `_unverified_slotN` в строгом заголовке: 158 (v0.6.1 — 95, v0.5.14 — 154).
+- **`BGSSaveLoadFormHeader`, `FontManager::TextData`** — последний поиск размера ничего нового не дал: остаются
+  `VerifiedPrefix` с границами.
+- research PDB побайтно тот же; `this` 1483 / 1484 (было 1480 / 1481); `Confirmed` у функций — 1. База v0.6.1
+  заморожена: `audit/base_v061_sha256.txt`. Изменения статусов: `audit/status_migration_v061_v062.md`.
 
 **v0.6.1 — по аудиту Астры v0.6** (условно принят как исследовательский; два замечания). **Оба PDB побайтно те
 же, что в v0.6**; в заголовках изменились только комментарии; изменились проверщик, метаданные и скрипты.
@@ -834,7 +858,7 @@ exe нужно один из них (оба называются `FalloutNV.pdb`
   отчёты `traced_provenance.csv`, `out_of_bounds_this_accesses.csv`, `accessor_anchors.csv`, колонка `path`.
   Строк в `evidence_fields.csv` — 8853 (`linear` 8234, `after-ret` 619).
 
-Итого по всем классам: полей `confirmed` 879, `consistent` 9, `unverified` 14, `CONFLICT` 0; композиций 17
+Итого по всем классам (v0.6.2): полей `confirmed` 885, `consistent` 3, `unverified` 14, `CONFLICT` 0; композиций 17
 (11 вызовом метода, 6 раскладкой); функций, прочитанных не до конца, — 0.
 
 ## Повторить проверку самому (нужны свой exe и PDB xNVSE)
@@ -927,18 +951,17 @@ Windows ещё не запускалось — журнал приёмки (вы
   (`semantic_bindings`, полностью — 22 привязки), но на адрес прототип не переносится (общее тело или другое имя
   адреса); у остальных — только часть сведений (`unverified_facets`). 135 965 публичных символов xNVSE (85 247 функций,
   50 718 данных) — `Unclassified` (`coverage_gaps.csv`).
-- Слоты vtable (v0.6): 27 из 349 без проверенного прототипа — 24 `name` (вызов метода другого объекта — тип его
-  известен только с Xbox) и 3 `stack` (нет опор положения). Список — `audit/status_migration_v0514_v06.md`.
-- 23 поля без подтверждения на PC (в строгом PDB — байты `_unverified_<имя>`; в research — с типом по Xbox PDB):
+- Слоты vtable (v0.6.2): 13 без проверенной очистки стека — `NiAVObject::PostAttachUpdate` (9) и
+  `NiGeometry::CalculateNormals` (4): переход к методу объекта в поле, тип его известен только с Xbox. 250 слотов —
+  прототип Xbox только совместим по ABI (42 тела, `research_closure/abi_bodies.csv`).
+- 17 полей без подтверждения на PC (в строгом PDB — байты `_unverified_<имя>`; в research — с типом по Xbox PDB;
+  где искали — `research_closure/blocked_with_bounds.md`):
   - `unverified` (14): `FORadioReceiver::bInRange`, `TextureFile::iType`, `Font::iLineOverlap`,
     `Font::TextData::xNewText`, `FontManager::TextLine::iY`, `FontManager::TextPage::iWidth`,
     `BSShaderPPLightingProperty::fWaterDepthCameraOffset`, `fGeomorphParam`, `fTerrainDetailTexScale`,
     `BSShaderAccumulator::eAccumulationMode`, `bCacheGeometry`, `ShadowSceneNode::bFrustumAddedToVis`,
     `fStoredFarClip`, `ShadowSceneLight::iEnabledPasses`;
-  - `consistent` (9): `FORadioReceiver::Hndl.iSoundID`, `StaticHndl.iSoundID`, `RadioConvTask::iRefCount`,
-    `FontLetter::iTextureIndex`, `TextureFile::pFilename`, `NiAVObject::m_kLocal.m_Rotate`,
-    `BSShaderAccumulator::kAlphaRenderPass.pGeometry`, `NiDX9Renderer::_undescribed_AD1`,
-    `ShadowSceneLight::pfClipSpacePlanes`.
+  - `consistent` (3): `FontLetter::iTextureIndex`, `TextureFile::pFilename`, `NiDX9Renderer::_undescribed_AD1`.
 - `ShaderTypeEnum` — 10 имён без проверки (выше).
 
 ## Что этот PDB НЕ доказывает
@@ -954,6 +977,8 @@ Windows ещё не запускалось — журнал приёмки (вы
 
 ## Предыдущие версии
 
+- **v0.6.1** — по аудиту Астры v0.6: разбор не выходит за тело функции (P1), фасеты «ABI» и «семантика» разделены
+  (P2), опоры «конец vtable» сверены отдельно. Оба PDB — как в v0.6.
 - **v0.6** — пункт Г: 322 из 349 слотов vtable доказаны по коду PC (`slotproof.py`). Аудит Астры: условно принят как
   исследовательский; выход разбора за тело функции (P1) и «совместимость по ABI ≠ доказанный тип» (P2) — исправлено в
   v0.6.1.

@@ -440,10 +440,10 @@
     {
      "slot": 38,
      "xbox_slot": 38,
-     "name": "GetHasSpokenFlag",
+     "name": "_unverified_slot38",
      "xbox_name": "GetHasSpokenFlag",
-     "decl": "bool GetHasSpokenFlag()",
-     "ret": "bool",
+     "decl": "void _unverified_slot38()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -460,10 +460,10 @@
     {
      "slot": 40,
      "xbox_slot": 40,
-     "name": "GetRandomAnim",
+     "name": "_unverified_slot40",
      "xbox_name": "GetRandomAnim",
-     "decl": "bool GetRandomAnim()",
-     "ret": "bool",
+     "decl": "void _unverified_slot40()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -480,20 +480,20 @@
     {
      "slot": 42,
      "xbox_slot": 42,
-     "name": "GetDangerous",
+     "name": "_unverified_slot42",
      "xbox_name": "GetDangerous",
-     "decl": "bool GetDangerous()",
-     "ret": "bool",
+     "decl": "void _unverified_slot42()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 43,
      "xbox_slot": 43,
-     "name": "GetHasPLSpecTex",
+     "name": "_unverified_slot43",
      "xbox_name": "GetHasPLSpecTex",
-     "decl": "bool GetHasPLSpecTex()",
-     "ret": "bool",
+     "decl": "void _unverified_slot43()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -530,14 +530,12 @@
     {
      "slot": 47,
      "xbox_slot": 47,
-     "name": "SetOnLocalMap",
+     "name": "_unverified_slot47",
      "xbox_name": "SetOnLocalMap",
-     "decl": "void SetOnLocalMap(bool)",
+     "decl": "void _unverified_slot47()",
      "ret": "void",
-     "args": [
-      "bool"
-     ],
-     "expect_ret_n": 4
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 48,
@@ -588,14 +586,12 @@
     {
      "slot": 52,
      "xbox_slot": 52,
-     "name": "SetHasSpokenFlag",
+     "name": "_unverified_slot52",
      "xbox_name": "SetHasSpokenFlag",
-     "decl": "void SetHasSpokenFlag(bool)",
+     "decl": "void _unverified_slot52()",
      "ret": "void",
-     "args": [
-      "bool"
-     ],
-     "expect_ret_n": 4
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 53,
@@ -1995,10 +1991,10 @@
     {
      "slot": 2,
      "xbox_slot": 2,
-     "name": "IsInDecay",
+     "name": "_unverified_slot2",
      "xbox_name": "IsInDecay",
-     "decl": "bool IsInDecay()",
-     "ret": "bool",
+     "decl": "void _unverified_slot2()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -2049,14 +2045,12 @@
     {
      "slot": 7,
      "xbox_slot": 7,
-     "name": "PriorityTest",
+     "name": "_unverified_slot7",
      "xbox_name": "PriorityTest",
-     "decl": "bool PriorityTest(unsigned)",
-     "ret": "bool",
-     "args": [
-      "unsigned"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot7()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 8,
@@ -2218,16 +2212,12 @@
     {
      "slot": 22,
      "xbox_slot": 22,
-     "name": "SetEmitterOrientation",
+     "name": "_unverified_slot22",
      "xbox_name": "SetEmitterOrientation",
-     "decl": "void SetEmitterOrientation(float, float, float)",
+     "decl": "void _unverified_slot22()",
      "ret": "void",
-     "args": [
-      "float",
-      "float",
-      "float"
-     ],
-     "expect_ret_n": 12
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 23,
@@ -3154,26 +3144,22 @@
     {
      "slot": 5,
      "xbox_slot": 6,
-     "name": "CreateNewGameSound",
+     "name": "_unverified_slot5",
      "xbox_name": "CreateNewGameSound",
-     "decl": "BSGameSound* CreateNewGameSound(const char*)",
-     "ret": "BSGameSound*",
-     "args": [
-      "const char*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot5()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 6,
      "xbox_slot": 7,
-     "name": "FixSoundPath",
+     "name": "_unverified_slot6",
      "xbox_name": "FixSoundPath",
-     "decl": "void FixSoundPath(char*)",
+     "decl": "void _unverified_slot6()",
      "ret": "void",
-     "args": [
-      "char*"
-     ],
-     "expect_ret_n": 4
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 7,
@@ -5008,10 +4994,10 @@
     {
      "slot": 0,
      "xbox_slot": 0,
-     "name": "GetForm",
+     "name": "_unverified_slot0",
      "xbox_name": "GetForm",
-     "decl": "TESForm* GetForm()",
-     "ret": "TESForm*",
+     "decl": "void _unverified_slot0()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -6081,13 +6067,13 @@
    ],
    "fields": [
     {
-     "name": "_unverified_iRefCount",
+     "name": "iRefCount",
      "off": 8,
      "xbox_off": 8,
      "size": 4,
      "xbox_type": "volatile int",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char _unverified_iRefCount[4];",
+     "opaque": false,
+     "decl": "int iRefCount;",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null
@@ -8658,63 +8644,50 @@
     {
      "slot": 38,
      "xbox_slot": 38,
-     "name": "CopyToMembers",
+     "name": "_unverified_slot38",
      "xbox_name": "CopyToMembers",
-     "decl": "void CopyToMembers(BSShaderProperty*)",
+     "decl": "void _unverified_slot38()",
      "ret": "void",
-     "args": [
-      "BSShaderProperty*"
-     ],
-     "expect_ret_n": 4
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 39,
      "xbox_slot": 39,
-     "name": "SetupGeometry",
+     "name": "_unverified_slot39",
      "xbox_name": "SetupGeometry",
-     "decl": "bool SetupGeometry(NiGeometry*)",
-     "ret": "bool",
-     "args": [
-      "NiGeometry*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot39()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 40,
      "xbox_slot": 40,
-     "name": "GetRenderPasses",
+     "name": "_unverified_slot40",
      "xbox_name": "GetRenderPasses",
-     "decl": "void* GetRenderPasses(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",
-     "ret": "void*",
-     "args": [
-      "NiGeometry*",
-      "int",
-      "unsigned short*",
-      "unsigned",
-      "BSShaderAccumulator*",
-      "bool"
-     ],
-     "expect_ret_n": 24
+     "decl": "void _unverified_slot40()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 41,
      "xbox_slot": 41,
-     "name": "GetNumberofPasses",
+     "name": "_unverified_slot41",
      "xbox_name": "GetNumberofPasses",
-     "decl": "unsigned short GetNumberofPasses(NiGeometry*)",
-     "ret": "unsigned short",
-     "args": [
-      "NiGeometry*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot41()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 42,
      "xbox_slot": 42,
-     "name": "GetSIBlockRenderPasses",
+     "name": "_unverified_slot42",
      "xbox_name": "GetSIBlockRenderPasses",
-     "decl": "void* GetSIBlockRenderPasses()",
-     "ret": "void*",
+     "decl": "void _unverified_slot42()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -8731,24 +8704,20 @@
     {
      "slot": 44,
      "xbox_slot": 44,
-     "name": "ClarifyShader",
+     "name": "_unverified_slot44",
      "xbox_name": "ClarifyShader",
-     "decl": "BSShaderProperty* ClarifyShader(NiGeometry*, bool, bool)",
-     "ret": "BSShaderProperty*",
-     "args": [
-      "NiGeometry*",
-      "bool",
-      "bool"
-     ],
-     "expect_ret_n": 12
+     "decl": "void _unverified_slot44()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 45,
      "xbox_slot": 45,
-     "name": "GetBaseTexture",
+     "name": "_unverified_slot45",
      "xbox_name": "GetBaseTexture",
-     "decl": "NiTexture* GetBaseTexture()",
-     "ret": "NiTexture*",
+     "decl": "void _unverified_slot45()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -9286,10 +9255,10 @@
     {
      "slot": 59,
      "xbox_slot": 59,
-     "name": "QLandscapeTextureCount",
+     "name": "_unverified_slot59",
      "xbox_name": "QLandscapeTextureCount",
-     "decl": "unsigned short QLandscapeTextureCount()",
-     "ret": "unsigned short",
+     "decl": "void _unverified_slot59()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -9394,10 +9363,10 @@
     {
      "slot": 68,
      "xbox_slot": 69,
-     "name": "GetEnvMapLODFade",
+     "name": "_unverified_slot68",
      "xbox_name": "GetEnvMapLODFade",
-     "decl": "float GetEnvMapLODFade()",
-     "ret": "float",
+     "decl": "void _unverified_slot68()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -9763,30 +9732,30 @@
     {
      "slot": 36,
      "xbox_slot": 36,
-     "name": "GetActiveVertexCount",
+     "name": "_unverified_slot36",
      "xbox_name": "GetActiveVertexCount",
-     "decl": "unsigned short GetActiveVertexCount()",
-     "ret": "unsigned short",
+     "decl": "void _unverified_slot36()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 37,
      "xbox_slot": 37,
-     "name": "IsTriStripsData",
+     "name": "_unverified_slot37",
      "xbox_name": "IsTriStripsData",
-     "decl": "NiTriStripsData* IsTriStripsData()",
-     "ret": "NiTriStripsData*",
+     "decl": "void _unverified_slot37()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 38,
      "xbox_slot": 38,
-     "name": "IsTriShapeData",
+     "name": "_unverified_slot38",
      "xbox_name": "IsTriShapeData",
-     "decl": "NiTriShapeData* IsTriShapeData()",
-     "ret": "NiTriShapeData*",
+     "decl": "void _unverified_slot38()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -10031,10 +10000,10 @@
     {
      "slot": 42,
      "xbox_slot": 42,
-     "name": "GetActiveTriangleCount",
+     "name": "_unverified_slot42",
      "xbox_name": "GetActiveTriangleCount",
-     "decl": "unsigned short GetActiveTriangleCount()",
-     "ret": "unsigned short",
+     "decl": "void _unverified_slot42()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -10467,20 +10436,20 @@
     {
      "slot": 39,
      "xbox_slot": 39,
-     "name": "GetFilename",
+     "name": "_unverified_slot39",
      "xbox_name": "GetFilename",
-     "decl": "const NiFixedString* GetFilename()",
-     "ret": "const NiFixedString*",
+     "decl": "void _unverified_slot39()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 40,
      "xbox_slot": 40,
-     "name": "GetMemorySize",
+     "name": "_unverified_slot40",
      "xbox_name": "GetMemorySize",
-     "decl": "unsigned long GetMemorySize()",
-     "ret": "unsigned long",
+     "decl": "void _unverified_slot40()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     }
@@ -10735,26 +10704,22 @@
     {
      "slot": 38,
      "xbox_slot": 38,
-     "name": "RegisterObject",
+     "name": "_unverified_slot38",
      "xbox_name": "RegisterObject",
-     "decl": "bool RegisterObject(NiGeometry*)",
-     "ret": "bool",
-     "args": [
-      "NiGeometry*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot38()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 39,
      "xbox_slot": 39,
-     "name": "AddShared",
+     "name": "_unverified_slot39",
      "xbox_name": "AddShared",
-     "decl": "bool AddShared(NiAVObject*)",
-     "ret": "bool",
-     "args": [
-      "NiAVObject*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot39()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 40,
@@ -12200,150 +12165,150 @@
     {
      "slot": 3,
      "xbox_slot": 3,
-     "name": "IsNode",
+     "name": "_unverified_slot3",
      "xbox_name": "IsNode",
-     "decl": "NiNode* IsNode()",
-     "ret": "NiNode*",
+     "decl": "void _unverified_slot3()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 4,
      "xbox_slot": 4,
-     "name": "IsFadeNode",
+     "name": "_unverified_slot4",
      "xbox_name": "IsFadeNode",
-     "decl": "BSFadeNode* IsFadeNode()",
-     "ret": "BSFadeNode*",
+     "decl": "void _unverified_slot4()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 5,
      "xbox_slot": 5,
-     "name": "IsMultiBoundNode",
+     "name": "_unverified_slot5",
      "xbox_name": "IsMultiBoundNode",
-     "decl": "BSMultiBoundNode* IsMultiBoundNode()",
-     "ret": "BSMultiBoundNode*",
+     "decl": "void _unverified_slot5()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 6,
      "xbox_slot": 6,
-     "name": "IsGeometry",
+     "name": "_unverified_slot6",
      "xbox_name": "IsGeometry",
-     "decl": "NiGeometry* IsGeometry()",
-     "ret": "NiGeometry*",
+     "decl": "void _unverified_slot6()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 7,
      "xbox_slot": 7,
-     "name": "IsTriBasedGeom",
+     "name": "_unverified_slot7",
      "xbox_name": "IsTriBasedGeom",
-     "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "ret": "NiTriBasedGeom*",
+     "decl": "void _unverified_slot7()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 8,
      "xbox_slot": 8,
-     "name": "IsTriStrips",
+     "name": "_unverified_slot8",
      "xbox_name": "IsTriStrips",
-     "decl": "NiTriStrips* IsTriStrips()",
-     "ret": "NiTriStrips*",
+     "decl": "void _unverified_slot8()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 9,
      "xbox_slot": 9,
-     "name": "IsTriShape",
+     "name": "_unverified_slot9",
      "xbox_name": "IsTriShape",
-     "decl": "NiTriShape* IsTriShape()",
-     "ret": "NiTriShape*",
+     "decl": "void _unverified_slot9()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 10,
      "xbox_slot": 10,
-     "name": "IsSegmentedTriShape",
+     "name": "_unverified_slot10",
      "xbox_name": "IsSegmentedTriShape",
-     "decl": "BSSegmentedTriShape* IsSegmentedTriShape()",
-     "ret": "BSSegmentedTriShape*",
+     "decl": "void _unverified_slot10()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 11,
      "xbox_slot": 11,
-     "name": "IsResizableTriShape",
+     "name": "_unverified_slot11",
      "xbox_name": "IsResizableTriShape",
-     "decl": "BSResizableTriShape* IsResizableTriShape()",
-     "ret": "BSResizableTriShape*",
+     "decl": "void _unverified_slot11()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 12,
      "xbox_slot": 12,
-     "name": "IsParticlesGeom",
+     "name": "_unverified_slot12",
      "xbox_name": "IsParticlesGeom",
-     "decl": "NiParticles* IsParticlesGeom()",
-     "ret": "NiParticles*",
+     "decl": "void _unverified_slot12()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 13,
      "xbox_slot": 13,
-     "name": "IsLinesGeom",
+     "name": "_unverified_slot13",
      "xbox_name": "IsLinesGeom",
-     "decl": "NiLines* IsLinesGeom()",
-     "ret": "NiLines*",
+     "decl": "void _unverified_slot13()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 14,
      "xbox_slot": 14,
-     "name": "IsBhkNiCollisionObject",
+     "name": "_unverified_slot14",
      "xbox_name": "IsBhkNiCollisionObject",
-     "decl": "bhkNiCollisionObject* IsBhkNiCollisionObject()",
-     "ret": "bhkNiCollisionObject*",
+     "decl": "void _unverified_slot14()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 15,
      "xbox_slot": 15,
-     "name": "IsBhkBlendCollisionObject",
+     "name": "_unverified_slot15",
      "xbox_name": "IsBhkBlendCollisionObject",
-     "decl": "bhkBlendCollisionObject* IsBhkBlendCollisionObject()",
-     "ret": "bhkBlendCollisionObject*",
+     "decl": "void _unverified_slot15()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 16,
      "xbox_slot": 16,
-     "name": "IsBhkRigidBody",
+     "name": "_unverified_slot16",
      "xbox_name": "IsBhkRigidBody",
-     "decl": "bhkRigidBody* IsBhkRigidBody()",
-     "ret": "bhkRigidBody*",
+     "decl": "void _unverified_slot16()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 17,
      "xbox_slot": 17,
-     "name": "IsBhkLimitedHingeConstraint",
+     "name": "_unverified_slot17",
      "xbox_name": "IsBhkLimitedHingeConstraint",
-     "decl": "bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint()",
-     "ret": "bhkLimitedHingeConstraint*",
+     "decl": "void _unverified_slot17()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -12370,32 +12335,22 @@
     {
      "slot": 20,
      "xbox_slot": 20,
-     "name": "SetupGeometry",
+     "name": "_unverified_slot20",
      "xbox_name": "SetupGeometry",
-     "decl": "bool SetupGeometry(NiGeometry*)",
-     "ret": "bool",
-     "args": [
-      "NiGeometry*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot20()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 21,
      "xbox_slot": 21,
-     "name": "PreProcessPipeline",
+     "name": "_unverified_slot21",
      "xbox_name": "PreProcessPipeline",
-     "decl": "unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "ret": "unsigned",
-     "args": [
-      "NiGeometry*",
-      "const NiSkinInstance*",
-      "void*",
-      "const NiPropertyState*",
-      "const NiDynamicEffectState*",
-      "const NiTransform*",
-      "const NiBound*"
-     ],
-     "expect_ret_n": 28
+     "decl": "void _unverified_slot21()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 22,
@@ -12418,20 +12373,12 @@
     {
      "slot": 23,
      "xbox_slot": 23,
-     "name": "SetupRenderingPass",
+     "name": "_unverified_slot23",
      "xbox_name": "SetupRenderingPass",
-     "decl": "unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "ret": "unsigned",
-     "args": [
-      "NiGeometry*",
-      "const NiSkinInstance*",
-      "void*",
-      "const NiPropertyState*",
-      "const NiDynamicEffectState*",
-      "const NiTransform*",
-      "const NiBound*"
-     ],
-     "expect_ret_n": 28
+     "decl": "void _unverified_slot23()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 24,
@@ -12466,17 +12413,12 @@
     {
      "slot": 27,
      "xbox_slot": 27,
-     "name": "PrepareGeometryForRendering",
+     "name": "_unverified_slot27",
      "xbox_name": "PrepareGeometryForRendering",
-     "decl": "void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",
-     "ret": "void*",
-     "args": [
-      "NiGeometry*",
-      "void*",
-      "void*",
-      "const NiPropertyState*"
-     ],
-     "expect_ret_n": 16
+     "decl": "void _unverified_slot27()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 28,
@@ -12491,20 +12433,12 @@
     {
      "slot": 29,
      "xbox_slot": 29,
-     "name": "PostProcessPipeline",
+     "name": "_unverified_slot29",
      "xbox_name": "PostProcessPipeline",
-     "decl": "unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "ret": "unsigned",
-     "args": [
-      "NiGeometry*",
-      "const NiSkinInstance*",
-      "void*",
-      "const NiPropertyState*",
-      "const NiDynamicEffectState*",
-      "const NiTransform*",
-      "const NiBound*"
-     ],
-     "expect_ret_n": 28
+     "decl": "void _unverified_slot29()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 30,
@@ -12569,30 +12503,30 @@
     {
      "slot": 36,
      "xbox_slot": 36,
-     "name": "FirstPass",
+     "name": "_unverified_slot36",
      "xbox_name": "FirstPass",
-     "decl": "unsigned FirstPass()",
-     "ret": "unsigned",
+     "decl": "void _unverified_slot36()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 37,
      "xbox_slot": 37,
-     "name": "NextPass",
+     "name": "_unverified_slot37",
      "xbox_name": "NextPass",
-     "decl": "unsigned NextPass()",
-     "ret": "unsigned",
+     "decl": "void _unverified_slot37()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
     {
      "slot": 38,
      "xbox_slot": 38,
-     "name": "IsGenericallyConfigurable",
+     "name": "_unverified_slot38",
      "xbox_name": "IsGenericallyConfigurable",
-     "decl": "bool IsGenericallyConfigurable()",
-     "ret": "bool",
+     "decl": "void _unverified_slot38()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -12609,57 +12543,42 @@
     {
      "slot": 40,
      "xbox_slot": 40,
-     "name": "AppendRenderPass",
+     "name": "_unverified_slot40",
      "xbox_name": "AppendRenderPass",
-     "decl": "bool AppendRenderPass(unsigned*)",
-     "ret": "bool",
-     "args": [
-      "unsigned*"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot40()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 41,
      "xbox_slot": 41,
-     "name": "SetAlphaOverride",
+     "name": "_unverified_slot41",
      "xbox_name": "SetAlphaOverride",
-     "decl": "bool SetAlphaOverride(unsigned, bool, bool, int, bool, int)",
-     "ret": "bool",
-     "args": [
-      "unsigned",
-      "bool",
-      "bool",
-      "int",
-      "bool",
-      "int"
-     ],
-     "expect_ret_n": 24
+     "decl": "void _unverified_slot41()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 42,
      "xbox_slot": 42,
-     "name": "SetUsesNiRenderState",
+     "name": "_unverified_slot42",
      "xbox_name": "SetUsesNiRenderState",
-     "decl": "bool SetUsesNiRenderState(bool)",
-     "ret": "bool",
-     "args": [
-      "bool"
-     ],
-     "expect_ret_n": 4
+     "decl": "void _unverified_slot42()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 43,
      "xbox_slot": 43,
-     "name": "SetGPUProgram",
+     "name": "_unverified_slot43",
      "xbox_name": "SetGPUProgram",
-     "decl": "bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*)",
-     "ret": "bool",
-     "args": [
-      "unsigned",
-      "NiGPUProgram*",
-      "unsigned*"
-     ],
-     "expect_ret_n": 12
+     "decl": "void _unverified_slot43()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 44,
@@ -12674,26 +12593,20 @@
     {
      "slot": 45,
      "xbox_slot": 45,
-     "name": "AppendTextureSampler",
+     "name": "_unverified_slot45",
      "xbox_name": "AppendTextureSampler",
-     "decl": "bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned)",
-     "ret": "bool",
-     "args": [
-      "unsigned",
-      "unsigned*",
-      "const NiFixedString*",
-      "const NiFixedString*",
-      "unsigned"
-     ],
-     "expect_ret_n": 20
+     "decl": "void _unverified_slot45()",
+     "ret": "void",
+     "args": [],
+     "expect_ret_n": 0
     },
     {
      "slot": 46,
      "xbox_slot": 46,
-     "name": "GetShaderInstanceDesc",
+     "name": "_unverified_slot46",
      "xbox_name": "GetShaderInstanceDesc",
-     "decl": "void* GetShaderInstanceDesc()",
-     "ret": "void*",
+     "decl": "void _unverified_slot46()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     }
@@ -12822,10 +12735,10 @@
     {
      "slot": 54,
      "xbox_slot": 54,
-     "name": "GetVSPresentAnyPass",
+     "name": "_unverified_slot54",
      "xbox_name": "GetVSPresentAnyPass",
-     "decl": "bool GetVSPresentAnyPass()",
-     "ret": "bool",
+     "decl": "void _unverified_slot54()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -12842,10 +12755,10 @@
     {
      "slot": 56,
      "xbox_slot": 56,
-     "name": "GetPSPresentAnyPass",
+     "name": "_unverified_slot56",
      "xbox_name": "GetPSPresentAnyPass",
-     "decl": "bool GetPSPresentAnyPass()",
-     "ret": "bool",
+     "decl": "void _unverified_slot56()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -13292,9 +13205,9 @@
     {
      "slot": 71,
      "xbox_slot": 73,
-     "name": "CreateConstantMaps",
+     "name": "_unverified_slot71",
      "xbox_name": "CreateConstantMaps",
-     "decl": "void CreateConstantMaps()",
+     "decl": "void _unverified_slot71()",
      "ret": "void",
      "args": [],
      "expect_ret_n": 0
@@ -13334,10 +13247,10 @@
     {
      "slot": 75,
      "xbox_slot": 77,
-     "name": "CreateShaders",
+     "name": "_unverified_slot75",
      "xbox_name": "CreateShaders",
-     "decl": "bool CreateShaders()",
-     "ret": "bool",
+     "decl": "void _unverified_slot75()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -13354,10 +13267,10 @@
     {
      "slot": 77,
      "xbox_slot": 79,
-     "name": "CreateTextures",
+     "name": "_unverified_slot77",
      "xbox_name": "CreateTextures",
-     "decl": "bool CreateTextures()",
-     "ret": "bool",
+     "decl": "void _unverified_slot77()",
+     "ret": "void",
      "args": [],
      "expect_ret_n": 0
     },
@@ -14476,13 +14389,13 @@
      "class_array_of": null
     },
     {
-     "name": "_unverified_pfClipSpacePlanes",
+     "name": "pfClipSpacePlanes",
      "off": 424,
      "xbox_off": 424,
      "size": 96,
      "xbox_type": "float[96 bytes]",
-     "opaque": true,
-     "decl": "alignas(4) unsigned char _unverified_pfClipSpacePlanes[96];",
+     "opaque": false,
+     "decl": "float pfClipSpacePlanes[24];",
      "source": "xbox_pdb",
      "class_type": null,
      "class_array_of": null

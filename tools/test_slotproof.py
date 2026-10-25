@@ -174,6 +174,30 @@ check('P2: al из памяти → bool: ABI да, семантика нет', 
 check('P2: пустое тело → void: семантика да (результата нет)', sem_of(E, 'void'))
 check('P2: xor eax,eax → void: семантика нет (eax занят)', not sem_of(X, 'void'))
 
+# ---------- 2в. v0.6.2 (этап Research): очистка стека по вызывающим ----------
+#   F: «mov eax,[esp+4]; mov ecx,eax; mov edx,[ecx]; jmp [edx+8]» — хвост к методу аргумента: тело очистку не задаёт.
+#   G1: «mov eax,[esp+4]; push eax; call F; ret 4» — сходится только при очистке F = 4 (свидетель).
+#   G2: кадр ebp «push ebp; mov ebp,esp; push 1; call F; mov esp,ebp; pop ebp; ret» — допускает любое N (не свидетель).
+FC = ctx_funcs([(0x00, '8B4424048BC88B11FF6208'), (0x20, '8B44240450E8D6FFFFFFC20400'),
+                (0x40, '558BEC6A01E8B6FFFFFF8BE55DC3')])
+an = sp.Analyzer(FC)
+check('по вызывающим: тело F очистку не задаёт', an.cleanup(BASE) is None)
+n, wit = an.infer_from_callers(BASE, [(BASE + 0x25, BASE + 0x20), (BASE + 0x45, BASE + 0x40)])
+check('по вызывающим: свидетель G1 даёт 4, кадр ebp (G2) — любое N, итог 4', n == 4 and
+      any(o == [4] for _, _, o in wit) and any(len(o) > 1 for _, _, o in wit), wit)
+n2, _ = an.infer_from_callers(BASE, [(BASE + 0x45, BASE + 0x40)])
+check('по вызывающим: только вызывающие с кадром ebp — вывода нет', n2 is None)
+FX = ctx_funcs([(0x00, '8B4424048BC88B11FF6208'), (0x20, '8B44240450E8D6FFFFFFC20400'),
+                (0x40, '8B442404E8B7FFFFFFC20400')])          # G3 без push: сходится только при N = 0
+nx, wx = sp.Analyzer(FX).infer_from_callers(BASE, [(BASE + 0x25, BASE + 0x20), (BASE + 0x44, BASE + 0x40)])
+check('по вызывающим: свидетели расходятся (4 и 0) — вывода нет', nx is None, wx)
+an.overrides[BASE] = 4
+check('по вызывающим: выведенная очистка используется дальше (basis callers)', an.cleanup_ex(BASE) == (4, 'callers'))
+check('опора: конец секции базового класса (end:Base)', sp.anchors({0: 'name+stack', 5: 'name+stack'}, 3, None, None,
+                                                                   [(4, 'Base')]) == (0, 'end:Base'))
+check('опора: name+stack ближе конца секции — берётся она', sp.anchors({0: 'name+stack', 2: 'name+stack'}, 1, None,
+                                                                         None, [(4, 'Base')]) == (0, 2))
+
 # ---------- 3. опоры ----------
 st = {0: 'name+stack', 1: 'stack', 2: 'stack', 3: 'name+stack', 4: 'stack'}
 check('опоры 0..3 для слота 1', sp.anchors(st, 1) == (0, 3))
@@ -243,7 +267,7 @@ if len(sys.argv) >= 5 and len(sys.argv) >= 3:
     check('пакет: у каждого прошедшего доказательства есть обе опоры', not noanch, len(noanch))
     raw = {(r['class'], r['checked_on'], r['slot']): r['status_raw'] for r in vs}
     badanch = [r for r in rows if r['passed'] == 'True' and r['check'].startswith('semantics')
-               for a in (r['anchor_below'], r['anchor_above']) if a not in ('end', 'start')
+               for a in (r['anchor_below'], r['anchor_above']) if a not in ('end', 'start') and not a.startswith('end:')
                and raw.get((r['class'], r['checked_on'], a)) != 'name+stack']
     check('пакет: каждая опора — строка той же vtable со статусом name+stack до шага semantics (status_raw)',
           not badanch, len(badanch))

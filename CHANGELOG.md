@@ -4,6 +4,35 @@
 проверенные по коду PC, поверх публичных имён из PDB xNVSE. Номер версии: `x.y` — новый раздел типов,
 `x.y.z` — исправления без нового раздела. Подробности каждой версии — в `README_RU.md` её коммита («vX.Y: …»).
 
+## [0.6.2] — 2026-10-25 — Закрытие Research перед Havok (план Андрея и Астры)
+
+Этап закрытия исследовательских вопросов. Статусы не повышались для удобства; нерешённое — с границами.
+research PDB побайтно как в v0.5.4–v0.6.1; строгий PDB изменён (политика прототипов слотов).
+
+### Добавлено
+- `research_closure/`: реестр 80 вопросов (`research_open_issues.csv`), `research_resolution.md`,
+  `blocked_with_bounds.md`, `field_search_scope.csv`, `abi_bodies.csv` (42 тела), `p3_priorities.csv`.
+- Очистка стека по прямым вызовам (`Analyzer.infer_from_callers`, `evidence/cleanup_inference.csv`): свидетель —
+  вызывающая, у которой стек сходится ровно при одном N. `NiObject::RegisterStreamables` = 4,
+  `NiGeometry::OnVisible` = 4.
+- Опора «конец секции базового класса» (`end:<класс>`): vtable предка на PC ровно его длины.
+- Ширина поля: вложение второго уровня (`nested-composition`), аргумент Windows API (`api-pointer-arg`).
+- `tools/field_research.py` — область поиска по неподтверждённым полям (без повышения).
+- `audit/base_v061_sha256.txt` — заморозка базы v0.6.1.
+
+### Изменено
+- Поля: 6 подтверждены (`confirmed` 885, `consistent` 3, `unverified` 14). Слоты: из 9 слабых адресов разрешены 7
+  (`name` 24 → 13, `stack` 3 → 0).
+- Строгий PDB: прототип слота — только при опознании по имени или семантически доказанном прототипе; остальное —
+  `_unverified_slotN` (158), полное — в research. TPI 944 → 875. 8 слотов `TESForm`/`BSGameSound` с текстовым
+  доводом ушли в research.
+- Выбор лучшей строки слота: `semantics` по положению ниже `name+stack`.
+- `this` 1483 / 1484 (+3).
+
+### Без изменений (blocked)
+- 16 полей, `PostAttachUpdate` и `CalculateNormals` (13 слотов), размеры `BGSSaveLoadFormHeader` и
+  `FontManager::TextData`, 42 тела ABI-слотов. `NiDX9Renderer::_undescribed_AD1` — пункт Д.
+
 ## [0.6.1] — 2026-10-25 — Граница тела функции и ABI ≠ семантика (по аудиту Астры v0.6)
 
 Аудит v0.6: условно принят как исследовательский; два замечания. Оба PDB — побайтно как в v0.6.

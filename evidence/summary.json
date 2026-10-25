@@ -7891,7 +7891,7 @@
       "kind": "manual",
       "anchor": [
        2,
-       "end"
+       "end:BSAudio"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -7902,7 +7902,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "ручное толкование: в конструкторе аргумент передаётся strlen и strcpy_s как источник — строка (CRT опознан по именам xNVSE)",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -7918,7 +7918,7 @@
       "kind": "manual",
       "anchor": [
        2,
-       "end"
+       "end:BSAudio"
       ],
       "return_verdict": "void-consistent",
       "stack_basis": "paths",
@@ -7929,7 +7929,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "ручное толкование: аргумент читается побайтно и служит приёмником strcpy_s/strcat_s с размером 0x104 — изменяемая строка (CRT опознан по именам xNVSE)",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -8540,7 +8540,7 @@
       "kind": "manual",
       "anchor": [
        2,
-       "end"
+       "end:BSAudio"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -8551,7 +8551,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "ручное толкование: в конструкторе аргумент передаётся strlen и strcpy_s как источник — строка (CRT опознан по именам xNVSE)",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -8567,7 +8567,7 @@
       "kind": "manual",
       "anchor": [
        2,
-       "end"
+       "end:BSAudio"
       ],
       "return_verdict": "void-consistent",
       "stack_basis": "paths",
@@ -8578,7 +8578,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "ручное толкование: аргумент читается побайтно и служит приёмником strcpy_s/strcat_s с размером 0x104 — изменяемая строка (CRT опознан по именам xNVSE)",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -11164,11 +11164,29 @@
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "AbstractHeap",
      "pc_func_va": 11181328,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       8,
+       "end:IMemoryHeap"
+      ],
+      "return_verdict": "proven",
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": true,
+      "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-base-section",
+      "prototype_level": "abi-compatible"
+     }
     }
    },
    "compositions": {},
@@ -12054,7 +12072,7 @@
       "kind": "machine",
       "anchor": [
        8,
-       17
+       "end:IMemoryHeap"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -12065,7 +12083,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -12090,56 +12108,20 @@
     "14": {
      "name": "CreateMorePages",
      "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
-     "status": "semantics",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 11183696,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172432,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       8,
-       17
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "15": {
      "name": "CleanExtraPages",
      "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
-     "status": "semantics",
-     "checked_on": "AbstractHeap",
-     "pc_func_va": 11183696,
+     "status": "name+stack",
+     "checked_on": "MemoryHeap",
+     "pc_func_va": 11172528,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       8,
-       17
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "16": {
      "name": "DecommitPages",
@@ -12538,7 +12520,7 @@
       "kind": "machine",
       "anchor": [
        10,
-       12
+       "end:IMemoryHeap"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -12549,7 +12531,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -16968,10 +16950,10 @@
    "pc_only": false,
    "fields": {
     "pRadio": "confirmed",
-    "Hndl.iSoundID": "consistent",
+    "Hndl.iSoundID": "confirmed",
     "Hndl.bAssumeSuccess": "confirmed",
     "Hndl.eState": "confirmed",
-    "StaticHndl.iSoundID": "consistent",
+    "StaticHndl.iSoundID": "confirmed",
     "StaticHndl.bAssumeSuccess": "confirmed",
     "StaticHndl.eState": "confirmed",
     "bShouldBePlaying": "confirmed",
@@ -17006,18 +16988,20 @@
      "type_verified": false
     },
     "Hndl.iSoundID": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
       "class-method-this",
-      "new-object"
+      "composed: BSSoundHandle at FalloutRadio::FORadioReceiver+0x4"
      ],
-     "independent_functions": 2,
-     "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "independent_functions": 36,
+     "write_sites": 4,
+     "width_verified": true,
+     "width_basis": [
+      "nested-field-width"
+     ],
      "declared_kind": "int",
      "type_evidence": [
       "address"
@@ -17026,7 +17010,12 @@
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false,
-     "composition": "proved"
+     "composition": "proved",
+     "composition_evidence": [
+      "0x008327F9 add ecx, 4 -> 0x008327FC call BSSoundHandle::BSSoundHandle",
+      "0x00832784 add ecx, 4 -> 0x00832787 call BSSoundHandle::Stop",
+      "0x0083278F add ecx, 4 -> 0x00832792 call BSSoundHandle::Release"
+     ]
     },
     "Hndl.bAssumeSuccess": {
      "status": "confirmed",
@@ -17085,18 +17074,20 @@
      ]
     },
     "StaticHndl.iSoundID": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
       "class-method-this",
-      "new-object"
+      "composed: BSSoundHandle at FalloutRadio::FORadioReceiver+0x10"
      ],
-     "independent_functions": 2,
-     "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "independent_functions": 36,
+     "write_sites": 4,
+     "width_verified": true,
+     "width_basis": [
+      "nested-field-width"
+     ],
      "declared_kind": "int",
      "type_evidence": [
       "address"
@@ -17105,7 +17096,12 @@
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false,
-     "composition": "proved"
+     "composition": "proved",
+     "composition_evidence": [
+      "0x0083280B add ecx, 0x10 -> 0x0083280E call BSSoundHandle::BSSoundHandle",
+      "0x0083279A add ecx, 0x10 -> 0x0083279D call BSSoundHandle::Stop",
+      "0x008327A5 add ecx, 0x10 -> 0x008327A8 call BSSoundHandle::Release"
+     ]
     },
     "StaticHndl.bAssumeSuccess": {
      "status": "confirmed",
@@ -17300,8 +17296,6 @@
     "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
-    "Hndl.iSoundID",
-    "StaticHndl.iSoundID",
     "bInRange"
    ],
    "provisional": true,
@@ -17309,8 +17303,10 @@
    "strict_fields": [
     "Hndl.bAssumeSuccess",
     "Hndl.eState",
+    "Hndl.iSoundID",
     "StaticHndl.bAssumeSuccess",
     "StaticHndl.eState",
+    "StaticHndl.iSoundID",
     "bIsActor",
     "bJustStarted",
     "bShouldBePlaying",
@@ -18064,7 +18060,7 @@
    "pc_only": false,
    "fields": {
     "<vftable>": "confirmed",
-    "iRefCount": "consistent",
+    "iRefCount": "confirmed",
     "eState": "confirmed",
     "Key": "confirmed",
     "eContext": "confirmed",
@@ -18102,22 +18098,26 @@
      "type_verified": false
     },
     "iRefCount": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
-      "subclass-method-this"
+      "subclass-method-this",
+      "traced-manual"
      ],
      "independent_functions": 4,
-     "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "write_sites": 2,
+     "width_verified": true,
+     "width_basis": [
+      "api-pointer-arg"
+     ],
      "declared_kind": "int",
      "type_evidence": [
-      "address"
+      "address",
+      "int-arith"
      ],
-     "type_status": "not-checked",
+     "type_status": "consistent",
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false
@@ -18384,24 +18384,23 @@
     }
    ],
    "shift_test": {
-    "declared_score": 25,
+    "declared_score": 26,
     "best_alternative": "eContext +4",
-    "alternative_score": 24,
+    "alternative_score": 25,
     "verdict": "unique",
     "ambiguous_fields": [],
     "verdict_without_accessors": "unique",
     "verdict_with_accessors": "unique"
    },
-   "provisional_fields": [
-    "iRefCount"
-   ],
-   "provisional": true,
+   "provisional_fields": [],
+   "provisional": false,
    "strict": true,
    "strict_fields": [
     "<vftable>",
     "Key",
     "eContext",
     "eState",
+    "iRefCount",
     "pAdditionalParents",
     "pChildren",
     "pFileEntry",
@@ -21884,8 +21883,8 @@
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
      "status": "name+stack",
-     "checked_on": "NiObjectNET",
-     "pc_func_va": 10862976,
+     "checked_on": "NiObject",
+     "pc_func_va": 10867440,
      "manual": false,
      "note": ""
     },
@@ -21974,56 +21973,20 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "semantics",
-     "checked_on": "NiObject",
-     "pc_func_va": 15191360,
+     "status": "name+stack",
+     "checked_on": "NiGeometryData",
+     "pc_func_va": 10907536,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       29,
-       "end"
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "end-of-vtable",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "semantics",
-     "checked_on": "NiObject",
-     "pc_func_va": 15191360,
+     "status": "name+stack",
+     "checked_on": "NiGeometryData",
+     "pc_func_va": 10906048,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       29,
-       "end"
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "end-of-vtable",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "33": {
      "name": "SetGroup",
@@ -22604,7 +22567,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -22615,7 +22578,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -22631,7 +22594,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -22642,7 +22605,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -23892,7 +23855,7 @@
     "m_kWorldBound": "confirmed",
     "m_kPropertyList": "confirmed",
     "m_uFlags": "confirmed",
-    "m_kLocal.m_Rotate": "consistent",
+    "m_kLocal.m_Rotate": "confirmed",
     "m_kLocal.m_Translate": "confirmed",
     "m_kLocal.m_fScale": "confirmed",
     "m_kWorld.m_Rotate": "confirmed",
@@ -24030,18 +23993,21 @@
      "type_verified": false
     },
     "m_kLocal.m_Rotate": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
       "class-method-this",
+      "composed: NiTransform at NiAVObject+0x34; NiMatrix3 at NiTransform+0x0",
       "subclass-method-this"
      ],
      "independent_functions": 15,
      "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "width_verified": true,
+     "width_basis": [
+      "nested-composition"
+     ],
      "declared_kind": "class",
      "type_evidence": [
       "address"
@@ -24050,6 +24016,11 @@
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false,
+     "composition_evidence": [
+      "0x00A5A287 lea ecx, [ebx + 0x34] -> 0x00A5A28A call NiTransform::IsNotEqual",
+      "0x00A5AA3E lea ecx, [esi + 0x34] -> 0x00A5AA47 call NiTransform::MakeIdentity",
+      "POD без vtable: по ширине подтверждены подполя m_pEntry; противоречий нет"
+     ],
      "composition": "proved"
     },
     "m_kLocal.m_Translate": {
@@ -24519,7 +24490,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -24530,7 +24501,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -24546,7 +24517,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -24557,7 +24528,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -24654,29 +24625,11 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "semantics",
-     "checked_on": "NiAVObject",
-     "pc_func_va": 10854352,
+     "status": "name+stack",
+     "checked_on": "NiNode",
+     "pc_func_va": 10871280,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       42,
-       44
-      ],
-      "return_verdict": "void-consistent",
-      "stack_basis": "cfg",
-      "return_abi_verified": false,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "нет разбора путей",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -25386,12 +25339,11 @@
     "verdict_without_accessors": "unique",
     "verdict_with_accessors": "unique"
    },
-   "provisional_fields": [
-    "m_kLocal.m_Rotate"
-   ],
-   "provisional": true,
+   "provisional_fields": [],
+   "provisional": false,
    "strict": true,
    "strict_fields": [
+    "m_kLocal.m_Rotate",
     "m_kLocal.m_Translate",
     "m_kLocal.m_fScale",
     "m_kPropertyList",
@@ -25784,7 +25736,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -25795,7 +25747,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -25811,7 +25763,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -25822,7 +25774,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -27071,7 +27023,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -27082,7 +27034,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -27098,7 +27050,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -27109,7 +27061,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -28021,7 +27973,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       36
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -28032,7 +27984,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -28048,7 +28000,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       36
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -28059,7 +28011,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -28547,7 +28499,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -28558,7 +28510,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -28574,7 +28526,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -28585,7 +28537,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29422,7 +29374,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29433,7 +29385,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29449,7 +29401,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29460,7 +29412,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29522,7 +29474,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "void-consistent",
       "stack_basis": "cfg",
@@ -29533,7 +29485,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29549,7 +29501,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29560,7 +29512,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29576,7 +29528,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29587,7 +29539,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29603,7 +29555,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29614,7 +29566,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29630,7 +29582,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29641,7 +29593,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29666,7 +29618,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29677,7 +29629,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -29693,7 +29645,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       "end"
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -29704,7 +29656,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -30769,7 +30721,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -30780,7 +30732,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -30796,7 +30748,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -30807,7 +30759,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -30869,7 +30821,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       49
+       "end:BSShaderProperty"
       ],
       "return_verdict": "void-consistent",
       "stack_basis": "cfg",
@@ -30880,90 +30832,36 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
     "39": {
      "name": "SetupGeometry",
      "decl": "bool SetupGeometry(NiGeometry*)",
-     "status": "semantics",
-     "checked_on": "BSShaderLightingProperty",
-     "pc_func_va": 13214752,
+     "status": "name+stack",
+     "checked_on": "BSShaderPPLightingProperty",
+     "pc_func_va": 11958848,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       37,
-       49
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "40": {
      "name": "GetRenderPasses",
      "decl": "void* GetRenderPasses(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",
-     "status": "semantics",
-     "checked_on": "BSShaderLightingProperty",
-     "pc_func_va": 12225168,
+     "status": "name+stack",
+     "checked_on": "BSShaderPPLightingProperty",
+     "pc_func_va": 11959264,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       37,
-       49
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "41": {
      "name": "GetNumberofPasses",
      "decl": "unsigned short GetNumberofPasses(NiGeometry*)",
-     "status": "semantics",
-     "checked_on": "BSShaderLightingProperty",
-     "pc_func_va": 13921424,
+     "status": "name+stack",
+     "checked_on": "BSShaderPPLightingProperty",
+     "pc_func_va": 11961312,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       37,
-       49
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "42": {
      "name": "GetSIBlockRenderPasses",
@@ -30977,7 +30875,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       49
+       "end:BSShaderProperty"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -30988,7 +30886,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -31022,56 +30920,20 @@
     "44": {
      "name": "ClarifyShader",
      "decl": "BSShaderProperty* ClarifyShader(NiGeometry*, bool, bool)",
-     "status": "semantics",
-     "checked_on": "BSShaderLightingProperty",
-     "pc_func_va": 11894720,
+     "status": "name+stack",
+     "checked_on": "BSShaderPPLightingProperty",
+     "pc_func_va": 11962496,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       37,
-       49
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "45": {
      "name": "GetBaseTexture",
      "decl": "NiTexture* GetBaseTexture()",
-     "status": "semantics",
-     "checked_on": "BSShaderLightingProperty",
-     "pc_func_va": 15191360,
+     "status": "name+stack",
+     "checked_on": "BSShaderPPLightingProperty",
+     "pc_func_va": 11956864,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       37,
-       49
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "46": {
      "name": "GetWaterFogPassList",
@@ -32206,7 +32068,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -32217,7 +32079,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -32233,7 +32095,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -32244,7 +32106,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -34863,7 +34725,7 @@
       "kind": "machine",
       "anchor": [
        39,
-       "end"
+       "end:NiTriBasedGeomData"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -34874,7 +34736,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -36176,7 +36038,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -36187,7 +36049,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -36203,7 +36065,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -36214,7 +36076,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -36419,7 +36281,7 @@
     "53": {
      "name": "OnVisible",
      "decl": "void OnVisible(NiCullingProcess*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiGeometry",
      "pc_func_va": 11009424,
      "manual": false,
@@ -37137,7 +36999,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -37148,7 +37010,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -37164,7 +37026,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -37175,7 +37037,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -37380,7 +37242,7 @@
     "53": {
      "name": "OnVisible",
      "decl": "void OnVisible(NiCullingProcess*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11009424,
      "manual": false,
@@ -37885,7 +37747,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -37896,7 +37758,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -37912,7 +37774,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -37923,7 +37785,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -38128,7 +37990,7 @@
     "53": {
      "name": "OnVisible",
      "decl": "void OnVisible(NiCullingProcess*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 11009424,
      "manual": false,
@@ -38675,7 +38537,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -38686,7 +38548,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -38702,7 +38564,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -38713,7 +38575,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -38918,7 +38780,7 @@
     "53": {
      "name": "OnVisible",
      "decl": "void OnVisible(NiCullingProcess*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 11009424,
      "manual": false,
@@ -39550,7 +39412,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -39561,7 +39423,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -39577,7 +39439,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -39588,7 +39450,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -40450,7 +40312,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -40461,7 +40323,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -40477,7 +40339,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -40488,7 +40350,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -40558,7 +40420,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiTexture"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -40569,7 +40431,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -40585,7 +40447,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiTexture"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -40596,7 +40458,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     }
@@ -41249,7 +41111,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -41260,7 +41122,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -41276,7 +41138,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -41287,7 +41149,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -41357,7 +41219,7 @@
       "kind": "machine",
       "anchor": [
        38,
-       41
+       "end:NiTexture"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -41368,7 +41230,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -41384,7 +41246,7 @@
       "kind": "machine",
       "anchor": [
        38,
-       41
+       "end:NiTexture"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -41395,7 +41257,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -41869,7 +41731,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAccumulator",
      "pc_func_va": 11018208,
      "manual": false,
@@ -41970,7 +41832,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -41981,7 +41843,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -41997,7 +41859,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -42008,7 +41870,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -42069,7 +41931,7 @@
       "kind": "machine",
       "anchor": [
        36,
-       "end"
+       "end:NiAccumulator"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -42080,7 +41942,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -42096,7 +41958,7 @@
       "kind": "machine",
       "anchor": [
        36,
-       "end"
+       "end:NiAccumulator"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -42107,7 +41969,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -42569,7 +42431,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 11143888,
      "manual": false,
@@ -42669,7 +42531,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -42680,7 +42542,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -42696,7 +42558,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -42707,7 +42569,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -42759,29 +42621,11 @@
     "38": {
      "name": "RegisterObject",
      "decl": "bool RegisterObject(NiGeometry*)",
-     "status": "semantics",
-     "checked_on": "NiBackToFrontAccumulator",
-     "pc_func_va": 13214752,
+     "status": "name+stack",
+     "checked_on": "NiAlphaAccumulator",
+     "pc_func_va": 11122768,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       37,
-       41
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "39": {
      "name": "AddShared",
@@ -42795,7 +42639,7 @@
       "kind": "machine",
       "anchor": [
        37,
-       41
+       "end:NiAccumulator"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -42806,7 +42650,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -43223,7 +43067,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAlphaAccumulator",
      "pc_func_va": 11121920,
      "manual": false,
@@ -43323,7 +43167,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -43334,7 +43178,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -43350,7 +43194,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -43361,7 +43205,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -43422,29 +43266,11 @@
     "39": {
      "name": "AddShared",
      "decl": "bool AddShared(NiAVObject*)",
-     "status": "semantics",
-     "checked_on": "NiAlphaAccumulator",
-     "pc_func_va": 11143632,
+     "status": "name+stack",
+     "checked_on": "BSShaderAccumulator",
+     "pc_func_va": 11942672,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       38,
-       41
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "40": {
      "name": "ClearSharedMap",
@@ -43608,7 +43434,7 @@
     "spWaterFogRenderTarget": "confirmed",
     "eRenderMode": "confirmed",
     "spShadowLight": "confirmed",
-    "kAlphaRenderPass.pGeometry": "consistent",
+    "kAlphaRenderPass.pGeometry": "confirmed",
     "kAlphaRenderPass.usPassEnum": "confirmed",
     "kAlphaRenderPass.eAccumulationHint": "confirmed",
     "kAlphaRenderPass.bFirstPass": "confirmed",
@@ -44545,17 +44371,20 @@
      "type_verified": false
     },
     "kAlphaRenderPass.pGeometry": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
-      "class-method-this"
+      "argument-pointer",
+      "composed: BSShaderProperty::RenderPass at BSShaderAccumulator+0x1A4"
      ],
-     "independent_functions": 2,
-     "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "independent_functions": 1,
+     "write_sites": 1,
+     "width_verified": true,
+     "width_basis": [
+      "nested-field-width"
+     ],
      "declared_kind": "pointer",
      "type_evidence": [
       "address"
@@ -44564,7 +44393,10 @@
      "type_basis": "xbox_pdb",
      "pointer_target_verified": false,
      "type_verified": false,
-     "composition": "proved"
+     "composition": "proved",
+     "composition_evidence": [
+      "0x00B661D3 lea edx, [esi + 0x1a4] (первым аргументом на стеке) -> 0x00B661E0 call BSShaderProperty::RenderPass::RenderPass"
+     ]
     },
     "kAlphaRenderPass.usPassEnum": {
      "status": "confirmed",
@@ -45017,7 +44849,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 11121920,
      "manual": false,
@@ -45117,7 +44949,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -45128,7 +44960,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -45144,7 +44976,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -45155,7 +44987,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -45703,8 +45535,7 @@
    },
    "provisional_fields": [
     "bCacheGeometry",
-    "eAccumulationMode",
-    "kAlphaRenderPass.pGeometry"
+    "eAccumulationMode"
    ],
    "provisional": true,
    "strict": true,
@@ -45729,6 +45560,7 @@
     "kAlphaRenderPass.bFirstPass",
     "kAlphaRenderPass.bLastPass",
     "kAlphaRenderPass.eAccumulationHint",
+    "kAlphaRenderPass.pGeometry",
     "kAlphaRenderPass.ppSceneLights",
     "kAlphaRenderPass.ucExtraParam",
     "kAlphaRenderPass.ucMaxNumLights",
@@ -46299,7 +46131,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSBatchRenderer",
      "pc_func_va": 10867440,
      "manual": false,
@@ -46399,7 +46231,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -46410,7 +46242,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -46426,7 +46258,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -46437,7 +46269,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -47144,7 +46976,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiRenderer",
      "pc_func_va": 10867440,
      "manual": false,
@@ -47244,7 +47076,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -47255,7 +47087,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -47271,7 +47103,7 @@
       "kind": "machine",
       "anchor": [
        29,
-       "end"
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -47282,7 +47114,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -48336,7 +48168,7 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiDX9Renderer",
      "pc_func_va": 10867440,
      "manual": false,
@@ -48427,20 +48259,56 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiDX9Renderer",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end:NiObject"
+      ],
+      "return_verdict": "proven",
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-base-section",
+      "prototype_level": "abi-compatible"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiDX9Renderer",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end:NiObject"
+      ],
+      "return_verdict": "proven",
+      "stack_basis": "paths",
+      "return_abi_verified": true,
+      "return_semantic_verified": false,
+      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
+      "args_abi_verified": true,
+      "args_semantic_verified": true,
+      "args_semantic_basis": "аргументов нет",
+      "slot_identity": "position",
+      "slot_position": "end-of-base-section",
+      "prototype_level": "abi-compatible"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -50035,7 +49903,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50046,7 +49914,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50089,7 +49957,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50100,7 +49968,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50125,7 +49993,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50136,7 +50004,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50206,7 +50074,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50217,7 +50085,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50233,7 +50101,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50244,7 +50112,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50260,7 +50128,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50271,7 +50139,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50296,7 +50164,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50307,7 +50175,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50323,7 +50191,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50334,7 +50202,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50350,7 +50218,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50361,7 +50229,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50377,7 +50245,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50388,7 +50256,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50413,7 +50281,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50424,7 +50292,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -50440,7 +50308,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       "end"
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -50451,7 +50319,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "end-of-vtable",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     }
@@ -51102,56 +50970,20 @@
     "20": {
      "name": "SetupGeometry",
      "decl": "bool SetupGeometry(NiGeometry*)",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 11143632,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15210624,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       19,
-       22
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "21": {
      "name": "PreProcessPipeline",
      "decl": "unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 11072480,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15208816,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       19,
-       22
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "22": {
      "name": "UpdatePipeline",
@@ -51165,29 +50997,11 @@
     "23": {
      "name": "SetupRenderingPass",
      "decl": "unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 11072480,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15205808,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "24": {
      "name": "SetupTransformations",
@@ -51219,29 +51033,11 @@
     "27": {
      "name": "PrepareGeometryForRendering",
      "decl": "void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 11072512,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15209200,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "28": {
      "name": "PostRender",
@@ -51255,29 +51051,11 @@
     "29": {
      "name": "PostProcessPipeline",
      "decl": "unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 11072480,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15205872,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "30": {
      "name": "SetupGeometryTextures",
@@ -51336,56 +51114,20 @@
     "36": {
      "name": "FirstPass",
      "decl": "unsigned FirstPass()",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 15191360,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15205760,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "37": {
      "name": "NextPass",
      "decl": "unsigned NextPass()",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 15191360,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15205776,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "38": {
      "name": "IsGenericallyConfigurable",
@@ -51399,7 +51141,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       57
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -51410,7 +51152,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -51435,7 +51177,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       57
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -51446,7 +51188,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -51462,7 +51204,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       57
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -51473,36 +51215,18 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
     "42": {
      "name": "SetUsesNiRenderState",
      "decl": "bool SetUsesNiRenderState(bool)",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 13214752,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 12033408,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": false,
-      "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "43": {
      "name": "SetGPUProgram",
@@ -51516,7 +51240,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       57
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -51527,7 +51251,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -51552,7 +51276,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       57
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -51563,7 +51287,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -51579,7 +51303,7 @@
       "kind": "machine",
       "anchor": [
        22,
-       57
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -51590,36 +51314,18 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
     "47": {
      "name": "GetShaderDecl",
      "decl": "NiD3DShaderDeclaration* GetShaderDecl()",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 15191360,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15639856,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "48": {
      "name": "SetShaderDecl",
@@ -51669,29 +51375,11 @@
     "53": {
      "name": "GetVSPresentAllPasses",
      "decl": "bool GetVSPresentAllPasses()",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 15632784,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15209712,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "54": {
      "name": "GetVSPresentAnyPass",
@@ -51723,29 +51411,11 @@
     "55": {
      "name": "GetPSPresentAllPasses",
      "decl": "bool GetPSPresentAllPasses()",
-     "status": "semantics",
-     "checked_on": "NiD3DShaderInterface",
-     "pc_func_va": 15632784,
+     "status": "name+stack",
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15209728,
      "manual": false,
-     "note": "",
-     "proof": {
-      "kind": "machine",
-      "anchor": [
-       22,
-       57
-      ],
-      "return_verdict": "proven",
-      "stack_basis": "paths",
-      "return_abi_verified": true,
-      "return_semantic_verified": false,
-      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-      "args_abi_verified": true,
-      "args_semantic_verified": true,
-      "args_semantic_basis": "аргументов нет",
-      "slot_identity": "position",
-      "slot_position": "anchors",
-      "prototype_level": "abi-compatible"
-     }
+     "note": ""
     },
     "56": {
      "name": "GetPSPresentAnyPass",
@@ -52798,7 +52468,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -52809,7 +52479,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -52834,7 +52504,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -52845,7 +52515,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -52861,7 +52531,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -52872,7 +52542,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -54230,7 +53900,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -54241,7 +53911,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -54266,7 +53936,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -54277,7 +53947,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -54293,7 +53963,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -54304,7 +53974,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -55414,7 +55084,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -55425,7 +55095,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -55450,7 +55120,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -55461,7 +55131,7 @@
       "args_semantic_verified": false,
       "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -55477,7 +55147,7 @@
       "kind": "machine",
       "anchor": [
        42,
-       47
+       "end:NiShader"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -55488,7 +55158,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -57924,7 +57594,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -57935,7 +57605,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -57951,7 +57621,7 @@
       "kind": "machine",
       "anchor": [
        30,
-       35
+       "end:NiObject"
       ],
       "return_verdict": "proven",
       "stack_basis": "paths",
@@ -57962,7 +57632,7 @@
       "args_semantic_verified": true,
       "args_semantic_basis": "аргументов нет",
       "slot_identity": "position",
-      "slot_position": "anchors",
+      "slot_position": "end-of-base-section",
       "prototype_level": "abi-compatible"
      }
     },
@@ -58791,7 +58461,7 @@
     "kGeomListFenceObject": "confirmed",
     "spShadowCamera": "confirmed",
     "kShadowCameraPlanes": "confirmed",
-    "pfClipSpacePlanes": "consistent",
+    "pfClipSpacePlanes": "confirmed",
     "bClipSpacePlanesReady": "confirmed",
     "spShadowAccumulator": "confirmed",
     "kMultiboundRooms": "confirmed",
@@ -59584,20 +59254,24 @@
      "type_verified": false
     },
     "pfClipSpacePlanes": {
-     "status": "consistent",
+     "status": "confirmed",
      "source": "xbox_pdb",
      "instruction_verified": true,
-     "offset_verified": false,
+     "offset_verified": true,
      "base_pointer": [
-      "class-method-this"
+      "class-method-this",
+      "traced-manual"
      ],
      "independent_functions": 2,
-     "write_sites": 0,
-     "width_verified": false,
-     "width_basis": [],
+     "write_sites": 1,
+     "width_verified": true,
+     "width_basis": [
+      "buffer-size"
+     ],
      "declared_kind": "float",
      "type_evidence": [
-      "address"
+      "address",
+      "lea"
      ],
      "type_status": "not-checked",
      "type_basis": "xbox_pdb",
@@ -60005,8 +59679,7 @@
     "verdict_with_accessors": "unique"
    },
    "provisional_fields": [
-    "iEnabledPasses",
-    "pfClipSpacePlanes"
+    "iEnabledPasses"
    ],
    "provisional": true,
    "strict": true,
@@ -60041,6 +59714,7 @@
     "lGeomList",
     "lRootList",
     "pPortalGraph",
+    "pfClipSpacePlanes",
     "spDynamicShadowMap",
     "spFrustumVis",
     "spLight",
@@ -62247,6 +61921,8 @@
   "class-array-element": "массив классов: внутри элемента подтверждено подполе по его собственной ширине",
   "nested-field-width": "поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана",
   "class-member": "поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5)",
+  "nested-composition": "вложенный объект второго уровня: обе композиции доказаны вызовами методов, размер и все поля вложенного класса подтверждены (v0.6.2)",
+  "api-pointer-arg": "адрес поля передан указателем в функцию Windows API (через обёртку с проверенным телом): ширину задаёт прототип API, имя импорта сверено с таблицей импорта exe (v0.6.2)",
   "buffer-size": "поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses)",
   "blob-prefix / blob-stride": "непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются",
   "… (в X.поле) / (элемент X.поле[])": "ширина подтверждена обращением через содержащий класс"

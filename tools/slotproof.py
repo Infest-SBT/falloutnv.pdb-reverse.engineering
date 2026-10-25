@@ -236,6 +236,7 @@ class Analyzer:
     def __init__(self, ctx, vt_slot=None):
         self.ctx = ctx
         self.vt_slot = vt_slot or (lambda k: None)
+        self.overrides = {}             # v0.6.2: очистка стека, выведенная по вызывающим (infer_from_callers)
         self.memo = {}
         self.active = []                # функции, разбираемые сейчас (защита от рекурсии)
 
@@ -477,6 +478,8 @@ class Analyzer:
 
     def cleanup_ex(self, f, depth=0):
         """-> (число или None, основание: 'paths' | 'cfg' | 'tail' | причина отказа)."""
+        if f in self.overrides:
+            return self.overrides[f], 'callers'
         if depth > MAX_DEPTH or f in self.active or len(self.active) > MAX_DEPTH:
             return None, 'глубина'
         try:
@@ -499,6 +502,36 @@ class Analyzer:
                     return None, f"очистка 0x{r['callee']:08X} не определена"
                 vals.add(c)
         return (vals.pop(), 'tail' if tail else 'paths') if len(vals) == 1 else (None, f'пути расходятся {sorted(vals)}')
+
+    def infer_from_callers(self, f, call_sites, cands=tuple(range(0, 64, 4))):
+        """v0.6.2 (этап Research): очистка стека функции f по местам её прямого вызова (call rel32).
+        Для каждой вызывающей функции g (call_sites: [(адрес call, начало g)]) путь g разбирается символически при
+        каждой гипотезе «f очищает N байт»; гипотеза допустима, если все пути g доходят до ret при esp, равном
+        входному (иначе Unsupported). Вызывающая с ЕДИНСТВЕННОЙ допустимой гипотезой — свидетель; функции с кадром ebp
+        (mov esp, ebp) обычно допускают любое N и свидетелями не считаются. Итог — N, если свидетели есть и все
+        согласны. -> (N или None, [(g, call, допустимые N)])"""
+        seen, wit = set(), []
+        for site, g in call_sites:
+            if g in seen or g == f:
+                continue
+            seen.add(g)
+            ok = []
+            for n in cands:
+                sub = Analyzer(self.ctx, self.vt_slot)
+                sub.overrides = dict(self.overrides); sub.overrides[f] = n
+                try:
+                    paths = sub.analyze(g)
+                except Unsupported:
+                    continue
+                if any(site in r['trace'] for r in paths):
+                    ok.append(n)
+            wit.append((g, site, ok))
+        uniq = {o[0] for _, _, o in wit if len(o) == 1}
+        if len(uniq) == 1:
+            n = uniq.pop()
+            if all(n in o for _, _, o in wit if o):      # ни одна разобранная вызывающая не исключает N
+                return n, wit
+        return None, wit
 
     def tail_chain(self, f, depth=0):
         """Для отчёта: цепочка хвостовых переходов (адреса) до функций с ret."""
@@ -936,11 +969,16 @@ def _reach_without(cfg, r, D):
 
 
 # ---------------- положение слота ----------------
-def anchors(rows_by_slot, k, vt_len=None, n_slots=None):
+def anchors(rows_by_slot, k, vt_len=None, n_slots=None, section_ends=()):
     """rows_by_slot: {номер: статус} на одной vtable — статусы ДО шага semantics (evidence_vslots.csv: status_raw).
-    -> (ниже, выше) номера опор или 'end' / 'start'."""
+    section_ends (v0.6.2): [(n, класс)] — у базового класса своя vtable на PC длиной ровно n = числу его слотов;
+    тогда слоты 0..n−1 любой vtable наследника — его раскладка, и n служит верхней опорой «конец секции базы».
+    -> (ниже, выше) номера опор или 'end' / 'end:<класс>' / 'start'."""
     lo = max((j for j, s in rows_by_slot.items() if j < k and s == 'name+stack'), default=None)
     hi = min((j for j, s in rows_by_slot.items() if j > k and s == 'name+stack'), default=None)
+    sec = min(((n, c) for n, c in section_ends if n > k), default=None)
+    if sec is not None and (hi is None or hi >= sec[0]):
+        hi = f'end:{sec[1]}'
     # конец vtable: у этой vtable на PC ровно столько слотов, сколько у класса, — новых виртуальных функций в ней
     # нет (у наследника они дописывались бы в конец), значит номера до конца не сдвинуты
     if hi is None and vt_len is not None and n_slots is not None and vt_len == n_slots and k < vt_len:

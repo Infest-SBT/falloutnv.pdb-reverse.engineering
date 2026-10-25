@@ -1,0 +1,33 @@
+{
+ "issues": 80,
+ "dispositions": {
+  "blocked-with-bounds": 62,
+  "resolved-confirmed": 6,
+  "deferred (пункт Д)": 1,
+  "resolved": 8,
+  "open-P3": 3
+ },
+ "by_type": {
+  "abi-body": {
+   "blocked-with-bounds": 42
+  },
+  "class-size": {
+   "blocked-with-bounds": 2
+  },
+  "field": {
+   "blocked-with-bounds": 16,
+   "resolved-confirmed": 6,
+   "deferred (пункт Д)": 1
+  },
+  "group": {
+   "open-P3": 3
+  },
+  "policy": {
+   "resolved": 1
+  },
+  "vtable-slot-impl": {
+   "blocked-with-bounds": 2,
+   "resolved": 7
+  }
+ }
+}

@@ -1631,7 +1631,7 @@ public:
     virtual int OutputBlockInfo(IMemoryManagerFile*, bool); // слот 8 | PC: name+stack (0xAAA430)
     virtual unsigned Size(const void*, unsigned); // слот 9 | PC: stub (0xEC60FA)
     virtual unsigned TotalSize(const void*); // слот 10 | PC: stub (0xEC60FA)
-    virtual void CheckDelayedFreeBlocks(); // слот 11 | PC: stack (0xAA9D10)
+    virtual void CheckDelayedFreeBlocks(); // слот 11 | PC: semantics [прототип только совместим по ABI] (0xAA9D10)
     // поля
 };
 // HeapFreeSubBucket (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
@@ -1648,8 +1648,8 @@ class AbstractHeap : public IMemoryHeap {
 public:
     virtual void* DoHeapAllocation(unsigned, unsigned); // слот 12 | PC: name+stack (0xAA79A0)
     virtual void DoHeapFree(void*); // слот 13 | PC: name+stack (0xAA7A30)
-    virtual unsigned CreateMorePages(void*, unsigned, unsigned); // слот 14 | PC: semantics [прототип только совместим по ABI] (0xAAA650)
-    virtual unsigned CleanExtraPages(void*, unsigned, unsigned); // слот 15 | PC: semantics [прототип только совместим по ABI] (0xAAA650)
+    virtual unsigned CreateMorePages(void*, unsigned, unsigned); // слот 14 | PC: name+stack (0xAA7A50)
+    virtual unsigned CleanExtraPages(void*, unsigned, unsigned); // слот 15 | PC: name+stack (0xAA7AB0)
     virtual void DecommitPages(FreeHeapBlock*); // слот 16 | PC: name+stack (0xAA7D60)
     virtual void CommitPages(FreeHeapBlock*, unsigned); // слот 17 | PC: name+stack (0xB02710)
     // поля
@@ -1839,7 +1839,7 @@ public:
     alignas(4) unsigned char m_kAllocator[4]; // NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BGSFormChanges *>::AntiBloatAllocator | PC: confirmed
 };
 // FalloutRadio::FORadioReceiver (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
-// PC: sizeof 0x20 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: Hndl.iSoundID, StaticHndl.iSoundID, bInRange)
+// PC: sizeof 0x20 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bInRange)
 struct FalloutRadio::FORadioReceiver {
 public:
     // поля
@@ -1875,12 +1875,12 @@ public:
     FalloutRadio::StationState CurrentState;
 };
 // RadioConvTask (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 8; vtable 0x0107CF18; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iRefCount)
+// PC: sizeof 0x38 — confirmed; alignof 8; vtable 0x0107CF18
 class RadioConvTask {
 public:
     virtual ~RadioConvTask(); // слот 0 | PC: name+stack (0x837290)
     // поля
-    int iRefCount; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    int iRefCount; // PC: confirmed
     int eState; // PC: confirmed
     __int64 Key; // PC: confirmed
     int eContext; // PC: confirmed
@@ -2088,7 +2088,7 @@ public:
     virtual NiObject* CreateClone(NiCloningProcess*); // слот 18 | PC: name+stack (0xA44840)
     virtual void LoadBinary(NiStream*); // слот 19 | PC: name+stack (0xA5D610)
     virtual void LinkObject(NiStream*); // слот 20 | PC: name+stack (0xA5C0E0)
-    virtual bool RegisterStreamables(NiStream*); // слот 21 | PC: name+stack (0xA5C180)
+    virtual bool RegisterStreamables(NiStream*); // слот 21 | PC: name+stack (0xA5D2F0)
     virtual void SaveBinary(NiStream*); // слот 22 | PC: name+stack (0xA5C5B0)
     virtual bool IsEqual(NiObject*); // слот 23 | PC: name+stack (0xA5D470)
     virtual void GetViewerStrings(void*); // слот 24 | PC: name+stack (0xA5D6E0)
@@ -2098,8 +2098,8 @@ public:
     virtual bool StreamCanSkip(); // слот 28 | PC: name+stack (0xEE8990)
     virtual const NiRTTI* GetStreamableRTTI(); // слот 29 | PC: name+stack (0xA5D310)
     virtual void SetBound(BSNiBound*); // слот 30 | PC: name+stack (0xA67020)
-    virtual unsigned GetBlockAllocationSize(); // слот 31 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiObjectGroup* GetGroup(); // слот 32 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual unsigned GetBlockAllocationSize(); // слот 31 | PC: name+stack (0xA66F90)
+    virtual NiObjectGroup* GetGroup(); // слот 32 | PC: name+stack (0xA669C0)
     virtual void SetGroup(NiObjectGroup*); // слот 33 | PC: name+stack (0xA669D0)
     virtual NiControllerManager* IsNiControllerManager(); // слот 34 | PC: stub (0xACBB70)
     // поля
@@ -2149,7 +2149,7 @@ public:
     float m_fRadius; // PC: confirmed
 };
 // NiAVObject (Xbox PDB): Xbox sizeof 0xC0, PC sizeof 0x9C
-// PC: sizeof 0x9C — confirmed; alignof 4; vtable 0x0109B00C; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: m_kLocal.m_Rotate)
+// PC: sizeof 0x9C — confirmed; alignof 4; vtable 0x0109B00C
 class NiAVObject : public NiObjectNET {
 public:
     virtual void UpdateControllers(NiUpdateData*); // слот 35 | PC: name+stack (0xA5A030)
@@ -2160,7 +2160,7 @@ public:
     virtual void SetSelectiveUpdateFlags(bool*, bool, bool*); // слот 40 | PC: name+stack (0xA5A450)
     virtual void UpdateDownwardPass(NiUpdateData*, unsigned); // слот 41 | PC: name+stack (0xA59F90)
     virtual void UpdateSelectedDownwardPass(NiUpdateData*, unsigned); // слот 42 | PC: name+stack (0xA59FD0)
-    virtual void UpdateRigidDownwardPass(NiUpdateData*, unsigned); // слот 43 | PC: semantics [прототип только совместим по ABI] (0xA59FD0)
+    virtual void UpdateRigidDownwardPass(NiUpdateData*, unsigned); // слот 43 | PC: name+stack (0xA5E1F0)
     virtual void UpdatePropertiesDownward(NiPropertyState*); // слот 44 | PC: name+stack (0xA5A140)
     virtual void UpdateEffectsDownward(NiDynamicEffectState*); // слот 45 | PC: stub (0xA89AF0)
     virtual void UpdateWorldData(NiUpdateData*); // слот 46 | PC: name+stack (0xA68C60)
@@ -2525,7 +2525,7 @@ public:
     unsigned char _pad33[0x1];
 };
 // BSShaderAccumulator (Xbox PDB): Xbox sizeof 0x280, PC sizeof 0x280
-// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, eAccumulationMode, kAlphaRenderPass.pGeometry)
+// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, eAccumulationMode)
 class BSShaderAccumulator : public NiAlphaAccumulator {
 public:
     virtual void FinishAccumulatingPreResolveDepth(); // слот 42 | PC: name+stack (0xB66520)
@@ -2716,15 +2716,15 @@ public:
 // PC: sizeof 0x24 — confirmed; alignof 4; vtable 0x010EF39C
 class NiD3DShaderInterface : public NiShader {
 public:
-    virtual NiD3DShaderDeclaration* GetShaderDecl(); // слот 47 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual NiD3DShaderDeclaration* GetShaderDecl(); // слот 47 | PC: name+stack (0xEEA530)
     virtual void SetShaderDecl(NiD3DShaderDeclaration*); // слот 48 | PC: name+stack (0xE81420)
     virtual void HandleLostDevice(); // слот 49 | PC: stub (0xA29680)
     virtual void HandleResetDevice(); // слот 50 | PC: stub (0xA29680)
     virtual void DestroyRendererData(); // слот 51 | PC: name+stack (0xE81470)
     virtual void RecreateRendererData(); // слот 52 | PC: name+stack (0xE814B0)
-    virtual bool GetVSPresentAllPasses(); // слот 53 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
+    virtual bool GetVSPresentAllPasses(); // слот 53 | PC: name+stack (0xE814F0)
     virtual bool GetVSPresentAnyPass(); // слот 54 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
-    virtual bool GetPSPresentAllPasses(); // слот 55 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
+    virtual bool GetPSPresentAllPasses(); // слот 55 | PC: name+stack (0xE81500)
     virtual bool GetPSPresentAnyPass(); // слот 56 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
     virtual bool GetIsBestImplementation(); // слот 57 | PC: name+stack (0xB79D90)
     virtual void SetIsBestImplementation(bool); // слот 58 | PC: name+stack (0xB79DA0)
@@ -2868,7 +2868,7 @@ public:
     unsigned char _pad1FD[0x3];
 };
 // ShadowSceneLight (Xbox PDB): Xbox sizeof 0x250, PC sizeof 0x250
-// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses, pfClipSpacePlanes)
+// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses)
 class ShadowSceneLight : public NiRefObject {
 public:
     // поля
@@ -2909,7 +2909,7 @@ public:
     alignas(4) unsigned char kGeomListFenceObject[4]; // NiPointer<NiTriBasedGeom> | PC: confirmed
     alignas(4) unsigned char spShadowCamera[4]; // NiPointer<NiCamera> | PC: confirmed
     alignas(4) unsigned char kShadowCameraPlanes[100]; // NiFrustumPlanes | PC: confirmed
-    float pfClipSpacePlanes[24]; // PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
+    float pfClipSpacePlanes[24]; // PC: confirmed
     bool bClipSpacePlanesReady; // PC: confirmed
     unsigned char _pad209[0x3];
     alignas(4) unsigned char spShadowAccumulator[4]; // NiPointer<BSShaderAccumulator> | PC: confirmed

@@ -1291,6 +1291,207 @@
      }
     ]
    }
+  ],
+  "ShadowSceneLight": [
+   {
+    "access": "0xB71ADE",
+    "access_text": "lea eax, [esi + 0x1a8]",
+    "buffer_size": 96,
+    "anchors": [
+     [
+      "0xB71AD5",
+      "mov esi, ecx"
+     ],
+     [
+      "0xB71ADB",
+      "push 0x60"
+     ],
+     [
+      "0xB71ADD",
+      "push eax"
+     ],
+     [
+      "0xB71AE4",
+      "push eax"
+     ],
+     [
+      "0xB71AE5",
+      "call 0xec44d0"
+     ]
+    ],
+    "note": "v0.6.2: ShadowSceneLight::SetClipPlanes (this = esi ← ecx на входе): memcpy(this + 0x1A8, src, 0x60) — адрес начала pfClipSpacePlanes передан вместе с размером 0x60 = 96 = sizeof(float[24]). Тип элементов (float) этим не доказан",
+    "entry": "0xB71AD5",
+    "links": [
+     [
+      "0xB71AD5",
+      "esi",
+      "0xB71ADE"
+     ],
+     [
+      "0xB71ADE",
+      "eax",
+      "0xB71AE4"
+     ]
+    ]
+   }
+  ],
+  "RadioConvTask": [
+   {
+    "access": "0x44DD6C",
+    "access_text": "add eax, 8",
+    "api": {
+     "iat": "0xFDF1C4",
+     "name": "InterlockedDecrement",
+     "width": 4
+    },
+    "anchors": [
+     [
+      "0x44DD66",
+      "mov dword ptr [ebp - 0x10], ecx"
+     ],
+     [
+      "0x44DD6F",
+      "push eax"
+     ],
+     [
+      "0x44DD70",
+      "call 0x4019a0"
+     ]
+    ],
+    "note": "v0.6.2: BSTask::DecRefCount (this = [ebp−0x10]): NiAtomicDecrement(this + 8) → InterlockedDecrement(LONG volatile*) из KERNEL32 — iRefCount 4 байта",
+    "entry": "0x44DD66",
+    "links": [
+     [
+      "0x44DD66",
+      "[ebp-0x10]",
+      "0x44DD69"
+     ],
+     [
+      "0x44DD69",
+      "eax",
+      "0x44DD6C"
+     ],
+     [
+      "0x44DD6C",
+      "eax",
+      "0x44DD6F"
+     ]
+    ],
+    "callees": [
+     {
+      "va": "0x4019A0",
+      "summary": "NiAtomicDecrement(p) = InterlockedDecrement(p): аргумент передаётся как есть",
+      "body": [
+       [
+        "0x4019A0",
+        "push ebp"
+       ],
+       [
+        "0x4019A1",
+        "mov ebp, esp"
+       ],
+       [
+        "0x4019A3",
+        "mov eax, dword ptr [ebp + 8]"
+       ],
+       [
+        "0x4019A6",
+        "push eax"
+       ],
+       [
+        "0x4019A7",
+        "call dword ptr [0xfdf1c4]"
+       ],
+       [
+        "0x4019AD",
+        "pop ebp"
+       ],
+       [
+        "0x4019AE",
+        "ret"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "access": "0x92C87A",
+    "access_text": "add eax, 8",
+    "api": {
+     "iat": "0xFDF1C0",
+     "name": "InterlockedIncrement",
+     "width": 4
+    },
+    "anchors": [
+     [
+      "0x92C874",
+      "mov dword ptr [ebp - 4], ecx"
+     ],
+     [
+      "0x92C87D",
+      "push eax"
+     ],
+     [
+      "0x92C87E",
+      "call 0x40b460"
+     ]
+    ],
+    "note": "v0.6.2: BSTask::IncManualRefCount (this = [ebp−4]): NiAtomicIncrement(this + 8) → InterlockedIncrement(LONG volatile*) из KERNEL32 — iRefCount 4 байта",
+    "entry": "0x92C874",
+    "links": [
+     [
+      "0x92C874",
+      "[ebp-4]",
+      "0x92C877"
+     ],
+     [
+      "0x92C877",
+      "eax",
+      "0x92C87A"
+     ],
+     [
+      "0x92C87A",
+      "eax",
+      "0x92C87D"
+     ]
+    ],
+    "callees": [
+     {
+      "va": "0x40B460",
+      "summary": "NiAtomicIncrement(p) = InterlockedIncrement(p)",
+      "body": [
+       [
+        "0x40B460",
+        "push ebp"
+       ],
+       [
+        "0x40B461",
+        "mov ebp, esp"
+       ],
+       [
+        "0x40B463",
+        "mov eax, dword ptr [ebp + 8]"
+       ],
+       [
+        "0x40B466",
+        "push eax"
+       ],
+       [
+        "0x40B467",
+        "call dword ptr [0xfdf1c0]"
+       ],
+       [
+        "0x40B46D",
+        "pop ebp"
+       ],
+       [
+        "0x40B46E",
+        "ret"
+       ]
+      ]
+     }
+    ]
+   }
   ]
  },
  "verified_prefix": {

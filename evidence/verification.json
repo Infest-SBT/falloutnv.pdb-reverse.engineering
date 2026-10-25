@@ -7,11 +7,11 @@
  "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
  "exe_id": "42fee7d6cd74e801",
  "image_base": "0x400000",
- "summary_sha256": "267119a3fda52689465081efbf54119ab3254b8546a861bb09087773e6e39c56",
+ "summary_sha256": "2eb6dad34488e6c983f1c90f67678b0721a9a0a7a60a52854bf860b0dfea6923",
  "pdbs": {
   "strict": {
    "path": "FalloutNV.pdb",
-   "sha256": "3eab1841a655fe3f193f7526c57bc2c10bf028104dd7abf711053273861b3c46"
+   "sha256": "d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e"
   },
   "research": {
    "path": "research/FalloutNV.pdb",
@@ -56368,11 +56368,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       22,
-      "end"
+      "end:NiShader"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -58812,12 +58812,6 @@
      "status": "name+stack"
     },
     {
-     "class": "NiAVObject",
-     "via": "vslot",
-     "slot": 43,
-     "status": "semantics"
-    },
-    {
      "class": "NiCamera",
      "via": "vslot",
      "slot": 42,
@@ -58893,33 +58887,8 @@
    "name_class_relation": "same-chain",
    "name_class_verified": true,
    "this_cross_class_proof": null,
-   "semantic_bindings": [
-    {
-     "class": "NiAVObject",
-     "slot": 43,
-     "xbox_name": "UpdateRigidDownwardPass",
-     "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "semantics",
-     "prototype_scope": "binding",
-     "proof_kind": "machine",
-     "slot_anchor": [
-      42,
-      44
-     ],
-     "prototype_level": "abi-compatible",
-     "slot_identity": "position",
-     "slot_position": "anchors",
-     "return_abi_verified": false,
-     "return_semantic_verified": false,
-     "return_semantic_basis": "нет разбора путей",
-     "args_abi_verified": true,
-     "args_semantic_verified": false,
-     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-     "prototype_verified_for_binding": false,
-     "applies_to_function": false
-    }
-   ],
-   "prototype_scope": "binding",
+   "semantic_bindings": [],
+   "prototype_scope": "none",
    "calling_convention_verified": "unknown",
    "prototype_verified": false,
    "return_type_verified": "unknown",
@@ -58930,7 +58899,6 @@
     "syms.tsv: S_PUB32 «NiAVObject::UpdateSelectedDownwardPass» (флаги 3)",
     "summary.json: NiAVObject.methods «NiAVObject::UpdateSelectedDownwardPass» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiAVObject слот 42 — name+stack (проверено на NiAVObject)",
-    "evidence_vslots.csv / summary.json: NiAVObject слот 43 — semantics (проверено на NiAVObject)",
     "evidence_vslots.csv / summary.json: NiCamera слот 42 — name+stack (проверено на NiCamera)",
     "evidence_vslots.csv / summary.json: NiCamera слот 43 — semantics (проверено на NiCamera)",
     "evidence_vslots.csv / summary.json: NiGeometry слот 42 — name+stack (проверено на NiGeometry)",
@@ -58941,8 +58909,7 @@
     "evidence_vslots.csv / summary.json: NiTriShape слот 43 — semantics (проверено на NiTriShape)",
     "evidence_vslots.csv / summary.json: NiTriStrips слот 42 — name+stack (проверено на NiTriStrips)",
     "evidence_vslots.csv / summary.json: NiTriStrips слот 43 — semantics (проверено на NiTriStrips)",
-    "evidence_fields.csv: обращений к полям в функции — 2",
-    "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — icf-shared: на функцию не переносится"
+    "evidence_fields.csv: обращений к полям в функции — 2"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
@@ -61562,12 +61529,6 @@
    "aliases": [],
    "owners": [
     {
-     "class": "NiObject",
-     "via": "vslot",
-     "slot": 21,
-     "status": "name+stack"
-    },
-    {
      "class": "NiObjectNET",
      "via": "method",
      "name": "NiObjectNET::RegisterStreamables"
@@ -61603,7 +61564,6 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiObjectNET::RegisterStreamables» (флаги 3)",
-    "evidence_vslots.csv / summary.json: NiObject слот 21 — name+stack (проверено на NiObjectNET)",
     "summary.json: NiObjectNET.methods «NiObjectNET::RegisterStreamables» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiObjectNET слот 21 — name+stack (проверено на NiObjectNET)",
     "evidence_fields.csv: обращений к полям в функции — 5"
@@ -62488,13 +62448,13 @@
      "class": "BSBatchRenderer",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     },
     {
      "class": "NiDX9Renderer",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     },
     {
      "class": "NiObject",
@@ -62502,18 +62462,24 @@
      "name": "NiObject::RegisterStreamables"
     },
     {
+     "class": "NiObject",
+     "via": "vslot",
+     "slot": 21,
+     "status": "name+stack"
+    },
+    {
      "class": "NiRenderer",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
    "address_basis": "vtable",
-   "this_supported": false,
-   "this_basis": null,
-   "this_class": null,
-   "stack_bytes_verified": false,
+   "this_supported": true,
+   "this_basis": "vtable-slot",
+   "this_class": "NiObject",
+   "stack_bytes_verified": true,
    "name_binding_status": "matched",
    "name_binding_verified": true,
    "bound_method_names": [
@@ -62532,28 +62498,29 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiObject::RegisterStreamables» (флаги 3)",
-    "evidence_vslots.csv / summary.json: BSBatchRenderer слот 21 — name (проверено на BSBatchRenderer)",
-    "evidence_vslots.csv / summary.json: NiDX9Renderer слот 21 — name (проверено на NiDX9Renderer)",
+    "evidence_vslots.csv / summary.json: BSBatchRenderer слот 21 — name+stack (проверено на BSBatchRenderer)",
+    "evidence_vslots.csv / summary.json: NiDX9Renderer слот 21 — name+stack (проверено на NiDX9Renderer)",
     "summary.json: NiObject.methods «NiObject::RegisterStreamables» uses_this=True, touches_fields=False",
-    "evidence_vslots.csv / summary.json: NiRenderer слот 21 — name (проверено на NiRenderer)"
+    "evidence_vslots.csv / summary.json: NiObject слот 21 — name+stack (проверено на NiObject)",
+    "evidence_vslots.csv / summary.json: NiRenderer слот 21 — name+stack (проверено на NiRenderer)"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
     "address",
+    "this_supported",
+    "stack_bytes",
     "name_binding",
     "name_class"
    ],
    "unverified_facets": [
-    "this_supported",
-    "stack_bytes",
     "calling_convention",
     "prototype",
     "return_type",
     "argument_types"
    ],
    "apply_this": {
-    "strict": null,
-    "research": null
+    "strict": "NiObject",
+    "research": "NiObject"
    },
    "apply_signature": {
     "strict": null,
@@ -65193,6 +65160,12 @@
      "status": "name+stack"
     },
     {
+     "class": "NiAVObject",
+     "via": "vslot",
+     "slot": 43,
+     "status": "name+stack"
+    },
+    {
      "class": "NiNode",
      "via": "method",
      "name": "NiNode::UpdateRigidDownwardPass"
@@ -65235,6 +65208,7 @@
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiNode::UpdateRigidDownwardPass» (флаги 3)",
     "evidence_vslots.csv / summary.json: BSFadeNode слот 43 — name+stack (проверено на BSFadeNode)",
+    "evidence_vslots.csv / summary.json: NiAVObject слот 43 — name+stack (проверено на NiNode)",
     "summary.json: NiNode.methods «NiNode::UpdateRigidDownwardPass» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiNode слот 43 — name+stack (проверено на NiNode)",
     "evidence_vslots.csv / summary.json: ShadowSceneNode слот 43 — name+stack (проверено на ShadowSceneNode)",
@@ -67893,11 +67867,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       38,
-      41
+      "end:NiTexture"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "anchors",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -69086,11 +69060,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       29,
-      "end"
+      "end:NiTexture"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -69192,11 +69166,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       29,
-      "end"
+      "end:NiTexture"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -69894,6 +69868,12 @@
      "status": "name+stack"
     },
     {
+     "class": "NiObject",
+     "via": "vslot",
+     "slot": 32,
+     "status": "name+stack"
+    },
+    {
      "class": "NiTriBasedGeomData",
      "via": "vslot",
      "slot": 32,
@@ -69932,6 +69912,7 @@
     "syms.tsv: S_PUB32 «NiGeometryData::GetGroup» (флаги 3)",
     "summary.json: NiGeometryData.methods «NiGeometryData::GetGroup» uses_this=False, touches_fields=False",
     "evidence_vslots.csv / summary.json: NiGeometryData слот 32 — name+stack (проверено на NiGeometryData)",
+    "evidence_vslots.csv / summary.json: NiObject слот 32 — name+stack (проверено на NiGeometryData)",
     "evidence_vslots.csv / summary.json: NiTriBasedGeomData слот 32 — name+stack (проверено на NiTriBasedGeomData)",
     "evidence_vslots.csv / summary.json: NiTriShapeData слот 32 — name+stack (проверено на NiTriShapeData)"
    ],
@@ -70686,6 +70667,12 @@
      "status": "name+stack"
     },
     {
+     "class": "NiObject",
+     "via": "vslot",
+     "slot": 31,
+     "status": "name+stack"
+    },
+    {
      "class": "NiTriBasedGeomData",
      "via": "vslot",
      "slot": 31,
@@ -70724,6 +70711,7 @@
     "syms.tsv: S_PUB32 «NiGeometryData::GetBlockAllocationSize» (флаги 3)",
     "summary.json: NiGeometryData.methods «NiGeometryData::GetBlockAllocationSize» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiGeometryData слот 31 — name+stack (проверено на NiGeometryData)",
+    "evidence_vslots.csv / summary.json: NiObject слот 31 — name+stack (проверено на NiGeometryData)",
     "evidence_vslots.csv / summary.json: NiTriBasedGeomData слот 31 — name+stack (проверено на NiTriBasedGeomData)",
     "evidence_vslots.csv / summary.json: NiTriShapeData слот 31 — name+stack (проверено на NiTriShapeData)",
     "evidence_fields.csv: обращений к полям в функции — 10"
@@ -76575,11 +76563,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       37,
-      "end"
+      "end:BSShaderProperty"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -76683,11 +76671,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       39,
-      "end"
+      "end:NiTriBasedGeomData"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -78218,33 +78206,33 @@
      "class": "NiGeometry",
      "via": "vslot",
      "slot": 53,
-     "status": "name"
+     "status": "name+stack"
     },
     {
      "class": "NiTriBasedGeom",
      "via": "vslot",
      "slot": 53,
-     "status": "name"
+     "status": "name+stack"
     },
     {
      "class": "NiTriShape",
      "via": "vslot",
      "slot": 53,
-     "status": "name"
+     "status": "name+stack"
     },
     {
      "class": "NiTriStrips",
      "via": "vslot",
      "slot": 53,
-     "status": "name"
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
    "address_basis": "vtable",
-   "this_supported": false,
-   "this_basis": null,
-   "this_class": null,
-   "stack_bytes_verified": false,
+   "this_supported": true,
+   "this_basis": "vtable-slot",
+   "this_class": "NiGeometry",
+   "stack_bytes_verified": true,
    "name_binding_status": "matched",
    "name_binding_verified": true,
    "bound_method_names": [
@@ -78264,28 +78252,28 @@
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiGeometry::OnVisible» (флаги 3)",
     "summary.json: NiGeometry.methods «NiGeometry::OnVisible» uses_this=True, touches_fields=False",
-    "evidence_vslots.csv / summary.json: NiGeometry слот 53 — name (проверено на NiGeometry)",
-    "evidence_vslots.csv / summary.json: NiTriBasedGeom слот 53 — name (проверено на NiTriBasedGeom)",
-    "evidence_vslots.csv / summary.json: NiTriShape слот 53 — name (проверено на NiTriShape)",
-    "evidence_vslots.csv / summary.json: NiTriStrips слот 53 — name (проверено на NiTriStrips)"
+    "evidence_vslots.csv / summary.json: NiGeometry слот 53 — name+stack (проверено на NiGeometry)",
+    "evidence_vslots.csv / summary.json: NiTriBasedGeom слот 53 — name+stack (проверено на NiTriBasedGeom)",
+    "evidence_vslots.csv / summary.json: NiTriShape слот 53 — name+stack (проверено на NiTriShape)",
+    "evidence_vslots.csv / summary.json: NiTriStrips слот 53 — name+stack (проверено на NiTriStrips)"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
     "address",
+    "this_supported",
+    "stack_bytes",
     "name_binding",
     "name_class"
    ],
    "unverified_facets": [
-    "this_supported",
-    "stack_bytes",
     "calling_convention",
     "prototype",
     "return_type",
     "argument_types"
    ],
    "apply_this": {
-    "strict": null,
-    "research": null
+    "strict": "NiGeometry",
+    "research": "NiGeometry"
    },
    "apply_signature": {
     "strict": null,
@@ -80990,15 +80978,15 @@
      "class": "NiAccumulator",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
    "address_basis": "vtable",
-   "this_supported": false,
-   "this_basis": null,
-   "this_class": null,
-   "stack_bytes_verified": false,
+   "this_supported": true,
+   "this_basis": "vtable-slot",
+   "this_class": "NiAccumulator",
+   "stack_bytes_verified": true,
    "name_binding_status": "matched",
    "name_binding_verified": true,
    "bound_method_names": [
@@ -81017,16 +81005,17 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiInterpolator::RegisterStreamables» (флаги 3)",
-    "evidence_vslots.csv / summary.json: NiAccumulator слот 21 — name (проверено на NiAccumulator)"
+    "evidence_vslots.csv / summary.json: NiAccumulator слот 21 — name+stack (проверено на NiAccumulator)",
+    "v0.5.14: this NiAccumulator не назначается — класс в исходном имени (NiInterpolator) с ним не связан (other-class), отдельного межклассового доказательства нет"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
     "address",
+    "this_supported",
+    "stack_bytes",
     "name_binding"
    ],
    "unverified_facets": [
-    "this_supported",
-    "stack_bytes",
     "name_class",
     "calling_convention",
     "prototype",
@@ -83615,26 +83604,8 @@
     {
      "class": "NiD3DShaderInterface",
      "via": "vslot",
-     "slot": 21,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
      "slot": 22,
      "status": "name+stack"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 23,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 29,
-     "status": "semantics"
     },
     {
      "class": "NiShader",
@@ -83713,11 +83684,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       22,
-      "end"
+      "end:NiShader"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -83737,11 +83708,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       22,
-      "end"
+      "end:NiShader"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -83763,10 +83734,7 @@
     "syms.tsv: S_PUB32 «NiD3DShader::UpdatePipeline» (флаги 3)",
     "summary.json: NiD3DShader.methods «NiD3DShader::UpdatePipeline» uses_this=False, touches_fields=False",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 22 — name+stack (проверено на NiD3DShader)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 21 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 22 — name+stack (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 23 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 29 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiShader слот 21 — semantics (проверено на NiShader)",
     "evidence_vslots.csv / summary.json: NiShader слот 22 — name+stack (проверено на NiShader)",
     "evidence_vslots.csv / summary.json: NiShader слот 23 — semantics (проверено на NiShader)",
@@ -83950,12 +83918,6 @@
    "aliases": [],
    "owners": [
     {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 27,
-     "status": "semantics"
-    },
-    {
      "class": "NiShader",
      "via": "method",
      "name": "NiShader::Func001B"
@@ -83992,11 +83954,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       22,
-      "end"
+      "end:NiShader"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -84016,7 +83978,6 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiShader::Func001B» (флаги 3)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 27 — semantics (проверено на NiD3DShaderInterface)",
     "summary.json: NiShader.methods «NiShader::Func001B» uses_this=False, touches_fields=False",
     "evidence_vslots.csv / summary.json: NiShader слот 27 — semantics (проверено на NiShader)",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — name-conflict: на функцию не переносится"
@@ -84249,11 +84210,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       22,
-      "end"
+      "end:NiShader"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -84372,11 +84333,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       22,
-      "end"
+      "end:NiShader"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -85891,7 +85852,7 @@
      "class": "BSShaderAccumulator",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     },
     {
      "class": "NiAlphaAccumulator",
@@ -85902,15 +85863,15 @@
      "class": "NiAlphaAccumulator",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
    "address_basis": "vtable",
-   "this_supported": false,
-   "this_basis": null,
-   "this_class": null,
-   "stack_bytes_verified": false,
+   "this_supported": true,
+   "this_basis": "vtable-slot",
+   "this_class": "NiAlphaAccumulator",
+   "stack_bytes_verified": true,
    "name_binding_status": "matched",
    "name_binding_verified": true,
    "bound_method_names": [
@@ -85929,27 +85890,27 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiAlphaAccumulator::RegisterStreamables» (флаги 3)",
-    "evidence_vslots.csv / summary.json: BSShaderAccumulator слот 21 — name (проверено на BSShaderAccumulator)",
+    "evidence_vslots.csv / summary.json: BSShaderAccumulator слот 21 — name+stack (проверено на BSShaderAccumulator)",
     "summary.json: NiAlphaAccumulator.methods «NiAlphaAccumulator::RegisterStreamables» uses_this=False, touches_fields=False",
-    "evidence_vslots.csv / summary.json: NiAlphaAccumulator слот 21 — name (проверено на NiAlphaAccumulator)"
+    "evidence_vslots.csv / summary.json: NiAlphaAccumulator слот 21 — name+stack (проверено на NiAlphaAccumulator)"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
     "address",
+    "this_supported",
+    "stack_bytes",
     "name_binding",
     "name_class"
    ],
    "unverified_facets": [
-    "this_supported",
-    "stack_bytes",
     "calling_convention",
     "prototype",
     "return_type",
     "argument_types"
    ],
    "apply_this": {
-    "strict": null,
-    "research": null
+    "strict": "NiAlphaAccumulator",
+    "research": "NiAlphaAccumulator"
    },
    "apply_signature": {
     "strict": null,
@@ -86447,6 +86408,12 @@
      "via": "vslot",
      "slot": 38,
      "status": "name+stack"
+    },
+    {
+     "class": "NiBackToFrontAccumulator",
+     "via": "vslot",
+     "slot": 38,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -86475,6 +86442,7 @@
     "syms.tsv: S_PUB32 «NiAlphaAccumulator::RegisterObject» (флаги 3)",
     "summary.json: NiAlphaAccumulator.methods «NiAlphaAccumulator::RegisterObject» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiAlphaAccumulator слот 38 — name+stack (проверено на NiAlphaAccumulator)",
+    "evidence_vslots.csv / summary.json: NiBackToFrontAccumulator слот 38 — name+stack (проверено на NiAlphaAccumulator)",
     "evidence_fields.csv: обращений к полям в функции — 2"
    ],
    "verification_status": "VerifiedPrefix",
@@ -86519,21 +86487,9 @@
      "status": "semantics"
     },
     {
-     "class": "NiAlphaAccumulator",
-     "via": "vslot",
-     "slot": 39,
-     "status": "semantics"
-    },
-    {
      "class": "NiBackToFrontAccumulator",
      "via": "vslot",
      "slot": 39,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 20,
      "status": "semantics"
     },
     {
@@ -86569,9 +86525,7 @@
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiInterpolator::ResolveDependencies» (флаги 3)",
     "evidence_vslots.csv / summary.json: NiAccumulator слот 39 — semantics (проверено на NiAccumulator)",
-    "evidence_vslots.csv / summary.json: NiAlphaAccumulator слот 39 — semantics (проверено на NiAlphaAccumulator)",
     "evidence_vslots.csv / summary.json: NiBackToFrontAccumulator слот 39 — semantics (проверено на NiBackToFrontAccumulator)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 20 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiShader слот 20 — semantics (проверено на NiShader)"
    ],
    "verification_status": "VerifiedPrefix",
@@ -86813,15 +86767,15 @@
      "class": "NiBackToFrontAccumulator",
      "via": "vslot",
      "slot": 21,
-     "status": "name"
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
    "address_basis": "vtable",
-   "this_supported": false,
-   "this_basis": null,
-   "this_class": null,
-   "stack_bytes_verified": false,
+   "this_supported": true,
+   "this_basis": "vtable-slot",
+   "this_class": "NiBackToFrontAccumulator",
+   "stack_bytes_verified": true,
    "name_binding_status": "matched",
    "name_binding_verified": true,
    "bound_method_names": [
@@ -86840,16 +86794,17 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiKeyBasedInterpolator::RegisterStreamables» (флаги 3)",
-    "evidence_vslots.csv / summary.json: NiBackToFrontAccumulator слот 21 — name (проверено на NiBackToFrontAccumulator)"
+    "evidence_vslots.csv / summary.json: NiBackToFrontAccumulator слот 21 — name+stack (проверено на NiBackToFrontAccumulator)",
+    "v0.5.14: this NiBackToFrontAccumulator не назначается — класс в исходном имени (NiKeyBasedInterpolator) с ним не связан (other-class), отдельного межклассового доказательства нет"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
     "address",
+    "this_supported",
+    "stack_bytes",
     "name_binding"
    ],
    "unverified_facets": [
-    "this_supported",
-    "stack_bytes",
     "name_class",
     "calling_convention",
     "prototype",
@@ -90563,6 +90518,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "AbstractHeap",
+     "via": "vslot",
+     "slot": 14,
+     "status": "name+stack"
+    },
+    {
      "class": "MemoryHeap",
      "via": "method",
      "name": "MemoryHeap::CreateMorePages"
@@ -90598,6 +90559,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «MemoryHeap::CreateMorePages» (флаги 3)",
+    "evidence_vslots.csv / summary.json: AbstractHeap слот 14 — name+stack (проверено на MemoryHeap)",
     "summary.json: MemoryHeap.methods «MemoryHeap::CreateMorePages» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: MemoryHeap слот 14 — name+stack (проверено на MemoryHeap)",
     "evidence_fields.csv: обращений к полям в функции — 2"
@@ -90638,6 +90600,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "AbstractHeap",
+     "via": "vslot",
+     "slot": 15,
+     "status": "name+stack"
+    },
+    {
      "class": "MemoryHeap",
      "via": "method",
      "name": "MemoryHeap::CleanExtraPages"
@@ -90673,6 +90641,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «MemoryHeap::CleanExtraPages» (флаги 3)",
+    "evidence_vslots.csv / summary.json: AbstractHeap слот 15 — name+stack (проверено на MemoryHeap)",
     "summary.json: MemoryHeap.methods «MemoryHeap::CleanExtraPages» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: MemoryHeap слот 15 — name+stack (проверено на MemoryHeap)",
     "evidence_fields.csv: обращений к полям в функции — 2"
@@ -92263,7 +92232,7 @@
      "class": "IMemoryHeap",
      "via": "vslot",
      "slot": 11,
-     "status": "stack"
+     "status": "semantics"
     },
     {
      "class": "MemoryHeap",
@@ -92297,11 +92266,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       8,
-      17
+      "end:IMemoryHeap"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "anchors",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": true,
      "return_semantic_basis": "eax и стек x87 не пишутся — результата нет",
@@ -92323,7 +92292,7 @@
     "syms.tsv: S_PUB32 «AbstractHeap::Func0011» (флаги 3)",
     "summary.json: AbstractHeap.methods «AbstractHeap::Func0011» uses_this=True, touches_fields=False",
     "evidence_vslots.csv / summary.json: AbstractHeap слот 11 — semantics (проверено на AbstractHeap)",
-    "evidence_vslots.csv / summary.json: IMemoryHeap слот 11 — stack (проверено на AbstractHeap)",
+    "evidence_vslots.csv / summary.json: IMemoryHeap слот 11 — semantics (проверено на AbstractHeap)",
     "evidence_vslots.csv / summary.json: MemoryHeap слот 11 — semantics (проверено на MemoryHeap)",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — name-conflict: на функцию не переносится"
    ],
@@ -93134,133 +93103,6 @@
     "this_supported",
     "stack_bytes",
     "name_binding",
-    "calling_convention",
-    "prototype",
-    "return_type",
-    "argument_types"
-   ],
-   "apply_this": {
-    "strict": null,
-    "research": null
-   },
-   "apply_signature": {
-    "strict": null,
-    "research": null
-   }
-  },
-  {
-   "key": {
-    "exe_id": "42fee7d6cd74e801",
-    "rva": "0x006AA650",
-    "original_name": "BSSaveDataSystemUtility::Func0003",
-    "symbol_kind": "function"
-   },
-   "va": "0x00AAA650",
-   "original_name": "BSSaveDataSystemUtility::Func0003",
-   "original_name_source": "xNVSE S_PUB32",
-   "aliases": [],
-   "owners": [
-    {
-     "class": "AbstractHeap",
-     "via": "vslot",
-     "slot": 14,
-     "status": "semantics"
-    },
-    {
-     "class": "AbstractHeap",
-     "via": "vslot",
-     "slot": 15,
-     "status": "semantics"
-    }
-   ],
-   "address_verified": true,
-   "address_basis": "vtable",
-   "this_supported": true,
-   "this_basis": "vtable-slot",
-   "this_class": "AbstractHeap",
-   "stack_bytes_verified": true,
-   "name_binding_status": "icf-shared",
-   "name_binding_verified": false,
-   "bound_method_names": [
-    "CleanExtraPages",
-    "CreateMorePages"
-   ],
-   "name_class_relation": "other-class",
-   "name_class_verified": false,
-   "this_cross_class_proof": null,
-   "semantic_bindings": [
-    {
-     "class": "AbstractHeap",
-     "slot": 14,
-     "xbox_name": "CreateMorePages",
-     "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
-     "status": "semantics",
-     "prototype_scope": "binding",
-     "proof_kind": "machine",
-     "slot_anchor": [
-      8,
-      17
-     ],
-     "prototype_level": "abi-compatible",
-     "slot_identity": "position",
-     "slot_position": "anchors",
-     "return_abi_verified": true,
-     "return_semantic_verified": false,
-     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-     "args_abi_verified": true,
-     "args_semantic_verified": false,
-     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-     "prototype_verified_for_binding": false,
-     "applies_to_function": false
-    },
-    {
-     "class": "AbstractHeap",
-     "slot": 15,
-     "xbox_name": "CleanExtraPages",
-     "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
-     "status": "semantics",
-     "prototype_scope": "binding",
-     "proof_kind": "machine",
-     "slot_anchor": [
-      8,
-      17
-     ],
-     "prototype_level": "abi-compatible",
-     "slot_identity": "position",
-     "slot_position": "anchors",
-     "return_abi_verified": true,
-     "return_semantic_verified": false,
-     "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
-     "args_abi_verified": true,
-     "args_semantic_verified": false,
-     "args_semantic_basis": "типы аргументов — с Xbox, по коду только ширина/очистка стека",
-     "prototype_verified_for_binding": false,
-     "applies_to_function": false
-    }
-   ],
-   "prototype_scope": "binding",
-   "calling_convention_verified": "unknown",
-   "prototype_verified": false,
-   "return_type_verified": "unknown",
-   "argument_types_verified": "unknown",
-   "this_conflict": false,
-   "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
-   "evidence_refs": [
-    "syms.tsv: S_PUB32 «BSSaveDataSystemUtility::Func0003» (флаги 3)",
-    "evidence_vslots.csv / summary.json: AbstractHeap слот 14 — semantics (проверено на AbstractHeap)",
-    "evidence_vslots.csv / summary.json: AbstractHeap слот 15 — semantics (проверено на AbstractHeap)",
-    "v0.5.14: this AbstractHeap не назначается — класс в исходном имени (BSSaveDataSystemUtility) с ним не связан (other-class), отдельного межклассового доказательства нет",
-    "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — icf-shared: на функцию не переносится"
-   ],
-   "verification_status": "VerifiedPrefix",
-   "verified_facets": [
-    "address",
-    "this_supported",
-    "stack_bytes"
-   ],
-   "unverified_facets": [
-    "name_binding",
-    "name_class",
     "calling_convention",
     "prototype",
     "return_type",
@@ -109742,11 +109584,11 @@
      "proof_kind": "manual",
      "slot_anchor": [
       2,
-      "end"
+      "end:BSAudio"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": true,
      "return_semantic_basis": "ручное толкование: Allocate(0x230) = доказанный sizeof BSWin32GameSound, затем конструктор BSWin32GameSound на этом блоке; результат — его this или 0 (сами вызовы по командам не доказываются)",
@@ -109849,11 +109691,11 @@
      "proof_kind": "manual",
      "slot_anchor": [
       2,
-      "end"
+      "end:BSAudio"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": false,
      "return_semantic_verified": false,
      "return_semantic_basis": "не заявлено",
@@ -113749,12 +113591,6 @@
    "aliases": [],
    "owners": [
     {
-     "class": "BSShaderLightingProperty",
-     "via": "vslot",
-     "slot": 44,
-     "status": "semantics"
-    },
-    {
      "class": "BSShaderProperty",
      "via": "vslot",
      "slot": 44,
@@ -113786,11 +113622,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       37,
-      "end"
+      "end:BSShaderProperty"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -113810,7 +113646,6 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiShaderFactory::Func000» (флаги 3)",
-    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 44 — semantics (проверено на BSShaderLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderProperty слот 44 — semantics (проверено на BSShaderProperty)",
     "v0.5.14: this BSShaderProperty не назначается — класс в исходном имени (NiShaderFactory) с ним не связан (other-class), отдельного межклассового доказательства нет",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — name-conflict: на функцию не переносится"
@@ -119150,6 +118985,12 @@
      "via": "vslot",
      "slot": 39,
      "status": "name+stack"
+    },
+    {
+     "class": "NiAlphaAccumulator",
+     "via": "vslot",
+     "slot": 39,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -119178,6 +119019,7 @@
     "syms.tsv: S_PUB32 «BSShaderAccumulator::AddShared» (флаги 3)",
     "summary.json: BSShaderAccumulator.methods «BSShaderAccumulator::AddShared» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: BSShaderAccumulator слот 39 — name+stack (проверено на BSShaderAccumulator)",
+    "evidence_vslots.csv / summary.json: NiAlphaAccumulator слот 39 — name+stack (проверено на BSShaderAccumulator)",
     "evidence_fields.csv: обращений к полям в функции — 2"
    ],
    "verification_status": "VerifiedPrefix",
@@ -123322,6 +123164,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "BSShaderLightingProperty",
+     "via": "vslot",
+     "slot": 45,
+     "status": "name+stack"
+    },
+    {
      "class": "BSShaderPPLightingProperty",
      "via": "method",
      "name": "BSShaderPPLightingProperty::GetBaseTexture"
@@ -123357,6 +123205,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «BSShaderPPLightingProperty::GetBaseTexture» (флаги 3)",
+    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 45 — name+stack (проверено на BSShaderPPLightingProperty)",
     "summary.json: BSShaderPPLightingProperty.methods «BSShaderPPLightingProperty::GetBaseTexture» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 45 — name+stack (проверено на BSShaderPPLightingProperty)",
     "evidence_fields.csv: обращений к полям в функции — 1"
@@ -123837,6 +123686,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "BSShaderLightingProperty",
+     "via": "vslot",
+     "slot": 39,
+     "status": "name+stack"
+    },
+    {
      "class": "BSShaderPPLightingProperty",
      "via": "method",
      "name": "BSShaderPPLightingProperty::SetupGeometry"
@@ -123872,6 +123727,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «BSShaderPPLightingProperty::SetupGeometry» (флаги 3)",
+    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 39 — name+stack (проверено на BSShaderPPLightingProperty)",
     "summary.json: BSShaderPPLightingProperty.methods «BSShaderPPLightingProperty::SetupGeometry» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 39 — name+stack (проверено на BSShaderPPLightingProperty)",
     "evidence_fields.csv: обращений к полям в функции — 5"
@@ -123912,6 +123768,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "BSShaderLightingProperty",
+     "via": "vslot",
+     "slot": 40,
+     "status": "name+stack"
+    },
+    {
      "class": "BSShaderPPLightingProperty",
      "via": "method",
      "name": "BSShaderPPLightingProperty::GetRenderPasses"
@@ -123947,6 +123809,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «BSShaderPPLightingProperty::GetRenderPasses» (флаги 3)",
+    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 40 — name+stack (проверено на BSShaderPPLightingProperty)",
     "summary.json: BSShaderPPLightingProperty.methods «BSShaderPPLightingProperty::GetRenderPasses» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 40 — name+stack (проверено на BSShaderPPLightingProperty)",
     "evidence_fields.csv: обращений к полям в функции — 2"
@@ -123987,6 +123850,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "BSShaderLightingProperty",
+     "via": "vslot",
+     "slot": 41,
+     "status": "name+stack"
+    },
+    {
      "class": "BSShaderPPLightingProperty",
      "via": "method",
      "name": "BSShaderPPLightingProperty::GetNumberOfPasses"
@@ -124022,6 +123891,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «BSShaderPPLightingProperty::GetNumberOfPasses» (флаги 3)",
+    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 41 — name+stack (проверено на BSShaderPPLightingProperty)",
     "summary.json: BSShaderPPLightingProperty.methods «BSShaderPPLightingProperty::GetNumberOfPasses» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 41 — name+stack (проверено на BSShaderPPLightingProperty)"
    ],
@@ -124258,6 +124128,12 @@
    "aliases": [],
    "owners": [
     {
+     "class": "BSShaderLightingProperty",
+     "via": "vslot",
+     "slot": 44,
+     "status": "name+stack"
+    },
+    {
      "class": "BSShaderPPLightingProperty",
      "via": "method",
      "name": "BSShaderPPLightingProperty::ClarifyShader"
@@ -124293,6 +124169,7 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «BSShaderPPLightingProperty::ClarifyShader» (флаги 3)",
+    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 44 — name+stack (проверено на BSShaderPPLightingProperty)",
     "summary.json: BSShaderPPLightingProperty.methods «BSShaderPPLightingProperty::ClarifyShader» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 44 — name+stack (проверено на BSShaderPPLightingProperty)"
    ],
@@ -127654,7 +127531,7 @@
    "evidence_refs": [
     "syms.tsv: S_PUB32 «ShadowSceneLight::SetClipPlanes» (флаги 3)",
     "summary.json: ShadowSceneLight.methods «ShadowSceneLight::SetClipPlanes» uses_this=True, touches_fields=True",
-    "evidence_fields.csv: обращений к полям в функции — 3"
+    "evidence_fields.csv: обращений к полям в функции — 4"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
@@ -128016,6 +127893,12 @@
      "via": "vslot",
      "slot": 42,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 42,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -128046,6 +127929,7 @@
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 42 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::SetUsesNiRenderState» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 42 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 42 — name+stack (проверено на NiD3DShader)",
     "evidence_fields.csv: обращений к полям в функции — 1"
    ],
    "verification_status": "VerifiedPrefix",
@@ -136600,12 +136484,6 @@
    "aliases": [],
    "owners": [
     {
-     "class": "BSShaderLightingProperty",
-     "via": "vslot",
-     "slot": 40,
-     "status": "semantics"
-    },
-    {
      "class": "BSShaderProperty",
      "via": "vslot",
      "slot": 40,
@@ -136637,11 +136515,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       37,
-      "end"
+      "end:BSShaderProperty"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -136661,7 +136539,6 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiDX9TextureManager::GetTexture» (флаги 3)",
-    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 40 — semantics (проверено на BSShaderLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderProperty слот 40 — semantics (проверено на BSShaderProperty)",
     "v0.5.14: this BSShaderProperty не назначается — класс в исходном имени (NiDX9TextureManager) с ним не связан (other-class), отдельного межклассового доказательства нет",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — name-conflict: на функцию не переносится"
@@ -137522,11 +137399,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       37,
-      "end"
+      "end:BSShaderProperty"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": false,
      "return_semantic_verified": false,
      "return_semantic_basis": "нет разбора путей",
@@ -142105,12 +141982,6 @@
      "status": "semantics"
     },
     {
-     "class": "BSShaderLightingProperty",
-     "via": "vslot",
-     "slot": 39,
-     "status": "semantics"
-    },
-    {
      "class": "BSShaderProperty",
      "via": "vslot",
      "slot": 23,
@@ -142124,12 +141995,6 @@
     },
     {
      "class": "NiAccumulator",
-     "via": "vslot",
-     "slot": 38,
-     "status": "semantics"
-    },
-    {
-     "class": "NiBackToFrontAccumulator",
      "via": "vslot",
      "slot": 38,
      "status": "semantics"
@@ -142150,12 +142015,6 @@
      "class": "NiD3DShaderInterface",
      "via": "vslot",
      "slot": 40,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 42,
      "status": "semantics"
     },
     {
@@ -142200,15 +142059,12 @@
    "evidence_refs": [
     "syms.tsv: S_PUB32 «BSShaderTextureSet::IsEqual» (флаги 3)",
     "evidence_vslots.csv / summary.json: BSShader слот 40 — semantics (проверено на BSShader)",
-    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 39 — semantics (проверено на BSShaderLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderProperty слот 23 — name+stack (проверено на BSShaderProperty)",
     "evidence_vslots.csv / summary.json: BSShaderProperty слот 39 — semantics (проверено на BSShaderProperty)",
     "evidence_vslots.csv / summary.json: NiAccumulator слот 38 — semantics (проверено на NiAccumulator)",
-    "evidence_vslots.csv / summary.json: NiBackToFrontAccumulator слот 38 — semantics (проверено на NiBackToFrontAccumulator)",
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 40 — semantics (проверено на NiD3DDefaultShader)",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 40 — semantics (проверено на NiD3DShader)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 40 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 42 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiShader слот 40 — semantics (проверено на NiShader)",
     "evidence_vslots.csv / summary.json: NiShader слот 42 — semantics (проверено на NiShader)"
    ],
@@ -142673,12 +142529,6 @@
    "aliases": [],
    "owners": [
     {
-     "class": "BSShaderLightingProperty",
-     "via": "vslot",
-     "slot": 41,
-     "status": "semantics"
-    },
-    {
      "class": "BSShaderProperty",
      "via": "vslot",
      "slot": 41,
@@ -142710,11 +142560,11 @@
      "proof_kind": "machine",
      "slot_anchor": [
       37,
-      "end"
+      "end:BSShaderProperty"
      ],
      "prototype_level": "abi-compatible",
      "slot_identity": "position",
-     "slot_position": "end-of-vtable",
+     "slot_position": "end-of-base-section",
      "return_abi_verified": true,
      "return_semantic_verified": false,
      "return_semantic_basis": "только совместимость по ABI (ширина регистра / форма результата)",
@@ -142734,7 +142584,6 @@
    "source": "вычислено verification.py из summary.json, evidence_vslots.csv, identified_functions.csv, syms.tsv и плана common.build_plan",
    "evidence_refs": [
     "syms.tsv: S_PUB32 «NiPoint3Interpolator::Func003A» (флаги 3)",
-    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 41 — semantics (проверено на BSShaderLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderProperty слот 41 — semantics (проверено на BSShaderProperty)",
     "v0.5.14: this BSShaderProperty не назначается — класс в исходном имени (NiPoint3Interpolator) с ним не связан (other-class), отдельного межклассового доказательства нет",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — name-conflict: на функцию не переносится"
@@ -152334,12 +152183,6 @@
      "status": "semantics"
     },
     {
-     "class": "BSShaderLightingProperty",
-     "via": "vslot",
-     "slot": 45,
-     "status": "semantics"
-    },
-    {
      "class": "BSShaderPPLightingProperty",
      "via": "vslot",
      "slot": 31,
@@ -152714,38 +152557,20 @@
     {
      "class": "NiD3DShaderInterface",
      "via": "vslot",
-     "slot": 36,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 37,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
      "slot": 46,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 47,
      "status": "semantics"
     },
     {
      "class": "NiDX9Renderer",
      "via": "vslot",
      "slot": 31,
-     "status": "stack"
+     "status": "semantics"
     },
     {
      "class": "NiDX9Renderer",
      "via": "vslot",
      "slot": 32,
-     "status": "stack"
+     "status": "semantics"
     },
     {
      "class": "NiGeometry",
@@ -152779,18 +152604,6 @@
     },
     {
      "class": "NiNode",
-     "via": "vslot",
-     "slot": 32,
-     "status": "semantics"
-    },
-    {
-     "class": "NiObject",
-     "via": "vslot",
-     "slot": 31,
-     "status": "semantics"
-    },
-    {
-     "class": "NiObject",
      "via": "vslot",
      "slot": 32,
      "status": "semantics"
@@ -153055,7 +152868,6 @@
     "GetBaseTexture",
     "GetBlockAllocationSize",
     "GetGroup",
-    "GetShaderDecl",
     "GetShaderInstanceDesc",
     "IsBhkBlendCollisionObject",
     "IsBhkLimitedHingeConstraint",
@@ -153113,7 +152925,6 @@
     "evidence_vslots.csv / summary.json: BSShaderAccumulator слот 32 — semantics (проверено на BSShaderAccumulator)",
     "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 31 — semantics (проверено на BSShaderLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 32 — semantics (проверено на BSShaderLightingProperty)",
-    "evidence_vslots.csv / summary.json: BSShaderLightingProperty слот 45 — semantics (проверено на BSShaderLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 31 — semantics (проверено на BSShaderPPLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderPPLightingProperty слот 32 — semantics (проверено на BSShaderPPLightingProperty)",
     "evidence_vslots.csv / summary.json: BSShaderProperty слот 31 — semantics (проверено на BSShaderProperty)",
@@ -153176,20 +152987,15 @@
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 15 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 16 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 17 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 36 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 37 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 46 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 47 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiDX9Renderer слот 31 — stack (проверено на NiDX9Renderer)",
-    "evidence_vslots.csv / summary.json: NiDX9Renderer слот 32 — stack (проверено на NiDX9Renderer)",
+    "evidence_vslots.csv / summary.json: NiDX9Renderer слот 31 — semantics (проверено на NiDX9Renderer)",
+    "evidence_vslots.csv / summary.json: NiDX9Renderer слот 32 — semantics (проверено на NiDX9Renderer)",
     "evidence_vslots.csv / summary.json: NiGeometry слот 31 — semantics (проверено на NiGeometry)",
     "evidence_vslots.csv / summary.json: NiGeometry слот 32 — semantics (проверено на NiGeometry)",
     "evidence_vslots.csv / summary.json: NiGeometryData слот 37 — semantics (проверено на NiGeometryData)",
     "evidence_vslots.csv / summary.json: NiGeometryData слот 38 — semantics (проверено на NiGeometryData)",
     "evidence_vslots.csv / summary.json: NiNode слот 31 — semantics (проверено на NiNode)",
     "evidence_vslots.csv / summary.json: NiNode слот 32 — semantics (проверено на NiNode)",
-    "evidence_vslots.csv / summary.json: NiObject слот 31 — semantics (проверено на NiObject)",
-    "evidence_vslots.csv / summary.json: NiObject слот 32 — semantics (проверено на NiObject)",
     "evidence_vslots.csv / summary.json: NiObjectNET слот 31 — semantics (проверено на NiObjectNET)",
     "evidence_vslots.csv / summary.json: NiObjectNET слот 32 — semantics (проверено на NiObjectNET)",
     "evidence_vslots.csv / summary.json: NiProperty слот 31 — semantics (проверено на NiProperty)",
@@ -154440,6 +154246,12 @@
      "via": "vslot",
      "slot": 36,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 36,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -154469,7 +154281,8 @@
     "evidence_vslots.csv / summary.json: BSShader слот 36 — name+stack (проверено на BSShader)",
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 36 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::FirstPass» uses_this=False, touches_fields=False",
-    "evidence_vslots.csv / summary.json: NiD3DShader слот 36 — name+stack (проверено на NiD3DShader)"
+    "evidence_vslots.csv / summary.json: NiD3DShader слот 36 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 36 — name+stack (проверено на NiD3DShader)"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
@@ -154528,6 +154341,12 @@
      "via": "vslot",
      "slot": 37,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 37,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -154558,6 +154377,7 @@
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 37 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::NextPass» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 37 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 37 — name+stack (проверено на NiD3DShader)",
     "evidence_fields.csv: обращений к полям в функции — 1"
    ],
    "verification_status": "VerifiedPrefix",
@@ -154617,6 +154437,12 @@
      "via": "vslot",
      "slot": 23,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 23,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -154646,7 +154472,8 @@
     "evidence_vslots.csv / summary.json: BSShader слот 23 — name+stack (проверено на BSShader)",
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 23 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::SetupRenderingPass» uses_this=False, touches_fields=False",
-    "evidence_vslots.csv / summary.json: NiD3DShader слот 23 — name+stack (проверено на NiD3DShader)"
+    "evidence_vslots.csv / summary.json: NiD3DShader слот 23 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 23 — name+stack (проверено на NiD3DShader)"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
@@ -154693,6 +154520,12 @@
      "via": "vslot",
      "slot": 29,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 29,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -154721,6 +154554,7 @@
     "syms.tsv: S_PUB32 «NiD3DShader::PostProcessPipeline» (флаги 3)",
     "summary.json: NiD3DShader.methods «NiD3DShader::PostProcessPipeline» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 29 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 29 — name+stack (проверено на NiD3DShader)",
     "evidence_fields.csv: обращений к полям в функции — 1"
    ],
    "verification_status": "VerifiedPrefix",
@@ -155538,6 +155372,12 @@
      "via": "vslot",
      "slot": 21,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 21,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -155566,6 +155406,7 @@
     "syms.tsv: S_PUB32 «NiD3DShader::PreProcessPipeline» (флаги 3)",
     "summary.json: NiD3DShader.methods «NiD3DShader::PreProcessPipeline» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 21 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 21 — name+stack (проверено на NiD3DShader)",
     "evidence_fields.csv: обращений к полям в функции — 5"
    ],
    "verification_status": "VerifiedPrefix",
@@ -155721,6 +155562,12 @@
      "via": "vslot",
      "slot": 27,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 27,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -155751,6 +155598,7 @@
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 27 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::PrepareGeometryForRendering» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 27 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 27 — name+stack (проверено на NiD3DShader)",
     "evidence_fields.csv: обращений к полям в функции — 12"
    ],
    "verification_status": "VerifiedPrefix",
@@ -156108,6 +155956,12 @@
      "via": "vslot",
      "slot": 54,
      "status": "semantics"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 53,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -156167,6 +156021,7 @@
     "summary.json: NiD3DShader.methods «NiD3DShader::GetVSPresentAllPasses» uses_this=False, touches_fields=False",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 53 — name+stack (проверено на NiD3DShader)",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 54 — semantics (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 53 — name+stack (проверено на NiD3DShader)",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — icf-shared: на функцию не переносится"
    ],
    "verification_status": "VerifiedPrefix",
@@ -156244,6 +156099,12 @@
      "via": "vslot",
      "slot": 56,
      "status": "semantics"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 55,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -156303,6 +156164,7 @@
     "summary.json: NiD3DShader.methods «NiD3DShader::GetPSPresentAllPasses» uses_this=False, touches_fields=False",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 55 — name+stack (проверено на NiD3DShader)",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 56 — semantics (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 55 — name+stack (проверено на NiD3DShader)",
     "v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — icf-shared: на функцию не переносится"
    ],
    "verification_status": "VerifiedPrefix",
@@ -156421,6 +156283,12 @@
      "via": "vslot",
      "slot": 20,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 20,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -156449,7 +156317,8 @@
     "syms.tsv: S_PUB32 «NiD3DShader::SetupGeometry» (флаги 3)",
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 20 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::SetupGeometry» uses_this=True, touches_fields=False",
-    "evidence_vslots.csv / summary.json: NiD3DShader слот 20 — name+stack (проверено на NiD3DShader)"
+    "evidence_vslots.csv / summary.json: NiD3DShader слот 20 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 20 — name+stack (проверено на NiD3DShader)"
    ],
    "verification_status": "VerifiedPrefix",
    "verified_facets": [
@@ -157377,19 +157246,7 @@
     {
      "class": "NiD3DShaderInterface",
      "via": "vslot",
-     "slot": 53,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
      "slot": 54,
-     "status": "semantics"
-    },
-    {
-     "class": "NiD3DShaderInterface",
-     "via": "vslot",
-     "slot": 55,
      "status": "semantics"
     },
     {
@@ -157521,9 +157378,7 @@
    "name_binding_status": "icf-shared",
    "name_binding_verified": false,
    "bound_method_names": [
-    "GetPSPresentAllPasses",
     "GetPSPresentAnyPass",
-    "GetVSPresentAllPasses",
     "GetVSPresentAnyPass",
     "IsGenericallyConfigurable",
     "StreamCanSkip"
@@ -157556,9 +157411,7 @@
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 38 — semantics (проверено на NiD3DDefaultShader)",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 38 — semantics (проверено на NiD3DShader)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 38 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 53 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 54 — semantics (проверено на NiD3DShaderInterface)",
-    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 55 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 56 — semantics (проверено на NiD3DShaderInterface)",
     "evidence_vslots.csv / summary.json: NiDX9Renderer слот 28 — name+stack (проверено на NiDX9Renderer)",
     "evidence_vslots.csv / summary.json: NiGeometry слот 28 — name+stack (проверено на NiGeometry)",
@@ -157637,6 +157490,12 @@
      "via": "vslot",
      "slot": 47,
      "status": "name+stack"
+    },
+    {
+     "class": "NiD3DShaderInterface",
+     "via": "vslot",
+     "slot": 47,
+     "status": "name+stack"
     }
    ],
    "address_verified": true,
@@ -157667,6 +157526,7 @@
     "evidence_vslots.csv / summary.json: NiD3DDefaultShader слот 47 — name+stack (проверено на NiD3DDefaultShader)",
     "summary.json: NiD3DShader.methods «NiD3DShader::GetShaderDecl» uses_this=True, touches_fields=True",
     "evidence_vslots.csv / summary.json: NiD3DShader слот 47 — name+stack (проверено на NiD3DShader)",
+    "evidence_vslots.csv / summary.json: NiD3DShaderInterface слот 47 — name+stack (проверено на NiD3DShader)",
     "evidence_fields.csv: обращений к полям в функции — 1"
    ],
    "verification_status": "VerifiedPrefix",
@@ -159780,30 +159640,30 @@
   },
   "functions": {
    "Confirmed": 1,
-   "VerifiedPrefix": 2205
+   "VerifiedPrefix": 2204
   },
   "functions_unclassified": 0,
   "public_symbols_total": 138171,
-  "public_symbols_not_in_registry": 135965,
+  "public_symbols_not_in_registry": 135966,
   "public_symbols_not_in_registry_by_kind": {
    "data": 50718,
-   "function": 85247
+   "function": 85248
   },
   "scope_note": "реестр — функции, которые изучал проект (методы и слоты vtable описанных классов, ручные опознания); остальные публичные символы xNVSE — Unclassified: это отсутствие доказательств, а не третий уровень качества",
   "name_binding": {
-   "icf-shared": 32,
+   "icf-shared": 31,
    "matched": 419,
    "name-conflict": 99,
    "unassessed": 1656
   },
   "this_basis": {
-   "None": 695,
+   "None": 690,
    "method-heuristic": 1065,
-   "vtable-slot": 446
+   "vtable-slot": 450
   },
   "name_class": {
    "no-class-in-name": 79,
-   "other-class": 52,
+   "other-class": 51,
    "same-chain": 2075
   },
   "this_suppressed_other_class": [
@@ -159818,6 +159678,7 @@
    "0x00A7B7D0",
    "0x00A7FDC0",
    "0x00A815C0",
+   "0x00A81FE0",
    "0x00A88A40",
    "0x00A8A9A0",
    "0x00A8A9B0",
@@ -159828,7 +159689,7 @@
    "0x00A9B180",
    "0x00A9B190",
    "0x00AA0AC0",
-   "0x00AAA650",
+   "0x00AA0AD0",
    "0x00B57FC0",
    "0x00B807C0",
    "0x00BA87D0",

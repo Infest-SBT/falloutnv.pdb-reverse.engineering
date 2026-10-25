@@ -263,7 +263,11 @@ def entry_this(ctx, def_va):
             ops = i.operands
             ok = (i.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == x86.X86_OP_MEM
                   and ops[1].type == x86.X86_OP_REG and i.reg_name(ops[1].reg) == 'ecx')
-            return (True, 'ok') if ok else (False, f'0x{def_va:08X} не «mov [ebp+d], ecx»')
+            # v0.6.2: то же для функции без кадра EBP — «mov r32, ecx» (r32 ≠ esp/ebp) во входном блоке
+            ok = ok or (i.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == x86.X86_OP_REG
+                        and ops[1].type == x86.X86_OP_REG and i.reg_name(ops[1].reg) == 'ecx'
+                        and i.reg_name(ops[0].reg) in ('eax', 'ebx', 'edx', 'esi', 'edi'))
+            return (True, 'ok') if ok else (False, f'0x{def_va:08X} не «mov [ebp+d], ecx» / «mov r32, ecx»')
         if (k and i.address in tg) or is_branch(i.mnemonic) or i.mnemonic in ('ret', 'call'):
             return False, 'не во входном блоке'
         if 'ecx' in _effects(i)[0]:

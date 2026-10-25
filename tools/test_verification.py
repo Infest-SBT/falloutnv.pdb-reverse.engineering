@@ -129,8 +129,10 @@ if len(sys.argv) > 3:
     n_r = sum(1 for f in reg['functions'] if f['apply_this']['research'])
     # v0.6: +23 this по слотам, доказанным в v0.6 (хвостовой переход → name+stack, semantics), −1 (0x00C9A420 — общее
     # тело теперь у слотов нескольких иерархий: конфликт this); список — audit/status_migration_v0514_v06.md
-    check('назначения this: v0.5.14 (1458 / 1459) + 23 по слотам v0.6 − 1 конфликт (строгий 1480, research 1481)',
-          (n_s, n_r) == (1480, 1481), f'{n_s} / {n_r}')
+    # v0.6.2: +3 — RegisterStreamables (NiObject, NiAlphaAccumulator) и NiGeometry::OnVisible: очистка стека выведена
+    # по прямым вызовам, слот своего класса стал name+stack (audit/status_migration_v061_v062.md)
+    check('назначения this: v0.5.14 (1458 / 1459) + 23 (v0.6) − 1 конфликт + 3 (v0.6.2) — строгий 1483, research 1484',
+          (n_s, n_r) == (1483, 1484), f'{n_s} / {n_r}')
     SIX = ['0x007AF430', '0x00833150', '0x00A815C0', '0x00B807C0', '0x00BE0CE0', '0x00C9A420']
     check('v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена те же',
           all(FA[v]['name_class_relation'] == 'other-class' and FA[v]['name_class_verified'] is False

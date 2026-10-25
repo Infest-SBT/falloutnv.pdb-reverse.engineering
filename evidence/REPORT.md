@@ -18,9 +18,9 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `HeapBlock` | 0x8 | confirmed | header-size | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlock` | 0x10 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlockList` | 0x8 | confirmed | array-span | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `IMemoryHeap` | 0x4 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 7 / 1 / 0 / 4 / 0 / 0 |
+| `IMemoryHeap` | 0x4 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 1 / 7 / 0 / 0 / 4 / 0 / 0 |
 | `HeapFreeSubBucket` | 0x8 | confirmed | index-stride | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `AbstractHeap` | 0x20F0 | confirmed | subclass-boundary | да | 24 / 0 / 0 / 0 | 3 / 15 / 0 / 0 / 0 / 0 / 0 |
+| `AbstractHeap` | 0x20F0 | confirmed | subclass-boundary | да | 24 / 0 / 0 / 0 | 1 / 17 / 0 / 0 / 0 / 0 / 0 |
 | `MemoryHeap` | 0x20F4 | confirmed | ctor-alloc | да | 2 / 0 / 0 / 0 | 1 / 17 / 0 / 0 / 0 / 0 / 0 |
 | `ScrapHeap` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MemoryManager` | 0x138 | confirmed | bounds | да | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
@@ -32,10 +32,10 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `BGSSaveLoadGame` | 0x24C | confirmed | ctor-alloc | да | 15 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadManager` | 0x38 | confirmed | ctor-alloc | да | 19 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadChangesMap` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
-| `FalloutRadio::FORadioReceiver` | 0x20 | confirmed | ctor-alloc | да (−3 полей) | 8 / 2 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FalloutRadio::FORadioReceiver` | 0x20 | confirmed | ctor-alloc | да (−1 полей) | 10 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FalloutRadio::StationState` | 0x20 | confirmed | contained | да | 8 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FalloutRadio::FORadioStation` | 0x24 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `RadioConvTask` | 0x38 | confirmed | ctor-alloc | да (−1 полей) | 10 / 1 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
+| `RadioConvTask` | 0x38 | confirmed | ctor-alloc | да | 11 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
 | `UVMap` | 0x8 | confirmed | array-span | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontLetter` | 0x38 | confirmed | index-stride | да (−1 полей) | 6 / 1 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `TextureFile` | 0x24 | confirmed | index-stride | да (−2 полей) | 0 / 1 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
@@ -49,47 +49,47 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 | `FontManager::TextDoc` | 0x18 | confirmed | alloc-inline | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextData` | 0x40 | consistent | last-field | нет | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiRefObject` | 0x8 | confirmed | subclass-boundary | да | 2 / 0 / 0 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
-| `NiObject` | 0x8 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 2 / 16 / 0 / 0 / 17 / 0 / 0 |
+| `NiObject` | 0x8 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 0 / 18 / 0 / 0 / 17 / 0 / 0 |
 | `NiObjectNET` | 0x18 | confirmed | ctor-alloc-derived, subclass-boundary | да | 5 / 0 / 0 / 0 | 2 / 15 / 0 / 0 / 18 / 0 / 0 |
 | `NiPoint3` | 0xC | confirmed | array-span | да | 3 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiMatrix3` | 0x24 | confirmed | array-span | да | 1 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiTransform` | 0x34 | confirmed | contained | да | 5 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiBound` | 0x10 | confirmed | ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `NiAVObject` | 0x9C | confirmed | subclass-boundary | да (−1 полей) | 10 / 1 / 0 / 0 | 5 / 30 / 0 / 1 / 19 / 0 / 0 |
+| `NiAVObject` | 0x9C | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 4 / 31 / 0 / 1 / 19 / 0 / 0 |
 | `NiNode` | 0xAC | confirmed | ctor-alloc, subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 40 / 0 / 1 / 19 / 0 / 0 |
 | `BSFadeNode` | 0xE4 | confirmed | ctor-alloc | да | 12 / 0 / 0 / 0 | 4 / 40 / 0 / 1 / 19 / 0 / 0 |
 | `NiProperty` | 0x18 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 2 / 16 / 0 / 0 / 19 / 0 / 0 |
 | `NiShadeProperty` | 0x20 | confirmed | subclass-boundary | да | 2 / 0 / 0 / 0 | 2 / 16 / 0 / 0 / 19 / 0 / 0 |
 | `BSShaderProperty` | 0x60 | confirmed | ctor-alloc, subclass-boundary | да | 15 / 0 / 0 / 0 | 9 / 17 / 0 / 0 / 23 / 0 / 0 |
 | `BSShaderProperty::RenderPass` | 0x10 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BSShaderLightingProperty` | 0x7C | confirmed | subclass-boundary | да | 5 / 0 / 0 / 0 | 10 / 20 / 0 / 0 / 21 / 0 / 0 |
+| `BSShaderLightingProperty` | 0x7C | confirmed | subclass-boundary | да | 5 / 0 / 0 / 0 | 5 / 25 / 0 / 0 / 21 / 0 / 0 |
 | `BSShaderPPLightingProperty` | 0x104 | confirmed | ctor-alloc, ctor-alloc-derived | да (−3 полей) | 20 / 0 / 3 / 0 | 7 / 42 / 0 / 0 / 22 / 0 / 0 |
 | `NiPropertyState` | 0x1C | confirmed | ctor-alloc | да | 1 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiGeometryData` | 0x40 | confirmed | subclass-boundary | да | 17 / 0 / 0 / 0 | 3 / 18 / 0 / 0 / 20 / 0 / 0 |
 | `NiTriBasedGeomData` | 0x44 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 20 / 0 / 0 |
 | `NiTriShapeData` | 0x58 | confirmed | ctor-alloc | да | 5 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 20 / 0 / 0 |
-| `NiGeometry` | 0xC4 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 5 / 33 / 0 / 3 / 19 / 0 / 0 |
-| `NiTriBasedGeom` | 0xC4 | confirmed | bounds | да | 0 / 0 / 0 / 0 | 7 / 34 / 0 / 3 / 17 / 0 / 0 |
-| `NiTriShape` | 0xC4 | confirmed | ctor-alloc | да | 0 / 0 / 0 / 0 | 6 / 34 / 0 / 3 / 18 / 0 / 0 |
-| `NiTriStrips` | 0xC4 | confirmed | ctor-alloc | да | 0 / 0 / 0 / 0 | 6 / 34 / 0 / 3 / 18 / 0 / 0 |
+| `NiGeometry` | 0xC4 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 5 / 34 / 0 / 2 / 19 / 0 / 0 |
+| `NiTriBasedGeom` | 0xC4 | confirmed | bounds | да | 0 / 0 / 0 / 0 | 7 / 35 / 0 / 2 / 17 / 0 / 0 |
+| `NiTriShape` | 0xC4 | confirmed | ctor-alloc | да | 0 / 0 / 0 / 0 | 6 / 35 / 0 / 2 / 18 / 0 / 0 |
+| `NiTriStrips` | 0xC4 | confirmed | ctor-alloc | да | 0 / 0 / 0 / 0 | 6 / 35 / 0 / 2 / 18 / 0 / 0 |
 | `NiCamera` | 0x114 | confirmed | ctor-alloc | да | 6 / 0 / 0 / 0 | 3 / 28 / 0 / 1 / 23 / 0 / 0 |
 | `NiTexture` | 0x30 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 4 / 18 / 0 / 0 / 19 / 0 / 0 |
 | `NiSourceTexture` | 0x48 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 19 / 0 / 0 |
-| `NiAccumulator` | 0xC | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 13 / 0 / 1 / 23 / 0 / 0 |
-| `NiBackToFrontAccumulator` | 0x30 | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 4 / 14 / 0 / 1 / 23 / 0 / 0 |
-| `NiAlphaAccumulator` | 0x34 | confirmed | subclass-boundary | да | 3 / 0 / 0 / 0 | 3 / 16 / 0 / 1 / 22 / 0 / 0 |
-| `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−3 полей) | 48 / 1 / 2 / 0 | 2 / 19 / 0 / 1 / 23 / 0 / 0 |
-| `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да | 13 / 0 / 0 / 0 | 2 / 12 / 0 / 1 / 22 / 0 / 0 |
-| `NiRenderer` | 0x280 | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 2 / 10 / 0 / 1 / 23 / 0 / 0 |
-| `NiDX9Renderer` | 0xB80 | confirmed | ctor-alloc | да (−1 полей) | 26 / 1 / 0 / 0 | 0 / 10 / 2 / 1 / 23 / 0 / 0 |
+| `NiAccumulator` | 0xC | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 14 / 0 / 0 / 23 / 0 / 0 |
+| `NiBackToFrontAccumulator` | 0x30 | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 3 / 16 / 0 / 0 / 23 / 0 / 0 |
+| `NiAlphaAccumulator` | 0x34 | confirmed | subclass-boundary | да | 3 / 0 / 0 / 0 | 2 / 18 / 0 / 0 / 22 / 0 / 0 |
+| `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−2 полей) | 49 / 0 / 2 / 0 | 2 / 20 / 0 / 0 / 23 / 0 / 0 |
+| `BSBatchRenderer` | 0x98 | confirmed | ctor-alloc | да | 13 / 0 / 0 / 0 | 2 / 13 / 0 / 0 / 22 / 0 / 0 |
+| `NiRenderer` | 0x280 | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 2 / 11 / 0 / 0 / 23 / 0 / 0 |
+| `NiDX9Renderer` | 0xB80 | confirmed | ctor-alloc | да (−1 полей) | 26 / 1 / 0 / 0 | 2 / 11 / 0 / 0 / 23 / 0 / 0 |
 | `NiShader` | 0x14 | confirmed | ctor-alloc, subclass-boundary | да | 3 / 0 / 0 / 0 | 29 / 6 / 0 / 0 / 12 / 0 / 0 |
-| `NiD3DShaderInterface` | 0x24 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 34 / 13 / 0 / 0 / 12 / 0 / 0 |
+| `NiD3DShaderInterface` | 0x24 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 23 / 24 / 0 / 0 / 12 / 0 / 0 |
 | `NiD3DShader` | 0x3C | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 23 / 25 / 0 / 0 / 12 / 0 / 0 |
 | `NiD3DDefaultShader` | 0x5C | confirmed | subclass-boundary | да | 9 / 0 / 0 / 0 | 23 / 28 / 0 / 0 / 9 / 0 / 0 |
 | `BSShader` | 0x6C | confirmed | bounds, subclass-boundary | да | 4 / 0 / 0 / 0 | 26 / 48 / 0 / 0 / 5 / 0 / 0 |
 | `NiD3DPass` | 0x68 | confirmed | array-new | да | 21 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
 | `ShadowSceneNode` | 0x200 | confirmed | ctor-alloc | да (−2 полей) | 30 / 0 / 2 / 0 | 3 / 40 / 0 / 1 / 20 / 0 / 0 |
-| `ShadowSceneLight` | 0x250 | confirmed | ctor-alloc | да (−2 полей) | 38 / 1 / 1 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
+| `ShadowSceneLight` | 0x250 | confirmed | ctor-alloc | да (−1 полей) | 39 / 0 / 1 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `ImageSpaceManager` | 0x31C | confirmed | ctor-alloc | да | 61 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MTRenderingSystem` | 0x33C | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 
@@ -101,15 +101,15 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 |---|---|---|---|
 | float | 110 | 20 | 0 |
 | pointer | 92 | 87 | 0 |
-| int | 36 | 320 | 0 |
+| int | 37 | 319 | 0 |
 | class | 0 | 10 | 0 |
 | blob | 0 | 227 | 0 |
 
 ## Ширина полей
 
-`width_verified` — ширина поля подтверждена хотя бы одним основанием (`width_basis` у поля в summary.json): `access-width` — обращение ровно к началу поля шириной sizeof(поля); `element-width` — массив скаляров: обращение к границе элемента шириной sizeof(элемента); `int64-halves` — 64-битное целое: обращения к младшему и/или старшему dword; `index-stride` — индексное обращение с шагом, равным sizeof(элемента) (imul/scale); `class-array-element` — массив классов: внутри элемента подтверждено подполе по его собственной ширине; `nested-field-width` — поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана; `class-member` — поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5); `buffer-size` — поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses); `blob-prefix / blob-stride` — непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются; `… (в X.поле) / (элемент X.поле[])` — ширина подтверждена обращением через содержащий класс.
+`width_verified` — ширина поля подтверждена хотя бы одним основанием (`width_basis` у поля в summary.json): `access-width` — обращение ровно к началу поля шириной sizeof(поля); `element-width` — массив скаляров: обращение к границе элемента шириной sizeof(элемента); `int64-halves` — 64-битное целое: обращения к младшему и/или старшему dword; `index-stride` — индексное обращение с шагом, равным sizeof(элемента) (imul/scale); `class-array-element` — массив классов: внутри элемента подтверждено подполе по его собственной ширине; `nested-field-width` — поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана; `class-member` — поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5); `nested-composition` — вложенный объект второго уровня: обе композиции доказаны вызовами методов, размер и все поля вложенного класса подтверждены (v0.6.2); `api-pointer-arg` — адрес поля передан указателем в функцию Windows API (через обёртку с проверенным телом): ширину задаёт прототип API, имя импорта сверено с таблицей импорта exe (v0.6.2); `buffer-size` — поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses); `blob-prefix / blob-stride` — непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются; `… (в X.поле) / (элемент X.поле[])` — ширина подтверждена обращением через содержащий класс.
 
-Поля confirmed: ширина подтверждена — 654, только смещение (ширина не подтверждена) — 0, непрозрачные байты — 225. Поля «только смещение» в строгий PDB не входят.
+Поля confirmed: ширина подтверждена — 660, только смещение (ширина не подтверждена) — 0, непрозрачные байты — 225. Поля «только смещение» в строгий PDB не входят.
 
 ## Вложенные объекты (композиция)
 
@@ -162,11 +162,11 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 Функции, прочитанные не до конца (лимит 0x10000 байт): нет.
 
-Строк в evidence_fields.csv: 8853, evidence_vslots.csv: 4993, evidence_sizes.csv: 455.
+Строк в evidence_fields.csv: 8856, evidence_vslots.csv: 4993, evidence_sizes.csv: 455.
 
-Итого: f_confirmed=879, f_consistent=9, f_unverified=14, v_name=24, v_name+stack=919, v_semantics=271, v_stack=3, v_stub=670
+Итого: f_confirmed=885, f_consistent=3, f_unverified=14, v_name=13, v_name+stack=953, v_semantics=251, v_stub=670
 
-Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): name=54, name+stack=2411, semantics=941, stack=44, stub=1540, thunk=3.
+Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): name=31, name+stack=2434, semantics=985, stub=1540, thunk=3.
 
 ## v0.6: прототипы слотов vtable (пункт Г, slot_proofs.csv)
 
@@ -176,43 +176,31 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 | проверка | прошла | не прошла |
 |---|---|---|
-| stack-tail | 227 | 54 |
-| semantics-machine | 936 | 98 |
+| stack-tail | 250 | 31 |
+| semantics-machine | 980 | 31 |
 | semantics-manual | 5 | 0 |
 
 Строки — проверки на каждой vtable (класс и наследники); итог по слоту — лучший статус. Нерешённые хвостовые переходы своего класса (вызов метода другого объекта: поле this или аргумент — тип того объекта известен только с Xbox, fail closed):
 
-- `BSBatchRenderer` слот 21 `0x00A5D2F0` `NiObject::RegisterStreamables` — хвостовой переход @0x00A5D2FF к неразрешённой функции
 - `BSFadeNode` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `BSShaderAccumulator` слот 21 `0x00A9B500` `NiAlphaAccumulator::RegisterStreamables` — очистка 0x00AA0AD0 не определена
 - `NiAVObject` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiAccumulator` слот 21 `0x00A81FE0` `NiInterpolator::RegisterStreamables` — очистка 0x00A5D2F0 не определена
-- `NiAlphaAccumulator` слот 21 `0x00A9B500` `NiAlphaAccumulator::RegisterStreamables` — очистка 0x00AA0AD0 не определена
-- `NiBackToFrontAccumulator` слот 21 `0x00AA0AD0` `NiKeyBasedInterpolator::RegisterStreamables` — очистка 0x00A81FE0 не определена
 - `NiCamera` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiDX9Renderer` слот 21 `0x00A5D2F0` `NiObject::RegisterStreamables` — хвостовой переход @0x00A5D2FF к неразрешённой функции
 - `NiGeometry` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiGeometry` слот 53 `0x00A7FD90` `NiGeometry::OnVisible` — хвостовой переход @0x00A7FD9F к неразрешённой функции
 - `NiGeometry` слот 58 `0x00A7FF60` `NiGeometry::CalculateNormals` — хвостовой переход @0x00A7FF6E к неразрешённой функции
 - `NiNode` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiObject` слот 21 `0x00A5D2F0` `NiObject::RegisterStreamables` — хвостовой переход @0x00A5D2FF к неразрешённой функции
-- `NiRenderer` слот 21 `0x00A5D2F0` `NiObject::RegisterStreamables` — хвостовой переход @0x00A5D2FF к неразрешённой функции
 - `NiTriBasedGeom` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiTriBasedGeom` слот 53 `0x00A7FD90` `NiGeometry::OnVisible` — хвостовой переход @0x00A7FD9F к неразрешённой функции
 - `NiTriBasedGeom` слот 58 `0x00A7FF60` `NiGeometry::CalculateNormals` — хвостовой переход @0x00A7FF6E к неразрешённой функции
 - `NiTriShape` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiTriShape` слот 53 `0x00A7FD90` `NiGeometry::OnVisible` — хвостовой переход @0x00A7FD9F к неразрешённой функции
 - `NiTriShape` слот 58 `0x00A7FF60` `NiGeometry::CalculateNormals` — хвостовой переход @0x00A7FF6E к неразрешённой функции
 - `NiTriStrips` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
-- `NiTriStrips` слот 53 `0x00A7FD90` `NiGeometry::OnVisible` — хвостовой переход @0x00A7FD9F к неразрешённой функции
 - `NiTriStrips` слот 58 `0x00A7FF60` `NiGeometry::CalculateNormals` — хвостовой переход @0x00A7FF6E к неразрешённой функции
 - `ShadowSceneNode` слот 52 `0x00A59CF0` `NiAVObject::PostAttachUpdate` — хвостовой переход @0x00A59CFB к неразрешённой функции
 
 ## v0.5.5: путь, ручные цепочки, обращения за sizeof
 
-Строки evidence_fields.csv по колонке path: after-ret — 619, linear — 8234; после раннего ret по статусам: confirmed — 461, consistent — 158. На ранних ret (продолжение чтения): 3667 раз, псевдонимов сброшено 140, сохранено (с конца входного блока, дальше не перезаписаны) 471. Поля, подтверждённые только кодом после раннего ret: `BSBatchRenderer::uiCurrentFirstPass`, `BSBatchRenderer::uiCurrentLastPass`, `ShadowSceneLight::pPortalGraph`.
+Строки evidence_fields.csv по колонке path: after-ret — 619, linear — 8237; после раннего ret по статусам: confirmed — 461, consistent — 158. На ранних ret (продолжение чтения): 3667 раз, псевдонимов сброшено 140, сохранено (с конца входного блока, дальше не перезаписаны) 471. Поля, подтверждённые только кодом после раннего ret: `BSBatchRenderer::uiCurrentFirstPass`, `BSBatchRenderer::uiCurrentLastPass`, `ShadowSceneLight::pPortalGraph`.
 
-Звенья ручных цепочек (traced_provenance.csv): ok — 41. Звено — запись регистра/слота и чтение без перезаписи, вызова (eax/ecx/edx), ret, lea слота и входов извне; unknown — обращение в доказательства не идёт.
+Звенья ручных цепочек (traced_provenance.csv): ok — 56. Звено — запись регистра/слота и чтение без перезаписи, вызова (eax/ecx/edx), ret, lea слота и входов извне; unknown — обращение в доказательства не идёт.
 
 Обращения собственных методов за sizeof (out_of_bounds_this_accesses.csv): end-address — 3, explained-derived — 8. `unexplained` не даёт подтвердить размер.
 

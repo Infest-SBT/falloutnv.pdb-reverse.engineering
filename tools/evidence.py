@@ -331,6 +331,13 @@ CC = chaincheck.Ctx(md, img, B, func_start, lambda f: min(func_end(f), f + READ_
                                bool(s.Characteristics & 0x20000000)) for s in pe.sections])
 
 
+# v0.6.2: таблица импорта exe (адрес IAT -> имя) и ширина целого, на которое указывает аргумент API
+_pe_full = pefile.PE(data=exe_bytes)
+IMPORTS = {i.address: i.name.decode() for d_ in getattr(_pe_full, 'DIRECTORY_ENTRY_IMPORT', []) for i in d_.imports if i.name}
+API_WIDTH = {'InterlockedIncrement': 4, 'InterlockedDecrement': 4, 'InterlockedExchange': 4,
+             'InterlockedCompareExchange': 4, 'InterlockedExchangeAdd': 4}
+
+
 def global_users(addr):
     """Функции, в коде которых встречается 4-байтовый адрес addr."""
     text = img[0x1000:0xBDF000]
@@ -368,6 +375,67 @@ def vt_len(tab):
 
 
 SP_ROWS = []                                                   # v0.6: slot_proofs.csv
+INFERRED = {}                                                  # v0.6.2: {функция: очистка стека по вызывающим}
+INF_ROWS = []                                                  # v0.6.2: cleanup_inference.csv
+_CALLS = None
+
+
+def call_sites(t):
+    """v0.6.2: прямые вызовы call rel32 функции t во всех исполняемых секциях -> [(адрес call, начало функции)]."""
+    global _CALLS
+    if _CALLS is None:
+        _CALLS = collections.defaultdict(list)
+        for lo_, hi_ in EXEC:
+            data_ = img[lo_ - B:hi_ - B]
+            i_ = data_.find(b'\xe8')
+            while 0 <= i_ <= len(data_) - 5:
+                tg_ = (lo_ + i_ + 5 + struct.unpack_from('<i', data_, i_ + 1)[0]) & 0xFFFFFFFF
+                if _in_exec(tg_):
+                    _CALLS[tg_].append((lo_ + i_, func_start(lo_ + i_)))
+                i_ = data_.find(b'\xe8', i_ + 1)
+    return _CALLS.get(t, [])
+
+
+def _infer_for(an, f):
+    """v0.6.2: если очистка стека f (или функции, к которой f ведёт прямым хвостовым переходом) не определяется по
+    телу, вывести её по прямым вызовам (slotproof.Analyzer.infer_from_callers) и записать в INFERRED."""
+    chain_, cur_ = [], f
+    for _ in range(slotproof.MAX_DEPTH + 1):
+        chain_.append(cur_)
+        try:
+            ps_ = an.analyze(cur_)
+        except slotproof.Unsupported:
+            break
+        nx_ = [r_['callee'] for r_ in ps_ if r_['end'] == 'tail' and r_.get('dispatch', ('',))[0] == 'direct']
+        if len(nx_) != 1 or nx_[0] in chain_:
+            break
+        cur_ = nx_[0]
+    for g_ in reversed(chain_):
+        if g_ in INFERRED or an.cleanup(g_) is not None:
+            continue
+        sites_ = call_sites(g_)
+        if not sites_:
+            continue
+        n_, wit_ = an.infer_from_callers(g_, sites_)
+        INF_ROWS.append({'function': f'0x{g_:08X}', 'name': name_at(g_), 'inferred_cleanup': '' if n_ is None else n_,
+                         'call_sites': len(sites_),
+                         'witnesses': ' | '.join(f'0x{c_:08X} в 0x{w_:08X} {name_at(w_)}: {o_}' for w_, c_, o_ in wit_
+                                                 if len(o_) == 1),
+                         'callers_any_n': ' | '.join(f'0x{w_:08X}' for w_, c_, o_ in wit_ if len(o_) > 1),
+                         'callers_unsupported': sum(1 for _, _, o_ in wit_ if not o_)})
+        if n_ is not None:
+            INFERRED[g_] = n_
+
+
+def _section_ends(cname):
+    """v0.6.2: [(n, A)] для предков A (включая cname), у которых своя vtable на PC длиной ровно n = числу слотов A."""
+    out_ = []
+    for a_ in chain(cname):
+        nA_ = max((v_['slot'] for b_ in chain(a_) for v_ in CLS[b_]['vslots']), default=-1) + 1
+        vt_ = find_vtable(a_)
+        if nA_ and vt_ and vt_len(vt_) == nA_:
+            out_.append((nA_, a_))
+    return out_
 
 
 def _sp_row(r, check, ok, basis, n, chain_=(), lo=None, hi=None, verdict='', fac=None, facts=(), why=()):
@@ -544,7 +612,7 @@ def match_in(cls, rel, sz, depth=0):
 
 # основания ширины поля, которые принимаются в строгий PDB (v0.4.2); у непрозрачных байтов (blob) ширина не заявляется
 WIDTH_OK = {'access-width', 'element-width', 'int64-halves', 'index-stride', 'class-array-element', 'nested-field-width',
-            'class-member', 'buffer-size'}
+            'class-member', 'buffer-size', 'api-pointer-arg', 'nested-composition'}
 COMP_OK = ('proved', 'pod-layout')     # v0.5: композиция доказана вызовом метода или (для POD без vtable) раскладкой
 
 
@@ -860,7 +928,26 @@ for cname, c in CLS.items():
                               'where': '', 'to': '', 'result': 'unknown', 'detail': why_})
         if not ok_:
             continue
-        if 'buffer_size' in tr:
+        if 'api' in tr:
+            # v0.6.2: адрес поля передан аргументом-указателем в функцию Windows API (через обёртку): ширину задаёт
+            # прототип API (InterlockedIncrement(LONG volatile*) — 4 байта). Сверяется: имя импорта по адресу IAT в
+            # таблице импорта exe; тело обёртки — callees (выше, check_chain); вызов обёртки — anchors.
+            ap_ = tr['api']
+            nm_ = IMPORTS.get(int(ap_['iat'], 16))
+            w_ = API_WIDTH.get(nm_)
+            if nm_ != ap_['name'] or w_ is None or w_ != ap_['width']:
+                PROV_ROWS.append({'class': cname, 'item': f"0x{va_:08X} {tr['access_text']}", 'check': 'api-import',
+                                  'from': ap_['iat'], 'where': ap_['name'], 'to': '', 'result': 'unknown',
+                                  'detail': f'импорт по 0x{int(ap_["iat"], 16):08X} — {nm_}, ширина {w_}'})
+                continue
+            PROV_ROWS.append({'class': cname, 'item': f"0x{va_:08X} {tr['access_text']}", 'check': 'api-import',
+                              'from': ap_['iat'], 'where': nm_, 'to': '', 'result': 'ok',
+                              'detail': f'KERNEL32 {nm_}: указатель на {w_}-байтовое целое'})
+            o_ = ins_.operands[1]
+            off_ = o_.imm if o_.type == capstone.x86.X86_OP_IMM else o_.mem.disp
+            acc.append((off_, w_, va_, f'{ins_.mnemonic} {ins_.op_str}', name_at(func_start(va_)),
+                        'traced-api', True, None, func_start(va_)))
+        elif 'buffer_size' in tr:
             # адрес начала буфера (add reg, imm / lea reg, [base+disp]) передан в функцию вместе с размером буфера
             # (strcpy_s(dst, N, …), memset(dst, v, N)): размер N — это ширина поля-массива (основание buffer-size)
             o_ = ins_.operands[1]
@@ -939,6 +1026,8 @@ for cname, c in CLS.items():
                 wb = ('blob-prefix' if fd.get('opaque') else 'access-width' if sz == fd['size'] else 'element-width')
                 if owner == 'traced-buffer' and wb == 'access-width':
                     wb = 'buffer-size'     # v0.5.4: размер буфера, переданный в функцию вместе с адресом поля
+                if owner == 'traced-api' and wb == 'access-width':
+                    wb = 'api-pointer-arg'  # v0.6.2: ширина — из прототипа функции Windows API
             elif esz and (off - s) % esz == 0 and sz == esz:
                 st = 'confirmed'   # элемент массива
                 wb = 'element-width'
@@ -952,7 +1041,7 @@ for cname, c in CLS.items():
                f'via-{owner.split(" ", 1)[1]}' if owner.startswith('pointer') else
                'argument-pointer' if owner.startswith('argument') else
                'new-object' if owner.startswith('new-object') else
-               'traced-manual' if owner in ('traced', 'traced-buffer') else
+               'traced-manual' if owner in ('traced', 'traced-buffer', 'traced-api') else
                'class-method-this' if owner == cname else 'subclass-method-this')
         ik = insn_kind(txt, sz)
         drf = ia in DEREF
@@ -1237,18 +1326,23 @@ for cname, c in CLS.items():
             if who not in AN:
                 n_ = vt_len(tab)
                 AN[who] = slotproof.Analyzer(CC, lambda k, tab=tab, n_=n_: u32(tab + 4 * k) if 0 <= k < n_ else None)
+                AN[who].overrides = INFERRED                 # v0.6.2: общая таблица очисток, выведенных по вызывающим
             return AN[who]
         for r_ in cls_rows:
             if r_['status'] != 'name':
                 continue
+            _infer_for(_an(r_['checked_on'], r_['_tab']), r_['_fa'])
             n_, basis_ = _an(r_['checked_on'], r_['_tab']).cleanup_ex(r_['_fa'])
             ch_ = _an(r_['checked_on'], r_['_tab']).tail_chain(r_['_fa'])
             SP_ROWS.append(_sp_row(r_, 'stack-tail', n_ == r_['expect_ret_n'], basis_, n_, ch_))
-            if n_ == r_['expect_ret_n'] and basis_ == 'tail':
+            if n_ == r_['expect_ret_n'] and basis_ in ('tail', 'callers'):
+                inf_ = [g_ for g_ in [r_['_fa']] + [t_ for _, _, t_ in ch_] if g_ in INFERRED]
                 r_['status'] = 'name+stack'
-                r_['stack_basis'] = 'tail'
-                r_['proof'] = 'ret N через хвостовой переход: ' + ' → '.join(
+                r_['stack_basis'] = 'tail+callers' if (basis_ == 'tail' and inf_) else basis_
+                r_['proof'] = ('ret N через хвостовой переход: ' + ' → '.join(
                     f"0x{a_:08X} ({'jmp' if k_ == 'direct' else 'слот [[this]+N]'}) → 0x{t_:08X}" for a_, k_, t_ in ch_)
+                               if ch_ else '') + (f"; очистка 0x{inf_[-1]:08X} = {INFERRED[inf_[-1]]} выведена по прямым "
+                                                  f"вызовам (cleanup_inference.csv)" if inf_ else '')
         # ---- фаза 2б: semantics — машинный разбор тела или структурированное ручное доказательство + опоры ----
         # опоры берутся по статусу ДО этого шага (status_raw: имя и очистка стека, в том числе через хвостовой
         # переход); слот, который сам потом станет semantics, остаётся опорой, только если до того был name+stack
@@ -1266,7 +1360,7 @@ for cname, c in CLS.items():
                 continue
             v_, fa_, who_ = r_['_v'], r_['_fa'], r_['checked_on']
             an_ = _an(who_, r_['_tab'])
-            lo_, hi_ = slotproof.anchors(byvt_[who_], r_['slot'], vt_len(r_['_tab']), nsl_)
+            lo_, hi_ = slotproof.anchors(byvt_[who_], r_['slot'], vt_len(r_['_tab']), nsl_, _section_ends(cname))
             anchored_ = lo_ is not None and hi_ is not None
             n_, basis_ = an_.cleanup_ex(fa_)
             paths_ = None
@@ -1309,7 +1403,8 @@ for cname, c in CLS.items():
                     'return_semantic_basis': ret_sem_basis_, 'args_abi_verified': bool(args_abi_),
                     'args_semantic_verified': bool(args_sem_), 'args_semantic_basis': args_sem_basis_,
                     'slot_identity': ident_,
-                    'slot_position': 'end-of-vtable' if hi_ == 'end' else 'anchors', 'prototype_level': level_}
+                    'slot_position': ('end-of-vtable' if hi_ == 'end' else 'end-of-base-section'
+                                      if str(hi_).startswith('end:') else 'anchors'), 'prototype_level': level_}
             row_ = _sp_row(r_, 'semantics-' + kind_, ok_all_, basis_, n_, [], lo_, hi_, verd_, fac_,
                            facts_, why_ + ([] if anchored_ else ['нет опоры name+stack ниже/выше на этой vtable'])
                            + ([] if stack_ok_ else [f'очистка стека {n_} ({basis_}) ≠ {r_["expect_ret_n"]}']))
@@ -1326,8 +1421,13 @@ for cname, c in CLS.items():
         bests = {}
         def _rank(r_):
             # v0.6: semantics на vtable наследника не вытесняет name+stack своего класса (ранг как у name+stack;
-            # при равенстве остаётся строка своего класса — она идёт первой)
+            # при равенстве остаётся строка своего класса — она идёт первой).
+            # v0.6.2 (этап Research): semantics, где метод опознан только по положению (slot_identity = position) и
+            # прототип лишь совместим по ABI, стоит НИЖЕ name+stack любой строки: опознание по имени сильнее.
             st_ = r_['status']
+            sem_ = r_.get('_sem') or {}
+            if st_ == 'semantics' and sem_.get('prototype_level') != 'semantic' and sem_.get('slot_identity') != 'name':
+                return order.index('stack') + 0.5
             if st_ == 'semantics' and r_['checked_on'] != cname:
                 st_ = 'name+stack'
             return order.index(st_)
@@ -1661,7 +1761,12 @@ for xname, xc in CLS.items():
         for sf_name, sst in summary['classes'][sub]['fields'].items():
             key = f"{fd['name']}.{sf_name}"
             cur = summary['classes'][xname]['fields'].get(key)
-            if cur == 'unverified' and sst == 'confirmed':
+            # v0.6.2 (этап Research): и consistent, если все обращения к этому полю в контейнере — только взятие адреса
+            # (lea / add reg, imm: размер доступа 0): адрес совпал, противоречия ширины нет
+            addr_only = cur == 'consistent' and all(
+                str(r_['access_size']) == '0' for r_ in field_rows if r_['class'] == xname and r_['field'] == key) and any(
+                r_['class'] == xname and r_['field'] == key for r_ in field_rows)
+            if (cur == 'unverified' or addr_only) and sst == 'confirmed':
                 summary['classes'][xname]['fields'][key] = 'confirmed'
                 dd = summary['classes'][xname]['field_details'][key]
                 sd = summary['classes'][sub]['field_details'][sf_name]
@@ -1676,6 +1781,36 @@ for xname, xc in CLS.items():
                     dd['width_basis'] = sorted(set(dd['width_basis']) | {'nested-field-width'})
                 dd['composition'] = compositions[(xname, fd['name'])]['status']
                 dd['composition_evidence'] = compositions[(xname, fd['name'])]['evidence'][:3]
+# v0.6.2 (этап Research): вложение второго уровня. Поле контейнера «Вложенный.Член» (NiAVObject.m_kLocal.m_Rotate),
+# где Член — сам вложенный объект класса Z (NiTransform.m_Rotate — NiMatrix3): подтверждено, если (1) композиция
+# Контейнер.Вложенный доказана, (2) композиция Вложенный.Член доказана в классе Вложенный, (3) размер Z подтверждён и
+# все поля Z подтверждены (у Z они покрывают весь объект), (4) в контейнере у этого поля только взятие адреса (lea/add)
+# или его нет вовсе. Тогда Член целиком — объект Z с подтверждённой раскладкой.
+for xname, xc in CLS.items():
+    for fd in xc['fields']:
+        sub = fd.get('class_type')
+        if not sub or sub not in CLS or compositions.get((xname, fd['name']), {}).get('status') not in COMP_OK:
+            continue
+        for sfd in CLS[sub]['fields']:
+            z = sfd.get('class_type')
+            key = f"{fd['name']}.{sfd['name']}"
+            cur = summary['classes'][xname]['fields'].get(key)
+            if not z or z not in summary['classes'] or cur not in ('consistent', 'unverified'):
+                continue
+            zc = summary['classes'][z]
+            rows_ = [r_ for r_ in field_rows if r_['class'] == xname and r_['field'].split('.')[:2] == key.split('.')[:2]]
+            if compositions.get((sub, sfd['name']), {}).get('status') in COMP_OK and zc['size_status'] == 'confirmed' \
+                    and zc['fields'] and all(v == 'confirmed' for v in zc['fields'].values()) \
+                    and all(str(r_['access_size']) == '0' for r_ in rows_):
+                summary['classes'][xname]['fields'][key] = 'confirmed'
+                dd = summary['classes'][xname]['field_details'][key]
+                dd.update({'status': 'confirmed', 'instruction_verified': True, 'offset_verified': True,
+                           'width_verified': True,
+                           'width_basis': sorted(set(dd['width_basis']) | {'nested-composition'}),
+                           'base_pointer': sorted(set(dd['base_pointer']) | {
+                               f'composed: {sub} at {xname}+0x{fd["off"]:X}; {z} at {sub}+0x{sfd["off"]:X}'}),
+                           'composition_evidence': (compositions[(xname, fd['name'])]['evidence'][:2]
+                                                    + compositions[(sub, sfd['name'])]['evidence'][:2])})
 for cname, sc in summary['classes'].items():
     sc['provisional_fields'] = sorted(k for k, v in sc['fields'].items() if v != 'confirmed')
     sc['provisional'] = sc['size_status'] != 'confirmed' or bool(sc['provisional_fields'])
@@ -1851,6 +1986,8 @@ summary['width_basis_kinds'] = {
     'class-array-element': 'массив классов: внутри элемента подтверждено подполе по его собственной ширине',
     'nested-field-width': 'поле вложенного объекта: ширина подтверждена в коде самого вложенного класса, композиция доказана',
     'class-member': 'поле — вложенный объект: внутри него подтверждено подполе по собственной ширине (v0.5)',
+    'nested-composition': 'вложенный объект второго уровня: обе композиции доказаны вызовами методов, размер и все поля вложенного класса подтверждены (v0.6.2)',
+    'api-pointer-arg': 'адрес поля передан указателем в функцию Windows API (через обёртку с проверенным телом): ширину задаёт прототип API, имя импорта сверено с таблицей импорта exe (v0.6.2)',
     'buffer-size': 'поле-массив: адрес его начала передан в функцию вместе с размером, равным sizeof(поля) — strcpy_s(dst, N, …), memset(dst, v, N) (v0.5.4, evidence_spec traced_accesses)',
     'blob-prefix / blob-stride': 'непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются',
     '… (в X.поле) / (элемент X.поле[])': 'ширина подтверждена обращением через содержащий класс'}
@@ -1878,7 +2015,8 @@ def wcsv(name, rows):
 wcsv('evidence_fields.csv', field_rows)
 wcsv('evidence_sizes.csv', sizes_rows)
 wcsv('evidence_vslots.csv', slot_rows)
-wcsv('slot_proofs.csv', SP_ROWS)                                  # v0.6
+wcsv('slot_proofs.csv', SP_ROWS)
+wcsv('cleanup_inference.csv', INF_ROWS)                          # v0.6.2                                  # v0.6
 wcsv('excluded_functions.csv', excluded_rows)
 wcsv('compositions.csv', composition_rows)
 wcsv('accessor_anchors.csv', ACCESSOR_ANCHORS or [{'class': ''}])

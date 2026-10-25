@@ -1,7 +1,7 @@
 138171 symbols
-классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2205} функций unclassified: 0 публичных символов вне реестра: 135965
+классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2204} функций unclassified: 0 публичных символов вне реестра: 135966
 EVIDENCE-IDENTICAL
-TPI: типов 944 (индексы 0x1000..0x13AF включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
+TPI: типов 875 (индексы 0x1000..0x136A включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
 TPI: типов 1006 (индексы 0x1000..0x13ED включительно), хэш-поток 11, aux 65535; потоков 12 -> r_final.pdb
 PDBS-IDENTICAL
 SCRIPTS-IDENTICAL
@@ -11,7 +11,7 @@ OK   ошибка: транзакция завершена с откатом (ok
 ИТОГ: всё прошло
 OK   чувствительность: функция Confirmed → VerifiedPrefix — её прототип снят, остальные на месте 0x00AE9FD0 BSGameSound::PriorityTest: 1 → 0
 ИТОГ: всё прошло
-3eab1841a655fe3f193f7526c57bc2c10bf028104dd7abf711053273861b3c46  FalloutNV.pdb
+d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e  FalloutNV.pdb
 d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4  research/FalloutNV.pdb
 RAW-MISMATCH 0
 ИТОГ: всё прошло
@@ -27,3 +27,4 @@ RAW-MISMATCH 0
 ИТОГ: всё прошло (16 проверок)
 ИТОГ: всё прошло
 ИТОГ: всё прошло
+FIELD-SCOPE-IDENTICAL

@@ -28,7 +28,7 @@ BGSSaveLoadChangesMap,False,3,5,5,с поля m_ppkHashTable на +4,4,1,unique,
 FalloutRadio::FORadioReceiver,False,11,7,7,с поля Hndl.bAssumeSuccess на -8,7,0,unique,,unique,unique,Hndl.iSoundID StaticHndl.iSoundID
 FalloutRadio::StationState,False,8,16,16,с поля iStationFlags на -4,15,1,unique,,unique,unique,cStationPower (аксессор)
 FalloutRadio::FORadioStation,False,9,14,14,с поля CurrentState.iCurrentItemDuration на -8,14,0,tie-same-as-xbox,CurrentState.cStationPower CurrentState.cTargetPower CurrentState.iCurrentItemDuration,tie-same-as-xbox,tie-same-as-xbox,CurrentState.pConvo
-RadioConvTask,False,10,25,25,с поля eContext на +4,24,1,unique,,unique,unique,
+RadioConvTask,False,10,26,26,с поля eContext на +4,25,1,unique,,unique,unique,
 UVMap,False,2,0,,,,,no-evidence,,no-evidence,no-evidence,
 FontLetter,False,7,13,13,с поля pMapping на -4,12,1,unique,,unique,unique,
 TextureFile,False,2,0,,,,,no-evidence,,no-evidence,no-evidence,
@@ -82,6 +82,6 @@ NiD3DDefaultShader,False,9,15,14,с поля m_uiMaxTextureIndex на -4,13,1,un
 BSShader,False,4,7,6,с поля iShaderType на -8,5,1,unique,,unique,unique,iShaderType (аксессор)
 NiD3DPass,False,20,29,29,с поля m_uiRefCount на -8,28,1,unique,,unique,unique,
 ShadowSceneNode,True,32,66,66,с поля bAllowLightRemoveQueues на -8,64,2,unique,,unique,unique,bDisableLightUpdate (аксессор) bWireframe (аксессор) bVisibleUnboundSpace (аксессор)
-ShadowSceneLight,False,40,97,96,с поля bClipSpacePlanesReady на -4,95,1,unique,,unique,unique,usFrustumCull (аксессор)
+ShadowSceneLight,False,40,98,96,с поля bClipSpacePlanesReady на -4,95,1,unique,,unique,unique,usFrustumCull (аксессор)
 ImageSpaceManager,False,61,143,137,с поля fHighestMotionBlurStrengthValue на +4,136,1,unique,,unique,unique,pBaseParameterData (аксессор)
 MTRenderingSystem,False,4,3,3,с поля pTaskArray на -8,2,1,unique,,unique,unique,

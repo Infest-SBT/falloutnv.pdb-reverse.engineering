@@ -1135,21 +1135,21 @@ public:
     virtual int GetSavedFormType(); // слот 35 | PC: name+stack (0x401150)
     virtual void GetFormDetailedString(void*); // слот 36 | PC: name+stack (0x4868F0)
     virtual bool GetQuestObject(); // слот 37 | PC: name+stack (0x401190)
-    virtual bool GetHasSpokenFlag(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0x549580)
+    virtual void _unverified_slot38(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0x549580)
     virtual bool GetHavokDeath(); // слот 39 | PC: name+stack (0x4011B0)
-    virtual bool GetRandomAnim(); // слот 40 | PC: semantics [прототип только совместим по ABI] (0x4011B0)
+    virtual void _unverified_slot40(); // слот 40 | PC: semantics [прототип только совместим по ABI] (0x4011B0)
     virtual bool GetNeedtoChangeProcess(); // слот 41 | PC: name+stack (0x4011D0)
-    virtual bool GetDangerous(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0x4011D0)
-    virtual bool GetHasPLSpecTex(); // слот 43 | PC: semantics [прототип только совместим по ABI] (0x4011F0)
+    virtual void _unverified_slot42(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0x4011D0)
+    virtual void _unverified_slot43(); // слот 43 | PC: semantics [прототип только совместим по ABI] (0x4011F0)
     virtual bool GetObstacle(); // слот 44 | PC: name+stack (0x401210)
     virtual bool GetContinuousBroadcast(); // слот 45 | PC: name+stack (0x401230)
     virtual bool GetOnLocalMap(); // слот 46 | PC: name+stack (0x401250)
-    virtual void SetOnLocalMap(bool); // слот 47 | PC: semantics [прототип только совместим по ABI] (0x4849D0)
+    virtual void _unverified_slot47(); // слот 47 | PC: semantics [прототип только совместим по ABI] (0x4849D0)
     virtual void _unverified_slot48(); // слот 48 | PC: stub (0xACBB70)
     virtual void SetDelete(bool); // слот 49 | PC: name+stack (0x484530)
     virtual void SetAltered(bool); // слот 50 | PC: name+stack (0x484730)
     virtual void SetQuestObject(bool); // слот 51 | PC: name+stack (0x484860)
-    virtual void SetHasSpokenFlag(bool); // слот 52 | PC: semantics [прототип только совместим по ABI] (0x4848B0)
+    virtual void _unverified_slot52(); // слот 52 | PC: semantics [прототип только совместим по ABI] (0x4848B0)
     virtual void SetHavokDeath(bool); // слот 53 | PC: name+stack (0x484900)
     virtual void SetNeedToChangeProcess(bool); // слот 54 | PC: name+stack (0x484950)
     virtual void _unverified_slot55(); // слот 55 | PC: stub (0x483710)
@@ -1282,12 +1282,12 @@ class BSGameSound {
 public:
     virtual ~BSGameSound(); // слот 0 | PC: name+stack (0xAE9EC0)
     virtual bool IsPlaying(); // слот 1 | PC: name+stack (0xAE9EF0)
-    virtual bool IsInDecay(); // слот 2 | PC: semantics [прототип только совместим по ABI] (0xAE9F10)
+    virtual void _unverified_slot2(); // слот 2 | PC: semantics [прототип только совместим по ABI] (0xAE9F10)
     virtual bool IsPaused(); // слот 3 | PC: name+stack (0xAE9F30)
     virtual float GetVolume(); // слот 4 | PC: name+stack (0xAE9F50)
     virtual void SetInaudible(bool); // слот 5 | PC: name+stack (0xAE9F70)
     virtual void SetEnvironmentType(unsigned); // слот 6 | PC: name+stack (0xAE9FB0)
-    virtual bool PriorityTest(unsigned); // слот 7 | PC: semantics [прототип только совместим по ABI] (0xAEA000)
+    virtual void _unverified_slot7(); // слот 7 | PC: semantics [прототип только совместим по ABI] (0xAEA000)
     virtual bool PriorityTest_2(BSGameSound*); // слот 8 | PC: semantics [прототип доказан] (0xAE9FD0)
     virtual bool Open(); // слот 9 | PC: name+stack (0xAEB270)
     virtual bool Prepare(); // слот 10 | PC: name+stack (0xAE9DE0)
@@ -1302,7 +1302,7 @@ public:
     virtual void SetEmitterPosition(NiPoint3); // слот 19 | PC: name+stack (0xAEFCF0)
     virtual void SetEmitterPosition_2(float, float, float); // слот 20 | PC: name+stack (0xAEF090)
     virtual NiPoint3 GetEmitterPosition(); // слот 21 | PC: name+stack (0xAEFD20)
-    virtual void SetEmitterOrientation(float, float, float); // слот 22 | PC: semantics [прототип только совместим по ABI] (0xAEFD90)
+    virtual void _unverified_slot22(); // слот 22 | PC: semantics [прототип только совместим по ABI] (0xAEFD90)
     virtual void SetMinMax(float, float); // слот 23 | PC: name+stack (0xAEFDA0)
     virtual void SetAttenuationCurve(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short); // слот 24 | PC: name+stack (0xAEFF60)
     virtual bool SetFrequency(float); // слот 25 | PC: name+stack (0xAF01E0)
@@ -1396,8 +1396,8 @@ public:
     virtual void Shutdown(); // слот 2 | PC: name+stack (0xAD7150)
     virtual void _unverified_slot3(); // слот 3 | PC: stub (0xAA4A50)
     virtual void _unverified_slot4(); // слот 4 | PC: stub (0xAD87C0)
-    virtual BSGameSound* CreateNewGameSound(const char*); // слот 5 | PC: semantics [прототип только совместим по ABI] (0xAEA5C0)
-    virtual void FixSoundPath(char*); // слот 6 | PC: semantics [прототип только совместим по ABI] (0xAEA640)
+    virtual void _unverified_slot5(); // слот 5 | PC: semantics [прототип только совместим по ABI] (0xAEA5C0)
+    virtual void _unverified_slot6(); // слот 6 | PC: semantics [прототип только совместим по ABI] (0xAEA640)
     virtual void _unverified_slot7(); // слот 7 | PC: stub (0xAA7830)
     // поля
     bool bAudioEnabled; // PC: confirmed
@@ -1533,7 +1533,7 @@ public:
     virtual int OutputBlockInfo(IMemoryManagerFile*, bool); // слот 8 | PC: name+stack (0xAAA430)
     virtual void _unverified_slot9(); // слот 9 | PC: stub (0xEC60FA)
     virtual void _unverified_slot10(); // слот 10 | PC: stub (0xEC60FA)
-    virtual void _unverified_slot11(); // слот 11 | PC: stack (0xAA9D10)
+    virtual void _unverified_slot11(); // слот 11 | PC: semantics [прототип только совместим по ABI] (0xAA9D10)
     // поля
 };
 // HeapFreeSubBucket (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
@@ -1550,8 +1550,8 @@ class AbstractHeap : public IMemoryHeap {
 public:
     virtual void* DoHeapAllocation(unsigned, unsigned); // слот 12 | PC: name+stack (0xAA79A0)
     virtual void DoHeapFree(void*); // слот 13 | PC: name+stack (0xAA7A30)
-    virtual unsigned CreateMorePages(void*, unsigned, unsigned); // слот 14 | PC: semantics [прототип только совместим по ABI] (0xAAA650)
-    virtual unsigned CleanExtraPages(void*, unsigned, unsigned); // слот 15 | PC: semantics [прототип только совместим по ABI] (0xAAA650)
+    virtual unsigned CreateMorePages(void*, unsigned, unsigned); // слот 14 | PC: name+stack (0xAA7A50)
+    virtual unsigned CleanExtraPages(void*, unsigned, unsigned); // слот 15 | PC: name+stack (0xAA7AB0)
     virtual void DecommitPages(FreeHeapBlock*); // слот 16 | PC: name+stack (0xAA7D60)
     virtual void CommitPages(FreeHeapBlock*, unsigned); // слот 17 | PC: name+stack (0xB02710)
     // поля
@@ -1640,7 +1640,7 @@ struct BGSSaveLoadFormHeader {
 // PC: verification_status Confirmed — размер 0x14 и раскладка подтверждены; alignof 4; vtable 0x01082324; типы полей, слоты и методы — у каждого свой статус
 class BGSSaveGameBuffer {
 public:
-    virtual TESForm* GetForm(); // слот 0 | PC: semantics [прототип только совместим по ABI] (0x7AF430)
+    virtual void _unverified_slot0(); // слот 0 | PC: semantics [прототип только совместим по ABI] (0x7AF430)
     virtual TESObjectREFR* GetReference(); // слот 1 | PC: name+stack (0x865B40)
     virtual Actor* GetActor(); // слот 2 | PC: name+stack (0x865B80)
     // поля
@@ -1787,7 +1787,7 @@ class RadioConvTask {
 public:
     virtual ~RadioConvTask(); // слот 0 | PC: name+stack (0x837290)
     // поля
-    alignas(4) unsigned char _unverified_iRefCount[4]; // строгая сборка: не подтверждено (volatile int)
+    int iRefCount; // PC: confirmed
     int eState; // PC: confirmed
     __int64 Key; // PC: confirmed
     int eContext; // PC: confirmed
@@ -2001,7 +2001,7 @@ public:
     virtual NiObject* CreateClone(NiCloningProcess*); // слот 18 | PC: name+stack (0xA44840)
     virtual void LoadBinary(NiStream*); // слот 19 | PC: name+stack (0xA5D610)
     virtual void LinkObject(NiStream*); // слот 20 | PC: name+stack (0xA5C0E0)
-    virtual bool RegisterStreamables(NiStream*); // слот 21 | PC: name+stack (0xA5C180)
+    virtual bool RegisterStreamables(NiStream*); // слот 21 | PC: name+stack (0xA5D2F0)
     virtual void SaveBinary(NiStream*); // слот 22 | PC: name+stack (0xA5C5B0)
     virtual bool IsEqual(NiObject*); // слот 23 | PC: name+stack (0xA5D470)
     virtual void GetViewerStrings(void*); // слот 24 | PC: name+stack (0xA5D6E0)
@@ -2011,8 +2011,8 @@ public:
     virtual bool StreamCanSkip(); // слот 28 | PC: name+stack (0xEE8990)
     virtual const NiRTTI* GetStreamableRTTI(); // слот 29 | PC: name+stack (0xA5D310)
     virtual void SetBound(BSNiBound*); // слот 30 | PC: name+stack (0xA67020)
-    virtual unsigned GetBlockAllocationSize(); // слот 31 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiObjectGroup* GetGroup(); // слот 32 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual unsigned GetBlockAllocationSize(); // слот 31 | PC: name+stack (0xA66F90)
+    virtual NiObjectGroup* GetGroup(); // слот 32 | PC: name+stack (0xA669C0)
     virtual void SetGroup(NiObjectGroup*); // слот 33 | PC: name+stack (0xA669D0)
     virtual void _unverified_slot34(); // слот 34 | PC: stub (0xACBB70)
     // поля
@@ -2073,7 +2073,7 @@ public:
     virtual void SetSelectiveUpdateFlags(bool*, bool, bool*); // слот 40 | PC: name+stack (0xA5A450)
     virtual void UpdateDownwardPass(NiUpdateData*, unsigned); // слот 41 | PC: name+stack (0xA59F90)
     virtual void UpdateSelectedDownwardPass(NiUpdateData*, unsigned); // слот 42 | PC: name+stack (0xA59FD0)
-    virtual void UpdateRigidDownwardPass(NiUpdateData*, unsigned); // слот 43 | PC: semantics [прототип только совместим по ABI] (0xA59FD0)
+    virtual void UpdateRigidDownwardPass(NiUpdateData*, unsigned); // слот 43 | PC: name+stack (0xA5E1F0)
     virtual void UpdatePropertiesDownward(NiPropertyState*); // слот 44 | PC: name+stack (0xA5A140)
     virtual void _unverified_slot45(); // слот 45 | PC: stub (0xA89AF0)
     virtual void UpdateWorldData(NiUpdateData*); // слот 46 | PC: name+stack (0xA68C60)
@@ -2151,14 +2151,14 @@ class BSShaderProperty : public NiShadeProperty {
 public:
     class RenderPass;
     virtual void CopyTo(BSShaderProperty*); // слот 37 | PC: name+stack (0xBA8AA0)
-    virtual void CopyToMembers(BSShaderProperty*); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xBA8F60)
-    virtual bool SetupGeometry(NiGeometry*); // слот 39 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
-    virtual void* GetRenderPasses(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool); // слот 40 | PC: semantics [прототип только совместим по ABI] (0xBA8A90)
-    virtual unsigned short GetNumberofPasses(NiGeometry*); // слот 41 | PC: semantics [прототип только совместим по ABI] (0xD46C90)
-    virtual void* GetSIBlockRenderPasses(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0xA75F10)
+    virtual void _unverified_slot38(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xBA8F60)
+    virtual void _unverified_slot39(); // слот 39 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
+    virtual void _unverified_slot40(); // слот 40 | PC: semantics [прототип только совместим по ABI] (0xBA8A90)
+    virtual void _unverified_slot41(); // слот 41 | PC: semantics [прототип только совместим по ABI] (0xD46C90)
+    virtual void _unverified_slot42(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0xA75F10)
     virtual void _unverified_slot43(); // слот 43 | PC: stub (0xA38DE0)
-    virtual BSShaderProperty* ClarifyShader(NiGeometry*, bool, bool); // слот 44 | PC: semantics [прототип только совместим по ABI] (0xB57FC0)
-    virtual NiTexture* GetBaseTexture(); // слот 45 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot44(); // слот 44 | PC: semantics [прототип только совместим по ABI] (0xB57FC0)
+    virtual void _unverified_slot45(); // слот 45 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
     virtual void _unverified_slot46(); // слот 46 | PC: stub (0xA38DE0)
     virtual void _unverified_slot47(); // слот 47 | PC: stub (0xD070A0)
     virtual void _unverified_slot48(); // слот 48 | PC: stub (0xA29680)
@@ -2221,7 +2221,7 @@ public:
     virtual int GetClampNI(); // слот 56 | PC: name+stack (0xB671C0)
     virtual void SetClampNI(int); // слот 57 | PC: name+stack (0xB671D0)
     virtual unsigned short GetTextureCount(); // слот 58 | PC: name+stack (0xB671E0)
-    virtual unsigned short QLandscapeTextureCount(); // слот 59 | PC: semantics [прототип только совместим по ABI] (0xB671F0)
+    virtual void _unverified_slot59(); // слот 59 | PC: semantics [прототип только совместим по ABI] (0xB671F0)
     virtual void SetTexture(int, unsigned, NiTexture*); // слот 60 | PC: name+stack (0xB67200)
     virtual NiTexture* GetTexture(int, unsigned); // слот 61 | PC: name+stack (0xB67260)
     virtual void SetTextures(BSShaderTextureSet*); // слот 62 | PC: name+stack (0xB666D0)
@@ -2230,7 +2230,7 @@ public:
     virtual void SetGlowTexture(unsigned, NiTexture*); // слот 65 | PC: name+stack (0xB67330)
     virtual void SetFlagsFromTextures(); // слот 66 | PC: name+stack (0xB68B10)
     virtual float GetSpecularLODFade(); // слот 67 | PC: name+stack (0xB66B80)
-    virtual float GetEnvMapLODFade(); // слот 68 | PC: semantics [прототип только совместим по ABI] (0xB66C40)
+    virtual void _unverified_slot68(); // слот 68 | PC: semantics [прототип только совместим по ABI] (0xB66C40)
     virtual void GetRenderPasses_1x(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool); // слот 69 | PC: name+stack (0xBDB4A0)
     virtual void GetRenderPasses_2x(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool); // слот 70 | PC: name+stack (0xBDF790)
     // поля
@@ -2272,9 +2272,9 @@ public:
 class NiGeometryData : public NiObject {
 public:
     virtual void _unverified_slot35(); // слот 35 | PC: stub (0xA89AF0)
-    virtual unsigned short GetActiveVertexCount(); // слот 36 | PC: semantics [прототип только совместим по ABI] (0xA669E0)
-    virtual NiTriStripsData* IsTriStripsData(); // слот 37 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiTriShapeData* IsTriShapeData(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot36(); // слот 36 | PC: semantics [прототип только совместим по ABI] (0xA669E0)
+    virtual void _unverified_slot37(); // слот 37 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot38(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
     virtual bool ContainsVertexData(int); // слот 39 | PC: name+stack (0xA66C00)
     virtual void _unverified_slot40(); // слот 40 | PC: stub (0xEC60FA)
     // поля
@@ -2301,7 +2301,7 @@ public:
 class NiTriBasedGeomData : public NiGeometryData {
 public:
     virtual void _unverified_slot41(); // слот 41 | PC: stub (0xA89AF0)
-    virtual unsigned short GetActiveTriangleCount(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0xA75F20)
+    virtual void _unverified_slot42(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0xA75F20)
     virtual void GetTriangleIndices(unsigned short, unsigned short*, unsigned short*, unsigned short*); // слот 43 | PC: name+stack (0xA7B720)
     virtual void GetStripData(unsigned short*, const unsigned short**, const unsigned short**, unsigned*); // слот 44 | PC: name+stack (0xA7B760)
     // поля
@@ -2374,8 +2374,8 @@ public:
     virtual void Degrade(); // слот 36 | PC: name+stack (0xA60100)
     virtual unsigned GetWidth(); // слот 37 | PC: name+stack (0xA5F940)
     virtual unsigned GetHeight(); // слот 38 | PC: name+stack (0xA5F970)
-    virtual const NiFixedString* GetFilename(); // слот 39 | PC: semantics [прототип только совместим по ABI] (0xA62660)
-    virtual unsigned long GetMemorySize(); // слот 40 | PC: semantics [прототип только совместим по ABI] (0xA62670)
+    virtual void _unverified_slot39(); // слот 39 | PC: semantics [прототип только совместим по ABI] (0xA62660)
+    virtual void _unverified_slot40(); // слот 40 | PC: semantics [прототип только совместим по ABI] (0xA62670)
     // поля
     alignas(4) unsigned char m_kFormatPrefs[12]; // NiTexture::FormatPrefs | PC: confirmed
     void* m_pkRendererData; // PC: confirmed
@@ -2407,8 +2407,8 @@ public:
     virtual void StartAccumulating(const NiCamera*); // слот 35 | PC: name+stack (0xD47A40)
     virtual void FinishAccumulating(); // слот 36 | PC: name+stack (0xAA0FE0)
     virtual void RegisterObjectArray(NiVisibleArray*); // слот 37 | PC: name+stack (0xAA0E60)
-    virtual bool RegisterObject(NiGeometry*); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
-    virtual bool AddShared(NiAVObject*); // слот 39 | PC: semantics [прототип только совместим по ABI] (0xAA09D0)
+    virtual void _unverified_slot38(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
+    virtual void _unverified_slot39(); // слот 39 | PC: semantics [прототип только совместим по ABI] (0xAA09D0)
     virtual void _unverified_slot40(); // слот 40 | PC: stub (0xA29680)
     // поля
     const NiCamera* m_pkCamera; // PC: confirmed
@@ -2575,50 +2575,50 @@ public:
 class NiShader : public NiRefObject {
 public:
     virtual const NiRTTI* GetRTTI(); // слот 2 | PC: name+stack (0xA8F480)
-    virtual NiNode* IsNode(); // слот 3 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual BSFadeNode* IsFadeNode(); // слот 4 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual BSMultiBoundNode* IsMultiBoundNode(); // слот 5 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiGeometry* IsGeometry(); // слот 6 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiTriBasedGeom* IsTriBasedGeom(); // слот 7 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiTriStrips* IsTriStrips(); // слот 8 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiTriShape* IsTriShape(); // слот 9 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual BSSegmentedTriShape* IsSegmentedTriShape(); // слот 10 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual BSResizableTriShape* IsResizableTriShape(); // слот 11 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiParticles* IsParticlesGeom(); // слот 12 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual NiLines* IsLinesGeom(); // слот 13 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual bhkNiCollisionObject* IsBhkNiCollisionObject(); // слот 14 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual bhkBlendCollisionObject* IsBhkBlendCollisionObject(); // слот 15 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual bhkRigidBody* IsBhkRigidBody(); // слот 16 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint(); // слот 17 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot3(); // слот 3 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot4(); // слот 4 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot5(); // слот 5 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot6(); // слот 6 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot7(); // слот 7 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot8(); // слот 8 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot9(); // слот 9 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot10(); // слот 10 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot11(); // слот 11 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot12(); // слот 12 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot13(); // слот 13 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot14(); // слот 14 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot15(); // слот 15 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot16(); // слот 16 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot17(); // слот 17 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
     virtual bool IsInitialized(); // слот 18 | PC: name+stack (0xB79D70)
     virtual bool Initialize(); // слот 19 | PC: name+stack (0xA8F3D0)
-    virtual bool SetupGeometry(NiGeometry*); // слот 20 | PC: semantics [прототип только совместим по ABI] (0xAA09D0)
-    virtual unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*); // слот 21 | PC: semantics [прототип только совместим по ABI] (0xA8F3E0)
+    virtual void _unverified_slot20(); // слот 20 | PC: semantics [прототип только совместим по ABI] (0xAA09D0)
+    virtual void _unverified_slot21(); // слот 21 | PC: semantics [прототип только совместим по ABI] (0xA8F3E0)
     virtual unsigned UpdatePipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*); // слот 22 | PC: name+stack (0xA8F3E0)
-    virtual unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*); // слот 23 | PC: semantics [прототип только совместим по ABI] (0xA8F3E0)
+    virtual void _unverified_slot23(); // слот 23 | PC: semantics [прототип только совместим по ABI] (0xA8F3E0)
     virtual void _unverified_slot24(); // слот 24 | PC: stub (0xA8F3F0)
     virtual void _unverified_slot25(); // слот 25 | PC: stub (0xA8F3F0)
     virtual void _unverified_slot26(); // слот 26 | PC: stub (0xA8F3F0)
-    virtual void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*); // слот 27 | PC: semantics [прототип только совместим по ABI] (0xA8F400)
+    virtual void _unverified_slot27(); // слот 27 | PC: semantics [прототип только совместим по ABI] (0xA8F400)
     virtual void _unverified_slot28(); // слот 28 | PC: stub (0xA8F3F0)
-    virtual unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*); // слот 29 | PC: semantics [прототип только совместим по ABI] (0xA8F3E0)
+    virtual void _unverified_slot29(); // слот 29 | PC: semantics [прототип только совместим по ABI] (0xA8F3E0)
     virtual void _unverified_slot30(); // слот 30 | PC: stub (0xA89AF0)
     virtual void _unverified_slot31(); // слот 31 | PC: stub (0xA89AF0)
     virtual void _unverified_slot32(); // слот 32 | PC: stub (0xA89AF0)
     virtual void _unverified_slot33(); // слот 33 | PC: stub (0xA89AF0)
     virtual void _unverified_slot34(); // слот 34 | PC: stub (0xD070A0)
     virtual void _unverified_slot35(); // слот 35 | PC: stub (0xA89AF0)
-    virtual unsigned FirstPass(); // слот 36 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual unsigned NextPass(); // слот 37 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
-    virtual bool IsGenericallyConfigurable(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
+    virtual void _unverified_slot36(); // слот 36 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot37(); // слот 37 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot38(); // слот 38 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
     virtual void _unverified_slot39(); // слот 39 | PC: stub (0xA8F410)
-    virtual bool AppendRenderPass(unsigned*); // слот 40 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
-    virtual bool SetAlphaOverride(unsigned, bool, bool, int, bool, int); // слот 41 | PC: semantics [прототип только совместим по ABI] (0xA8F420)
-    virtual bool SetUsesNiRenderState(bool); // слот 42 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
-    virtual bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*); // слот 43 | PC: semantics [прототип только совместим по ABI] (0xA57020)
+    virtual void _unverified_slot40(); // слот 40 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
+    virtual void _unverified_slot41(); // слот 41 | PC: semantics [прототип только совместим по ABI] (0xA8F420)
+    virtual void _unverified_slot42(); // слот 42 | PC: semantics [прототип только совместим по ABI] (0xC9A420)
+    virtual void _unverified_slot43(); // слот 43 | PC: semantics [прототип только совместим по ABI] (0xA57020)
     virtual void _unverified_slot44(); // слот 44 | PC: stub (0xA8F410)
-    virtual bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned); // слот 45 | PC: semantics [прототип только совместим по ABI] (0xA8F430)
-    virtual void* GetShaderInstanceDesc(); // слот 46 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual void _unverified_slot45(); // слот 45 | PC: semantics [прототип только совместим по ABI] (0xA8F430)
+    virtual void _unverified_slot46(); // слот 46 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
     // поля
     alignas(4) unsigned char m_kName[4]; // NiFixedString | PC: confirmed
     unsigned m_uiImplementation; // PC: confirmed
@@ -2629,16 +2629,16 @@ public:
 // PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; vtable 0x010EF39C; типы полей, слоты и методы — у каждого свой статус
 class NiD3DShaderInterface : public NiShader {
 public:
-    virtual NiD3DShaderDeclaration* GetShaderDecl(); // слот 47 | PC: semantics [прототип только совместим по ABI] (0xE7CD40)
+    virtual NiD3DShaderDeclaration* GetShaderDecl(); // слот 47 | PC: name+stack (0xEEA530)
     virtual void SetShaderDecl(NiD3DShaderDeclaration*); // слот 48 | PC: name+stack (0xE81420)
     virtual void _unverified_slot49(); // слот 49 | PC: stub (0xA29680)
     virtual void _unverified_slot50(); // слот 50 | PC: stub (0xA29680)
     virtual void DestroyRendererData(); // слот 51 | PC: name+stack (0xE81470)
     virtual void RecreateRendererData(); // слот 52 | PC: name+stack (0xE814B0)
-    virtual bool GetVSPresentAllPasses(); // слот 53 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
-    virtual bool GetVSPresentAnyPass(); // слот 54 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
-    virtual bool GetPSPresentAllPasses(); // слот 55 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
-    virtual bool GetPSPresentAnyPass(); // слот 56 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
+    virtual bool GetVSPresentAllPasses(); // слот 53 | PC: name+stack (0xE814F0)
+    virtual void _unverified_slot54(); // слот 54 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
+    virtual bool GetPSPresentAllPasses(); // слот 55 | PC: name+stack (0xE81500)
+    virtual void _unverified_slot56(); // слот 56 | PC: semantics [прототип только совместим по ABI] (0xEE8990)
     virtual bool GetIsBestImplementation(); // слот 57 | PC: name+stack (0xB79D90)
     virtual void SetIsBestImplementation(bool); // слот 58 | PC: name+stack (0xB79DA0)
     // поля
@@ -2694,13 +2694,13 @@ public:
     virtual void SetupGeometryNonFirstPass(const NiPropertyState*); // слот 68 | PC: name+stack (0xBE0E50)
     virtual void RestoreGeometryNonFirstPass(); // слот 69 | PC: name+stack (0xBE0E90)
     virtual NiD3DShaderDeclaration* GetShaderDecl(NiGeometry*, BSShaderProperty*); // слот 70 | PC: name+stack (0xB807C0)
-    virtual void CreateConstantMaps(); // слот 71 | PC: semantics [прототип только совместим по ABI] (0xB7E430)
+    virtual void _unverified_slot71(); // слот 71 | PC: semantics [прототип только совместим по ABI] (0xB7E430)
     virtual void ReloadShaders(); // слот 72 | PC: name+stack (0xB78980)
     virtual void ClearPassStages(); // слот 73 | PC: name+stack (0xBE0CE0)
     virtual void ClearPass(NiD3DPass*); // слот 74 | PC: name+stack (0xBE0FB0)
-    virtual bool CreateShaders(); // слот 75 | PC: semantics [прототип только совместим по ABI] (0xB606E0)
+    virtual void _unverified_slot75(); // слот 75 | PC: semantics [прототип только совместим по ABI] (0xB606E0)
     virtual bool CreateStagesAndPasses(); // слот 76 | PC: name+stack (0xBE08E0)
-    virtual bool CreateTextures(); // слот 77 | PC: semantics [прототип только совместим по ABI] (0xB606E0)
+    virtual void _unverified_slot77(); // слот 77 | PC: semantics [прототип только совместим по ABI] (0xB606E0)
     virtual void SetCurrentPass(int, bool); // слот 78 | PC: name+stack (0xB79DB0)
     // поля
     alignas(4) unsigned char spPass[4]; // NiPointer<NiD3DPass>[4 bytes] | PC: confirmed
@@ -2822,7 +2822,7 @@ public:
     alignas(4) unsigned char kGeomListFenceObject[4]; // NiPointer<NiTriBasedGeom> | PC: confirmed
     alignas(4) unsigned char spShadowCamera[4]; // NiPointer<NiCamera> | PC: confirmed
     alignas(4) unsigned char kShadowCameraPlanes[100]; // NiFrustumPlanes | PC: confirmed
-    alignas(4) unsigned char _unverified_pfClipSpacePlanes[96]; // строгая сборка: не подтверждено (float[96 bytes])
+    float pfClipSpacePlanes[24]; // PC: confirmed
     bool bClipSpacePlanesReady; // PC: confirmed
     unsigned char _pad209[0x3];
     alignas(4) unsigned char spShadowAccumulator[4]; // NiPointer<BSShaderAccumulator> | PC: confirmed
@@ -3343,7 +3343,7 @@ static_assert(offsetof(FalloutRadio::FORadioStation, pStation) == 0x0, "FalloutR
 static_assert(offsetof(FalloutRadio::FORadioStation, CurrentState) == 0x4, "FalloutRadio::FORadioStation::CurrentState");
 static_assert(alignof(FalloutRadio::FORadioStation) == 4, "alignof FalloutRadio::FORadioStation: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FalloutRadio::FORadioStation) == 0x24, "sizeof FalloutRadio::FORadioStation");
-static_assert(offsetof(RadioConvTask, _unverified_iRefCount) == 0x8, "RadioConvTask::_unverified_iRefCount");
+static_assert(offsetof(RadioConvTask, iRefCount) == 0x8, "RadioConvTask::iRefCount");
 static_assert(offsetof(RadioConvTask, eState) == 0xC, "RadioConvTask::eState");
 static_assert(offsetof(RadioConvTask, Key) == 0x10, "RadioConvTask::Key");
 static_assert(offsetof(RadioConvTask, eContext) == 0x18, "RadioConvTask::eContext");
@@ -3886,7 +3886,7 @@ static_assert(offsetof(ShadowSceneLight, kGeomListFence) == 0x138, "ShadowSceneL
 static_assert(offsetof(ShadowSceneLight, kGeomListFenceObject) == 0x13C, "ShadowSceneLight::kGeomListFenceObject");
 static_assert(offsetof(ShadowSceneLight, spShadowCamera) == 0x140, "ShadowSceneLight::spShadowCamera");
 static_assert(offsetof(ShadowSceneLight, kShadowCameraPlanes) == 0x144, "ShadowSceneLight::kShadowCameraPlanes");
-static_assert(offsetof(ShadowSceneLight, _unverified_pfClipSpacePlanes) == 0x1A8, "ShadowSceneLight::_unverified_pfClipSpacePlanes");
+static_assert(offsetof(ShadowSceneLight, pfClipSpacePlanes) == 0x1A8, "ShadowSceneLight::pfClipSpacePlanes");
 static_assert(offsetof(ShadowSceneLight, bClipSpacePlanesReady) == 0x208, "ShadowSceneLight::bClipSpacePlanesReady");
 static_assert(offsetof(ShadowSceneLight, spShadowAccumulator) == 0x20C, "ShadowSceneLight::spShadowAccumulator");
 static_assert(offsetof(ShadowSceneLight, kMultiboundRooms) == 0x210, "ShadowSceneLight::kMultiboundRooms");

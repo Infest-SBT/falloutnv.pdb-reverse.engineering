@@ -28767,6 +28767,7 @@ public-symbol,0x00AA8DA0,0x006A8DA0,??1AbstractHeap@@6A@,function,unclassified,n
 public-symbol,0x00AA9D00,0x006A9D00,nullsub_318,function,unclassified,not-in-registry
 public-symbol,0x00AA9D20,0x006A9D20,nullsub_317,function,unclassified,not-in-registry
 public-symbol,0x00AAA560,0x006AA560,_sub_AAA560,function,unclassified,not-in-registry
+public-symbol,0x00AAA650,0x006AA650,BSSaveDataSystemUtility::Func0003,function,unclassified,not-in-registry
 public-symbol,0x00AAA6D0,0x006AA6D0,return_this,function,unclassified,not-in-registry
 public-symbol,0x00AAA720,0x006AA720,nullsub_321,function,unclassified,not-in-registry
 public-symbol,0x00AAA730,0x006AA730,_sub_AAA730,function,unclassified,not-in-registry
