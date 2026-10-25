@@ -27,6 +27,12 @@ for full, subs in {'eax': ('ax', 'al', 'ah'), 'ebx': ('bx', 'bl', 'bh'), 'ecx': 
 CALLER_SAVED = {'eax', 'ecx', 'edx'}
 
 
+def is_branch(m):
+    """v0.5.7 (аудит Астры v0.5.6, P2): переход — j* и loop/loope/loopne (у loop* тоже есть цель; раньше они
+    считались обычными командами, и ребро на цель терялось)."""
+    return m.startswith('j') or m.startswith('loop')
+
+
 def canon(s):
     return re.sub(r'\s+', ' ', s.strip().lower())
 
@@ -116,14 +122,14 @@ def ret_prescan(ctx, f, end):
     только на пути, который тут же выходит. Адрес слота, взятый lea (может быть изменён через указатель), — тоже
     перезапись."""
     L = ctx.listing(f, end)
-    targets = {int(i.op_str, 16) for i in L if i.mnemonic.startswith('j') and i.op_str.startswith('0x')}
+    targets = {int(i.op_str, 16) for i in L if is_branch(i.mnemonic) and i.op_str.startswith('0x')}
     entry_end = None
     if f in targets:
         # на начало функции есть переход (цикл через вход): входной блок выполняется не один раз — его значения
         # на разных путях могут различаться; ничего не сохраняем
         return (L[1].address if len(L) > 1 else f), {'*'}, {'*'}
     for k, i in enumerate(L):
-        if k and (i.address in targets or L[k - 1].mnemonic.startswith('j') or L[k - 1].mnemonic == 'ret'):
+        if k and (i.address in targets or is_branch(L[k - 1].mnemonic) or L[k - 1].mnemonic == 'ret'):
             entry_end = i.address
             break
     tail = [False] * len(L)
@@ -132,7 +138,7 @@ def ret_prescan(ctx, f, end):
         m = L[k].mnemonic
         if m == 'ret':
             t_ = True
-        elif m.startswith('j'):
+        elif is_branch(m):
             t_ = False
         tail[k] = t_
     wr, ws = set(), set()
@@ -151,7 +157,7 @@ def jump_targets(ctx, L):
     (N + 1 элементов таблицы T). Косвенный переход другого вида — None (входы неизвестны)."""
     out = []
     for k, i in enumerate(L):
-        if not i.mnemonic.startswith('j'):
+        if not is_branch(i.mnemonic):
             continue
         if i.op_str.startswith('0x'):
             out.append((i.address, int(i.op_str, 16)))
@@ -219,14 +225,14 @@ def entry_this(ctx, def_va):
     """def_va — «mov [ebp+d], ecx» во входном блоке функции, и до неё ecx не перезаписан: слот = this на входе."""
     f, e = ctx.func(def_va)
     L = ctx.listing(f, e)
-    tg = {int(i.op_str, 16) for i in L if i.mnemonic.startswith('j') and i.op_str.startswith('0x')}
+    tg = {int(i.op_str, 16) for i in L if is_branch(i.mnemonic) and i.op_str.startswith('0x')}
     for k, i in enumerate(L):
         if i.address == def_va:
             ops = i.operands
             ok = (i.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == x86.X86_OP_MEM
                   and ops[1].type == x86.X86_OP_REG and i.reg_name(ops[1].reg) == 'ecx')
             return (True, 'ok') if ok else (False, f'0x{def_va:08X} не «mov [ebp+d], ecx»')
-        if (k and i.address in tg) or i.mnemonic.startswith('j') or i.mnemonic in ('ret', 'call'):
+        if (k and i.address in tg) or is_branch(i.mnemonic) or i.mnemonic in ('ret', 'call'):
             return False, 'не во входном блоке'
         if 'ecx' in _effects(i)[0]:
             return False, f'ecx перезаписан до 0x{def_va:08X}'
@@ -238,7 +244,7 @@ def entry_stack_arg(ctx, def_va):
     смещению ESP от начала функции (sub/add esp, imm; push; pop). (номер или None, текст)."""
     f, e = ctx.func(def_va)
     L = ctx.listing(f, e)
-    tg = {int(i.op_str, 16) for i in L if i.mnemonic.startswith('j') and i.op_str.startswith('0x')}
+    tg = {int(i.op_str, 16) for i in L if is_branch(i.mnemonic) and i.op_str.startswith('0x')}
     delta = 0
     for k, i in enumerate(L):
         if i.address == def_va:
@@ -250,7 +256,7 @@ def entry_stack_arg(ctx, def_va):
             if off < 4 or off % 4:
                 return None, f'[esp+0x{op.mem.disp:X}] при смещении ESP {delta} — не аргумент'
             return off // 4, f'[esp+0x{op.mem.disp:X}] при смещении ESP −{delta} = аргумент {off // 4}'
-        if (k and i.address in tg) or i.mnemonic.startswith('j') or i.mnemonic in ('ret', 'call'):
+        if (k and i.address in tg) or is_branch(i.mnemonic) or i.mnemonic in ('ret', 'call'):
             return None, 'не во входном блоке'
         if i.mnemonic == 'push':
             delta += 4
@@ -284,6 +290,75 @@ def _slot_ref(ins, disp, lo, hi):
     return False
 
 
+EH_MAGIC = (0x19930520, 0x19930521, 0x19930522)
+
+
+def eh_frame(ctx, f):
+    """v0.5.7 (аудит Астры v0.5.6, §5): может ли исключение вернуть управление внутрь функции f.
+    Кадр C++ EH у MSVC x86: во входном блоке «push -1; push H; mov eax, dword ptr fs:[0]», H — заглушка
+    «… mov eax, FuncInfo; jmp обработчик». В FuncInfo (магия 0x1993052x): maxState, таблица раскрутки
+    (состояние → действие), nTryBlocks. Если nTryBlocks = 0, блоков catch нет: исключение только раскручивает кадр
+    (действия раскрутки — деструкторы локальных объектов) и уходит из функции; вернуться внутрь, минуя начало
+    объекта, оно не может. Каждое действие раскрутки проверяется: прямой код без условных переходов, кончается
+    jmp/ret за пределы функции. Есть catch-блоки, другой обработчик (SEH __except) или кадр не разобран —
+    (False, причина): вывод по графу не принимается. Функция без fs:[0] — кадра обработки исключений нет."""
+    f_, e = ctx.func(f)
+    L = ctx.listing(f_, e)
+    fs = [k for k, i in enumerate(L) if 'fs:[0]' in i.op_str]
+    if not fs:
+        return True, 'кадра обработки исключений (fs:[0]) в функции нет'
+    k = fs[0]
+    if k < 2 or not (L[k - 2].mnemonic == 'push' and L[k - 2].op_str in ('-1', '0xffffffff')
+                     and L[k - 1].mnemonic == 'push' and L[k - 1].op_str.startswith('0x')
+                     and L[k].mnemonic == 'mov' and L[k].op_str == 'eax, dword ptr fs:[0]'):
+        return False, f'кадр fs:[0] не разобран (0x{L[k].address:08X})'
+    H = int(L[k - 1].op_str, 16)
+    stub = ctx.listing(H, H + 0x40)
+    fi = None
+    for j in range(len(stub) - 1):
+        a, b = stub[j], stub[j + 1]
+        if a.mnemonic == 'mov' and a.op_str.startswith('eax, 0x') and b.mnemonic == 'jmp':
+            fi = int(a.op_str.split(', ')[1], 16)
+            break
+        if a.mnemonic in ('ret', 'jmp'):
+            break
+    if fi is None:
+        return False, f'обработчик 0x{H:08X} не «mov eax, FuncInfo; jmp …» (не C++ EH — например, SEH __except)'
+    rd = lambda a, s='<I': __import__('struct').unpack_from(s, ctx.img, a - ctx.B)[0]
+    magic = rd(fi)
+    if magic not in EH_MAGIC:
+        return False, f'FuncInfo 0x{fi:08X}: магия 0x{magic:08X} — не C++ EH'
+    max_state, unwind, ntry = rd(fi + 4, '<i'), rd(fi + 8), rd(fi + 12)
+    if ntry:
+        return False, (f'FuncInfo 0x{fi:08X}: блоков try/catch {ntry} — продолжение после catch возвращает управление '
+                       'внутрь функции, это в графе не моделируется')
+    acts = []
+    for s in range(max_state):
+        to, act = rd(unwind + 8 * s, '<i'), rd(unwind + 8 * s + 4)
+        if not act:
+            acts.append(f'{s}→{to}: нет')
+            continue
+        body = []
+        for i in ctx.listing(act, act + 0x40):
+            body.append(i)
+            if i.mnemonic in ('jmp', 'ret') or len(body) > 8:
+                break
+        last = body[-1]
+        if last.mnemonic not in ('jmp', 'ret') or any(is_branch(x.mnemonic) and x.mnemonic != 'jmp' for x in body):
+            return False, f'действие раскрутки 0x{act:08X} — не прямой код до jmp/ret'
+        if last.mnemonic == 'jmp':
+            if not last.op_str.startswith('0x'):
+                return False, f'действие раскрутки 0x{act:08X}: косвенный jmp'
+            tg = int(last.op_str, 16)
+            if f_ <= tg < e:
+                return False, f'действие раскрутки 0x{act:08X} переходит внутрь функции (0x{tg:08X})'
+        acts.append(f'{s}→{to}: 0x{act:08X} «' + '; '.join(f'{x.mnemonic} {x.op_str}' for x in body) + '»')
+    flags = rd(fi + 0x20) if magic >= 0x19930522 else None
+    return True, (f'кадр C++ EH: FuncInfo 0x{fi:08X} (магия 0x{magic:08X}, состояний {max_state}, блоков try/catch 0'
+                  + (f', EHFlags {flags}' if flags is not None else '') + '); исключение только раскручивает кадр — '
+                  'действия раскрутки ' + '; '.join(acts) + ' — и уходит из функции, внутрь не возвращается')
+
+
 class CFG:
     """v0.5.6 (аудит Астры v0.5.5, О1): граф потока управления одной функции на уровне команд.
     Рёбра: jcc — цель и следующая команда; jmp — цель (или все цели таблицы switch); ret — нет; остальное (в том числе
@@ -308,7 +383,7 @@ class CFG:
                 s = []
             elif m == 'jmp':
                 s = tab.get(i.address, [])
-            elif m.startswith('j') or m.startswith('loop'):
+            elif is_branch(m):
                 s = tab.get(i.address, []) + ([nxt] if nxt else [])
             elif m == 'int3':
                 s = []
@@ -426,6 +501,11 @@ def check_stack_frame(ctx, p, claimed, last_field_end, align):
     ok_g, how = cfg_both_live(ctx, f, od, upper, nd, a['next_def'], a['obj_first'], (a['next_use'], a['obj_last']))
     if not ok_g:
         return False, upper, f'объект [ebp{od:+#x}] и переменная {loc}: {how}'
+    # v0.5.7: граф строится по обычным путям — исключения не должны возвращать управление внутрь функции
+    ok_e, eh = eh_frame(ctx, f)
+    if not ok_e:
+        return False, upper, f'исключения: {eh}'
+    how += f'; исключения: {eh}'
     life = (f'объект [ebp{od:+#x}] (начало 0x{a["obj_first"]:08X}, обращение 0x{a["obj_last"]:08X}); переменная {loc} '
             f'({width} байт; запись 0x{a["next_def"]:08X}, чтение 0x{a["next_use"]:08X}); {how} '
             f'⇒ sizeof ≤ 0x{upper:X}; конец последнего поля 0x{last_field_end:X}')

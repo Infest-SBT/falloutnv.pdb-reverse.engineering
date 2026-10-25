@@ -132,7 +132,7 @@ def this_accesses(f, limit, seed_ecx=True, gptr=None, gobj=None, chase=None, see
             snap = (set(own), set(own_slots), set(tgt), set(tgt_slots))
         if after_ret:
             AFTER_RET.add(ins.address)
-        if ins.mnemonic.startswith('j') and ins.op_str.startswith('0x'):
+        if chaincheck.is_branch(ins.mnemonic) and ins.op_str.startswith('0x'):
             t_ = int(ins.op_str, 16)
             if ins.address < t_ < end:
                 fwd.add(t_)
@@ -383,7 +383,7 @@ def derived_vtable_after(site, cname):
     n = 0
     for ins in md.disasm(img[site + 5 - B:site + 5 + 0x120 - B], site + 5):
         n += 1
-        if n > 40 or ins.mnemonic in ('ret', 'jmp') or ins.mnemonic.startswith('j'):
+        if n > 40 or ins.mnemonic in ('ret', 'jmp') or chaincheck.is_branch(ins.mnemonic):
             break
         ops = ins.operands
         if ins.mnemonic == 'mov' and len(ops) == 2:
@@ -642,7 +642,7 @@ def composition_proofs(acc, off, sub):
                     out.append((ia, txt + ('' if 'ecx' in regs else ' (первым аргументом на стеке)'), ins.address,
                                 name_at(int(ins.op_str, 16))))
                 break
-            if ins.mnemonic in ('ret', 'jmp') or ins.mnemonic.startswith('j') or n > 8:
+            if ins.mnemonic in ('ret', 'jmp') or chaincheck.is_branch(ins.mnemonic) or n > 8:
                 break
             try:
                 _, w = ins.regs_access()

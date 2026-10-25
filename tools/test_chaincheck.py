@@ -1,4 +1,4 @@
-"""v0.5.5: регрессионный тест машинных проверок (tools/chaincheck.py) — по аудиту Астры v0.5.4 (П1, П3, П5, П7).
+"""v0.5.5–v0.5.7: регрессионный тест машинных проверок (tools/chaincheck.py) — по аудиту Астры v0.5.4 (П1, П3, П5, П7).
 
 usage: python3 -I tools/test_chaincheck.py [FalloutNV.exe syms.tsv]
 
@@ -96,6 +96,35 @@ code7 = bytes.fromhex('8D4DF0' '8B45F0' 'C745F801000000' '8B45F8' '85C0' '75EC' 
 ok, up, why = cc.check_stack_frame(ctx_of(code7), {'obj_disp': '-0x10', 'next_disp': '-0x8', 'obj_first': '0x1000',
                                                    'obj_last': '0x1003', 'next_def': '0x1006', 'next_use': '0x100D'}, 8, 8, 4)
 check('stack-frame: объект в цикле мёртв, пока жива переменная — отказ', not ok, why[-90:])
+# K (v0.5.7, аудит Астры v0.5.6, P2): loop* — переход. Пример Астры: mov ecx, 2; loop 0x100A; lea edx, [ebp-0x10];
+# cmp eax, [ebp-8]; ret — команда 0x1007 НЕ доминирует 0x100A (есть путь 0x1005 -> 0x100A)
+K_ = ctx_of(bytes.fromhex('B902000000' 'E203' '8D55F0' '3B45F8' 'C3'))
+gK = cc.CFG(K_, 0x1000)
+check('loop: ребро на цель есть (0x1005 -> 0x100A)', 0x100A in gK.succ[0x1005], str(gK.succ[0x1005]))
+check('loop: 0x1007 не доминирует 0x100A (пример Астры)', not gK.dominates(0x1007, 0x100A))
+K2 = ctx_of(bytes.fromhex('B902000000' 'E203' '8D55F0' '8B02' 'C3'))     # …; lea edx, [ebp-0x10]; mov eax, [edx]; ret
+ok, why = cc.defuse_link(K2, 0x1007, 'edx', 0x100A)
+check('loop: вход перехода loop в участок def→use — отказ', not ok and 'вход перехода' in why, why)
+
+
+# L (v0.5.7, §5): кадр C++ EH — может ли исключение вернуться внутрь функции
+def eh_ctx(ntry=0, act_jmp=0x1300, with_fs=True):
+    img = bytearray(b'\xcc' * 0x400)
+    code = (bytes.fromhex('558BEC' '6AFF' '6800110000' '64A100000000' 'C3') if with_fs else bytes.fromhex('558BEC' 'C3'))
+    img[0:len(code)] = code
+    img[0x100:0x10A] = bytes.fromhex('B800120000' 'E9F6010000')                       # 0x1100: mov eax, 0x1200; jmp 0x1300
+    img[0x200:0x224] = struct.pack('<IiIIIIIII', 0x19930522, 1, 0x1220, ntry, 0, 0, 0, 0, 1)
+    img[0x220:0x228] = struct.pack('<iI', -1, 0x1240)
+    img[0x240:0x248] = bytes.fromhex('8D4DF0' 'E9') + struct.pack('<i', act_jmp - 0x1248)  # lea ecx, [ebp-0x10]; jmp
+    return cc.Ctx(md, bytes(img), 0x1000, lambda va: 0x1000, lambda f: 0x1000 + len(code))
+ok, why = cc.eh_frame(eh_ctx(), 0x1000)
+check('EH: catch-блоков нет, раскрутка уходит из функции — принято', ok, why[:80])
+ok, why = cc.eh_frame(eh_ctx(ntry=1), 0x1000)
+check('EH: есть блок try/catch — отказ (продолжение после catch не моделируется)', not ok, why[:80])
+ok, why = cc.eh_frame(eh_ctx(act_jmp=0x1003), 0x1000)
+check('EH: действие раскрутки переходит внутрь функции — отказ', not ok, why[:80])
+ok, why = cc.eh_frame(eh_ctx(with_fs=False), 0x1000)
+check('EH: кадра fs:[0] нет — принято', ok, why[:80])
 # I: точное сравнение текста
 I_ = ctx_of(bytes.fromhex('6A09' '6890000000' 'C3'))
 check('точное сравнение: «push 9» = «push 9»', I_.same(0x1000, 'push 9'))
