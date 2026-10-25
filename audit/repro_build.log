@@ -1,47 +1,7 @@
-# repro0514.sh — повтор всех проверок из чистой копии пакета (2026-10-25T16:51:11+05:00)
-#!/bin/bash
-# повтор всех проверок из самого пакета (как в README), в чистой копии
-set -e
-S=/tmp/claude-0/-home-claude/0ff6da26-f30f-5721-a8f9-462306d32c56/scratchpad
-R=$S/release/FalloutNV_PDB_v0.5.14; P=$S/repro0514; X=$S/pdb/FalloutNV.pdb; E=$S/exe/FalloutNV.exe
-rm -rf $P; cp -r $R $P; cd $P
-py(){ python3 -I -B "$@"; }
-py tools/make_syms.py $X syms.tsv | tail -1
-py tools/evidence.py research/fnv_types_v05_research.meta.json tools/evidence_spec.json syms.tsv $E out > /dev/null
-py tools/verify_change_flags.py research/fnv_types_v05_research.h $E out/change_flags.csv > /dev/null
-for v in sound_msg mem_context memory_passes; do py tools/verify_$v.py research/fnv_types_v05_research.h syms.tsv $E out/$v.csv > /dev/null; done
-py tools/verify_render_enums.py research/fnv_types_v05_research.h syms.tsv $E out > /dev/null
-py tools/report_extras.py tools/spec.json tools/evidence_spec.json research/fnv_types_v05_research.meta.json out > /dev/null
-py tools/verification.py out FalloutNV.pdb research/FalloutNV.pdb syms.tsv $E | tail -1   # v0.5.14: реестр статусов
-diff -r out evidence && echo EVIDENCE-IDENTICAL
-CL="clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti -Wno-invalid-offsetof"
-$CL -I. tools/fnv_types_v05.cpp -o s.obj && lld-link /dll /noentry /nodefaultlib /debug /pdb:s.pdb /out:s.dll s.obj
-$CL -Iresearch tools/fnv_types_v05_research.cpp -o r.obj && lld-link /dll /noentry /nodefaultlib /debug /pdb:r.pdb /out:r.dll r.obj
-py tools/merge_tpi.py $X s.pdb s_final.pdb | tail -1; py tools/merge_tpi.py $X r.pdb r_final.pdb | tail -1
-cmp s_final.pdb FalloutNV.pdb && cmp r_final.pdb research/FalloutNV.pdb && echo PDBS-IDENTICAL
-mkdir -p sb; py tools/scripts_src/build.py sb > /dev/null && diff -r sb scripts && echo SCRIPTS-IDENTICAL
-py tools/pdb_vs_meta.py FalloutNV.pdb fnv_types_v05.meta.json | tail -1
-py tools/pdb_vs_meta.py research/FalloutNV.pdb research/fnv_types_v05_research.meta.json | tail -1
-py tools/scripts_src/test_ghidra_mock.py evidence/summary.json scripts/fnv_apply_ghidra.py | tail -2
-py tools/scripts_src/test_ida_mock.py evidence/summary.json scripts/fnv_apply_ida.py | tail -2
-sha256sum FalloutNV.pdb research/FalloutNV.pdb
-python3 -c "import csv;print('RAW-MISMATCH', sum(r['status']=='MISMATCH' for r in csv.DictReader(open('out/evidence_vslots.csv',encoding='utf-8'))))"
-python3 -I tools/test_slot_forward.py | tail -1
-py tools/test_windows_check.py FalloutNV.pdb fnv_types_v05.meta.json $E test_manifest.json | grep -c '^OK'
-py tools/test_windows_check.py research/FalloutNV.pdb research/fnv_types_v05_research.meta.json $E test_manifest.json | grep -c '^OK'
-py tools/test_chaincheck.py $E syms.tsv | tail -1
-py tools/test_chaincheck.py | tail -1
-py tools/test_prefixview.py evidence/summary.json fnv_types_v05.h fnv_types_v05.meta.json | tail -1
-py tools/test_prefixview.py | tail -1
-py tools/msf_streams_diff.py FalloutNV.pdb s_final.pdb $X | grep -c "одинаков"
-py tools/test_verification.py . syms.tsv $E | tail -1
-py tools/test_verification.py | tail -1
-py tools/test_cpp_guard.py fnv_types_v05.h | tail -1
-# ---- вывод ----
 138171 symbols
-классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2203} функций unclassified: 0 публичных символов вне реестра: 135967
+классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2205} функций unclassified: 0 публичных символов вне реестра: 135965
 EVIDENCE-IDENTICAL
-TPI: типов 872 (индексы 0x1000..0x1367 включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
+TPI: типов 944 (индексы 0x1000..0x13AF включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
 TPI: типов 1006 (индексы 0x1000..0x13ED включительно), хэш-поток 11, aux 65535; потоков 12 -> r_final.pdb
 PDBS-IDENTICAL
 SCRIPTS-IDENTICAL
@@ -51,7 +11,7 @@ OK   ошибка: транзакция завершена с откатом (ok
 ИТОГ: всё прошло
 OK   чувствительность: функция Confirmed → VerifiedPrefix — её прототип снят, остальные на месте 0x00AE9FD0 BSGameSound::PriorityTest: 1 → 0
 ИТОГ: всё прошло
-b67b63a891e68fc2b3fd1df4278a7d639329c7d05c25347e58c82c309c2ad33a  FalloutNV.pdb
+3eab1841a655fe3f193f7526c57bc2c10bf028104dd7abf711053273861b3c46  FalloutNV.pdb
 d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4  research/FalloutNV.pdb
 RAW-MISMATCH 0
 ИТОГ: всё прошло
@@ -62,6 +22,8 @@ RAW-MISMATCH 0
 ИТОГ: всё прошло (67 проверок, из них отказов 27)
 ИТОГ: всё прошло (33 проверок, из них отказов 27)
 12
-ИТОГ: всё прошло (28 проверок)
+ИТОГ: всё прошло (30 проверок)
 ИТОГ: всё прошло (6 проверок)
 ИТОГ: всё прошло (16 проверок)
+ИТОГ: всё прошло
+ИТОГ: всё прошло

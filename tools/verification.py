@@ -23,6 +23,10 @@ v0.5.13 (аудит Астры v0.5.12):
   v0.5.14 (аудит Астры v0.5.13): A — this класса, не связанного с классом в исходном имени (other-class), не
        назначается без отдельного межклассового доказательства (CROSS_CLASS_THIS); фасет name_class; B — пустой
        bound_method_names (сравнивать не с чем) — unassessed, а не matched; name_binding_verified = false;
+  v0.6 (пункт Г): слот semantics доказывается структурировано (tools/slotproof.py, evidence/slot_proofs.csv):
+       машинный разбор тела или ручные факты с адресами + опоры положения слота. У доказательства — фасеты
+       return_verified и args_verified; прототип переносится на функцию (Confirmed), только если оба true (вместе с
+       прежними условиями: matched, name_class). Остальные слоты semantics — prototype_verified_for_binding = false;
   P3 — this_verified переименован в this_supported (это одобренное назначение по правилам плана, а не доказательство
        типа объекта), основание — this_basis: vtable-slot (слот semantics/name+stack своего класса) или
        method-heuristic (метод читает ECX до записи и обращается к полям).
@@ -36,7 +40,8 @@ CLI: python3 -I verification.py <evidence_dir> <strict.pdb> <research.pdb> <syms
 """
 import csv, hashlib, json, os, sys
 
-SCHEMA = 4          # v0.5.13: this_supported, привязка имени, привязки слотов; v0.5.14: unassessed, name_class (аудит Астры v0.5.13)
+SCHEMA = 5          # v0.5.13: this_supported, привязка имени, привязки слотов; v0.5.14: unassessed, name_class (аудит Астры v0.5.13);
+                    # v0.6: доказательства слотов (summary vslots.proof), фасеты привязки return_verified / args_verified
 STATUSES = ('Confirmed', 'VerifiedPrefix')
 IMAGE_BASE = 0x400000
 FACETS = ('address', 'this_supported', 'stack_bytes', 'name_binding', 'name_class', 'calling_convention', 'prototype',
@@ -140,7 +145,7 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
             v = c['vslots'][slot]
             owners.setdefault(v['pc_func_va'], []).append({'class': cls, 'via': 'vslot', 'slot': int(slot),
                                                            'status': v['status'], 'checked_on': v.get('checked_on'),
-                                                           'decl': v['decl'],
+                                                           'decl': v['decl'], 'proof': v.get('proof'),
                                                            'xbox_name': xbn.get((cls, int(slot)), v.get('name'))})
     for va, rs in ident.items():
         for r in rs:
@@ -180,8 +185,10 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
         this_basis = (('vtable-slot' if any(o['status'] in ('semantics', 'name+stack') for o in slot_of_this)
                        else 'method-heuristic') if this_ok else None)
         sem_slots = [o for o in slot_of_this if o['status'] == 'semantics'] if this_ok else []
+        # v0.6: на функцию переносится только полностью доказанный прототип слота (результат и аргументы)
+        full = lambda o: bool((o.get('proof') or {}).get('return_verified')) and bool((o.get('proof') or {}).get('args_verified'))
         proto_r, proto_s = plan_r.get(va, {}).get('proto'), plan_s.get(va, {}).get('proto')
-        sem = bool(sem_slots) and bool(proto_r or proto_s)
+        sem = any(full(o) for o in sem_slots) and bool(proto_r or proto_s)
         # P1: привязка исходного имени адреса к доказанным методам (имена слотов vtable по Xbox PDB, имена методов
         # и ручных опознаний, если они не совпадают с самим публичным именем)
         short0 = name0.rsplit('::', 1)[-1]
@@ -217,8 +224,12 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
                   'prototype': proto_ok, 'return_type': proto_ok, 'argument_types': proto_ok}
         sem_bind = [{'class': o['class'], 'slot': o['slot'], 'xbox_name': o.get('xbox_name'), 'decl': o['decl'],
                      'status': 'semantics', 'prototype_scope': 'binding',
-                     'prototype_verified_for_binding': True,
-                     'applies_to_function': proto_ok} for o in sem_slots]
+                     'proof_kind': (o.get('proof') or {}).get('kind'),
+                     'slot_anchor': (o.get('proof') or {}).get('anchor'),
+                     'return_verified': bool((o.get('proof') or {}).get('return_verified')),
+                     'args_verified': bool((o.get('proof') or {}).get('args_verified')),
+                     'prototype_verified_for_binding': full(o),
+                     'applies_to_function': proto_ok and full(o)} for o in sem_slots]
         key = {'exe_id': summary['exe_sha256'][:16], 'rva': f'0x{va - IMAGE_BASE:08X}', 'original_name': name0,
                'symbol_kind': kind}
         rec = {'key': key, 'va': f'0x{va:08X}', 'original_name': name0,

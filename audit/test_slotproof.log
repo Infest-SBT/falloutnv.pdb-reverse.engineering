@@ -1,0 +1,69 @@
+OK   xor eax,eax; ret → указатель 
+OK   xor eax,eax; ret → bool 
+OK   xor eax,eax; ret → unsigned 
+OK   xor eax,eax; ret → float отвергнут 
+OK   xor eax,eax; ret → void: не доказано, но не противоречит 
+OK   ret 0 при ожидаемых 4 — противоречие 
+OK   return this: класс тот же — доказано 
+OK   return this: базовый класс в типе — доказано 
+OK   return this: чужой класс в типе — противоречие 
+OK   указатель = константа 5 — противоречие 
+OK   bool = 5 — противоречие 
+OK   xor al,al; ret 4 → bool(int) 
+OK   al → int32 отвергнут (старшие байты не определены) 
+OK   mov ax → unsigned short 
+OK   mov ax → unsigned отвергнут 
+OK   fld; ret → float 
+OK   fld; ret → int отвергнут 
+OK   пустое тело ret 0xC → void(float,float,float) доказан 
+OK   neg/sbb/neg → bool 
+OK   чтение [esp+8] при ret 4 — за очищаемой областью 
+OK   x87-чтение целого аргумента — противоречие 
+OK   x87-чтение float-аргумента — доказано 
+OK   mov al,1 → bool 
+OK   объект по значению — не проверяется 
+OK   прямой jmp → ret 4 вызываемой 
+OK   собственный слот [[this]+8] при ecx = this → ret 8 слота 2 
+OK   ecx = поле this — не разрешается (тип объекта с Xbox) 
+OK   esp не равен входному на переходе — отказ 
+OK   вызов за пределы образа — отказ символического разбора, очистка по графу 
+OK   цикл — отказ символического разбора 
+OK   цикл: очистка по графу = 4 
+OK   вызов с очисткой 4 — esp сбалансирован, ret 0 
+OK   cdecl-вызов без add esp — ret при смещённом esp: отказ разбора путей 
+OK   float от вызванной функции остаётся результатом 
+OK   …и не принимается за указатель 
+OK   опоры 0..3 для слота 1 
+OK   нет опоры выше для слота 4 
+OK   конец vtable как опора (длина = числу слотов) 
+OK   длина vtable больше — конца как опоры нет 
+OK   semantics не служит опорой 
+OK   ручное: верные факты принимаются 
+OK   ручное: другой текст команды — отказ 
+OK   ручное: адрес не начало команды — отказ 
+OK   ручное: ret достижим в обход определения результата — отказ 
+OK   ручное: ret N другой — отказ 
+OK   ручное: недостижимой команды нет — все ret достижимы 
+OK   ручное: недостижимая команда — отказ 
+OK   exe: Ret0 (0x00E7CD40) → NiNode* IsNode() 
+OK   exe: _this (0x00E68810) → NiGeometry* IsGeometry() на NiGeometry 
+OK   exe: _this на NiNode как NiGeometry* — противоречие 
+OK   exe: GetEnvMapLODFade (0x00B66C40) → float 
+OK   exe: GetEnvMapLODFade как unsigned — противоречие 
+OK   exe: переходник j_NiAVObject::SetBound (0x00A7FDB0) → ret 4 через jmp 
+OK   exe: PostAttachUpdate (0x00A59CF0) — вызов метода родителя не разрешается 
+OK   пакет: каждый слот semantics в evidence_vslots.csv имеет прошедшее доказательство в slot_proofs.csv 
+OK   пакет: у каждого прошедшего доказательства есть обе опоры 
+OK   пакет: каждая опора — строка той же vtable со статусом name+stack до шага semantics (status_raw) 
+OK   пакет: у каждого прошедшего очистка стека = ожидаемой 
+OK   пакет: у каждого слота semantics в summary.json есть proof с фасетами 
+OK   пакет: ручное BSGameSound[8] воспроизводится 
+OK   пакет: ручное BSGameSound[8] с испорченным текстом факта — отказ 
+OK   пакет: ручное BSGameSound[8] с чужим определением результата — отказ 
+OK   пакет: ручное BSWin32Audio[5] воспроизводится 
+OK   пакет: ручное BSWin32Audio[5] с испорченным текстом факта — отказ 
+OK   пакет: ручное BSWin32Audio[5] с чужим определением результата — отказ 
+OK   пакет: ручное BSWin32Audio[6] воспроизводится 
+OK   пакет: ручное BSWin32Audio[6] с испорченным текстом факта — отказ 
+
+ИТОГ: всё прошло

@@ -1340,5 +1340,178 @@
    ],
    "containers": []
   }
+ },
+ "slot_proofs": {
+  "_doc": "v0.6 (пункт Г): ручные структурированные доказательства прототипов слотов. Ключ — класс проверяемой vtable, затем номер слота. va — функция в слоте (сверяется). facts — команды с точным текстом; проверка: команда по адресу, в теле функции (или в вызываемой функции, поле in), достижима от входа. return_defs — каждая достижимая ret достигается только через одну из этих команд. return_verified / args_verified — утверждения автора, допускаются только при прохождении всех проверок; основание — facts.",
+  "BSGameSound": {
+   "8": {
+    "va": "0x00AE9FD0",
+    "decl": "bool PriorityTest(BSGameSound*)",
+    "return_defs": [
+     "0x00AE9FEB"
+    ],
+    "return_verified": true,
+    "args_verified": true,
+    "facts": [
+     {
+      "va": "0x00AE9FDA",
+      "insn": "mov ecx, dword ptr [ebp + 8]",
+      "role": "arg",
+      "note": "аргумент 1 (единственный, ret 4) — в ecx"
+     },
+     {
+      "va": "0x00AE9FDD",
+      "insn": "mov edx, dword ptr [eax + 0x188]",
+      "role": "this",
+      "note": "this->iPriority (+0x188, поле BSGameSound)"
+     },
+     {
+      "va": "0x00AE9FE3",
+      "insn": "cmp edx, dword ptr [ecx + 0x188]",
+      "role": "arg",
+      "note": "аргумент разыменовывается по тому же смещению +0x188 — указатель на объект с раскладкой BSGameSound"
+     },
+     {
+      "va": "0x00AE9FE9",
+      "insn": "sbb eax, eax",
+      "role": "return",
+      "note": "eax = (this->iPriority < arg->iPriority) ? -1 : 0"
+     },
+     {
+      "va": "0x00AE9FEB",
+      "insn": "neg eax",
+      "role": "return",
+      "note": "eax ∈ {0, 1} — bool"
+     },
+     {
+      "va": "0x00AE9FF0",
+      "insn": "ret 4",
+      "role": "stack",
+      "note": "очистка 4 байт — один аргумент"
+     }
+    ]
+   }
+  },
+  "BSWin32Audio": {
+   "5": {
+    "va": "0x00AEA5C0",
+    "decl": "BSGameSound* CreateNewGameSound(const char*)",
+    "return_defs": [
+     "0x00AEA62C"
+    ],
+    "return_verified": true,
+    "args_verified": true,
+    "facts": [
+     {
+      "va": "0x00AEA5E8",
+      "insn": "push 0x230",
+      "role": "return",
+      "note": "размер выделения 0x230 = sizeof(BSWin32GameSound) на PC (доказан, evidence_sizes.csv)"
+     },
+     {
+      "va": "0x00AEA5F2",
+      "insn": "call 0xaa3e40",
+      "role": "return",
+      "note": "MemoryManager::Allocate"
+     },
+     {
+      "va": "0x00AEA607",
+      "insn": "mov eax, dword ptr [ebp + 8]",
+      "role": "arg",
+      "note": "аргумент 1 (ret 4)"
+     },
+     {
+      "va": "0x00AEA60A",
+      "insn": "push eax",
+      "role": "arg",
+      "note": "передаётся конструктору BSWin32GameSound"
+     },
+     {
+      "va": "0x00AEA60E",
+      "insn": "call 0xaeac20",
+      "role": "return",
+      "note": "BSWin32GameSound::BSWin32GameSound (this = выделенный блок)"
+     },
+     {
+      "va": "0x00AEA613",
+      "insn": "mov dword ptr [ebp - 0x1c], eax",
+      "role": "return",
+      "note": "результат конструктора (this нового объекта)"
+     },
+     {
+      "va": "0x00AEA618",
+      "insn": "mov dword ptr [ebp - 0x1c], 0",
+      "role": "return",
+      "note": "при неудачном выделении — 0"
+     },
+     {
+      "va": "0x00AEA62C",
+      "insn": "mov eax, dword ptr [ebp - 0x10]",
+      "role": "return",
+      "note": "eax = [ebp-0x10] = [ebp-0x1c] (0x00AEA61F/0x00AEA622) — указатель на BSWin32GameSound или 0; команд x87 в теле нет"
+     },
+     {
+      "va": "0x00AEAC6A",
+      "insn": "call 0xec6130",
+      "role": "arg",
+      "note": "в конструкторе аргумент [ebp+8] передаётся strlen — строка",
+      "in": "0x00AEAC20"
+     },
+     {
+      "va": "0x00AEAC87",
+      "insn": "call 0xec65a6",
+      "role": "arg",
+      "note": "и копируется strcpy_s — строка только читается (const char*)",
+      "in": "0x00AEAC20"
+     }
+    ]
+   },
+   "6": {
+    "va": "0x00AEA640",
+    "decl": "void FixSoundPath(char*)",
+    "return_defs": null,
+    "return_verified": false,
+    "args_verified": true,
+    "facts": [
+     {
+      "va": "0x00AEA663",
+      "insn": "mov eax, dword ptr [ebp + 8]",
+      "role": "arg",
+      "note": "аргумент 1 (ret 4)"
+     },
+     {
+      "va": "0x00AEA666",
+      "insn": "movsx ecx, byte ptr [eax]",
+      "role": "arg",
+      "note": "читается символ строки: 'f','x' / 's','o','n','g'"
+     },
+     {
+      "va": "0x00AEA6CB",
+      "insn": "mov edx, dword ptr [ebp + 8]",
+      "role": "arg",
+      "note": "аргумент — приёмник"
+     },
+     {
+      "va": "0x00AEA6CF",
+      "insn": "call 0xec65a6",
+      "role": "arg",
+      "note": "strcpy_s(arg, 0x104, \"Data\\\\Sound\\\\\") — строка изменяемая (char*), буфер MAX_PATH"
+     },
+     {
+      "va": "0x00AEA6E7",
+      "insn": "call 0xec6bd2",
+      "role": "arg",
+      "note": "strcat_s(arg, 0x104, копия) — дописывает исходный путь"
+     },
+     {
+      "va": "0x00AEA6FC",
+      "insn": "ret 4",
+      "role": "stack",
+      "note": "очистка 4 байт"
+     }
+    ],
+    "verdict": "void-consistent"
+   }
+  }
  }
 }

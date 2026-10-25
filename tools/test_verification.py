@@ -77,13 +77,26 @@ if len(sys.argv) > 3:
           not bad, ', '.join(bad[:5]))
     nc = sum(1 for f in reg['functions'] if f['verification_status'] == 'Confirmed')
     sb = [f for f in reg['functions'] if f['semantic_bindings']]
-    check('у всех адресов плана с прототипом semantics — привязка слота в semantic_bindings',
-          {int(f['va'], 16) for f in sb} == {va for va, e in plan.items() if e['proto']}, str(len(sb)))
+    pp = {va for va, e in plan.items() if e['proto']}
+    sbv = {int(f['va'], 16) for f in sb}
+    check('у всех адресов плана с прототипом semantics — привязка слота в semantic_bindings', pp <= sbv,
+          f'{len(pp)} в плане, {len(sbv)} с привязками')
+    # v0.6: слотов semantics стало много; у общего тела нескольких слотов (ICF) план прототип не выбирает
+    # (несколько прототипов) — привязки слотов записаны, но на функцию не переносятся
+    check('v0.6: привязки без единственного кандидата плана на функцию не переносятся',
+          all(not b['applies_to_function'] for f in sb if int(f['va'], 16) not in pp for b in f['semantic_bindings']))
+    full = lambda f: any(b['return_verified'] and b['args_verified'] for b in f['semantic_bindings'])
+    check('v0.6: прототип на функцию — только при полностью доказанном слоте (return_verified и args_verified)',
+          all(full(f) for f in reg['functions'] if f['prototype_verified'] is True)
+          and all(b['prototype_verified_for_binding'] == (b['return_verified'] and b['args_verified'])
+                  for f in sb for b in f['semantic_bindings']))
     check('v0.5.13 P1: Confirmed — только привязка имени matched; ICF/чужое имя — VerifiedPrefix без прототипа',
-          nc == sum(1 for f in sb if f['name_binding_status'] == 'matched') and all(
-              (f['verification_status'] == 'Confirmed') == (f['name_binding_status'] == 'matched')
-              and bool(any(f['apply_signature'].values())) == (f['name_binding_status'] == 'matched')
-              and all(b['applies_to_function'] == (f['name_binding_status'] == 'matched') for b in f['semantic_bindings'])
+          all((f['verification_status'] == 'Confirmed') == (f['name_binding_status'] == 'matched'
+                                                               and int(f['va'], 16) in pp and full(f)
+                                                               and f['name_class_verified'])
+              and bool(any(f['apply_signature'].values())) == (f['verification_status'] == 'Confirmed')
+              and all(b['applies_to_function'] == (f['verification_status'] == 'Confirmed' and b['prototype_verified_for_binding'])
+                      for b in f['semantic_bindings'])
               for f in sb), f'Confirmed {nc} из {len(sb)}')
     A = {'0x004011B0': 'icf-shared', '0x004011D0': 'icf-shared', '0x00549580': 'name-conflict', '0x007AF430': 'name-conflict'}
     FA = {f['va']: f for f in reg['functions']}
@@ -109,15 +122,19 @@ if len(sys.argv) > 3:
                   for f in reg['functions']))
     n_s = sum(1 for f in reg['functions'] if f['apply_this']['strict'])
     n_r = sum(1 for f in reg['functions'] if f['apply_this']['research'])
-    check('назначения this: план v0.5.11 минус 6 межклассовых (строгий 1458, research 1459)', (n_s, n_r) == (1458, 1459),
-          f'{n_s} / {n_r}')
+    # v0.6: +23 this по слотам, доказанным в v0.6 (хвостовой переход → name+stack, semantics), −1 (0x00C9A420 — общее
+    # тело теперь у слотов нескольких иерархий: конфликт this); список — audit/status_migration_v0514_v06.md
+    check('назначения this: v0.5.14 (1458 / 1459) + 23 по слотам v0.6 − 1 конфликт (строгий 1480, research 1481)',
+          (n_s, n_r) == (1480, 1481), f'{n_s} / {n_r}')
     SIX = ['0x007AF430', '0x00833150', '0x00A815C0', '0x00B807C0', '0x00BE0CE0', '0x00C9A420']
-    check('v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена и привязки слотов те же',
+    check('v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена те же',
           all(FA[v]['name_class_relation'] == 'other-class' and FA[v]['name_class_verified'] is False
-              and FA[v]['this_supported'] is True and not any(FA[v]['apply_this'].values())
+              and not any(FA[v]['apply_this'].values())
               and not any(FA[v]['apply_signature'].values()) and FA[v]['original_name'] == pub[v]
               for v in SIX for pub in [{f['va']: f['original_name'] for f in reg['functions']}])
-          and sorted(reg['coverage']['this_suppressed_other_class']) == SIX)
+          and set(SIX[:5]) <= set(reg['coverage']['this_suppressed_other_class'])
+          and all(FA[v]['this_supported'] is True for v in SIX[:5])
+          and FA['0x00C9A420']['this_supported'] is False)
     check('v0.5.14 A: this не назначается ни одной функции с классом в имени из другой иерархии без доказательства',
           not any(any(f['apply_this'].values()) for f in reg['functions'] if f['name_class_relation'] == 'other-class'
                   and not f['this_cross_class_proof']))

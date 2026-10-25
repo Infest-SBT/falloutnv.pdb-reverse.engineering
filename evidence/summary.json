@@ -567,8 +567,19 @@
      "status": "semantics",
      "checked_on": "TESForm",
      "pc_func_va": 5543296,
-     "manual": true,
-     "note": "0x549580: test iFormFlags & 0x40, bool => GetHasSpokenFlag; имя PC GetLODTree — описательное"
+     "manual": false,
+     "note": "0x549580: test iFormFlags & 0x40, bool => GetHasSpokenFlag; имя PC GetLODTree — описательное",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "GetHavokDeath",
@@ -585,8 +596,19 @@
      "status": "semantics",
      "checked_on": "TESForm",
      "pc_func_va": 4198832,
-     "manual": true,
-     "note": "0x4011B0 = та же функция, что слот 39 (& 0x10000): компоновщик склеил одинаковые тела (ICF)"
+     "manual": false,
+     "note": "0x4011B0 = та же функция, что слот 39 (& 0x10000): компоновщик склеил одинаковые тела (ICF)",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       39,
+       41
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "GetNeedtoChangeProcess",
@@ -603,8 +625,19 @@
      "status": "semantics",
      "checked_on": "TESForm",
      "pc_func_va": 4198864,
-     "manual": true,
-     "note": "0x4011D0 = та же функция, что слот 41 (& 0x20000): ICF"
+     "manual": false,
+     "note": "0x4011D0 = та же функция, что слот 41 (& 0x20000): ICF",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       41,
+       44
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "GetHasPLSpecTex",
@@ -612,8 +645,19 @@
      "status": "semantics",
      "checked_on": "TESForm",
      "pc_func_va": 4198896,
-     "manual": true,
-     "note": "0x4011F0: test iFormFlags & 0x80000 => GetHasPLSpecTex; имя PC GetHasSpecificTextures"
+     "manual": false,
+     "note": "0x4011F0: test iFormFlags & 0x80000 => GetHasPLSpecTex; имя PC GetHasSpecificTextures",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       41,
+       44
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "GetObstacle",
@@ -648,8 +692,19 @@
      "status": "semantics",
      "checked_on": "TESForm",
      "pc_func_va": 4737488,
-     "manual": true,
-     "note": "0x4849D0: or/and iFormFlags 0x200 = пара к слоту 46 GetOnLocalMap (& 0x200) => SetOnLocalMap; имя PC SetCastsShadows"
+     "manual": false,
+     "note": "0x4849D0: or/and iFormFlags 0x200 = пара к слоту 46 GetOnLocalMap (& 0x200) => SetOnLocalMap; имя PC SetCastsShadows",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       46,
+       49
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "48": {
      "name": "GetEmittanceColor",
@@ -693,8 +748,19 @@
      "status": "semantics",
      "checked_on": "TESForm",
      "pc_func_va": 4737200,
-     "manual": true,
-     "note": "0x4848B0: or/and iFormFlags 0x40 = пара к слоту 38 => SetHasSpokenFlag; имя PC SetTalkedToPC"
+     "manual": false,
+     "note": "0x4848B0: or/and iFormFlags 0x40 = пара к слоту 38 => SetHasSpokenFlag; имя PC SetTalkedToPC",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       51,
+       53
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "53": {
      "name": "SetHavokDeath",
@@ -5594,8 +5660,19 @@
      "status": "semantics",
      "checked_on": "BSGameSound",
      "pc_func_va": 11443984,
-     "manual": true,
-     "note": "0xAE9F10: читает this+0x10 (iStateFlags), and 0x80000, возвращает bool, ret без аргументов => bool IsInDecay(). Имя PC GetState80000 — описательное"
+     "manual": false,
+     "note": "0xAE9F10: читает this+0x10 (iStateFlags), and 0x80000, возвращает bool, ret без аргументов => bool IsInDecay(). Имя PC GetState80000 — описательное",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       1,
+       3
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "3": {
      "name": "IsPaused",
@@ -5639,8 +5716,19 @@
      "status": "semantics",
      "checked_on": "BSGameSound",
      "pc_func_va": 11444224,
-     "manual": true,
-     "note": "0xAEA000: сравнивает this->iPriority (+0x188) со значением аргумента, ret 4 => PriorityTest(unsigned). Имя PC ComparePriority"
+     "manual": false,
+     "note": "0xAEA000: сравнивает this->iPriority (+0x188) со значением аргумента, ret 4 => PriorityTest(unsigned). Имя PC ComparePriority",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       6,
+       8
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "PriorityTest_2",
@@ -5649,7 +5737,18 @@
      "checked_on": "BSGameSound",
      "pc_func_va": 11444176,
      "manual": true,
-     "note": "0xAE9FD0: читает +0x188 у объекта-аргумента, ret 4 => PriorityTest(BSGameSound*)"
+     "note": "0xAE9FD0: читает +0x188 у объекта-аргумента, ret 4 => PriorityTest(BSGameSound*)",
+     "proof": {
+      "kind": "manual",
+      "anchor": [
+       6,
+       10
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "Open",
@@ -5771,11 +5870,22 @@
     "22": {
      "name": "SetEmitterOrientation",
      "decl": "void SetEmitterOrientation(float, float, float)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32GameSound",
      "pc_func_va": 11468176,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       21,
+       23
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "23": {
      "name": "SetMinMax",
@@ -6786,11 +6896,22 @@
     "2": {
      "name": "IsInDecay",
      "decl": "bool IsInDecay()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32GameSound",
      "pc_func_va": 11443984,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       1,
+       3
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "3": {
      "name": "IsPaused",
@@ -6831,11 +6952,22 @@
     "7": {
      "name": "PriorityTest",
      "decl": "bool PriorityTest(unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32GameSound",
      "pc_func_va": 11444224,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       6,
+       8
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "PriorityTest_2",
@@ -6966,11 +7098,22 @@
     "22": {
      "name": "SetEmitterOrientation",
      "decl": "void SetEmitterOrientation(float, float, float)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32GameSound",
      "pc_func_va": 11468176,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       21,
+       23
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "23": {
      "name": "SetMinMax",
@@ -7648,20 +7791,42 @@
     "5": {
      "name": "CreateNewGameSound",
      "decl": "BSGameSound* CreateNewGameSound(const char*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32Audio",
      "pc_func_va": 11445696,
-     "manual": false,
-     "note": ""
+     "manual": true,
+     "note": "",
+     "proof": {
+      "kind": "manual",
+      "anchor": [
+       2,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "FixSoundPath",
      "decl": "void FixSoundPath(char*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32Audio",
      "pc_func_va": 11445824,
-     "manual": false,
-     "note": ""
+     "manual": true,
+     "note": "",
+     "proof": {
+      "kind": "manual",
+      "anchor": [
+       2,
+       "end"
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "PrintDebugInfo",
@@ -8261,20 +8426,42 @@
     "5": {
      "name": "CreateNewGameSound",
      "decl": "BSGameSound* CreateNewGameSound(const char*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32Audio",
      "pc_func_va": 11445696,
-     "manual": false,
-     "note": ""
+     "manual": true,
+     "note": "",
+     "proof": {
+      "kind": "manual",
+      "anchor": [
+       2,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "FixSoundPath",
      "decl": "void FixSoundPath(char*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSWin32Audio",
      "pc_func_va": 11445824,
-     "manual": false,
-     "note": ""
+     "manual": true,
+     "note": "",
+     "proof": {
+      "kind": "manual",
+      "anchor": [
+       2,
+       "end"
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "PrintDebugInfo",
@@ -11739,11 +11926,22 @@
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "AbstractHeap",
      "pc_func_va": 11181328,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       8,
+       17
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "DoHeapAllocation",
@@ -11766,20 +11964,42 @@
     "14": {
      "name": "CreateMorePages",
      "decl": "unsigned CreateMorePages(void*, unsigned, unsigned)",
-     "status": "name+stack",
-     "checked_on": "MemoryHeap",
-     "pc_func_va": 11172432,
+     "status": "semantics",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183696,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       8,
+       17
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "15": {
      "name": "CleanExtraPages",
      "decl": "unsigned CleanExtraPages(void*, unsigned, unsigned)",
-     "status": "name+stack",
-     "checked_on": "MemoryHeap",
-     "pc_func_va": 11172528,
+     "status": "semantics",
+     "checked_on": "AbstractHeap",
+     "pc_func_va": 11183696,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       8,
+       17
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "16": {
      "name": "DecommitPages",
@@ -12169,11 +12389,22 @@
     "11": {
      "name": "CheckDelayedFreeBlocks",
      "decl": "void CheckDelayedFreeBlocks()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "MemoryHeap",
      "pc_func_va": 11181328,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       10,
+       12
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "DoHeapAllocation",
@@ -13600,11 +13831,22 @@
     "0": {
      "name": "GetForm",
      "decl": "TESForm* GetForm()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BGSSaveFormBuffer",
      "pc_func_va": 8057904,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       "start",
+       1
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "1": {
      "name": "GetReference",
@@ -13874,8 +14116,19 @@
      "status": "semantics",
      "checked_on": "BGSSaveFormBuffer",
      "pc_func_va": 8057904,
-     "manual": true,
-     "note": "0x7AF430: возвращает this+0x20 (pForm), ret без аргументов => GetForm(); тело склеено (ICF) с TESObjectREFR::GetObjectReference, отсюда чужое имя"
+     "manual": false,
+     "note": "0x7AF430: возвращает this+0x20 (pForm), ret без аргументов => GetForm(); тело склеено (ICF) с TESObjectREFR::GetObjectReference, отсюда чужое имя",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       "start",
+       1
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "1": {
      "name": "GetReference",
@@ -21541,11 +21794,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiObject",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -21559,20 +21813,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "name+stack",
-     "checked_on": "NiGeometryData",
-     "pc_func_va": 10907536,
+     "status": "semantics",
+     "checked_on": "NiObject",
+     "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "name+stack",
-     "checked_on": "NiGeometryData",
-     "pc_func_va": 10906048,
+     "status": "semantics",
+     "checked_on": "NiObject",
+     "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -22125,11 +22401,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiObjectNET",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -22143,20 +22420,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiObjectNET",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiObjectNET",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -23733,11 +24032,22 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiNode",
      "pc_func_va": 6821312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
@@ -23760,11 +24070,22 @@
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometry",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
@@ -23967,11 +24288,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAVObject",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -23985,20 +24307,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAVObject",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAVObject",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -24093,11 +24437,22 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "name+stack",
-     "checked_on": "NiNode",
-     "pc_func_va": 10871280,
+     "status": "semantics",
+     "checked_on": "NiAVObject",
+     "pc_func_va": 10854352,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       44
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -24906,20 +25261,42 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiNode",
      "pc_func_va": 6821312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSFadeNode",
      "pc_func_va": 6821312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
@@ -25140,38 +25517,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiNode",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiNode",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiNode",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiNode",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -26115,20 +26516,42 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSFadeNode",
      "pc_func_va": 6821312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSFadeNode",
      "pc_func_va": 6821312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
@@ -26259,20 +26682,22 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 11853536,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 11118384,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
@@ -26286,20 +26711,22 @@
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 11853584,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 11853600,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -26349,38 +26776,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSFadeNode",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSFadeNode",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -26457,11 +26908,12 @@
     "41": {
      "name": "UpdateDownwardPass",
      "decl": "void UpdateDownwardPass(NiUpdateData*, unsigned)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSFadeNode",
      "pc_func_va": 11853520,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "42": {
      "name": "UpdateSelectedDownwardPass",
@@ -27176,38 +27628,42 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiProperty",
      "pc_func_va": 10777440,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiProperty",
      "pc_func_va": 10887472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
      "status": "name+stack",
-     "checked_on": "NiShadeProperty",
-     "pc_func_va": 11015616,
+     "checked_on": "NiProperty",
+     "pc_func_va": 10868656,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
      "status": "name+stack",
-     "checked_on": "NiShadeProperty",
-     "pc_func_va": 11118000,
+     "checked_on": "NiProperty",
+     "pc_func_va": 10887488,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -27257,11 +27713,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiProperty",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -27275,20 +27732,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       36
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       36
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -27663,20 +28142,22 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiShadeProperty",
      "pc_func_va": 11096256,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiShadeProperty",
      "pc_func_va": 11116096,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
@@ -27744,11 +28225,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiShadeProperty",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -27762,20 +28244,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShadeProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShadeProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -28499,20 +29003,22 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 12225136,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 12225152,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
@@ -28580,11 +29086,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -28598,20 +29105,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -28652,56 +29181,112 @@
     "37": {
      "name": "CopyTo",
      "decl": "void CopyTo(BSShaderProperty*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 12225184,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "38": {
      "name": "CopyToMembers",
      "decl": "void CopyToMembers(BSShaderProperty*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 12226400,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "39": {
      "name": "SetupGeometry",
      "decl": "bool SetupGeometry(NiGeometry*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "GetRenderPasses",
      "decl": "void* GetRenderPasses(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 12225168,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "GetNumberofPasses",
      "decl": "unsigned short GetNumberofPasses(NiGeometry*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 13921424,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "GetSIBlockRenderPasses",
      "decl": "void* GetSIBlockRenderPasses()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 10968848,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "GetRenderDepthPass",
@@ -28715,20 +29300,42 @@
     "44": {
      "name": "ClarifyShader",
      "decl": "BSShaderProperty* ClarifyShader(NiGeometry*, bool, bool)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 11894720,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "45": {
      "name": "GetBaseTexture",
      "decl": "NiTexture* GetBaseTexture()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetWaterFogPassList",
@@ -29670,37 +30277,41 @@
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
      "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11963840,
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 11993696,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
      "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11954048,
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 11990112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
      "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11954144,
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 12334960,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
      "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11964112,
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 12284256,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
@@ -29759,11 +30370,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderLightingProperty",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -29777,20 +30389,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderLightingProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderLightingProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -29831,83 +30465,172 @@
     "37": {
      "name": "CopyTo",
      "decl": "void CopyTo(BSShaderProperty*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderLightingProperty",
      "pc_func_va": 12225184,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "38": {
      "name": "CopyToMembers",
      "decl": "void CopyToMembers(BSShaderProperty*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderLightingProperty",
      "pc_func_va": 12226400,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "39": {
      "name": "SetupGeometry",
      "decl": "bool SetupGeometry(NiGeometry*)",
-     "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11958848,
+     "status": "semantics",
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "GetRenderPasses",
      "decl": "void* GetRenderPasses(NiGeometry*, int, unsigned short*, unsigned, BSShaderAccumulator*, bool)",
-     "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11959264,
+     "status": "semantics",
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 12225168,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "GetNumberofPasses",
      "decl": "unsigned short GetNumberofPasses(NiGeometry*)",
-     "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11961312,
+     "status": "semantics",
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 13921424,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "GetSIBlockRenderPasses",
      "decl": "void* GetSIBlockRenderPasses()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderLightingProperty",
      "pc_func_va": 10968848,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "GetRenderDepthPass",
      "decl": "BSShaderProperty::RenderPass* GetRenderDepthPass(NiGeometry*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 11955744,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       41,
+       44
+      ],
+      "return_verdict": "consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "ClarifyShader",
      "decl": "BSShaderProperty* ClarifyShader(NiGeometry*, bool, bool)",
-     "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11962496,
+     "status": "semantics",
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 11894720,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "45": {
      "name": "GetBaseTexture",
      "decl": "NiTexture* GetBaseTexture()",
-     "status": "name+stack",
-     "checked_on": "BSShaderPPLightingProperty",
-     "pc_func_va": 11956864,
+     "status": "semantics",
+     "checked_on": "BSShaderLightingProperty",
+     "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       49
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetWaterFogPassList",
@@ -31014,11 +31737,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -31032,20 +31756,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -31086,20 +31832,32 @@
     "37": {
      "name": "CopyTo",
      "decl": "void CopyTo(BSShaderProperty*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 12225184,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "38": {
      "name": "CopyToMembers",
      "decl": "void CopyToMembers(BSShaderProperty*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 12226400,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       39
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "39": {
      "name": "SetupGeometry",
@@ -31131,20 +31889,42 @@
     "42": {
      "name": "GetSIBlockRenderPasses",
      "decl": "void* GetSIBlockRenderPasses()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 10968848,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       41,
+       44
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "GetRenderDepthPass",
      "decl": "BSShaderProperty::RenderPass* GetRenderDepthPass(NiGeometry*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 11955744,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       41,
+       44
+      ],
+      "return_verdict": "consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "ClarifyShader",
@@ -31284,11 +32064,22 @@
     "59": {
      "name": "QLandscapeTextureCount",
      "decl": "unsigned short QLandscapeTextureCount()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 11956720,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       58,
+       60
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "60": {
      "name": "SetTexture",
@@ -31365,11 +32156,22 @@
     "68": {
      "name": "GetEnvMapLODFade",
      "decl": "float GetEnvMapLODFade()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderPPLightingProperty",
      "pc_func_va": 11955264,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       67,
+       69
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "69": {
      "name": "GetRenderPasses_1x",
@@ -32608,11 +33410,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiGeometryData",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -32671,29 +33474,62 @@
     "36": {
      "name": "GetActiveVertexCount",
      "decl": "unsigned short GetActiveVertexCount()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometryData",
      "pc_func_va": 10906080,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "37": {
      "name": "IsTriStripsData",
      "decl": "NiTriStripsData* IsTriStripsData()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometryData",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "38": {
      "name": "IsTriShapeData",
      "decl": "NiTriShapeData* IsTriShapeData()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometryData",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "ContainsVertexData",
@@ -33252,20 +34088,22 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 11053472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 11053488,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
@@ -33333,11 +34171,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -33396,29 +34235,62 @@
     "36": {
      "name": "GetActiveVertexCount",
      "decl": "unsigned short GetActiveVertexCount()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 10906080,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "37": {
      "name": "IsTriStripsData",
      "decl": "NiTriStripsData* IsTriStripsData()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "38": {
      "name": "IsTriShapeData",
      "decl": "NiTriShapeData* IsTriShapeData()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "ContainsVertexData",
@@ -33450,11 +34322,22 @@
     "42": {
      "name": "GetActiveTriangleCount",
      "decl": "unsigned short GetActiveTriangleCount()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeomData",
      "pc_func_va": 10968864,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       39,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "GetTriangleIndices",
@@ -33883,20 +34766,22 @@
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 10991568,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 10968832,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
@@ -33964,11 +34849,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -34027,29 +34913,62 @@
     "36": {
      "name": "GetActiveVertexCount",
      "decl": "unsigned short GetActiveVertexCount()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 10906080,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "37": {
      "name": "IsTriStripsData",
      "decl": "NiTriStripsData* IsTriStripsData()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "38": {
      "name": "IsTriShapeData",
      "decl": "NiTriShapeData* IsTriShapeData()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       33,
+       39
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "ContainsVertexData",
@@ -34081,11 +35000,22 @@
     "42": {
      "name": "GetActiveTriangleCount",
      "decl": "unsigned short GetActiveTriangleCount()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShapeData",
      "pc_func_va": 10968864,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       40,
+       43
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "GetTriangleIndices",
@@ -34406,20 +35336,42 @@
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometry",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
@@ -34595,11 +35547,12 @@
     "27": {
      "name": "PostLinkObject",
      "decl": "void PostLinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiGeometry",
      "pc_func_va": 11009472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "28": {
      "name": "StreamCanSkip",
@@ -34613,38 +35566,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiGeometry",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiGeometry",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometry",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometry",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -34739,11 +35716,22 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiGeometry",
      "pc_func_va": 10854352,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       44
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -35233,38 +36221,82 @@
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
@@ -35350,47 +36382,52 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11121024,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 10962816,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11121040,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11121056,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11048816,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -35422,11 +36459,12 @@
     "27": {
      "name": "PostLinkObject",
      "decl": "void PostLinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11009472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "28": {
      "name": "StreamCanSkip",
@@ -35440,38 +36478,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -35566,11 +36628,22 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 10854352,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       44
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -35692,11 +36765,12 @@
     "57": {
      "name": "SetModelData",
      "decl": "void SetModelData(NiGeometryData*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriBasedGeom",
      "pc_func_va": 12692864,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "58": {
      "name": "CalculateNormals",
@@ -35864,20 +36938,42 @@
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
@@ -35891,11 +36987,22 @@
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
@@ -35981,47 +37088,52 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 11112096,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 11112112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 10962176,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 10951952,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 10962192,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -36053,11 +37165,12 @@
     "27": {
      "name": "PostLinkObject",
      "decl": "void PostLinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 11009472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "28": {
      "name": "StreamCanSkip",
@@ -36071,38 +37184,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -36197,11 +37334,22 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriShape",
      "pc_func_va": 10854352,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       44
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -36323,11 +37471,12 @@
     "57": {
      "name": "SetModelData",
      "decl": "void SetModelData(NiGeometryData*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriShape",
      "pc_func_va": 12692864,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "58": {
      "name": "CalculateNormals",
@@ -36537,29 +37686,62 @@
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 15108112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
@@ -36654,47 +37836,52 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 11112096,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 11112112,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 10962176,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 10951952,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 10962192,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -36726,11 +37913,12 @@
     "27": {
      "name": "PostLinkObject",
      "decl": "void PostLinkObject(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 11009472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "28": {
      "name": "StreamCanSkip",
@@ -36744,38 +37932,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -36870,11 +38082,22 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTriStrips",
      "pc_func_va": 10854352,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       44
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -36996,11 +38219,12 @@
     "57": {
      "name": "SetModelData",
      "decl": "void SetModelData(NiGeometryData*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTriStrips",
      "pc_func_va": 12692864,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "58": {
      "name": "CalculateNormals",
@@ -37490,11 +38714,12 @@
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiCamera",
      "pc_func_va": 10944272,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
@@ -37562,11 +38787,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiCamera",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -37580,20 +38806,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiCamera",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiCamera",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -37688,11 +38936,22 @@
     "43": {
      "name": "UpdateRigidDownwardPass",
      "decl": "void UpdateRigidDownwardPass(NiUpdateData*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiCamera",
      "pc_func_va": 10854352,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       44
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "UpdatePropertiesDownward",
@@ -38313,46 +39572,51 @@
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
      "status": "name+stack",
-     "checked_on": "NiSourceTexture",
-     "pc_func_va": 10879360,
+     "checked_on": "NiTexture",
+     "pc_func_va": 10777424,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
      "decl": "void LinkObject(NiStream*)",
      "status": "name+stack",
-     "checked_on": "NiSourceTexture",
-     "pc_func_va": 10877344,
+     "checked_on": "NiTexture",
+     "pc_func_va": 10777440,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "21": {
      "name": "RegisterStreamables",
      "decl": "bool RegisterStreamables(NiStream*)",
      "status": "name+stack",
-     "checked_on": "NiSourceTexture",
-     "pc_func_va": 10877584,
+     "checked_on": "NiTexture",
+     "pc_func_va": 10887472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "22": {
      "name": "SaveBinary",
      "decl": "void SaveBinary(NiStream*)",
      "status": "name+stack",
-     "checked_on": "NiSourceTexture",
-     "pc_func_va": 10880512,
+     "checked_on": "NiTexture",
+     "pc_func_va": 10868656,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "23": {
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
      "status": "name+stack",
-     "checked_on": "NiSourceTexture",
-     "pc_func_va": 10877664,
+     "checked_on": "NiTexture",
+     "pc_func_va": 10887488,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -38402,11 +39666,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiTexture",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -38420,20 +39685,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTexture",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTexture",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -38492,20 +39779,42 @@
     "39": {
      "name": "GetFilename",
      "decl": "const NiFixedString* GetFilename()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTexture",
      "pc_func_va": 10888800,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "GetMemorySize",
      "decl": "unsigned long GetMemorySize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiTexture",
      "pc_func_va": 10888816,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     }
    },
    "compositions": {},
@@ -39128,11 +40437,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiSourceTexture",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -39146,20 +40456,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiSourceTexture",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiSourceTexture",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -39218,20 +40550,42 @@
     "39": {
      "name": "GetFilename",
      "decl": "const NiFixedString* GetFilename()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiSourceTexture",
      "pc_func_va": 10878096,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       38,
+       41
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "GetMemorySize",
      "decl": "unsigned long GetMemorySize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiSourceTexture",
      "pc_func_va": 10888816,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       38,
+       41
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "LoadPixelDataFromFile",
@@ -39684,11 +41038,12 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAccumulator",
      "pc_func_va": 11045440,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
@@ -39721,10 +41076,11 @@
      "name": "IsEqual",
      "decl": "bool IsEqual(NiObject*)",
      "status": "name+stack",
-     "checked_on": "NiBackToFrontAccumulator",
-     "pc_func_va": 11143904,
+     "checked_on": "NiAccumulator",
+     "pc_func_va": 12224464,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "24": {
      "name": "GetViewerStrings",
@@ -39774,11 +41130,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAccumulator",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -39792,20 +41149,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -39855,20 +41234,42 @@
     "38": {
      "name": "RegisterObject",
      "decl": "bool RegisterObject(NiGeometry*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAccumulator",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       36,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "AddShared",
      "decl": "bool AddShared(NiAVObject*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAccumulator",
      "pc_func_va": 11143632,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       36,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "ClearSharedMap",
@@ -40309,11 +41710,12 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 11143872,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
@@ -40399,11 +41801,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -40417,20 +41820,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -40480,20 +41905,42 @@
     "38": {
      "name": "RegisterObject",
      "decl": "bool RegisterObject(NiGeometry*)",
-     "status": "name+stack",
-     "checked_on": "NiAlphaAccumulator",
-     "pc_func_va": 11122768,
+     "status": "semantics",
+     "checked_on": "NiBackToFrontAccumulator",
+     "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       41
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "AddShared",
      "decl": "bool AddShared(NiAVObject*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiBackToFrontAccumulator",
      "pc_func_va": 11143632,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       41
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "ClearSharedMap",
@@ -40889,11 +42336,12 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAlphaAccumulator",
      "pc_func_va": 11121904,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
@@ -40979,11 +42427,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiAlphaAccumulator",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -40997,20 +42446,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAlphaAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiAlphaAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -41069,11 +42540,22 @@
     "39": {
      "name": "AddShared",
      "decl": "bool AddShared(NiAVObject*)",
-     "status": "name+stack",
-     "checked_on": "BSShaderAccumulator",
-     "pc_func_va": 11942672,
+     "status": "semantics",
+     "checked_on": "NiAlphaAccumulator",
+     "pc_func_va": 11143632,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       38,
+       41
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "40": {
      "name": "ClearSharedMap",
@@ -42627,11 +44109,12 @@
     "19": {
      "name": "LoadBinary",
      "decl": "void LoadBinary(NiStream*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 11121904,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "LinkObject",
@@ -42717,11 +44200,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -42735,20 +44219,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -42780,11 +44286,12 @@
     "36": {
      "name": "FinishAccumulating",
      "decl": "void FinishAccumulating()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 11939952,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "37": {
      "name": "RegisterObjectArray",
@@ -42843,11 +44350,12 @@
     "43": {
      "name": "FinishAccumulatingPostResolveDepth",
      "decl": "void FinishAccumulatingPostResolveDepth()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShaderAccumulator",
      "pc_func_va": 11953520,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "44": {
      "name": "RenderPassList",
@@ -43960,11 +45468,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSBatchRenderer",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -43978,20 +45487,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSBatchRenderer",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSBatchRenderer",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -44768,11 +46299,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiRenderer",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -44786,20 +46318,42 @@
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiRenderer",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiRenderer",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       29,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -45923,11 +47477,12 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "NiDX9Renderer",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
@@ -47054,137 +48609,302 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
      "decl": "BSMultiBoundNode* IsMultiBoundNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
      "decl": "BSSegmentedTriShape* IsSegmentedTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "11": {
      "name": "IsResizableTriShape",
      "decl": "BSResizableTriShape* IsResizableTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "IsParticlesGeom",
      "decl": "NiParticles* IsParticlesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "13": {
      "name": "IsLinesGeom",
      "decl": "NiLines* IsLinesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "14": {
      "name": "IsBhkNiCollisionObject",
      "decl": "bhkNiCollisionObject* IsBhkNiCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "15": {
      "name": "IsBhkBlendCollisionObject",
      "decl": "bhkBlendCollisionObject* IsBhkBlendCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "16": {
      "name": "IsBhkRigidBody",
      "decl": "bhkRigidBody* IsBhkRigidBody()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "17": {
      "name": "IsBhkLimitedHingeConstraint",
      "decl": "bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "18": {
      "name": "IsInitialized",
@@ -47207,20 +48927,42 @@
     "20": {
      "name": "SetupGeometry",
      "decl": "bool SetupGeometry(NiGeometry*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11143632,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       19,
+       22
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "21": {
      "name": "PreProcessPipeline",
      "decl": "unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11072480,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       19,
+       22
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "22": {
      "name": "UpdatePipeline",
@@ -47234,11 +48976,22 @@
     "23": {
      "name": "SetupRenderingPass",
      "decl": "unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11072480,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "24": {
      "name": "SetupTransformations",
@@ -47270,11 +49023,22 @@
     "27": {
      "name": "PrepareGeometryForRendering",
      "decl": "void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11072512,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "28": {
      "name": "PostRender",
@@ -47288,11 +49052,22 @@
     "29": {
      "name": "PostProcessPipeline",
      "decl": "unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11072480,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "30": {
      "name": "SetupGeometryTextures",
@@ -47351,29 +49126,62 @@
     "36": {
      "name": "FirstPass",
      "decl": "unsigned FirstPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "37": {
      "name": "NextPass",
      "decl": "unsigned NextPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "38": {
      "name": "IsGenericallyConfigurable",
      "decl": "bool IsGenericallyConfigurable()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "CreateShaderDeclaration",
@@ -47387,38 +49195,82 @@
     "40": {
      "name": "AppendRenderPass",
      "decl": "bool AppendRenderPass(unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "SetAlphaOverride",
      "decl": "bool SetAlphaOverride(unsigned, bool, bool, int, bool, int)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11072544,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "SetUsesNiRenderState",
      "decl": "bool SetUsesNiRenderState(bool)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "SetGPUProgram",
      "decl": "bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 10842144,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "CreateShaderConstantMap",
@@ -47432,20 +49284,42 @@
     "45": {
      "name": "AppendTextureSampler",
      "decl": "bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 11072560,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetShaderInstanceDesc",
      "decl": "void* GetShaderInstanceDesc()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       "end"
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     }
    },
    "compositions": {},
@@ -47671,137 +49545,302 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
      "decl": "BSMultiBoundNode* IsMultiBoundNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
      "decl": "BSSegmentedTriShape* IsSegmentedTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "11": {
      "name": "IsResizableTriShape",
      "decl": "BSResizableTriShape* IsResizableTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "IsParticlesGeom",
      "decl": "NiParticles* IsParticlesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "13": {
      "name": "IsLinesGeom",
      "decl": "NiLines* IsLinesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "14": {
      "name": "IsBhkNiCollisionObject",
      "decl": "bhkNiCollisionObject* IsBhkNiCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "15": {
      "name": "IsBhkBlendCollisionObject",
      "decl": "bhkBlendCollisionObject* IsBhkBlendCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "16": {
      "name": "IsBhkRigidBody",
      "decl": "bhkRigidBody* IsBhkRigidBody()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "17": {
      "name": "IsBhkLimitedHingeConstraint",
      "decl": "bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "18": {
      "name": "IsInitialized",
@@ -47824,20 +49863,42 @@
     "20": {
      "name": "SetupGeometry",
      "decl": "bool SetupGeometry(NiGeometry*)",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15210624,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 11143632,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       19,
+       22
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "21": {
      "name": "PreProcessPipeline",
      "decl": "unsigned PreProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15208816,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 11072480,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       19,
+       22
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "22": {
      "name": "UpdatePipeline",
@@ -47851,11 +49912,22 @@
     "23": {
      "name": "SetupRenderingPass",
      "decl": "unsigned SetupRenderingPass(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15205808,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 11072480,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "24": {
      "name": "SetupTransformations",
@@ -47887,11 +49959,22 @@
     "27": {
      "name": "PrepareGeometryForRendering",
      "decl": "void* PrepareGeometryForRendering(NiGeometry*, void*, void*, const NiPropertyState*)",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15209200,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 11072512,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "28": {
      "name": "PostRender",
@@ -47905,11 +49988,22 @@
     "29": {
      "name": "PostProcessPipeline",
      "decl": "unsigned PostProcessPipeline(NiGeometry*, const NiSkinInstance*, void*, const NiPropertyState*, const NiDynamicEffectState*, const NiTransform*, const NiBound*)",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15205872,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 11072480,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "30": {
      "name": "SetupGeometryTextures",
@@ -47968,29 +50062,62 @@
     "36": {
      "name": "FirstPass",
      "decl": "unsigned FirstPass()",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15205760,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "37": {
      "name": "NextPass",
      "decl": "unsigned NextPass()",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15205776,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "38": {
      "name": "IsGenericallyConfigurable",
      "decl": "bool IsGenericallyConfigurable()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "CreateShaderDeclaration",
@@ -48004,38 +50131,82 @@
     "40": {
      "name": "AppendRenderPass",
      "decl": "bool AppendRenderPass(unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "SetAlphaOverride",
      "decl": "bool SetAlphaOverride(unsigned, bool, bool, int, bool, int)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 11072544,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "SetUsesNiRenderState",
      "decl": "bool SetUsesNiRenderState(bool)",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 12033408,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "43": {
      "name": "SetGPUProgram",
      "decl": "bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 10842144,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "CreateShaderConstantMap",
@@ -48049,29 +50220,62 @@
     "45": {
      "name": "AppendTextureSampler",
      "decl": "bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 11072560,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetShaderInstanceDesc",
      "decl": "void* GetShaderInstanceDesc()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "47": {
      "name": "GetShaderDecl",
      "decl": "NiD3DShaderDeclaration* GetShaderDecl()",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15639856,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "48": {
      "name": "SetShaderDecl",
@@ -48121,38 +50325,82 @@
     "53": {
      "name": "GetVSPresentAllPasses",
      "decl": "bool GetVSPresentAllPasses()",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15209712,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "54": {
      "name": "GetVSPresentAnyPass",
      "decl": "bool GetVSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "55": {
      "name": "GetPSPresentAllPasses",
      "decl": "bool GetPSPresentAllPasses()",
-     "status": "name+stack",
-     "checked_on": "NiD3DShader",
-     "pc_func_va": 15209728,
+     "status": "semantics",
+     "checked_on": "NiD3DShaderInterface",
+     "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "56": {
      "name": "GetPSPresentAnyPass",
      "decl": "bool GetPSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShaderInterface",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       22,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "57": {
      "name": "GetIsBestImplementation",
@@ -48484,137 +50732,302 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
      "decl": "BSMultiBoundNode* IsMultiBoundNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
      "decl": "BSSegmentedTriShape* IsSegmentedTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "11": {
      "name": "IsResizableTriShape",
      "decl": "BSResizableTriShape* IsResizableTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "IsParticlesGeom",
      "decl": "NiParticles* IsParticlesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "13": {
      "name": "IsLinesGeom",
      "decl": "NiLines* IsLinesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "14": {
      "name": "IsBhkNiCollisionObject",
      "decl": "bhkNiCollisionObject* IsBhkNiCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "15": {
      "name": "IsBhkBlendCollisionObject",
      "decl": "bhkBlendCollisionObject* IsBhkBlendCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "16": {
      "name": "IsBhkRigidBody",
      "decl": "bhkRigidBody* IsBhkRigidBody()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "17": {
      "name": "IsBhkLimitedHingeConstraint",
      "decl": "bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "18": {
      "name": "IsInitialized",
@@ -48629,10 +51042,11 @@
      "name": "Initialize",
      "decl": "bool Initialize()",
      "status": "name+stack",
-     "checked_on": "NiD3DDefaultShader",
-     "pc_func_va": 15189344,
+     "checked_on": "NiD3DShader",
+     "pc_func_va": 15205744,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "20": {
      "name": "SetupGeometry",
@@ -48799,11 +51213,22 @@
     "38": {
      "name": "IsGenericallyConfigurable",
      "decl": "bool IsGenericallyConfigurable()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "CreateShaderDeclaration",
@@ -48817,20 +51242,42 @@
     "40": {
      "name": "AppendRenderPass",
      "decl": "bool AppendRenderPass(unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "SetAlphaOverride",
      "decl": "bool SetAlphaOverride(unsigned, bool, bool, int, bool, int)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 11072544,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "SetUsesNiRenderState",
@@ -48844,11 +51291,22 @@
     "43": {
      "name": "SetGPUProgram",
      "decl": "bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 10842144,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "CreateShaderConstantMap",
@@ -48862,20 +51320,42 @@
     "45": {
      "name": "AppendTextureSampler",
      "decl": "bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 11072560,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetShaderInstanceDesc",
      "decl": "void* GetShaderInstanceDesc()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "47": {
      "name": "GetShaderDecl",
@@ -48943,11 +51423,22 @@
     "54": {
      "name": "GetVSPresentAnyPass",
      "decl": "bool GetVSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15209712,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       53,
+       55
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "55": {
      "name": "GetPSPresentAllPasses",
@@ -48961,11 +51452,22 @@
     "56": {
      "name": "GetPSPresentAnyPass",
      "decl": "bool GetPSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DShader",
      "pc_func_va": 15209728,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       55,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "57": {
      "name": "GetIsBestImplementation",
@@ -49502,137 +52004,302 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
      "decl": "BSMultiBoundNode* IsMultiBoundNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
      "decl": "BSSegmentedTriShape* IsSegmentedTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "11": {
      "name": "IsResizableTriShape",
      "decl": "BSResizableTriShape* IsResizableTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "IsParticlesGeom",
      "decl": "NiParticles* IsParticlesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "13": {
      "name": "IsLinesGeom",
      "decl": "NiLines* IsLinesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "14": {
      "name": "IsBhkNiCollisionObject",
      "decl": "bhkNiCollisionObject* IsBhkNiCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "15": {
      "name": "IsBhkBlendCollisionObject",
      "decl": "bhkBlendCollisionObject* IsBhkBlendCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "16": {
      "name": "IsBhkRigidBody",
      "decl": "bhkRigidBody* IsBhkRigidBody()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "17": {
      "name": "IsBhkLimitedHingeConstraint",
      "decl": "bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "18": {
      "name": "IsInitialized",
@@ -49817,11 +52484,22 @@
     "38": {
      "name": "IsGenericallyConfigurable",
      "decl": "bool IsGenericallyConfigurable()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "CreateShaderDeclaration",
@@ -49835,20 +52513,42 @@
     "40": {
      "name": "AppendRenderPass",
      "decl": "bool AppendRenderPass(unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "SetAlphaOverride",
      "decl": "bool SetAlphaOverride(unsigned, bool, bool, int, bool, int)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 11072544,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "SetUsesNiRenderState",
@@ -49862,11 +52562,22 @@
     "43": {
      "name": "SetGPUProgram",
      "decl": "bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 10842144,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "CreateShaderConstantMap",
@@ -49880,20 +52591,42 @@
     "45": {
      "name": "AppendTextureSampler",
      "decl": "bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 11072560,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetShaderInstanceDesc",
      "decl": "void* GetShaderInstanceDesc()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "47": {
      "name": "GetShaderDecl",
@@ -49961,11 +52694,22 @@
     "54": {
      "name": "GetVSPresentAnyPass",
      "decl": "bool GetVSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15209712,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       53,
+       55
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "55": {
      "name": "GetPSPresentAllPasses",
@@ -49979,11 +52723,22 @@
     "56": {
      "name": "GetPSPresentAnyPass",
      "decl": "bool GetPSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "NiD3DDefaultShader",
      "pc_func_va": 15209728,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       55,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "57": {
      "name": "GetIsBestImplementation",
@@ -50272,137 +53027,302 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
      "decl": "BSFadeNode* IsFadeNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "5": {
      "name": "IsMultiBoundNode",
      "decl": "BSMultiBoundNode* IsMultiBoundNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "6": {
      "name": "IsGeometry",
      "decl": "NiGeometry* IsGeometry()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "7": {
      "name": "IsTriBasedGeom",
      "decl": "NiTriBasedGeom* IsTriBasedGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "8": {
      "name": "IsTriStrips",
      "decl": "NiTriStrips* IsTriStrips()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "9": {
      "name": "IsTriShape",
      "decl": "NiTriShape* IsTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "10": {
      "name": "IsSegmentedTriShape",
      "decl": "BSSegmentedTriShape* IsSegmentedTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "11": {
      "name": "IsResizableTriShape",
      "decl": "BSResizableTriShape* IsResizableTriShape()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "12": {
      "name": "IsParticlesGeom",
      "decl": "NiParticles* IsParticlesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "13": {
      "name": "IsLinesGeom",
      "decl": "NiLines* IsLinesGeom()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "14": {
      "name": "IsBhkNiCollisionObject",
      "decl": "bhkNiCollisionObject* IsBhkNiCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "15": {
      "name": "IsBhkBlendCollisionObject",
      "decl": "bhkBlendCollisionObject* IsBhkBlendCollisionObject()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "16": {
      "name": "IsBhkRigidBody",
      "decl": "bhkRigidBody* IsBhkRigidBody()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "17": {
      "name": "IsBhkLimitedHingeConstraint",
      "decl": "bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "18": {
      "name": "IsInitialized",
@@ -50587,11 +53507,22 @@
     "38": {
      "name": "IsGenericallyConfigurable",
      "decl": "bool IsGenericallyConfigurable()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15632784,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "39": {
      "name": "CreateShaderDeclaration",
@@ -50605,20 +53536,42 @@
     "40": {
      "name": "AppendRenderPass",
      "decl": "bool AppendRenderPass(unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 13214752,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "41": {
      "name": "SetAlphaOverride",
      "decl": "bool SetAlphaOverride(unsigned, bool, bool, int, bool, int)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 11072544,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       37,
+       42
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "42": {
      "name": "SetUsesNiRenderState",
@@ -50632,11 +53585,22 @@
     "43": {
      "name": "SetGPUProgram",
      "decl": "bool SetGPUProgram(unsigned, NiGPUProgram*, unsigned*)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 10842144,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "44": {
      "name": "CreateShaderConstantMap",
@@ -50650,20 +53614,42 @@
     "45": {
      "name": "AppendTextureSampler",
      "decl": "bool AppendTextureSampler(unsigned, unsigned*, const NiFixedString*, const NiFixedString*, unsigned)",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 11072560,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": false,
+      "stack_basis": "paths"
+     }
     },
     "46": {
      "name": "GetShaderInstanceDesc",
      "decl": "void* GetShaderInstanceDesc()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       42,
+       47
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "47": {
      "name": "GetShaderDecl",
@@ -50713,11 +53699,12 @@
     "52": {
      "name": "RecreateRendererData",
      "decl": "void RecreateRendererData()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "BSShader",
      "pc_func_va": 12454064,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "53": {
      "name": "GetVSPresentAllPasses",
@@ -50731,11 +53718,22 @@
     "54": {
      "name": "GetVSPresentAnyPass",
      "decl": "bool GetVSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15209712,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       53,
+       55
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "55": {
      "name": "GetPSPresentAllPasses",
@@ -50749,11 +53747,22 @@
     "56": {
      "name": "GetPSPresentAnyPass",
      "decl": "bool GetPSPresentAnyPass()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 15209728,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       55,
+       57
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "57": {
      "name": "GetIsBestImplementation",
@@ -50884,20 +53893,32 @@
     "71": {
      "name": "CreateConstantMaps",
      "decl": "void CreateConstantMaps()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "ShadowLightShader",
      "pc_func_va": 12051504,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       70,
+       72
+      ],
+      "return_verdict": "void-consistent",
+      "return_verified": false,
+      "args_verified": false,
+      "stack_basis": "cfg"
+     }
     },
     "72": {
      "name": "ReloadShaders",
      "decl": "void ReloadShaders()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "ShadowLightShader",
      "pc_func_va": 12028288,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "73": {
      "name": "ClearPassStages",
@@ -50920,11 +53941,22 @@
     "75": {
      "name": "CreateShaders",
      "decl": "bool CreateShaders()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 11929312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       74,
+       76
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "76": {
      "name": "CreateStagesAndPasses",
@@ -50938,11 +53970,22 @@
     "77": {
      "name": "CreateTextures",
      "decl": "bool CreateTextures()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "BSShader",
      "pc_func_va": 11929312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       76,
+       78
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "78": {
      "name": "SetCurrentPass",
@@ -52724,11 +55767,22 @@
     "3": {
      "name": "IsNode",
      "decl": "NiNode* IsNode()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "ShadowSceneNode",
      "pc_func_va": 6821312,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       2,
+       18
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "4": {
      "name": "IsFadeNode",
@@ -52958,38 +56012,62 @@
     "29": {
      "name": "GetStreamableRTTI",
      "decl": "const NiRTTI* GetStreamableRTTI()",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "ShadowSceneNode",
      "pc_func_va": 10867472,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "30": {
      "name": "SetBound",
      "decl": "void SetBound(BSNiBound*)",
-     "status": "name",
+     "status": "name+stack",
      "checked_on": "ShadowSceneNode",
      "pc_func_va": 11009456,
      "manual": false,
-     "note": ""
+     "note": "",
+     "stack_basis": "tail"
     },
     "31": {
      "name": "GetBlockAllocationSize",
      "decl": "unsigned GetBlockAllocationSize()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "ShadowSceneNode",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "32": {
      "name": "GetGroup",
      "decl": "NiObjectGroup* GetGroup()",
-     "status": "stack",
+     "status": "semantics",
      "checked_on": "ShadowSceneNode",
      "pc_func_va": 15191360,
      "manual": false,
-     "note": ""
+     "note": "",
+     "proof": {
+      "kind": "machine",
+      "anchor": [
+       30,
+       35
+      ],
+      "return_verdict": "proven",
+      "return_verified": true,
+      "args_verified": true,
+      "stack_basis": "paths"
+     }
     },
     "33": {
      "name": "SetGroup",
@@ -57277,5 +60355,5 @@
   "… (в X.поле) / (элемент X.поле[])": "ширина подтверждена обращением через содержащий класс"
  },
  "admission_rule": "строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack",
- "metadata_schema_version": 4
+ "metadata_schema_version": 5
 }

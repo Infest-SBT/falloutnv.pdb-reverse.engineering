@@ -26,8 +26,12 @@ usage: python3 -I evidence.py <fnv_types.meta.json> <evidence_spec.json> <syms.t
   unverified   — обращений не найдено;
   CONFLICT     — обращение попадает в заполнитель (_pad) или пересекает границу поля.
 Уровни слота vtable:
-  semantics    — назначение и аргументы разобраны вручную по дизассемблеру (см. notes);
-  name+stack   — имя PC совпадает с Xbox, и очистка стека (ret N) = ожидаемой по прототипу Xbox;
+  semantics    — v0.6: прототип доказан по коду PC (tools/slotproof.py, slot_proofs.csv): очистка стека, положение
+                 слота по опорам name+stack (или концу vtable), тело не противоречит прототипу Xbox — машинный разбор
+                 всех путей или ручное структурированное доказательство (evidence_spec.json → slot_proofs, адреса
+                 команд). До v0.6 — текстовые записи slot_notes (теперь только пояснения, статус не дают);
+  name+stack   — имя PC совпадает с Xbox, и очистка стека (ret N) = ожидаемой по прототипу Xbox (v0.6: у переходника —
+                 ret N функции, к которой ведёт хвостовой переход; stack_basis = tail);
   stack        — имени нет/другое, но ret N совпадает — прототип только согласуется, не доказан;
   name         — имя совпадает, ret N расходится — прототип под сомнением;
   stub         — заглушка (UnimplementedVirtFunc, ret 0 и т.п.; v0.5.2 — и цепочка прямых jmp, которая кончается
@@ -47,6 +51,7 @@ import capstone, pefile
 import chaincheck                                                 # v0.5.5
 import prefixview                                                 # v0.5.11
 import verification                                               # v0.5.12
+import slotproof                                                  # v0.6
 
 meta_path, spec_path, syms_path, exe_path, out_dir = sys.argv[1:6]
 os.makedirs(out_dir, exist_ok=True)
@@ -346,6 +351,38 @@ def _in_exec(va):
 def slot_forward(f, max_hops=8):
     """Переходник в слоте vtable — см. tools/slotfwd.py (там же регрессионный тест test_slot_forward.py)."""
     return _slot_forward(lambda va, n: img[va - B:va - B + n], md, f, _in_exec, max_hops)
+
+
+def vt_len(tab):
+    """v0.6: длина vtable на PC — подряд идущие указатели в исполняемую секцию до следующего символа."""
+    n = 0
+    while n < 4096:
+        a = u32(tab + 4 * n)
+        if not _in_exec(a) or (n and (tab + 4 * n) in byaddr):
+            return n
+        n += 1
+    return n
+
+
+SP_ROWS = []                                                   # v0.6: slot_proofs.csv
+
+
+def _sp_row(r, check, ok, basis, n, chain_=(), lo=None, hi=None, verdict='', ret_ver='', args_ver='', facts=(), why=()):
+    return {'class': r['class'], 'checked_on': r['checked_on'], 'slot': r['slot'], 'pc_func_va': r['pc_func_va'],
+            'pc_name': r['pc_name'], 'decl': r['decl'], 'status_before': r['status'], 'check': check, 'passed': ok,
+            'expect_ret_n': r['expect_ret_n'], 'cleanup_n': '' if n is None else n, 'cleanup_basis': basis,
+            'tail_chain': ' → '.join(f'0x{a:08X}>{k}>0x{t:08X}' for a, k, t in chain_),
+            'anchor_below': '' if lo is None else lo, 'anchor_above': '' if hi is None else hi,
+            'decl_verdict': verdict, 'return_verified': ret_ver, 'args_verified': args_ver,
+            'facts': ' | '.join(facts), 'reasons': ' | '.join(why)}
+
+
+def _is_a(c, b, cname):
+    """c — класс проверяемой vtable (может быть PC-наследником cname, не описанным в meta)."""
+    if c == b:
+        return True
+    cc = c if c in CLS else cname
+    return b in chain(cc)
 
 
 def rets(f):
@@ -1141,10 +1178,10 @@ for cname, c in CLS.items():
         alt = [(sc, find_vtable(sc)) for sc in dict.fromkeys(spec.get('pc_subclasses', {}).get(cname, []) +
                                                              [c['name'] for c in meta['classes'] if c['base'] == cname])]
         notes = spec.get('slot_notes', {}).get(cname, {})
+        cls_rows = []                                   # v0.6: сначала сырые статусы, потом доказательства
+        rows_for = [(cname, vt)] + [(sc, a) for sc, a in alt if a]
         for s in sorted(slots):
             v = slots[s]
-            rows_for = [(cname, vt)] + [(sc, a) for sc, a in alt if a]
-            best = None
             for who, tab in rows_for:
                 if not tab:
                     continue
@@ -1158,9 +1195,7 @@ for cname, c in CLS.items():
                 st_ok = exp in rn
                 fw = None if stub else slot_forward(fa)
                 fwnote = ''
-                if str(s) in notes and who == cname:
-                    st = 'semantics'
-                elif stub:
+                if stub:
                     st = 'stub'
                 elif fw and fw[0] == 'stub':
                     ch = ' → '.join(f'0x{a:08X}' for a in fw[1])
@@ -1182,17 +1217,109 @@ for cname, c in CLS.items():
                     st = 'name'
                 else:
                     st = 'MISMATCH'
-                slot_rows.append({'class': cname, 'checked_on': who, 'slot': s, 'pc_func_va': f'0x{fa:08X}',
-                                  'pc_name': pn, 'xbox_name': v.get('xbox_name', v['name']), 'decl': v['decl'],
-                                  'expect_ret_n': exp, 'pc_ret_n': ' '.join(map(str, sorted(rn, key=str))),
-                                  'status': st, 'note': fwnote or notes.get(str(s), '')})
-                order = ['MISMATCH', 'stub-stack-mismatch', 'thunk', 'stub', 'name', 'stack', 'name+stack', 'semantics']
-                if best is None or order.index(st) > order.index(best[0]):
-                    best = (st, who, fa)
-            if best:
-                vsum[s] = {'name': v['name'], 'decl': v['decl'], 'status': best[0], 'checked_on': best[1],
-                           'pc_func_va': best[2], 'manual': best[0] == 'semantics',
-                           'note': notes.get(str(s), '') if best[0] == 'semantics' else ''}
+                cls_rows.append({'class': cname, 'checked_on': who, 'slot': s, 'pc_func_va': f'0x{fa:08X}',
+                                 'pc_name': pn, 'xbox_name': v.get('xbox_name', v['name']), 'decl': v['decl'],
+                                 'expect_ret_n': exp, 'pc_ret_n': ' '.join(map(str, sorted(rn, key=str))),
+                                 'status': st, 'note': fwnote or notes.get(str(s), ''),
+                                 'stack_basis': 'ret' if st in ('name+stack', 'stack') else '', 'proof': '',
+                                 '_tab': tab, '_v': v, '_fa': fa})
+        # ---- v0.6, фаза 2а: очистка стека через хвостовой переход (slotproof.Analyzer.cleanup_ex) ----
+        AN = {}
+        def _an(who, tab):
+            if who not in AN:
+                n_ = vt_len(tab)
+                AN[who] = slotproof.Analyzer(CC, lambda k, tab=tab, n_=n_: u32(tab + 4 * k) if 0 <= k < n_ else None)
+            return AN[who]
+        for r_ in cls_rows:
+            if r_['status'] != 'name':
+                continue
+            n_, basis_ = _an(r_['checked_on'], r_['_tab']).cleanup_ex(r_['_fa'])
+            ch_ = _an(r_['checked_on'], r_['_tab']).tail_chain(r_['_fa'])
+            SP_ROWS.append(_sp_row(r_, 'stack-tail', n_ == r_['expect_ret_n'], basis_, n_, ch_))
+            if n_ == r_['expect_ret_n'] and basis_ == 'tail':
+                r_['status'] = 'name+stack'
+                r_['stack_basis'] = 'tail'
+                r_['proof'] = 'ret N через хвостовой переход: ' + ' → '.join(
+                    f"0x{a_:08X} ({'jmp' if k_ == 'direct' else 'слот [[this]+N]'}) → 0x{t_:08X}" for a_, k_, t_ in ch_)
+        # ---- фаза 2б: semantics — машинный разбор тела или структурированное ручное доказательство + опоры ----
+        # опоры берутся по статусу ДО этого шага (status_raw: имя и очистка стека, в том числе через хвостовой
+        # переход); слот, который сам потом станет semantics, остаётся опорой, только если до того был name+stack
+        byvt_ = collections.defaultdict(dict)
+        for r_ in cls_rows:
+            r_['status_raw'] = r_['status']
+            byvt_[r_['checked_on']][r_['slot']] = r_['status']
+        nsl_ = max(slots) + 1 if slots else 0
+        for r_ in cls_rows:
+            # ручное доказательство привязано к проверяемой vtable (ключ — её класс) и номеру слота
+            mp_ = spec.get('slot_proofs', {}).get(r_['checked_on'], {}).get(str(r_['slot']))
+            if r_['status'] not in ('stack', 'name') and not mp_:
+                continue
+            if r_['status'] in ('stub', 'stub-stack-mismatch', 'thunk', 'MISMATCH'):
+                continue
+            v_, fa_, who_ = r_['_v'], r_['_fa'], r_['checked_on']
+            an_ = _an(who_, r_['_tab'])
+            lo_, hi_ = slotproof.anchors(byvt_[who_], r_['slot'], vt_len(r_['_tab']), nsl_)
+            anchored_ = lo_ is not None and hi_ is not None
+            n_, basis_ = an_.cleanup_ex(fa_)
+            if mp_:
+                ok_, why_ = slotproof.check_manual(CC, fa_, mp_, r_['expect_ret_n'])
+                if int(mp_['va'], 16) != fa_:
+                    ok_, why_ = False, why_ + [f"доказательство для {mp_['va']}, а в слоте 0x{fa_:08X}"]
+                verd_ = mp_.get('verdict', 'proven') if ok_ else 'contradicted'
+                facts_ = [f"{x['role']}: 0x{int(x['va'], 16):08X} «{x['insn']}» — {x.get('note', '')}" for x in mp_.get('facts', [])]
+                kind_ = 'manual'
+                ret_ver_ = ok_ and mp_.get('return_verified', False)
+                args_ver_ = ok_ and mp_.get('args_verified', False)
+            else:
+                try:
+                    paths_ = an_.analyze(fa_)
+                    verd_, why_, facts_ = slotproof.check_decl(paths_, v_['ret'], v_['args'], r_['expect_ret_n'],
+                                                               lambda c_, b_: _is_a(c_, b_, cname), who_)
+                except slotproof.Unsupported as e_:
+                    if n_ is not None:
+                        verd_, why_, facts_ = slotproof.check_decl_cfg(v_['ret'], v_['args'], r_['expect_ret_n'], n_)
+                    else:
+                        verd_, why_, facts_ = 'unsupported', [str(e_)], []
+                kind_ = 'machine'
+                ret_ver_ = verd_ == 'proven'
+                args_ver_ = verd_ == 'proven' and not v_['args']
+            stack_ok_ = n_ == r_['expect_ret_n']
+            ok_all_ = anchored_ and stack_ok_ and verd_ in ('proven', 'void-consistent', 'consistent')
+            row_ = _sp_row(r_, 'semantics-' + kind_, ok_all_, basis_, n_, [], lo_, hi_, verd_, ret_ver_, args_ver_,
+                           facts_, why_ + ([] if anchored_ else ['нет опоры name+stack ниже/выше на этой vtable'])
+                           + ([] if stack_ok_ else [f'очистка стека {n_} ({basis_}) ≠ {r_["expect_ret_n"]}']))
+            SP_ROWS.append(row_)
+            if ok_all_:
+                r_['status'] = 'semantics'
+                r_['stack_basis'] = r_['stack_basis'] or basis_
+                r_['proof'] = (f"{kind_}; опоры {lo_}..{hi_}; результат {verd_}; " + '; '.join(facts_))[:600]
+                r_['_sem'] = {'kind': kind_, 'anchor': [lo_, hi_], 'return_verdict': verd_,
+                              'return_verified': bool(ret_ver_), 'args_verified': bool(args_ver_),
+                              'stack_basis': basis_}
+        # ---- фаза 3: лучший статус слота ----
+        order = ['MISMATCH', 'stub-stack-mismatch', 'thunk', 'stub', 'name', 'stack', 'name+stack', 'semantics']
+        bests = {}
+        def _rank(r_):
+            # v0.6: semantics на vtable наследника не вытесняет name+stack своего класса (ранг как у name+stack;
+            # при равенстве остаётся строка своего класса — она идёт первой)
+            st_ = r_['status']
+            if st_ == 'semantics' and r_['checked_on'] != cname:
+                st_ = 'name+stack'
+            return order.index(st_)
+        for r_ in cls_rows:
+            s = r_['slot']
+            if s not in bests or _rank(r_) > _rank(bests[s]):
+                bests[s] = r_
+        for r_ in cls_rows:
+            slot_rows.append({k_: x_ for k_, x_ in r_.items() if not k_.startswith('_')})
+        for s, r_ in bests.items():
+            vsum[s] = {'name': r_['_v']['name'], 'decl': r_['_v']['decl'], 'status': r_['status'],
+                       'checked_on': r_['checked_on'], 'pc_func_va': r_['_fa'], 'manual': r_.get('_sem', {}).get('kind') == 'manual',
+                       'note': r_['note'] if r_['status'] == 'semantics' else ''}
+            if r_.get('_sem'):
+                vsum[s]['proof'] = r_['_sem']
+            elif r_['stack_basis'] == 'tail':
+                vsum[s]['stack_basis'] = 'tail'
         summary['classes'][cname] = {'vtable_va': vt}
     summary['classes'].setdefault(cname, {})
     summary['classes'][cname].update({
@@ -1726,6 +1853,7 @@ def wcsv(name, rows):
 wcsv('evidence_fields.csv', field_rows)
 wcsv('evidence_sizes.csv', sizes_rows)
 wcsv('evidence_vslots.csv', slot_rows)
+wcsv('slot_proofs.csv', SP_ROWS)                                  # v0.6
 wcsv('excluded_functions.csv', excluded_rows)
 wcsv('compositions.csv', composition_rows)
 wcsv('accessor_anchors.csv', ACCESSOR_ANCHORS or [{'class': ''}])
@@ -1854,6 +1982,29 @@ rep += ['', f'Строк в evidence_fields.csv: {len(field_rows)}, evidence_vsl
         '', 'Итого по слотам выше — лучший статус слота среди vtable класса и наследников. Строки журнала '
         'evidence_vslots.csv (каждая проверка на каждой vtable) по статусам (v0.5.2): '
         + ', '.join(f'{k}={v}' for k, v in sorted(collections.Counter(r['status'] for r in slot_rows).items())) + '.']
+# v0.6 (пункт Г): доказательства слотов
+_spc = collections.Counter((r['check'], r['passed']) for r in SP_ROWS)
+_unres = sorted({(r['class'], r['slot'], r['pc_func_va'], r['pc_name'], r['cleanup_basis']) for r in SP_ROWS
+                 if r['check'] == 'stack-tail' and not r['passed'] and r['class'] == r['checked_on']})
+rep += ['', '## v0.6: прототипы слотов vtable (пункт Г, slot_proofs.csv)', '',
+        'Слоты без проверенного прототипа (лучший статус name или stack) доказываются по коду PC (tools/slotproof.py):',
+        '- **очистка стека через хвостовой переход** — у переходника нет своего ret: путь проходится символически, '
+        'ret N берётся у вызываемой функции (прямой jmp/call или собственный слот [[this]+N] той же vtable при ecx = this '
+        'и esp, равном входному). Слот name → name+stack, stack_basis = tail;',
+        '- **semantics** — (1) очистка стека = ожидаемой; (2) опоры положения: на той же vtable ниже и выше есть слоты '
+        'name+stack, или выше — конец vtable, длина которой равна числу слотов класса; (3) прототип Xbox не противоречит '
+        'телу: машинный разбор всех путей (результат: регистр нужной ширины / st0 / ничего; this; чтение аргументов) или '
+        'ручное структурированное доказательство (evidence_spec.json → slot_proofs: адреса команд, точный текст, '
+        'достижимость, определения результата перед каждым ret). Фасеты return_verified / args_verified — в summary.json '
+        '(vslots.proof) и verification.json; на функцию прототип переносится только при обоих true.',
+        '',
+        '| проверка | прошла | не прошла |', '|---|---|---|']
+for _k in ('stack-tail', 'semantics-machine', 'semantics-manual'):
+    rep.append(f"| {_k} | {_spc.get((_k, True), 0)} | {_spc.get((_k, False), 0)} |")
+rep += ['', 'Строки — проверки на каждой vtable (класс и наследники); итог по слоту — лучший статус. Нерешённые '
+        'хвостовые переходы своего класса (вызов метода другого объекта: поле this или аргумент — тип того объекта '
+        'известен только с Xbox, fail closed):', '']
+rep += [f"- `{c_}` слот {s_} `{va_}` `{pn_}` — {b_}" for c_, s_, va_, pn_, b_ in _unres]
 _pth = collections.Counter(r['path'] for r in field_rows)
 _pthc = collections.Counter(r['status'] for r in field_rows if r['path'] == 'after-ret')
 _only_after = sorted({(r['class'], r['field']) for r in field_rows if r['status'] == 'confirmed'}

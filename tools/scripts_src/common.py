@@ -12,14 +12,15 @@ IMAGE_BASE = 0x400000
 MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменений; по ней работает идемпотентность
 MARK_PREFIX = "[FNV-PDB "                 # метки любых версий скрипта
 THIS_SLOT_STATUSES = ("semantics", "name+stack")
-PROTO_STATUSES = ("semantics",)           # IDA: полные прототипы — только разобранные вручную слоты
+PROTO_STATUSES = ("semantics",)           # IDA: кандидаты на прототип — слоты semantics (v0.6: доказательство
+                                          # структурированное; ставится, только если реестр даёт Confirmed)
 # v0.5.12 (ТЗ Астры по идее Андрея): статус доказанности — в метаданных, имена исходные. Реестр verification.json лежит
 # рядом с summary.json и привязан к нему, к exe и к конкретному PDB по SHA-256. Любое несоответствие — fail closed.
 # v0.5.13 (аудит Астры v0.5.12): схема 3 — this_supported (одобренное назначение, не доказательство типа) + this_basis;
 # привязка исходного имени адреса к доказанному методу (name_binding_status); прототип слота — semantic_bindings.
 # v0.5.14 (аудит Астры v0.5.13): схема 4 — unassessed (нет независимого имени для сравнения), фасет name_class;
 # this класса, не связанного с классом в исходном имени, — только с межклассовым доказательством.
-SCHEMA = 4
+SCHEMA = 5
 STATUSES = ("Confirmed", "VerifiedPrefix")
 NAME_BINDING = ("matched", "unassessed", "alias", "icf-shared", "name-conflict")
 NAME_CLASS = ("same-chain", "no-class-in-name", "other-class")

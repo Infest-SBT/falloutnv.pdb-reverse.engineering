@@ -327,9 +327,16 @@ check('v0.5.13 P1: у общего тела 0x004011B0 — «прототип д
 SIX = [0x007AF430, 0x00833150, 0x00A815C0, 0x00B807C0, 0x00BE0CE0, 0x00C9A420]
 _six_this = [hex(v) for v in SIX if w.funcs.get(v) and w.funcs[v].params]
 _cm6 = ' '.join((w.funcs[v].cmt if w.funcs.get(v) else w.plates.get(v)) or '' for v in SIX)
-check('v0.5.14 A: шести межклассовым адресам this не назначен, в комментарии — причина', not _six_this
-      and _cm6.count('класс в исходном имени из другой иерархии') == 6, ', '.join(_six_this))
-check('v0.5.13 P2: в плане — охват реестра и Unclassified', 'Unclassified' in plan_txt and 'функций 85249' in plan_txt)
+# v0.6: у 0x00C9A420 (общее тело ICF) после доказательства слотов претендентов на this несколько (BSShaderProperty,
+# NiAccumulator, NiShader …) — this не ставится уже по конфликту; у остальных пяти — по чужому классу в имени
+_why6 = [((w.funcs[v].cmt if w.funcs.get(v) else w.plates.get(v)) or '') for v in SIX]
+check('v0.5.14 A: шести межклассовым адресам this не назначен, в комментарии — причина (чужой класс или конфликт)',
+      not _six_this and all('класс в исходном имени из другой иерархии' in c or 'кандидат на this не выбран' in c
+                            or ('общая функция (ICF)' in c and '; this ?' in c) for c in _why6),
+      ', '.join(_six_this) + ' | ' + ' || '.join(c[:300] for c in _why6 if 'другой иерархии' not in c))
+_nf = REG['coverage']['public_symbols_not_in_registry_by_kind']['function']
+check('v0.5.13 P2: в плане — охват реестра и Unclassified', 'Unclassified' in plan_txt and ('функций %d' % _nf) in plan_txt,
+      'функций %d' % _nf)
 vs = [st for st in w.structs.values() if st.getName() in VP_SHORT]
 check('статусы: у структур VerifiedPrefix — описание с границами и комментарии полей', vs and all(
     st.desc and 'VerifiedPrefix: известно' in st.desc and any(c.c for c in st.comps) for st in vs))

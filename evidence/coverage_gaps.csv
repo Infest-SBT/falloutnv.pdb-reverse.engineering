@@ -28767,7 +28767,6 @@ public-symbol,0x00AA8DA0,0x006A8DA0,??1AbstractHeap@@6A@,function,unclassified,n
 public-symbol,0x00AA9D00,0x006A9D00,nullsub_318,function,unclassified,not-in-registry
 public-symbol,0x00AA9D20,0x006A9D20,nullsub_317,function,unclassified,not-in-registry
 public-symbol,0x00AAA560,0x006AA560,_sub_AAA560,function,unclassified,not-in-registry
-public-symbol,0x00AAA650,0x006AA650,BSSaveDataSystemUtility::Func0003,function,unclassified,not-in-registry
 public-symbol,0x00AAA6D0,0x006AA6D0,return_this,function,unclassified,not-in-registry
 public-symbol,0x00AAA720,0x006AA720,nullsub_321,function,unclassified,not-in-registry
 public-symbol,0x00AAA730,0x006AA730,_sub_AAA730,function,unclassified,not-in-registry
@@ -31556,7 +31555,6 @@ public-symbol,0x00BA8690,0x007A8690,??_ESpeedTreeBillboardShaderProperty@@6A@,fu
 public-symbol,0x00BA86C0,0x007A86C0,SpeedTreeBillboardShaderProperty::BA86C0,function,unclassified,not-in-registry
 public-symbol,0x00BA86F0,0x007A86F0,SpeedTreeBillboardShaderProperty::Clone,function,unclassified,not-in-registry
 public-symbol,0x00BA8780,0x007A8780,SpeedTreeBillboardShaderProperty::GetViewerStrings,function,unclassified,not-in-registry
-public-symbol,0x00BA87D0,0x007A87D0,j_NiObject::IsEqual,function,unclassified,not-in-registry
 public-symbol,0x00BA87E0,0x007A87E0,BSShaderTextureSet::GetTexturePath,function,unclassified,not-in-registry
 public-symbol,0x00BA87F0,0x007A87F0,BSShaderTextureSet::GetTexture,function,unclassified,not-in-registry
 public-symbol,0x00BA88D0,0x007A88D0,BSShaderTextureSet::LoadBinary,function,unclassified,not-in-registry

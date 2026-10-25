@@ -6,24 +6,26 @@ OK   класс: представление, а размер помечен conf
 OK   класс: strict, но размер не confirmed → без статуса 
 OK   реестр пересобран из evidence/ и PDB — совпадает с опубликованным verification.json 
 OK   у каждого из 86 классов ровно один статус 
-OK   каждая функция плана — в реестре ровно один раз, статус из двух 2204 функций
+OK   каждая функция плана — в реестре ровно один раз, статус из двух 2206 функций
 OK   ключ функции: (exe_id, RVA, исходное имя, вид символа) 
 OK   подтверждённый прототип — только у функций с ручным разбором слота (semantics), не по имени/S_PUB32/классу 
-OK   у всех адресов плана с прототипом semantics — привязка слота в semantic_bindings 10
-OK   v0.5.13 P1: Confirmed — только привязка имени matched; ICF/чужое имя — VerifiedPrefix без прототипа Confirmed 1 из 10
+OK   у всех адресов плана с прототипом semantics — привязка слота в semantic_bindings 16 в плане, 38 с привязками
+OK   v0.6: привязки без единственного кандидата плана на функцию не переносятся 
+OK   v0.6: прототип на функцию — только при полностью доказанном слоте (return_verified и args_verified) 
+OK   v0.5.13 P1: Confirmed — только привязка имени matched; ICF/чужое имя — VerifiedPrefix без прототипа Confirmed 1 из 38
 OK   v0.5.13 P1: адреса из аудита — не Confirmed, прототип только у слота 0x004011B0 TESForm::GetHavokDeath → icf-shared, 0x004011D0 TESForm::GetNeedToChangeProcess → icf-shared, 0x00549580 TESForm::GetLODTree → name-conflict, 0x007AF430 TESObjectREFR::GetObjectReference → name-conflict
-OK   v0.5.13 P3: this_supported и this_basis вместо this_verified {'None': 739, 'method-heuristic': 1077, 'vtable-slot': 388}
-OK   v0.5.13 P2: охват по видам символов записан {'data': 50718, 'function': 85249}
+OK   v0.5.13 P3: this_supported и this_basis вместо this_verified {'None': 695, 'method-heuristic': 1065, 'vtable-slot': 446}
+OK   v0.5.13 P2: охват по видам символов записан {'data': 50718, 'function': 85247}
 OK   0x008A81C0 (конфликт this): ни this, ни прототипа, статус VerifiedPrefix 
 OK   у классов VerifiedPrefix в строгом режиме нет ни одного this 
-OK   назначения this: план v0.5.11 минус 6 межклассовых (строгий 1458, research 1459) 1458 / 1459
-OK   v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена и привязки слотов те же 
+OK   назначения this: v0.5.14 (1458 / 1459) + 23 по слотам v0.6 − 1 конфликт (строгий 1480, research 1481) 1480 / 1481
+OK   v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена те же 
 OK   v0.5.14 A: this не назначается ни одной функции с классом в имени из другой иерархии без доказательства 
 OK   v0.5.14 A: с отдельным межклассовым доказательством this возвращается точечно (только этот адрес) 
-OK   v0.5.14 B: пустой bound_method_names — unassessed, name_binding_verified=false, не matched 1664 функций
+OK   v0.5.14 B: пустой bound_method_names — unassessed, name_binding_verified=false, не matched 1656 функций
 OK   v0.5.14 B: Confirmed — только при matched с независимым именем и связанном классе в имени 
-OK   остальные публичные символы xNVSE — в coverage_gaps без статуса 135967 из 138171
+OK   остальные публичные символы xNVSE — в coverage_gaps без статуса 135965 из 138171
 OK   verification_coverage.csv: все классы и функции реестра 
 OK   чувствительность: слот semantics → name+stack ⇒ функция VerifiedPrefix, прототип снят, имя то же 0x00AE9FD0 BSGameSound::PriorityTest
 OK   чувствительность: размер BSAudioManager не доказан ⇒ класс без статуса, в coverage_gaps, this его методам снят 
-ИТОГ: всё прошло (28 проверок)
+ИТОГ: всё прошло (30 проверок)
