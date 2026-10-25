@@ -262,6 +262,92 @@
       "add eax, 9"
      ]
     ]
+   ],
+   [
+    "stack-frame-bound",
+    9,
+    "v0.5.10: только граница. BGSUnloadedFormBuffer::Save: заголовок на стеке [ebp−0x1C] (0x0086621C lea ecx; 0x0086621F call BGSSaveLoadFormHeader::BGSSaveLoadFormHeader), поля пишутся в [ebp−0x19] (+3), [ebp−0x15] (+7), [ebp−0x14] (+8), Write(&hdr, 9) (0x00866247..0x00866250); переменная [ebp−0x10] записана до конструктора (0x00866219) и читается после (0x0086626F) ⇒ sizeof ≤ 0xC",
+    [
+     [
+      "0x86621C",
+      "lea ecx, [ebp - 0x1c]"
+     ],
+     [
+      "0x86621F",
+      "call 0x864450"
+     ],
+     [
+      "0x866247",
+      "push 9"
+     ],
+     [
+      "0x866249",
+      "lea ecx, [ebp - 0x1c]"
+     ],
+     [
+      "0x866250",
+      "call 0x846330"
+     ],
+     [
+      "0x866219",
+      "mov dword ptr [ebp - 0x10], eax"
+     ],
+     [
+      "0x86626F",
+      "mov ecx, dword ptr [ebp - 0x10]"
+     ]
+    ],
+    {
+     "obj_disp": "-0x1c",
+     "next_disp": "-0x10",
+     "obj_first": "0x86621C",
+     "obj_last": "0x866255",
+     "next_def": "0x866219",
+     "next_use": "0x86626F"
+    }
+   ],
+   [
+    "stack-frame-bound",
+    9,
+    "v0.5.10: только граница. BGSUnloadedFormBuffer::Load: заголовок на стеке [ebp−0x24] (0x008662C9 lea ecx; 0x008662CC call конструктора), Read(&hdr, 9) (0x008662D1..0x008662DA), поля читаются из [ebp−0x1D] (+7) и [ebp−0x1C] (+8) до 0x00866346; переменная [ebp−0x18] записана в 0x00866331 и читается в 0x0086634B ⇒ sizeof ≤ 0xC",
+    [
+     [
+      "0x8662C9",
+      "lea ecx, [ebp - 0x24]"
+     ],
+     [
+      "0x8662CC",
+      "call 0x864450"
+     ],
+     [
+      "0x8662D1",
+      "push 9"
+     ],
+     [
+      "0x8662D3",
+      "lea eax, [ebp - 0x24]"
+     ],
+     [
+      "0x8662DA",
+      "call 0x846300"
+     ],
+     [
+      "0x866331",
+      "mov dword ptr [ebp - 0x18], edx"
+     ],
+     [
+      "0x86634B",
+      "mov edx, dword ptr [ebp - 0x18]"
+     ]
+    ],
+    {
+     "obj_disp": "-0x24",
+     "next_disp": "-0x18",
+     "obj_first": "0x8662C9",
+     "obj_last": "0x866346",
+     "next_def": "0x866331",
+     "next_use": "0x86634B"
+    }
    ]
   ],
   "BGSSaveFormBuffer": [

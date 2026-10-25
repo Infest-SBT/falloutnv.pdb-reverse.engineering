@@ -162,7 +162,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 Функции, прочитанные не до конца (лимит 0x10000 байт): нет.
 
-Строк в evidence_fields.csv: 8853, evidence_vslots.csv: 4993, evidence_sizes.csv: 453.
+Строк в evidence_fields.csv: 8853, evidence_vslots.csv: 4993, evidence_sizes.csv: 455.
 
 Итого: f_confirmed=879, f_consistent=9, f_unverified=14, v_name=108, v_name+stack=858, v_semantics=10, v_stack=241, v_stub=670
 

@@ -59,7 +59,13 @@ class Ctx:
         while len(out) < max_n:
             if not self.inside(a, 1, executable):
                 return out, False
-            i = next(iter(self.md.disasm(self.img[a - self.B:a - self.B + 16], a)), None)
+            # v0.5.10 (аудит Астры v0.5.9, P3): декодеру даются только байты до конца своей секции
+            lim = a + 16
+            if self.sections is not None:
+                lim = min(lim, next(e for s, e, ex in self.sections
+                                    if s <= a < e and (executable is None or ex == executable)))
+            lim = min(lim, self.B + len(self.img))
+            i = next(iter(self.md.disasm(self.img[a - self.B:lim - self.B], a)), None)
             if i is None or not self.inside(a, i.size, executable):
                 return out, False
             out.append(i)
@@ -475,7 +481,7 @@ def eh_frame(ctx, f, handlers=None, stub_calls=None):
         if not act:
             acts.append(f'{s}→{to}: нет')
             continue
-        if not ctx.inside(act, 16, executable=True):
+        if not ctx.inside(act, 1, executable=True):   # v0.5.10 (аудит Астры v0.5.9, P3): не 16 байт — decode проверит каждую команду
             return False, f'действие раскрутки 0x{act:08X} вне исполняемой секции'
         body, ok_b = ctx.decode(act, 9, executable=True, stop=('jmp', 'ret'))   # v0.5.9: пошагово
         if not ok_b or not body:
