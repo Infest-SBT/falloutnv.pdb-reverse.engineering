@@ -81,6 +81,21 @@ check('ранний ret: ecx при вызове вне хвоста — сбр�
 code4 = bytes.fromhex('89CE' '85C0' '7404' '8B09' 'EBF6' '8B4620' 'C3')
 ee, wr, ws = cc.ret_prescan(ctx_of(code4), 0x1000, 0x1000 + len(code4))
 check('ранний ret: переход на начало функции — ничего не сохраняется', '*' in wr, f'{wr}')
+# J (v0.5.6, О1): жизнь по графу, а не по адресам. Переменная [ebp-8] живёт только в ветке, где объекта
+# [ebp-0x10] нет, хотя по адресам её запись и чтение лежат между началом объекта и обращением к нему
+code5 = bytes.fromhex('85C0' '7405' '8D4DF0' 'EB0B' 'C745F801000000' '8B45F8' 'C3' '8B45F0' 'C3')
+ok, up, why = cc.check_stack_frame(ctx_of(code5), {'obj_disp': '-0x10', 'next_disp': '-0x8', 'obj_first': '0x1004',
+                                                   'obj_last': '0x1014', 'next_def': '0x1009', 'next_use': '0x1010'}, 8, 8, 4)
+check('stack-frame: переменная в другой ветке (по адресам «внутри» жизни объекта) — отказ по графу', not ok, why[-90:])
+code6 = bytes.fromhex('C745F801000000' '8D4DF0' '8B45F0' '8B45F8' 'C3')
+ok, up, why = cc.check_stack_frame(ctx_of(code6), {'obj_disp': '-0x10', 'next_disp': '-0x8', 'obj_first': '0x1007',
+                                                   'obj_last': '0x100A', 'next_def': '0x1000', 'next_use': '0x100D'}, 8, 8, 4)
+check('stack-frame: переменная жива через всю жизнь объекта — принято', ok, why[-90:])
+# объект создаётся заново в каждом проходе цикла: после последнего обращения до нового создания он мёртв
+code7 = bytes.fromhex('8D4DF0' '8B45F0' 'C745F801000000' '8B45F8' '85C0' '75EC' 'C3')
+ok, up, why = cc.check_stack_frame(ctx_of(code7), {'obj_disp': '-0x10', 'next_disp': '-0x8', 'obj_first': '0x1000',
+                                                   'obj_last': '0x1003', 'next_def': '0x1006', 'next_use': '0x100D'}, 8, 8, 4)
+check('stack-frame: объект в цикле мёртв, пока жива переменная — отказ', not ok, why[-90:])
 # I: точное сравнение текста
 I_ = ctx_of(bytes.fromhex('6A09' '6890000000' 'C3'))
 check('точное сравнение: «push 9» = «push 9»', I_.same(0x1000, 'push 9'))

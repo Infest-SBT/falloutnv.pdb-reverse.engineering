@@ -284,6 +284,120 @@ def _slot_ref(ins, disp, lo, hi):
     return False
 
 
+class CFG:
+    """v0.5.6 (аудит Астры v0.5.5, О1): граф потока управления одной функции на уровне команд.
+    Рёбра: jcc — цель и следующая команда; jmp — цель (или все цели таблицы switch); ret — нет; остальное (в том числе
+    call) — следующая команда. Косвенный переход неразобранного вида — граф неполон (ok = False).
+    Не моделируются: исключения (SEH, обработчики catch) и вызовы, не возвращающие управление."""
+
+    def __init__(self, ctx, f):
+        e = ctx.func(f)[1]
+        self.f = f
+        self.L = ctx.listing(f, e)
+        self.at = {i.address: k for k, i in enumerate(self.L)}
+        jt = jump_targets(ctx, self.L)
+        self.ok = jt is not None
+        tab = {}
+        for src, tg in (jt or []):
+            tab.setdefault(src, []).append(tg)
+        self.succ = {}
+        for k, i in enumerate(self.L):
+            nxt = self.L[k + 1].address if k + 1 < len(self.L) else None
+            m = i.mnemonic
+            if m == 'ret':
+                s = []
+            elif m == 'jmp':
+                s = tab.get(i.address, [])
+            elif m.startswith('j') or m.startswith('loop'):
+                s = tab.get(i.address, []) + ([nxt] if nxt else [])
+            elif m == 'int3':
+                s = []
+            else:
+                s = [nxt] if nxt else []
+            self.succ[i.address] = [x for x in s if x in self.at]
+        self.pred = {a: [] for a in self.at}
+        for a, ss in self.succ.items():
+            for b in ss:
+                self.pred[b].append(a)
+        # достижимость от входа
+        seen, st = {f}, [f]
+        while st:
+            a = st.pop()
+            for b in self.succ.get(a, []):
+                if b not in seen:
+                    seen.add(b); st.append(b)
+        self.reach = seen
+        # доминаторы на уровне команд (итеративно; команды достижимые от входа)
+        order = [i.address for i in self.L if i.address in seen]
+        dom = {a: set(order) for a in order}
+        dom[f] = {f}
+        changed = True
+        while changed:
+            changed = False
+            for a in order:
+                if a == f:
+                    continue
+                ps = [q for q in self.pred[a] if q in seen]
+                nd = set.intersection(*(dom[q] for q in ps)) if ps else set()
+                nd = nd | {a}
+                if nd != dom[a]:
+                    dom[a] = nd; changed = True
+        self.dom = dom
+
+    def dominates(self, a, b):
+        return b in self.dom and a in self.dom[b]
+
+    def backward(self, starts, stop=lambda a: False):
+        """Команды, из которых достижима одна из starts; через команду, для которой stop(a), не идём дальше назад
+        (сама она в множество не входит, если не в starts)."""
+        out, st = set(starts), list(starts)
+        while st:
+            a = st.pop()
+            for q in self.pred.get(a, []):
+                if q not in out and not stop(q):
+                    out.add(q); st.append(q)
+        return out
+
+
+def cfg_both_live(ctx, f, od, size, nd, next_def, obj_first, pref_points=()):
+    """v0.5.6: есть ли команда p, где одновременно живы объект [ebp+od, +size) и переменная [ebp+nd]:
+    - объект: команда начала объекта obj_first (lea на [ebp+od]) строго доминирует p, и из p достижимо другое
+      обращение к объекту, не проходя снова через obj_first (в цикле объект создаётся заново — до этого он мёртв);
+    - переменная: её запись next_def доминирует p, и из p достижимо её чтение, не проходя через её запись.
+    (ok, текст)."""
+    g = CFG(ctx, f)
+    if not g.ok:
+        return False, 'граф неполон: косвенный переход неразобранного вида'
+    obj_uses = [i.address for i in g.L if _slot_ref(i, od, 0, size) and i.address != obj_first]
+    reads, writes = set(), set()
+    for i in g.L:
+        _, ws, esc, _, rs = _effects(i)
+        if nd in rs or nd in esc:
+            reads.add(i.address)
+        if nd in ws and nd not in rs:
+            writes.add(i.address)
+    obj_live = g.backward(obj_uses, stop=lambda a: a == obj_first)
+    var_live = g.backward(reads, stop=lambda a: a in writes)
+    cand = []
+    for i in g.L:
+        a = i.address
+        if a not in g.reach or a not in obj_live or a not in var_live:
+            continue
+        if not g.dominates(next_def, a) or a == obj_first or not g.dominates(obj_first, a):
+            continue
+        cand.append(a)
+    if not cand:
+        return False, (f'по графу ({len(g.reach)} достижимых команд) нет точки, где живы и объект, и переменная')
+    a, s = cand[0], obj_first
+    for pref in pref_points:
+        if pref in cand:
+            a = pref
+            break
+    return True, (f'по графу потока управления ({len(g.reach)} достижимых команд, {len(cand)} точек): в 0x{a:08X} '
+                  f'живы оба — начало объекта 0x{s:08X} и запись переменной 0x{next_def:08X} доминируют её, из неё '
+                  f'достижимы обращение к объекту и чтение переменной без её перезаписи')
+
+
 def check_stack_frame(ctx, p, claimed, last_field_end, align):
     """(ok, верхняя граница, текст). p: obj_disp, next_disp, obj_first, obj_last, next_def, next_use (адреса — строки)."""
     od, nd = int(str(p['obj_disp']), 0), int(str(p['next_disp']), 0)
@@ -298,10 +412,8 @@ def check_stack_frame(ctx, p, claimed, last_field_end, align):
     li = ctx.insn(a['obj_last'])
     if not _slot_ref(li, od, 0, upper):
         return False, upper, f'0x{a["obj_last"]:08X} не обращается внутрь объекта'
-    # соседняя переменная жива одновременно с объектом — одно из двух:
-    # (а) звено def→use без перезаписи и входов извне, и этот участок пересекается с участком жизни объекта;
-    # (б) чтение слота лежит внутри участка жизни объекта (объект создан раньше и используется позже), а запись
-    #     в слот — раньше чтения: в момент чтения живы оба (так в цикле, где переменная — счётчик).
+    # v0.5.6 (аудит Астры v0.5.5, О1): одновременная жизнь объекта и соседней переменной — по графу потока
+    # управления (cfg_both_live), а не по порядку адресов
     loc = f'[ebp{nd:+#x}]'
     nw, nu = ctx.insn(a['next_def']), ctx.insn(a['next_use'])
     _, ws_d, _, _, _ = _effects(nw)
@@ -311,18 +423,11 @@ def check_stack_frame(ctx, p, claimed, last_field_end, align):
     if nd not in rs_u:
         return False, upper, f'0x{a["next_use"]:08X} не читает {loc}'
     width = next((op.size for op in nw.operands if op.type == x86.X86_OP_MEM), 0)
-    s1, e1 = a['obj_first'], a['obj_last']
-    s2, e2 = a['next_def'], a['next_use']
-    ok_a, why_a = defuse_link(ctx, s2, loc, e2)
-    if ok_a and max(s1, s2) <= min(e1, e2):
-        how = (f'запись 0x{s2:08X}, чтение 0x{e2:08X}, между ними не перезаписана и входов извне нет; пересечение '
-               f'с жизнью объекта 0x{max(s1, s2):08X}..0x{min(e1, e2):08X}')
-    elif s2 < e2 and s1 < e2 < e1:
-        how = (f'запись 0x{s2:08X}, чтение 0x{e2:08X} внутри жизни объекта (в момент чтения живы оба; '
-               f'звено def→use: {why_a if not ok_a else "ok"})')
-    else:
-        return False, upper, f'жизнь соседней переменной не пересекается с жизнью объекта ({why_a})'
-    life = (f'объект [ebp{od:+#x}] жив 0x{s1:08X}..0x{e1:08X} (по адресам); переменная {loc} ({width} байт): {how} '
+    ok_g, how = cfg_both_live(ctx, f, od, upper, nd, a['next_def'], a['obj_first'], (a['next_use'], a['obj_last']))
+    if not ok_g:
+        return False, upper, f'объект [ebp{od:+#x}] и переменная {loc}: {how}'
+    life = (f'объект [ebp{od:+#x}] (начало 0x{a["obj_first"]:08X}, обращение 0x{a["obj_last"]:08X}); переменная {loc} '
+            f'({width} байт; запись 0x{a["next_def"]:08X}, чтение 0x{a["next_use"]:08X}); {how} '
             f'⇒ sizeof ≤ 0x{upper:X}; конец последнего поля 0x{last_field_end:X}')
     lower = -(-last_field_end // align) * align
     life += f' (с выравниванием {align}: sizeof ≥ 0x{lower:X})'
