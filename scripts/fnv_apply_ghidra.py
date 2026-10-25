@@ -29,6 +29,11 @@
 #   4) комментарий к каждому полю структуры: статус проверки на PC; «ПРЕДВАРИТЕЛЬНО: не для хуков» для
 #      consistent/unverified полей и предварительных классов.
 # Полные прототипы НЕ применяются: ret N подтверждает только объём аргументов (см. README).
+# v0.5.12: статусы доказанности — в evidence/verification.json рядом с summary.json (имена классов и функций исходные).
+#   Скрипт сверяет его SHA-256-привязки: summary.json, exe и именно тот FalloutNV.pdb, который загружен (спросит файл;
+#   headless — аргумент *.pdb). Нет файла, другая схема, другой PDB/exe, неизвестный статус, несогласованные
+#   статусы/границы — скрипт останавливается и ничего не меняет (fail closed). this ставится только там, где реестр
+#   разрешает его для этого режима; классы VerifiedPrefix — только комментарии к полям и описание структуры.
 # На реальной Ghidra скрипт не запускался — первый прогон делайте на копии проекта.
 
 from __future__ import print_function, unicode_literals
@@ -38,12 +43,15 @@ STRICT = True        # True — строгий FalloutNV.pdb: типы толь�
 ALL_THIS = False     # True — this всем методам, читающим ECX до записи (как в v0.3), даже без обращений к полям
 UPDATE_OWN_SIGNATURES = False  # True — обновлять сигнатуры, которые поставил этот скрипт и с тех пор никто не менял
 OWN_MAP = "FNV_PDB.this_signature"  # карта свойств: адрес -> отпечаток сигнатуры, поставленной скриптом
+PDB_PATH = None      # v0.5.12: путь к загруженному FalloutNV.pdb (иначе спросит; headless — аргумент *.pdb)
 
 # ---------------------------------------------------------------------------------------------
 # Общая часть (одинакова в fnv_apply_ghidra.py и fnv_apply_ida.py; совместима с Python 2.7/Jython)
 # ---------------------------------------------------------------------------------------------
+import hashlib
 import io
 import json
+import os
 
 PDB_VERSION = "0.5"
 EXE_SHA256 = "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c"
@@ -52,6 +60,13 @@ MARK = "[FNV-PDB %s]" % PDB_VERSION      # метка наших изменен�
 MARK_PREFIX = "[FNV-PDB "                 # метки любых версий скрипта
 THIS_SLOT_STATUSES = ("semantics", "name+stack")
 PROTO_STATUSES = ("semantics",)           # IDA: полные прототипы — только разобранные вручную слоты
+# v0.5.12 (ТЗ Астры по идее Андрея): статус доказанности — в метаданных, имена исходные. Реестр verification.json лежит
+# рядом с summary.json и привязан к нему, к exe и к конкретному PDB по SHA-256. Любое несоответствие — fail closed.
+SCHEMA = 2
+STATUSES = ("Confirmed", "VerifiedPrefix")
+FACET_KEYS = (("address", "address_verified"), ("this", "this_verified"), ("stack_bytes", "stack_bytes_verified"),
+              ("calling_convention", "calling_convention_verified"), ("prototype", "prototype_verified"),
+              ("return_type", "return_type_verified"), ("argument_types", "argument_types_verified"))
 
 
 def load_summary(path):
@@ -197,19 +212,173 @@ def summarize_plan(by_va, conflicts):
             "конфликтов: %d" % (len(by_va), n_this, n_proto, len(conflicts)))
 
 
-def prefix_view_lines(summary, strict):
-    """v0.5.11: представления verified-prefix. Скрипт их не назначает (prefix_view_applied всегда 0): они есть в PDB
-    как отдельные типы и как тип поля во вмещающих классах; полный класс движка ими не подменяется."""
+# ---------------------------------------------------------------------------------------------
+# v0.5.12: реестр статусов (evidence/verification.json) — проверка и отсев назначений
+# ---------------------------------------------------------------------------------------------
+def sha256_path(path):
+    h = hashlib.sha256()
+    with io.open(path, "rb") as fh:
+        while True:
+            b = fh.read(1 << 20)
+            if not b:
+                break
+            h.update(b)
+    return h.hexdigest()
+
+
+def load_registry(summary_path):
+    """(реестр, None) или (None, причина). Реестр — verification.json рядом с summary.json."""
+    p = os.path.join(os.path.dirname(summary_path), "verification.json")
+    if not os.path.isfile(p):
+        return None, "нет %s — без реестра статусов типы не назначаются" % p
+    try:
+        with io.open(p, "r", encoding="utf-8") as fh:
+            return json.load(fh), None
+    except Exception as ex:  # noqa
+        return None, "verification.json не читается (%s)" % ex
+
+
+def _cls_problems(name, c, st):
+    bad = []
+    rep = c.get("strict_representation")
+    if st == "Confirmed":
+        if not c.get("strict") or c.get("size_status") != "confirmed" or rep or c.get("exact_size_confirmed") is not True:
+            bad.append("%s: Confirmed, но strict=%s, size_status=%s, представление=%s" % (
+                name, c.get("strict"), c.get("size_status"), bool(rep)))
+    elif st == "VerifiedPrefix":
+        if c.get("strict"):
+            bad.append("%s: VerifiedPrefix и strict одновременно" % name)
+        if not rep or rep.get("kind") != "verified-prefix" or rep.get("usable_as_complete_engine_object") is not False:
+            bad.append("%s: VerifiedPrefix без представления verified-prefix" % name)
+        if c.get("size_status") == "confirmed" or c.get("exact_size_confirmed") is not False:
+            bad.append("%s: VerifiedPrefix, но размер помечен доказанным" % name)
+        lo, hi, k = c.get("engine_size_lower_bound"), c.get("engine_size_upper_bound"), c.get("known_prefix_size")
+        if not (isinstance(lo, int) and isinstance(hi, int) and isinstance(k, int)) or not (
+                k == lo < hi <= lo + 4) or (rep and rep.get("representation_size") != k):
+            bad.append("%s: границы не согласованы (известно %s, %s…%s, представление %s)" % (
+                name, k, lo, hi, rep and rep.get("representation_size")))
+        ops = c.get("allowed_operations") or {}
+        if any(ops.get(x) is not False for x in ("engine_allocation", "engine_array_stride", "by_value_abi",
+                                                 "implicit_copy_or_lifetime", "sizeof_is_engine_size")):
+            bad.append("%s: VerifiedPrefix разрешает выделение/массивы/копирование/по значению" % name)
+    elif st is not None:
+        bad.append("%s: неизвестный статус %r" % (name, st))
+    elif c.get("strict"):
+        bad.append("%s: strict без статуса" % name)
+    return bad
+
+
+def check_registry(summary, summary_sha, reg, pdb_sha, strict, plan):
+    """Список причин (пустой — реестр можно использовать). Любая причина — fail closed: ничего не назначается."""
+    if reg is None:
+        return ["реестр статусов не загружен"]
+    bad = []
+    mode = "strict" if strict else "research"
+    if reg.get("metadata_schema_version") != SCHEMA or summary.get("metadata_schema_version") != SCHEMA:
+        bad.append("версия схемы метаданных %r/%r, нужна %d" % (reg.get("metadata_schema_version"),
+                                                                summary.get("metadata_schema_version"), SCHEMA))
+    if (reg.get("exe_sha256") or "").lower() != EXE_SHA256:
+        bad.append("реестр сделан не для FalloutNV.exe 1.4.0.525 (%s)" % reg.get("exe_sha256"))
+    if reg.get("summary_sha256") != summary_sha:
+        bad.append("реестр сделан для другого summary.json (%s, а этот %s)" % (reg.get("summary_sha256"), summary_sha))
+    want = ((reg.get("pdbs") or {}).get(mode) or {}).get("sha256")
+    if not pdb_sha:
+        bad.append("не указан загруженный PDB — нельзя проверить, к какому PDB относятся статусы")
+    elif pdb_sha != want:
+        bad.append("PDB %s не тот, для которого сделан реестр (%s PDB: %s)" % (pdb_sha, mode, want))
+    if tuple(reg.get("statuses") or ()) != STATUSES:
+        bad.append("перечень статусов %r, нужен %r" % (reg.get("statuses"), STATUSES))
+    classes = summary.get("classes", {})
+    rc = reg.get("classes") or {}
+    for name in sorted(classes):
+        c = classes[name]
+        st = c.get("verification_status")
+        if rc.get(name, "нет") != st:
+            bad.append("%s: статус в реестре %r, в summary %r" % (name, rc.get(name, "нет"), st))
+        bad += _cls_problems(name, c, st)
+    seen = set()
+    for f in reg.get("functions") or []:
+        va = f.get("va")
+        st = f.get("verification_status")
+        if st not in STATUSES:
+            bad.append("%s: неизвестный статус функции %r" % (va, st))
+            continue
+        seen.add(int(va, 16))
+        vals = dict((k, f.get(fk)) for k, fk in FACET_KEYS)
+        if any(v not in (True, False, "unknown") for v in vals.values()):
+            bad.append("%s: фасет не true/false/unknown" % va)
+        ok = set(k for k, v in vals.items() if v is True)
+        if set(f.get("verified_facets") or ()) != ok or set(f.get("unverified_facets") or ()) != set(vals) - ok:
+            bad.append("%s: verified_facets/unverified_facets не совпадают с фасетами" % va)
+        if vals["address"] is not True:
+            bad.append("%s: адрес не подтверждён, а функция в реестре" % va)
+        if st == "Confirmed" and ok != set(vals):
+            bad.append("%s: Confirmed без всех подтверждённых фасетов" % va)
+        for m in ("strict", "research"):
+            at = (f.get("apply_this") or {}).get(m)
+            sg = (f.get("apply_signature") or {}).get(m)
+            if at and (vals["this"] is not True or at not in classes):
+                bad.append("%s: apply_this %s без подтверждённого this" % (va, at))
+            if at and m == "strict" and classes.get(at, {}).get("verification_status") != "Confirmed":
+                bad.append("%s: this класса %s в строгом режиме, а класс не Confirmed" % (va, at))
+            if sg and (st != "Confirmed" or vals["prototype"] is not True or not at):
+                bad.append("%s: прототип без статуса Confirmed / подтверждённого прототипа" % va)
+    miss = [va for va in plan if va not in seen]
+    if miss:
+        bad.append("адресов плана нет в реестре: %d (первый 0x%08X)" % (len(miss), sorted(miss)[0]))
+    return bad
+
+
+def _mark(v):
+    return u"\u2713" if v is True else "?"
+
+
+def gate_plan(plan, reg, strict):
+    """Отсев плана по реестру (после check_registry): this и прототип остаются, только если их разрешает запись
+    функции для этого режима. В комментарий — статус и фасеты (имя функции не меняется)."""
+    mode = "strict" if strict else "research"
+    regf = dict((int(f["va"], 16), f) for f in reg.get("functions") or [])
+    dropped = []
+    for va in sorted(plan):
+        e = plan[va]
+        f = regf.get(va)
+        if f is None:
+            e["this"], e["proto"] = None, None
+            continue
+        at = (f.get("apply_this") or {}).get(mode)
+        sg = (f.get("apply_signature") or {}).get(mode)
+        if e["this"] and e["this"] != at:
+            dropped.append("0x%08X: this %s не ставится — в реестре %s (%s)" % (
+                va, e["this"], f["verification_status"], ", ".join(f.get("unverified_facets") or []) or "—"))
+            e["lines"].append("this не ставится: по реестру статусов не подтверждён для %s" % e["this"])
+            e["this"] = None
+        if e["proto"] and not (e["this"] and f["verification_status"] == "Confirmed" and sg == e["proto"][1]
+                               and e["proto"][0] == e["this"]):
+            dropped.append("0x%08X: прототип не ставится — в реестре %s" % (va, f["verification_status"]))
+            e["proto"] = None
+        e["lines"].append("статус %s: адрес %s; this %s; объём аргументов %s; соглашение вызова %s; прототип %s" % (
+            f["verification_status"], _mark(f.get("address_verified")), _mark(f.get("this_verified")),
+            _mark(f.get("stack_bytes_verified")), _mark(f.get("calling_convention_verified")),
+            _mark(f.get("prototype_verified"))))
+    return dropped
+
+
+def class_status_lines(summary, strict):
+    """Статусы классов для плана (не в именах): Confirmed / VerifiedPrefix и границы."""
     out = []
-    for cls in sorted(summary["classes"]):
-        v = summary["classes"][cls].get("strict_representation")
-        if v and strict:
-            out.append("%s — представление подтверждённой части %s (0x%X байт; размер %s на PC 0x%X…0x%X не доказан): "
-                       "this, прототипы, массивы и размещение по нему не назначаются; во вмещающих: %s" % (
-                           v["type_name"], cls, v["representation_size"], cls,
-                           summary["classes"][cls].get("engine_size_lower_bound", v["representation_size"]),
-                           summary["classes"][cls].get("engine_size_upper_bound", v["representation_size"]),
-                           ", ".join("%s::%s" % (x["class"], x["field"]) for x in v.get("containers", [])) or "нет"))
+    for name in sorted(summary.get("classes", {})):
+        c = summary["classes"][name]
+        st = c.get("verification_status")
+        if st == "VerifiedPrefix":
+            out.append("%s — VerifiedPrefix; известно 0x%X; объект игры 0x%X..0x%X; выделение, массивы, копирование, "
+                       "по значению — запрещены; %s" % (
+                           name, c["known_prefix_size"], c["engine_size_lower_bound"], c["engine_size_upper_bound"],
+                           "this и прототипы не ставятся" if strict else
+                           "research: тип по Xbox PDB, this — только по реестру функций"))
+        elif st == "Confirmed":
+            out.append("%s — Confirmed (размер и раскладка); методы — по реестру функций" % name)
+        else:
+            out.append("%s — без статуса (unclassified): типы не назначаются" % name)
     return out
 
 # ---------------------------------------------------------------------------------------------
@@ -251,7 +420,26 @@ def main():
 
     ecx = prog.getRegister("ECX")
     plan, conflicts = build_plan(S, ALL_THIS, STRICT)
-    log = []
+    # v0.5.12: реестр статусов (verification.json) — сверка с summary.json, exe и загруженным PDB; fail closed
+    reg, why = load_registry(summary_path)
+    pdb_path = PDB_PATH or next((a for a in args if a.lower().endswith(".pdb")), None)
+    if pdb_path is None and not isRunningHeadless():
+        try:
+            pdb_path = askFile("FalloutNV.pdb, загруженный в эту программу (%s)" % ("строгий" if STRICT else "research"),
+                               "Выбрать").getAbsolutePath()
+        except Exception:  # noqa — отмена выбора
+            pdb_path = None
+    pdb_sha = sha256_path(pdb_path) if pdb_path and os.path.isfile(pdb_path) else None
+    problems = ([why] if why else []) + check_registry(S, sha256_path(summary_path), reg, pdb_sha, STRICT, plan)
+    if problems:
+        msg = ("FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):\n  "
+               + "\n  ".join(problems[:20]) + ("\n  … ещё %d" % (len(problems) - 20) if len(problems) > 20 else ""))
+        println(msg)
+        if not isRunningHeadless():
+            popup(msg)
+        return
+    dropped = gate_plan(plan, reg, STRICT)
+    log = list(dropped)
 
 
     def find_struct(name, size):
@@ -281,7 +469,15 @@ def main():
 
 
     structs = {}
+    view_structs = {}     # v0.5.12: VerifiedPrefix — тип для просмотра полей; this/прототипы никогда
     for cls in sorted(S["classes"]):
+        if STRICT and S["classes"][cls].get("verification_status") == "VerifiedPrefix":
+            structs[cls] = None
+            vst, vwhy = find_struct(cls, S["classes"][cls]["known_prefix_size"])
+            view_structs[cls] = vst
+            if vst is None:
+                log.append("VerifiedPrefix %s: %s" % (cls, vwhy))
+            continue
         if STRICT and not S["classes"][cls].get("strict", False):
             structs[cls] = None             # в строгом PDB этого класса нет — не ищем, типы не назначаем
             continue
@@ -370,7 +566,7 @@ def main():
                   counts.get("create", 0), counts.get("comment", 0), counts.get("this", 0), n_fields),
               "full_type_applied (this полного класса): %d; prefix_view_applied: 0" % counts.get("this", 0),
               "", "Конфликты:"] + (conflicts or ["нет"]) + \
-             ["", "Представления verified-prefix (не применяются):"] + (prefix_view_lines(S, STRICT) or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + plan[va]["this"]) if act == "this" else "")
                                              for va, act in actions]
     plan_path = os.path.join(os.path.dirname(summary_path), "fnv_apply_plan_ghidra.txt")
@@ -438,6 +634,20 @@ def main():
                 else:
                     setPlateComment(a, merge_comment(getPlateComment(a), text))
                 done["comment"] += 1
+        for cls in sorted(view_structs):
+            vst = view_structs[cls]
+            if vst is None:
+                continue
+            c = S["classes"][cls]
+            vst.setDescription(merge_comment(vst.getDescription(), "%s %s — VerifiedPrefix: известно 0x%X байт, объект игры "
+                                             "0x%X..0x%X не доказан; не для выделения, массивов, копирования" % (
+                                                 MARK, cls, c["known_prefix_size"], c["engine_size_lower_bound"],
+                                                 c["engine_size_upper_bound"])))
+            for comp in vst.getDefinedComponents():
+                fd = c.get("field_details", {}).get(comp.getFieldName())
+                if fd:
+                    comp.setComment(merge_comment(comp.getComment(), field_comment(comp.getFieldName(), fd, True)))
+                    done["fields"] += 1
         for cls in sorted(S["classes"]):
             c = S["classes"][cls]
             st = structs.get(cls)

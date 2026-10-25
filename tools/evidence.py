@@ -46,6 +46,7 @@ from slotfwd import slot_forward as _slot_forward, stub_status   # v0.5.3
 import capstone, pefile
 import chaincheck                                                 # v0.5.5
 import prefixview                                                 # v0.5.11
+import verification                                               # v0.5.12
 
 meta_path, spec_path, syms_path, exe_path, out_dir = sys.argv[1:6]
 os.makedirs(out_dir, exist_ok=True)
@@ -1567,7 +1568,8 @@ for cname, sc in summary['classes'].items():
 
 # ---------------- v0.5.11: представления подтверждённой части (verified-prefix, ТЗ Астры) ----------------
 # Класс с подтверждёнными полями, но недоказанным размером остаётся в research (consistent). В строгий PDB может
-# пойти только ОТДЕЛЬНОЕ представление <имя>_VerifiedPrefix (sizeof = нижняя граница); решение — prefixview.evaluate,
+# пойти только представление подтверждённой части (sizeof = нижняя граница; v0.5.11 — под именем <имя>_VerifiedPrefix,
+# v0.5.12 — под исходным именем класса, verification_status = VerifiedPrefix); решение — prefixview.evaluate,
 # факты собираются здесь; журнал решений и охват отрицательного поиска — verified_prefix_candidates.csv.
 PREFIX_ROWS = []
 SIZE_HINT_CALL = re.compile(r'(?i)memcpy|memmove|memset|alloc|operator new|\?\?2@|::Allocate')
@@ -1679,7 +1681,8 @@ for eng, vp in spec.get('verified_prefix', {}).items():
         PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': n_, 'result': 'ok' if o_ else 'ОТКАЗ', 'detail': d_})
     PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': 'решение',
                         'result': 'verified-prefix' if ok_v else 'отказ',
-                        'detail': (f'в строгий PDB — отдельный тип {vp["view"]} (sizeof 0x{lo:X}); размер {eng} на PC — '
+                        'detail': (f'в строгий PDB — представление под исходным именем {vp["view"]}, verification_status '
+                                   f'VerifiedPrefix (sizeof представления 0x{lo:X}); размер {eng} на PC — '
                                    f'0x{lo:X}…0x{hi:X}, не доказан' if ok_v else 'представление не публикуется')})
     for s_ in sorted(set(scanned)):
         PREFIX_ROWS.append({'engine_class': eng, 'view': vp['view'], 'item': 'охват поиска', 'result': '', 'detail': s_})
@@ -1761,6 +1764,15 @@ for cname_, n_ in spec.get('vtable_slot_functions', {}).items():
     ident_rows.append({'class': cname_, 'pc_func_va': '', 'pc_name': f'слоты 0..{n_ - 1} PC-vtable (RTTI)',
                        'role': 'методы (this = объект класса)', 'reason': 'функции из vtable самого класса вызываются с его this'})
 wcsv('identified_functions.csv', ident_rows)
+# v0.5.12 (ТЗ Астры по идее Андрея): статус доказанности класса — свойство метаданных, имя не меняется.
+# Вычисляется из уже собранных фактов (verification.class_record); реестр функций — verification.py после сборки PDB.
+summary['metadata_schema_version'] = verification.SCHEMA
+for cname_, sc_ in summary['classes'].items():
+    rec_ = verification.class_record(sc_)
+    if rec_:
+        sc_.update(rec_)
+    else:
+        sc_['verification_status'] = None       # unclassified: в coverage_gaps.csv, двухстатусный реестр не получает
 json.dump(summary, open(os.path.join(out_dir, 'summary.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 rep = ['# Доказательная матрица', '', f'FalloutNV.exe SHA-256 `{exe_sha}`', '',
@@ -1833,7 +1845,7 @@ for r in shift_rows:
                    f"{r['anchors'] or '—'} |")
 rep += ['', '## Допуск в строгий PDB', '', summary['admission_rule'] + '.', '',
         'Не допущены полным классом: ' + (', '.join(f"`{c}` ({sc['size_status']}" + (
-            f"; в строгом — только представление `{sc['strict_representation']['type_name']}`, v0.5.11"
+            f"; в строгом — только представление подтверждённой части под тем же именем, VerifiedPrefix"
             if sc.get('strict_representation') else '') + ')' for c, sc in summary['classes'].items() if not sc['strict'])
             or 'нет') + '.',
         '', 'Функции, прочитанные не до конца (лимит 0x%X байт): %s.' % (READ_LIMIT, ', '.join(summary['truncated_functions']) or 'нет')]
@@ -1864,23 +1876,26 @@ rep += ['', '## v0.5.5: путь, ручные цепочки, обращени�
 _vp = [(c_, sc_) for c_, sc_ in summary['classes'].items() if 'verified_prefix_checks' in sc_]
 if _vp:
     _n_view = sum(1 for _, sc_ in _vp if sc_.get('strict_representation'))
-    rep += ['', '## v0.5.11: представления verified-prefix (verified_prefix_candidates.csv)', '',
-            f"В строгий PDB: полных классов {sum(1 for sc_ in summary['classes'].values() if sc_['strict'])} + "
-            f"представлений {_n_view}. Представление — ОТДЕЛЬНЫЙ тип `<класс>_VerifiedPrefix` с подтверждёнными полями "
-            "класса, у которого точный размер на PC не доказан (известны нижняя и верхняя границы). Это НЕ полный класс "
-            "движка: его sizeof — нижняя граница, а не размер объекта игры. **Нельзя** по нему выделять память под объект "
+    _vs = collections.Counter(sc_.get('verification_status') or 'unclassified' for sc_ in summary['classes'].values())
+    rep += ['', '## Статусы доказанности и представления VerifiedPrefix (v0.5.11–v0.5.12)', '',
+            f"verification_status классов (v0.5.12): {', '.join(f'{k} — {v}' for k, v in sorted(_vs.items()))}. "
+            "Статус — свойство метаданных (summary.json), имя класса не меняется; реестр функций — verification.json. "
+            f"В строгий PDB: классов Confirmed (размер и раскладка) {sum(1 for sc_ in summary['classes'].values() if sc_['strict'])} + "
+            f"VerifiedPrefix {_n_view}. VerifiedPrefix — тип под ИСХОДНЫМ именем класса только с подтверждёнными полями "
+            "известной начальной части; точный размер объекта на PC не доказан (известны нижняя и верхняя границы). Это НЕ "
+            "доказанная полная структура: sizeof типа — нижняя граница, а не размер объекта игры. **Нельзя** по нему выделять память под объект "
             "игры, создавать массивы, копировать объект, передавать по значению, вызывать конструктор или деструктор "
             "игры. Можно — обращаться к подтверждённым полям уже существующего объекта игры по указателю. Сам класс "
             "остаётся в research с прежним size_status. Решение пересчитывается при каждом прогоне (prefixview.evaluate); "
             "любое невыполненное условие снимает представление. Отрицательный поиск — «не обнаружено в исследованном "
             "коде», не доказательство отсутствия; охват — строки «охват поиска» в CSV.", '',
-            '| класс движка | представление | size_status класса | границы | решение | условия | просмотрено функций |',
+            '| класс | имя в строгом PDB | size_status класса | границы | решение | условия | просмотрено функций |',
             '|---|---|---|---|---|---|---|']
     for c_, sc_ in _vp:
         _r = sc_.get('strict_representation')
         _vn = spec['verified_prefix'][c_]['view']
         rep.append(f"| `{c_}` | `{_vn}` | {sc_['size_status']} | 0x{sc_['engine_size_lower_bound']:X}…"
-                   f"0x{sc_['engine_size_upper_bound']:X} | {'verified-prefix' if _r else 'отказ'} | "
+                   f"0x{sc_['engine_size_upper_bound']:X} | {'VerifiedPrefix' if _r else 'отказ'} | "
                    + ', '.join(f"{x['check'].split()[0]} {'ok' if x['ok'] else 'ОТКАЗ'}" for x in sc_['verified_prefix_checks'])
                    + f" | {sum(1 for r in PREFIX_ROWS if r['engine_class'] == c_ and r['item'] == 'охват поиска')} |")
 print('строки evidence_vslots.csv:', dict(sorted(collections.Counter(r['status'] for r in slot_rows).items())))

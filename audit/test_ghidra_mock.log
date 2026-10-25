@@ -1,0 +1,55 @@
+OK   чужой exe: остановка без изменений 
+OK   пробный прогон: ничего не изменено 
+OK   применение: транзакция зафиксирована this=1464
+OK   отпечатки записаны для каждого this 1464/1464
+OK   второй запуск: сигнатуры и комментарии те же 
+OK   второй запуск: 0 установок this 
+OK   комментарий «поставлен скриптом» только там, где стоит отпечаток 1464
+OK   USER_DEFINED 0xAA7E50: после 1-го запуска не тронута 
+OK   USER_DEFINED 0xAA7E50: после 2-го запуска не тронута 
+OK   USER_DEFINED 0xAA7E50: отпечатка нет 
+OK   USER_DEFINED 0xAA7E50: в комментарии нет «поставлен скриптом» 
+OK   изменённая человеком сигнатура не тронута 0x401130
+OK   …и после ещё одного запуска 
+OK   неоднозначная структура: класс пропущен 
+OK   вложенные классы находятся по короткому имени и категории 10 классов
+OK   строгий режим: this только классам строгого PDB 
+OK   режим --research: назначений this больше 1465 / 1464
+OK   статусы: план разделяет full_type_applied и prefix_view_applied 
+OK   статусы: классы VerifiedPrefix перечислены в плане под исходными именами BGSSaveLoadFormHeader, FontManager::TextData
+OK   статусы: в комментариях функций — статус и фасеты (имя не меняется) 
+OK   статусы: классам VerifiedPrefix this не назначен 
+OK   статусы: у структур VerifiedPrefix — описание с границами и комментарии полей 
+OK   research: те же исходные имена; методы класса VerifiedPrefix получают this по реестру BGSSaveLoadFormHeader
+OK   fail closed: нет verification.json FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  нет /tmp/claude-0/-home-claude/0ff6da26
+OK   fail closed: verification.json не читается FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  verification.json не читается (Expectin
+OK   fail closed: не указан PDB FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  не указан загруженный PDB — нельзя пров
+OK   fail closed: строгий режим, а загружен research PDB FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  PDB d0cb8d90eb142052901de4c9fc86e21fc0d
+OK   fail closed: реестр для другого exe FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  реестр сделан не для FalloutNV.exe 1.4.
+OK   fail closed: реестр для другого summary.json FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  реестр сделан для другого summary.json 
+OK   fail closed: другая версия схемы FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  версия схемы метаданных 3/2, нужна 2
+OK   fail closed: неизвестный статус функции FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  0x00401020: неизвестный статус функции 
+OK   fail closed: неизвестный статус класса FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  BGSSaveLoadFormHeader: неизвестный стат
+OK   fail closed: strict и VerifiedPrefix одновременно FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  BGSSaveLoadFormHeader: VerifiedPrefix и
+OK   fail closed: границы не согласованы (верхняя 0x20) FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  BGSSaveLoadFormHeader: границы не согла
+OK   fail closed: VerifiedPrefix с size_status confirmed FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  BGSSaveLoadFormHeader: VerifiedPrefix, 
+OK   fail closed: VerifiedPrefix разрешает выделение памяти FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  BGSSaveLoadFormHeader: VerifiedPrefix р
+OK   fail closed: this разрешён без подтверждённого this (фасеты не согласованы) FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  0x00401130: verified_facets/unverified_
+OK   чувствительность: функция понижена в реестре — её this снят, имя то же, остальные на месте 0x00401130 TESForm::LoadEdit: 1464 → 1463
+OK   отзыв статуса класса BSAudioManager: this его методам не ставится, имя класса то же 1464 → 1431
+OK   ошибка: транзакция завершена с откатом (ok=False) 
+ИТОГ: всё прошло

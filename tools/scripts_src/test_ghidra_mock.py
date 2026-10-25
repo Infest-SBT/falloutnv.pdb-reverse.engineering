@@ -1,6 +1,8 @@
 """Регрессионные тесты fnv_apply_ghidra.py на имитации API Ghidra (не заменяют прогон на настоящей Ghidra).
 
-usage: python3 -I test_ghidra_mock.py <evidence/summary.json> <scripts/fnv_apply_ghidra.py>
+usage: python3 -I test_ghidra_mock.py <evidence/summary.json> <scripts/fnv_apply_ghidra.py> [<строгий FalloutNV.pdb>]
+v0.5.12: рядом с summary.json должен лежать verification.json; PDB по умолчанию — <пакет>/FalloutNV.pdb и
+<пакет>/research/FalloutNV.pdb (пакет = папка над evidence/).
 Сценарии: чужой exe; пробный прогон; применение; два запуска подряд; пользовательская сигнатура на 0x00AA7E50
 (сценарий аудита v0.3.1) — два запуска; сигнатура, поставленная скриптом и изменённая человеком; неоднозначная
 структура; ошибка посреди применения -> откат.
@@ -11,6 +13,9 @@ import sys
 import types
 
 SP, SCRIPT = sys.argv[1:3]
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(SP)))
+PDB_S = sys.argv[3] if len(sys.argv) > 3 else os.path.join(ROOT, 'FalloutNV.pdb')
+PDB_R = os.path.join(ROOT, 'research', 'FalloutNV.pdb')
 CODE = open(SCRIPT, encoding='utf-8').read()
 SUMM = json.load(open(SP, encoding='utf-8'))
 EXE = '42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c'
@@ -41,7 +46,10 @@ class Structure:
 
 class FakeStruct(Structure):
     def __init__(s, name, size, fields):
-        s.name, s.size, s.comps = name, size, [Comp(f) for f in fields]
+        s.name, s.size, s.comps, s.desc = name, size, [Comp(f) for f in fields], None
+
+    def getDescription(s): return s.desc
+    def setDescription(s, d): s.desc = d
 
     def getLength(s): return s.size
     def getName(s): return s.name
@@ -126,7 +134,8 @@ class World:
             for m in v['methods'][::2]:
                 w.funcs[m['va']] = Func(m['va'], w)
 
-    def run(w, apply=True, sha=EXE, extra=(), sp=None):
+    def run(w, apply=True, sha=EXE, extra=(), sp=None, pdb=None):
+        pdb_arg = [] if pdb == '' else [pdb or (PDB_R if '--research' in extra else PDB_S)]
         out = []
         w2 = w
 
@@ -152,7 +161,7 @@ class World:
             w2.funcs[a] = Func(a, w2)
             return w2.funcs[a]
 
-        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [sp or SP] + (['--apply'] if apply else []) + list(extra),
+        g = dict(currentProgram=Prog(), getScriptArgs=lambda: [sp or SP] + pdb_arg + (['--apply'] if apply else []) + list(extra),
                  isRunningHeadless=lambda: True, askFile=None, println=out.append, popup=lambda m: None,
                  toAddr=lambda v: v, getFunctionAt=lambda a: w2.funcs.get(a), createFunction=create,
                  getMemoryBlock=lambda a: types.SimpleNamespace(isExecute=lambda: True),
@@ -267,45 +276,134 @@ _all_strict = all(c.get('strict') for c in SUMM['classes'].values())
 check('режим --research: назначений this ' + ('столько же (все классы строгие)' if _all_strict else 'больше'),
       n_this(w) == n_strict if _all_strict else n_this(w) > n_strict, '%d / %d' % (n_this(w), n_strict))
 
-# 7г. v0.5.11: представления verified-prefix — скрипт их не назначает; класс с представлением не получает this
-VIEWS = {c: v['strict_representation'] for c, v in SUMM['classes'].items() if v.get('strict_representation')}
-VIEW_SHORT = {c.split('::')[-1] for c in VIEWS}
+# 7г. v0.5.12: статусы доказанности из verification.json (имена исходные) и fail closed
+import hashlib
+import shutil
+import tempfile
+REG = json.load(open(os.path.join(os.path.dirname(SP), 'verification.json'), encoding='utf-8'))
+VP = sorted(c for c, v in SUMM['classes'].items() if v.get('verification_status') == 'VerifiedPrefix')
+VP_SHORT = {c.split('::')[-1] for c in VP}
 
 
 def owners_of(w):
     return {f.params[0].getDataType().getName()[:-2] for f in w.funcs.values() if f.params and f.params[0].getName() == 'this'}
 
 
+def case(summ=None, reg=None, with_reg=True, raw_reg=None, rehash=True):
+    """Временная папка с summary.json и verification.json (изменёнными копиями). rehash — пересчитать привязку
+    реестра к summary.json (имитация согласованно перегенерированных метаданных)."""
+    d = tempfile.mkdtemp(dir=os.path.dirname(SP))
+    sp = os.path.join(d, 'summary.json')
+    data = json.dumps(summ if summ is not None else SUMM, ensure_ascii=False, indent=1).encode('utf-8')
+    open(sp, 'wb').write(data)
+    if with_reg:
+        r = json.loads(json.dumps(reg if reg is not None else REG))
+        if rehash:
+            r['summary_sha256'] = hashlib.sha256(data).hexdigest()
+        open(os.path.join(d, 'verification.json'), 'w', encoding='utf-8').write(
+            raw_reg if raw_reg is not None else json.dumps(r, ensure_ascii=False))
+    return d, sp
+
+
+def clone(x):
+    return json.loads(json.dumps(x))
+
+
 w = World()
 out = w.run()
 plan_txt = open(SP.rsplit('/', 1)[0] + '/fnv_apply_plan_ghidra.txt', encoding='utf-8').read()
-check('представления: план разделяет full_type_applied и prefix_view_applied',
+check('статусы: план разделяет full_type_applied и prefix_view_applied',
       'full_type_applied (this полного класса): %d; prefix_view_applied: 0' % n_this(w) in plan_txt
       and any('full_type_applied %d, prefix_view_applied 0' % n_this(w) in l for l in out))
-check('представления: перечислены в плане как неприменяемые', VIEWS and all(
-    ('%s — представление подтверждённой части %s' % (v['type_name'], c)) in plan_txt for c, v in VIEWS.items()),
-      ', '.join(v['type_name'] for v in VIEWS.values()))
-check('представления: ни this, ни тип-представление не назначены',
-      not (owners_of(w) & (VIEW_SHORT | {v['type_name'] for v in VIEWS.values()})))
-# fail closed: испорченный summary — класс помечен strict И у него есть представление -> всё равно не типизируется
-import tempfile
-bad_s = json.loads(json.dumps(SUMM))
-for c in VIEWS:
-    bad_s['classes'][c]['strict'] = True
-    for m in bad_s['classes'][c]['methods']:
-        m['uses_this'] = m['touches_fields'] = True
-tf = tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, dir=SP.rsplit('/', 1)[0], encoding='utf-8')
-json.dump(bad_s, tf, ensure_ascii=False)
-tf.close()
+check('статусы: классы VerifiedPrefix перечислены в плане под исходными именами', VP and all(
+    ('%s — VerifiedPrefix; известно' % c) in plan_txt for c in VP) and '_VerifiedPrefix' not in plan_txt, ', '.join(VP))
+_cm = ' '.join([f.cmt or '' for f in w.funcs.values()] + [x or '' for x in w.plates.values()])
+check('статусы: в комментариях функций — статус и фасеты (имя не меняется)', 'статус VerifiedPrefix: адрес' in _cm
+      and 'статус Confirmed: адрес' in _cm)
+check('статусы: классам VerifiedPrefix this не назначен', not (owners_of(w) & VP_SHORT))
+vs = [st for st in w.structs.values() if st.getName() in VP_SHORT]
+check('статусы: у структур VerifiedPrefix — описание с границами и комментарии полей', vs and all(
+    st.desc and 'VerifiedPrefix: известно' in st.desc and any(c.c for c in st.comps) for st in vs))
+n_ok = n_this(w)
 w = World()
-w.run(sp=tf.name)
-check('fail closed: strict=True + представление -> this не ставится', not (owners_of(w) & VIEW_SHORT),
-      ', '.join(sorted(owners_of(w) & VIEW_SHORT)))
+w.run(extra=['--research'])
+check('research: те же исходные имена; методы класса VerifiedPrefix получают this по реестру', owners_of(w) & VP_SHORT,
+      ', '.join(sorted(owners_of(w) & VP_SHORT)))
+
+
+def refused(name, d_sp, pdb=None, extra=()):
+    d, sp = d_sp
+    w = World()
+    before = w.snapshot()
+    out = w.run(sp=sp, pdb=pdb, extra=extra)
+    ok = not w.tx and w.snapshot() == before and any('fail closed' in l for l in out)
+    check('fail closed: ' + name, ok, (out[-1][:120] if out else ''))
+    shutil.rmtree(d)
+
+
+refused('нет verification.json', case(with_reg=False))
+refused('verification.json не читается', case(raw_reg='{"metadata_schema_version": 2, '))
+d_sp = case()
+refused('не указан PDB', d_sp, pdb='')
+refused('строгий режим, а загружен research PDB', case(), pdb=PDB_R)
+r = clone(REG); r['exe_sha256'] = '00' * 32
+refused('реестр для другого exe', case(reg=r))
+refused('реестр для другого summary.json', case(reg=REG, rehash=False, summ=dict(SUMM, admission_rule=SUMM['admission_rule'] + ' ')))
+r = clone(REG); r['metadata_schema_version'] = 3
+refused('другая версия схемы', case(reg=r))
+r = clone(REG); r['functions'][0]['verification_status'] = 'Partial'
+refused('неизвестный статус функции', case(reg=r))
+s = clone(SUMM); s['classes'][VP[0]]['verification_status'] = 'Verified'; r = clone(REG); r['classes'][VP[0]] = 'Verified'
+refused('неизвестный статус класса', case(summ=s, reg=r))
+s = clone(SUMM); s['classes'][VP[0]]['strict'] = True
+refused('strict и VerifiedPrefix одновременно', case(summ=s))
+s = clone(SUMM); s['classes'][VP[0]]['engine_size_upper_bound'] = 0x20
+refused('границы не согласованы (верхняя 0x20)', case(summ=s))
+s = clone(SUMM); s['classes'][VP[0]]['size_status'] = 'confirmed'
+refused('VerifiedPrefix с size_status confirmed', case(summ=s))
+s = clone(SUMM); s['classes'][VP[0]]['allowed_operations']['engine_allocation'] = True
+refused('VerifiedPrefix разрешает выделение памяти', case(summ=s))
+r = clone(REG)
+f0 = next(f for f in r['functions'] if f['apply_this']['strict'])
+f0['this_verified'] = False
+refused('this разрешён без подтверждённого this (фасеты не согласованы)', case(reg=r))
+
+# чувствительность: одну функцию согласованно понизили (this не подтверждён) — снимается ровно её this
+r = clone(REG)
+f0 = next(f for f in r['functions'] if f['apply_this']['strict'] and f['verification_status'] == 'VerifiedPrefix')
+f0.update(this_verified=False, this_class=None, stack_bytes_verified=False,
+          apply_this={'strict': None, 'research': None})
+f0['verified_facets'] = ['address']
+f0['unverified_facets'] = [x for x in r['facets'] if x != 'address']
+d, sp = case(reg=r)
 w = World()
-w.run(sp=tf.name, extra=['--research'])
-check('…а в режиме --research те же методы получают полный класс (тест чувствителен)', owners_of(w) & VIEW_SHORT,
-      ', '.join(sorted(owners_of(w) & VIEW_SHORT)))
-os.remove(tf.name)
+w.run(sp=sp)
+va0 = int(f0['va'], 16)
+fn = w.funcs.get(va0)
+check('чувствительность: функция понижена в реестре — её this снят, имя то же, остальные на месте',
+      n_this(w) == n_ok - 1 and not (fn and fn.params) and f0['original_name'] in json.dumps(REG, ensure_ascii=False),
+      '%s %s: %d → %d' % (f0['va'], f0['original_name'], n_ok, n_this(w)))
+shutil.rmtree(d)
+
+# отзыв полного статуса класса: размер больше не доказан → класс без статуса, его методам this не ставится
+cls0 = 'BSAudioManager'
+s = clone(SUMM)
+c0 = s['classes'][cls0]
+c0.update(size_status='consistent', strict=False, verification_status=None)
+for k in ('verification_scope', 'exact_size_confirmed', 'allowed_operations'):
+    c0.pop(k, None)
+r = clone(REG)
+r['classes'][cls0] = None
+for f in r['functions']:
+    if f['apply_this']['strict'] == cls0:
+        f['apply_this']['strict'] = None
+        f['apply_signature']['strict'] = None
+d, sp = case(summ=s, reg=r)
+w = World()
+w.run(sp=sp)
+check('отзыв статуса класса %s: this его методам не ставится, имя класса то же' % cls0,
+      cls0 not in owners_of(w) and n_this(w) < n_ok, '%d → %d' % (n_ok, n_this(w)))
+shutil.rmtree(d)
 
 # 8. ошибка посреди применения
 w = World()

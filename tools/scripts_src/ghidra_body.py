@@ -37,7 +37,26 @@ def main():
 
     ecx = prog.getRegister("ECX")
     plan, conflicts = build_plan(S, ALL_THIS, STRICT)
-    log = []
+    # v0.5.12: реестр статусов (verification.json) — сверка с summary.json, exe и загруженным PDB; fail closed
+    reg, why = load_registry(summary_path)
+    pdb_path = PDB_PATH or next((a for a in args if a.lower().endswith(".pdb")), None)
+    if pdb_path is None and not isRunningHeadless():
+        try:
+            pdb_path = askFile("FalloutNV.pdb, загруженный в эту программу (%s)" % ("строгий" if STRICT else "research"),
+                               "Выбрать").getAbsolutePath()
+        except Exception:  # noqa — отмена выбора
+            pdb_path = None
+    pdb_sha = sha256_path(pdb_path) if pdb_path and os.path.isfile(pdb_path) else None
+    problems = ([why] if why else []) + check_registry(S, sha256_path(summary_path), reg, pdb_sha, STRICT, plan)
+    if problems:
+        msg = ("FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):\n  "
+               + "\n  ".join(problems[:20]) + ("\n  … ещё %d" % (len(problems) - 20) if len(problems) > 20 else ""))
+        println(msg)
+        if not isRunningHeadless():
+            popup(msg)
+        return
+    dropped = gate_plan(plan, reg, STRICT)
+    log = list(dropped)
 
 
     def find_struct(name, size):
@@ -67,7 +86,15 @@ def main():
 
 
     structs = {}
+    view_structs = {}     # v0.5.12: VerifiedPrefix — тип для просмотра полей; this/прототипы никогда
     for cls in sorted(S["classes"]):
+        if STRICT and S["classes"][cls].get("verification_status") == "VerifiedPrefix":
+            structs[cls] = None
+            vst, vwhy = find_struct(cls, S["classes"][cls]["known_prefix_size"])
+            view_structs[cls] = vst
+            if vst is None:
+                log.append("VerifiedPrefix %s: %s" % (cls, vwhy))
+            continue
         if STRICT and not S["classes"][cls].get("strict", False):
             structs[cls] = None             # в строгом PDB этого класса нет — не ищем, типы не назначаем
             continue
@@ -156,7 +183,7 @@ def main():
                   counts.get("create", 0), counts.get("comment", 0), counts.get("this", 0), n_fields),
               "full_type_applied (this полного класса): %d; prefix_view_applied: 0" % counts.get("this", 0),
               "", "Конфликты:"] + (conflicts or ["нет"]) + \
-             ["", "Представления verified-prefix (не применяются):"] + (prefix_view_lines(S, STRICT) or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + plan[va]["this"]) if act == "this" else "")
                                              for va, act in actions]
     plan_path = os.path.join(os.path.dirname(summary_path), "fnv_apply_plan_ghidra.txt")
@@ -224,6 +251,20 @@ def main():
                 else:
                     setPlateComment(a, merge_comment(getPlateComment(a), text))
                 done["comment"] += 1
+        for cls in sorted(view_structs):
+            vst = view_structs[cls]
+            if vst is None:
+                continue
+            c = S["classes"][cls]
+            vst.setDescription(merge_comment(vst.getDescription(), "%s %s — VerifiedPrefix: известно 0x%X байт, объект игры "
+                                             "0x%X..0x%X не доказан; не для выделения, массивов, копирования" % (
+                                                 MARK, cls, c["known_prefix_size"], c["engine_size_lower_bound"],
+                                                 c["engine_size_upper_bound"])))
+            for comp in vst.getDefinedComponents():
+                fd = c.get("field_details", {}).get(comp.getFieldName())
+                if fd:
+                    comp.setComment(merge_comment(comp.getComment(), field_comment(comp.getFieldName(), fd, True)))
+                    done["fields"] += 1
         for cls in sorted(S["classes"]):
             c = S["classes"][cls]
             st = structs.get(cls)

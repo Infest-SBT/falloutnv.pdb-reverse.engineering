@@ -32,11 +32,12 @@ if STRICT:
     import csv
     SUMM = json.load(open(sys.argv[sys.argv.index('--strict') + 1], encoding='utf-8'))['classes']
     EVDIR = sys.argv[sys.argv.index('--strict') + 2]
-    CLASSES = [c for c in CLASSES if SUMM[c]['strict']]
     STRICT_SLOT_OK = ('semantics', 'name+stack')
-# v0.5.11 (ТЗ Астры «Verified Prefix»): классы, у которых в строгую сборку идёт только отдельное представление
-# подтверждённой части (summary: strict_representation, решение prefixview.evaluate). Полный класс в строгой сборке
-# не объявляется; представление — отдельный тип со своим именем и своим sizeof (= нижняя граница).
+# v0.5.11 (ТЗ Астры «Verified Prefix»): классы, у которых в строгую сборку идёт только представление подтверждённой
+# части (summary: strict_representation, решение prefixview.evaluate). v0.5.12 (ТЗ Астры по идее Андрея): представление
+# носит ИСХОДНОЕ имя класса (BGSSaveLoadFormHeader, вложенное FontManager::TextData); степень доказанности — в
+# метаданных (summary: verification_status = VerifiedPrefix), а не в имени. Полный класс в строгой сборке не описывается:
+# одно определение под этим именем — представление, его sizeof — нижняя граница, а не размер объекта игры.
 VIEWS = {}
 if STRICT:
     for c_ in spec['classes']:
@@ -44,7 +45,12 @@ if STRICT:
         if r_:
             assert not SUMM[c_]['strict'], f'{c_}: полный класс и представление одновременно — недопустимо'
             assert r_['kind'] == 'verified-prefix' and not r_['usable_as_complete_engine_object']
+            assert SUMM[c_].get('verification_status') == 'VerifiedPrefix', f'{c_}: представление без статуса VerifiedPrefix'
+            assert r_['type_name'] == c_, f'{c_}: v0.5.12 — представление под исходным именем, а не {r_["type_name"]}'
             VIEWS[c_] = r_
+        elif SUMM.get(c_, {}).get('strict'):
+            assert SUMM[c_].get('verification_status') == 'Confirmed', f'{c_}: strict без статуса Confirmed'
+    CLASSES = [c for c in CLASSES if SUMM[c]['strict'] or c in VIEWS]
 VIEW_IN = {(x['class'], x['field']): eng for eng, r_ in VIEWS.items() for x in r_['containers']}
 PCSZ = spec.get('pc_sizeof', {})
 DROP = {k: set(v) for k, v in spec.get('drop_vslots', {}).items()}
@@ -263,7 +269,59 @@ meta = {'source': 'Xbox 360 Fallout.pdb (Release Final) GUID E10D8AB1-141D-499D-
 blocks = []
 asserts = []
 meta_align = {}
+def emit_view(eng, r_):
+    """v0.5.12: представление VerifiedPrefix под исходным именем класса — блок, static_assert, запись meta."""
+    lo, hi = r_['representation_size'], SUMM[eng]['engine_size_upper_bound']
+    kw = 'struct' if T.rec[T.byname[eng]][0] == 'LF_STRUCTURE' else 'class'
+    short = eng.split('::')[-1]
+    vl = [f'// {eng} — verification_status VerifiedPrefix (v0.5.12): ПРЕДСТАВЛЕНИЕ подтверждённой части объекта игры, НЕ доказанная',
+          f'// полная структура. Размер {eng} на PC не доказан: 0x{lo:X} <= sizeof <= 0x{hi:X}; sizeof этого типа = 0x{lo:X} — только',
+          f'// размер представления. Нельзя: выделять память под объект игры (new, локальная переменная), массивы и шаг по sizeof,',
+          f'// копирование и передача по значению, конструктор/деструктор игры. Можно: подтверждённые поля уже существующего',
+          f'// объекта игры по указателю. FNV_VERIFIED_PREFIX_GUARD удаляет конструктор по умолчанию, копирование и присваивание —',
+          f'// компилятор не даст создать или скопировать объект; memcpy(…, sizeof) он НЕ запретит. Статус — evidence/summary.json.',
+          f'// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).']
+    if r_['packed']:
+        vl.append('#pragma pack(push, 1) // поле iChangeFlags на +3: упаковано и в игре')
+    vl.append(f'{kw} {eng} {{')
+    if kw == 'class':
+        vl.append('public:')
+    vl.append(f'    FNV_VERIFIED_PREFIX_GUARD({short})')
+    vpos, valign, vfields = 0, 1, []
+    for f_ in r_['fields']:
+        if f_['off'] > vpos:
+            vl.append(f'    unsigned char _pad{vpos:X}[0x{f_["off"] - vpos:X}];')
+        vl.append(f'    {f_["decl"]} // +0x{f_["off"]:X}, {ru_bytes(f_["size"])}; {f_["type_basis"]}; Xbox PDB: {f_["xbox_decl"]}')
+        am = re.match(r'alignas\((\d+)\)', f_['decl'])
+        fa_ = 1 if r_['packed'] else int(am.group(1)) if am else (
+            1 if 'unsigned char' in f_['decl'] else {1: 1, 2: 2}.get(f_['size'], 4))
+        valign = max(valign, fa_)
+        asserts.append(f'static_assert(offsetof({eng}, {f_["name"]}) == 0x{f_["off"]:X}, "{eng}::{f_["name"]}");')
+        vfields.append({'name': f_['name'], 'off': f_['off'], 'size': f_['size'], 'decl': f_['decl'],
+                        'xbox_type': f_['xbox_decl'], 'opaque': f_['decl'].startswith(('unsigned char', 'alignas')),
+                        'source': 'xbox_pdb', 'class_type': None, 'class_array_of': None})
+        vpos = f_['off'] + f_['size']
+    assert valign == r_['representation_align'], (eng, valign)
+    if vpos < lo:
+        vl.append(f'    unsigned char _pad{vpos:X}[0x{lo - vpos:X}]; // выравнивание представления')
+    vl.append('};')
+    if r_['packed']:
+        vl.append('#pragma pack(pop)')
+    asserts.append(f'static_assert(sizeof({eng}) == 0x{lo:X}, "sizeof {eng}: размер ПРЕДСТАВЛЕНИЯ (VerifiedPrefix), '
+                   f'НЕ доказанный sizeof объекта игры (0x{lo:X}…0x{hi:X})");')
+    asserts.append(f'static_assert(alignof({eng}) == {valign}, "alignof {eng}: представления, не доказанный объекта игры");')
+    blocks.append('\n'.join(vl))
+    pc_size[eng] = lo
+    meta_align[eng] = valign
+    meta['classes'].append({'name': eng, 'pc_size': lo, 'base': None, 'vslots': [], 'fields': vfields, 'align': valign,
+                            'verification_status': 'VerifiedPrefix', 'engine_size_bounds': [lo, hi],
+                            'usable_as_complete_engine_object': False})
+
+
 for cls in CLASSES:
+    if cls in VIEWS:
+        emit_view(cls, VIEWS[cls])
+        continue
     L = T.layout(cls) if cls not in PCC else {'name': cls, 'kind': 'LF_CLASS', 'size': PCC[cls]['size'],
                                                'bases': [(PCC[cls]['base'], 0)], 'members': [], 'virtuals': []}
     base = L['bases'][0][0] if L['bases'] else None
@@ -456,26 +514,28 @@ for cls in CLASSES:
             if not kept and VIEW_IN.get((cls, n)) == sub and t == sub:
                 # v0.5.11: вложенный класс без доказанного размера — представление подтверждённой части + явные
                 # байты до следующего поля (не хвост класса). Смещение и размер участка поля не меняются.
+                # v0.5.12: тип поля — исходное имя класса (VerifiedPrefix); участок до следующего поля — sz.
                 r_ = VIEWS[sub]
                 vs = r_['representation_size']
-                tail = tsz - vs
+                tail = sz - vs
                 assert tail == next(x['tail'] for x in r_['containers'] if x['class'] == cls and x['field'] == n) > 0
                 tn = f'_unverified_{n}Tail'
-                lines.append(f'    {r_["type_name"]} {n}; // строгая сборка: только подтверждённая часть {sub} '
-                             f'(0x{vs:X} байт); это не полный класс')
+                lines.append(f'    {sub} {n}; // строгая сборка: {sub} — VerifiedPrefix, только подтверждённая часть '
+                             f'(0x{vs:X} байт), не доказанный полный объект')
                 lines.append(f'    unsigned char {tn}[{tail}]; // строгая сборка: {ru_bytes(tail)} до следующего поля — '
-                             f'не приписаны {sub} (размер {sub} на PC: 0x{vs:X}…0x{tsz:X}, не доказан)')
+                             f'не приписаны {sub} (размер {sub} на PC: 0x{vs:X}…0x{sz:X}, не доказан)')
                 asserts.append(f'static_assert(offsetof({cls}, {n}) == 0x{po:X}, "{cls}::{n}");')
                 asserts.append(f'static_assert(offsetof({cls}, {tn}) == 0x{po + vs:X}, "{cls}::{tn}");')
                 cm['fields'].append({'name': n, 'off': po, 'xbox_off': XO.get(n), 'size': vs, 'xbox_type': t,
-                                     'opaque': False, 'decl': f'{r_["type_name"]} {n};', 'source': 'xbox_pdb',
-                                     'class_type': None, 'class_array_of': None, 'view_type': r_['type_name']})
+                                     'opaque': False, 'decl': f'{sub} {n};', 'source': 'xbox_pdb',
+                                     'class_type': None, 'class_array_of': None, 'view_type': sub,
+                                     'view_verification_status': 'VerifiedPrefix'})
                 cm['fields'].append({'name': tn, 'off': po + vs, 'xbox_off': None, 'size': tail,
                                      'xbox_type': f'не приписано {sub}', 'opaque': True,
                                      'decl': f'unsigned char {tn}[{tail}];', 'source': 'verified-prefix-gap',
                                      'class_type': None, 'class_array_of': None})
                 align = 1 if packed else max(align, r_['representation_align'])
-                pos = po + tsz
+                pos = po + sz
                 continue
             if not kept:
                 n = f'_unverified_{n}'
@@ -598,55 +658,21 @@ for scope, items_ in SCOPES.items():
     hdr.append(f'struct {scope} {{ // (Xbox PDB) класс только со статическими членами; здесь — лишь область имён перечислений')
     hdr += items_
     hdr.append('};')
-VIEW_BLOCKS, VIEW_ASSERTS = [], []
-for eng, r_ in VIEWS.items():
-    vn, lo, hi = r_['type_name'], r_['representation_size'], SUMM[eng]['engine_size_upper_bound']
-    vl = [f'// {vn} — ПРЕДСТАВЛЕНИЕ подтверждённой части {eng} (verified-prefix, v0.5.11). НЕ полный класс движка.',
-          f'// Размер {eng} на PC не доказан: 0x{lo:X} <= sizeof <= 0x{hi:X}; sizeof({vn}) = 0x{lo:X} — только размер представления.',
-          f'// Нельзя по sizeof({vn}): выделять память под объект игры, создавать массивы, копировать объект, передавать по значению,',
-          f'// вызывать конструктор/деструктор игры. Можно: читать/писать подтверждённые поля уже существующего объекта игры по указателю.',
-          f'// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).']
-    if r_['packed']:
-        vl.append('#pragma pack(push, 1) // поле iChangeFlags на +3: упаковано и в игре')
-    vl.append(f'struct {vn} {{')
-    vpos, valign, vfields = 0, 1, []
-    for f_ in r_['fields']:
-        if f_['off'] > vpos:
-            vl.append(f'    unsigned char _pad{vpos:X}[0x{f_["off"] - vpos:X}];')
-        vl.append(f'    {f_["decl"]} // +0x{f_["off"]:X}, {ru_bytes(f_["size"])}; {f_["type_basis"]}; Xbox PDB: {f_["xbox_decl"]}')
-        am = re.match(r'alignas\((\d+)\)', f_['decl'])
-        fa_ = 1 if r_['packed'] else int(am.group(1)) if am else (
-            1 if 'unsigned char' in f_['decl'] else {1: 1, 2: 2}.get(f_['size'], 4))
-        valign = max(valign, fa_)
-        VIEW_ASSERTS.append(f'static_assert(offsetof({vn}, {f_["name"]}) == 0x{f_["off"]:X}, "{vn}::{f_["name"]}");')
-        vfields.append({'name': f_['name'], 'off': f_['off'], 'size': f_['size'], 'decl': f_['decl'],
-                        'xbox_type': f_['xbox_decl'], 'opaque': f_['decl'].startswith(('unsigned char', 'alignas')),
-                        'source': 'xbox_pdb', 'class_type': None, 'class_array_of': None})
-        vpos = f_['off'] + f_['size']
-    assert valign == r_['representation_align'], (vn, valign)
-    if vpos < lo:
-        vl.append(f'    unsigned char _pad{vpos:X}[0x{lo - vpos:X}]; // выравнивание представления')
-    vl.append('};')
-    if r_['packed']:
-        vl.append('#pragma pack(pop)')
-    VIEW_ASSERTS.append(f'static_assert(sizeof({vn}) == 0x{lo:X}, "sizeof {vn}: только представление, НЕ sizeof {eng}");')
-    VIEW_ASSERTS.append(f'static_assert(alignof({vn}) == {valign}, "alignof {vn}");')
-    VIEW_BLOCKS.append('\n'.join(vl))
-    meta['classes'].append({'name': vn, 'pc_size': lo, 'base': None, 'vslots': [], 'fields': vfields, 'align': valign,
-                            'verified_prefix_of': eng, 'engine_size_bounds': [lo, hi],
-                            'usable_as_complete_engine_object': False})
 if VIEWS:
-    hdr.append('// v0.5.11: представления verified-prefix — отдельные типы подтверждённой части объекта (не полные классы)')
-hdr += VIEW_BLOCKS
+    hdr.append('// v0.5.12: статус доказанности — в метаданных (summary.json: verification_status), имена исходные. Классы '
+               'VerifiedPrefix (' + ', '.join(VIEWS) + ') — только подтверждённая часть объекта, не доказанная полная структура.')
+    hdr += ['#ifndef FNV_PDB_TYPES_ONLY   // .cpp, из которого собирается PDB, определяет его: в PDB попадают только данные',
+            '#define FNV_VERIFIED_PREFIX_GUARD(T) T() = delete; T(const T&) = delete; T& operator=(const T&) = delete;',
+            '#else', '#define FNV_VERIFIED_PREFIX_GUARD(T)', '#endif']
 hdr += blocks
-hdr += VIEW_ASSERTS
 hdr += sorted(set(asserts), key=asserts.index)
 open(out_path, 'w', encoding='utf-8').write('\n'.join(hdr) + '\n')
 json.dump(meta, open(re.sub(r'\.h$', '', out_path) + '.meta.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-cpp = [f'// Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.',
-       f'#include "{os.path.basename(out_path)}"']
+cpp = [f'// Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.']
+if VIEWS:
+    cpp += ['#define FNV_PDB_TYPES_ONLY   // v0.5.12: в PDB — только данные (без удалённых конструкторов VerifiedPrefix)']
+cpp += [f'#include "{os.path.basename(out_path)}"']
 cpp += [f'{c}* g_ref_{ident(c)} = nullptr;' for c in CLASSES]
-cpp += [f'{r_["type_name"]}* g_ref_{ident(r_["type_name"])} = nullptr;' for r_ in VIEWS.values()]   # v0.5.11
 cpp += [f'{e} g_ref_{ident(e)};' for e in ENUMS] + [f'{e} g_ref_{ident(e)};' for e in GENUMS]
 cpp += ['extern "C" int __stdcall _DllMainCRTStartup(void*, unsigned, void*) { return 1; }']
 open(re.sub(r'\.h$', '', out_path) + '.cpp', 'w', encoding='utf-8').write('\n'.join(cpp) + '\n')

@@ -1295,7 +1295,7 @@
  },
  "verified_prefix": {
   "BGSSaveLoadFormHeader": {
-   "view": "BGSSaveLoadFormHeader_VerifiedPrefix",
+   "view": "BGSSaveLoadFormHeader",
    "lower": 9,
    "upper": 12,
    "view_align": 1,
@@ -1316,7 +1316,7 @@
    ]
   },
   "FontManager::TextData": {
-   "view": "FontManager_TextData_VerifiedPrefix",
+   "view": "FontManager::TextData",
    "lower": 64,
    "upper": 68,
    "view_align": 4,

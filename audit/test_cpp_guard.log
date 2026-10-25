@@ -1,0 +1,17 @@
+OK   чтение поля заголовка внутри буфера игры: компилируется
+OK   чтение поля FontManager::TextData по указателю: компилируется
+OK   чтение поля через memcpy по offsetof: компилируется
+OK   запись подтверждённого поля по указателю (семантика записи — отдельный вопрос): компилируется
+OK   new BGSSaveLoadFormHeader: не компилируется (call to deleted constructor of 'BGSSaveLoadFormHeader')
+OK   new FontManager::TextData: не компилируется (call to deleted constructor of 'FontManager::TextData')
+OK   new[] (массив в куче): не компилируется (call to deleted constructor of 'FontManager::TextData[4]')
+OK   локальная переменная: не компилируется (call to deleted constructor of 'BGSSaveLoadFormHeader')
+OK   массив: не компилируется (call to deleted constructor of 'FontManager::TextData[2]')
+OK   передача по значению: не компилируется (call to deleted constructor of 'BGSSaveLoadFormHeader')
+OK   возврат по значению (копия): не компилируется (call to deleted constructor of 'FontManager::TextData')
+OK   копия объекта: не компилируется (call to deleted constructor of 'BGSSaveLoadFormHeader')
+OK   присваивание объекта: не компилируется (overload resolution selected deleted operator '=')
+OK   объект вмещающего буфера (Header — VerifiedPrefix): не компилируется (call to implicitly-deleted default constructor of 'BGSSaveFormBuffer')
+OK   ОГРАНИЧЕНИЕ: memcpy(…, sizeof(T)) компилятор не запрещает: компилируется
+OK   FNV_PDB_TYPES_ONLY (сборка PDB): компилируется
+ИТОГ: всё прошло (16 проверок)

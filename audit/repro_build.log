@@ -1,9 +1,9 @@
-# repro0511.sh — повтор всех проверок из чистой копии пакета (2026-10-25T14:30:19+05:00)
+# repro0512.sh — повтор всех проверок из чистой копии пакета (2026-10-25T15:39:46+05:00)
 #!/bin/bash
 # повтор всех проверок из самого пакета (как в README), в чистой копии
 set -e
 S=/tmp/claude-0/-home-claude/0ff6da26-f30f-5721-a8f9-462306d32c56/scratchpad
-R=$S/release/FalloutNV_PDB_v0.5.11; P=$S/repro0511; X=$S/pdb/FalloutNV.pdb; E=$S/exe/FalloutNV.exe
+R=$S/release/FalloutNV_PDB_v0.5.12; P=$S/repro0512; X=$S/pdb/FalloutNV.pdb; E=$S/exe/FalloutNV.exe
 rm -rf $P; cp -r $R $P; cd $P
 py(){ python3 -I -B "$@"; }
 py tools/make_syms.py $X syms.tsv | tail -1
@@ -12,6 +12,7 @@ py tools/verify_change_flags.py research/fnv_types_v05_research.h $E out/change_
 for v in sound_msg mem_context memory_passes; do py tools/verify_$v.py research/fnv_types_v05_research.h syms.tsv $E out/$v.csv > /dev/null; done
 py tools/verify_render_enums.py research/fnv_types_v05_research.h syms.tsv $E out > /dev/null
 py tools/report_extras.py tools/spec.json tools/evidence_spec.json research/fnv_types_v05_research.meta.json out > /dev/null
+py tools/verification.py out FalloutNV.pdb research/FalloutNV.pdb syms.tsv $E | tail -1   # v0.5.12: реестр статусов
 diff -r out evidence && echo EVIDENCE-IDENTICAL
 CL="clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti -Wno-invalid-offsetof"
 $CL -I. tools/fnv_types_v05.cpp -o s.obj && lld-link /dll /noentry /nodefaultlib /debug /pdb:s.pdb /out:s.dll s.obj
@@ -33,8 +34,12 @@ py tools/test_chaincheck.py | tail -1
 py tools/test_prefixview.py evidence/summary.json fnv_types_v05.h fnv_types_v05.meta.json | tail -1
 py tools/test_prefixview.py | tail -1
 py tools/msf_streams_diff.py FalloutNV.pdb s_final.pdb $X | grep -c "одинаков"
+py tools/test_verification.py . syms.tsv $E | tail -1
+py tools/test_verification.py | tail -1
+py tools/test_cpp_guard.py fnv_types_v05.h | tail -1
 # ---- вывод ----
 138171 symbols
+классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 10, 'VerifiedPrefix': 2194} функций unclassified: 0 публичных символов вне реестра: 135967
 EVIDENCE-IDENTICAL
 TPI: типов 872 (индексы 0x1000..0x1367 включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
 TPI: типов 1006 (индексы 0x1000..0x13ED включительно), хэш-поток 11, aux 65535; потоков 12 -> r_final.pdb
@@ -44,9 +49,9 @@ SCRIPTS-IDENTICAL
 ИТОГ: всё совпадает
 OK   ошибка: транзакция завершена с откатом (ok=False) 
 ИТОГ: всё прошло
-OK   представления: перечислены, ни один прототип не ссылается на них или на их классы 
+OK   чувствительность: функция Confirmed → VerifiedPrefix — её прототип снят, остальные на месте 0x004011B0 TESForm::GetHavokDeath: 10 → 9
 ИТОГ: всё прошло
-64c1eabe070bfbf06a9c4299ba2a8d5084a05ed850dd666b5576ad2e6e89d4fe  FalloutNV.pdb
+b67b63a891e68fc2b3fd1df4278a7d639329c7d05c25347e58c82c309c2ad33a  FalloutNV.pdb
 d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4  research/FalloutNV.pdb
 RAW-MISMATCH 0
 ИТОГ: всё прошло
@@ -54,6 +59,9 @@ RAW-MISMATCH 0
 20
 ИТОГ: всё прошло
 ИТОГ: всё прошло
-ИТОГ: всё прошло (63 проверок, из них отказов 27)
+ИТОГ: всё прошло (67 проверок, из них отказов 27)
 ИТОГ: всё прошло (33 проверок, из них отказов 27)
 12
+ИТОГ: всё прошло (19 проверок)
+ИТОГ: всё прошло (6 проверок)
+ИТОГ: всё прошло (16 проверок)

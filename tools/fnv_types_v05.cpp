@@ -1,4 +1,5 @@
 // Сгенерировано gen_headers.py: единица компиляции только ради отладочной информации о типах.
+#define FNV_PDB_TYPES_ONLY   // v0.5.12: в PDB — только данные (без удалённых конструкторов VerifiedPrefix)
 #include "fnv_types_v05.h"
 BaseFormComponent* g_ref_BaseFormComponent = nullptr;
 TESForm* g_ref_TESForm = nullptr;
@@ -18,6 +19,7 @@ AbstractHeap* g_ref_AbstractHeap = nullptr;
 MemoryHeap* g_ref_MemoryHeap = nullptr;
 ScrapHeap* g_ref_ScrapHeap = nullptr;
 MemoryManager* g_ref_MemoryManager = nullptr;
+BGSSaveLoadFormHeader* g_ref_BGSSaveLoadFormHeader = nullptr;
 BGSSaveGameBuffer* g_ref_BGSSaveGameBuffer = nullptr;
 BGSSaveFormBuffer* g_ref_BGSSaveFormBuffer = nullptr;
 BGSLoadGameBuffer* g_ref_BGSLoadGameBuffer = nullptr;
@@ -40,6 +42,7 @@ FontManager::CharData* g_ref_FontManager__CharData = nullptr;
 FontManager::TextLine* g_ref_FontManager__TextLine = nullptr;
 FontManager::TextPage* g_ref_FontManager__TextPage = nullptr;
 FontManager::TextDoc* g_ref_FontManager__TextDoc = nullptr;
+FontManager::TextData* g_ref_FontManager__TextData = nullptr;
 NiRefObject* g_ref_NiRefObject = nullptr;
 NiObject* g_ref_NiObject = nullptr;
 NiObjectNET* g_ref_NiObjectNET = nullptr;
@@ -84,8 +87,6 @@ ShadowSceneNode* g_ref_ShadowSceneNode = nullptr;
 ShadowSceneLight* g_ref_ShadowSceneLight = nullptr;
 ImageSpaceManager* g_ref_ImageSpaceManager = nullptr;
 MTRenderingSystem* g_ref_MTRenderingSystem = nullptr;
-BGSSaveLoadFormHeader_VerifiedPrefix* g_ref_BGSSaveLoadFormHeader_VerifiedPrefix = nullptr;
-FontManager_TextData_VerifiedPrefix* g_ref_FontManager_TextData_VerifiedPrefix = nullptr;
 BSSoundHandle::ASSUMED_STATE g_ref_BSSoundHandle__ASSUMED_STATE;
 FontManager::enumCharTypes g_ref_FontManager__enumCharTypes;
 CHANGE_TYPE g_ref_CHANGE_TYPE;

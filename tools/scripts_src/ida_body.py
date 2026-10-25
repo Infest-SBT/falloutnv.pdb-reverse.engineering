@@ -59,6 +59,19 @@ def main():
         return
 
     plan, conflicts = build_plan(S, False, STRICT)
+    # v0.5.12: реестр статусов — сверка с summary.json, exe и загруженным PDB; fail closed
+    reg, why = load_registry(path)
+    pdb_path = PDB_PATH or ida_kernwin.ask_file(0, "*.pdb", "FalloutNV.pdb, загруженный в базу (%s)" % (
+        "строгий" if STRICT else "research"))
+    pdb_sha = sha256_path(pdb_path) if pdb_path and os.path.isfile(pdb_path) else None
+    problems = ([why] if why else []) + check_registry(S, sha256_path(path), reg, pdb_sha, STRICT, plan)
+    if problems:
+        msg = ("FNV: реестр статусов не прошёл проверку — база не изменена (fail closed):\n  "
+               + "\n  ".join(problems[:20]) + ("\n  … ещё %d" % (len(problems) - 20) if len(problems) > 20 else ""))
+        print(msg)
+        ida_kernwin.warning(msg)
+        return
+    dropped = gate_plan(plan, reg, STRICT)
     own = ida_netnode.netnode(OWN_NODE, 0, False)      # только чтение: в пробном прогоне ничего не создаём
     own_ok = own.index() != ida_netnode.BADNODE
 
@@ -70,7 +83,7 @@ def main():
             return None
         return "ours" if stored == (idc.get_type(va) or "") else "ours-changed"
 
-    log, actions = [], []
+    log, actions = list(dropped), []
     proto_present = set()
     for va in sorted(plan):
         e = plan[va]
@@ -118,7 +131,7 @@ def main():
                   counts.get("vtname", 0)),
               "full_type_applied (прототипы полного класса): %d; prefix_view_applied: 0" % counts.get("proto", 0),
               "", "Конфликты:"] + (conflicts or ["нет"]) + \
-             ["", "Представления verified-prefix (не применяются):"] + (prefix_view_lines(S, STRICT) or ["нет"]) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + x) if x else "") for va, act, x in actions]
     plan_path = os.path.join(os.path.dirname(path), "fnv_apply_plan_ida.txt")
     try:

@@ -2,8 +2,9 @@
 
 usage: python3 -I test_prefixview.py [<evidence/summary.json> <fnv_types_v05.h> <fnv_types_v05.meta.json>]
 Без аргументов — только синтетические случаи. С аргументами — ещё сверка опубликованных данных:
-решения в summary.json пересчитываются заново и совпадают; в строгом заголовке нет полного класса и
-static_assert на его sizeof; вмещающие буферы: представление + явные байты, следующее поле и размер прежние.
+решения в summary.json пересчитываются заново и совпадают; v0.5.12: в строгом заголовке класс VerifiedPrefix — под
+исходным именем, единственное определение, только подтверждённые поля, static_assert sizeof — с пометкой «размер
+представления»; суффикса _VerifiedPrefix нигде нет; вмещающие буферы: Header + явные байты, следующее поле и размер прежние.
 Случаи отказа (ТЗ §10): противоречие типа поля, неподтверждённое смещение, ширина не подтверждена, AMBIGUOUS,
 расширение/несовпадение границ, обращение в хвост, копия/шаг/размер в вызове, нарушение композиции и вмещающего
 класса, vtable/база/массив. Каждый случай должен снять представление, и среди отказавших условий должно быть
@@ -119,14 +120,24 @@ if len(sys.argv) > 3:
     H = open(hdr_p, encoding='utf-8').read()
     M = {c['name']: c for c in json.load(open(meta_p, encoding='utf-8'))['classes']}
     views = {c: v for c, v in S.items() if v.get('strict_representation')}
-    check('опубликовано представлений: 2', len(views) == 2, ', '.join(sorted(views)))
+    check('классов VerifiedPrefix: 2', len(views) == 2 and all(
+        v.get('verification_status') == 'VerifiedPrefix' for v in views.values()), ', '.join(sorted(views)))
     full = [c for c, v in S.items() if v.get('strict')]
-    check('полных классов в строгом: 84', len(full) == 84, str(len(full)))
+    check('классов Confirmed в строгом: 84', len(full) == 84 and all(
+        S[c].get('verification_status') == 'Confirmed' for c in full), str(len(full)))
+    check('у каждого из 86 классов ровно один статус Confirmed/VerifiedPrefix', len(S) == 86 and all(
+        v.get('verification_status') in ('Confirmed', 'VerifiedPrefix') for v in S.values()))
+    check('суффикса _VerifiedPrefix нет ни в заголовке, ни в meta.json, ни в summary.json',
+          '_VerifiedPrefix' not in H and '_VerifiedPrefix' not in open(meta_p, encoding='utf-8').read()
+          and '_VerifiedPrefix' not in open(summ_p, encoding='utf-8').read())
     for c, v in sorted(views.items()):
         r = v['strict_representation']
         vn = r['type_name']
-        check(f'{c}: класс не в строгом, размер не confirmed', not v['strict'] and v['size_status'] != 'confirmed'
-              and v['engine_size_status'] == v['size_status'], v['size_status'])
+        check(f'{c}: strict=false, размер не confirmed, exact_size_confirmed=false, границы прежние',
+              not v['strict'] and v['size_status'] != 'confirmed' and v['engine_size_status'] == v['size_status']
+              and v['exact_size_confirmed'] is False and v['known_prefix_size'] == v['engine_size_lower_bound']
+              and (v['engine_size_lower_bound'], v['engine_size_upper_bound']) in ((9, 12), (0x40, 0x44)), v['size_status'])
+        check(f'{c}: имя представления — исходное', r['type_name'] == c)
         check(f'{c}: все условия ok в summary', all(x['ok'] for x in v['verified_prefix_checks']))
         acc, ch = prefixview.evaluate(v['verified_prefix_facts'])
         check(f'{c}: решение пересчитано по verified_prefix_facts и совпадает', acc and
@@ -135,21 +146,24 @@ if len(sys.argv) > 3:
             r[k] for k in ('allow_object_allocation', 'allow_array_stride', 'allow_by_value_abi', 'allow_implicit_copy_or_lifetime')))
         check(f'{c}: sizeof представления = нижняя граница < верхней',
               r['representation_size'] == v['engine_size_lower_bound'] < v['engine_size_upper_bound'])
-        cls_re = re.escape(c.split('::')[-1])
-        check(f'{c}: полный класс не объявлен в строгом заголовке',
-              not re.search(r'^(?:struct|class) ' + re.escape(c) + r' \{', H, re.M)
-              and not re.search(r'^\s+(?:struct|class) ' + cls_re + r' \{', H, re.M))
-        check(f'{c}: нет static_assert на sizeof/offsetof полного класса',
-              not re.search(r'static_assert\((?:sizeof|alignof|offsetof)\(' + re.escape(c) + r'[,)]', H))
+        defs = re.findall(r'^(?:struct|class) ' + re.escape(c) + r' \{\n(?:public:\n)?    FNV_VERIFIED_PREFIX_GUARD\(', H, re.M)
+        check(f'{c}: в строгом заголовке ровно одно определение — представление с FNV_VERIFIED_PREFIX_GUARD',
+              len(defs) == 1 and len(re.findall(r'^(?:struct|class) ' + re.escape(c) + r' \{', H, re.M)) == 1)
+        body = H.split(defs[0], 1)[1].split('\n};', 1)[0] if defs else ''
+        names = re.findall(r'\b(\w+)(?:\[\w+\])?; //', body)
+        check(f'{c}: в определении только подтверждённые поля представления (+ _pad)',
+              [n for n in names if not n.startswith('_pad')] == [x['name'] for x in r['fields']], ', '.join(names))
+        check(f'{c}: static_assert sizeof помечен как размер представления, не объекта игры',
+              re.search(r'static_assert\(sizeof\(' + re.escape(c) + r'\) == 0x[0-9A-F]+, "[^"]*ПРЕДСТАВЛЕНИЯ[^"]*НЕ доказанный', H))
         check(f'{vn}: static_assert sizeof = 0x{r["representation_size"]:X} и alignof = {r["representation_align"]}',
               f'static_assert(sizeof({vn}) == 0x{r["representation_size"]:X},' in H
               and f'static_assert(alignof({vn}) == {r["representation_align"]},' in H)
         check(f'{vn}: offsetof каждого поля', all(f'static_assert(offsetof({vn}, {x["name"]}) == 0x{x["off"]:X},' in H
                                                  for x in r['fields']))
         mv = M.get(vn)
-        check(f'{vn}: в meta.json как представление {c}', mv and mv['verified_prefix_of'] == c
-              and mv['pc_size'] == r['representation_size'] and not mv['usable_as_complete_engine_object'])
-        check(f'{c}: в meta.json строгой сборки нет полного класса', c not in M)
+        check(f'{vn}: в meta.json — VerifiedPrefix, размер представления', mv and mv['verification_status'] == 'VerifiedPrefix'
+              and mv['pc_size'] == r['representation_size'] and not mv['usable_as_complete_engine_object']
+              and mv['engine_size_bounds'] == [v['engine_size_lower_bound'], v['engine_size_upper_bound']])
         for x in r['containers']:
             mc = M[x['class']]
             fl = {y['name']: y for y in mc['fields']}

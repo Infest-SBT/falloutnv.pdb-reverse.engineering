@@ -23,6 +23,7 @@ class BGSSaveFormBuffer;
 class BGSSaveGameBuffer;
 class BGSSaveLoadChangesMap;
 class BGSSaveLoadFile;
+struct BGSSaveLoadFormHeader;
 class BGSSaveLoadFormIDMap;
 class BGSSaveLoadGame;
 class BGSSaveLoadHistory;
@@ -1080,43 +1081,14 @@ enum ShaderTypeEnum : unsigned int {
     BSSM_SHADERTYPE_DISTANT_TREE = 0x19
 };
 };
-// v0.5.11: представления verified-prefix — отдельные типы подтверждённой части объекта (не полные классы)
-// BGSSaveLoadFormHeader_VerifiedPrefix — ПРЕДСТАВЛЕНИЕ подтверждённой части BGSSaveLoadFormHeader (verified-prefix, v0.5.11). НЕ полный класс движка.
-// Размер BGSSaveLoadFormHeader на PC не доказан: 0x9 <= sizeof <= 0xC; sizeof(BGSSaveLoadFormHeader_VerifiedPrefix) = 0x9 — только размер представления.
-// Нельзя по sizeof(BGSSaveLoadFormHeader_VerifiedPrefix): выделять память под объект игры, создавать массивы, копировать объект, передавать по значению,
-// вызывать конструктор/деструктор игры. Можно: читать/писать подтверждённые поля уже существующего объекта игры по указателю.
-// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).
-#pragma pack(push, 1) // поле iChangeFlags на +3: упаковано и в игре
-struct BGSSaveLoadFormHeader_VerifiedPrefix {
-    unsigned char FormIDIndex[3]; // +0x0, 3 байта; непрозрачные байты; Xbox PDB: unsigned char FormIDIndex[3];
-    unsigned int iChangeFlags; // +0x3, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: unsigned iChangeFlags;
-    unsigned char FormInfo[1]; // +0x7, 1 байт; непрозрачные байты; Xbox PDB: unsigned char FormInfo[1];
-    unsigned char cVersion; // +0x8, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: unsigned char cVersion;
-};
-#pragma pack(pop)
-// FontManager_TextData_VerifiedPrefix — ПРЕДСТАВЛЕНИЕ подтверждённой части FontManager::TextData (verified-prefix, v0.5.11). НЕ полный класс движка.
-// Размер FontManager::TextData на PC не доказан: 0x40 <= sizeof <= 0x44; sizeof(FontManager_TextData_VerifiedPrefix) = 0x40 — только размер представления.
-// Нельзя по sizeof(FontManager_TextData_VerifiedPrefix): выделять память под объект игры, создавать массивы, копировать объект, передавать по значению,
-// вызывать конструктор/деструктор игры. Можно: читать/писать подтверждённые поля уже существующего объекта игры по указателю.
-// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).
-struct FontManager_TextData_VerifiedPrefix {
-    unsigned int iDefaultFont; // +0x0, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iDefaultFont;
-    unsigned int iJustification; // +0x4, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iJustification;
-    alignas(4) unsigned char xColor[16]; // +0x8, 16 байт; непрозрачные байты; Xbox PDB: alignas(4) unsigned char xColor[16];
-    unsigned char cLineSep; // +0x18, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: char cLineSep;
-    unsigned char _pad19[0x3];
-    unsigned int iWidth; // +0x1C, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iWidth;
-    int iHeight; // +0x20, 4 байта; тип Xbox PDB, вид подтверждён командами PC; Xbox PDB: int iHeight;
-    unsigned int iPageNum; // +0x24, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iPageNum;
-    unsigned int iLines; // +0x28, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iLines;
-    unsigned int iNumPages; // +0x2C, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iNumPages;
-    unsigned int iNumLines; // +0x30, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iNumLines;
-    unsigned char bIsHypertext; // +0x34, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: bool bIsHypertext;
-    unsigned char _pad35[0x3];
-    alignas(4) unsigned char xNewText[8]; // +0x38, 8 байт; непрозрачные байты; Xbox PDB: alignas(4) unsigned char xNewText[8];
-};
+// v0.5.12: статус доказанности — в метаданных (summary.json: verification_status), имена исходные. Классы VerifiedPrefix (BGSSaveLoadFormHeader, FontManager::TextData) — только подтверждённая часть объекта, не доказанная полная структура.
+#ifndef FNV_PDB_TYPES_ONLY   // .cpp, из которого собирается PDB, определяет его: в PDB попадают только данные
+#define FNV_VERIFIED_PREFIX_GUARD(T) T() = delete; T(const T&) = delete; T& operator=(const T&) = delete;
+#else
+#define FNV_VERIFIED_PREFIX_GUARD(T)
+#endif
 // BaseFormComponent (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
-// PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x01011D68
+// PC: verification_status Confirmed — размер 0x4 и раскладка подтверждены; alignof 4; vtable 0x01011D68; типы полей, слоты и методы — у каждого свой статус
 class BaseFormComponent {
 public:
     virtual void _unverified_slot0(); // слот 0 | PC: stub (0xEC60FA)
@@ -1126,7 +1098,7 @@ public:
     // поля
 };
 // TESForm (Xbox PDB): Xbox sizeof 0x18, PC sizeof 0x18
-// PC: sizeof 0x18 — confirmed; alignof 4; vtable 0x0101C794
+// PC: verification_status Confirmed — размер 0x18 и раскладка подтверждены; alignof 4; vtable 0x0101C794; типы полей, слоты и методы — у каждого свой статус
 class TESForm : public BaseFormComponent {
 public:
     virtual ~TESForm(); // слот 4 | PC: name+stack (0x483600)
@@ -1211,7 +1183,7 @@ public:
     alignas(4) unsigned char pSourceFiles[8]; // BSSimpleList<TESFile *> | PC: confirmed
 };
 // TESDataHandler (Xbox PDB): Xbox sizeof 0x63C, PC sizeof 0x63C
-// PC: sizeof 0x63C — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x63C и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class TESDataHandler {
 public:
     // поля
@@ -1305,7 +1277,7 @@ public:
     TESEffectShader* pCateyeMobileShader; // PC: confirmed
 };
 // BSGameSound (Xbox PDB): Xbox sizeof 0x198, PC sizeof 0x198
-// PC: sizeof 0x198 — confirmed; alignof 4; vtable 0x010A3964
+// PC: verification_status Confirmed — размер 0x198 и раскладка подтверждены; alignof 4; vtable 0x010A3964; типы полей, слоты и методы — у каждого свой статус
 class BSGameSound {
 public:
     virtual ~BSGameSound(); // слот 0 | PC: name+stack (0xAE9EC0)
@@ -1378,7 +1350,7 @@ public:
     alignas(4) unsigned char QueuedMessages[12]; // NiTPointerList<BSSoundMessage *> | PC: confirmed
 };
 // BSWin32GameSound (только PC: в Xbox PDB нет): PC sizeof 0x230; поля восстановлены по коду PC, имена наши (own). Аналог на Xbox — BSXenonGameSound (XAudio2), раскладка другая. Тип COM-полей — по набору вызываемых слотов vtable (DirectSound API)
-// PC: sizeof 0x230 — confirmed; alignof 4; vtable 0x010A3BF4
+// PC: verification_status Confirmed — размер 0x230 и раскладка подтверждены; alignof 4; vtable 0x010A3BF4; типы полей, слоты и методы — у каждого свой статус
 class BSWin32GameSound : public BSGameSound {
 public:
     // поля
@@ -1416,7 +1388,7 @@ public:
     unsigned pc22C; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — пишется в OpenOgg | PC: confirmed
 };
 // BSAudio (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4; vtable 0x010A323C
+// PC: verification_status Confirmed — размер 0x38 и раскладка подтверждены; alignof 4; vtable 0x010A323C; типы полей, слоты и методы — у каждого свой статус
 class BSAudio {
 public:
     virtual ~BSAudio(); // слот 0 | PC: name+stack (0xAD8790)
@@ -1445,7 +1417,7 @@ public:
     void* pfnSynchUnPausedCallback; // PC: confirmed
 };
 // BSWin32Audio (только PC: в Xbox PDB нет): PC sizeof 0xA4; поля восстановлены по коду PC, имена наши (own). Единственный объект — BSWin32Audio::Instance (0x011F7080)
-// PC: sizeof 0xA4 — confirmed; alignof 4; vtable 0x010A39D8
+// PC: verification_status Confirmed — размер 0xA4 и раскладка подтверждены; alignof 4; vtable 0x010A39D8; типы полей, слоты и методы — у каждого свой статус
 class BSWin32Audio : public BSAudio {
 public:
     // поля
@@ -1455,7 +1427,7 @@ public:
     void* hWnd; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду — окно: Init сохраняет аргумент и передаёт его в SetCooperativeLevel | PC: confirmed
 };
 // BSAudioManager (Xbox PDB): Xbox sizeof 0x19C, PC sizeof 0x188
-// PC: sizeof 0x188 — confirmed; alignof 4; vtable 0x010A3368
+// PC: verification_status Confirmed — размер 0x188 и раскладка подтверждены; alignof 4; vtable 0x010A3368; типы полей, слоты и методы — у каждого свой статус
 class BSAudioManager {
 public:
     virtual ~BSAudioManager(); // слот 0 | PC: name+stack (0xAE77A0)
@@ -1509,7 +1481,7 @@ public:
     unsigned char _pad185[0x3];
 };
 // BSSoundHandle (Xbox PDB): Xbox sizeof 0xC, PC sizeof 0xC
-// PC: sizeof 0xC — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0xC и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class BSSoundHandle {
 public:
     enum ASSUMED_STATE { ASSUMED_STATE_INITIALIZED = 0, ASSUMED_STATE_PLAYING = 1, ASSUMED_STATE_STOPPED = 2, ASSUMED_STATE_PAUSED = 3 }; // (Xbox PDB), значения проверены на PC
@@ -1521,7 +1493,7 @@ public:
 };
 // HeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x8
 // PC отличается от Xbox: на PC заголовок блока кучи — 8 байт, а не 0x10, как на Xbox: AbstractHeap::BaseFree получает блок как «указатель − 8» (0x00AA9913 sub ecx, 8), учитывает размер блока + 8 (0x00AA992A add ecx, 8); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316 lea eax, [edx + ecx + 8]). Поля pPrevious/iMemSize те же; на Xbox заголовок добит до 16 байт
-// PC: sizeof 0x8 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x8 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class HeapBlock {
 public:
     // поля
@@ -1529,7 +1501,7 @@ public:
     unsigned iMemSize; // PC: confirmed
 };
 // FreeHeapBlock (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x10 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FreeHeapBlock {
 public:
     // поля
@@ -1539,7 +1511,7 @@ public:
     FreeHeapBlock* pNextFree; // PC: confirmed
 };
 // FreeHeapBlockList (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x8 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FreeHeapBlockList {
 public:
     // поля
@@ -1547,7 +1519,7 @@ public:
     FreeHeapBlock* pTail; // PC: confirmed
 };
 // IMemoryHeap (Xbox PDB): Xbox sizeof 0x4, PC sizeof 0x4
-// PC: sizeof 0x4 — confirmed; alignof 4; vtable 0x010A28C8
+// PC: verification_status Confirmed — размер 0x4 и раскладка подтверждены; alignof 4; vtable 0x010A28C8; типы полей, слоты и методы — у каждого свой статус
 class IMemoryHeap {
 public:
     virtual ~IMemoryHeap(); // слот 0 | PC: name+stack (0xAA7840)
@@ -1565,7 +1537,7 @@ public:
     // поля
 };
 // HeapFreeSubBucket (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x8 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class HeapFreeSubBucket {
 public:
     // поля
@@ -1573,7 +1545,7 @@ public:
     FreeHeapBlockList* pFirst; // PC: confirmed
 };
 // AbstractHeap (Xbox PDB): Xbox sizeof 0x20F4, PC sizeof 0x20F0
-// PC: sizeof 0x20F0 — confirmed; alignof 4; vtable 0x010A2BBC
+// PC: verification_status Confirmed — размер 0x20F0 и раскладка подтверждены; alignof 4; vtable 0x010A2BBC; типы полей, слоты и методы — у каждого свой статус
 class AbstractHeap : public IMemoryHeap {
 public:
     virtual void* DoHeapAllocation(unsigned, unsigned); // слот 12 | PC: name+stack (0xAA79A0)
@@ -1608,7 +1580,7 @@ public:
     alignas(4) unsigned char CriticalSectionO[24]; // BSCriticalSection | PC: confirmed
 };
 // MemoryHeap (Xbox PDB): Xbox sizeof 0x20F8, PC sizeof 0x20F4
-// PC: sizeof 0x20F4 — confirmed; alignof 4; vtable 0x010A28FC
+// PC: verification_status Confirmed — размер 0x20F4 и раскладка подтверждены; alignof 4; vtable 0x010A28FC; типы полей, слоты и методы — у каждого свой статус
 class MemoryHeap : public AbstractHeap {
 public:
     // поля
@@ -1617,7 +1589,7 @@ public:
     unsigned char _pad20F2[0x2];
 };
 // ScrapHeap (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x10 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class ScrapHeap {
 public:
     // поля
@@ -1627,7 +1599,7 @@ public:
     void* pLastBlock; // PC: confirmed
 };
 // MemoryManager (Xbox PDB): Xbox sizeof 0x134, PC sizeof 0x138
-// PC: sizeof 0x138 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x138 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class MemoryManager {
 public:
     // поля
@@ -1647,8 +1619,25 @@ public:
     unsigned iMallocBytes; // PC: confirmed
     unsigned iMainThreadMemoryProblemPassSignal; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
+// BGSSaveLoadFormHeader — verification_status VerifiedPrefix (v0.5.12): ПРЕДСТАВЛЕНИЕ подтверждённой части объекта игры, НЕ доказанная
+// полная структура. Размер BGSSaveLoadFormHeader на PC не доказан: 0x9 <= sizeof <= 0xC; sizeof этого типа = 0x9 — только
+// размер представления. Нельзя: выделять память под объект игры (new, локальная переменная), массивы и шаг по sizeof,
+// копирование и передача по значению, конструктор/деструктор игры. Можно: подтверждённые поля уже существующего
+// объекта игры по указателю. FNV_VERIFIED_PREFIX_GUARD удаляет конструктор по умолчанию, копирование и присваивание —
+// компилятор не даст создать или скопировать объект; memcpy(…, sizeof) он НЕ запретит. Статус — evidence/summary.json.
+// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).
+#pragma pack(push, 1) // поле iChangeFlags на +3: упаковано и в игре
+// PC: verification_status VerifiedPrefix — известная часть 0x9, размер объекта игры 0x9…0xC не доказан; выделение, массивы, копирование, передача по значению — запрещены
+struct BGSSaveLoadFormHeader {
+    FNV_VERIFIED_PREFIX_GUARD(BGSSaveLoadFormHeader)
+    unsigned char FormIDIndex[3]; // +0x0, 3 байта; непрозрачные байты; Xbox PDB: unsigned char FormIDIndex[3]; | PC: confirmed
+    unsigned int iChangeFlags; // +0x3, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: unsigned iChangeFlags; | PC: confirmed
+    unsigned char FormInfo[1]; // +0x7, 1 байт; непрозрачные байты; Xbox PDB: unsigned char FormInfo[1]; | PC: confirmed
+    unsigned char cVersion; // +0x8, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: unsigned char cVersion; | PC: confirmed
+};
+#pragma pack(pop)
 // BGSSaveGameBuffer (Xbox PDB): Xbox sizeof 0x14, PC sizeof 0x14
-// PC: sizeof 0x14 — confirmed; alignof 4; vtable 0x01082324
+// PC: verification_status Confirmed — размер 0x14 и раскладка подтверждены; alignof 4; vtable 0x01082324; типы полей, слоты и методы — у каждого свой статус
 class BGSSaveGameBuffer {
 public:
     virtual void _unverified_slot0(); // слот 0 | PC: stack (0x7AF430)
@@ -1661,16 +1650,16 @@ public:
     unsigned iDebugOverhead; // PC: confirmed
 };
 // BGSSaveFormBuffer (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4; vtable 0x01082308
+// PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; vtable 0x01082308; типы полей, слоты и методы — у каждого свой статус
 class BGSSaveFormBuffer : public BGSSaveGameBuffer {
 public:
     // поля
-    BGSSaveLoadFormHeader_VerifiedPrefix Header; // строгая сборка: только подтверждённая часть BGSSaveLoadFormHeader (0x9 байт); это не полный класс
+    BGSSaveLoadFormHeader Header; // строгая сборка: BGSSaveLoadFormHeader — VerifiedPrefix, только подтверждённая часть (0x9 байт), не доказанный полный объект
     unsigned char _unverified_HeaderTail[3]; // строгая сборка: 3 байта до следующего поля — не приписаны BGSSaveLoadFormHeader (размер BGSSaveLoadFormHeader на PC: 0x9…0xC, не доказан)
     TESForm* pForm; // PC: confirmed
 };
 // BGSLoadGameBuffer (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x01082048
+// PC: verification_status Confirmed — размер 0x10 и раскладка подтверждены; alignof 4; vtable 0x01082048; типы полей, слоты и методы — у каждого свой статус
 class BGSLoadGameBuffer {
 public:
     virtual unsigned char GetVersion(); // слот 0 | PC: name+stack (0x864720)
@@ -1683,12 +1672,12 @@ public:
     unsigned iBufferPosition; // PC: confirmed
 };
 // BGSLoadFormBuffer (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x30
-// PC: sizeof 0x30 — confirmed; alignof 4; vtable 0x01082028
+// PC: verification_status Confirmed — размер 0x30 и раскладка подтверждены; alignof 4; vtable 0x01082028; типы полей, слоты и методы — у каждого свой статус
 class BGSLoadFormBuffer : public BGSLoadGameBuffer {
 public:
     // поля
     unsigned iFormID; // PC: confirmed
-    BGSSaveLoadFormHeader_VerifiedPrefix Header; // строгая сборка: только подтверждённая часть BGSSaveLoadFormHeader (0x9 байт); это не полный класс
+    BGSSaveLoadFormHeader Header; // строгая сборка: BGSSaveLoadFormHeader — VerifiedPrefix, только подтверждённая часть (0x9 байт), не доказанный полный объект
     unsigned char _unverified_HeaderTail[3]; // строгая сборка: 3 байта до следующего поля — не приписаны BGSSaveLoadFormHeader (размер BGSSaveLoadFormHeader на PC: 0x9…0xC, не доказан)
     unsigned iSize; // PC: confirmed
     TESForm* pForm; // PC: confirmed
@@ -1696,7 +1685,7 @@ public:
     unsigned iOldChangeFlags; // BGSChangeFlags | PC: confirmed
 };
 // BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
-// PC: sizeof 0x24C — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x24C и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class BGSSaveLoadGame {
 public:
     // поля
@@ -1719,7 +1708,7 @@ public:
     unsigned char _pad249[0x3];
 };
 // BGSSaveLoadManager (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x38 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class BGSSaveLoadManager {
 public:
     // поля
@@ -1747,7 +1736,7 @@ public:
     alignas(4) unsigned char sSystemSaveName[8]; // BSStringT<char> // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду | PC: confirmed
 };
 // BGSSaveLoadChangesMap (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4; vtable 0x0107ED68
+// PC: verification_status Confirmed — размер 0x10 и раскладка подтверждены; alignof 4; vtable 0x0107ED68; типы полей, слоты и методы — у каждого свой статус
 class BGSSaveLoadChangesMap {
 public:
     virtual ~BGSSaveLoadChangesMap(); // слот 0 | PC: name+stack (0x845580)
@@ -1757,7 +1746,7 @@ public:
     alignas(4) unsigned char m_kAllocator[4]; // NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BGSFormChanges *>::AntiBloatAllocator | PC: confirmed
 };
 // FalloutRadio::FORadioReceiver (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
-// PC: sizeof 0x20 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: Hndl.iSoundID, StaticHndl.iSoundID, bInRange)
+// PC: verification_status Confirmed — размер 0x20 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct FalloutRadio::FORadioReceiver {
 public:
     // поля
@@ -1770,7 +1759,7 @@ public:
     bool bIsActor; // PC: confirmed
 };
 // FalloutRadio::StationState (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
-// PC: sizeof 0x20 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x20 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct FalloutRadio::StationState {
 public:
     // поля
@@ -1785,7 +1774,7 @@ public:
     alignas(4) unsigned char StationUsers[8]; // BSSimpleList<FalloutRadio::FORadioReceiver *> | PC: confirmed
 };
 // FalloutRadio::FORadioStation (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct FalloutRadio::FORadioStation {
 public:
     // поля
@@ -1793,7 +1782,7 @@ public:
     FalloutRadio::StationState CurrentState;
 };
 // RadioConvTask (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 8; vtable 0x0107CF18; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iRefCount)
+// PC: verification_status Confirmed — размер 0x38 и раскладка подтверждены; alignof 8; vtable 0x0107CF18; типы полей, слоты и методы — у каждого свой статус
 class RadioConvTask {
 public:
     virtual ~RadioConvTask(); // слот 0 | PC: name+stack (0x837290)
@@ -1811,7 +1800,7 @@ public:
     unsigned char _pad34[0x4];
 };
 // UVMap (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x8 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct UVMap {
 public:
     // поля
@@ -1819,7 +1808,7 @@ public:
     float fV; // PC: confirmed
 };
 // FontLetter (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iTextureIndex)
+// PC: verification_status Confirmed — размер 0x38 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct FontLetter {
 public:
     // поля
@@ -1832,7 +1821,7 @@ public:
     float fTopEdge; // PC: confirmed
 };
 // TextureFile (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iType, pFilename)
+// PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct TextureFile {
 public:
     // поля
@@ -1840,7 +1829,7 @@ public:
     unsigned char _unverified_pFilename[32]; // строгая сборка: не подтверждено (char[32 bytes])
 };
 // FontData (Xbox PDB): Xbox sizeof 0x3928, PC sizeof 0x3928
-// PC: sizeof 0x3928 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x3928 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 struct FontData {
 public:
     // поля
@@ -1850,7 +1839,7 @@ public:
     FontLetter pFontLetters[256]; // PC: confirmed
 };
 // Font (Xbox PDB): Xbox sizeof 0x54, PC sizeof 0x54
-// PC: sizeof 0x54 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iLineOverlap)
+// PC: verification_status Confirmed — размер 0x54 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class Font {
 public:
     class TextData;
@@ -1868,7 +1857,7 @@ public:
     alignas(4) unsigned char ButtonIcons[16]; // BSSimpleArray<ButtonIcon,1024> | PC: confirmed
 };
 // Font::TextData (Xbox PDB): Xbox sizeof 0x28, PC sizeof 0x28
-// PC: sizeof 0x28 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: xNewText)
+// PC: verification_status Confirmed — размер 0x28 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class Font::TextData {
 public:
     // поля
@@ -1883,7 +1872,7 @@ public:
     alignas(4) unsigned char xLineWidths[8]; // BSSimpleList<int> | PC: confirmed
 };
 // FontManager (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FontManager {
 public:
     enum enumCharTypes { eSTART_TAG = 1, eEND_TAG = 2, eWHITESPACE = 4, eQUOTE = 8, eEQUAL = 16, eEOF = 32 }; // (Xbox PDB), значения проверены на PC
@@ -1891,13 +1880,14 @@ public:
     class TextLine;
     class TextPage;
     class TextDoc;
+    class TextData;
     // поля
     Font* pFont[8]; // PC: confirmed
     bool bUseNewFonts; // PC: confirmed
     unsigned char _pad21[0x3];
 };
 // FontManager::CharData (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x38 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FontManager::CharData {
 public:
     // поля
@@ -1914,7 +1904,7 @@ public:
     int iX; // PC: confirmed
 };
 // FontManager::TextLine (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x30
-// PC: sizeof 0x30 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iY)
+// PC: verification_status Confirmed — размер 0x30 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FontManager::TextLine {
 public:
     // поля
@@ -1930,7 +1920,7 @@ public:
     FontManager::TextPage* pPage; // PC: confirmed
 };
 // FontManager::TextPage (Xbox PDB): Xbox sizeof 0x44, PC sizeof 0x44
-// PC: sizeof 0x44 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iWidth)
+// PC: verification_status Confirmed — размер 0x44 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FontManager::TextPage {
 public:
     // поля
@@ -1944,7 +1934,7 @@ public:
     FontManager::TextDoc* pDoc; // PC: confirmed
 };
 // FontManager::TextDoc (Xbox PDB): Xbox sizeof 0x18, PC sizeof 0x18
-// PC: sizeof 0x18 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x18 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class FontManager::TextDoc {
 public:
     // поля
@@ -1953,8 +1943,34 @@ public:
     int iPageHeight; // PC: confirmed
     int iPageNum; // PC: confirmed
 };
+// FontManager::TextData — verification_status VerifiedPrefix (v0.5.12): ПРЕДСТАВЛЕНИЕ подтверждённой части объекта игры, НЕ доказанная
+// полная структура. Размер FontManager::TextData на PC не доказан: 0x40 <= sizeof <= 0x44; sizeof этого типа = 0x40 — только
+// размер представления. Нельзя: выделять память под объект игры (new, локальная переменная), массивы и шаг по sizeof,
+// копирование и передача по значению, конструктор/деструктор игры. Можно: подтверждённые поля уже существующего
+// объекта игры по указателю. FNV_VERIFIED_PREFIX_GUARD удаляет конструктор по умолчанию, копирование и присваивание —
+// компилятор не даст создать или скопировать объект; memcpy(…, sizeof) он НЕ запретит. Статус — evidence/summary.json.
+// Каждое поле: смещение и ширина подтверждены кодом PC; тип — нейтральный, если вид типа не подтверждён (комментарий).
+// PC: verification_status VerifiedPrefix — известная часть 0x40, размер объекта игры 0x40…0x44 не доказан; выделение, массивы, копирование, передача по значению — запрещены
+class FontManager::TextData {
+public:
+    FNV_VERIFIED_PREFIX_GUARD(TextData)
+    unsigned int iDefaultFont; // +0x0, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iDefaultFont; | PC: confirmed
+    unsigned int iJustification; // +0x4, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iJustification; | PC: confirmed
+    alignas(4) unsigned char xColor[16]; // +0x8, 16 байт; непрозрачные байты; Xbox PDB: alignas(4) unsigned char xColor[16]; | PC: confirmed
+    unsigned char cLineSep; // +0x18, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: char cLineSep; | PC: confirmed
+    unsigned char _pad19[0x3];
+    unsigned int iWidth; // +0x1C, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iWidth; | PC: confirmed
+    int iHeight; // +0x20, 4 байта; тип Xbox PDB, вид подтверждён командами PC; Xbox PDB: int iHeight; | PC: confirmed
+    unsigned int iPageNum; // +0x24, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iPageNum; | PC: confirmed
+    unsigned int iLines; // +0x28, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iLines; | PC: confirmed
+    unsigned int iNumPages; // +0x2C, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iNumPages; | PC: confirmed
+    unsigned int iNumLines; // +0x30, 4 байта; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: int iNumLines; | PC: confirmed
+    unsigned char bIsHypertext; // +0x34, 1 байт; нейтральный тип ширины поля; семантика не подтверждена; Xbox PDB: bool bIsHypertext; | PC: confirmed
+    unsigned char _pad35[0x3];
+    alignas(4) unsigned char xNewText[8]; // +0x38, 8 байт; непрозрачные байты; Xbox PDB: alignas(4) unsigned char xNewText[8]; | PC: confirmed
+};
 // NiRefObject (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4; vtable 0x0101DCE4
+// PC: verification_status Confirmed — размер 0x8 и раскладка подтверждены; alignof 4; vtable 0x0101DCE4; типы полей, слоты и методы — у каждого свой статус
 class NiRefObject {
 public:
     virtual ~NiRefObject(); // слот 0 | PC: name+stack (0x4968E0)
@@ -1963,7 +1979,7 @@ public:
     unsigned m_uiRefCount; // PC: confirmed
 };
 // NiObject (Xbox PDB): Xbox sizeof 0x8, PC sizeof 0x8
-// PC: sizeof 0x8 — confirmed; alignof 4; vtable 0x0109B4F4
+// PC: verification_status Confirmed — размер 0x8 и раскладка подтверждены; alignof 4; vtable 0x0109B4F4; типы полей, слоты и методы — у каждого свой статус
 class NiObject : public NiRefObject {
 public:
     virtual const NiRTTI* GetRTTI(); // слот 2 | PC: name+stack (0x529530)
@@ -2002,7 +2018,7 @@ public:
     // поля
 };
 // NiObjectNET (Xbox PDB): Xbox sizeof 0x18, PC sizeof 0x18
-// PC: sizeof 0x18 — confirmed; alignof 4; vtable 0x0109B244
+// PC: verification_status Confirmed — размер 0x18 и раскладка подтверждены; alignof 4; vtable 0x0109B244; типы полей, слоты и методы — у каждого свой статус
 class NiObjectNET : public NiObject {
 public:
     // поля
@@ -2013,7 +2029,7 @@ public:
     unsigned short m_usMaxSize; // PC: confirmed
 };
 // NiPoint3 (Xbox PDB): Xbox sizeof 0xC, PC sizeof 0xC
-// PC: sizeof 0xC — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0xC и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class NiPoint3 {
 public:
     // поля
@@ -2022,14 +2038,14 @@ public:
     float z; // PC: confirmed
 };
 // NiMatrix3 (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x24; раскладка PC другая — на Xbox 3 строки по 16 байт (NiPoint4, выравнивание под VMX), на PC — 3×3 float подряд, построчно
-// PC: sizeof 0x24 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class NiMatrix3 {
 public:
     // поля
     float m_pEntry[9]; // pc-layout: поля нет в Xbox PDB, имя наше, найдено по PC-коду — 9 float: строка 0 — [0..2], строка 1 — [3..5], строка 2 — [6..8] | PC: confirmed
 };
 // NiTransform (Xbox PDB): Xbox sizeof 0x40, PC sizeof 0x34
-// PC: sizeof 0x34 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x34 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class NiTransform {
 public:
     // поля
@@ -2038,7 +2054,7 @@ public:
     float m_fScale; // PC: confirmed
 };
 // NiBound (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x10 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class NiBound {
 public:
     // поля
@@ -2046,7 +2062,7 @@ public:
     float m_fRadius; // PC: confirmed
 };
 // NiAVObject (Xbox PDB): Xbox sizeof 0xC0, PC sizeof 0x9C
-// PC: sizeof 0x9C — confirmed; alignof 4; vtable 0x0109B00C; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: m_kLocal.m_Rotate)
+// PC: verification_status Confirmed — размер 0x9C и раскладка подтверждены; alignof 4; vtable 0x0109B00C; типы полей, слоты и методы — у каждого свой статус
 class NiAVObject : public NiObjectNET {
 public:
     virtual void UpdateControllers(NiUpdateData*); // слот 35 | PC: name+stack (0xA5A030)
@@ -2079,7 +2095,7 @@ public:
     NiTransform m_kWorld;
 };
 // NiNode (Xbox PDB): Xbox sizeof 0xD0, PC sizeof 0xAC
-// PC: sizeof 0xAC — confirmed; alignof 4; vtable 0x0109B5AC
+// PC: verification_status Confirmed — размер 0xAC и раскладка подтверждены; alignof 4; vtable 0x0109B5AC; типы полей, слоты и методы — у каждого свой статус
 class NiNode : public NiAVObject {
 public:
     virtual void AttachChild(NiAVObject*, bool); // слот 55 | PC: name+stack (0xA5ED10)
@@ -2095,7 +2111,7 @@ public:
     alignas(4) unsigned char m_kChildren[16]; // NiTObjectArray<NiPointer<NiAVObject> > | PC: confirmed
 };
 // BSFadeNode (Xbox PDB): Xbox sizeof 0x110, PC sizeof 0xE4
-// PC: sizeof 0xE4 — confirmed; alignof 4; vtable 0x010A8F90
+// PC: verification_status Confirmed — размер 0xE4 и раскладка подтверждены; alignof 4; vtable 0x010A8F90; типы полей, слоты и методы — у каждого свой статус
 class BSFadeNode : public NiNode {
 public:
     // поля
@@ -2113,7 +2129,7 @@ public:
     alignas(4) unsigned char ParentPortalList[8]; // BSSimpleList<BSPortal *> | PC: confirmed
 };
 // NiProperty (Xbox PDB): Xbox sizeof 0x18, PC sizeof 0x18
-// PC: sizeof 0x18 — confirmed; alignof 4; vtable 0x01016374
+// PC: verification_status Confirmed — размер 0x18 и раскладка подтверждены; alignof 4; vtable 0x01016374; типы полей, слоты и методы — у каждого свой статус
 class NiProperty : public NiObjectNET {
 public:
     virtual int Type(); // слот 35 | PC: name+stack (0xA6A000)
@@ -2121,7 +2137,7 @@ public:
     // поля
 };
 // NiShadeProperty (Xbox PDB): Xbox sizeof 0x20, PC sizeof 0x20
-// PC: sizeof 0x20 — confirmed; alignof 4; vtable 0x0109E274
+// PC: verification_status Confirmed — размер 0x20 и раскладка подтверждены; alignof 4; vtable 0x0109E274; типы полей, слоты и методы — у каждого свой статус
 class NiShadeProperty : public NiProperty {
 public:
     // поля
@@ -2130,7 +2146,7 @@ public:
     int iShaderPropertyType; // PC: confirmed
 };
 // BSShaderProperty (Xbox PDB): Xbox sizeof 0x60, PC sizeof 0x60
-// PC: sizeof 0x60 — confirmed; alignof 4; vtable 0x010B8488
+// PC: verification_status Confirmed — размер 0x60 и раскладка подтверждены; alignof 4; vtable 0x010B8488; типы полей, слоты и методы — у каждого свой статус
 class BSShaderProperty : public NiShadeProperty {
 public:
     class RenderPass;
@@ -2164,7 +2180,7 @@ public:
     float fDepthBias; // PC: confirmed
 };
 // BSShaderProperty::RenderPass (Xbox PDB): Xbox sizeof 0x10, PC sizeof 0x10
-// PC: sizeof 0x10 — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x10 и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class BSShaderProperty::RenderPass {
 public:
     // поля
@@ -2179,7 +2195,7 @@ public:
     ShadowSceneLight** ppSceneLights; // PC: confirmed
 };
 // BSShaderLightingProperty (Xbox PDB): Xbox sizeof 0x7C, PC sizeof 0x7C
-// PC: sizeof 0x7C — confirmed; alignof 4; vtable 0x010AE7B0
+// PC: verification_status Confirmed — размер 0x7C и раскладка подтверждены; alignof 4; vtable 0x010AE7B0; типы полей, слоты и методы — у каждого свой статус
 class BSShaderLightingProperty : public BSShaderProperty {
 public:
     virtual void CopyTo(BSShaderLightingProperty*); // слот 49 | PC: name+stack (0xB70290)
@@ -2194,7 +2210,7 @@ public:
 };
 // BSShaderPPLightingProperty (Xbox PDB): Xbox sizeof 0x108, PC sizeof 0x104
 // PC отличается от Xbox: sizeof 0x104 (CreateObject 0x00B68D92 и CreateClone выделяют 0x104). На PC массив spTextures — 6 указателей, а не 7 (конструктор 0x00B66F50 обходит ровно 6 массивов текстур с +0xAC), поэтому все поля после него на 4 байта раньше, чем на Xbox, в том же порядке: pSpecularExponent +0xC4 (конструктор пишет 0x1E в оба байта), usLandscapeTextures +0xC8 (GetLandscapeTextureCount 0x00B671F0 читает word [ecx+0xC8]), pbGlossMap +0xCC, spTangentSpaceData +0xD0 (StoreExtraDataPointers 0x00539F20), TextureClampMode +0xD8 (GetClampNI 0x00B671C0), spTexEffectData +0xDC (SetTexEffectData 0x00B675C0), fRefractionPower +0xE0 (SetRefractionStrength 0x00B66700), fParallaxOccMaxPasses +0xE8 (SetMaxParallaxPasses 0x0068C8B0), fTerrainTexOffsetX/Y/Fade +0xF0/+0xF4/+0xF8 (SetLODTexParams 0x006FB940), pRenderDepthPass +0x100 (GetDepthPass 0x00B66E20)
-// PC: sizeof 0x104 — confirmed; alignof 4; vtable 0x010AE0D0; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: fGeomorphParam, fTerrainDetailTexScale, fWaterDepthCameraOffset)
+// PC: verification_status Confirmed — размер 0x104 и раскладка подтверждены; alignof 4; vtable 0x010AE0D0; типы полей, слоты и методы — у каждого свой статус
 class BSShaderPPLightingProperty : public BSShaderLightingProperty {
 public:
     virtual void CopyTo(BSShaderPPLightingProperty*); // слот 51 | PC: name+stack (0xB66600)
@@ -2245,14 +2261,14 @@ public:
     BSShaderProperty::RenderPass* pRenderDepthPass; // PC: confirmed
 };
 // NiPropertyState (Xbox PDB): Xbox sizeof 0x1C, PC sizeof 0x1C
-// PC: sizeof 0x1C — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x1C и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class NiPropertyState {
 public:
     // поля
     alignas(4) unsigned char m_aspProps[28]; // NiPointer<NiProperty>[28 bytes] | PC: confirmed
 };
 // NiGeometryData (Xbox PDB): Xbox sizeof 0x40, PC sizeof 0x40
-// PC: sizeof 0x40 — confirmed; alignof 4; vtable 0x0109BF9C
+// PC: verification_status Confirmed — размер 0x40 и раскладка подтверждены; alignof 4; vtable 0x0109BF9C; типы полей, слоты и методы — у каждого свой статус
 class NiGeometryData : public NiObject {
 public:
     virtual void _unverified_slot35(); // слот 35 | PC: stub (0xA89AF0)
@@ -2281,7 +2297,7 @@ public:
     unsigned char _pad3D[0x3];
 };
 // NiTriBasedGeomData (Xbox PDB): Xbox sizeof 0x44, PC sizeof 0x44
-// PC: sizeof 0x44 — confirmed; alignof 4; vtable 0x0109F2F4
+// PC: verification_status Confirmed — размер 0x44 и раскладка подтверждены; alignof 4; vtable 0x0109F2F4; типы полей, слоты и методы — у каждого свой статус
 class NiTriBasedGeomData : public NiGeometryData {
 public:
     virtual void _unverified_slot41(); // слот 41 | PC: stub (0xA89AF0)
@@ -2293,7 +2309,7 @@ public:
     unsigned char _pad42[0x2];
 };
 // NiTriShapeData (Xbox PDB): Xbox sizeof 0x58, PC sizeof 0x58
-// PC: sizeof 0x58 — confirmed; alignof 4; vtable 0x0109DAC4
+// PC: verification_status Confirmed — размер 0x58 и раскладка подтверждены; alignof 4; vtable 0x0109DAC4; типы полей, слоты и методы — у каждого свой статус
 class NiTriShapeData : public NiTriBasedGeomData {
 public:
     // поля
@@ -2305,7 +2321,7 @@ public:
     void* m_pkSNAMemoryBlocks; // PC: confirmed
 };
 // NiGeometry (Xbox PDB): Xbox sizeof 0xF0, PC sizeof 0xC4
-// PC: sizeof 0xC4 — confirmed; alignof 4; vtable 0x0109E04C
+// PC: verification_status Confirmed — размер 0xC4 и раскладка подтверждены; alignof 4; vtable 0x0109E04C; типы полей, слоты и методы — у каждого свой статус
 class NiGeometry : public NiAVObject {
 public:
     virtual void RenderImmediate(NiRenderer*); // слот 55 | PC: name+stack (0xA80610)
@@ -2320,26 +2336,26 @@ public:
     NiShader* m_spShader; // PC: confirmed
 };
 // NiTriBasedGeom (Xbox PDB): Xbox sizeof 0xF0, PC sizeof 0xC4
-// PC: sizeof 0xC4 — confirmed; alignof 4; vtable 0x0109ED94
+// PC: verification_status Confirmed — размер 0xC4 и раскладка подтверждены; alignof 4; vtable 0x0109ED94; типы полей, слоты и методы — у каждого свой статус
 class NiTriBasedGeom : public NiGeometry {
 public:
     virtual void GetModelTriangle(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**); // слот 60 | PC: name+stack (0xA74560)
     // поля
 };
 // NiTriShape (Xbox PDB): Xbox sizeof 0xF0, PC sizeof 0xC4
-// PC: sizeof 0xC4 — confirmed; alignof 4; vtable 0x0109D454
+// PC: verification_status Confirmed — размер 0xC4 и раскладка подтверждены; alignof 4; vtable 0x0109D454; типы полей, слоты и методы — у каждого свой статус
 class NiTriShape : public NiTriBasedGeom {
 public:
     // поля
 };
 // NiTriStrips (Xbox PDB): Xbox sizeof 0xF0, PC sizeof 0xC4
-// PC: sizeof 0xC4 — confirmed; alignof 4; vtable 0x0109CD44
+// PC: verification_status Confirmed — размер 0xC4 и раскладка подтверждены; alignof 4; vtable 0x0109CD44; типы полей, слоты и методы — у каждого свой статус
 class NiTriStrips : public NiTriBasedGeom {
 public:
     // поля
 };
 // NiCamera (Xbox PDB): Xbox sizeof 0x140, PC sizeof 0x114
-// PC: sizeof 0x114 — confirmed; alignof 4; vtable 0x0109CB9C
+// PC: verification_status Confirmed — размер 0x114 и раскладка подтверждены; alignof 4; vtable 0x0109CB9C; типы полей, слоты и методы — у каждого свой статус
 class NiCamera : public NiAVObject {
 public:
     // поля
@@ -2351,7 +2367,7 @@ public:
     float m_fLODAdjust; // PC: confirmed
 };
 // NiTexture (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x30
-// PC: sizeof 0x30 — confirmed; alignof 4; vtable 0x0109B944
+// PC: verification_status Confirmed — размер 0x30 и раскладка подтверждены; alignof 4; vtable 0x0109B944; типы полей, слоты и методы — у каждого свой статус
 class NiTexture : public NiObjectNET {
 public:
     virtual void Upgrade(); // слот 35 | PC: name+stack (0xA60090)
@@ -2367,7 +2383,7 @@ public:
     NiTexture* m_pkNext; // PC: confirmed
 };
 // NiSourceTexture (Xbox PDB): Xbox sizeof 0x48, PC sizeof 0x48
-// PC: sizeof 0x48 — confirmed; alignof 4; vtable 0x0109B9EC
+// PC: verification_status Confirmed — размер 0x48 и раскладка подтверждены; alignof 4; vtable 0x0109B9EC; типы полей, слоты и методы — у каждого свой статус
 class NiSourceTexture : public NiTexture {
 public:
     virtual void LoadPixelDataFromFile(); // слот 41 | PC: name+stack (0xA5FFE0)
@@ -2385,7 +2401,7 @@ public:
     NiFile* m_pFile; // PC: confirmed
 };
 // NiAccumulator (Xbox PDB): Xbox sizeof 0xC, PC sizeof 0xC
-// PC: sizeof 0xC — confirmed; alignof 4; vtable 0x010A2304
+// PC: verification_status Confirmed — размер 0xC и раскладка подтверждены; alignof 4; vtable 0x010A2304; типы полей, слоты и методы — у каждого свой статус
 class NiAccumulator : public NiObject {
 public:
     virtual void StartAccumulating(const NiCamera*); // слот 35 | PC: name+stack (0xD47A40)
@@ -2398,7 +2414,7 @@ public:
     const NiCamera* m_pkCamera; // PC: confirmed
 };
 // NiBackToFrontAccumulator (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x30
-// PC: sizeof 0x30 — confirmed; alignof 4; vtable 0x010A23AC
+// PC: verification_status Confirmed — размер 0x30 и раскладка подтверждены; alignof 4; vtable 0x010A23AC; типы полей, слоты и методы — у каждого свой статус
 class NiBackToFrontAccumulator : public NiAccumulator {
 public:
     virtual void Sort(); // слот 41 | PC: name+stack (0xAA0C00)
@@ -2412,7 +2428,7 @@ public:
     int m_iCurrItem; // PC: confirmed
 };
 // NiAlphaAccumulator (Xbox PDB): Xbox sizeof 0x34, PC sizeof 0x34
-// PC: sizeof 0x34 — confirmed; alignof 4; vtable 0x010A13AC
+// PC: verification_status Confirmed — размер 0x34 и раскладка подтверждены; alignof 4; vtable 0x010A13AC; типы полей, слоты и методы — у каждого свой статус
 class NiAlphaAccumulator : public NiBackToFrontAccumulator {
 public:
     // поля
@@ -2422,7 +2438,7 @@ public:
     unsigned char _pad33[0x1];
 };
 // BSShaderAccumulator (Xbox PDB): Xbox sizeof 0x280, PC sizeof 0x280
-// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x010ADFF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bCacheGeometry, eAccumulationMode, kAlphaRenderPass.pGeometry)
+// PC: verification_status Confirmed — размер 0x280 и раскладка подтверждены; alignof 4; vtable 0x010ADFF8; типы полей, слоты и методы — у каждого свой статус
 class BSShaderAccumulator : public NiAlphaAccumulator {
 public:
     virtual void FinishAccumulatingPreResolveDepth(); // слот 42 | PC: name+stack (0xB66520)
@@ -2480,7 +2496,7 @@ public:
     alignas(4) unsigned char BSCPSharedCrit[128]; // NiCriticalSection | PC: confirmed
 };
 // BSBatchRenderer (Xbox PDB): Xbox sizeof 0x98, PC sizeof 0x98
-// PC: sizeof 0x98 — confirmed; alignof 4; vtable 0x010B7DC8
+// PC: verification_status Confirmed — размер 0x98 и раскладка подтверждены; alignof 4; vtable 0x010B7DC8; типы полей, слоты и методы — у каждого свой статус
 class BSBatchRenderer : public NiObject {
 public:
     virtual void RegisterPass(BSShaderProperty::RenderPass*, unsigned); // слот 35 | PC: name+stack (0xB99C90)
@@ -2502,7 +2518,7 @@ public:
     void* pCurrentAlphaGroup[2]; // PC: confirmed
 };
 // NiRenderer (Xbox PDB): Xbox sizeof 0x280, PC sizeof 0x280
-// PC: sizeof 0x280 — confirmed; alignof 4; vtable 0x0109BB94
+// PC: verification_status Confirmed — размер 0x280 и раскладка подтверждены; alignof 4; vtable 0x0109BB94; типы полей, слоты и методы — у каждого свой статус
 class NiRenderer : public NiObject {
 public:
     virtual void _unverified_slot35(); // слот 35 | PC: stub (0xA29680)
@@ -2522,7 +2538,7 @@ public:
     unsigned char _pad20A[0x76];
 };
 // NiDX9Renderer (только PC: в Xbox PDB нет): PC sizeof 0xB80; поля восстановлены по коду PC, имена наши (own). Рендерер DirectX 9 (только PC): описаны только поля с однозначным назначением по коду PC — геттеры xNVSE и вызовы через указатели; остальные ~0x800 байт не разобраны. Единственный объект — *NiRenderer::ms_pkRenderer (0x011F4748).
-// PC: sizeof 0xB80 — confirmed; alignof 4; vtable 0x010EE4BC; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: _undescribed_AD1)
+// PC: verification_status Confirmed — размер 0xB80 и раскладка подтверждены; alignof 4; vtable 0x010EE4BC; типы полей, слоты и методы — у каждого свой статус
 class NiDX9Renderer : public NiRenderer {
 public:
     // поля
@@ -2555,7 +2571,7 @@ public:
     unsigned char _undescribed_AD1[0xAF]; // не разобрано | PC: consistent — ПРЕДВАРИТЕЛЬНО, не для хуков
 };
 // NiShader (Xbox PDB): Xbox sizeof 0x14, PC sizeof 0x14
-// PC: sizeof 0x14 — confirmed; alignof 4; vtable 0x0109F584
+// PC: verification_status Confirmed — размер 0x14 и раскладка подтверждены; alignof 4; vtable 0x0109F584; типы полей, слоты и методы — у каждого свой статус
 class NiShader : public NiRefObject {
 public:
     virtual const NiRTTI* GetRTTI(); // слот 2 | PC: name+stack (0xA8F480)
@@ -2610,7 +2626,7 @@ public:
     unsigned char _pad11[0x3];
 };
 // NiD3DShaderInterface (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4; vtable 0x010EF39C
+// PC: verification_status Confirmed — размер 0x24 и раскладка подтверждены; alignof 4; vtable 0x010EF39C; типы полей, слоты и методы — у каждого свой статус
 class NiD3DShaderInterface : public NiShader {
 public:
     virtual NiD3DShaderDeclaration* GetShaderDecl(); // слот 47 | PC: name+stack (0xEEA530)
@@ -2633,7 +2649,7 @@ public:
     unsigned char _pad21[0x3];
 };
 // NiD3DShader (Xbox PDB): Xbox sizeof 0x3C, PC sizeof 0x3C
-// PC: sizeof 0x3C — confirmed; alignof 4; vtable 0x010EEDA4
+// PC: verification_status Confirmed — размер 0x3C и раскладка подтверждены; alignof 4; vtable 0x010EEDA4; типы полей, слоты и методы — у каждого свой статус
 class NiD3DShader : public NiD3DShaderInterface {
 public:
     virtual void ResetPasses(); // слот 59 | PC: name+stack (0xE80610)
@@ -2648,7 +2664,7 @@ public:
     unsigned m_uiCurrentPass; // PC: confirmed
 };
 // NiD3DDefaultShader (Xbox PDB): Xbox sizeof 0x5C, PC sizeof 0x5C
-// PC: sizeof 0x5C — confirmed; alignof 4; vtable 0x010EECAC
+// PC: verification_status Confirmed — размер 0x5C и раскладка подтверждены; alignof 4; vtable 0x010EECAC; типы полей, слоты и методы — у каждого свой статус
 class NiD3DDefaultShader : public NiD3DShader {
 public:
     // поля
@@ -2664,7 +2680,7 @@ public:
     const NiDynamicEffectState* m_pkLastState; // PC: confirmed
 };
 // BSShader (Xbox PDB): Xbox sizeof 0x6C, PC sizeof 0x6C
-// PC: sizeof 0x6C — confirmed; alignof 4; vtable 0x010BC618
+// PC: verification_status Confirmed — размер 0x6C и раскладка подтверждены; alignof 4; vtable 0x010BC618; типы полей, слоты и методы — у каждого свой статус
 class BSShader : public NiD3DDefaultShader {
 public:
     virtual void InitPass(unsigned); // слот 60 | PC: name+stack (0xB7AF80)
@@ -2694,7 +2710,7 @@ public:
     int iShaderType; // PC: confirmed
 };
 // NiD3DPass (Xbox PDB): Xbox sizeof 0x68, PC sizeof 0x68
-// PC: sizeof 0x68 — confirmed; alignof 4; vtable 0x010EF364
+// PC: verification_status Confirmed — размер 0x68 и раскладка подтверждены; alignof 4; vtable 0x010EF364; типы полей, слоты и методы — у каждого свой статус
 class NiD3DPass {
 public:
     virtual ~NiD3DPass(); // слот 0 | PC: name+stack (0xE80080)
@@ -2726,7 +2742,7 @@ public:
     unsigned m_uiRefCount; // PC: confirmed
 };
 // ShadowSceneNode (Xbox PDB): Xbox sizeof 0x230, PC sizeof 0x200
-// PC: sizeof 0x200 — confirmed; alignof 4; vtable 0x010ADCF8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: bFrustumAddedToVis, fStoredFarClip)
+// PC: verification_status Confirmed — размер 0x200 и раскладка подтверждены; alignof 4; vtable 0x010ADCF8; типы полей, слоты и методы — у каждого свой статус
 class ShadowSceneNode : public NiNode {
 public:
     // поля
@@ -2765,7 +2781,7 @@ public:
     unsigned char _pad1FD[0x3];
 };
 // ShadowSceneLight (Xbox PDB): Xbox sizeof 0x250, PC sizeof 0x250
-// PC: sizeof 0x250 — confirmed; alignof 4; vtable 0x010B7EB8; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iEnabledPasses, pfClipSpacePlanes)
+// PC: verification_status Confirmed — размер 0x250 и раскладка подтверждены; alignof 4; vtable 0x010B7EB8; типы полей, слоты и методы — у каждого свой статус
 class ShadowSceneLight : public NiRefObject {
 public:
     // поля
@@ -2817,7 +2833,7 @@ public:
     unsigned char _pad244[0xC];
 };
 // ImageSpaceManager (Xbox PDB): Xbox sizeof 0x31C, PC sizeof 0x31C
-// PC: sizeof 0x31C — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x31C и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class ImageSpaceManager {
 public:
     // поля
@@ -2887,7 +2903,7 @@ public:
     BSRenderedTexture* pSwapTarget; // PC: confirmed
 };
 // MTRenderingSystem (Xbox PDB): Xbox sizeof 0x33C, PC sizeof 0x33C
-// PC: sizeof 0x33C — confirmed; alignof 4
+// PC: verification_status Confirmed — размер 0x33C и раскладка подтверждены; alignof 4; типы полей, слоты и методы — у каждого свой статус
 class MTRenderingSystem {
 public:
     // поля
@@ -2896,26 +2912,6 @@ public:
     alignas(4) unsigned char TaskStageSema[36]; // BSMTRSemaphore[36 bytes] | PC: confirmed
     alignas(4) unsigned char pTaskArray[768]; // MTRenderingSystem::AccumTask[768 bytes] | PC: confirmed
 };
-static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader_VerifiedPrefix::FormIDIndex");
-static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader_VerifiedPrefix::iChangeFlags");
-static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, FormInfo) == 0x7, "BGSSaveLoadFormHeader_VerifiedPrefix::FormInfo");
-static_assert(offsetof(BGSSaveLoadFormHeader_VerifiedPrefix, cVersion) == 0x8, "BGSSaveLoadFormHeader_VerifiedPrefix::cVersion");
-static_assert(sizeof(BGSSaveLoadFormHeader_VerifiedPrefix) == 0x9, "sizeof BGSSaveLoadFormHeader_VerifiedPrefix: только представление, НЕ sizeof BGSSaveLoadFormHeader");
-static_assert(alignof(BGSSaveLoadFormHeader_VerifiedPrefix) == 1, "alignof BGSSaveLoadFormHeader_VerifiedPrefix");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iDefaultFont) == 0x0, "FontManager_TextData_VerifiedPrefix::iDefaultFont");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iJustification) == 0x4, "FontManager_TextData_VerifiedPrefix::iJustification");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, xColor) == 0x8, "FontManager_TextData_VerifiedPrefix::xColor");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, cLineSep) == 0x18, "FontManager_TextData_VerifiedPrefix::cLineSep");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iWidth) == 0x1C, "FontManager_TextData_VerifiedPrefix::iWidth");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iHeight) == 0x20, "FontManager_TextData_VerifiedPrefix::iHeight");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iPageNum) == 0x24, "FontManager_TextData_VerifiedPrefix::iPageNum");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iLines) == 0x28, "FontManager_TextData_VerifiedPrefix::iLines");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iNumPages) == 0x2C, "FontManager_TextData_VerifiedPrefix::iNumPages");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, iNumLines) == 0x30, "FontManager_TextData_VerifiedPrefix::iNumLines");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, bIsHypertext) == 0x34, "FontManager_TextData_VerifiedPrefix::bIsHypertext");
-static_assert(offsetof(FontManager_TextData_VerifiedPrefix, xNewText) == 0x38, "FontManager_TextData_VerifiedPrefix::xNewText");
-static_assert(sizeof(FontManager_TextData_VerifiedPrefix) == 0x40, "sizeof FontManager_TextData_VerifiedPrefix: только представление, НЕ sizeof FontManager::TextData");
-static_assert(alignof(FontManager_TextData_VerifiedPrefix) == 4, "alignof FontManager_TextData_VerifiedPrefix");
 static_assert(alignof(BaseFormComponent) == 4, "alignof BaseFormComponent: следует из типов полей (MSVC x86)");
 static_assert(sizeof(BaseFormComponent) == 0x4, "sizeof BaseFormComponent");
 static_assert(offsetof(TESForm, cFormType) == 0x4, "TESForm::cFormType");
@@ -3246,6 +3242,12 @@ static_assert(alignof(MemoryManager) == 4, "alignof MemoryManager: следуе�
 static_assert(sizeof(MemoryManager) == 0x138, "sizeof MemoryManager");
 static_assert(sizeof(MemoryManager) == 0x138, "PC-проверка sizeof MemoryManager");
 static_assert(offsetof(MemoryManager, ppPhysicalHeaps) == 0x124, "PC-проверка MemoryManager::ppPhysicalHeaps");
+static_assert(offsetof(BGSSaveLoadFormHeader, FormIDIndex) == 0x0, "BGSSaveLoadFormHeader::FormIDIndex");
+static_assert(offsetof(BGSSaveLoadFormHeader, iChangeFlags) == 0x3, "BGSSaveLoadFormHeader::iChangeFlags");
+static_assert(offsetof(BGSSaveLoadFormHeader, FormInfo) == 0x7, "BGSSaveLoadFormHeader::FormInfo");
+static_assert(offsetof(BGSSaveLoadFormHeader, cVersion) == 0x8, "BGSSaveLoadFormHeader::cVersion");
+static_assert(sizeof(BGSSaveLoadFormHeader) == 0x9, "sizeof BGSSaveLoadFormHeader: размер ПРЕДСТАВЛЕНИЯ (VerifiedPrefix), НЕ доказанный sizeof объекта игры (0x9…0xC)");
+static_assert(alignof(BGSSaveLoadFormHeader) == 1, "alignof BGSSaveLoadFormHeader: представления, не доказанный объекта игры");
 static_assert(offsetof(BGSSaveGameBuffer, pBuffer) == 0x4, "BGSSaveGameBuffer::pBuffer");
 static_assert(offsetof(BGSSaveGameBuffer, iBufferSize) == 0x8, "BGSSaveGameBuffer::iBufferSize");
 static_assert(offsetof(BGSSaveGameBuffer, iBufferPosition) == 0xC, "BGSSaveGameBuffer::iBufferPosition");
@@ -3442,6 +3444,20 @@ static_assert(offsetof(FontManager::TextDoc, iPageHeight) == 0x10, "FontManager:
 static_assert(offsetof(FontManager::TextDoc, iPageNum) == 0x14, "FontManager::TextDoc::iPageNum");
 static_assert(alignof(FontManager::TextDoc) == 4, "alignof FontManager::TextDoc: следует из типов полей (MSVC x86)");
 static_assert(sizeof(FontManager::TextDoc) == 0x18, "sizeof FontManager::TextDoc");
+static_assert(offsetof(FontManager::TextData, iDefaultFont) == 0x0, "FontManager::TextData::iDefaultFont");
+static_assert(offsetof(FontManager::TextData, iJustification) == 0x4, "FontManager::TextData::iJustification");
+static_assert(offsetof(FontManager::TextData, xColor) == 0x8, "FontManager::TextData::xColor");
+static_assert(offsetof(FontManager::TextData, cLineSep) == 0x18, "FontManager::TextData::cLineSep");
+static_assert(offsetof(FontManager::TextData, iWidth) == 0x1C, "FontManager::TextData::iWidth");
+static_assert(offsetof(FontManager::TextData, iHeight) == 0x20, "FontManager::TextData::iHeight");
+static_assert(offsetof(FontManager::TextData, iPageNum) == 0x24, "FontManager::TextData::iPageNum");
+static_assert(offsetof(FontManager::TextData, iLines) == 0x28, "FontManager::TextData::iLines");
+static_assert(offsetof(FontManager::TextData, iNumPages) == 0x2C, "FontManager::TextData::iNumPages");
+static_assert(offsetof(FontManager::TextData, iNumLines) == 0x30, "FontManager::TextData::iNumLines");
+static_assert(offsetof(FontManager::TextData, bIsHypertext) == 0x34, "FontManager::TextData::bIsHypertext");
+static_assert(offsetof(FontManager::TextData, xNewText) == 0x38, "FontManager::TextData::xNewText");
+static_assert(sizeof(FontManager::TextData) == 0x40, "sizeof FontManager::TextData: размер ПРЕДСТАВЛЕНИЯ (VerifiedPrefix), НЕ доказанный sizeof объекта игры (0x40…0x44)");
+static_assert(alignof(FontManager::TextData) == 4, "alignof FontManager::TextData: представления, не доказанный объекта игры");
 static_assert(offsetof(NiRefObject, m_uiRefCount) == 0x4, "NiRefObject::m_uiRefCount");
 static_assert(alignof(NiRefObject) == 4, "alignof NiRefObject: следует из типов полей (MSVC x86)");
 static_assert(sizeof(NiRefObject) == 0x8, "sizeof NiRefObject");

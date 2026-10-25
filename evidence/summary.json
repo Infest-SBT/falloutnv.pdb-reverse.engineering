@@ -94,7 +94,18 @@
    "strict": true,
    "strict_fields": [
     "<vftable>"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "TESForm": {
    "vtable_va": 16893844,
@@ -1705,7 +1716,18 @@
     "iFormFlags",
     "iFormID",
     "pSourceFiles"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "TESDataHandler": {
    "base": null,
@@ -4603,7 +4625,18 @@
     "pRegionList",
     "pSpotterShader",
     "ucGameSettingsLoadState"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSGameSound": {
    "vtable_va": 17447268,
@@ -5975,7 +6008,18 @@
     "pSoundCompletionContext",
     "pSoundPlayContext",
     "vBeamEnd"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSWin32GameSound": {
    "vtable_va": 17447924,
@@ -7169,7 +7213,18 @@
     "pc224",
     "pc228",
     "pc22C"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSAudio": {
    "vtable_va": 17445436,
@@ -8026,7 +8081,18 @@
     "pfnSettingsCallback",
     "pfnSynchPausedCallback",
     "pfnSynchUnPausedCallback"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSWin32Audio": {
    "vtable_va": 17447384,
@@ -8330,7 +8396,18 @@
     "hWnd",
     "pDirectSound",
     "pPrimaryBuffer"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSAudioManager": {
    "vtable_va": 17445736,
@@ -9940,7 +10017,18 @@
     "iWeatherFlags",
     "pPauseEntries",
     "pUpdateThread"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSSoundHandle": {
    "base": null,
@@ -10278,7 +10366,18 @@
     "bAssumeSuccess",
     "eState",
     "iSoundID"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "HeapBlock": {
    "base": null,
@@ -10373,7 +10472,18 @@
    "strict_fields": [
     "iMemSize",
     "pPrevious"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FreeHeapBlock": {
    "base": null,
@@ -10509,7 +10619,18 @@
     "pNextFree",
     "pPrevFree",
     "pPrevious"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FreeHeapBlockList": {
    "base": null,
@@ -10581,7 +10702,18 @@
    "strict_fields": [
     "pHead",
     "pTail"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "IMemoryHeap": {
    "vtable_va": 17443016,
@@ -10740,7 +10872,18 @@
    "strict": true,
    "strict_fields": [
     "<vftable>"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "HeapFreeSubBucket": {
    "base": null,
@@ -10813,7 +10956,18 @@
    "strict_fields": [
     "iCount",
     "pFirst"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "AbstractHeap": {
    "vtable_va": 17443772,
@@ -11836,7 +11990,18 @@
     "pName",
     "pSmallFreeList",
     "pSubBuckets"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "MemoryHeap": {
    "vtable_va": 17443068,
@@ -12173,7 +12338,18 @@
    "strict_fields": [
     "bDeletingHeap",
     "bSupportsSwapping"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "ScrapHeap": {
    "base": null,
@@ -12368,7 +12544,18 @@
     "pEndHeap",
     "pLastBlock",
     "pMemHeap"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "MemoryManager": {
    "base": null,
@@ -12903,7 +13090,18 @@
     "pHeapsByContextA",
     "ppHeaps",
     "ppPhysicalHeaps"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSSaveLoadFormHeader": {
    "base": null,
@@ -13039,7 +13237,7 @@
    "engine_size_upper_bound": 12,
    "strict_representation": {
     "kind": "verified-prefix",
-    "type_name": "BGSSaveLoadFormHeader_VerifiedPrefix",
+    "type_name": "BGSSaveLoadFormHeader",
     "representation_size": 9,
     "representation_align": 1,
     "packed": true,
@@ -13145,7 +13343,7 @@
    ],
    "verified_prefix_facts": {
     "engine": "BGSSaveLoadFormHeader",
-    "view": "BGSSaveLoadFormHeader_VerifiedPrefix",
+    "view": "BGSSaveLoadFormHeader",
     "lower": 9,
     "upper": 12,
     "view_align": 1,
@@ -13236,6 +13434,21 @@
       }
      }
     ]
+   },
+   "verification_status": "VerifiedPrefix",
+   "verification_scope": "fields-in-known-prefix",
+   "known_prefix_size": 9,
+   "exact_size_confirmed": false,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": false,
+    "engine_allocation": false,
+    "engine_array_stride": false,
+    "by_value_abi": false,
+    "implicit_copy_or_lifetime": false
    }
   },
   "BGSSaveGameBuffer": {
@@ -13493,7 +13706,18 @@
     "iBufferSize",
     "iDebugOverhead",
     "pBuffer"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSSaveFormBuffer": {
    "vtable_va": 17310472,
@@ -13771,7 +13995,18 @@
    "strict": true,
    "strict_fields": [
     "pForm"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSLoadGameBuffer": {
    "vtable_va": 17309768,
@@ -14023,7 +14258,18 @@
     "iBufferPosition",
     "iBufferSize",
     "pBuffer"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSLoadFormBuffer": {
    "vtable_va": 17309736,
@@ -14478,7 +14724,18 @@
     "iOldChangeFlags",
     "iSize",
     "pForm"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSSaveLoadGame": {
    "base": null,
@@ -15251,7 +15508,18 @@
     "pReconstructForms",
     "pReferencesMap",
     "pWorldspaceFormIDMap"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSSaveLoadManager": {
    "base": null,
@@ -16033,7 +16301,18 @@
     "pSysUtilLoadCompleteCallback",
     "pSysUtilSaveCompleteCallback",
     "sSystemSaveName"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BGSSaveLoadChangesMap": {
    "vtable_va": 17296744,
@@ -16251,7 +16530,18 @@
     "m_kAllocator",
     "m_ppkHashTable",
     "m_uiHashSize"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FalloutRadio::FORadioReceiver": {
    "base": null,
@@ -16611,7 +16901,18 @@
     "bJustStarted",
     "bShouldBePlaying",
     "pRadio"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FalloutRadio::StationState": {
    "base": null,
@@ -16947,7 +17248,18 @@
     "iStationFlags",
     "pConvo",
     "pNextConvo"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FalloutRadio::FORadioStation": {
    "base": null,
@@ -17313,7 +17625,18 @@
     "CurrentState.pConvo",
     "CurrentState.pNextConvo",
     "pStation"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "RadioConvTask": {
    "vtable_va": 17288984,
@@ -17671,7 +17994,18 @@
     "pFileName",
     "pStation",
     "spParent"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "UVMap": {
    "base": null,
@@ -17742,7 +18076,18 @@
    "strict_fields": [
     "fU",
     "fV"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontLetter": {
    "base": null,
@@ -17970,7 +18315,18 @@
     "fTopEdge",
     "fWidth",
     "pMapping"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "TextureFile": {
    "base": null,
@@ -18034,7 +18390,18 @@
    ],
    "provisional": true,
    "strict": true,
-   "strict_fields": []
+   "strict_fields": [],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontData": {
    "base": null,
@@ -18259,7 +18626,18 @@
     "iTextureCount",
     "pFontLetters",
     "pTextureFiles"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "Font": {
    "base": null,
@@ -18645,7 +19023,18 @@
     "pFontData",
     "pFontFile",
     "pTextureData"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "Font::TextData": {
    "base": null,
@@ -18874,7 +19263,18 @@
     "iLineStart",
     "iWidth",
     "xLineWidths"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontManager": {
    "base": null,
@@ -19038,7 +19438,18 @@
    "strict_fields": [
     "bUseNewFonts",
     "pFont"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontManager::CharData": {
    "base": null,
@@ -19340,7 +19751,18 @@
     "iX",
     "xColor",
     "xFilename"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontManager::TextLine": {
    "base": null,
@@ -19640,7 +20062,18 @@
     "iWidth",
     "pPage",
     "xChars"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontManager::TextPage": {
    "base": null,
@@ -19891,7 +20324,18 @@
     "pCharsPerFont",
     "pDoc",
     "xLines"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontManager::TextDoc": {
    "base": null,
@@ -20037,7 +20481,18 @@
     "iPageNum",
     "iPageWidth",
     "xPages"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "FontManager::TextData": {
    "base": null,
@@ -20360,7 +20815,7 @@
    "engine_size_upper_bound": 68,
    "strict_representation": {
     "kind": "verified-prefix",
-    "type_name": "FontManager_TextData_VerifiedPrefix",
+    "type_name": "FontManager::TextData",
     "representation_size": 64,
     "representation_align": 4,
     "packed": false,
@@ -20541,7 +20996,7 @@
    ],
    "verified_prefix_facts": {
     "engine": "FontManager::TextData",
-    "view": "FontManager_TextData_VerifiedPrefix",
+    "view": "FontManager::TextData",
     "lower": 64,
     "upper": 68,
     "view_align": 4,
@@ -20664,6 +21119,21 @@
     ],
     "findings": [],
     "containers": []
+   },
+   "verification_status": "VerifiedPrefix",
+   "verification_scope": "fields-in-known-prefix",
+   "known_prefix_size": 64,
+   "exact_size_confirmed": false,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": false,
+    "engine_allocation": false,
+    "engine_array_stride": false,
+    "by_value_abi": false,
+    "implicit_copy_or_lifetime": false
    }
   },
   "NiRefObject": {
@@ -20780,7 +21250,18 @@
    "strict_fields": [
     "<vftable>",
     "m_uiRefCount"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiObject": {
    "vtable_va": 17413364,
@@ -21220,7 +21701,18 @@
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
-   "strict_fields": []
+   "strict_fields": [],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiObjectNET": {
    "vtable_va": 17412676,
@@ -21892,7 +22384,18 @@
     "m_spControllers",
     "m_usExtraDataSize",
     "m_usMaxSize"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiPoint3": {
    "base": null,
@@ -22147,7 +22650,18 @@
     "x",
     "y",
     "z"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiMatrix3": {
    "base": null,
@@ -22360,7 +22874,18 @@
    "strict": true,
    "strict_fields": [
     "m_pEntry"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTransform": {
    "base": null,
@@ -22603,7 +23128,18 @@
     "m_Translate.y",
     "m_Translate.z",
     "m_fScale"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiBound": {
    "base": null,
@@ -22839,7 +23375,18 @@
     "m_kCenter.x",
     "m_kCenter.y",
     "m_kCenter.z"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiAVObject": {
    "vtable_va": 17412108,
@@ -24276,7 +24823,18 @@
     "m_pkParent",
     "m_spCollisionObject",
     "m_uFlags"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiNode": {
    "vtable_va": 17413548,
@@ -25209,7 +25767,18 @@
    "strict": true,
    "strict_fields": [
     "m_kChildren"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSFadeNode": {
    "vtable_va": 17469328,
@@ -26397,7 +26966,18 @@
     "iFrameCounter",
     "pBoundArray",
     "pUserData"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiProperty": {
    "vtable_va": 16868212,
@@ -26819,7 +27399,18 @@
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
-   "strict_fields": []
+   "strict_fields": [],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiShadeProperty": {
    "vtable_va": 17425012,
@@ -27313,7 +27904,18 @@
    "strict_fields": [
     "iShaderPropertyType",
     "m_uFlags"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSShaderProperty": {
    "vtable_va": 17532040,
@@ -28445,7 +29047,18 @@
     "pSilhouettePassList",
     "pWaterFogRenderPassList",
     "ulFlags"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSShaderProperty::RenderPass": {
    "base": null,
@@ -28729,7 +29342,18 @@
     "ucMaxNumLights",
     "ucNumLights",
     "usPassEnum"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSShaderLightingProperty": {
    "vtable_va": 17491888,
@@ -29544,7 +30168,18 @@
     "kLightListFence",
     "lLightList",
     "uiReferenceID"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSShaderPPLightingProperty": {
    "vtable_va": 17490128,
@@ -31150,7 +31785,18 @@
     "spTextureSet",
     "spTextures",
     "usLandscapeTextures"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiPropertyState": {
    "base": null,
@@ -31231,7 +31877,18 @@
    "strict": true,
    "strict_fields": [
     "m_aspProps"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiGeometryData": {
    "vtable_va": 17416092,
@@ -32357,7 +33014,18 @@
     "m_usDirtyFlags",
     "m_usID",
     "m_usVertices"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTriBasedGeomData": {
    "vtable_va": 17429236,
@@ -32875,7 +33543,18 @@
    "strict": true,
    "strict_fields": [
     "m_usTriangles"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTriShapeData": {
    "vtable_va": 17423044,
@@ -33532,7 +34211,18 @@
     "m_pusTriList",
     "m_uiTriListLength",
     "m_usSharedNormalsArraySize"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiGeometry": {
    "vtable_va": 17424460,
@@ -34459,7 +35149,18 @@
     "m_spModelData",
     "m_spShader",
     "m_spSkinInstance"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTriBasedGeom": {
    "vtable_va": 17427860,
@@ -35079,7 +35780,18 @@
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
-   "strict_fields": []
+   "strict_fields": [],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTriShape": {
    "vtable_va": 17421396,
@@ -35741,7 +36453,18 @@
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
-   "strict_fields": []
+   "strict_fields": [],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTriStrips": {
    "vtable_va": 17419588,
@@ -36397,7 +37120,18 @@
    "provisional_fields": [],
    "provisional": false,
    "strict": true,
-   "strict_fields": []
+   "strict_fields": [],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiCamera": {
    "vtable_va": 17419164,
@@ -37274,7 +38008,18 @@
     "m_fMinNearPlaneDist",
     "m_kPort",
     "m_kViewFrustum"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiTexture": {
    "vtable_va": 17414468,
@@ -37865,7 +38610,18 @@
     "m_pkNext",
     "m_pkPrev",
     "m_pkRendererData"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiSourceTexture": {
    "vtable_va": 17414636,
@@ -38698,7 +39454,18 @@
     "m_pFile",
     "m_spPersistentSrcRendererData",
     "m_spSrcPixelData"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiAccumulator": {
    "vtable_va": 17441540,
@@ -39157,7 +39924,18 @@
    "strict": true,
    "strict_fields": [
     "m_pkCamera"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiBackToFrontAccumulator": {
    "vtable_va": 17441708,
@@ -39832,7 +40610,18 @@
     "m_kItemsToSortAndRender",
     "m_pfDepths",
     "m_ppkItems"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiAlphaAccumulator": {
    "vtable_va": 17437612,
@@ -40384,7 +41173,18 @@
     "m_bInterfaceSort",
     "m_bObserveNoSortHint",
     "m_bSortByClosestPoint"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSShaderAccumulator": {
    "vtable_va": 17489912,
@@ -42546,7 +43346,18 @@
     "uiSunPixelCount",
     "usQueryCount",
     "usQuerySize"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSBatchRenderer": {
    "vtable_va": 17530312,
@@ -43398,7 +44209,18 @@
     "uiCurrentFirstPass",
     "uiCurrentLastPass",
     "uiRenderPassCount"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiRenderer": {
    "vtable_va": 17415060,
@@ -44142,7 +44964,18 @@
     "m_spAccum",
     "m_spErrorShader",
     "m_uiFrameID"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiDX9Renderer": {
    "vtable_va": 17753276,
@@ -46089,7 +46922,18 @@
     "uiFlags",
     "uiMaxBuffersPerRenderTargetGroup",
     "uiStencilClear"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiShader": {
    "vtable_va": 17429892,
@@ -46665,7 +47509,18 @@
     "m_bInitialized",
     "m_kName",
     "m_uiImplementation"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiD3DShaderInterface": {
    "vtable_va": 17757084,
@@ -47392,7 +48247,18 @@
     "m_pkD3DDevice",
     "m_pkD3DRenderState",
     "m_pkD3DRenderer"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiD3DShader": {
    "vtable_va": 17755556,
@@ -48356,7 +49222,18 @@
     "m_spShaderDecl",
     "m_spVertexConstantMap",
     "m_uiCurrentPass"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiD3DDefaultShader": {
    "vtable_va": 17755308,
@@ -49233,7 +50110,18 @@
     "m_uiOldLightingValue",
     "m_uiRemainingStages",
     "m_uiRemainingTextures"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "BSShader": {
    "vtable_va": 17548824,
@@ -50230,7 +51118,18 @@
     "ePass",
     "iShaderType",
     "spPass"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "NiD3DPass": {
    "vtable_va": 17757028,
@@ -50957,7 +51856,18 @@
     "m_uiRefCount",
     "m_uiStageCount",
     "m_uiTexturesPerPass"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "ShadowSceneNode": {
    "vtable_va": 17489144,
@@ -52849,7 +53759,18 @@
     "pWindowReflectionEnvMap",
     "spCubeMapCamera",
     "spFog"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "ShadowSceneLight": {
    "vtable_va": 17530552,
@@ -54153,7 +55074,18 @@
     "spShadowScene",
     "spSpecularAttenuationTexture",
     "usFrustumCull"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "ImageSpaceManager": {
    "base": null,
@@ -56094,7 +57026,18 @@
     "spPartialScreenTriShape",
     "spScreenTriShape",
     "spScreenTriShapeData"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   },
   "MTRenderingSystem": {
    "base": null,
@@ -56306,7 +57249,18 @@
     "TaskThreadArray",
     "TaskThreadStage",
     "pTaskArray"
-   ]
+   ],
+   "verification_status": "Confirmed",
+   "verification_scope": "size-and-layout",
+   "exact_size_confirmed": true,
+   "field_type_verification": "per-field",
+   "method_verification": "per-function (verification.json)",
+   "allowed_operations": {
+    "read_verified_fields": true,
+    "write_verified_fields": "per-field evidence only",
+    "sizeof_is_engine_size": true,
+    "engine_constructor_semantics": "not verified"
+   }
   }
  },
  "truncated_functions": [],
@@ -56322,5 +57276,6 @@
   "blob-prefix / blob-stride": "непрозрачные байты: обращение к началу / шаг делит размер; тип и ширина не заявляются",
   "… (в X.поле) / (элемент X.поле[])": "ширина подтверждена обращением через содержащий класс"
  },
- "admission_rule": "строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack"
+ "admission_rule": "строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack",
+ "metadata_schema_version": 2
 }

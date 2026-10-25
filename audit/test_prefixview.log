@@ -31,34 +31,38 @@ OK   нейтральный тип: int без подтверждения вид
 OK   тип сохраняется, если вид подтверждён командами PC 
 OK   bool без подтверждения → unsigned char 
 OK   непрозрачные байты: выравнивание по смещению, не больше alignof представления 
-OK   опубликовано представлений: 2 BGSSaveLoadFormHeader, FontManager::TextData
-OK   полных классов в строгом: 84 84
-OK   BGSSaveLoadFormHeader: класс не в строгом, размер не confirmed consistent
+OK   классов VerifiedPrefix: 2 BGSSaveLoadFormHeader, FontManager::TextData
+OK   классов Confirmed в строгом: 84 84
+OK   у каждого из 86 классов ровно один статус Confirmed/VerifiedPrefix 
+OK   суффикса _VerifiedPrefix нет ни в заголовке, ни в meta.json, ни в summary.json 
+OK   BGSSaveLoadFormHeader: strict=false, размер не confirmed, exact_size_confirmed=false, границы прежние consistent
+OK   BGSSaveLoadFormHeader: имя представления — исходное 
 OK   BGSSaveLoadFormHeader: все условия ok в summary 
 OK   BGSSaveLoadFormHeader: решение пересчитано по verified_prefix_facts и совпадает 
 OK   BGSSaveLoadFormHeader: флаги запрета 
 OK   BGSSaveLoadFormHeader: sizeof представления = нижняя граница < верхней 
-OK   BGSSaveLoadFormHeader: полный класс не объявлен в строгом заголовке 
-OK   BGSSaveLoadFormHeader: нет static_assert на sizeof/offsetof полного класса 
-OK   BGSSaveLoadFormHeader_VerifiedPrefix: static_assert sizeof = 0x9 и alignof = 1 
-OK   BGSSaveLoadFormHeader_VerifiedPrefix: offsetof каждого поля 
-OK   BGSSaveLoadFormHeader_VerifiedPrefix: в meta.json как представление BGSSaveLoadFormHeader 
-OK   BGSSaveLoadFormHeader: в meta.json строгой сборки нет полного класса 
-OK   BGSSaveFormBuffer: Header — представление BGSSaveLoadFormHeader_VerifiedPrefix на +0x14 
+OK   BGSSaveLoadFormHeader: в строгом заголовке ровно одно определение — представление с FNV_VERIFIED_PREFIX_GUARD 
+OK   BGSSaveLoadFormHeader: в определении только подтверждённые поля представления (+ _pad) FormIDIndex, iChangeFlags, FormInfo, cVersion
+OK   BGSSaveLoadFormHeader: static_assert sizeof помечен как размер представления, не объекта игры 
+OK   BGSSaveLoadFormHeader: static_assert sizeof = 0x9 и alignof = 1 
+OK   BGSSaveLoadFormHeader: offsetof каждого поля 
+OK   BGSSaveLoadFormHeader: в meta.json — VerifiedPrefix, размер представления 
+OK   BGSSaveFormBuffer: Header — представление BGSSaveLoadFormHeader на +0x14 
 OK   BGSSaveFormBuffer: за ним явные байты _unverified_HeaderTail[3] 
 OK   BGSSaveFormBuffer: следующее поле на +0x20, sizeof 0x24 = доказанный (confirmed) 
-OK   BGSLoadFormBuffer: Header — представление BGSSaveLoadFormHeader_VerifiedPrefix на +0x14 
+OK   BGSLoadFormBuffer: Header — представление BGSSaveLoadFormHeader на +0x14 
 OK   BGSLoadFormBuffer: за ним явные байты _unverified_HeaderTail[3] 
 OK   BGSLoadFormBuffer: следующее поле на +0x20, sizeof 0x30 = доказанный (confirmed) 
-OK   FontManager::TextData: класс не в строгом, размер не confirmed consistent
+OK   FontManager::TextData: strict=false, размер не confirmed, exact_size_confirmed=false, границы прежние consistent
+OK   FontManager::TextData: имя представления — исходное 
 OK   FontManager::TextData: все условия ok в summary 
 OK   FontManager::TextData: решение пересчитано по verified_prefix_facts и совпадает 
 OK   FontManager::TextData: флаги запрета 
 OK   FontManager::TextData: sizeof представления = нижняя граница < верхней 
-OK   FontManager::TextData: полный класс не объявлен в строгом заголовке 
-OK   FontManager::TextData: нет static_assert на sizeof/offsetof полного класса 
-OK   FontManager_TextData_VerifiedPrefix: static_assert sizeof = 0x40 и alignof = 4 
-OK   FontManager_TextData_VerifiedPrefix: offsetof каждого поля 
-OK   FontManager_TextData_VerifiedPrefix: в meta.json как представление FontManager::TextData 
-OK   FontManager::TextData: в meta.json строгой сборки нет полного класса 
-ИТОГ: всё прошло (63 проверок, из них отказов 27)
+OK   FontManager::TextData: в строгом заголовке ровно одно определение — представление с FNV_VERIFIED_PREFIX_GUARD 
+OK   FontManager::TextData: в определении только подтверждённые поля представления (+ _pad) iDefaultFont, iJustification, xColor, cLineSep, iWidth, iHeight, iPageNum, iLines, iNumPages, iNumLines, bIsHypertext, xNewText
+OK   FontManager::TextData: static_assert sizeof помечен как размер представления, не объекта игры 
+OK   FontManager::TextData: static_assert sizeof = 0x40 и alignof = 4 
+OK   FontManager::TextData: offsetof каждого поля 
+OK   FontManager::TextData: в meta.json — VerifiedPrefix, размер представления 
+ИТОГ: всё прошло (67 проверок, из них отказов 27)
