@@ -1,4 +1,4 @@
-"""v0.5.5–v0.5.7: регрессионный тест машинных проверок (tools/chaincheck.py) — по аудиту Астры v0.5.4 (П1, П3, П5, П7).
+"""v0.5.5–v0.5.8: регрессионный тест машинных проверок (tools/chaincheck.py) — по аудиту Астры v0.5.4 (П1, П3, П5, П7).
 
 usage: python3 -I tools/test_chaincheck.py [FalloutNV.exe syms.tsv]
 
@@ -107,24 +107,48 @@ ok, why = cc.defuse_link(K2, 0x1007, 'edx', 0x100A)
 check('loop: вход перехода loop в участок def→use — отказ', not ok and 'вход перехода' in why, why)
 
 
-# L (v0.5.7, §5): кадр C++ EH — может ли исключение вернуться внутрь функции
-def eh_ctx(ntry=0, act_jmp=0x1300, with_fs=True):
+# L (v0.5.7–v0.5.8, §5): кадр C++ EH — может ли исключение вернуться внутрь функции
+H_SYN = {0x1300: ('синтетический обработчик', [['0x1300', 'ret']])}
+C_SYN = {0x1310: ('синтетическая проверка cookie', [['0x1310', 'ret']])}
+
+
+def eh_ctx(ntry=0, act_jmp=0x1300, with_fs=True, stub=None, max_state=1, fi=0x1200):
     img = bytearray(b'\xcc' * 0x400)
     code = (bytes.fromhex('558BEC' '6AFF' '6800110000' '64A100000000' 'C3') if with_fs else bytes.fromhex('558BEC' 'C3'))
     img[0:len(code)] = code
-    img[0x100:0x10A] = bytes.fromhex('B800120000' 'E9F6010000')                       # 0x1100: mov eax, 0x1200; jmp 0x1300
-    img[0x200:0x224] = struct.pack('<IiIIIIIII', 0x19930522, 1, 0x1220, ntry, 0, 0, 0, 0, 1)
+    # 0x1100: заглушка — по умолчанию «mov eax, FuncInfo; jmp 0x1300»
+    st = stub if stub is not None else (b'\xB8' + struct.pack('<I', fi) + b'\xE9' + struct.pack('<i', 0x1300 - 0x110A))
+    img[0x100:0x100 + len(st)] = st
+    img[0x200:0x224] = struct.pack('<IiIIIIIII', 0x19930522, max_state, 0x1220, ntry, 0, 0, 0, 0, 1)
     img[0x220:0x228] = struct.pack('<iI', -1, 0x1240)
     img[0x240:0x248] = bytes.fromhex('8D4DF0' 'E9') + struct.pack('<i', act_jmp - 0x1248)  # lea ecx, [ebp-0x10]; jmp
+    img[0x300] = 0xC3            # 0x1300: «обработчик»
+    img[0x310] = 0xC3            # 0x1310: «проверка cookie»
     return cc.Ctx(md, bytes(img), 0x1000, lambda va: 0x1000, lambda f: 0x1000 + len(code))
-ok, why = cc.eh_frame(eh_ctx(), 0x1000)
+ok, why = cc.eh_frame(eh_ctx(), 0x1000, H_SYN, C_SYN)
 check('EH: catch-блоков нет, раскрутка уходит из функции — принято', ok, why[:80])
-ok, why = cc.eh_frame(eh_ctx(ntry=1), 0x1000)
+ok, why = cc.eh_frame(eh_ctx(ntry=1), 0x1000, H_SYN, C_SYN)
 check('EH: есть блок try/catch — отказ (продолжение после catch не моделируется)', not ok, why[:80])
-ok, why = cc.eh_frame(eh_ctx(act_jmp=0x1003), 0x1000)
+ok, why = cc.eh_frame(eh_ctx(act_jmp=0x1003), 0x1000, H_SYN, C_SYN)
 check('EH: действие раскрутки переходит внутрь функции — отказ', not ok, why[:80])
-ok, why = cc.eh_frame(eh_ctx(with_fs=False), 0x1000)
+ok, why = cc.eh_frame(eh_ctx(with_fs=False), 0x1000, H_SYN, C_SYN)
 check('EH: кадра fs:[0] нет — принято', ok, why[:80])
+# v0.5.8 (аудит Астры v0.5.7): обработчик — только проверенный, заглушка — по шаблону, FuncInfo — в границах
+ok, why = cc.eh_frame(eh_ctx(), 0x1000)
+check('EH: jmp заглушки на непроверенный обработчик — отказ', not ok and 'не проверенный' in why, why[:90])
+ok, why = cc.eh_frame(eh_ctx(stub=bytes.fromhex('50') + b'\xB8' + struct.pack('<I', 0x1200) + b'\xE9' +
+                                struct.pack('<i', 0x1300 - 0x110B)), 0x1000, H_SYN, C_SYN)
+check('EH: в заглушке команда вне шаблона (push) — отказ', not ok and 'вне допустимого' in why, why[:90])
+ok, why = cc.eh_frame(eh_ctx(stub=b'\xE8' + struct.pack('<i', 0x1320 - 0x1105) + b'\xB8' + struct.pack('<I', 0x1200) +
+                                b'\xE9' + struct.pack('<i', 0x1300 - 0x110F)), 0x1000, H_SYN, C_SYN)
+check('EH: в заглушке вызов непроверенной функции — отказ', not ok and 'не проверенная' in why, why[:90])
+ok, why = cc.eh_frame(eh_ctx(stub=b'\xE8' + struct.pack('<i', 0x1310 - 0x1105) + b'\xB8' + struct.pack('<I', 0x1200) +
+                                b'\xE9' + struct.pack('<i', 0x1300 - 0x110F)), 0x1000, H_SYN, C_SYN)
+check('EH: в заглушке вызов проверенной функции (cookie) — принято', ok, why[:90])
+ok, why = cc.eh_frame(eh_ctx(max_state=0x7FFFFFFF), 0x1000, H_SYN, C_SYN)
+check('EH: maxState 0x7FFFFFFF — отказ (повреждённая FuncInfo)', not ok and 'maxState' in why, why[:90])
+ok, why = cc.eh_frame(eh_ctx(fi=0x9000), 0x1000, H_SYN, C_SYN)
+check('EH: FuncInfo вне образа — отказ без чтения за границей', not ok and 'вне' in why, why[:90])
 # I: точное сравнение текста
 I_ = ctx_of(bytes.fromhex('6A09' '6890000000' 'C3'))
 check('точное сравнение: «push 9» = «push 9»', I_.same(0x1000, 'push 9'))
@@ -139,7 +163,8 @@ if len(sys.argv) >= 3:
     st = sorted(int(l.split('\t')[0], 16) for l in open(sys.argv[2], encoding='utf-8'))
     fs = lambda va: st[bisect.bisect_right(st, va) - 1]
     fe = lambda f: st[bisect.bisect_right(st, f)]
-    X = cc.Ctx(md, img, B, fs, fe)
+    X = cc.Ctx(md, img, B, fs, fe, sections=[(B + s.VirtualAddress, B + s.VirtualAddress + s.Misc_VirtualSize,
+                                              bool(s.Characteristics & 0x20000000)) for s in pe.sections])
     claims = [('BGSSaveFormBuffer / SaveAnimation', {'obj_disp': '-0x34', 'next_disp': '-0x10', 'obj_first': '0x864F65',
                'obj_last': '0x864FB3', 'next_def': '0x864F62', 'next_use': '0x864FB7'}, 0x24, 0x24),
               ('BGSSaveFormBuffer / SaveHavokData', {'obj_disp': '-0x34', 'next_disp': '-0x10', 'obj_first': '0x865065',
@@ -155,6 +180,9 @@ if len(sys.argv) >= 3:
     check('stack-frame FontManager::TextData: утверждение v0.5.4 «0x40» отвергнуто (граница 0x44)', not ok and up == 0x44,
           f'граница 0x{up:X}')
     check('entry_stack_arg RegisterObject_Standard: [esp+0x10] = аргумент 1', cc.entry_stack_arg(X, 0xB64024)[0] == 1)
+    for fn_, va_ in (('SaveAnimation', 0x864F20), ('SaveHavokData', 0x865020), ('Font::CreateText', 0xA12880)):
+        ok, why = cc.eh_frame(X, va_)
+        check(f'EH {fn_}: заглушка → __CxxFrameHandler3 (тело сверено), try/catch нет — принято', ok, why[:70])
 else:
     print('(часть 2 пропущена: нужен FalloutNV.exe и syms.tsv)')
 print('ИТОГ:', 'всё прошло' if not fails else f'ОШИБКИ: {len(fails)}')

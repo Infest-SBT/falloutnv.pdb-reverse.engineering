@@ -38,9 +38,18 @@ def canon(s):
 
 
 class Ctx:
-    def __init__(self, md, img, B, func_start, func_end):
+    def __init__(self, md, img, B, func_start, func_end, sections=None):
         self.md, self.img, self.B = md, img, B
         self.func_start, self.func_end = func_start, func_end
+        self.sections = sections    # v0.5.8: [(начало, конец, исполняемая)] секций PE; None — только границы образа
+
+    def inside(self, va, n, executable=None):
+        """v0.5.8: [va, va+n) целиком в образе и (если секции известны) в одной секции нужного вида."""
+        if not (self.B <= va and va + n <= self.B + len(self.img)):
+            return False
+        if self.sections is None:
+            return True
+        return any(s <= va and va + n <= e and (executable is None or ex == executable) for s, e, ex in self.sections)
 
     def insn(self, va):
         return next(iter(self.md.disasm(self.img[va - self.B:va - self.B + 16], va)), None)
@@ -291,9 +300,43 @@ def _slot_ref(ins, disp, lo, hi):
 
 
 EH_MAGIC = (0x19930520, 0x19930521, 0x19930522)
+EH_MAX_STATES = 1024    # v0.5.8: больше — FuncInfo считается повреждённой
+
+# v0.5.8 (аудит Астры v0.5.7, §5): обработчик, на который переходит заглушка, — только проверенная реализация.
+# __CxxFrameHandler3 из CRT MSVC: передаёт FuncInfo (eax) и аргументы обработчика в __InternalCxxFrameHandler —
+# тело сверяется целиком (в PDB xNVSE: ::CxxFrameHandler3 0x00EC3D33, ::InternalCxxFrameHandler 0x00ECEEB8).
+KNOWN_EH_HANDLERS = {
+    0x00EC3D33: ('__CxxFrameHandler3 (CRT MSVC)', [
+        ['0xEC3D33', 'push ebp'], ['0xEC3D34', 'mov ebp, esp'], ['0xEC3D36', 'sub esp, 8'], ['0xEC3D39', 'push ebx'],
+        ['0xEC3D3A', 'push esi'], ['0xEC3D3B', 'push edi'], ['0xEC3D3C', 'cld'], ['0xEC3D3D', 'mov dword ptr [ebp - 4], eax'],
+        ['0xEC3D40', 'xor eax, eax'], ['0xEC3D42', 'push eax'], ['0xEC3D43', 'push eax'], ['0xEC3D44', 'push eax'],
+        ['0xEC3D45', 'push dword ptr [ebp - 4]'], ['0xEC3D48', 'push dword ptr [ebp + 0x14]'],
+        ['0xEC3D4B', 'push dword ptr [ebp + 0x10]'], ['0xEC3D4E', 'push dword ptr [ebp + 0xc]'],
+        ['0xEC3D51', 'push dword ptr [ebp + 8]'], ['0xEC3D54', 'call 0xeceeb8'], ['0xEC3D59', 'add esp, 0x20'],
+        ['0xEC3D5C', 'mov dword ptr [ebp - 8], eax'], ['0xEC3D5F', 'pop edi'], ['0xEC3D60', 'pop esi'], ['0xEC3D61', 'pop ebx'],
+        ['0xEC3D62', 'mov eax, dword ptr [ebp - 8]'], ['0xEC3D65', 'mov esp, ebp'], ['0xEC3D67', 'pop ebp'], ['0xEC3D68', 'ret']]),
+}
+# вызовы, допустимые в заглушке до «mov eax, FuncInfo»: проверка security cookie кадра (сравнение и выход
+# или переход на аварийное завершение)
+KNOWN_STUB_CALLS = {
+    0x00EC408C: ('__security_check_cookie', [
+        ['0xEC408C', 'cmp ecx, dword ptr [0x11c16bc]'], ['0xEC4092', 'jne 0xec4096'], ['0xEC4094', 'repz ret'],
+        ['0xEC4096', 'jmp 0xed159c']]),
+}
+STUB_MNEMONICS = {'mov', 'lea', 'xor', 'call'}
 
 
-def eh_frame(ctx, f):
+def match_seq(ctx, seq):
+    """Команды [адрес, текст] стоят подряд и точно совпадают."""
+    a0 = int(seq[0][0], 16)
+    L = ctx.listing(a0, a0 + 16 * len(seq) + 16)
+    for k, (a, want) in enumerate(seq):
+        if k >= len(L) or L[k].address != int(a, 16) or canon(f'{L[k].mnemonic} {L[k].op_str}') != canon(want):
+            return False
+    return True
+
+
+def eh_frame(ctx, f, handlers=None, stub_calls=None):
     """v0.5.7 (аудит Астры v0.5.6, §5): может ли исключение вернуть управление внутрь функции f.
     Кадр C++ EH у MSVC x86: во входном блоке «push -1; push H; mov eax, dword ptr fs:[0]», H — заглушка
     «… mov eax, FuncInfo; jmp обработчик». В FuncInfo (магия 0x1993052x): maxState, таблица раскрутки
@@ -312,32 +355,58 @@ def eh_frame(ctx, f):
                      and L[k - 1].mnemonic == 'push' and L[k - 1].op_str.startswith('0x')
                      and L[k].mnemonic == 'mov' and L[k].op_str == 'eax, dword ptr fs:[0]'):
         return False, f'кадр fs:[0] не разобран (0x{L[k].address:08X})'
+    handlers = KNOWN_EH_HANDLERS if handlers is None else handlers
+    stub_calls = KNOWN_STUB_CALLS if stub_calls is None else stub_calls
     H = int(L[k - 1].op_str, 16)
+    if not ctx.inside(H, 16, executable=True):
+        return False, f'заглушка 0x{H:08X} вне исполняемой секции'
     stub = ctx.listing(H, H + 0x40)
-    fi = None
+    fi = target = None
     for j in range(len(stub) - 1):
         a, b = stub[j], stub[j + 1]
         if a.mnemonic == 'mov' and a.op_str.startswith('eax, 0x') and b.mnemonic == 'jmp':
             fi = int(a.op_str.split(', ')[1], 16)
+            target = int(b.op_str, 16) if b.op_str.startswith('0x') else None
             break
-        if a.mnemonic in ('ret', 'jmp'):
-            break
+        # v0.5.8: до «mov eax, FuncInfo» — только mov/lea/xor и вызов проверенной функции (security cookie)
+        if a.mnemonic not in STUB_MNEMONICS:
+            return False, f'заглушка 0x{H:08X}: команда «{a.mnemonic} {a.op_str}» вне допустимого шаблона'
+        if a.mnemonic == 'call':
+            ct = int(a.op_str, 16) if a.op_str.startswith('0x') else None
+            if ct not in stub_calls or not match_seq(ctx, stub_calls[ct][1]):
+                return False, f'заглушка 0x{H:08X}: вызов {a.op_str} — не проверенная функция'
     if fi is None:
         return False, f'обработчик 0x{H:08X} не «mov eax, FuncInfo; jmp …» (не C++ EH — например, SEH __except)'
+    if target not in handlers:
+        return False, (f'заглушка 0x{H:08X}: jmp на {"0x%08X" % target if target else "косвенный адрес"} — не проверенный '
+                       'обработчик C++ EH')
+    if not match_seq(ctx, handlers[target][1]):
+        return False, f'обработчик 0x{target:08X}: тело не совпадает с {handlers[target][0]}'
+    # v0.5.8: FuncInfo и таблица раскрутки — в образе, в секции данных; maxState ограничен
+    if not ctx.inside(fi, 0x24, executable=False):
+        return False, f'FuncInfo 0x{fi:08X} вне секции данных образа'
     rd = lambda a, s='<I': __import__('struct').unpack_from(s, ctx.img, a - ctx.B)[0]
     magic = rd(fi)
     if magic not in EH_MAGIC:
         return False, f'FuncInfo 0x{fi:08X}: магия 0x{magic:08X} — не C++ EH'
     max_state, unwind, ntry = rd(fi + 4, '<i'), rd(fi + 8), rd(fi + 12)
+    if not 0 <= max_state <= EH_MAX_STATES:
+        return False, f'FuncInfo 0x{fi:08X}: maxState {max_state} вне 0..{EH_MAX_STATES}'
+    if max_state and not ctx.inside(unwind, 8 * max_state, executable=False):
+        return False, f'FuncInfo 0x{fi:08X}: таблица раскрутки 0x{unwind:08X} ×{max_state} вне секции данных'
     if ntry:
         return False, (f'FuncInfo 0x{fi:08X}: блоков try/catch {ntry} — продолжение после catch возвращает управление '
                        'внутрь функции, это в графе не моделируется')
     acts = []
     for s in range(max_state):
         to, act = rd(unwind + 8 * s, '<i'), rd(unwind + 8 * s + 4)
+        if not -1 <= to < max_state:
+            return False, f'таблица раскрутки: состояние {s} → {to} вне -1..{max_state - 1}'
         if not act:
             acts.append(f'{s}→{to}: нет')
             continue
+        if not ctx.inside(act, 16, executable=True):
+            return False, f'действие раскрутки 0x{act:08X} вне исполняемой секции'
         body = []
         for i in ctx.listing(act, act + 0x40):
             body.append(i)
@@ -354,7 +423,8 @@ def eh_frame(ctx, f):
                 return False, f'действие раскрутки 0x{act:08X} переходит внутрь функции (0x{tg:08X})'
         acts.append(f'{s}→{to}: 0x{act:08X} «' + '; '.join(f'{x.mnemonic} {x.op_str}' for x in body) + '»')
     flags = rd(fi + 0x20) if magic >= 0x19930522 else None
-    return True, (f'кадр C++ EH: FuncInfo 0x{fi:08X} (магия 0x{magic:08X}, состояний {max_state}, блоков try/catch 0'
+    return True, (f'кадр C++ EH: заглушка 0x{H:08X} → {handlers[target][0]} 0x{target:08X} (тело сверено); '
+                  f'FuncInfo 0x{fi:08X} (магия 0x{magic:08X}, состояний {max_state}, блоков try/catch 0'
                   + (f', EHFlags {flags}' if flags is not None else '') + '); исключение только раскручивает кадр — '
                   'действия раскрутки ' + '; '.join(acts) + ' — и уходит из функции, внутрь не возвращается')
 

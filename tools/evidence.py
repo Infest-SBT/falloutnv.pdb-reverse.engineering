@@ -315,7 +315,9 @@ def func_start(va):
     return starts[i] if i >= 0 else va
 
 
-CC = chaincheck.Ctx(md, img, B, func_start, lambda f: min(func_end(f), f + READ_LIMIT))   # v0.5.5
+CC = chaincheck.Ctx(md, img, B, func_start, lambda f: min(func_end(f), f + READ_LIMIT),   # v0.5.5
+                    sections=[(B + s.VirtualAddress, B + s.VirtualAddress + s.Misc_VirtualSize,       # v0.5.8
+                               bool(s.Characteristics & 0x20000000)) for s in pe.sections])
 
 
 def global_users(addr):
