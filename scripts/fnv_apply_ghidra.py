@@ -64,12 +64,16 @@ PROTO_STATUSES = ("semantics",)           # IDA: полные прототипы
 # рядом с summary.json и привязан к нему, к exe и к конкретному PDB по SHA-256. Любое несоответствие — fail closed.
 # v0.5.13 (аудит Астры v0.5.12): схема 3 — this_supported (одобренное назначение, не доказательство типа) + this_basis;
 # привязка исходного имени адреса к доказанному методу (name_binding_status); прототип слота — semantic_bindings.
-SCHEMA = 3
+# v0.5.14 (аудит Астры v0.5.13): схема 4 — unassessed (нет независимого имени для сравнения), фасет name_class;
+# this класса, не связанного с классом в исходном имени, — только с межклассовым доказательством.
+SCHEMA = 4
 STATUSES = ("Confirmed", "VerifiedPrefix")
-NAME_BINDING = ("matched", "alias", "icf-shared", "name-conflict")
+NAME_BINDING = ("matched", "unassessed", "alias", "icf-shared", "name-conflict")
+NAME_CLASS = ("same-chain", "no-class-in-name", "other-class")
 THIS_BASIS = ("vtable-slot", "method-heuristic", None)
 FACET_KEYS = (("address", "address_verified"), ("this_supported", "this_supported"),
               ("stack_bytes", "stack_bytes_verified"), ("name_binding", "name_binding_verified"),
+              ("name_class", "name_class_verified"),
               ("calling_convention", "calling_convention_verified"), ("prototype", "prototype_verified"),
               ("return_type", "return_type_verified"), ("argument_types", "argument_types_verified"))
 
@@ -320,6 +324,12 @@ def check_registry(summary, summary_sha, reg, pdb_sha, strict, plan):
         nb = f.get("name_binding_status")
         if nb not in NAME_BINDING or (nb == "matched") != (vals["name_binding"] is True):
             bad.append("%s: привязка имени %r не согласована" % (va, nb))
+        if (nb == "matched") != bool(f.get("bound_method_names")) and nb in ("matched", "unassessed"):
+            bad.append("%s: %s при %s независимых имён — matched требует сравнения" % (
+                va, nb, "пустом списке" if not f.get("bound_method_names") else "непустом списке"))
+        ncr = f.get("name_class_relation")
+        if ncr not in NAME_CLASS or (vals["name_class"] is True) != (ncr != "other-class" or bool(f.get("this_cross_class_proof"))):
+            bad.append("%s: связь класса в имени %r не согласована" % (va, ncr))
         if f.get("this_basis") not in THIS_BASIS or (f.get("this_basis") is None) != (vals["this_supported"] is not True):
             bad.append("%s: основание this %r не согласовано" % (va, f.get("this_basis")))
         if vals["prototype"] is True and (nb != "matched" or f.get("prototype_scope") != "function"):
@@ -329,6 +339,8 @@ def check_registry(summary, summary_sha, reg, pdb_sha, strict, plan):
         for m in ("strict", "research"):
             at = (f.get("apply_this") or {}).get(m)
             sg = (f.get("apply_signature") or {}).get(m)
+            if at and vals["name_class"] is not True:
+                bad.append("%s: this %s при классе в имени из другой иерархии без доказательства" % (va, at))
             if at and (vals["this_supported"] is not True or at not in classes):
                 bad.append("%s: apply_this %s без подтверждённого this" % (va, at))
             if at and m == "strict" and classes.get(at, {}).get("verification_status") != "Confirmed":
@@ -368,13 +380,17 @@ def gate_plan(plan, reg, strict):
                                and e["proto"][0] == e["this"]):
             dropped.append("0x%08X: прототип не ставится — в реестре %s" % (va, f["verification_status"]))
             e["proto"] = None
-        e["lines"].append("статус %s: адрес %s; this %s%s; объём аргументов %s; имя %s (%s); соглашение вызова %s; "
+        e["lines"].append("статус %s: адрес %s; this %s%s; объём аргументов %s; имя %s (%s); класс в имени %s; соглашение вызова %s; "
                           "прототип %s" % (
                               f["verification_status"], _mark(f.get("address_verified")), _mark(f.get("this_supported")),
                               (" (%s)" % f["this_basis"]) if f.get("this_basis") else "",
                               _mark(f.get("stack_bytes_verified")), _mark(f.get("name_binding_verified")),
-                              f.get("name_binding_status"), _mark(f.get("calling_convention_verified")),
+                              f.get("name_binding_status"), _mark(f.get("name_class_verified")),
+                              _mark(f.get("calling_convention_verified")),
                               _mark(f.get("prototype_verified"))))
+        if f.get("this_supported") and f.get("name_class_verified") is False:
+            e["lines"].append("this %s не ставится: класс в исходном имени из другой иерархии (other-class), "
+                              "межклассового доказательства нет" % f.get("this_class"))
         for b in f.get("semantic_bindings") or []:
             if not b.get("applies_to_function"):
                 e["lines"].append("прототип доказан только для слота %s::%s (%s), на адрес не переносится: имя адреса — %s"

@@ -1,9 +1,9 @@
-# repro0513.sh — повтор всех проверок из чистой копии пакета (2026-10-25T16:15:16+05:00)
+# repro0514.sh — повтор всех проверок из чистой копии пакета (2026-10-25T16:51:11+05:00)
 #!/bin/bash
 # повтор всех проверок из самого пакета (как в README), в чистой копии
 set -e
 S=/tmp/claude-0/-home-claude/0ff6da26-f30f-5721-a8f9-462306d32c56/scratchpad
-R=$S/release/FalloutNV_PDB_v0.5.13; P=$S/repro0513; X=$S/pdb/FalloutNV.pdb; E=$S/exe/FalloutNV.exe
+R=$S/release/FalloutNV_PDB_v0.5.14; P=$S/repro0514; X=$S/pdb/FalloutNV.pdb; E=$S/exe/FalloutNV.exe
 rm -rf $P; cp -r $R $P; cd $P
 py(){ python3 -I -B "$@"; }
 py tools/make_syms.py $X syms.tsv | tail -1
@@ -12,7 +12,7 @@ py tools/verify_change_flags.py research/fnv_types_v05_research.h $E out/change_
 for v in sound_msg mem_context memory_passes; do py tools/verify_$v.py research/fnv_types_v05_research.h syms.tsv $E out/$v.csv > /dev/null; done
 py tools/verify_render_enums.py research/fnv_types_v05_research.h syms.tsv $E out > /dev/null
 py tools/report_extras.py tools/spec.json tools/evidence_spec.json research/fnv_types_v05_research.meta.json out > /dev/null
-py tools/verification.py out FalloutNV.pdb research/FalloutNV.pdb syms.tsv $E | tail -1   # v0.5.13: реестр статусов
+py tools/verification.py out FalloutNV.pdb research/FalloutNV.pdb syms.tsv $E | tail -1   # v0.5.14: реестр статусов
 diff -r out evidence && echo EVIDENCE-IDENTICAL
 CL="clang --target=i686-pc-windows-msvc -std=c++17 -c -g -gcodeview -fstandalone-debug -fno-exceptions -fno-rtti -Wno-invalid-offsetof"
 $CL -I. tools/fnv_types_v05.cpp -o s.obj && lld-link /dll /noentry /nodefaultlib /debug /pdb:s.pdb /out:s.dll s.obj
@@ -62,6 +62,6 @@ RAW-MISMATCH 0
 ИТОГ: всё прошло (67 проверок, из них отказов 27)
 ИТОГ: всё прошло (33 проверок, из них отказов 27)
 12
-ИТОГ: всё прошло (23 проверок)
+ИТОГ: всё прошло (28 проверок)
 ИТОГ: всё прошло (6 проверок)
 ИТОГ: всё прошло (16 проверок)

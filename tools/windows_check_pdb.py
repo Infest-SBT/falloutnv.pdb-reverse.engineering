@@ -35,8 +35,8 @@ PDB_AGE = 1
 # (84 класса — FontManager::TextData и BGSSaveLoadFormHeader вернулись в research), research — тот же, что в v0.5.4;
 # строгий v0.5.4 с meta.json v0.5.5 не согласован и в список не входит. v0.5.6–v0.5.10: оба PDB те же, что в v0.5.5.
 PUBLISHED_PDB = {
-    'b67b63a891e68fc2b3fd1df4278a7d639329c7d05c25347e58c82c309c2ad33a': 'строгий FalloutNV.pdb v0.5.12–v0.5.13 (86 классов с исходными именами: Confirmed 84, VerifiedPrefix 2)',
-    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4–v0.5.13',
+    'b67b63a891e68fc2b3fd1df4278a7d639329c7d05c25347e58c82c309c2ad33a': 'строгий FalloutNV.pdb v0.5.12–v0.5.14 (86 классов с исходными именами: Confirmed 84, VerifiedPrefix 2)',
+    'd0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4': 'research/FalloutNV.pdb v0.5.4–v0.5.14',
 }
 
 KNOWN = {  # имя публичного символа (PDB xNVSE) -> адрес; если символ не найден или адрес другой — ошибка

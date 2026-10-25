@@ -324,6 +324,11 @@ check('статусы: классам VerifiedPrefix this не назначен'
 _c11 = (w.funcs.get(0x004011B0).cmt if w.funcs.get(0x004011B0) else w.plates.get(0x004011B0)) or ''
 check('v0.5.13 P1: у общего тела 0x004011B0 — «прототип доказан только для слота», имя — icf-shared',
       'прототип доказан только для слота TESForm::40' in _c11 and 'имя ? (icf-shared)' in _c11)
+SIX = [0x007AF430, 0x00833150, 0x00A815C0, 0x00B807C0, 0x00BE0CE0, 0x00C9A420]
+_six_this = [hex(v) for v in SIX if w.funcs.get(v) and w.funcs[v].params]
+_cm6 = ' '.join((w.funcs[v].cmt if w.funcs.get(v) else w.plates.get(v)) or '' for v in SIX)
+check('v0.5.14 A: шести межклассовым адресам this не назначен, в комментарии — причина', not _six_this
+      and _cm6.count('класс в исходном имени из другой иерархии') == 6, ', '.join(_six_this))
 check('v0.5.13 P2: в плане — охват реестра и Unclassified', 'Unclassified' in plan_txt and 'функций 85249' in plan_txt)
 vs = [st for st in w.structs.values() if st.getName() in VP_SHORT]
 check('статусы: у структур VerifiedPrefix — описание с границами и комментарии полей', vs and all(
@@ -378,6 +383,18 @@ f1.update(verification_status='Confirmed', name_binding_verified=True, prototype
 f1['verified_facets'] = list(r['facets'])
 f1['unverified_facets'] = []
 refused('v0.5.13 P1: Confirmed на общем теле ICF (привязка имени icf-shared)', case(reg=r))
+r = clone(REG)
+f2 = next(f for f in r['functions'] if f['va'] == '0x007AF430')
+f2['apply_this'] = {'strict': 'BGSSaveFormBuffer', 'research': 'BGSSaveFormBuffer'}
+refused('v0.5.14 A: this на межклассовом адресе без доказательства (0x007AF430)', case(reg=r))
+r = clone(REG)
+f3 = next(f for f in r['functions'] if f['name_binding_status'] == 'unassessed')
+f3['name_binding_status'] = 'matched'
+refused('v0.5.14 B: matched без независимого имени (name_binding_verified=false)', case(reg=r))
+f3['name_binding_verified'] = True
+f3['verified_facets'] = [x for x in r['facets'] if x in f3['verified_facets'] or x == 'name_binding']
+f3['unverified_facets'] = [x for x in r['facets'] if x not in f3['verified_facets']]
+refused('v0.5.14 B: matched без независимого имени, фасеты подогнаны (пустой bound_method_names)', case(reg=r))
 
 # чувствительность: одну функцию согласованно понизили (this не подтверждён) — снимается ровно её this
 r = clone(REG)

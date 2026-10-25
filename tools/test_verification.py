@@ -109,8 +109,32 @@ if len(sys.argv) > 3:
                   for f in reg['functions']))
     n_s = sum(1 for f in reg['functions'] if f['apply_this']['strict'])
     n_r = sum(1 for f in reg['functions'] if f['apply_this']['research'])
-    check('назначения this по реестру = план v0.5.11 (строгий 1464, research 1465)', (n_s, n_r) == (1464, 1465),
+    check('назначения this: план v0.5.11 минус 6 межклассовых (строгий 1458, research 1459)', (n_s, n_r) == (1458, 1459),
           f'{n_s} / {n_r}')
+    SIX = ['0x007AF430', '0x00833150', '0x00A815C0', '0x00B807C0', '0x00BE0CE0', '0x00C9A420']
+    check('v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена и привязки слотов те же',
+          all(FA[v]['name_class_relation'] == 'other-class' and FA[v]['name_class_verified'] is False
+              and FA[v]['this_supported'] is True and not any(FA[v]['apply_this'].values())
+              and not any(FA[v]['apply_signature'].values()) and FA[v]['original_name'] == pub[v]
+              for v in SIX for pub in [{f['va']: f['original_name'] for f in reg['functions']}])
+          and sorted(reg['coverage']['this_suppressed_other_class']) == SIX)
+    check('v0.5.14 A: this не назначается ни одной функции с классом в имени из другой иерархии без доказательства',
+          not any(any(f['apply_this'].values()) for f in reg['functions'] if f['name_class_relation'] == 'other-class'
+                  and not f['this_cross_class_proof']))
+    rx, _, _ = V.build(copy.deepcopy(S0), ev, syms, exe, pdbs, common,
+                       cross_class={0x00A815C0: {'class': 'NiShadeProperty', 'proof': 'тест: межклассовое доказательство'}})
+    gx = next(f for f in rx['functions'] if f['va'] == '0x00A815C0')
+    check('v0.5.14 A: с отдельным межклассовым доказательством this возвращается точечно (только этот адрес)',
+          gx['apply_this']['strict'] == 'NiShadeProperty' and gx['this_cross_class_proof']
+          and sum(1 for f in rx['functions'] if f['apply_this']['strict']) == n_s + 1)
+    ua = [f for f in reg['functions'] if not f['bound_method_names']]
+    check('v0.5.14 B: пустой bound_method_names — unassessed, name_binding_verified=false, не matched',
+          ua and all(f['name_binding_status'] == 'unassessed' and f['name_binding_verified'] is False for f in ua)
+          and not any(f['name_binding_status'] == 'matched' and not f['bound_method_names'] for f in reg['functions']),
+          f'{len(ua)} функций')
+    check('v0.5.14 B: Confirmed — только при matched с независимым именем и связанном классе в имени', all(
+        f['bound_method_names'] and f['name_binding_status'] == 'matched' and f['name_class_verified']
+        for f in reg['functions'] if f['verification_status'] == 'Confirmed'))
     pubn = sum(1 for _ in open(syms, encoding='utf-8'))
     gp = [g for g in gaps if g['kind'] == 'public-symbol']
     check('остальные публичные символы xNVSE — в coverage_gaps без статуса', all(g['status'] == 'unclassified' for g in gaps)

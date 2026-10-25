@@ -20,6 +20,9 @@ v0.5.13 (аудит Астры v0.5.12):
        доказанный метод под другим именем того же адреса (alias) — функция VerifiedPrefix, прототип на адрес не ставится;
   P2 — охват: в реестре только функции, которые изучал проект; остальные публичные символы — Unclassified (счёт по
        видам — coverage.public_symbols_not_in_registry_by_kind);
+  v0.5.14 (аудит Астры v0.5.13): A — this класса, не связанного с классом в исходном имени (other-class), не
+       назначается без отдельного межклассового доказательства (CROSS_CLASS_THIS); фасет name_class; B — пустой
+       bound_method_names (сравнивать не с чем) — unassessed, а не matched; name_binding_verified = false;
   P3 — this_verified переименован в this_supported (это одобренное назначение по правилам плана, а не доказательство
        типа объекта), основание — this_basis: vtable-slot (слот semantics/name+stack своего класса) или
        method-heuristic (метод читает ECX до записи и обращается к полям).
@@ -33,12 +36,17 @@ CLI: python3 -I verification.py <evidence_dir> <strict.pdb> <research.pdb> <syms
 """
 import csv, hashlib, json, os, sys
 
-SCHEMA = 3          # v0.5.13: this_supported вместо this_verified, привязка имени, привязки слотов (аудит Астры v0.5.12)
+SCHEMA = 4          # v0.5.13: this_supported, привязка имени, привязки слотов; v0.5.14: unassessed, name_class (аудит Астры v0.5.13)
 STATUSES = ('Confirmed', 'VerifiedPrefix')
 IMAGE_BASE = 0x400000
-FACETS = ('address', 'this_supported', 'stack_bytes', 'name_binding', 'calling_convention', 'prototype', 'return_type',
-          'argument_types')
-NAME_BINDING = ('matched', 'alias', 'icf-shared', 'name-conflict')
+FACETS = ('address', 'this_supported', 'stack_bytes', 'name_binding', 'name_class', 'calling_convention', 'prototype',
+          'return_type', 'argument_types')
+NAME_BINDING = ('matched', 'unassessed', 'alias', 'icf-shared', 'name-conflict')
+NAME_CLASS = ('same-chain', 'no-class-in-name', 'other-class')
+# v0.5.14 (аудит Астры v0.5.13, замечание A): this класса, не связанного с классом в исходном имени адреса
+# (name_class_relation = other-class), автоматически не ставится. Вернуть точечно — только с отдельным межклассовым
+# доказательством: {VA: {'class': назначаемый класс, 'proof': текст со ссылками на команды/журналы}}. Сейчас — пусто.
+CROSS_CLASS_THIS = {}
 THIS_BASIS = ('vtable-slot', 'method-heuristic', None)
 
 
@@ -96,8 +104,10 @@ def symbol_kind(flags):
     return 'function' if flags & 2 else 'code' if flags & 1 else 'data'
 
 
-def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
-    """→ (реестр, строки verification_coverage.csv, строки coverage_gaps.csv)."""
+def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
+    """→ (реестр, строки verification_coverage.csv, строки coverage_gaps.csv). cross_class — межклассовые
+    доказательства this (по умолчанию CROSS_CLASS_THIS)."""
+    cross = CROSS_CLASS_THIS if cross_class is None else cross_class
     S = summary['classes']
     rows = lambda f: list(csv.DictReader(open(os.path.join(ev_dir, f), encoding='utf-8')))
     syms = {}
@@ -179,7 +189,9 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
         bound = sorted({o['xbox_name'] for o in ow if o['via'] == 'vslot' and o.get('xbox_name')}
                        | {o['name'].rsplit('::', 1)[-1] for o in ow if o['via'] != 'vslot' and o.get('name')
                           and o['name'] != name0})
-        if not bound or bound == [short0]:
+        if not bound:
+            nbind = 'unassessed'          # v0.5.14 B: независимого имени для сравнения нет — совпадение не проверено
+        elif bound == [short0]:
             nbind = 'matched'
         elif len(bound) > 1:
             nbind = 'icf-shared'
@@ -197,10 +209,12 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
             return out
         name_cls = ('no-class-in-name' if pcls is None else 'same-chain' if (pcls in chain(ref_cls) or ref_cls in chain(pcls))
                     else 'other-class')
-        proto_ok = sem and nbind == 'matched'
+        xproof = cross.get(va) if (cross.get(va) or {}).get('class') == this_cls else None
+        name_cls_ok = name_cls != 'other-class' or bool(xproof)
+        proto_ok = sem and nbind == 'matched' and name_cls_ok
         facets = {'address': address_ok, 'this_supported': this_ok, 'stack_bytes': stack_ok,
-                  'name_binding': nbind == 'matched', 'calling_convention': proto_ok, 'prototype': proto_ok,
-                  'return_type': proto_ok, 'argument_types': proto_ok}
+                  'name_binding': nbind == 'matched', 'name_class': name_cls_ok, 'calling_convention': proto_ok,
+                  'prototype': proto_ok, 'return_type': proto_ok, 'argument_types': proto_ok}
         sem_bind = [{'class': o['class'], 'slot': o['slot'], 'xbox_name': o.get('xbox_name'), 'decl': o['decl'],
                      'status': 'semantics', 'prototype_scope': 'binding',
                      'prototype_verified_for_binding': True,
@@ -215,7 +229,8 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
                'this_supported': this_ok, 'this_basis': this_basis, 'this_class': this_cls if this_ok else None,
                'stack_bytes_verified': stack_ok,
                'name_binding_status': nbind, 'name_binding_verified': nbind == 'matched', 'bound_method_names': bound,
-               'name_class_relation': name_cls,
+               'name_class_relation': name_cls, 'name_class_verified': name_cls_ok,
+               'this_cross_class_proof': xproof['proof'] if xproof else None,
                'semantic_bindings': sem_bind,
                'prototype_scope': 'function' if proto_ok else ('binding' if sem_bind else 'none'),
                'calling_convention_verified': proto_ok if proto_ok else 'unknown',
@@ -232,8 +247,11 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
                          'symbol_kind': kind, 'status': 'unclassified', 'reason': reason})
             continue
         status = 'Confirmed' if all(facets.values()) else 'VerifiedPrefix'
-        apply_this = {'strict': ts if (this_ok and ts and cstat.get(ts) == 'Confirmed') else None,
-                      'research': tr if this_ok else None}
+        apply_this = {'strict': ts if (this_ok and ts and cstat.get(ts) == 'Confirmed' and name_cls_ok) else None,
+                      'research': tr if (this_ok and name_cls_ok) else None}
+        if this_ok and not name_cls_ok:
+            refs.append(f'v0.5.14: this {this_cls} не назначается — класс в исходном имени ({pcls}) с ним не связан '
+                        f'(other-class), отдельного межклассового доказательства нет')
         apply_sig = {'strict': proto_s[1] if (status == 'Confirmed' and proto_s and proto_s[0] == apply_this['strict']) else None,
                      'research': proto_r[1] if (status == 'Confirmed' and proto_r and proto_r[0] == apply_this['research']) else None}
         if sem_bind and not proto_ok:
@@ -301,6 +319,9 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
                                       'доказательств, а не третий уровень качества',
                         'name_binding': count(funcs, 'name_binding_status'),
                         'this_basis': count([{'b': str(f['this_basis'])} for f in funcs], 'b'),
+                        'name_class': count(funcs, 'name_class_relation'),
+                        'this_suppressed_other_class': sorted(f['va'] for f in funcs if f['this_supported']
+                                                             and not f['name_class_verified']),
                         'gaps_file': 'coverage_gaps.csv',
                         'gap_reasons': {'not-in-registry': 'публичный символ PDB xNVSE вне реестра функций проекта: имя и '
                                                            'адрес оставлены как есть, статус не присваивается',

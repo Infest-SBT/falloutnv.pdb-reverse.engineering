@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.5.13",
+ "package": "FalloutNV_PDB_v0.5.14",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -152,13 +152,13 @@
    }
   },
   "script_tests": {
-   "test_ghidra_mock": "43/43 (15 случаев fail closed, чувствительность функции и класса, P1)",
+   "test_ghidra_mock": "47/47 (18 случаев fail closed, чувствительность функции и класса, P1, A, B)",
    "test_ida_mock": "15/15 (fail closed ×2, чувствительность прототипа, P1)",
    "test_windows_check": "на каждом PDB 20/20",
    "test_slot_forward": "10/10",
    "test_chaincheck": "49/49 с exe (41 синтетическая + 8 по FalloutNV.exe)",
    "test_prefixview": "67/67 с пакетом (27 случаев отказа), 33/33 без аргументов",
-   "test_verification": "23/23 с пакетом, 6/6 без аргументов",
+   "test_verification": "28/28 с пакетом, 6/6 без аргументов",
    "test_cpp_guard": "16/16"
   },
   "windows_check_pdb": "ИТОГ: всё совпадает, код 0; другой exe — код 2 (на Windows для v0.5.x ещё не запускался; v0.4.2 — пройдено)",
@@ -395,8 +395,8 @@
    "functions_unclassified": 0,
    "public_symbols_not_in_registry": 135967,
    "apply_this": {
-    "strict": 1464,
-    "research": 1465
+    "strict": 1458,
+    "research": 1459
    },
    "apply_signature": {
     "strict": 1,
@@ -412,7 +412,7 @@
      "sha256": "d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4"
     }
    },
-   "summary_sha256": "440df2a2d5bcf2d5c47c7690f54446ca1829f275195b42a6e1a00e40e18854df"
+   "summary_sha256": "7f0cdbaad466d2846070cea110bdf3450419700d54864eaca2d5ea1f8bf0f8cc"
   }
  },
  "verified_here": [
@@ -424,7 +424,8 @@
   "независимый проверщик Астры verify_v041_independent.py на этом пакете — манифест и все строки evidence_fields.csv",
   "v0.5.11–v0.5.12: сквозная проверка fail closed (испорченные кандидаты в evidence_spec.json) — только в среде сборки, нужен дамп Xbox PDB для gen_headers; результат — audit/fail_closed_integration.log",
   "v0.5.12: реестр статусов (verification.py) пересобирается в чистой копии и побайтно совпадает; test_verification.py, test_cpp_guard.py, mock Ghidra/IDA (fail closed, чувствительность)",
-  "v0.5.13: привязка имени и semantic_bindings — test_verification.py (адреса из аудита Астры v0.5.12), mock Ghidra/IDA"
+  "v0.5.13: привязка имени и semantic_bindings — test_verification.py (адреса из аудита Астры v0.5.12), mock Ghidra/IDA",
+  "v0.5.14: межклассовые this и unassessed — test_verification.py (шесть адресов из аудита Астры v0.5.13, точечный возврат с доказательством), mock Ghidra (отказы)"
  ],
  "not_included": "дампы и файлы Xbox 360 PDB не распространяются; для перегенерации заголовков (gen_headers.py) они нужны, для пересборки PDB и всех проверок — нет",
  "files": {
@@ -433,8 +434,8 @@
    "bytes": 7172096
   },
   "README_RU.md": {
-   "sha256": "b6bc6f792c2f2302414e9a1f8a8482309f05136fc1a495ee7a68b92f6fec63e7",
-   "bytes": 116277
+   "sha256": "070a309107c2566aa8a698c4c03adf1353afb69da83866dd2530e5a3124c5c91",
+   "bytes": 119992
   },
   "audit/fail_closed_integration.log": {
    "sha256": "0fe5d844b7fa98453f4b820106e1762e2e1129f2d75749e880e2e587d21b0923",
@@ -452,8 +453,12 @@
    "sha256": "5755a8a3e3d26b578c7b7cde32e48a69d23a546b85c137eebe086ec5e2e06fe2",
    "bytes": 1120
   },
+  "audit/msf_streams_strict_v0513_v0514.txt": {
+   "sha256": "5755a8a3e3d26b578c7b7cde32e48a69d23a546b85c137eebe086ec5e2e06fe2",
+   "bytes": 1120
+  },
   "audit/repro_build.log": {
-   "sha256": "74d17f38828ad99b41ea3dd3710418abcad87942dd4d5fa714fdc229206210ae",
+   "sha256": "ee1ed64c5a367293a198fdaa12d42a5d2355a0276b72bbae93c6817e3e2d89e5",
    "bytes": 4922
   },
   "audit/status_migration_v0511_v0512.md": {
@@ -464,13 +469,17 @@
    "sha256": "ad335b363747741d73b823f0f2a171b373076b098355f5dc196db297c54f7ccc",
    "bytes": 3867
   },
+  "audit/status_migration_v0513_v0514.md": {
+   "sha256": "08f5cd75d0e43f950217ef5a9a9de543af9a91ca5db414e3890887ace7300ba6",
+   "bytes": 2519
+  },
   "audit/test_cpp_guard.log": {
    "sha256": "c9267675d2fb95c7a1df3b7c3ec448f42e4273f75ef5ca5971f8853ebd32e179",
    "bytes": 2059
   },
   "audit/test_ghidra_mock.log": {
-   "sha256": "6a02742a83bd05fa32d89ae45e28dbd984cfec8724ebacb6860a193f667dfaa6",
-   "bytes": 6714
+   "sha256": "a84310650226c3b0edd291e17d45e6cfdaa0ad3ce007e0b847b75ca952092947",
+   "bytes": 7788
   },
   "audit/test_ida_mock.log": {
    "sha256": "8a84d148ca88fedb124f9b1b92e87cd6e159bb5eae9363fd0ddc4885b4106c09",
@@ -481,8 +490,8 @@
    "bytes": 7557
   },
   "audit/test_verification.log": {
-   "sha256": "8afacce8b0b47b8c118a10ae09064b7bd4bd6f0f547091d122a0f2163852a849",
-   "bytes": 3149
+   "sha256": "d2f32f15c145da14f47a5b6ccd906975397c286fe75df73e7e7a0e94ddc95865",
+   "bytes": 3996
   },
   "audit/tpi_diff_research_v0511_v0512.txt": {
    "sha256": "5f75ca8236aa957d0d0dd82b38e60141fbbadaaa11db47cbf080e1fa90268099",
@@ -565,7 +574,7 @@
    "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "440df2a2d5bcf2d5c47c7690f54446ca1829f275195b42a6e1a00e40e18854df",
+   "sha256": "7f0cdbaad466d2846070cea110bdf3450419700d54864eaca2d5ea1f8bf0f8cc",
    "bytes": 1412505
   },
   "evidence/traced_provenance.csv": {
@@ -573,12 +582,12 @@
    "bytes": 4307
   },
   "evidence/verification.json": {
-   "sha256": "ff3943c0990170baafad999934dcd947cedcb0ca37f47fb651d5110e73de7095",
-   "bytes": 4516640
+   "sha256": "318ccaf4a5868b6c6d9073b54ec1202b8f8ef5168acab957a7089e171bc0ce8e",
+   "bytes": 4712341
   },
   "evidence/verification_coverage.csv": {
-   "sha256": "3383d6c1ab7d9a39815875f843ada198111f23f3682127267c6ce4cb8321509e",
-   "bytes": 1264128
+   "sha256": "adf9eb60db4f2f22734745edea498acc49de0a15e4e71239fe326f64390ebe52",
+   "bytes": 1289892
   },
   "evidence/verified_prefix_candidates.csv": {
    "sha256": "12677a07c4e001425a873fc0a50473f0ad292499aad915934914155602003ad5",
@@ -609,12 +618,12 @@
    "bytes": 351522
   },
   "scripts/fnv_apply_ghidra.py": {
-   "sha256": "d90a5cf123d3cb7f2119b7aa6bf8a9a77d032bc69f05fe71d9cc8a2f2fcecfac",
-   "bytes": 44988
+   "sha256": "45d34e8862677a336a5b0387d6ad93ae0cd1ce087c5ab539ef2613aaa9d2a0e2",
+   "bytes": 46758
   },
   "scripts/fnv_apply_ida.py": {
-   "sha256": "5ee4713d3ab0892efec909a87132cfba78d700b174e184cca006183084ab401f",
-   "bytes": 36626
+   "sha256": "467217b557c5961487f128667ddb8a50bf266abf80f204d0f2ab148a727730a8",
+   "bytes": 38396
   },
   "tools/annotate_header.py": {
    "sha256": "1d6fd1dee81058fc536340d40bd47edf58cc195b6927b4d16f394461ba041074",
@@ -693,8 +702,8 @@
    "bytes": 752
   },
   "tools/scripts_src/common.py": {
-   "sha256": "3e78a8ed02c2c85e91e9647ee8a9a068d54d1019554fd0cb933e90dfad2d8d5d",
-   "bytes": 23028
+   "sha256": "9f9793a0579147363a84ffe316f041d71e62e4384f285b3f56a6b560b164824e",
+   "bytes": 24798
   },
   "tools/scripts_src/ghidra_body.py": {
    "sha256": "b89c90f076917c5f0dc24cd078e50ae05ca1a27f7bd403b346b95f86c434b92f",
@@ -713,8 +722,8 @@
    "bytes": 4134
   },
   "tools/scripts_src/test_ghidra_mock.py": {
-   "sha256": "73d2b9f02bb49f75c9aefa83e894e0cb7e39f52a20d8b6013088c5fcaec34480",
-   "bytes": 21429
+   "sha256": "dce92212f1da8e2065bdbfb896d50ce9c14fda0c9b5bff9d4d51d0bfd261d39d",
+   "bytes": 22881
   },
   "tools/scripts_src/test_ida_mock.py": {
    "sha256": "4ff27a7db373f6dd83a3c14bb80604f51f25e4d7939d7eab59f08425e75cd088",
@@ -745,8 +754,8 @@
    "bytes": 3453
   },
   "tools/test_verification.py": {
-   "sha256": "a6e5331e020b8cd28f4a88397f20bf9e2b1a6ac64913b94e067c49bee11f9ef8",
-   "bytes": 12025
+   "sha256": "cf6a70f2e3ed4ec25d45af648ba9b8a564cc26542247a4b51fb87ec6c0b57c41",
+   "bytes": 14628
   },
   "tools/test_windows_check.py": {
    "sha256": "285bdc6127020971164b6988f8ee7ff47a121b724aa975d89741659ed571e1f6",
@@ -757,8 +766,8 @@
    "bytes": 2560
   },
   "tools/verification.py": {
-   "sha256": "d564250480c1d9c572964e3c66643835c67d94435a97efc2543c368bcef0d9da",
-   "bytes": 25612
+   "sha256": "da3b8c948bd2ded17023d26606205c7eb278fe4e2d7bc4067c84ab36aaefbfe8",
+   "bytes": 28096
   },
   "tools/verify_change_flags.py": {
    "sha256": "ef48facb6dbb0defae51b7278775ff4ed71e936cd57746b595b90bfe96710c0d",
@@ -785,9 +794,9 @@
    "bytes": 4214
   },
   "tools/windows_check_pdb.py": {
-   "sha256": "9fb811969e21d10eeabd8a8aef2fd8f1c3505b2ff3c8d52985a7dd2ae8206554",
+   "sha256": "191e49950b6f8cea76f6b85d9bac9b8cfcbe030561ad4a87e10e82176161aea8",
    "bytes": 17839
   }
  },
- "changed_vs_v0.5.12": "по аудиту Астры v0.5.12: оба PDB и заголовки побайтно как в v0.5.12; метаданные функций (схема 3): P1 — прототип слота semantics переносится на функцию только при привязке имени matched (semantic_bindings, name_binding_status, prototype_scope): функций Confirmed 1 (было 10), прототипов в IDA 1; P2 — охват реестра и Unclassified по видам (85 249 функций, 50 718 данных); P3 — this_verified → this_supported + this_basis; изменились summary.json (версия схемы), verification.json, verification_coverage.csv, verification.py, test_verification.py, scripts_src/common.py, ghidra_body.py, ida_body.py, моки, скрипты, README"
+ "changed_vs_v0.5.13": "по аудиту Астры v0.5.13: оба PDB и заголовки побайтно как в v0.5.12–v0.5.13; схема метаданных 4: A — this класса, не связанного с классом в исходном имени адреса (other-class), не ставится без межклассового доказательства (6 адресов; this строгий 1464 → 1458, research 1465 → 1459), фасет name_class; B — пустой bound_method_names — unassessed, не matched (1664 функции); Confirmed — только matched с независимым именем и связанным классом; изменились summary.json (версия схемы), verification.json, verification_coverage.csv, verification.py, test_verification.py, common.py, моки, скрипты, README"
 }
