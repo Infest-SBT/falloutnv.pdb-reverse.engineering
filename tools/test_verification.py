@@ -5,7 +5,8 @@ usage: python3 -I test_verification.py [<пакет> <syms.tsv> <FalloutNV.exe>]
 реестр пересобирается из evidence/ и обоих PDB и побайтно совпадает с evidence/verification.json; полное покрытие;
 ни одна функция не получает подтверждённый прототип без ручного разбора слота (semantics); конфликт this
 0x008A81C0 не получает this; чувствительность: понижение слота и отзыв размера класса снимают назначения, имена
-не меняются.
+не меняются. v0.5.13 (аудит Астры v0.5.12): прототип слота переносится на функцию только при привязке имени
+matched — общее тело ICF и чужое имя остаются VerifiedPrefix (случаи из аудита); this_supported + this_basis.
 """
 import copy, csv, json, os, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -75,8 +76,30 @@ if len(sys.argv) > 3:
     check('подтверждённый прототип — только у функций с ручным разбором слота (semantics), не по имени/S_PUB32/классу',
           not bad, ', '.join(bad[:5]))
     nc = sum(1 for f in reg['functions'] if f['verification_status'] == 'Confirmed')
-    check('Confirmed функций ровно столько, сколько слотов semantics в плане прототипов',
-          nc == sum(1 for e in plan.values() if e['proto']) and nc > 0, str(nc))
+    sb = [f for f in reg['functions'] if f['semantic_bindings']]
+    check('у всех адресов плана с прототипом semantics — привязка слота в semantic_bindings',
+          {int(f['va'], 16) for f in sb} == {va for va, e in plan.items() if e['proto']}, str(len(sb)))
+    check('v0.5.13 P1: Confirmed — только привязка имени matched; ICF/чужое имя — VerifiedPrefix без прототипа',
+          nc == sum(1 for f in sb if f['name_binding_status'] == 'matched') and all(
+              (f['verification_status'] == 'Confirmed') == (f['name_binding_status'] == 'matched')
+              and bool(any(f['apply_signature'].values())) == (f['name_binding_status'] == 'matched')
+              and all(b['applies_to_function'] == (f['name_binding_status'] == 'matched') for b in f['semantic_bindings'])
+              for f in sb), f'Confirmed {nc} из {len(sb)}')
+    A = {'0x004011B0': 'icf-shared', '0x004011D0': 'icf-shared', '0x00549580': 'name-conflict', '0x007AF430': 'name-conflict'}
+    FA = {f['va']: f for f in reg['functions']}
+    check('v0.5.13 P1: адреса из аудита — не Confirmed, прототип только у слота',
+          all(FA[v]['verification_status'] == 'VerifiedPrefix' and FA[v]['name_binding_status'] == s
+              and FA[v]['prototype_verified'] is False and FA[v]['prototype_scope'] == 'binding'
+              and not any(FA[v]['apply_signature'].values()) for v, s in A.items()),
+          ', '.join(f"{v} {FA[v]['original_name']} → {FA[v]['name_binding_status']}" for v in A))
+    check('v0.5.13 P3: this_supported и this_basis вместо this_verified', all(
+        'this_verified' not in f and (f['this_basis'] is None) == (not f['this_supported'])
+        and f['this_basis'] in ('vtable-slot', 'method-heuristic', None) for f in reg['functions']),
+          str(reg['coverage']['this_basis']))
+    check('v0.5.13 P2: охват по видам символов записан', reg['coverage']['public_symbols_not_in_registry_by_kind']
+          == {'data': sum(1 for g in gaps if g['kind'] == 'public-symbol' and g['symbol_kind'] == 'data'),
+              'function': sum(1 for g in gaps if g['kind'] == 'public-symbol' and g['symbol_kind'] == 'function')},
+          str(reg['coverage']['public_symbols_not_in_registry_by_kind']))
     f81 = next(f for f in reg['functions'] if f['va'] == '0x008A81C0')
     check('0x008A81C0 (конфликт this): ни this, ни прототипа, статус VerifiedPrefix',
           f81['this_conflict'] and f81['verification_status'] == 'VerifiedPrefix'

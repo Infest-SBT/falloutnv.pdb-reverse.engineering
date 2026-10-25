@@ -134,6 +134,8 @@ check('статусы: full_type_applied / prefix_view_applied в плане и 
 check('статусы: классы VerifiedPrefix — под исходными именами, прототипов на них нет', VP and all(
     ('%s — VerifiedPrefix' % c) in plan_txt for c in VP) and '_VerifiedPrefix' not in plan_txt and not any(
     ('%s *this' % c) in ty for ty in w.types.values() for c in VP))
+check('v0.5.13 P1: прототип слота не переносится на общее тело/чужое имя (0x004011B0, 0x007AF430, 0x00AEA000)',
+      not ({0x004011B0, 0x007AF430, 0x00AEA000} & set(w.types)))
 check('статусы: прототипы — только функциям Confirmed реестра', n_proto > 0 and all(
     f['verification_status'] == 'Confirmed' for f in REG['functions'] if int(f['va'], 16) in w.types))
 
@@ -164,7 +166,8 @@ f0 = next(f for f in r['functions'] if f['verification_status'] == 'Confirmed' a
 f0.update(verification_status='VerifiedPrefix', prototype_verified=False, calling_convention_verified='unknown',
           return_type_verified='unknown', argument_types_verified='unknown',
           apply_signature={'strict': None, 'research': None})
-f0['verified_facets'] = [x for x in f0['verified_facets'] if x in ('address', 'this', 'stack_bytes')]
+f0.update(name_binding_verified=False, name_binding_status='name-conflict', prototype_scope='binding')
+f0['verified_facets'] = [x for x in f0['verified_facets'] if x in ('address', 'this_supported', 'stack_bytes')]
 f0['unverified_facets'] = [x for x in r['facets'] if x not in f0['verified_facets']]
 d, sp = case(r)
 w = World()

@@ -12,6 +12,18 @@
                     быть, this и объём аргументов), остальное перечислено в unverified_facets.
 Элемент без доказанной основы в двухстатусный реестр не попадает: он в coverage_gaps со статусом unclassified.
 
+v0.5.13 (аудит Астры v0.5.12):
+  P1 — доказательство слота (класс, слот vtable, прототип) отделено от записи адреса и исходного имени. Прототип,
+       доказанный ручным разбором слота (semantics), записан в semantic_bindings этого слота (prototype_scope
+       binding); на уровне функции prototype_verified = true, только если исходное имя адреса — именно этот метод
+       (name_binding_status = matched). Общее тело нескольких методов (icf-shared), чужое имя (name-conflict) или
+       доказанный метод под другим именем того же адреса (alias) — функция VerifiedPrefix, прототип на адрес не ставится;
+  P2 — охват: в реестре только функции, которые изучал проект; остальные публичные символы — Unclassified (счёт по
+       видам — coverage.public_symbols_not_in_registry_by_kind);
+  P3 — this_verified переименован в this_supported (это одобренное назначение по правилам плана, а не доказательство
+       типа объекта), основание — this_basis: vtable-slot (слот semantics/name+stack своего класса) или
+       method-heuristic (метод читает ECX до записи и обращается к полям).
+
 Статусы ВЫЧИСЛЯЮТСЯ из уже собранных фактов (summary.json, evidence_vslots.csv, identified_functions.csv,
 excluded_functions.csv, публичные символы xNVSE, план скриптов common.build_plan) — новой доказательной матрицы нет.
 
@@ -21,10 +33,13 @@ CLI: python3 -I verification.py <evidence_dir> <strict.pdb> <research.pdb> <syms
 """
 import csv, hashlib, json, os, sys
 
-SCHEMA = 2
+SCHEMA = 3          # v0.5.13: this_supported вместо this_verified, привязка имени, привязки слотов (аудит Астры v0.5.12)
 STATUSES = ('Confirmed', 'VerifiedPrefix')
 IMAGE_BASE = 0x400000
-FACETS = ('address', 'this', 'stack_bytes', 'calling_convention', 'prototype', 'return_type', 'argument_types')
+FACETS = ('address', 'this_supported', 'stack_bytes', 'name_binding', 'calling_convention', 'prototype', 'return_type',
+          'argument_types')
+NAME_BINDING = ('matched', 'alias', 'icf-shared', 'name-conflict')
+THIS_BASIS = ('vtable-slot', 'method-heuristic', None)
 
 
 def sha256_file(p):
@@ -104,6 +119,7 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
     plan_r, conf_r = common['build_plan'](summary, False, False)
     plan_s, conf_s = common['build_plan'](summary, False, True)
     conflict_vas = {int(c[2:10], 16) for c in conf_r + conf_s if c.startswith('0x') and 'this не ставится' in c}
+    xbn = {(r['class'], int(r['slot'])): r['xbox_name'] for r in rows('evidence_vslots.csv')}
     owners = {}
     for cls in sorted(S):
         c = S[cls]
@@ -114,7 +130,8 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
             v = c['vslots'][slot]
             owners.setdefault(v['pc_func_va'], []).append({'class': cls, 'via': 'vslot', 'slot': int(slot),
                                                            'status': v['status'], 'checked_on': v.get('checked_on'),
-                                                           'decl': v['decl']})
+                                                           'decl': v['decl'],
+                                                           'xbox_name': xbn.get((cls, int(slot)), v.get('name'))})
     for va, rs in ident.items():
         for r in rs:
             owners.setdefault(va, []).append({'class': r['class'], 'via': 'identified', 'role': r['role'],
@@ -150,12 +167,44 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
         this_cls = ts or tr
         slot_of_this = [o for o in ow if o['via'] == 'vslot' and o['class'] == this_cls and o.get('checked_on') == this_cls]
         stack_ok = this_ok and any(o['status'] in ('semantics', 'name+stack', 'stack') for o in slot_of_this)
-        sem = this_ok and any(o['status'] == 'semantics' for o in slot_of_this)
+        this_basis = (('vtable-slot' if any(o['status'] in ('semantics', 'name+stack') for o in slot_of_this)
+                       else 'method-heuristic') if this_ok else None)
+        sem_slots = [o for o in slot_of_this if o['status'] == 'semantics'] if this_ok else []
         proto_r, proto_s = plan_r.get(va, {}).get('proto'), plan_s.get(va, {}).get('proto')
-        proto_ok = sem and bool(proto_r or proto_s)
-        facets = {'address': address_ok, 'this': this_ok, 'stack_bytes': stack_ok,
-                  'calling_convention': proto_ok, 'prototype': proto_ok, 'return_type': proto_ok,
-                  'argument_types': proto_ok}
+        sem = bool(sem_slots) and bool(proto_r or proto_s)
+        # P1: привязка исходного имени адреса к доказанным методам (имена слотов vtable по Xbox PDB, имена методов
+        # и ручных опознаний, если они не совпадают с самим публичным именем)
+        short0 = name0.rsplit('::', 1)[-1]
+        alias_short = {a.rsplit('::', 1)[-1] for a in sorted({p[2] for p in code_pub} - {name0})}
+        bound = sorted({o['xbox_name'] for o in ow if o['via'] == 'vslot' and o.get('xbox_name')}
+                       | {o['name'].rsplit('::', 1)[-1] for o in ow if o['via'] != 'vslot' and o.get('name')
+                          and o['name'] != name0})
+        if not bound or bound == [short0]:
+            nbind = 'matched'
+        elif len(bound) > 1:
+            nbind = 'icf-shared'
+        elif bound[0] in alias_short:
+            nbind = 'alias'
+        else:
+            nbind = 'name-conflict'
+        pcls = name0.rsplit('::', 1)[0] if '::' in name0 else None
+        ref_cls = this_cls or ow[0]['class']
+        def chain(c):
+            out = []
+            while c and c in S and c not in out:
+                out.append(c)
+                c = S[c].get('base')
+            return out
+        name_cls = ('no-class-in-name' if pcls is None else 'same-chain' if (pcls in chain(ref_cls) or ref_cls in chain(pcls))
+                    else 'other-class')
+        proto_ok = sem and nbind == 'matched'
+        facets = {'address': address_ok, 'this_supported': this_ok, 'stack_bytes': stack_ok,
+                  'name_binding': nbind == 'matched', 'calling_convention': proto_ok, 'prototype': proto_ok,
+                  'return_type': proto_ok, 'argument_types': proto_ok}
+        sem_bind = [{'class': o['class'], 'slot': o['slot'], 'xbox_name': o.get('xbox_name'), 'decl': o['decl'],
+                     'status': 'semantics', 'prototype_scope': 'binding',
+                     'prototype_verified_for_binding': True,
+                     'applies_to_function': proto_ok} for o in sem_slots]
         key = {'exe_id': summary['exe_sha256'][:16], 'rva': f'0x{va - IMAGE_BASE:08X}', 'original_name': name0,
                'symbol_kind': kind}
         rec = {'key': key, 'va': f'0x{va:08X}', 'original_name': name0,
@@ -163,8 +212,12 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
                'aliases': sorted({p[2] for p in pub} - {name0}),
                'owners': [{k: v for k, v in o.items() if k in ('class', 'via', 'slot', 'status', 'role', 'name')} for o in ow],
                'address_verified': address_ok, 'address_basis': addr_basis,
-               'this_verified': this_ok, 'this_class': this_cls if this_ok else None,
+               'this_supported': this_ok, 'this_basis': this_basis, 'this_class': this_cls if this_ok else None,
                'stack_bytes_verified': stack_ok,
+               'name_binding_status': nbind, 'name_binding_verified': nbind == 'matched', 'bound_method_names': bound,
+               'name_class_relation': name_cls,
+               'semantic_bindings': sem_bind,
+               'prototype_scope': 'function' if proto_ok else ('binding' if sem_bind else 'none'),
                'calling_convention_verified': proto_ok if proto_ok else 'unknown',
                'prototype_verified': proto_ok, 'return_type_verified': proto_ok if proto_ok else 'unknown',
                'argument_types_verified': proto_ok if proto_ok else 'unknown',
@@ -183,6 +236,9 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
                       'research': tr if this_ok else None}
         apply_sig = {'strict': proto_s[1] if (status == 'Confirmed' and proto_s and proto_s[0] == apply_this['strict']) else None,
                      'research': proto_r[1] if (status == 'Confirmed' and proto_r and proto_r[0] == apply_this['research']) else None}
+        if sem_bind and not proto_ok:
+            refs.append('v0.5.13: прототип доказан для слота (semantic_bindings), но имя адреса — ' + nbind
+                        + ': на функцию не переносится')
         rec.update({'verification_status': status,
                     'verified_facets': [f for f in FACETS if facets[f]],
                     'unverified_facets': [f for f in FACETS if not facets[f]],
@@ -227,6 +283,7 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
            'facets': list(FACETS),
            'meaning': {'Confirmed': {'class': 'размер и раскладка PC подтверждены; типы полей, слоты и методы — по своим записям',
                                      'function': 'адрес, this, соглашение вызова, объём аргументов, прототип подтверждены'},
+                       'Unclassified': 'нет статуса: элемент не изучался или без доказанной основы (coverage_gaps.csv)',
                        'VerifiedPrefix': {'class': 'подтверждены поля в известной начальной части; sizeof объекта игры не доказан',
                                           'function': 'подтверждена часть сведений (verified_facets); остальное — unverified_facets, '
                                                       'не применяется'}},
@@ -237,6 +294,13 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common):
                         'functions_unclassified': sum(1 for g in gaps if g['kind'] == 'function'),
                         'public_symbols_total': sum(len(v) for v in syms.values()),
                         'public_symbols_not_in_registry': n_pub_gap,
+                        'public_symbols_not_in_registry_by_kind': count([g for g in gaps if g['kind'] == 'public-symbol'],
+                                                                        'symbol_kind'),
+                        'scope_note': 'реестр — функции, которые изучал проект (методы и слоты vtable описанных классов, '
+                                      'ручные опознания); остальные публичные символы xNVSE — Unclassified: это отсутствие '
+                                      'доказательств, а не третий уровень качества',
+                        'name_binding': count(funcs, 'name_binding_status'),
+                        'this_basis': count([{'b': str(f['this_basis'])} for f in funcs], 'b'),
                         'gaps_file': 'coverage_gaps.csv',
                         'gap_reasons': {'not-in-registry': 'публичный символ PDB xNVSE вне реестра функций проекта: имя и '
                                                            'адрес оставлены как есть, статус не присваивается',

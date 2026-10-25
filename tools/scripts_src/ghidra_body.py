@@ -183,7 +183,7 @@ def main():
                   counts.get("create", 0), counts.get("comment", 0), counts.get("this", 0), n_fields),
               "full_type_applied (this полного класса): %d; prefix_view_applied: 0" % counts.get("this", 0),
               "", "Конфликты:"] + (conflicts or ["нет"]) + \
-             ["", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", coverage_line(reg), "", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + plan[va]["this"]) if act == "this" else "")
                                              for va, act in actions]
     plan_path = os.path.join(os.path.dirname(summary_path), "fnv_apply_plan_ghidra.txt")

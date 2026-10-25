@@ -131,7 +131,7 @@ def main():
                   counts.get("vtname", 0)),
               "full_type_applied (прототипы полного класса): %d; prefix_view_applied: 0" % counts.get("proto", 0),
               "", "Конфликты:"] + (conflicts or ["нет"]) + \
-             ["", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", coverage_line(reg), "", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + x) if x else "") for va, act, x in actions]
     plan_path = os.path.join(os.path.dirname(path), "fnv_apply_plan_ida.txt")
     try:

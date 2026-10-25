@@ -321,6 +321,10 @@ _cm = ' '.join([f.cmt or '' for f in w.funcs.values()] + [x or '' for x in w.pla
 check('статусы: в комментариях функций — статус и фасеты (имя не меняется)', 'статус VerifiedPrefix: адрес' in _cm
       and 'статус Confirmed: адрес' in _cm)
 check('статусы: классам VerifiedPrefix this не назначен', not (owners_of(w) & VP_SHORT))
+_c11 = (w.funcs.get(0x004011B0).cmt if w.funcs.get(0x004011B0) else w.plates.get(0x004011B0)) or ''
+check('v0.5.13 P1: у общего тела 0x004011B0 — «прототип доказан только для слота», имя — icf-shared',
+      'прототип доказан только для слота TESForm::40' in _c11 and 'имя ? (icf-shared)' in _c11)
+check('v0.5.13 P2: в плане — охват реестра и Unclassified', 'Unclassified' in plan_txt and 'функций 85249' in plan_txt)
 vs = [st for st in w.structs.values() if st.getName() in VP_SHORT]
 check('статусы: у структур VerifiedPrefix — описание с границами и комментарии полей', vs and all(
     st.desc and 'VerifiedPrefix: известно' in st.desc and any(c.c for c in st.comps) for st in vs))
@@ -349,8 +353,8 @@ refused('строгий режим, а загружен research PDB', case(), p
 r = clone(REG); r['exe_sha256'] = '00' * 32
 refused('реестр для другого exe', case(reg=r))
 refused('реестр для другого summary.json', case(reg=REG, rehash=False, summ=dict(SUMM, admission_rule=SUMM['admission_rule'] + ' ')))
-r = clone(REG); r['metadata_schema_version'] = 3
-refused('другая версия схемы', case(reg=r))
+r = clone(REG); r['metadata_schema_version'] = REG['metadata_schema_version'] - 1
+refused('другая (старая) версия схемы', case(reg=r))
 r = clone(REG); r['functions'][0]['verification_status'] = 'Partial'
 refused('неизвестный статус функции', case(reg=r))
 s = clone(SUMM); s['classes'][VP[0]]['verification_status'] = 'Verified'; r = clone(REG); r['classes'][VP[0]] = 'Verified'
@@ -365,16 +369,23 @@ s = clone(SUMM); s['classes'][VP[0]]['allowed_operations']['engine_allocation'] 
 refused('VerifiedPrefix разрешает выделение памяти', case(summ=s))
 r = clone(REG)
 f0 = next(f for f in r['functions'] if f['apply_this']['strict'])
-f0['this_verified'] = False
-refused('this разрешён без подтверждённого this (фасеты не согласованы)', case(reg=r))
+f0['this_supported'] = False
+refused('this разрешён без this_supported (фасеты не согласованы)', case(reg=r))
+r = clone(REG)
+f1 = next(f for f in r['functions'] if f['va'] == '0x004011B0')
+f1.update(verification_status='Confirmed', name_binding_verified=True, prototype_verified=True,
+          calling_convention_verified=True, return_type_verified=True, argument_types_verified=True)
+f1['verified_facets'] = list(r['facets'])
+f1['unverified_facets'] = []
+refused('v0.5.13 P1: Confirmed на общем теле ICF (привязка имени icf-shared)', case(reg=r))
 
 # чувствительность: одну функцию согласованно понизили (this не подтверждён) — снимается ровно её this
 r = clone(REG)
 f0 = next(f for f in r['functions'] if f['apply_this']['strict'] and f['verification_status'] == 'VerifiedPrefix')
-f0.update(this_verified=False, this_class=None, stack_bytes_verified=False,
+f0.update(this_supported=False, this_basis=None, this_class=None, stack_bytes_verified=False,
           apply_this={'strict': None, 'research': None})
-f0['verified_facets'] = ['address']
-f0['unverified_facets'] = [x for x in r['facets'] if x != 'address']
+f0['verified_facets'] = [x for x in f0['verified_facets'] if x not in ('this_supported', 'stack_bytes')]
+f0['unverified_facets'] = [x for x in r['facets'] if x not in f0['verified_facets']]
 d, sp = case(reg=r)
 w = World()
 w.run(sp=sp)

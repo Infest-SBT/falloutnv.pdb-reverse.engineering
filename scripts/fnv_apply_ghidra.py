@@ -62,9 +62,14 @@ THIS_SLOT_STATUSES = ("semantics", "name+stack")
 PROTO_STATUSES = ("semantics",)           # IDA: полные прототипы — только разобранные вручную слоты
 # v0.5.12 (ТЗ Астры по идее Андрея): статус доказанности — в метаданных, имена исходные. Реестр verification.json лежит
 # рядом с summary.json и привязан к нему, к exe и к конкретному PDB по SHA-256. Любое несоответствие — fail closed.
-SCHEMA = 2
+# v0.5.13 (аудит Астры v0.5.12): схема 3 — this_supported (одобренное назначение, не доказательство типа) + this_basis;
+# привязка исходного имени адреса к доказанному методу (name_binding_status); прототип слота — semantic_bindings.
+SCHEMA = 3
 STATUSES = ("Confirmed", "VerifiedPrefix")
-FACET_KEYS = (("address", "address_verified"), ("this", "this_verified"), ("stack_bytes", "stack_bytes_verified"),
+NAME_BINDING = ("matched", "alias", "icf-shared", "name-conflict")
+THIS_BASIS = ("vtable-slot", "method-heuristic", None)
+FACET_KEYS = (("address", "address_verified"), ("this_supported", "this_supported"),
+              ("stack_bytes", "stack_bytes_verified"), ("name_binding", "name_binding_verified"),
               ("calling_convention", "calling_convention_verified"), ("prototype", "prototype_verified"),
               ("return_type", "return_type_verified"), ("argument_types", "argument_types_verified"))
 
@@ -312,12 +317,19 @@ def check_registry(summary, summary_sha, reg, pdb_sha, strict, plan):
             bad.append("%s: verified_facets/unverified_facets не совпадают с фасетами" % va)
         if vals["address"] is not True:
             bad.append("%s: адрес не подтверждён, а функция в реестре" % va)
+        nb = f.get("name_binding_status")
+        if nb not in NAME_BINDING or (nb == "matched") != (vals["name_binding"] is True):
+            bad.append("%s: привязка имени %r не согласована" % (va, nb))
+        if f.get("this_basis") not in THIS_BASIS or (f.get("this_basis") is None) != (vals["this_supported"] is not True):
+            bad.append("%s: основание this %r не согласовано" % (va, f.get("this_basis")))
+        if vals["prototype"] is True and (nb != "matched" or f.get("prototype_scope") != "function"):
+            bad.append("%s: прототип функции без привязки имени (только слот)" % va)
         if st == "Confirmed" and ok != set(vals):
             bad.append("%s: Confirmed без всех подтверждённых фасетов" % va)
         for m in ("strict", "research"):
             at = (f.get("apply_this") or {}).get(m)
             sg = (f.get("apply_signature") or {}).get(m)
-            if at and (vals["this"] is not True or at not in classes):
+            if at and (vals["this_supported"] is not True or at not in classes):
                 bad.append("%s: apply_this %s без подтверждённого this" % (va, at))
             if at and m == "strict" and classes.get(at, {}).get("verification_status") != "Confirmed":
                 bad.append("%s: this класса %s в строгом режиме, а класс не Confirmed" % (va, at))
@@ -356,11 +368,27 @@ def gate_plan(plan, reg, strict):
                                and e["proto"][0] == e["this"]):
             dropped.append("0x%08X: прототип не ставится — в реестре %s" % (va, f["verification_status"]))
             e["proto"] = None
-        e["lines"].append("статус %s: адрес %s; this %s; объём аргументов %s; соглашение вызова %s; прототип %s" % (
-            f["verification_status"], _mark(f.get("address_verified")), _mark(f.get("this_verified")),
-            _mark(f.get("stack_bytes_verified")), _mark(f.get("calling_convention_verified")),
-            _mark(f.get("prototype_verified"))))
+        e["lines"].append("статус %s: адрес %s; this %s%s; объём аргументов %s; имя %s (%s); соглашение вызова %s; "
+                          "прототип %s" % (
+                              f["verification_status"], _mark(f.get("address_verified")), _mark(f.get("this_supported")),
+                              (" (%s)" % f["this_basis"]) if f.get("this_basis") else "",
+                              _mark(f.get("stack_bytes_verified")), _mark(f.get("name_binding_verified")),
+                              f.get("name_binding_status"), _mark(f.get("calling_convention_verified")),
+                              _mark(f.get("prototype_verified"))))
+        for b in f.get("semantic_bindings") or []:
+            if not b.get("applies_to_function"):
+                e["lines"].append("прототип доказан только для слота %s::%s (%s), на адрес не переносится: имя адреса — %s"
+                                  % (b["class"], b["slot"], b["decl"], f.get("name_binding_status")))
     return dropped
+
+
+def coverage_line(reg):
+    c = reg.get("coverage") or {}
+    k = c.get("public_symbols_not_in_registry_by_kind") or {}
+    return ("реестр: %d функций, которые изучал проект (Confirmed %s, VerifiedPrefix %s); публичных символов xNVSE вне "
+            "реестра — Unclassified (нет доказательств, не уровень качества): функций %s, данных %s" % (
+                len(reg.get("functions") or []), (c.get("functions") or {}).get("Confirmed", 0),
+                (c.get("functions") or {}).get("VerifiedPrefix", 0), k.get("function", 0), k.get("data", 0)))
 
 
 def class_status_lines(summary, strict):
@@ -566,7 +594,7 @@ def main():
                   counts.get("create", 0), counts.get("comment", 0), counts.get("this", 0), n_fields),
               "full_type_applied (this полного класса): %d; prefix_view_applied: 0" % counts.get("this", 0),
               "", "Конфликты:"] + (conflicts or ["нет"]) + \
-             ["", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
+             ["", coverage_line(reg), "", "Статусы классов (verification_status; имена не меняются):"] + class_status_lines(S, STRICT) + ["", "Пропуски и замечания:"] + (log or ["нет"]) + \
              ["", "Действия по адресам:"] + ["0x%08X %s%s" % (va, act, (" " + plan[va]["this"]) if act == "this" else "")
                                              for va, act in actions]
     plan_path = os.path.join(os.path.dirname(summary_path), "fnv_apply_plan_ghidra.txt")

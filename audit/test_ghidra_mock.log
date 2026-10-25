@@ -19,6 +19,8 @@ OK   статусы: план разделяет full_type_applied и prefix_vie
 OK   статусы: классы VerifiedPrefix перечислены в плане под исходными именами BGSSaveLoadFormHeader, FontManager::TextData
 OK   статусы: в комментариях функций — статус и фасеты (имя не меняется) 
 OK   статусы: классам VerifiedPrefix this не назначен 
+OK   v0.5.13 P1: у общего тела 0x004011B0 — «прототип доказан только для слота», имя — icf-shared 
+OK   v0.5.13 P2: в плане — охват реестра и Unclassified 
 OK   статусы: у структур VerifiedPrefix — описание с границами и комментарии полей 
 OK   research: те же исходные имена; методы класса VerifiedPrefix получают this по реестру BGSSaveLoadFormHeader
 OK   fail closed: нет verification.json FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
@@ -33,8 +35,8 @@ OK   fail closed: реестр для другого exe FNV: реестр ст�
   реестр сделан не для FalloutNV.exe 1.4.
 OK   fail closed: реестр для другого summary.json FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
   реестр сделан для другого summary.json 
-OK   fail closed: другая версия схемы FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
-  версия схемы метаданных 3/2, нужна 2
+OK   fail closed: другая (старая) версия схемы FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  версия схемы метаданных 2/3, нужна 3
 OK   fail closed: неизвестный статус функции FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
   0x00401020: неизвестный статус функции 
 OK   fail closed: неизвестный статус класса FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
@@ -47,8 +49,10 @@ OK   fail closed: VerifiedPrefix с size_status confirmed FNV: реестр ст
   BGSSaveLoadFormHeader: VerifiedPrefix, 
 OK   fail closed: VerifiedPrefix разрешает выделение памяти FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
   BGSSaveLoadFormHeader: VerifiedPrefix р
-OK   fail closed: this разрешён без подтверждённого this (фасеты не согласованы) FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+OK   fail closed: this разрешён без this_supported (фасеты не согласованы) FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
   0x00401130: verified_facets/unverified_
+OK   fail closed: v0.5.13 P1: Confirmed на общем теле ICF (привязка имени icf-shared) FNV: реестр статусов не прошёл проверку — программа не изменена (fail closed):
+  0x004011B0: привязка имени 'icf-shared'
 OK   чувствительность: функция понижена в реестре — её this снят, имя то же, остальные на месте 0x00401130 TESForm::LoadEdit: 1464 → 1463
 OK   отзыв статуса класса BSAudioManager: this его методам не ставится, имя класса то же 1464 → 1431
 OK   ошибка: транзакция завершена с откатом (ok=False) 
