@@ -36,7 +36,7 @@ class Emu:
     """Один экземпляр Unicorn на стенд: образ отображается один раз (только чтение), перед каждым прогоном
     объект, стек и состояние хуков сбрасываются. Образ только для чтения, поэтому прогоны не влияют друг на друга."""
 
-    def __init__(self, pc, image_override=None, image_writable=False, modules=()):
+    def __init__(self, pc, image_override=None, image_writable=False, modules=(), null_page=False):
         """pc — pcexe.PC; image_override — bytes того же размера, что образ (для отрицательных тестов: порченый код).
         Таблица импорта: каждая ячейка IAT указывает на свою заглушку IMP+16*i; вызов заглушки без модели — останов.
         image_writable — образ exe доступен для записи (только для самопроверки зонда, который ставит перехваты);
@@ -63,6 +63,10 @@ class Emu:
             self.iat.update(miat)
         uc.mem_map(STACK, STACK_SZ)
         uc.mem_map(OBJ, OBJ_SZ)
+        if null_page:
+            # только для переписи размеров: обращения через нулевые/неинициализированные указатели читают нули,
+            # а не останавливают прогон (вывод о записях vtable в новый блок от этого не зависит)
+            uc.mem_map(0, 0x100000)
         uc.mem_map(VT, 0x1000)
         uc.mem_map(STUB, 0x1000, UC_PROT_READ | UC_PROT_EXEC)
         uc.mem_write(STUB, b'\xc3' * 0x1000)
@@ -187,6 +191,7 @@ class Emu:
         obj_after = bytes(uc.mem_read(OBJ, 4 + len(obj)))[4:]
         dumps = {a: bytes(uc.mem_read(a, n)) for a, n in (dump or {}).items()}
         return {'dump': dumps, 'stop': st['stop'], 'eax': eax, 'al': eax & 0xFF, 'cleanup': esp - sp0 - 4,
+                'ecx_at_stop': uc.reg_read(UC_X86_REG_ECX), 'esp_at_stop': esp,
                 'writes': st['writes'], 'reads': st['reads'], 'calls': st['calls'], 'n': st['n'],
                 'obj_after': obj_after, 'trace': st['trace']}
 

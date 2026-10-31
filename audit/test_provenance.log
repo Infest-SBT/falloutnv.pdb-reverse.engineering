@@ -1,0 +1,31 @@
+OK   пересчёт по правилам совпадает с опубликованным summary.json (идемпотентность)
+OK   два пересчёта побайтно одинаковы (детерминизм)
+OK   опубликованное происхождение проходит проверку (0 нарушений)
+OK   происхождение функций реестра совпадает с вычисленным по классам
+OK   статусы классов не изменились (84 Confirmed + 2 VerifiedPrefix)
+OK   обратная совместимость: summary.json без provenance = v0.6.3
+OK   обратная совместимость: verification.json без provenance = v0.6.3 (this, apply_signature, споры — те же)
+OK   пример (а) перенос Xbox: BSAudioManager::iMessageListIndex +0x4 — xbox-verified, matching
+OK   пример (б) PC-факт: MemoryManager +0x134 — pc-reconstructed, missing (в Xbox поля нет)
+OK   пример (б) PC-размер: BSAudioManager sizeof 0x188 — pc-reconstructed (Xbox 0x19C)
+OK   пример (в) гибрид: BSAudioManager::StateCritSection +0xC4 (Xbox +0xC8) — hybrid; класс hybrid
+OK   пример (г) гипотеза вне Strict: TESForm[38] — модель research (hybrid, validated_on_tests), утверждение в классе — unknown/position-only
+OK   пример (д) ICF: 0x004011B0 — две привязки с разным происхождением (39: xbox-verified, 40: unknown)
+OK   PC-only класс: BSWin32GameSound sizeof — pc-reconstructed, missing по документированному поиску
+OK   внешнее основание (TESForm sizeof по xNVSE static_assert) — unknown, не xbox-verified
+OK   тип поля (type_verified=false) нигде не помечен проверенным
+OK   отказ: pc-reconstructed без PC-фактов (1 нарушений)
+OK   отказ: ложный xbox-verified (нет кандидата Xbox) (1 нарушений)
+OK   отказ: простой перенос из Xbox размечен как реконструированный (1 нарушений)
+OK   отказ: класс целиком помечен hybrid вместе с непроверенными полями (247 нарушений)
+OK   отказ: ошибочная ICF-привязка (слоту 40 приписано происхождение слота 39) (1 нарушений)
+OK   отказ: неверные байты PC-доказательства (не совпадают с exe) (1 нарушений)
+OK   отказ: PC VA вне образа exe (1 нарушений)
+OK   отказ: reconstructed=true без реконструированных утверждений (1 нарушений)
+OK   отказ: смена verification_status вместе с происхождением (1 нарушений)
+OK   отказ: служебная приписка _Reconstructed в имени поля (2 нарушений)
+OK   отказ: модель research выдана за подтверждённую (6 нарушений)
+OK   отказ: missing без документированного поиска в Xbox (1 нарушений)
+OK   отказ: у гибридного поля стёрто происхождение (ручная правка против правил) (1 нарушений)
+OK   отказ: положение слота выдано за тождество (position-only → xbox-verified) (1 нарушений)
+ИТОГ: всё прошло

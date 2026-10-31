@@ -1,4 +1,7 @@
 138171 symbols
+классы: {'hybrid': 24, 'xbox-verified': 62}
+утверждения: {'pc-reconstructed': 137, 'xbox-verified': 3484, 'unknown': 4789, 'hybrid': 121}
+модели research: 85
 классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2204} функций unclassified: 0 публичных символов вне реестра: 135966
 EVIDENCE-IDENTICAL
 TPI: типов 875 (индексы 0x1000..0x136A включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
@@ -11,7 +14,10 @@ d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e  FalloutNV.pdb
 d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4  research/FalloutNV.pdb
 ИТОГ: всё прошло
 ИТОГ: всё прошло (31 проверок)
+ИТОГ: всё прошло (67 проверок, из них отказов 27)
+ИТОГ: всё прошло
 FIELD-SCOPE-IDENTICAL
+ИТОГ: всё прошло
 ИТОГ: всё прошло
 RESEARCH-RECONSTRUCTION-IDENTICAL
 PROBE-DLL-IDENTICAL

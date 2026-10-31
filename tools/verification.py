@@ -279,6 +279,10 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
                     'verified_facets': [f for f in FACETS if facets[f]],
                     'unverified_facets': [f for f in FACETS if not facets[f]],
                     'apply_this': apply_this, 'apply_signature': apply_sig})
+        if any('provenance' in S[c] for c in S):           # v0.6.4: происхождение фасетов (статус не меняет)
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import provenance as _prov
+            rec['provenance'] = _prov.function_provenance(rec, summary)
         funcs.append(rec)
         cov.append({'id': key['rva'], 'original_name': name0, 'kind': 'function', 'status': status,
                     'verified': ' '.join(rec['verified_facets']), 'unverified': ' '.join(rec['unverified_facets']),
@@ -324,6 +328,8 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
                                           'function': 'подтверждена часть сведений (verified_facets); остальное — unverified_facets, '
                                                       'не применяется'}},
            'classes': {c: S[c].get('verification_status') for c in sorted(S)},
+           **({'class_provenance': {c: {k: S[c]['provenance'][k] for k in ('origin', 'reconstructed', 'xbox_relation')}
+                                    for c in sorted(S)}} if all('provenance' in S[c] for c in S) else {}),
            'functions': funcs,
            'coverage': {'classes': count([{'s': S[c].get('verification_status') or 'unclassified'} for c in S], 's'),
                         'functions': count(funcs, 'verification_status'),

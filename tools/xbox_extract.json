@@ -1,0 +1,10753 @@
+{
+"classes": {
+"AbstractHeap": {
+"fields": {
+"CriticalSectionO": [
+8408,
+28,
+"BSCriticalSection"
+],
+"LargeFreeList": [
+8264,
+8,
+"FreeHeapBlockList"
+],
+"MemHeapSize": [
+20,
+4,
+"unsigned"
+],
+"MinFreeBlockSize": [
+12,
+4,
+"unsigned"
+],
+"iBlockMemAllocated": [
+44,
+4,
+"int"
+],
+"iCurrentSize": [
+28,
+4,
+"unsigned"
+],
+"iDefaultAlignment": [
+8,
+4,
+"int"
+],
+"iInitialSize": [
+24,
+4,
+"unsigned"
+],
+"iMemAllocated": [
+36,
+4,
+"int"
+],
+"iMemAllocatedHigh": [
+40,
+4,
+"int"
+],
+"iNextDelayedFreeIndex": [
+8276,
+4,
+"unsigned"
+],
+"iNumBlocks": [
+52,
+4,
+"int"
+],
+"iNumFreeBlocks": [
+64,
+4,
+"int"
+],
+"iPageSize": [
+16,
+4,
+"unsigned"
+],
+"iWastedMemory": [
+32,
+4,
+"unsigned"
+],
+"pBlockHead": [
+56,
+4,
+"HeapBlock*"
+],
+"pBlockTail": [
+60,
+4,
+"HeapBlock*"
+],
+"pDelayedFreeBlocksA": [
+8272,
+4,
+"HeapBlock**"
+],
+"pLastSmallList": [
+8260,
+4,
+"FreeHeapBlockList*"
+],
+"pMemHeap": [
+48,
+4,
+"char*"
+],
+"pName": [
+4,
+4,
+"const char*"
+],
+"pSmallFreeList": [
+68,
+8192,
+"FreeHeapBlockList[8192 bytes]"
+],
+"pSubBuckets": [
+8280,
+128,
+"HeapFreeSubBucket[128 bytes]"
+]
+},
+"nonvirtual_methods": [
+"AbstractHeap",
+"AddBlockToFreeList",
+"AddBlockToList",
+"AddDelayedFreeBlock",
+"Allocate",
+"AtEndOfSubBucket",
+"BaseAllocate",
+"BaseFree",
+"CheckDelayedFreeBlocks",
+"CheckFreeBlock",
+"CheckHeapIntegrity",
+"CleanEnd",
+"Deallocate",
+"DecrementSubBucket",
+"DeleteHeap",
+"FreeDelayedFreeBlocks",
+"GetFreeList",
+"GetHeapStats",
+"GetLogIndex",
+"GetName",
+"GetSubBucketIndex",
+"IncrementSubBucket",
+"InitHeap",
+"MergeFreeBlocks",
+"OutputBlockFailure",
+"OutputBlockInfo",
+"OutputBucketInfo",
+"PointerInHeap",
+"RemoveBlockFromFreeList",
+"Size",
+"TotalSize",
+"TryAndDefragment",
+"operator=",
+"~AbstractHeap"
+],
+"sizeof": 8436,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+12,
+"DoHeapAllocation"
+],
+[
+13,
+"DoHeapFree"
+],
+[
+14,
+"CreateMorePages"
+],
+[
+15,
+"CleanExtraPages"
+],
+[
+16,
+"DecommitPages"
+],
+[
+17,
+"CommitPages"
+]
+],
+"xbox_name": "AbstractHeap"
+},
+"BGSLoadFormBuffer": {
+"fields": {
+"Header": [
+20,
+9,
+"BGSSaveLoadFormHeader"
+],
+"iFlags": [
+40,
+4,
+"unsigned"
+],
+"iFormID": [
+16,
+4,
+"unsigned"
+],
+"iOldChangeFlags": [
+44,
+4,
+"BGSChangeFlags"
+],
+"iSize": [
+32,
+4,
+"unsigned"
+],
+"pForm": [
+36,
+4,
+"TESForm*"
+]
+},
+"nonvirtual_methods": [
+"BGSLoadFormBuffer",
+"GetActor",
+"GetCellChanged",
+"GetChangeFlags",
+"GetForm",
+"GetFormID",
+"GetFormPending",
+"GetFormType",
+"GetOldChangeFlags",
+"GetReconstructedForm",
+"GetReference",
+"GetRevertOnly",
+"GetSkipForm",
+"GetVersion",
+"LoadDataFromFile",
+"LoadHeader",
+"SetCellChanged",
+"SetChangeFlags",
+"SetForm",
+"SetFormPending",
+"SetOldChangeFlags",
+"SetReconstructedForm",
+"SetRevertOnly",
+"SetSkipForm",
+"SetVersion",
+"SkipData",
+"__vecDelDtor",
+"operator=",
+"~BGSLoadFormBuffer"
+],
+"sizeof": 48,
+"virtuals": [],
+"xbox_name": "BGSLoadFormBuffer"
+},
+"BGSLoadGameBuffer": {
+"fields": {
+"iBufferPosition": [
+12,
+4,
+"unsigned"
+],
+"iBufferSize": [
+8,
+4,
+"unsigned"
+],
+"pBuffer": [
+4,
+4,
+"char*"
+]
+},
+"nonvirtual_methods": [
+"AdvanceBuffer",
+"BGSLoadGameBuffer",
+"DeleteBuffer",
+"GetCurrentBufferPointer",
+"Load",
+"LoadData",
+"LoadDataEndian",
+"LoadDataFromBuffer",
+"LoadFormID",
+"LoadString",
+"LoadVariableSizedValue",
+"SetBuffer",
+"__vecDelDtor",
+"operator=",
+"~BGSLoadGameBuffer"
+],
+"sizeof": 16,
+"virtuals": [
+[
+0,
+"GetVersion"
+],
+[
+1,
+"GetForm"
+],
+[
+2,
+"GetReference"
+],
+[
+3,
+"GetActor"
+]
+],
+"xbox_name": "BGSLoadGameBuffer"
+},
+"BGSSaveFormBuffer": {
+"fields": {
+"Header": [
+20,
+9,
+"BGSSaveLoadFormHeader"
+],
+"pForm": [
+32,
+4,
+"TESForm*"
+]
+},
+"nonvirtual_methods": [
+"AddChange",
+"BGSSaveFormBuffer",
+"GetActor",
+"GetChangeFlags",
+"GetForm",
+"GetFormType",
+"GetOverhead",
+"GetReference",
+"GetVersion",
+"RemoveChange",
+"Save",
+"SetChangeFlags",
+"SetForm",
+"SetHeader",
+"__vecDelDtor",
+"operator=",
+"~BGSSaveFormBuffer"
+],
+"sizeof": 36,
+"virtuals": [],
+"xbox_name": "BGSSaveFormBuffer"
+},
+"BGSSaveGameBuffer": {
+"fields": {
+"iBufferPosition": [
+12,
+4,
+"unsigned"
+],
+"iBufferSize": [
+8,
+4,
+"unsigned"
+],
+"iDebugOverhead": [
+16,
+4,
+"unsigned"
+],
+"pBuffer": [
+4,
+4,
+"char*"
+]
+},
+"nonvirtual_methods": [
+"BGSSaveGameBuffer",
+"ClearPosition",
+"ExpandBuffer",
+"GetBuffer",
+"GetBufferPosition",
+"GetDataSize",
+"GetDebugOverhead",
+"Save",
+"SaveData",
+"SaveDataEndian",
+"SaveDataToBuffer",
+"SaveFormID",
+"SaveString",
+"SaveVariableSizedValue",
+"ShiftBuffer",
+"StartVariableSizedValue",
+"__vecDelDtor",
+"operator=",
+"~BGSSaveGameBuffer"
+],
+"sizeof": 20,
+"virtuals": [
+[
+0,
+"GetForm"
+],
+[
+1,
+"GetReference"
+],
+[
+2,
+"GetActor"
+]
+],
+"xbox_name": "BGSSaveGameBuffer"
+},
+"BGSSaveLoadChangesMap": {
+"fields": {},
+"nonvirtual_methods": [
+"AddChangeFlags",
+"BGSSaveLoadChangesMap",
+"CheckChangeFlags",
+"GetChangeBuffer",
+"GetChangeFlags",
+"GetChanges",
+"RemoveAllChanges",
+"RemoveChangeFlags",
+"RemoveChanges",
+"SetChangeBuffer",
+"SetChangeFlags",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BGSSaveLoadChangesMap"
+],
+"sizeof": 16,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "BGSSaveLoadChangesMap"
+},
+"BGSSaveLoadFormHeader": {
+"fields": {
+"FormIDIndex": [
+0,
+3,
+"BGSNumericIDIndex"
+],
+"FormInfo": [
+7,
+1,
+"BGSSaveLoadFormInfo"
+],
+"cVersion": [
+8,
+1,
+"unsigned char"
+],
+"iChangeFlags": [
+3,
+4,
+"BGSChangeFlags"
+]
+},
+"nonvirtual_methods": [
+"BGSSaveLoadFormHeader",
+"Endian"
+],
+"sizeof": 9,
+"virtuals": [],
+"xbox_name": "BGSSaveLoadFormHeader"
+},
+"BGSSaveLoadGame": {
+"fields": {
+"FormBufferArray": [
+36,
+16,
+"BSSimpleArray<BGSLoadFormBuffer *,1024>"
+],
+"QueuedInitPackageLocationsActorMap": [
+52,
+16,
+"NiTMap<unsigned int,Actor *>"
+],
+"cCurrentMinorVersion": [
+584,
+1,
+"unsigned char"
+],
+"cFileIndexArray": [
+68,
+255,
+"unsigned char[255 bytes]"
+],
+"cReverseFileIndexArray": [
+323,
+255,
+"unsigned char[255 bytes]"
+],
+"iGlobalFlags": [
+580,
+4,
+"unsigned"
+],
+"pChangedFormIDMap": [
+24,
+4,
+"NiTMap<unsigned int,unsigned int>*"
+],
+"pChangesMap": [
+0,
+4,
+"BGSSaveLoadChangesMap*"
+],
+"pFormIDMap": [
+8,
+4,
+"BGSSaveLoadFormIDMap*"
+],
+"pHistory": [
+28,
+4,
+"BGSSaveLoadHistory*"
+],
+"pOldChangesMap": [
+4,
+4,
+"BGSSaveLoadChangesMap*"
+],
+"pQueuedSubBuffersMap": [
+20,
+4,
+"BGSSaveLoadQueuedSubBufferMap*"
+],
+"pReconstructForms": [
+32,
+4,
+"BGSReconstructFormsInAllFilesMap*"
+],
+"pReferencesMap": [
+16,
+4,
+"BGSSaveLoadReferencesMap*"
+],
+"pWorldspaceFormIDMap": [
+12,
+4,
+"BGSSaveLoadFormIDMap*"
+]
+},
+"nonvirtual_methods": [
+"AddChange",
+"AddChangedFormID",
+"BGSSaveLoadGame",
+"CancelInitPackageLocations",
+"CheckInitialData",
+"CleanupExpiredData",
+"ClearForm",
+"ClearFormID",
+"Create",
+"DeleteForm",
+"Destroy",
+"DisplayCellDebugText",
+"DisplayReferenceDebugText",
+"GetAllowChanges",
+"GetChange",
+"GetChangedFormID",
+"GetChangesMap",
+"GetConvertedFileIndex",
+"GetCurrentMinorVersion",
+"GetDeferInitForms",
+"GetFormIDMap",
+"GetGlobalAllowChanges",
+"GetHistory",
+"GetInitingForms",
+"GetLoadingMovedRefs",
+"GetOldChange",
+"GetPlayerLocationInvalid",
+"GetPositioningPlayerCharacter",
+"GetReconstructFormsMap",
+"GetReconstructingForms",
+"GetReverseConvertedFileIndex",
+"GetSaveGameLoading",
+"GetSaveGameSaving",
+"GetSaveLoadFailed",
+"GetThreadAllowChanges",
+"GetWorldspaceFormIDMap",
+"HandleUnrevertibleChanges",
+"HasReferenceChangedCells",
+"InitForms",
+"IsFormIDInUse",
+"LoadCell",
+"LoadForm",
+"LoadGame",
+"LoadPluginList",
+"PerformQueuedInitPackageLocations",
+"QueueInitPackageLocations",
+"QueueSubBuffer",
+"RemoveChange",
+"RemoveChanges",
+"RevertAllChanges",
+"RevertCurrentChanges",
+"SaveGame",
+"SaveGameWarningFunction",
+"SavePluginList",
+"SetDeferInitForms",
+"SetGlobalAllowChanges",
+"SetInitingForms",
+"SetLoadingMovedRefs",
+"SetPlayerLocationInvalid",
+"SetPositioningPlayerCharacter",
+"SetReconstructingForms",
+"SetSaveGameLoading",
+"SetSaveGameSaving",
+"SetSaveLoadFailed",
+"SetThreadAllowChanges",
+"ShouldAddChanges",
+"ShouldRemoveChanges",
+"ShouldUnloadForm",
+"UnloadForm",
+"__vecDelDtor",
+"operator=",
+"~BGSSaveLoadGame"
+],
+"sizeof": 588,
+"virtuals": [],
+"xbox_name": "BGSSaveLoadGame"
+},
+"BGSSaveLoadManager": {
+"fields": {
+"bAutosaveDisabledForDiskspace": [
+13,
+1,
+"bool"
+],
+"bReturnedFromSysUtil": [
+36,
+1,
+"bool"
+],
+"bSimulatedMode": [
+12,
+1,
+"bool"
+],
+"bStartMenuLoading": [
+38,
+1,
+"bool"
+],
+"bSysUtilHasSaveData": [
+28,
+1,
+"bool"
+],
+"bSysUtilLoadDataComplete": [
+37,
+1,
+"bool"
+],
+"bhandledCorrupt": [
+14,
+1,
+"bool"
+],
+"cQueuedAutosave": [
+15,
+1,
+"unsigned char"
+],
+"cQueuedForceSave": [
+16,
+1,
+"unsigned char"
+],
+"iCurrentSaveGameNumber": [
+8,
+4,
+"unsigned"
+],
+"iMostRecentSaveGameDeviceID": [
+24,
+4,
+"int"
+],
+"iSaveGameCount": [
+4,
+4,
+"unsigned"
+],
+"pMostRecentSaveGame": [
+20,
+4,
+"char*"
+],
+"pSaveGameList": [
+0,
+4,
+"BSSimpleList<BGSSaveLoadFileEntry *>*"
+],
+"pSaveLoadFile": [
+32,
+4,
+"BGSSaveLoadFile*"
+],
+"pSysUtilLoadCompleteCallback": [
+44,
+4,
+"function*"
+],
+"pSysUtilSaveCompleteCallback": [
+40,
+4,
+"function*"
+]
+},
+"nonvirtual_methods": [
+"AddSaveGame",
+"Autosave",
+"BGSSaveLoadManager",
+"BuildSaveGameList",
+"CanSave",
+"CloseSaveFile",
+"ConfirmCorruptAutosaveCallback",
+"ConvertSaveGames",
+"CopySaveGames",
+"Create",
+"DeleteSaveFile",
+"DeleteSaveGameList",
+"Destroy",
+"EndLoadGame",
+"EndSaveGame",
+"ExecuteLoadGameFromSystemUtilityData",
+"ExecuteSystemUtilityLoad",
+"ExecuteSystemUtilitySave",
+"GenerateSaveFileName",
+"GetFullFileName",
+"GetFullPath",
+"GetMajorVersion",
+"GetMinorVersion",
+"GetPlayTimeString",
+"GetPlayerLocationName",
+"GetSaveDirectoryPath",
+"GetSaveFileSize",
+"GetSaveGameCount",
+"GetSaveGameList",
+"GetSaveGameNumber",
+"GetSimulatedMode",
+"GetStartMenuLoading",
+"GetVersionInfo",
+"HasMostRecentSaveGame",
+"HasSaveGames",
+"IsSaveFileNameAutosave",
+"IsSaveFileNameCustom",
+"IsSaveFileNameGenerated",
+"IsSaveFileNameQuicksave",
+"IsSavingAllowed",
+"LoadGame",
+"LoadGameHeader",
+"LoadMostRecentSaveGame",
+"OpenSaveFile",
+"QReturnedFromSystemUtility",
+"QSystemUtilityLoadDataComplete",
+"QueueAutosave",
+"QueueForceSave",
+"Quickload",
+"Quicksave",
+"RemoveSaveGame",
+"SaveGame",
+"SaveGameHeader",
+"ScrubFileName",
+"SetMostRecentSaveGame",
+"SetSaveDataFile",
+"SetSystemUtilityLoadCompleteCallback",
+"SetSystemUtilitySaveCompleteCallback",
+"StartLoadGame",
+"StartSaveGame",
+"SysUtilDeleteCompleteCallback",
+"SysUtilLoadCompleteCallback",
+"SysUtilSaveCompleteCallback",
+"UpdateQueuedSaves",
+"__vecDelDtor",
+"~BGSSaveLoadManager"
+],
+"sizeof": 48,
+"virtuals": [],
+"xbox_name": "BGSSaveLoadManager"
+},
+"BSAudio": {
+"fields": {
+"SynchTimer": [
+20,
+12,
+"BSAudioSynchTimer"
+],
+"bAudioEnabled": [
+4,
+1,
+"bool"
+],
+"bInitialized": [
+5,
+1,
+"bool"
+],
+"bMultiThread": [
+6,
+1,
+"bool"
+],
+"bSeekMusic": [
+12,
+1,
+"bool"
+],
+"iMusicStartOffset": [
+8,
+4,
+"unsigned"
+],
+"pListener": [
+16,
+4,
+"BSAudioListener*"
+],
+"pfnIDCallback": [
+32,
+4,
+"function*"
+],
+"pfnNameCallback": [
+36,
+4,
+"function*"
+],
+"pfnRandomFilenameCallback": [
+40,
+4,
+"function*"
+],
+"pfnSettingsCallback": [
+44,
+4,
+"function*"
+],
+"pfnSynchPausedCallback": [
+48,
+4,
+"function*"
+],
+"pfnSynchUnPausedCallback": [
+52,
+4,
+"function*"
+]
+},
+"nonvirtual_methods": [
+"BSAudio",
+"ClearSecondaryVolumes",
+"EndAllMovingSounds",
+"EndAllSoundsOfType",
+"EnterDialogue",
+"ExitDialogue",
+"GetAudioCacheSizeInK",
+"GetCacheEnabled",
+"GetDebugString",
+"GetEffectSecondaryVolume",
+"GetEffectVolume",
+"GetFootSecondaryVolume",
+"GetFootVolume",
+"GetListener",
+"GetListenerPosition",
+"GetMasterSecondaryVolume",
+"GetMasterVolume",
+"GetMaxDialogDist",
+"GetMinDialogDist",
+"GetMusicSecondaryVolume",
+"GetMusicSeek",
+"GetMusicStartOffset",
+"GetMusicVolume",
+"GetNameIDCallback",
+"GetNumericIDCallback",
+"GetRadioSecondaryVolume",
+"GetRadioVolume",
+"GetRandomFileCallback",
+"GetSettingsCallback",
+"GetSoundHandleByFilename",
+"GetSoundHandleByName",
+"GetSoundHandleByNumericID",
+"GetSynchPausedCallback",
+"GetSynchTime",
+"GetSynchUnPausedCallback",
+"GetVoiceSecondaryVolume",
+"GetVoiceVolume",
+"IsAudioEnabled",
+"IsInitialized",
+"IsListenerUnderwater",
+"IsMultiThreaded",
+"IsSynchTimerPaused",
+"KillAllOfType",
+"Mute",
+"MuteType",
+"OrientListener",
+"PauseAllOfType",
+"PauseAnimationSounds",
+"PauseSynchTimer",
+"PauseWorldSounds",
+"PauseWorldVoices",
+"PositionListener",
+"Precache",
+"QCreate",
+"QInstance",
+"SetAudioCacheSizeInK",
+"SetCacheEnabled",
+"SetConditions",
+"SetEffectSecondaryVolume",
+"SetEffectVolume",
+"SetEnvironment",
+"SetFootSecondaryVolume",
+"SetFootVolume",
+"SetListenerUnderwater",
+"SetMasterSecondaryVolume",
+"SetMasterVolume",
+"SetMultiThreaded",
+"SetMusicSecondaryVolume",
+"SetMusicSeek",
+"SetMusicStartOffset",
+"SetMusicVolume",
+"SetNameIDCallback",
+"SetNumericIDCallback",
+"SetRadioSecondaryVolume",
+"SetRadioVolume",
+"SetRandomFileCallback",
+"SetSettingsCallback",
+"SetSynchPausedCallback",
+"SetSynchUnPausedCallback",
+"SetVoiceSecondaryVolume",
+"SetVoiceVolume",
+"SpawnSoundReference",
+"StopMovingSounds",
+"SynchTimerUpdate",
+"UnMute",
+"UnMuteType",
+"UnPauseAllOfType",
+"UnPauseAnimationSounds",
+"UnPauseSynchTimer",
+"UnPauseWorldSounds",
+"UnPauseWorldVoices",
+"Update",
+"VolumeChanged",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 56,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+0,
+"~BSAudio"
+],
+[
+1,
+"GetAudioObject"
+],
+[
+2,
+"Init"
+],
+[
+3,
+"Shutdown"
+],
+[
+4,
+"SetLoopPointCallback"
+],
+[
+5,
+"GetLoopPointCallback"
+],
+[
+6,
+"CreateNewGameSound"
+],
+[
+7,
+"FixSoundPath"
+],
+[
+8,
+"PrintDebugInfo"
+]
+],
+"xbox_name": "BSAudio"
+},
+"BSAudioManager": {
+"fields": {
+"CacheCritSection": [
+228,
+28,
+"BSCriticalSection"
+],
+"CacheLoadTaskCritSection": [
+284,
+28,
+"BSCriticalSection"
+],
+"CacheLoadTaskList": [
+312,
+12,
+"NiTPointerList<AudioLoadTask *>"
+],
+"CachedSoundList": [
+148,
+12,
+"NiTPointerList<BSGameSound *>"
+],
+"FreeMessages": [
+36,
+16,
+"AudioMessageStack"
+],
+"FreeQueueMessages": [
+52,
+16,
+"AudioMessageStack"
+],
+"GarbageMessages": [
+68,
+16,
+"AudioMessageStack"
+],
+"MessageCritSection": [
+172,
+28,
+"BSCriticalSection"
+],
+"Messages": [
+12,
+24,
+"NiTPointerList<BSSoundMessage *>[24 bytes]"
+],
+"MovingRefrList": [
+132,
+16,
+"NiTPointerMap<int,NiPointer<NiAVObject> >"
+],
+"ProcessingCritSection": [
+256,
+28,
+"BSCriticalSection"
+],
+"SoundList": [
+84,
+16,
+"NiTPointerMap<int,BSGameSound *>"
+],
+"SoundStateMap": [
+100,
+16,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"StateCritSection": [
+200,
+28,
+"BSCriticalSection"
+],
+"StateUpdateMap": [
+116,
+16,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"bDialogueFade": [
+392,
+1,
+"bool"
+],
+"bIgnoreGlobalTimeMultiplier": [
+408,
+1,
+"bool"
+],
+"bListenerMoved": [
+329,
+1,
+"bool"
+],
+"bListenerUnderwater": [
+393,
+1,
+"bool"
+],
+"bPrecacheCompleted": [
+328,
+1,
+"bool"
+],
+"dwAudioThreadID": [
+332,
+4,
+"unsigned long"
+],
+"fCurrentGamehour": [
+168,
+4,
+"float"
+],
+"fEffectsSecondaryVolume": [
+376,
+4,
+"float"
+],
+"fEffectsVolume": [
+352,
+4,
+"float"
+],
+"fFootSecondaryVolume": [
+368,
+4,
+"float"
+],
+"fFootVolume": [
+344,
+4,
+"float"
+],
+"fMasterSecondaryVolume": [
+364,
+4,
+"float"
+],
+"fMasterVolume": [
+340,
+4,
+"float"
+],
+"fMusicSecondaryVolume": [
+380,
+4,
+"float"
+],
+"fMusicVolume": [
+356,
+4,
+"float"
+],
+"fRadioSecondaryVolume": [
+384,
+4,
+"float"
+],
+"fRadioVolume": [
+360,
+4,
+"float"
+],
+"fVoiceSecondaryVolume": [
+372,
+4,
+"float"
+],
+"fVoiceVolume": [
+348,
+4,
+"float"
+],
+"iCurrentCachSize": [
+160,
+4,
+"unsigned"
+],
+"iDelayTimerDelta": [
+324,
+4,
+"unsigned"
+],
+"iMessageListIndex": [
+4,
+4,
+"int"
+],
+"iMessageProcessingListIndex": [
+8,
+4,
+"int"
+],
+"iMuteMask": [
+388,
+4,
+"unsigned"
+],
+"iNextID": [
+404,
+4,
+"unsigned"
+],
+"iPauseListSize": [
+400,
+4,
+"unsigned"
+],
+"iWeatherFlags": [
+164,
+4,
+"unsigned"
+],
+"pPauseEntries": [
+396,
+4,
+"BSAudioManager::PAUSE_ENTRY*"
+],
+"pUpdateThread": [
+336,
+4,
+"BSAudioManagerThread*"
+]
+},
+"nonvirtual_methods": [
+"AddToCache",
+"AudioStringCompareFn",
+"BSAudioManager",
+"ClearPausedType",
+"ClearSecondaryVolumes",
+"ClearSynchStartTime",
+"ComposeMessage",
+"FadeIn",
+"FadeInPlay",
+"FadeOut",
+"FreeMessage",
+"FreeQueueMessage",
+"GetAudioCacheSizeInK",
+"GetCacheEnabled",
+"GetCorrectedVolume",
+"GetDebugString",
+"GetDuration",
+"GetEffectSecondaryVolume",
+"GetEffectVolume",
+"GetFootSecondaryVolume",
+"GetFootVolume",
+"GetFreeMessage",
+"GetFreeQueueMessage",
+"GetFromCache",
+"GetMasterSecondaryVolume",
+"GetMasterVolume",
+"GetMusicSecondaryVolume",
+"GetMusicVolume",
+"GetNextID",
+"GetRadioSecondaryVolume",
+"GetRadioVolume",
+"GetSoundHandleByFilename",
+"GetSoundHandleByName",
+"GetSoundHandleByNumericID",
+"GetSoundType",
+"GetVoiceSecondaryVolume",
+"GetVoiceVolume",
+"GetVolume",
+"Initialize",
+"InitializeAudio",
+"IsInCache",
+"IsListenerUnderwater",
+"IsPausedType",
+"IsPlaying",
+"IsValid",
+"KillAllOfType",
+"MuteAllOfType",
+"Pause",
+"PauseAllOfType",
+"Play",
+"PlayAfter",
+"PositionListener",
+"Precache",
+"Process",
+"ProcessMessage",
+"ProcessMessages",
+"ProcessSoundUpdates",
+"QInstance",
+"Release",
+"RemoveLoadTask",
+"Seek",
+"SetAtListener",
+"SetAttenuationCurve",
+"SetAudioCacheSizeInK",
+"SetBalance",
+"SetBeamEnd",
+"SetCacheEnabled",
+"SetCompletionCallback",
+"SetConditions",
+"SetEffectSecondaryVolume",
+"SetEffectVolume",
+"SetFootSecondaryVolume",
+"SetFootVolume",
+"SetFrequency",
+"SetFrequencyVariance",
+"SetIgnoreGlobalTimeMultiplier",
+"SetListenerUnderwater",
+"SetMasterSecondaryVolume",
+"SetMasterVolume",
+"SetMinMax",
+"SetModFrequency",
+"SetMusicSecondaryVolume",
+"SetMusicVolume",
+"SetObjectToFollow",
+"SetOrientation",
+"SetPausedType",
+"SetPlayCallback",
+"SetPosition",
+"SetPriority",
+"SetRadioSecondaryVolume",
+"SetRadioVolume",
+"SetReverbAttenuation",
+"SetStaticAttenuation",
+"SetSynchStartTime",
+"SetTimeConstraints",
+"SetVoiceSecondaryVolume",
+"SetVoiceState",
+"SetVoiceVolume",
+"SetVolume",
+"Shutdown",
+"SpawnSoundReference",
+"StartAudioThread",
+"Stop",
+"StopAudioThread",
+"StopMovingSounds",
+"SuspendAudioThread",
+"SynchVoiceStates",
+"UnMuteAllOfType",
+"UnPauseAllOfType",
+"Update",
+"UpdateMovingSounds",
+"VolumeChanged",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 412,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+0,
+"~BSAudioManager"
+]
+],
+"xbox_name": "BSAudioManager"
+},
+"BSBatchRenderer": {
+"fields": {
+"AlphaGroupList": [
+120,
+24,
+"NiTPointerList<BSBatchRenderer::GeometryGroup *>[24 bytes]"
+],
+"RenderPassMap": [
+12,
+16,
+"NiTMap<unsigned int,unsigned int>"
+],
+"bAlphaGroupZPrePass": [
+56,
+1,
+"bool"
+],
+"iGroupingAlphas": [
+52,
+4,
+"int"
+],
+"kActivePassIndexList": [
+44,
+8,
+"BSSimpleList<unsigned short>"
+],
+"pAlphaGroupA": [
+112,
+8,
+"BSBatchRenderer::GeometryGroup*[8 bytes]"
+],
+"pCurrentAlphaGroup": [
+144,
+8,
+"BSBatchRenderer::GeometryGroup*[8 bytes]"
+],
+"pGeometryGroupsA": [
+60,
+52,
+"BSBatchRenderer::GeometryGroup*[52 bytes]"
+],
+"pInstanceRenderer": [
+40,
+4,
+"BSInstanceRendering*"
+],
+"pRenderPassA": [
+8,
+4,
+"BSBatchRenderer::PassGroup*"
+],
+"uiCurrentFirstPass": [
+32,
+4,
+"unsigned"
+],
+"uiCurrentLastPass": [
+36,
+4,
+"unsigned"
+],
+"uiRenderPassCount": [
+28,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"BSBatchRenderer",
+"BeginPass",
+"ClearAlphaLists",
+"ClearRenderPasses",
+"DisableNonVolatileConstantsForPass",
+"EndPass",
+"GetGroup",
+"GetGroupCount",
+"GetNextAlphaDepth",
+"GetRTTI",
+"Init",
+"IsAlphaGroupZPrePass",
+"IsGroupingAlphas",
+"PrepareNextRenderPass",
+"PrepareNextRenderPass_CheckFirstPass",
+"PrepareNextRenderPass_SetNextBucket",
+"PrepareNextRenderPass_SetNextPass",
+"QPassesWithinRange",
+"QWaterRefractionPassWithinRange",
+"RegisterAlphaGeometryGroupPass",
+"RegisterAlphaPass",
+"RegisterPassGeometryGroup",
+"RenderGeometryGroup",
+"RenderNextAlpha",
+"RenderNextRenderPass",
+"RenderPassImmediately",
+"RenderPassImmediately_Lines",
+"RenderPassImmediately_Particles",
+"RenderPassImmediately_Skinned",
+"RenderPassImmediately_Standard",
+"RenderPersistentPassList",
+"RenderWithInstanceRenderer",
+"SetPassRange",
+"SkipNextRenderPass",
+"SortAlphaPasses",
+"StartGroupingAlphas",
+"StopGroupingAlphas",
+"operator=",
+"~BSBatchRenderer"
+],
+"sizeof": 152,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"RegisterPass"
+],
+[
+36,
+"RenderBatches"
+]
+],
+"xbox_name": "BSBatchRenderer"
+},
+"BSFadeNode": {
+"fields": {
+"ParentPortalList": [
+256,
+8,
+"BSSimpleList<BSPortal *>"
+],
+"ParentRoomList": [
+248,
+8,
+"BSSimpleList<BSMultiBoundRoom *>"
+],
+"eMultType": [
+232,
+4,
+"ENUM_LOD_MULT"
+],
+"fBoundRadius": [
+224,
+4,
+"float"
+],
+"fCurrentFade": [
+220,
+4,
+"float"
+],
+"fFarDistSqr": [
+212,
+4,
+"float"
+],
+"fLastFade": [
+216,
+4,
+"float"
+],
+"fNearDistSqr": [
+208,
+4,
+"float"
+],
+"fTimeSinceUpdate": [
+228,
+4,
+"float"
+],
+"iFrameCounter": [
+236,
+4,
+"int"
+],
+"pBoundArray": [
+244,
+4,
+"BSNiBoundArray*"
+],
+"pUserData": [
+240,
+4,
+"void*"
+]
+},
+"nonvirtual_methods": [
+"AddMovingSoundCallback",
+"AddParentPortal",
+"AddParentRoom",
+"BSFadeNode",
+"CheckFadeRadius",
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"DetachFromPortalGraphParents",
+"DirtyBoundArray",
+"ForceLODMultType",
+"GetBoundRadius",
+"GetFadeCounter",
+"GetFadeEnabled",
+"GetFarDistanceSqr",
+"GetLastFadePercent",
+"GetMaxAlpha",
+"GetMultType",
+"GetRTTI",
+"GetViewerStrings",
+"IncFadeCounter",
+"Init",
+"InitBoundArray",
+"InitSDM",
+"IsEqual",
+"IsFadeNode",
+"IsVisible",
+"KillSDM",
+"LinkObject",
+"LoadBinary",
+"OnVisible",
+"QBoundArray",
+"QDistanceMultiplier",
+"QFadeOutMultiplier",
+"QFadingFlag",
+"QHasMovingSound",
+"QIgnoreFade",
+"QLODFadingOut",
+"QMinNearDistance",
+"QUserData",
+"RegisterStreamables",
+"RemoveParentPortal",
+"RemoveParentRoom",
+"SaveBinary",
+"SetDistanceMultiplier",
+"SetFadeCounter",
+"SetFadeEnabled",
+"SetFadeInThreshold",
+"SetFadeInTime",
+"SetFadeOutMultiplier",
+"SetFadeOutThreshold",
+"SetFadeOutTime",
+"SetFadingFlag",
+"SetHasMovingSound",
+"SetIgnoreFade",
+"SetLODFadingOut",
+"SetLODMultType",
+"SetMaxAlphaAccessFunc",
+"SetMinNearDistance",
+"SetRange",
+"SetUserData",
+"ShouldUpdate",
+"TurnFadeNodeOff",
+"TurnFadeNodeOn",
+"UpdateDownwardPass",
+"UpdateSelectedDownwardPass",
+"VerifyBoundArray",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BSFadeNode"
+],
+"sizeof": 272,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "BSFadeNode"
+},
+"BSGameSound": {
+"fields": {
+"QueuedMessages": [
+396,
+12,
+"NiTPointerList<BSSoundMessage *>"
+],
+"fBeginTime": [
+40,
+4,
+"float"
+],
+"fCurrentVolume": [
+36,
+4,
+"float"
+],
+"fDistanceToListener": [
+336,
+4,
+"float"
+],
+"fEndTime": [
+44,
+4,
+"float"
+],
+"fMaxDist": [
+316,
+4,
+"float"
+],
+"fMinDist": [
+320,
+4,
+"float"
+],
+"fnCompletionCallback": [
+356,
+4,
+"function*"
+],
+"fnPlayedCallback": [
+360,
+4,
+"function*"
+],
+"iCleanupDelayInMS": [
+352,
+4,
+"unsigned"
+],
+"iDirectoryHash": [
+328,
+4,
+"unsigned"
+],
+"iDistanceAttenuation": [
+30,
+2,
+"unsigned short"
+],
+"iDurationInMS": [
+20,
+4,
+"int"
+],
+"iEnvironmentType": [
+340,
+4,
+"unsigned"
+],
+"iFaderAttenuation": [
+32,
+2,
+"unsigned short"
+],
+"iFreqVariance": [
+344,
+1,
+"unsigned char"
+],
+"iLoopEnd": [
+376,
+4,
+"unsigned"
+],
+"iLoopStart": [
+372,
+4,
+"unsigned"
+],
+"iModSamplesPerSecond": [
+346,
+2,
+"unsigned short"
+],
+"iModifierFlags": [
+12,
+4,
+"unsigned"
+],
+"iPriority": [
+392,
+4,
+"unsigned"
+],
+"iReverbAttenuation": [
+26,
+2,
+"unsigned short"
+],
+"iSamplesPerSecond": [
+52,
+2,
+"unsigned short"
+],
+"iSoundHash": [
+324,
+4,
+"unsigned"
+],
+"iSoundID": [
+4,
+4,
+"unsigned"
+],
+"iSoundSize": [
+332,
+4,
+"unsigned"
+],
+"iSoundTypeFlags": [
+8,
+4,
+"unsigned"
+],
+"iStateFlags": [
+16,
+4,
+"unsigned"
+],
+"iStaticAttenuation": [
+24,
+2,
+"unsigned short"
+],
+"iSynchStartTime": [
+348,
+4,
+"unsigned"
+],
+"iSystemAttenuation": [
+28,
+2,
+"unsigned short"
+],
+"iWeatherFlags": [
+48,
+4,
+"unsigned"
+],
+"pFilename": [
+54,
+260,
+"char[260 bytes]"
+],
+"pSoundCompletionContext": [
+364,
+4,
+"void*"
+],
+"pSoundPlayContext": [
+368,
+4,
+"void*"
+],
+"vBeamEnd": [
+380,
+12,
+"NiPoint3"
+]
+},
+"nonvirtual_methods": [
+"BSGameSound",
+"CalculateHashes",
+"CanPlayNow",
+"ClearSynchStartTime",
+"GetBeamEnd",
+"GetBeginTime",
+"GetCleanupDelay",
+"GetCompletionCallback",
+"GetCompletionContext",
+"GetDirHash",
+"GetDistanceAttenuation",
+"GetDuration",
+"GetEndTime",
+"GetEnvironmentType",
+"GetFaderAttenuation",
+"GetFileName",
+"GetFreqVariance",
+"GetID",
+"GetLastDistanceToListener",
+"GetLoopEnd",
+"GetLoopStart",
+"GetMax",
+"GetMaxDistance",
+"GetMessageQueue",
+"GetMin",
+"GetMinDistance",
+"GetModFlags",
+"GetModFrequency",
+"GetMuteWhenSumberged",
+"GetName",
+"GetNameHash",
+"GetPlayCallback",
+"GetPlayContext",
+"GetPriority",
+"GetRadioPause",
+"GetReverbAttenuation",
+"GetSize",
+"GetSoundHash",
+"GetSoundType",
+"GetStaticAttenuation",
+"GetSynchStartTime",
+"GetSystemAttenuation",
+"HandlePlayCallback",
+"HasBeenOpened",
+"HasPlayed",
+"HasQueuedMessages",
+"HasVariableFreq",
+"HaveHashedBeenCalculated",
+"Init",
+"Is2DRadiusSound",
+"Is3DSound",
+"IsBattleSound",
+"IsBeamEmitter",
+"IsCached",
+"IsEnvelopeLoop",
+"IsEnvelopeLoopFast",
+"IsEnvelopeLoopSlow",
+"IsExternallySynched",
+"IsFading",
+"IsInMemory",
+"IsInaudible",
+"IsLoopingSound",
+"IsOneShot",
+"IsOpening",
+"IsReady",
+"IsRegionSound",
+"IsSeeking",
+"IsSilent",
+"IsSimpleLoop",
+"IsSoundFinished",
+"IsStreaming",
+"IsSynchPaused",
+"IsTimeRestricted",
+"IsValid",
+"IsValidBeam",
+"IsVoice",
+"MatchesDirectoryHash",
+"MatchesSoundHash",
+"OpenResult",
+"QueueMessage",
+"SetBeamEnd",
+"SetBeginTime",
+"SetCached",
+"SetCleanupDelay",
+"SetCompletionCallback",
+"SetCompletionContext",
+"SetDistanceAttenuation",
+"SetDistanceToListener",
+"SetDuration",
+"SetEndTime",
+"SetFaderAttenuation",
+"SetFading",
+"SetFilename",
+"SetFreqVariance",
+"SetHasPlayed",
+"SetID",
+"SetInMemory",
+"SetIsInDecay",
+"SetLoopPoints",
+"SetModFlags",
+"SetModFrequency",
+"SetMuteWhenSumberged",
+"SetOpening",
+"SetPaused",
+"SetPlayCallback",
+"SetPlayContext",
+"SetPlaying",
+"SetPriority",
+"SetRadioPause",
+"SetReady",
+"SetReverbAttenuation",
+"SetSeeking",
+"SetSilent",
+"SetSoundFinished",
+"SetSoundType",
+"SetStaticAttenuation",
+"SetStreaming",
+"SetSynchPause",
+"SetSynchStartTime",
+"SetSystemAttenuation",
+"SetTimeRestricted",
+"SetValid",
+"SetValidBeam",
+"SetVariableFreq",
+"SetWeatherFlags",
+"VolumeChanged",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 408,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+0,
+"~BSGameSound"
+],
+[
+1,
+"IsPlaying"
+],
+[
+2,
+"IsInDecay"
+],
+[
+3,
+"IsPaused"
+],
+[
+4,
+"GetVolume"
+],
+[
+5,
+"SetInaudible"
+],
+[
+6,
+"SetEnvironmentType"
+],
+[
+7,
+"PriorityTest"
+],
+[
+8,
+"PriorityTest"
+],
+[
+9,
+"Open"
+],
+[
+10,
+"Prepare"
+],
+[
+11,
+"Copy"
+],
+[
+12,
+"Play"
+],
+[
+13,
+"Pause"
+],
+[
+14,
+"Stop"
+],
+[
+15,
+"SetVolume"
+],
+[
+16,
+"UpdateEmitterPosition"
+],
+[
+17,
+"Update"
+],
+[
+18,
+"ProcessDataRequest"
+],
+[
+19,
+"SetEmitterPosition"
+],
+[
+20,
+"SetEmitterPosition"
+],
+[
+21,
+"GetEmitterPosition"
+],
+[
+22,
+"SetEmitterOrientation"
+],
+[
+23,
+"SetMinMax"
+],
+[
+24,
+"SetAttenuationCurve"
+],
+[
+25,
+"SetFrequency"
+],
+[
+26,
+"GetFrequency"
+],
+[
+27,
+"Seek"
+]
+],
+"xbox_name": "BSGameSound"
+},
+"BSShader": {
+"fields": {
+"bFirstPass": [
+100,
+1,
+"bool"
+],
+"ePass": [
+96,
+4,
+"BSShaderManager::eBSSMPassEnum"
+],
+"iShaderType": [
+104,
+4,
+"int"
+],
+"spPass": [
+92,
+4,
+"NiPointer<NiD3DPass>[4 bytes]"
+]
+},
+"nonvirtual_methods": [
+"BSShader",
+"ClarifyShader",
+"CompilePixelShaderHLSL",
+"CompileVertexShaderHLSL",
+"GetShaderType",
+"Initialize",
+"MakePath",
+"RecreateRendererData",
+"ResetFiltering",
+"SetCompileNewer",
+"SetupDefaultStage",
+"SetupGeometry",
+"SetupGeometryAlphaBlending",
+"SetupGeometryAlphaTesting",
+"SetupGeometryRenderStates",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BSShader"
+],
+"sizeof": 108,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+62,
+"InitPass"
+],
+[
+63,
+"SetupPassShaders"
+],
+[
+64,
+"SetupPassTextures"
+],
+[
+65,
+"SetupPassConstants"
+],
+[
+66,
+"SetupPassRenderStates"
+],
+[
+67,
+"RestorePassRenderStates"
+],
+[
+68,
+"ApplyTextureStages"
+],
+[
+69,
+"ApplyTextureStagesFlags"
+],
+[
+70,
+"SetupGeometryNonFirstPass"
+],
+[
+71,
+"RestoreGeometryNonFirstPass"
+],
+[
+72,
+"GetShaderDecl"
+],
+[
+73,
+"CreateConstantMaps"
+],
+[
+74,
+"ReloadShaders"
+],
+[
+75,
+"ClearPassStages"
+],
+[
+76,
+"ClearPass"
+],
+[
+77,
+"CreateShaders"
+],
+[
+78,
+"CreateStagesAndPasses"
+],
+[
+79,
+"CreateTextures"
+],
+[
+80,
+"SetCurrentPass"
+]
+],
+"xbox_name": "BSShader"
+},
+"BSShaderAccumulator": {
+"fields": {
+"BSCPSharedCrit": [
+512,
+128,
+"NiCriticalSection"
+],
+"ReferenceVolumeList": [
+320,
+12,
+"NiTPointerList<ReferenceVolume *>"
+],
+"b1stPerson": [
+133,
+1,
+"bool"
+],
+"bAccumulate": [
+132,
+1,
+"bool"
+],
+"bCacheGeometry": [
+57,
+1,
+"bool"
+],
+"bCellHasWater": [
+358,
+1,
+"bool"
+],
+"bDoDepthPasses": [
+58,
+1,
+"bool"
+],
+"bLastOcclusionResult": [
+336,
+1,
+"bool"
+],
+"bRenderDecals": [
+364,
+1,
+"bool"
+],
+"bRenderNoShader": [
+134,
+1,
+"bool"
+],
+"bUnderWater": [
+359,
+1,
+"bool"
+],
+"bWaitingForSunQueury": [
+64,
+1,
+"bool"
+],
+"bWaterReflection": [
+356,
+1,
+"bool"
+],
+"bWaterRefraction": [
+357,
+1,
+"bool"
+],
+"bWorldGeometry": [
+56,
+1,
+"bool"
+],
+"eAccumulationMode": [
+52,
+4,
+"BSShaderAccumulator::etAccumulationMode"
+],
+"eRenderMode": [
+412,
+4,
+"BSShaderManager::etRenderMode"
+],
+"fPercentSunOccludedStored": [
+68,
+4,
+"float"
+],
+"iCurrentWaterHeight": [
+360,
+4,
+"int"
+],
+"kAlphaRenderPass": [
+420,
+16,
+"BSShaderProperty::RenderPass"
+],
+"kRoomSharedMap": [
+436,
+16,
+"NiTPointerMap<NiAVObject *,bool>"
+],
+"kSilhouetteColor": [
+340,
+16,
+"NiColorA"
+],
+"pActiveShadowSceneNode": [
+404,
+4,
+"ShadowSceneNode*"
+],
+"pBatchRenderer": [
+372,
+8,
+"BSBatchRenderer*[8 bytes]"
+],
+"pInstanceRenderer": [
+368,
+4,
+"BSInstanceRendering*"
+],
+"pRendered1stPersonGeometryCache": [
+236,
+80,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>[80 bytes]"
+],
+"pRenderedGeometryCache": [
+156,
+80,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>[80 bytes]"
+],
+"pSunTests": [
+72,
+60,
+"SunOcclusionTest[60 bytes]"
+],
+"pVolumetricFogGeometry": [
+144,
+12,
+"NiTPointerList<NiGeometry *>"
+],
+"pbcurrentActiveA": [
+392,
+4,
+"bool*"
+],
+"pbcurrentFirstPassA": [
+388,
+4,
+"bool*"
+],
+"picurrentBucketA": [
+384,
+4,
+"int*"
+],
+"ppOcclusionQuery": [
+140,
+4,
+"BSOcclusionQuery**"
+],
+"puicurrentPassA": [
+380,
+4,
+"unsigned*"
+],
+"spBoundTestGeometry": [
+316,
+4,
+"NiPointer<NiGeometry>"
+],
+"spShadowLight": [
+416,
+4,
+"NiPointer<ShadowSceneLight>"
+],
+"spWaterFogRenderTarget": [
+408,
+4,
+"NiPointer<BSRenderedTexture>"
+],
+"uiBatchRendererCount": [
+396,
+4,
+"unsigned"
+],
+"uiBatchRendererPassCount": [
+400,
+4,
+"unsigned"
+],
+"uiLastOcclusionRef": [
+332,
+4,
+"unsigned"
+],
+"uiSunPixelCount": [
+60,
+4,
+"unsigned"
+],
+"usQueryCount": [
+136,
+2,
+"unsigned short"
+],
+"usQuerySize": [
+138,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"AddAndUpdateBoundVolume",
+"AddShadowVolumeLight",
+"AddShared",
+"BSShaderAccumulator",
+"ClearActivePasses",
+"ClearAllBoundVolumes",
+"ClearAllQueries",
+"ClearBloodSplatter",
+"ClearDebugStats",
+"ClearDepthGeometry",
+"ClearGroupPasses",
+"ClearRenderPasses",
+"ClearRenderedGeometryCache",
+"ClearSharedMap",
+"ClearSunQueries",
+"ClearVelocityGeometry",
+"ClearVolumetricFogGeometry",
+"CreateRenderPassTree",
+"DoSunOcclusionQueury",
+"DoVolumetricFog",
+"EnumDataSort",
+"EvaluateSunOcclusionResults",
+"FinishAccumulating",
+"FinishAccumulating_FirstPerson",
+"FinishAccumulating_Interface",
+"FinishAccumulating_ScreenSplatter",
+"FinishAccumulating_Standard",
+"FinishAccumulating_Standard_PostResolveDepth",
+"FinishAccumulating_Standard_PreResolveDepth",
+"FinishAccumulating_WaterDepth",
+"GetBoundTestGeometry",
+"GetBoundVolumePixelCount",
+"GetCamera",
+"GetCurrentWaterHeight",
+"GetDebugStats",
+"GetDepthFromZBuffer",
+"GetDisabledFogPass",
+"GetHasWater",
+"GetRTTI",
+"GetRefractivePassCount",
+"GetRenderDecals",
+"GetRenderMode",
+"GetShadowLight",
+"GetShadowSceneNode",
+"GetStoredSunOcclustionPercent",
+"GetSunOcclusionPixelCount",
+"GetUnderWater",
+"GetWaterReflection",
+"GetWaterRefraction",
+"IsAlphaGroupZPrePass",
+"IsBoundVolumeOccluded",
+"IsClippingPass",
+"IsFoggingPass",
+"IsGroupingAlphas",
+"IsShadowPass",
+"ModelDataSort",
+"QAccumulate",
+"QPassesWithinRange",
+"QSilhouetteColor",
+"QUseInstancing",
+"QWaterRefractionPassWithinRange",
+"RegisterObject",
+"RegisterObject_ConstAlpha",
+"RegisterObject_Frozen",
+"RegisterObject_Interface",
+"RegisterObject_LocalMap",
+"RegisterObject_ScreenSplatter",
+"RegisterObject_Standard",
+"RegisterObject_WaterDepth",
+"RemoveBoundVolume",
+"RenderAlphaGeometry",
+"RenderBatches",
+"RenderDecals",
+"RenderDepth",
+"RenderGeometryGroup",
+"RenderNormals",
+"RenderPassImmediately",
+"RenderScreenSplatter",
+"RenderVelocity",
+"RenderVolumetricFog",
+"ResetSunOcclusion",
+"Set1stPerson",
+"SetAccumulate",
+"SetBoundTestGeometry",
+"SetCurrentWaterHeight",
+"SetDisplayBoundingSpheres",
+"SetHasWater",
+"SetRenderDecals",
+"SetRenderMode",
+"SetRenderNoShader",
+"SetRunBoundingSphereTests",
+"SetShadowLight",
+"SetShadowSceneNode",
+"SetSilhouetteColor",
+"SetUnderWater",
+"SetUseInstancing",
+"SetWaterFogRenderTarget",
+"SetWaterReflection",
+"SetWaterRefraction",
+"SetupDepth",
+"SortAlphaPasses",
+"StartAccumulating",
+"StartGroupingAlphas",
+"StopGroupingAlphas",
+"ToggleRefractionDebugTexture",
+"__dflt_ctor_closure",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BSShaderAccumulator"
+],
+"sizeof": 640,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+42,
+"FinishAccumulatingPreResolveDepth"
+],
+[
+43,
+"FinishAccumulatingPostResolveDepth"
+],
+[
+44,
+"RenderPassList"
+]
+],
+"xbox_name": "BSShaderAccumulator"
+},
+"BSShaderLightingProperty": {
+"fields": {
+"bLightListChanged": [
+116,
+1,
+"bool"
+],
+"fForcedDarkness": [
+108,
+4,
+"float"
+],
+"kLightListFence": [
+120,
+4,
+"void*"
+],
+"lLightList": [
+96,
+12,
+"NiTPointerListSingleThread<ShadowSceneLight *>"
+],
+"uiReferenceID": [
+112,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"AreLightsSorted",
+"AttachLight",
+"BSShaderLightingProperty",
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"FenceAllLights",
+"GetFirstActiveLight",
+"GetFirstActiveNonShadowLight",
+"GetFirstLight",
+"GetForcedDarkness",
+"GetNextActiveLight",
+"GetNextActiveNonShadowLight",
+"GetNextLight",
+"GetNumberofActiveLights",
+"GetNumberofActiveNonShadowLights",
+"GetNumberofLights",
+"GetRTTI",
+"GetReferenceID",
+"GetViewerStrings",
+"IsAttachedToLight",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"RegisterStreamables",
+"RemoveFencedLights",
+"RemoveLight",
+"ResetLights",
+"ResortLights",
+"SaveBinary",
+"SetDirectionalLight3x",
+"SetForcedDarkness",
+"SetLight",
+"SetLight1x2x",
+"SetLightListChanged",
+"SetPointLight3x",
+"SetReferenceID",
+"SetShaderConstant",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BSShaderLightingProperty"
+],
+"sizeof": 124,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+49,
+"CopyTo"
+],
+[
+50,
+"CopyToMembers"
+]
+],
+"xbox_name": "BSShaderLightingProperty"
+},
+"BSShaderPPLightingProperty": {
+"fields": {
+"LandBlendParamsA": [
+148,
+16,
+"NiColorA"
+],
+"TextureClampMode": [
+220,
+4,
+"NiTexturingProperty::ClampMode"
+],
+"fGeomorphParam": [
+128,
+4,
+"float"
+],
+"fParallaxOccMaxPasses": [
+236,
+4,
+"float"
+],
+"fParallaxOccScale": [
+240,
+4,
+"float"
+],
+"fRefractionPower": [
+228,
+4,
+"float"
+],
+"fTerrainDetailTexScale": [
+256,
+4,
+"float"
+],
+"fTerrainTexFade": [
+252,
+4,
+"float"
+],
+"fTerrainTexOffsetX": [
+244,
+4,
+"float"
+],
+"fTerrainTexOffsetY": [
+248,
+4,
+"float"
+],
+"fWaterDepthCameraOffset": [
+124,
+4,
+"float"
+],
+"iRefractionFirePeriod": [
+232,
+4,
+"int"
+],
+"iTextureCount": [
+168,
+2,
+"unsigned short"
+],
+"pHairTintColor": [
+132,
+16,
+"NiColorA"
+],
+"pRenderDepthPass": [
+260,
+4,
+"BSShaderProperty::RenderPass*"
+],
+"pSpecularExponent": [
+200,
+4,
+"unsigned char*"
+],
+"pTextureSplatVertexData": [
+216,
+4,
+"float*"
+],
+"pbGlossMap": [
+208,
+4,
+"bool*"
+],
+"spTangentSpaceData": [
+212,
+4,
+"NiPointer<BSShaderPPLightingProperty::TangentSpaceData>"
+],
+"spTexEffectData": [
+224,
+4,
+"NiPointer<BSShaderPPLightingProperty::TextureEffectData>"
+],
+"spTextureSet": [
+164,
+4,
+"NiPointer<BSTextureSet>"
+],
+"spTextures": [
+172,
+28,
+"NiPointer<NiTexture>*[28 bytes]"
+],
+"usLandscapeTextures": [
+204,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"AddAmbDiff2Pass_2x",
+"AddAmbDiff3Pass_2x",
+"AddAmbDiffDirAndPtPass_1x",
+"AddAmbDiffTex2Pass_2x",
+"AddAmbDiffTexPass_1x",
+"AddAmbDiffTexPass_2x",
+"AddAmbDiffTexSpecular10Pass_2x",
+"AddAmbDiffTexSpecular2Pass_2x",
+"AddAmbDiffTexSpecularPass_2x",
+"AddAmbientPass_1x",
+"AddConstAlphaPass_1x",
+"AddDepthMapPass_2x",
+"AddDiffusePass_1x",
+"AddDiffusePt2Pass_2x",
+"AddDiffusePt3Pass_2x",
+"AddEnvmapPass_1x",
+"AddEnvmapPass_2x",
+"AddFogPass_1x",
+"AddLandscapePasses_1x",
+"AddLandscapePasses_2x",
+"AddLocalMapPass_2x",
+"AddRenderNormalsClearPass_1x",
+"AddRenderNormalsPass_1x",
+"AddSelfIllumAlphaBlockPass",
+"AddSelfIllumAlphaPass",
+"AddSilhouettePass_2x",
+"AddSpecularPass_1x",
+"AddSpecularPass_2x",
+"AddSpecularPt2Pass_2x",
+"AddSpecularPt3Pass_2x",
+"AddTextureEffectPass_1x",
+"AddTextureEffectPass_2x",
+"AddTexturePass_1x",
+"AddTexturePass_2x",
+"AddVelocityPass_2x",
+"AddZOnlyPass_1x",
+"AddZOnlyTextureEffectPass_1x",
+"BSShaderPPLightingProperty",
+"ClarifyShader",
+"CopyMembers",
+"CopyTextureSet",
+"CreateClone",
+"CreateObject",
+"GetBaseTexture",
+"GetBinormalExtraData",
+"GetDiffuseTexture",
+"GetExtraDataPointers",
+"GetForceNoProjectedShadowTexture",
+"GetGlowTexture",
+"GetLandscapeTexture",
+"GetNormalTexture",
+"GetNumberofPasses",
+"GetParallaxOccMaxPasses",
+"GetParallaxOccScale",
+"GetRTTI",
+"GetRefractionFirePeriod",
+"GetRefractionPower",
+"GetRenderDepthPass",
+"GetRenderPasses",
+"GetSpecularTexture",
+"GetTangentExtraData",
+"GetTerrainDetailTexScale",
+"GetTerrainTexFade",
+"GetTerrainTexOffsetX",
+"GetTerrainTexOffsetY",
+"GetTextureEffectData",
+"GetTextureSpecular",
+"GetTextureSpecularExponent",
+"GetViewerStrings",
+"GetWaterFogPassList",
+"HasRefractionRecurse",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"LoadTextureSet",
+"PostLinkObject",
+"PrecacheTextures",
+"QRemappableTextures",
+"RegisterStreamables",
+"SaveBinary",
+"SetDefaultNormalMap",
+"SetForLandscapeTextures",
+"SetForceNoProjectedShadowTexture",
+"SetLandscapeSpecularExponents",
+"SetLandscapeTextureSet",
+"SetParallaxOccMaxPasses",
+"SetParallaxOccScale",
+"SetRefractionFirePeriod",
+"SetRefractionPower",
+"SetRefractionRecurse",
+"SetTerrainDetailTexScale",
+"SetTerrainTexParams",
+"SetTextureEffectData",
+"SetTextureSet",
+"SetupGeometry",
+"StoreExtraDataPointers",
+"StoreTextureSplatVertexDataPointers",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BSShaderPPLightingProperty"
+],
+"sizeof": 264,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+51,
+"CopyTo"
+],
+[
+52,
+"CopyToMembers"
+],
+[
+53,
+"CreateRendererSpecificProperty"
+],
+[
+54,
+"GetClampD3D"
+],
+[
+55,
+"SetClampD3D"
+],
+[
+56,
+"GetClampNI"
+],
+[
+57,
+"SetClampNI"
+],
+[
+58,
+"GetTextureCount"
+],
+[
+59,
+"QLandscapeTextureCount"
+],
+[
+60,
+"SetTexture"
+],
+[
+61,
+"GetTexture"
+],
+[
+62,
+"SetTextures"
+],
+[
+63,
+"SetDiffuseTexture"
+],
+[
+64,
+"SetNormalTexture"
+],
+[
+65,
+"SetSpecularTexture"
+],
+[
+66,
+"SetGlowTexture"
+],
+[
+67,
+"SetFlagsFromTextures"
+],
+[
+68,
+"GetSpecularLODFade"
+],
+[
+69,
+"GetEnvMapLODFade"
+],
+[
+70,
+"GetRenderPasses_1x"
+],
+[
+71,
+"GetRenderPasses_2x"
+]
+],
+"xbox_name": "BSShaderPPLightingProperty"
+},
+"BSShaderProperty": {
+"fields": {
+"fAlpha": [
+40,
+4,
+"float"
+],
+"fCameraDistance": [
+52,
+4,
+"float"
+],
+"fDepthBias": [
+92,
+4,
+"float"
+],
+"fEnvmapScale": [
+48,
+4,
+"float"
+],
+"fFadeAlpha": [
+44,
+4,
+"float"
+],
+"iLastRenderPassState": [
+56,
+4,
+"int"
+],
+"iShader": [
+88,
+4,
+"int"
+],
+"pConstAlphaRenderPassList": [
+68,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"pDepthMapRenderPassList": [
+64,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"pLocalMapRenderPassList": [
+72,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"pRenderPassList": [
+60,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"pSIBlockRenderPassList": [
+76,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"pSilhouettePassList": [
+84,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"pWaterFogRenderPassList": [
+80,
+4,
+"BSShaderProperty::RenderPassArray*"
+],
+"ulFlags": [
+32,
+8,
+"unsigned long[8 bytes]"
+]
+},
+"nonvirtual_methods": [
+"BSShaderProperty",
+"CheckCreateConstAlphaRenderPassArray",
+"CheckCreateDepthMapRenderPassArray",
+"CheckCreateLocalMapRenderPassArray",
+"CheckCreateRenderPassArray",
+"CheckCreateSIBlockRenderPassArray",
+"CheckCreateWaterFogRenderPassArray",
+"CheckSilhouetteRenderPassArray",
+"ClearDebugStats",
+"ClearRenderPassGarbage",
+"ClearRenderPasses",
+"CompareFlags",
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"FreeRenderPasses",
+"Get1stPerson",
+"GetAlpha",
+"GetCameraDistance",
+"GetDebugStats",
+"GetDepthBias",
+"GetFadeAlpha",
+"GetFlag",
+"GetObjectType",
+"GetRTTI",
+"GetViewerStrings",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"PostLinkObject",
+"QEnvmapScale",
+"QRenderPasses",
+"QShader",
+"RegisterStreamables",
+"SaveBinary",
+"Set1stPerson",
+"SetAlpha",
+"SetDepthBias",
+"SetEnvmapScale",
+"SetFadeAlpha",
+"SetFlag",
+"SetFlagRecurse",
+"SetLastRenderPassState",
+"SetMotionBlurRecurse",
+"SetMotionBlurred",
+"SetObjectType",
+"SetShader",
+"ToggleMotionBlurRecurse",
+"__local_vftable_ctor_closure",
+"operator=",
+"~BSShaderProperty"
+],
+"sizeof": 96,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+37,
+"CopyTo"
+],
+[
+38,
+"CopyToMembers"
+],
+[
+39,
+"SetupGeometry"
+],
+[
+40,
+"GetRenderPasses"
+],
+[
+41,
+"GetNumberofPasses"
+],
+[
+42,
+"GetSIBlockRenderPasses"
+],
+[
+43,
+"GetRenderDepthPass"
+],
+[
+44,
+"ClarifyShader"
+],
+[
+45,
+"GetBaseTexture"
+],
+[
+46,
+"GetWaterFogPassList"
+],
+[
+47,
+"GetTextureUse"
+],
+[
+48,
+"PrecacheTextures"
+]
+],
+"xbox_name": "BSShaderProperty"
+},
+"BSShaderProperty::RenderPass": {
+"fields": {
+"bFirstPass": [
+7,
+1,
+"bool"
+],
+"bLastPass": [
+8,
+1,
+"bool"
+],
+"eAccumulationHint": [
+6,
+1,
+"unsigned char"
+],
+"pGeometry": [
+0,
+4,
+"NiGeometry*"
+],
+"ppSceneLights": [
+12,
+4,
+"ShadowSceneLight**"
+],
+"ucExtraParam": [
+11,
+1,
+"unsigned char"
+],
+"ucMaxNumLights": [
+10,
+1,
+"unsigned char"
+],
+"ucNumLights": [
+9,
+1,
+"unsigned char"
+],
+"usPassEnum": [
+4,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"AllocateLightArray",
+"FreeLightArray",
+"RenderPass",
+"SetLights",
+"__vecDelDtor",
+"~RenderPass"
+],
+"sizeof": 16,
+"virtuals": [],
+"xbox_name": "BSShaderProperty::RenderPass"
+},
+"BSSoundHandle": {
+"fields": {
+"bAssumeSuccess": [
+4,
+1,
+"bool"
+],
+"eState": [
+8,
+4,
+"BSSoundHandle::ASSUMED_STATE"
+],
+"iSoundID": [
+0,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"BSSoundHandle",
+"Clear",
+"ClearSynchStartTime",
+"FadeInPlay",
+"FadeOut",
+"FadeOutAndRelease",
+"GetDuration",
+"GetID",
+"GetSoundType",
+"GetVolume",
+"IsPlaying",
+"IsValid",
+"Pause",
+"Play",
+"PlayAfter",
+"QState",
+"Release",
+"Seek",
+"SetAddMovingSoundCallback",
+"SetAssumeSuccess",
+"SetAttenuationCurve",
+"SetBalance",
+"SetBeamEnd",
+"SetCompletionCallback",
+"SetFollowsListener",
+"SetFrequency",
+"SetFrequencyVariance",
+"SetMinMax",
+"SetModFrequency",
+"SetObjectToFollow",
+"SetOrientation",
+"SetPlayCallback",
+"SetPosition",
+"SetPriority",
+"SetReverbAttenuation",
+"SetStaticAttenuation",
+"SetSynchStartTime",
+"SetTimeConstraints",
+"SetVolume",
+"Stop",
+"__vecDelDtor",
+"operator!=",
+"operator=",
+"operator==",
+"~BSSoundHandle"
+],
+"sizeof": 12,
+"virtuals": [],
+"xbox_name": "BSSoundHandle"
+},
+"BaseFormComponent": {
+"fields": {},
+"nonvirtual_methods": [
+"BaseFormComponent",
+"operator="
+],
+"sizeof": 4,
+"virtuals": [
+[
+0,
+"InitializeDataComponent"
+],
+[
+1,
+"ClearDataComponent"
+],
+[
+2,
+"CopyComponent"
+],
+[
+3,
+"CompareComponent"
+]
+],
+"xbox_name": "BaseFormComponent"
+},
+"FalloutRadio::FORadioReceiver": {
+"fields": {
+"Hndl": [
+4,
+12,
+"BSSoundHandle"
+],
+"StaticHndl": [
+16,
+12,
+"BSSoundHandle"
+],
+"bInRange": [
+30,
+1,
+"bool"
+],
+"bIsActor": [
+31,
+1,
+"bool"
+],
+"bJustStarted": [
+29,
+1,
+"bool"
+],
+"bShouldBePlaying": [
+28,
+1,
+"bool"
+],
+"pRadio": [
+0,
+4,
+"TESObjectREFR*"
+]
+},
+"nonvirtual_methods": [
+"FORadioReceiver",
+"InitLoadGame",
+"LoadGame",
+"SaveGame",
+"__vecDelDtor",
+"operator=",
+"~FORadioReceiver"
+],
+"sizeof": 32,
+"virtuals": [],
+"xbox_name": "FalloutRadio::FORadioReceiver"
+},
+"FalloutRadio::FORadioStation": {
+"fields": {
+"CurrentState": [
+4,
+32,
+"FalloutRadio::StationState"
+],
+"pStation": [
+0,
+4,
+"TESObjectREFR*"
+]
+},
+"nonvirtual_methods": [
+"FORadioStation",
+"FinishLoadGame",
+"InitLoadGame",
+"LoadGame",
+"SaveGame",
+"__vecDelDtor",
+"operator=",
+"~FORadioStation"
+],
+"sizeof": 36,
+"virtuals": [],
+"xbox_name": "FalloutRadio::FORadioStation"
+},
+"FalloutRadio::StationState": {
+"fields": {
+"StationUsers": [
+24,
+8,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>"
+],
+"cStationPower": [
+16,
+1,
+"unsigned char"
+],
+"cTargetPower": [
+17,
+1,
+"unsigned char"
+],
+"iCurrentItemDuration": [
+12,
+4,
+"int"
+],
+"iCurrentItemStartTime": [
+8,
+4,
+"unsigned"
+],
+"iStationFlags": [
+20,
+4,
+"unsigned"
+],
+"pConvo": [
+0,
+4,
+"Conversation*"
+],
+"pNextConvo": [
+4,
+4,
+"Conversation*"
+]
+},
+"nonvirtual_methods": [
+"ClearFlag",
+"FinishLoadGame",
+"GetStationPower",
+"GetTargetStationPower",
+"InitLoadGame",
+"IsContBroadcast",
+"IsPlayingBreakIn",
+"IsPlayingSong",
+"IsPlayingStatic",
+"IsTransmitting",
+"JustTurnedOn",
+"LoadGame",
+"OutOfPBRange",
+"SaveGame",
+"SetContBroadcast",
+"SetFlag",
+"SetJustTurnedOn",
+"SetOutOfPBRange",
+"SetPlayingBreakIn",
+"SetPlayingSong",
+"SetPlayingStatic",
+"SetShouldBePlaying",
+"SetStartPaused",
+"SetStationPower",
+"SetTargetStationPower",
+"SetTransmitting",
+"ShouldBePlaying",
+"ShouldStartPaused",
+"StationState",
+"__vecDelDtor",
+"operator=",
+"~StationState"
+],
+"sizeof": 32,
+"virtuals": [],
+"xbox_name": "FalloutRadio::StationState"
+},
+"Font": {
+"fields": {
+"ButtonIcons": [
+68,
+16,
+"BSSimpleArray<ButtonIcon,1024>"
+],
+"IconAtlasTextureName": [
+60,
+8,
+"BSStringT<char>"
+],
+"fFontHeight": [
+44,
+4,
+"float"
+],
+"fMaxDrop": [
+48,
+4,
+"float"
+],
+"iFontNum": [
+8,
+4,
+"int"
+],
+"iLineOverlap": [
+52,
+4,
+"int"
+],
+"iRefCount": [
+0,
+2,
+"unsigned short"
+],
+"pFontData": [
+56,
+4,
+"FontData*"
+],
+"pFontFile": [
+4,
+4,
+"char*"
+],
+"pTextureData": [
+12,
+32,
+"NiPointer<NiTexturingProperty>[32 bytes]"
+]
+},
+"nonvirtual_methods": [
+"AddChar",
+"AddIcon",
+"AddTextIcon",
+"ConvertCharacter",
+"CreateText",
+"Font",
+"GetBaseLine",
+"GetFilename",
+"GetFontHeight",
+"GetLineNumber",
+"GetLineOffsets",
+"GetMaxDrop",
+"GetRefCount",
+"KillData",
+"LineBreakText",
+"Load",
+"MakeIconsTriShape",
+"MakeString",
+"MakeTriShape",
+"PrepText",
+"SetBaseLine",
+"SetSpacingForButtonIcon",
+"TrimToLine",
+"Unload",
+"__vecDelDtor",
+"operator=",
+"~Font"
+],
+"sizeof": 84,
+"virtuals": [],
+"xbox_name": "Font"
+},
+"Font::TextData": {
+"fields": {
+"cLineSep": [
+28,
+1,
+"char"
+],
+"iCharCount": [
+24,
+4,
+"int"
+],
+"iHeight": [
+12,
+4,
+"int"
+],
+"iLineEnd": [
+20,
+4,
+"int"
+],
+"iLineStart": [
+16,
+4,
+"int"
+],
+"iWidth": [
+8,
+4,
+"int"
+],
+"xLineWidths": [
+32,
+8,
+"BSSimpleList<int>"
+],
+"xNewText": [
+0,
+8,
+"BSStringT<char>"
+]
+},
+"nonvirtual_methods": [
+"GetCharCount",
+"GetHeight",
+"GetLineWidth",
+"GetNewText",
+"GetNumLines",
+"GetWidth",
+"TextData",
+"__vecDelDtor",
+"operator=",
+"~TextData"
+],
+"sizeof": 40,
+"virtuals": [],
+"xbox_name": "Font::TextData"
+},
+"FontData": {
+"fields": {
+"fBaseLine": [
+0,
+4,
+"float"
+],
+"iTextureCount": [
+4,
+4,
+"int"
+],
+"pFontLetters": [
+296,
+14336,
+"FontLetter[14336 bytes]"
+],
+"pTextureFiles": [
+8,
+288,
+"TextureFile[288 bytes]"
+]
+},
+"nonvirtual_methods": [
+"Endian"
+],
+"sizeof": 14632,
+"virtuals": [],
+"xbox_name": "FontData"
+},
+"FontLetter": {
+"fields": {
+"fHeight": [
+40,
+4,
+"float"
+],
+"fLeadingEdge": [
+44,
+4,
+"float"
+],
+"fSpacing": [
+48,
+4,
+"float"
+],
+"fTopEdge": [
+52,
+4,
+"float"
+],
+"fWidth": [
+36,
+4,
+"float"
+],
+"iTextureIndex": [
+0,
+4,
+"int"
+],
+"pMapping": [
+4,
+32,
+"UVMap[32 bytes]"
+]
+},
+"nonvirtual_methods": [
+"Endian"
+],
+"sizeof": 56,
+"virtuals": [],
+"xbox_name": "FontLetter"
+},
+"FontManager": {
+"fields": {
+"bUseNewFonts": [
+32,
+1,
+"bool"
+],
+"pFont": [
+0,
+32,
+"Font*[32 bytes]"
+]
+},
+"nonvirtual_methods": [
+"CalculateStringDimensions",
+"CollectTo",
+"CreateText",
+"FontManager",
+"Free",
+"GetCharType",
+"GetFont",
+"GetLinePadding",
+"Init",
+"Instance",
+"MakeImage",
+"PrepHypertext",
+"PrepText",
+"UseNewFonts",
+"__vecDelDtor",
+"~FontManager"
+],
+"sizeof": 36,
+"virtuals": [],
+"xbox_name": "FontManager"
+},
+"FontManager::CharData": {
+"fields": {
+"cChar": [
+4,
+1,
+"unsigned char"
+],
+"iDrop": [
+44,
+4,
+"int"
+],
+"iFontIndex": [
+0,
+4,
+"int"
+],
+"iJustification": [
+24,
+4,
+"int"
+],
+"iLeadingEdge": [
+48,
+4,
+"int"
+],
+"iRise": [
+40,
+4,
+"int"
+],
+"iWidth": [
+36,
+4,
+"int"
+],
+"iX": [
+52,
+4,
+"int"
+],
+"xColor": [
+8,
+16,
+"NiColorA"
+],
+"xFilename": [
+28,
+8,
+"BSStringT<char>"
+]
+},
+"nonvirtual_methods": [
+"CharData",
+"Copy",
+"IsCharacter",
+"IsImage",
+"RevertToDefault",
+"SetChar",
+"SetFont",
+"__dflt_ctor_closure",
+"__vecDelDtor",
+"operator=",
+"~CharData"
+],
+"sizeof": 56,
+"virtuals": [],
+"xbox_name": "FontManager::CharData"
+},
+"FontManager::TextData": {
+"fields": {
+"bIsHypertext": [
+52,
+1,
+"bool"
+],
+"cLineSep": [
+24,
+1,
+"char"
+],
+"iDefaultFont": [
+0,
+4,
+"int"
+],
+"iHeight": [
+32,
+4,
+"int"
+],
+"iJustification": [
+4,
+4,
+"int"
+],
+"iLines": [
+40,
+4,
+"int"
+],
+"iNumLines": [
+48,
+4,
+"int"
+],
+"iNumPages": [
+44,
+4,
+"int"
+],
+"iPageNum": [
+36,
+4,
+"int"
+],
+"iWidth": [
+28,
+4,
+"int"
+],
+"xColor": [
+8,
+16,
+"NiColorA"
+],
+"xNewText": [
+56,
+8,
+"BSStringT<char>"
+]
+},
+"nonvirtual_methods": [
+"GetColor",
+"GetDefaultFont",
+"GetHeight",
+"GetJustification",
+"GetLineSep",
+"GetLines",
+"GetNumLines",
+"GetNumPages",
+"GetPageNum",
+"GetWidth",
+"IsHypertext",
+"TextData",
+"__dflt_ctor_closure",
+"__vecDelDtor",
+"operator=",
+"~TextData"
+],
+"sizeof": 64,
+"virtuals": [],
+"xbox_name": "FontManager::TextData"
+},
+"FontManager::TextDoc": {
+"fields": {
+"iPageHeight": [
+16,
+4,
+"int"
+],
+"iPageNum": [
+20,
+4,
+"int"
+],
+"iPageWidth": [
+12,
+4,
+"int"
+],
+"xPages": [
+0,
+12,
+"NiTPointerList<FontManager::TextPage *>"
+]
+},
+"nonvirtual_methods": [
+"AddChar",
+"AddPage",
+"CurrentPage",
+"NumPages",
+"Render",
+"TextDoc",
+"__dflt_ctor_closure",
+"__vecDelDtor",
+"operator=",
+"~TextDoc"
+],
+"sizeof": 24,
+"virtuals": [],
+"xbox_name": "FontManager::TextDoc"
+},
+"FontManager::TextLine": {
+"fields": {
+"iDrop": [
+24,
+4,
+"int"
+],
+"iJustify": [
+32,
+4,
+"int"
+],
+"iNextSpacing": [
+16,
+4,
+"int"
+],
+"iPageWidth": [
+36,
+4,
+"int"
+],
+"iRise": [
+20,
+4,
+"int"
+],
+"iSkippedSpace": [
+28,
+4,
+"int"
+],
+"iWidth": [
+12,
+4,
+"int"
+],
+"iY": [
+40,
+4,
+"int"
+],
+"pPage": [
+44,
+4,
+"FontManager::TextPage*"
+],
+"xChars": [
+0,
+12,
+"NiTPointerList<FontManager::CharData *>"
+]
+},
+"nonvirtual_methods": [
+"AddChar",
+"NumChars",
+"TextLine",
+"__vecDelDtor",
+"operator=",
+"~TextLine"
+],
+"sizeof": 48,
+"virtuals": [],
+"xbox_name": "FontManager::TextLine"
+},
+"FontManager::TextPage": {
+"fields": {
+"iHeight": [
+16,
+4,
+"int"
+],
+"iLastFontHeight": [
+28,
+4,
+"int"
+],
+"iPageHeight": [
+24,
+4,
+"int"
+],
+"iPageWidth": [
+20,
+4,
+"int"
+],
+"iWidth": [
+12,
+4,
+"int"
+],
+"pCharsPerFont": [
+32,
+32,
+"int[32 bytes]"
+],
+"pDoc": [
+64,
+4,
+"FontManager::TextDoc*"
+],
+"xLines": [
+0,
+12,
+"NiTPointerList<FontManager::TextLine *>"
+]
+},
+"nonvirtual_methods": [
+"AddChar",
+"GetCharCountForFont",
+"NumLines",
+"TextPage",
+"__vecDelDtor",
+"operator=",
+"~TextPage"
+],
+"sizeof": 68,
+"virtuals": [],
+"xbox_name": "FontManager::TextPage"
+},
+"FreeHeapBlock": {
+"fields": {
+"pNextFree": [
+12,
+4,
+"FreeHeapBlock*"
+],
+"pPrevFree": [
+8,
+4,
+"FreeHeapBlock*"
+]
+},
+"nonvirtual_methods": [
+"FreeHeapBlock",
+"Init",
+"InsertAfter",
+"InsertBefore",
+"IsDecommitted",
+"MarkDecommitted",
+"NextFree",
+"PrevFree",
+"Remove",
+"SetMemory",
+"SetNextFree",
+"SetPrevFree"
+],
+"sizeof": 16,
+"virtuals": [],
+"xbox_name": "FreeHeapBlock"
+},
+"FreeHeapBlockList": {
+"fields": {
+"pHead": [
+0,
+4,
+"FreeHeapBlock*"
+],
+"pTail": [
+4,
+4,
+"FreeHeapBlock*"
+]
+},
+"nonvirtual_methods": [],
+"sizeof": 8,
+"virtuals": [],
+"xbox_name": "FreeHeapBlockList"
+},
+"HeapBlock": {
+"fields": {
+"iMemSize": [
+4,
+4,
+"unsigned"
+],
+"pPrevious": [
+0,
+4,
+"HeapBlock*"
+]
+},
+"nonvirtual_methods": [
+"GetMem",
+"GetSize",
+"GetTotalSize",
+"GuardInTact",
+"HeapBlock",
+"Init",
+"InitGuard",
+"IsFree",
+"MarkAsFree",
+"MemToBlock",
+"Next",
+"Prev",
+"SetMemory",
+"SetPrev",
+"SetSize",
+"TotalSize"
+],
+"sizeof": 16,
+"virtuals": [],
+"xbox_name": "HeapBlock"
+},
+"HeapFreeSubBucket": {
+"fields": {
+"iCount": [
+0,
+4,
+"int"
+],
+"pFirst": [
+4,
+4,
+"FreeHeapBlockList*"
+]
+},
+"nonvirtual_methods": [],
+"sizeof": 8,
+"virtuals": [],
+"xbox_name": "HeapFreeSubBucket"
+},
+"IMemoryHeap": {
+"fields": {},
+"nonvirtual_methods": [
+"IMemoryHeap",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 4,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+0,
+"~IMemoryHeap"
+],
+[
+1,
+"GetName"
+],
+[
+2,
+"Allocate"
+],
+[
+3,
+"Deallocate"
+],
+[
+4,
+"PointerInHeap"
+],
+[
+5,
+"CheckHeapIntegrity"
+],
+[
+6,
+"GetHeapStats"
+],
+[
+7,
+"OutputBucketInfo"
+],
+[
+8,
+"OutputBlockInfo"
+],
+[
+9,
+"Size"
+],
+[
+10,
+"TotalSize"
+],
+[
+11,
+"CheckDelayedFreeBlocks"
+]
+],
+"xbox_name": "IMemoryHeap"
+},
+"ImageSpaceManager": {
+"fields": {
+"CurrentParameterData": [
+20,
+152,
+"ImageSpaceParameterData"
+],
+"CustomViewPort": [
+776,
+16,
+"NiRect<float>"
+],
+"DepthTexture": [
+516,
+16,
+"ImageSpaceTexture"
+],
+"WeatherParameterData": [
+180,
+304,
+"ImageSpaceParameterData[304 bytes]"
+],
+"bCurrentDOFUseMask": [
+716,
+1,
+"bool"
+],
+"bEnablePartialRender": [
+508,
+1,
+"bool"
+],
+"bIsReady": [
+484,
+1,
+"bool"
+],
+"bWeatherDOFUseMask": [
+717,
+1,
+"bool"
+],
+"fCurrentDOFDistanceValue": [
+680,
+4,
+"float"
+],
+"fCurrentDOFMaskConst": [
+688,
+4,
+"float"
+],
+"fCurrentDOFMode": [
+708,
+4,
+"ImageSpaceEffectDepthOfField::DepthOfFieldMode"
+],
+"fCurrentDOFRangeValue": [
+684,
+4,
+"float"
+],
+"fCurrentDepthRadialBlurCenter": [
+740,
+8,
+"NiPoint2"
+],
+"fCurrentDepthRadialBlurDistance": [
+732,
+4,
+"float"
+],
+"fCurrentDepthRadialBlurMode": [
+748,
+4,
+"ImageSpaceEffectDepthRadialBlur::RadialBlurMode"
+],
+"fCurrentDepthRadialBlurRampupValue": [
+724,
+4,
+"float"
+],
+"fCurrentDepthRadialBlurRange": [
+736,
+4,
+"float"
+],
+"fCurrentDepthRadialBlurStartValue": [
+728,
+4,
+"float"
+],
+"fCurrentRadialBlurCenter": [
+660,
+8,
+"NiPoint2"
+],
+"fCurrentRadialBlurDownStartValue": [
+636,
+4,
+"float"
+],
+"fCurrentRadialBlurRampDownValue": [
+632,
+4,
+"float"
+],
+"fCurrentRadialBlurRampupValue": [
+624,
+4,
+"float"
+],
+"fCurrentRadialBlurStartValue": [
+628,
+4,
+"float"
+],
+"fHighestBlurValue": [
+604,
+4,
+"float"
+],
+"fHighestDOFStrengthValue": [
+676,
+4,
+"float"
+],
+"fHighestDepthRadialBlurStrengthValue": [
+720,
+4,
+"float"
+],
+"fHighestDoubleValue": [
+612,
+4,
+"float"
+],
+"fHighestFadeValue": [
+600,
+4,
+"float"
+],
+"fHighestMotionBlurStrengthValue": [
+752,
+4,
+"float"
+],
+"fHighestRadialBlurStrengthValue": [
+620,
+4,
+"float"
+],
+"fHighestTintValue": [
+564,
+4,
+"float"
+],
+"fWeatherBlurValue": [
+608,
+4,
+"float"
+],
+"fWeatherDOFDistanceValue": [
+696,
+4,
+"float"
+],
+"fWeatherDOFMaskConst": [
+704,
+4,
+"float"
+],
+"fWeatherDOFMode": [
+712,
+4,
+"ImageSpaceEffectDepthOfField::DepthOfFieldMode"
+],
+"fWeatherDOFRangeValue": [
+700,
+4,
+"float"
+],
+"fWeatherDOFStrengthValue": [
+692,
+4,
+"float"
+],
+"fWeatherDoubleValue": [
+616,
+4,
+"float"
+],
+"fWeatherMotionBlurStrengthValue": [
+756,
+4,
+"float"
+],
+"fWeatherRadialBlurCenter": [
+668,
+8,
+"NiPoint2"
+],
+"fWeatherRadialBlurDownStartValue": [
+656,
+4,
+"float"
+],
+"fWeatherRadialBlurRampDownValue": [
+652,
+4,
+"float"
+],
+"fWeatherRadialBlurRampupValue": [
+644,
+4,
+"float"
+],
+"fWeatherRadialBlurStartValue": [
+648,
+4,
+"float"
+],
+"fWeatherRadialBlurStrengthValue": [
+640,
+4,
+"float"
+],
+"iActiveEffectsCount": [
+488,
+4,
+"int"
+],
+"iLastEffect": [
+492,
+4,
+"ImageSpaceManager::ImageSpaceEffectEnum"
+],
+"kFadeColor": [
+568,
+16,
+"NiColorA"
+],
+"kRefractionTint": [
+760,
+16,
+"NiColorA"
+],
+"kTintColor": [
+532,
+16,
+"NiColorA"
+],
+"kWeatherFadeColor": [
+584,
+16,
+"NiColorA"
+],
+"kWeatherTintColor": [
+548,
+16,
+"NiColorA"
+],
+"pBaseParameterData": [
+172,
+4,
+"const ImageSpaceParameterData*"
+],
+"pEOFDest": [
+0,
+4,
+"BSRenderedTexture*"
+],
+"pEffectList": [
+4,
+16,
+"NiTPrimitiveArray<ImageSpaceEffect *>"
+],
+"pOverRideBaseParameterData": [
+176,
+4,
+"const ImageSpaceParameterData*"
+],
+"pSwapTarget": [
+792,
+4,
+"BSRenderedTexture*"
+],
+"spMenuUnpackGeom": [
+512,
+4,
+"NiPointer<NiScreenElements>"
+],
+"spPartialScreenTriShape": [
+504,
+4,
+"NiPointer<NiScreenElements>"
+],
+"spScreenTriShape": [
+496,
+4,
+"NiPointer<NiScreenElements>"
+],
+"spScreenTriShapeData": [
+500,
+4,
+"NiPointer<NiScreenElementsData>"
+]
+},
+"nonvirtual_methods": [
+"AddEffect",
+"ApplyBlurRadiusParamModifier",
+"ApplyBlurRadiusParamModifierWeather",
+"ApplyCurrentParameterData",
+"ApplyDepthOfFieldParamModifier",
+"ApplyDepthOfFieldParamModifierWeather",
+"ApplyDepthRadialBlurParamModifier",
+"ApplyDoubleVisionParamModifier",
+"ApplyDoubleVisionParamModifierWeather",
+"ApplyFadeColorParamModifier",
+"ApplyFadeColorParamModifierWeather",
+"ApplyMotionBlurStrengthParamModifier",
+"ApplyMotionBlurStrengthParamModifierWeather",
+"ApplyOperation",
+"ApplyParamModifier",
+"ApplyParamModifierWeather",
+"ApplyRadialBlurParamModifier",
+"ApplyRadialBlurParamModifierWeather",
+"ApplyTintColorParamModifier",
+"ApplyTintColorParamModifierWeather",
+"BeginParamModifiers",
+"ClearCustomViewPort",
+"CreatePartialScreenGeometry",
+"EnablePartialRender",
+"EnableSunbeams",
+"EndParamModifiers",
+"EndWeatherModifiers",
+"GetCustomViewport",
+"GetDepthImageSpaceTexture",
+"GetDepthOfFieldParamsFromWorldBound",
+"GetDepthRenderedTexture",
+"GetDepthTexture",
+"GetEffect",
+"GetHDRBlurRadius",
+"GetHDRBrightClamp",
+"GetHDRBrightScale",
+"GetHDREmissiveMult",
+"GetHDREyeAdaptSpeed",
+"GetHDRTargetLUM",
+"GetHDRUpperLUMClamp",
+"GetMenuUnpackGeom",
+"GetRadialBlurCenterFromWorldBound",
+"GetRefractionNormalsTexture",
+"GetRefractionTint",
+"GetSwapTarget",
+"GetVolumetricFogTexture",
+"ImageSpaceManager",
+"InitDefaultParameter",
+"InitEffects",
+"InitGeometry",
+"Initialize",
+"IsEffectActive",
+"ModifyParameterData",
+"PrepareEndOfFrameEffects",
+"ReloadShaders",
+"RenderEffect",
+"RenderEndOfFrameEffects",
+"ResetToBaseParameterData",
+"ResetWeatherData",
+"ReturnDepthTexture",
+"ReturnVolumetricFogTexture",
+"SetBaseParameterData",
+"SetCustomViewPort",
+"SetDepthTexture",
+"SetMenuBGBlendEnabled",
+"SetMenuBGBlendValue",
+"SetMenuUnpackGeom",
+"SetMotionBlurConst",
+"SetOverrideBaseParameterData",
+"SetRefractionTint",
+"SetSunPosition",
+"SetVolumetricFogProps",
+"SetupEffects",
+"Shutdown",
+"ShutdownEffects",
+"ShutdownGeometry",
+"__vecDelDtor",
+"operator=",
+"~ImageSpaceManager"
+],
+"sizeof": 796,
+"virtuals": [],
+"xbox_name": "ImageSpaceManager"
+},
+"MTRenderingSystem": {
+"fields": {
+"TaskStageSema": [
+24,
+36,
+"BSMTRSemaphore[36 bytes]"
+],
+"TaskThreadArray": [
+0,
+12,
+"RenderingTaskThread*[12 bytes]"
+],
+"TaskThreadStage": [
+12,
+12,
+"volatile int[12 bytes]"
+],
+"pTaskArray": [
+60,
+768,
+"MTRenderingSystem::AccumTask[768 bytes]"
+]
+},
+"nonvirtual_methods": [
+"AddAccumTask",
+"AddThread",
+"CreateThreads",
+"DestroyThreads",
+"GetMyThreadStage",
+"GetThreadStage",
+"MTRenderingSystem",
+"QInstance",
+"SetThreadStage",
+"SignalRenderSema",
+"SignalThreadSema",
+"StartThreads",
+"Thread1TaskFunc",
+"Thread2TaskFunc",
+"WaitForThreads",
+"WaitOnThreadStage",
+"WaitRenderSema",
+"WaitThreadSema",
+"__vecDelDtor",
+"operator=",
+"~MTRenderingSystem"
+],
+"sizeof": 828,
+"virtuals": [],
+"xbox_name": "MTRenderingSystem"
+},
+"MemoryHeap": {
+"fields": {
+"bDeletingHeap": [
+8437,
+1,
+"bool"
+],
+"bSupportsSwapping": [
+8436,
+1,
+"bool"
+]
+},
+"nonvirtual_methods": [
+"Allocate",
+"BlockIsOk",
+"CleanExtraPages",
+"CreateMorePages",
+"CriticalSectionEnter",
+"CriticalSectionLeave",
+"Deallocate",
+"DecommitPages",
+"DoHeapAllocation",
+"DoHeapFree",
+"GetCalculatedMemoryUsed",
+"GetHeapStats",
+"GetReportedMemoryUsed",
+"MemoryHeap",
+"OutputBlockInfo",
+"OutputBucketInfo",
+"Size",
+"TotalSize",
+"operator=",
+"~MemoryHeap"
+],
+"sizeof": 8440,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "MemoryHeap"
+},
+"MemoryManager": {
+"fields": {
+"bAllowPoolUse": [
+297,
+1,
+"bool"
+],
+"bInitialized": [
+0,
+1,
+"bool"
+],
+"bSpecialHeaps": [
+296,
+1,
+"bool"
+],
+"iMallocBytes": [
+304,
+4,
+"unsigned"
+],
+"iNumHeaps": [
+2,
+2,
+"unsigned short"
+],
+"iNumPhysicalHeaps": [
+4,
+2,
+"unsigned short"
+],
+"iSysAllocBytes": [
+300,
+4,
+"unsigned"
+],
+"kThreadScrapHeapMap": [
+276,
+16,
+"BSMap<unsigned long,ScrapHeap *>"
+],
+"pHeapsByContextA": [
+12,
+264,
+"IMemoryHeap*[264 bytes]"
+],
+"ppHeaps": [
+8,
+4,
+"IMemoryHeap**"
+],
+"ppPhysicalHeaps": [
+292,
+4,
+"IMemoryHeap**"
+]
+},
+"nonvirtual_methods": [
+"AddPool",
+"Allocate",
+"AllocatePhysical",
+"CheckDelayedFreeBlocks",
+"CheckMemoryIntegrity",
+"ClearDuplicatedPools",
+"Deallocate",
+"DeallocatePhysical",
+"DisableDelayedFree",
+"DoSystemAllocation",
+"DoSystemDeallocation",
+"EnableDelayedFree",
+"GetCalculatedMemoryUsed",
+"GetDefaultHeapStats",
+"GetHeapByIndex",
+"GetHeapForPhysicalPointer",
+"GetHeapForPointer",
+"GetHeapStats",
+"GetMemHeap",
+"GetNumHeaps",
+"GetNumPhysicalHeaps",
+"GetPhysicalHeapStats",
+"GetReportedMemoryUsed",
+"GetThreadScrapHeap",
+"Initialize",
+"InitializeStandard",
+"Instance",
+"Memcpy",
+"MemoryManager",
+"Memset",
+"OutputDebugInfo",
+"ProcessMemoryProblem",
+"QCheckMemOnFree",
+"QDelayedFreeEnabled",
+"Reallocate",
+"RegisterMemoryManager",
+"SetCheckMemOnFree",
+"SetupDuplicatedPools",
+"Size",
+"SpecifyMemoryLayout",
+"SpecifyPools",
+"TryAndAllocate",
+"__vecDelDtor",
+"operator=",
+"~MemoryManager"
+],
+"sizeof": 308,
+"virtuals": [],
+"xbox_name": "MemoryManager"
+},
+"NiAVObject": {
+"fields": {
+"m_kLocal": [
+64,
+64,
+"NiTransform"
+],
+"m_kPropertyList": [
+36,
+12,
+"NiTPointerList<NiPointer<NiProperty> >"
+],
+"m_kWorld": [
+128,
+64,
+"NiTransform"
+],
+"m_kWorldBound": [
+32,
+4,
+"BSNiBound*"
+],
+"m_pkParent": [
+24,
+4,
+"NiNode*"
+],
+"m_spCollisionObject": [
+28,
+4,
+"NiPointer<NiCollisionObject>"
+],
+"m_uFlags": [
+48,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"AttachParent",
+"AttachProperty",
+"CloneProperties",
+"CopyMembers",
+"CopyTransforms",
+"CreateBoundIfNone",
+"Cull",
+"DetachAllProperties",
+"DetachParent",
+"DetachProperty",
+"DoSelectedUpdate",
+"GetAppCulled",
+"GetBit",
+"GetCollisionObject",
+"GetDisplayObject",
+"GetField",
+"GetLocalTransform",
+"GetNoDecals",
+"GetParent",
+"GetProperty",
+"GetPropertyList",
+"GetRTTI",
+"GetRotate",
+"GetScale",
+"GetSelectiveUpdate",
+"GetSelectiveUpdateControllers",
+"GetSelectiveUpdateRigid",
+"GetSelectiveUpdateTransforms",
+"GetSelectiveUpdateTransformsOverride",
+"GetSortObject",
+"GetTransIsIdentity",
+"GetTranslate",
+"GetViewerStrings",
+"GetWorldBound",
+"GetWorldBoundChange",
+"GetWorldBoundRadius",
+"GetWorldRotate",
+"GetWorldScale",
+"GetWorldTransform",
+"GetWorldTranslate",
+"HasPropertyController",
+"HasTransformController",
+"IsEqual",
+"IsUnCulledVisualObject",
+"IsVisualObject",
+"LinkObject",
+"LoadBinary",
+"NiAVObject",
+"ProcessClone",
+"ProcessPropertyClones",
+"PushLocalProperties",
+"QAlreadyTraversed",
+"QAlwaysDraw",
+"QFadedIn",
+"QFixedBound",
+"QHasMovingSound",
+"QHasOrphanedBound",
+"QHasPropController",
+"QHighDetail",
+"QIgnoreFade",
+"QLODFadingOut",
+"QPlayer",
+"QRelevantImposter",
+"QShadowReceiver",
+"RegisterStreamables",
+"RemoveProperty",
+"SaveBinary",
+"SetAlreadyTraversed",
+"SetAlwaysDraw",
+"SetAppCulled",
+"SetBit",
+"SetBound",
+"SetCollisionObject",
+"SetDisplayObject",
+"SetFadedIn",
+"SetField",
+"SetFixedBound",
+"SetHasMovingSound",
+"SetHasPropController",
+"SetHighDetail",
+"SetIgnoreFade",
+"SetLODFadingOut",
+"SetNoDecals",
+"SetOrphanedBound",
+"SetPlayer",
+"SetRelevantImposter",
+"SetRotate",
+"SetRotateAboutCenter",
+"SetScale",
+"SetSelectiveUpdate",
+"SetSelectiveUpdateControllers",
+"SetSelectiveUpdateRigid",
+"SetSelectiveUpdateTransforms",
+"SetSelectiveUpdateTransformsOverride",
+"SetShadowReceiver",
+"SetSortObject",
+"SetTransIsIdentity",
+"SetTranslate",
+"SetWorldBound",
+"SetWorldBoundChange",
+"SetWorldRotate",
+"SetWorldScale",
+"SetWorldTranslate",
+"Update",
+"UpdateEffects",
+"UpdateObjectControllers",
+"UpdateProperties",
+"UpdateSelected",
+"UpdateWorldLoc",
+"_SDMInit",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiAVObject"
+],
+"sizeof": 192,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"UpdateControllers"
+],
+[
+36,
+"ApplyTransform"
+],
+[
+37,
+"SetMaterialNeedsUpdate"
+],
+[
+38,
+"SetDefaultMaterialNeedsUpdateFlag"
+],
+[
+39,
+"GetObjectByName"
+],
+[
+40,
+"SetSelectiveUpdateFlags"
+],
+[
+41,
+"UpdateDownwardPass"
+],
+[
+42,
+"UpdateSelectedDownwardPass"
+],
+[
+43,
+"UpdateRigidDownwardPass"
+],
+[
+44,
+"UpdatePropertiesDownward"
+],
+[
+45,
+"UpdateEffectsDownward"
+],
+[
+46,
+"UpdateWorldData"
+],
+[
+47,
+"UpdateWorldBound"
+],
+[
+48,
+"UpdateTransformAndBounds"
+],
+[
+49,
+"PreAttachUpdate"
+],
+[
+50,
+"PreAttachUpdateProperties"
+],
+[
+51,
+"PreAttachUpdateEffects"
+],
+[
+52,
+"PostAttachUpdate"
+],
+[
+53,
+"OnVisible"
+],
+[
+54,
+"PurgeRendererData"
+]
+],
+"xbox_name": "NiAVObject"
+},
+"NiAccumulator": {
+"fields": {
+"m_pkCamera": [
+8,
+4,
+"const NiCamera*"
+]
+},
+"nonvirtual_methods": [
+"CopyMembers",
+"GetRTTI",
+"IsAccumulating",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiAccumulator",
+"RegisterStreamables",
+"SaveBinary",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiAccumulator"
+],
+"sizeof": 12,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"StartAccumulating"
+],
+[
+36,
+"FinishAccumulating"
+],
+[
+37,
+"RegisterObjectArray"
+],
+[
+38,
+"RegisterObject"
+],
+[
+39,
+"AddShared"
+],
+[
+40,
+"ClearSharedMap"
+]
+],
+"xbox_name": "NiAccumulator"
+},
+"NiAlphaAccumulator": {
+"fields": {
+"m_bInterfaceSort": [
+50,
+1,
+"bool"
+],
+"m_bObserveNoSortHint": [
+48,
+1,
+"bool"
+],
+"m_bSortByClosestPoint": [
+49,
+1,
+"bool"
+]
+},
+"nonvirtual_methods": [
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"GetObserveNoSortHint",
+"GetRTTI",
+"GetSortByClosestPoint",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiAlphaAccumulator",
+"RegisterObject",
+"RegisterObjectArray",
+"RegisterStreamables",
+"SaveBinary",
+"SetInterfaceSort",
+"SetObserveNoSortHint",
+"SetSortByClosestPoint",
+"Sort",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiAlphaAccumulator"
+],
+"sizeof": 52,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiAlphaAccumulator"
+},
+"NiBackToFrontAccumulator": {
+"fields": {
+"m_iCurrItem": [
+44,
+4,
+"int"
+],
+"m_iMaxItems": [
+32,
+4,
+"int"
+],
+"m_iNumItems": [
+28,
+4,
+"int"
+],
+"m_kItems": [
+12,
+12,
+"NiTPointerList<NiGeometry *>"
+],
+"m_kItemsToSortAndRender": [
+24,
+4,
+"NiTPointerList<NiGeometry *>*"
+],
+"m_pfDepths": [
+40,
+4,
+"float*"
+],
+"m_ppkItems": [
+36,
+4,
+"NiGeometry**"
+]
+},
+"nonvirtual_methods": [
+"ChoosePivot",
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"FinishAccumulating",
+"GetRTTI",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiBackToFrontAccumulator",
+"RegisterObjectArray",
+"RegisterStreamables",
+"SaveBinary",
+"SortObjectsByDepth",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiBackToFrontAccumulator"
+],
+"sizeof": 48,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+41,
+"Sort"
+]
+],
+"xbox_name": "NiBackToFrontAccumulator"
+},
+"NiBound": {
+"fields": {
+"m_fRadius": [
+12,
+4,
+"float"
+],
+"m_iRadiusAsInt": [
+12,
+4,
+"int"
+],
+"m_kCenter": [
+0,
+12,
+"NiPoint3"
+]
+},
+"nonvirtual_methods": [
+"ComputeFromData",
+"ComputeMinimalBound",
+"FindIntersect",
+"GetCenter",
+"GetRadius",
+"GetViewerString",
+"LoadBinary",
+"Merge",
+"NiBound",
+"SaveBinary",
+"SetCenter",
+"SetCenterAndRadius",
+"SetRadius",
+"TestIntersect",
+"Update",
+"WhichSide",
+"operator!=",
+"operator=",
+"operator=="
+],
+"sizeof": 16,
+"virtuals": [],
+"xbox_name": "NiBound"
+},
+"NiCamera": {
+"fields": {
+"m_aafWorldToCam": [
+192,
+64,
+"float[16 bytes][64 bytes]"
+],
+"m_fLODAdjust": [
+308,
+4,
+"float"
+],
+"m_fMaxFarNearRatio": [
+288,
+4,
+"float"
+],
+"m_fMinNearPlaneDist": [
+284,
+4,
+"float"
+],
+"m_kPort": [
+292,
+16,
+"NiRect<float>"
+],
+"m_kViewFrustum": [
+256,
+28,
+"NiFrustum"
+]
+},
+"nonvirtual_methods": [
+"AdjustAspectRatio",
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"FitNearAndFarToBound",
+"GetLODAdjust",
+"GetMaxFarNearRatio",
+"GetMinNearPlaneDist",
+"GetRTTI",
+"GetViewFrustum",
+"GetViewPort",
+"GetViewerStrings",
+"GetWorldDirection",
+"GetWorldLocation",
+"GetWorldRightVector",
+"GetWorldToCameraMatrix",
+"GetWorldUpVector",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"LookAtWorldPoint",
+"NiCamera",
+"RegisterStreamables",
+"SaveBinary",
+"ScreenSpaceBoundBound",
+"ScreenSpaceBoundSize",
+"SetLODAdjust",
+"SetMaxFarNearRatio",
+"SetMinNearPlaneDist",
+"SetViewFrustum",
+"SetViewPort",
+"UpdateWorldBound",
+"UpdateWorldData",
+"ViewPointToRay",
+"WindowPointToRay",
+"WorldPtToScreenPt",
+"WorldPtToScreenPt3",
+"WorldToCameraMatrix",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiCamera"
+],
+"sizeof": 320,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiCamera"
+},
+"NiD3DDefaultShader": {
+"fields": {
+"m_bBaseTextureAlphaNeeded": [
+60,
+1,
+"bool"
+],
+"m_bVertexColorAlphaNeeded": [
+61,
+1,
+"bool"
+],
+"m_peFogPassArray": [
+80,
+4,
+"NiD3DDefaultShader::PassFogStatus*"
+],
+"m_pkLastState": [
+88,
+4,
+"const NiDynamicEffectState*"
+],
+"m_uiFogPassArraySize": [
+84,
+4,
+"unsigned"
+],
+"m_uiMaxTextureIndex": [
+64,
+4,
+"unsigned"
+],
+"m_uiOldLightingValue": [
+76,
+4,
+"unsigned"
+],
+"m_uiRemainingStages": [
+68,
+4,
+"unsigned"
+],
+"m_uiRemainingTextures": [
+72,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"AddTextureStage",
+"ClosePass",
+"ConstructPipeline",
+"GetRTTI",
+"Initialize",
+"InitializeDeviceCaps",
+"NextFrame",
+"NiD3DDefaultShader",
+"OpenNewPass",
+"PackTextureTransform",
+"PostProcessPipeline",
+"PreProcessPipeline",
+"UpdatePipeline",
+"UseQuickDecals",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiD3DDefaultShader"
+],
+"sizeof": 92,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiD3DDefaultShader"
+},
+"NiD3DPass": {
+"fields": {
+"cEnabledStages": [
+76,
+1,
+"char"
+],
+"m_bRendererOwned": [
+97,
+1,
+"bool"
+],
+"m_bSoftwareVP": [
+96,
+1,
+"bool"
+],
+"m_kStages": [
+32,
+16,
+"NiTObjectArray<NiPointer<NiD3DTextureStage> >"
+],
+"m_pcPixelShaderEntryPoint": [
+60,
+4,
+"char*"
+],
+"m_pcPixelShaderProgramFile": [
+56,
+4,
+"char*"
+],
+"m_pcPixelShaderTarget": [
+64,
+4,
+"char*"
+],
+"m_pcVertexShaderEntryPoint": [
+84,
+4,
+"char*"
+],
+"m_pcVertexShaderProgramFile": [
+80,
+4,
+"char*"
+],
+"m_pcVertexShaderTarget": [
+88,
+4,
+"char*"
+],
+"m_pkRenderStateGroup": [
+48,
+4,
+"NiD3DRenderStateGroup*"
+],
+"m_spPixelConstantMap": [
+52,
+4,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_spPixelShader": [
+68,
+4,
+"NiPointer<NiD3DPixelShader>"
+],
+"m_spVertexConstantMap": [
+72,
+4,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_spVertexShader": [
+92,
+4,
+"NiPointer<NiD3DVertexShader>"
+],
+"m_szName": [
+4,
+16,
+"char[16 bytes]"
+],
+"m_uiCurrentStage": [
+20,
+4,
+"unsigned"
+],
+"m_uiRefCount": [
+100,
+4,
+"unsigned"
+],
+"m_uiStageCount": [
+24,
+4,
+"unsigned"
+],
+"m_uiTexturesPerPass": [
+28,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"AppendStage",
+"CheckFreeStages",
+"CreateNewPass",
+"DecRefCount",
+"GetAvailableStages",
+"GetAvailableTextures",
+"GetCurrentStage",
+"GetD3DDevice",
+"GetD3DRenderState",
+"GetD3DRenderer",
+"GetName",
+"GetPixelConstantMap",
+"GetPixelShader",
+"GetPixelShaderProgramEntryPoint",
+"GetPixelShaderProgramFileName",
+"GetPixelShaderProgramShaderTarget",
+"GetRenderState",
+"GetRenderStateCount",
+"GetRenderStateData",
+"GetRenderStateGroup",
+"GetRenderStateRS",
+"GetSoftwareVertexProcessing",
+"GetStage",
+"GetStageCount",
+"GetTextureCount",
+"GetTotalAvailableStages",
+"GetVertexConstantMap",
+"GetVertexShader",
+"GetVertexShaderProgramEntryPoint",
+"GetVertexShaderProgramFileName",
+"GetVertexShaderProgramShaderTarget",
+"IncRefCount",
+"InitializePools",
+"IsPassContiguous",
+"IsPassEmpty",
+"IsRendererOwned",
+"NiD3DPass",
+"QSavedRenderStates",
+"ReleaseTextureStages",
+"RemoveRenderState",
+"ReturnPassToPool",
+"SetD3DDevice",
+"SetD3DRenderState",
+"SetD3DRenderer",
+"SetDepthBiasRenderState",
+"SetMaxSamplers",
+"SetMaxSimultaneousTextures",
+"SetMaxTextureBlendStages",
+"SetName",
+"SetPixelConstantMap",
+"SetPixelShader",
+"SetPixelShaderProgramEntryPoint",
+"SetPixelShaderProgramFileName",
+"SetPixelShaderProgramShaderTarget",
+"SetRenderState",
+"SetRenderStateGroup",
+"SetRendererOwned",
+"SetSoftwareVertexProcessing",
+"SetSrcDestBlendRenderState",
+"SetStage",
+"SetVertexConstantMap",
+"SetVertexShader",
+"SetVertexShaderProgramEntryPoint",
+"SetVertexShaderProgramFileName",
+"SetVertexShaderProgramShaderTarget",
+"ShutdownPools",
+"ValidatePass",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 104,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+0,
+"~NiD3DPass"
+],
+[
+1,
+"SetupShaderPrograms"
+],
+[
+2,
+"SetupRenderingPass"
+],
+[
+3,
+"PostProcessRenderingPass"
+]
+],
+"xbox_name": "NiD3DPass"
+},
+"NiD3DShader": {
+"fields": {
+"m_bUsesNiLightState": [
+37,
+1,
+"bool"
+],
+"m_bUsesNiRenderState": [
+36,
+1,
+"bool"
+],
+"m_pkRenderStateGroup": [
+44,
+4,
+"NiD3DRenderStateGroup*"
+],
+"m_spPixelConstantMap": [
+48,
+4,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_spShaderDecl": [
+40,
+4,
+"NiPointer<NiD3DShaderDeclaration>"
+],
+"m_spVertexConstantMap": [
+52,
+4,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_uiCurrentPass": [
+56,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"DestroyRendererData",
+"FirstPass",
+"GetIsBestImplementation",
+"GetPSPresentAllPasses",
+"GetPSPresentAnyPass",
+"GetRTTI",
+"GetShaderDecl",
+"GetUsesNiLightState",
+"GetUsesNiRenderState",
+"GetVSPresentAllPasses",
+"GetVSPresentAnyPass",
+"Initialize",
+"InitializePools",
+"IsInitialized",
+"NextPass",
+"NiD3DShader",
+"PackCameraSphereEffect",
+"PackDiffuseCubeEffect",
+"PackDynamicEffect",
+"PackSpecularCubeEffect",
+"PackWorldParallelEffect",
+"PackWorldPerspectiveEffect",
+"PackWorldSphereEffect",
+"PostProcessPipeline",
+"PreProcessPipeline",
+"PrepareGeometryForRendering",
+"RecreateRendererData",
+"ResetSCMExtraData",
+"SetIsBestImplementation",
+"SetShaderDecl",
+"SetUsesNiLightState",
+"SetUsesNiRenderState",
+"SetupGeometry",
+"SetupRenderingPass",
+"SetupSCMExtraData",
+"SetupShaderPrograms",
+"SetupTransformations",
+"ShutdownPools",
+"UpdatePipeline",
+"UseWorldSpaceSphereMaps",
+"_SDMInit",
+"_SDMShutdown",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiD3DShader"
+],
+"sizeof": 60,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+59,
+"DetermineShaderDeclaration"
+],
+[
+60,
+"GetCurrentPass"
+],
+[
+61,
+"ResetPasses"
+]
+],
+"xbox_name": "NiD3DShader"
+},
+"NiD3DShaderInterface": {
+"fields": {
+"m_bIsBestImplementation": [
+32,
+1,
+"bool"
+],
+"m_pkD3DDevice": [
+20,
+4,
+"D3DDevice*"
+],
+"m_pkD3DRenderState": [
+28,
+4,
+"NiXenonRenderState*"
+],
+"m_pkD3DRenderer": [
+24,
+4,
+"NiXenonRenderer*"
+]
+},
+"nonvirtual_methods": [
+"GetRTTI",
+"Initialize",
+"InitializeShaderSystem",
+"NiD3DShaderInterface",
+"SetD3DDevice",
+"SetD3DRenderState",
+"SetD3DRenderer",
+"ShutdownShaderSystem",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiD3DShaderInterface"
+],
+"sizeof": 36,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+47,
+"GetShaderDecl"
+],
+[
+48,
+"SetShaderDecl"
+],
+[
+49,
+"HandleLostDevice"
+],
+[
+50,
+"HandleResetDevice"
+],
+[
+51,
+"DestroyRendererData"
+],
+[
+52,
+"RecreateRendererData"
+],
+[
+53,
+"GetVSPresentAllPasses"
+],
+[
+54,
+"GetVSPresentAnyPass"
+],
+[
+55,
+"GetPSPresentAllPasses"
+],
+[
+56,
+"GetPSPresentAnyPass"
+],
+[
+57,
+"GetIsBestImplementation"
+],
+[
+58,
+"SetIsBestImplementation"
+]
+],
+"xbox_name": "NiD3DShaderInterface"
+},
+"NiGeometry": {
+"fields": {
+"m_PropertyState": [
+192,
+28,
+"NiPropertyState"
+],
+"m_spModelData": [
+220,
+4,
+"NiPointer<NiGeometryData>"
+],
+"m_spShader": [
+228,
+4,
+"NiShader*"
+],
+"m_spSkinInstance": [
+224,
+4,
+"NiPointer<NiSkinInstance>"
+]
+},
+"nonvirtual_methods": [
+"AppendTextureSet",
+"ApplyTransform",
+"ContainsVertexData",
+"CopyMembers",
+"CreateColors",
+"CreateNormals",
+"CreateTextures",
+"GetActiveVertexCount",
+"GetAdditionalGeometryData",
+"GetColors",
+"GetConsistency",
+"GetModelBound",
+"GetModelData",
+"GetNormalBinormalTangentMethod",
+"GetNormals",
+"GetPropertyStateP",
+"GetRTTI",
+"GetShader",
+"GetShaderFromMaterial",
+"GetSkinInstance",
+"GetSortObject",
+"GetTextureSet",
+"GetTextureSets",
+"GetTextures",
+"GetVertexCount",
+"GetVertices",
+"GetViewerStrings",
+"IsEqual",
+"IsGeometry",
+"LinkObject",
+"LoadBinary",
+"NiGeometry",
+"OnVisible",
+"PostLinkObject",
+"ProcessClone",
+"PurgeRendererData",
+"RegisterStreamables",
+"SaveBinary",
+"SetActiveVertexCount",
+"SetAdditionalGeometryData",
+"SetBound",
+"SetConsistency",
+"SetModelBound",
+"SetSelectiveUpdateFlags",
+"SetShader",
+"SetSkinInstance",
+"SetSortObject",
+"StoreNormalBinormalTangent",
+"UpdatePropertiesDownward",
+"UpdateWorldBound",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiGeometry"
+],
+"sizeof": 240,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+55,
+"RenderImmediate"
+],
+[
+56,
+"OnlyRenderImmediate"
+],
+[
+57,
+"SetModelData"
+],
+[
+58,
+"CalculateNormals"
+],
+[
+59,
+"CalculateConsistency"
+]
+],
+"xbox_name": "NiGeometry"
+},
+"NiGeometryData": {
+"fields": {
+"m_bSaveVertexData": [
+60,
+1,
+"bool"
+],
+"m_bVBLockWrite": [
+59,
+1,
+"bool"
+],
+"m_bVBLocked": [
+58,
+1,
+"bool"
+],
+"m_kBound": [
+16,
+16,
+"NiBound"
+],
+"m_pkBuffData": [
+52,
+4,
+"NiGeometryData::RendererData*"
+],
+"m_pkColor": [
+40,
+4,
+"NiColorA*"
+],
+"m_pkNormal": [
+36,
+4,
+"NiPoint3*"
+],
+"m_pkTexture": [
+44,
+4,
+"NiPoint2*"
+],
+"m_pkVertex": [
+32,
+4,
+"NiPoint3*"
+],
+"m_spAdditionalGeomData": [
+48,
+4,
+"NiPointer<NiAdditionalGeometryData>"
+],
+"m_ucCompressFlags": [
+57,
+1,
+"unsigned char"
+],
+"m_ucKeepFlags": [
+56,
+1,
+"unsigned char"
+],
+"m_usDataFlags": [
+12,
+2,
+"unsigned short"
+],
+"m_usDirtyFlags": [
+14,
+2,
+"unsigned short"
+],
+"m_usID": [
+10,
+2,
+"unsigned short"
+],
+"m_usVertices": [
+8,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"AppendTextureSet",
+"ChoosePivot",
+"ClearNormals",
+"ClearRevisionID",
+"CreateColors",
+"CreateNormals",
+"CreateTextures",
+"CreateVertices",
+"GetAdditionalGeometryData",
+"GetBlendIndicesIterator",
+"GetBlendWeightsIterator",
+"GetBlockAllocationSize",
+"GetBound",
+"GetColors",
+"GetColorsIterator",
+"GetCompressFlags",
+"GetConsistency",
+"GetGroup",
+"GetKeepFlags",
+"GetNormalBinormalTangentMethod",
+"GetNormals",
+"GetNormalsIterator",
+"GetRTTI",
+"GetRendererData",
+"GetRevisionID",
+"GetTextureSet",
+"GetTextureSetIterator",
+"GetTextureSets",
+"GetTextures",
+"GetUniqueID",
+"GetVertexCount",
+"GetVertices",
+"GetVerticesIterator",
+"GetViewerStrings",
+"IndexQSort",
+"IndexSort",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"LockPackedVertexData",
+"MarkAsChanged",
+"NiGeometryData",
+"RegisterStreamables",
+"Replace",
+"ReplaceData",
+"SaveBinary",
+"SetAdditionalGeometryData",
+"SetBound",
+"SetCompressFlags",
+"SetConsistency",
+"SetData",
+"SetGroup",
+"SetKeepFlags",
+"SetNormalBinormalTangentMethod",
+"SetNumTextureSets",
+"SetRendererData",
+"StoreNormalBinormalTangent",
+"UnlockPackedVertexData",
+"VertexCompare",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiGeometryData"
+],
+"sizeof": 64,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"SetActiveVertexCount"
+],
+[
+36,
+"GetActiveVertexCount"
+],
+[
+37,
+"IsTriStripsData"
+],
+[
+38,
+"IsTriShapeData"
+],
+[
+39,
+"ContainsVertexData"
+],
+[
+40,
+"CalculateNormals"
+]
+],
+"xbox_name": "NiGeometryData"
+},
+"NiMatrix3": {
+"fields": {
+"m_pEntry": [
+0,
+48,
+"NiPoint4[48 bytes]"
+]
+},
+"nonvirtual_methods": [
+"Congruence",
+"Determinant",
+"EigenSolveSymmetric",
+"ExtractAngleAndAxis",
+"FromEulerAnglesXYZ",
+"FromEulerAnglesXZY",
+"FromEulerAnglesYXZ",
+"FromEulerAnglesYZX",
+"FromEulerAnglesZXY",
+"FromEulerAnglesZYX",
+"GetCol",
+"GetEntry",
+"GetRow",
+"GetViewerString",
+"Inverse",
+"LoadBinary",
+"MakeDiagonal",
+"MakeIdentity",
+"MakeRotation",
+"MakeXRotation",
+"MakeYRotation",
+"MakeZRotation",
+"MakeZRotationQ",
+"MakeZero",
+"NiMatrix3",
+"QLAlgorithm",
+"Reorthogonalize",
+"SaveBinary",
+"Scale",
+"SetCol",
+"SetEntry",
+"SetRow",
+"ToEulerAnglesXYZ",
+"ToEulerAnglesXZY",
+"ToEulerAnglesYXZ",
+"ToEulerAnglesYZX",
+"ToEulerAnglesZXY",
+"ToEulerAnglesZYX",
+"TransformNormals",
+"TransformVertices",
+"TransformVerticesAndNormals",
+"Transpose",
+"TransposeTimes",
+"Tridiagonal",
+"XMLoadFloat3x4",
+"XMStoreFloat3x4",
+"operator!=",
+"operator*",
+"operator+",
+"operator-",
+"operator=="
+],
+"sizeof": 48,
+"virtuals": [],
+"xbox_name": "NiMatrix3"
+},
+"NiNode": {
+"fields": {
+"m_kChildren": [
+192,
+16,
+"NiTObjectArray<NiPointer<NiAVObject> >"
+]
+},
+"nonvirtual_methods": [
+"ApplyTransform",
+"CompactChildArray",
+"CopyEffectListClones",
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"DetachAllChildren",
+"GetArrayCount",
+"GetAt",
+"GetAtChecked",
+"GetChildCount",
+"GetObjectByName",
+"GetRTTI",
+"GetViewerStrings",
+"IsEqual",
+"IsNode",
+"LinkObject",
+"LoadBinary",
+"NiNode",
+"OnVisible",
+"ProcessClone",
+"PurgeRendererData",
+"QNotVisible",
+"QPickOff",
+"QPreProcessedNode",
+"RegisterStreamables",
+"RemoveAllChildren",
+"SameTopology",
+"SaveBinary",
+"SetBound",
+"SetChildArraySize",
+"SetNotVisible",
+"SetPickOff",
+"SetPreProcessedNode",
+"SetSelectiveUpdateFlags",
+"UpdateControllers",
+"UpdateDownwardPass",
+"UpdatePropertiesDownward",
+"UpdatePropertiesUpward",
+"UpdateRigidDownwardPass",
+"UpdateSelectedDownwardPass",
+"UpdateTransformAndBounds",
+"UpdateWorldBound",
+"__dflt_ctor_closure",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiNode"
+],
+"sizeof": 208,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+55,
+"AttachChild"
+],
+[
+56,
+"InsertChildAt"
+],
+[
+57,
+"DetachChild"
+],
+[
+58,
+"DetachChild"
+],
+[
+59,
+"DetachChildAt"
+],
+[
+60,
+"DetachChildAt"
+],
+[
+61,
+"SetAt"
+],
+[
+62,
+"SetAt"
+],
+[
+63,
+"UpdateUpwardPass"
+]
+],
+"xbox_name": "NiNode"
+},
+"NiObject": {
+"fields": {},
+"nonvirtual_methods": [
+"Clone",
+"CopyMembers",
+"CreateDeepCopy",
+"CreateObject",
+"CreateSharedClone",
+"DynamicCast",
+"IsExactKindOf",
+"IsKindOf",
+"NiObject",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiObject"
+],
+"sizeof": 8,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+2,
+"GetRTTI"
+],
+[
+3,
+"IsNode"
+],
+[
+4,
+"IsFadeNode"
+],
+[
+5,
+"IsMultiBoundNode"
+],
+[
+6,
+"IsGeometry"
+],
+[
+7,
+"IsTriBasedGeom"
+],
+[
+8,
+"IsTriStrips"
+],
+[
+9,
+"IsTriShape"
+],
+[
+10,
+"IsSegmentedTriShape"
+],
+[
+11,
+"IsResizableTriShape"
+],
+[
+12,
+"IsParticlesGeom"
+],
+[
+13,
+"IsLinesGeom"
+],
+[
+14,
+"IsBhkNiCollisionObject"
+],
+[
+15,
+"IsBhkBlendCollisionObject"
+],
+[
+16,
+"IsBhkRigidBody"
+],
+[
+17,
+"IsBhkLimitedHingeConstraint"
+],
+[
+18,
+"CreateClone"
+],
+[
+19,
+"LoadBinary"
+],
+[
+20,
+"LinkObject"
+],
+[
+21,
+"RegisterStreamables"
+],
+[
+22,
+"SaveBinary"
+],
+[
+23,
+"IsEqual"
+],
+[
+24,
+"GetViewerStrings"
+],
+[
+25,
+"AddViewerStrings"
+],
+[
+26,
+"ProcessClone"
+],
+[
+27,
+"PostLinkObject"
+],
+[
+28,
+"StreamCanSkip"
+],
+[
+29,
+"GetStreamableRTTI"
+],
+[
+30,
+"SetBound"
+],
+[
+31,
+"GetBlockAllocationSize"
+],
+[
+32,
+"GetGroup"
+],
+[
+33,
+"SetGroup"
+],
+[
+34,
+"IsNiControllerManager"
+]
+],
+"xbox_name": "NiObject"
+},
+"NiObjectNET": {
+"fields": {
+"m_kName": [
+8,
+4,
+"NiFixedString"
+],
+"m_ppkExtra": [
+16,
+4,
+"NiExtraData**"
+],
+"m_spControllers": [
+12,
+4,
+"NiPointer<NiTimeController>"
+],
+"m_usExtraDataSize": [
+20,
+2,
+"unsigned short"
+],
+"m_usMaxSize": [
+22,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"AddExtraData",
+"CopyMembers",
+"DeleteExtraData",
+"GetController",
+"GetControllers",
+"GetDefaultAppendCharacter",
+"GetDefaultCopyType",
+"GetExtraData",
+"GetExtraDataAt",
+"GetExtraDataSize",
+"GetName",
+"GetRTTI",
+"GetViewerStrings",
+"InsertExtraData",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiObjectNET",
+"PostLinkObject",
+"PrependController",
+"ProcessClone",
+"RegisterStreamables",
+"RemoveAllControllers",
+"RemoveAllExtraData",
+"RemoveController",
+"RemoveExtraData",
+"RemoveExtraDataAt",
+"SaveBinary",
+"SetControllers",
+"SetDefaultAppendCharacter",
+"SetDefaultCopyType",
+"SetExtraDataSize",
+"SetName",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiObjectNET"
+],
+"sizeof": 24,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiObjectNET"
+},
+"NiPoint3": {
+"fields": {
+"x": [
+0,
+4,
+"float"
+],
+"y": [
+4,
+4,
+"float"
+],
+"z": [
+8,
+4,
+"float"
+]
+},
+"nonvirtual_methods": [
+"ComponentProduct",
+"Cross",
+"Dot",
+"GetViewerString",
+"InitSqrtTable",
+"Length",
+"LoadBinary",
+"NiPoint3",
+"Perpendicular",
+"PointsPlusEqualFloatTimesPoints",
+"SaveBinary",
+"SqrLength",
+"SqrXYLength",
+"UnitCross",
+"Unitize",
+"UnitizeGetLength",
+"UnitizeVector",
+"UnitizeVectors",
+"VectorLength",
+"WeightedPointsPlusWeightedPoints",
+"XYLength",
+"_SDMInit",
+"_SDMShutdown",
+"operator!=",
+"operator*",
+"operator*=",
+"operator+",
+"operator+=",
+"operator-",
+"operator-=",
+"operator/",
+"operator/=",
+"operator==",
+"operator[]"
+],
+"sizeof": 12,
+"virtuals": [],
+"xbox_name": "NiPoint3"
+},
+"NiProperty": {
+"fields": {},
+"nonvirtual_methods": [
+"CopyMembers",
+"GetRTTI",
+"GetViewerStrings",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiProperty",
+"RegisterStreamables",
+"SaveBinary",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiProperty"
+],
+"sizeof": 24,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"Type"
+],
+[
+36,
+"Update"
+]
+],
+"xbox_name": "NiProperty"
+},
+"NiPropertyState": {
+"fields": {
+"m_aspProps": [
+0,
+28,
+"NiPointer<NiProperty>[28 bytes]"
+]
+},
+"nonvirtual_methods": [
+"GetAlpha",
+"GetCulling",
+"GetDither",
+"GetMaterial",
+"GetProperties",
+"GetRendererSpecific",
+"GetShade",
+"GetSpecular",
+"GetStencil",
+"GetTexturing",
+"GetVertexColor",
+"GetWireframe",
+"GetZBuffer",
+"NiPropertyState",
+"Reset",
+"SetProperty",
+"SwapProperties",
+"__vecDelDtor",
+"operator=",
+"operator[]",
+"~NiPropertyState"
+],
+"sizeof": 28,
+"virtuals": [],
+"xbox_name": "NiPropertyState"
+},
+"NiRefObject": {
+"fields": {
+"m_uiRefCount": [
+4,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"BETAVERSION_TEST_ClearRefCount",
+"DecRefCount",
+"GetRefCount",
+"GetTotalObjectCount",
+"IncRefCount",
+"NiRefObject",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 8,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+0,
+"~NiRefObject"
+],
+[
+1,
+"DeleteThis"
+]
+],
+"xbox_name": "NiRefObject"
+},
+"NiRenderer": {
+"fields": {
+"m_bBatchRendering": [
+521,
+1,
+"bool"
+],
+"m_bRenderTargetGroupActive": [
+520,
+1,
+"bool"
+],
+"m_eFrameState": [
+512,
+4,
+"NiRenderer::EFrameState"
+],
+"m_kPrecacheCriticalSection": [
+256,
+128,
+"NiCriticalSection"
+],
+"m_kRendererLock": [
+128,
+128,
+"NiCriticalSection"
+],
+"m_kSourceDataCriticalSection": [
+384,
+128,
+"NiCriticalSection"
+],
+"m_pkCurrEffects": [
+16,
+4,
+"NiDynamicEffectState*"
+],
+"m_pkCurrProp": [
+12,
+4,
+"NiPropertyState*"
+],
+"m_spAccum": [
+8,
+4,
+"NiPointer<NiAccumulator>"
+],
+"m_spErrorShader": [
+20,
+4,
+"NiPointer<NiShader>"
+],
+"m_uiFrameID": [
+516,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"Check_BatchRendering",
+"Check_FrameState",
+"Check_RenderTargetGroupActive",
+"ClearLastErrorString",
+"Do_BatchRenderShape",
+"Do_BatchRenderStrips",
+"Do_BeginBatch",
+"Do_EndBatch",
+"EndUsingRenderTargetGroup",
+"Error",
+"GetBatchRendering",
+"GetEffectState",
+"GetErrorShader",
+"GetFrameID",
+"GetFrameState",
+"GetInsideFrameState",
+"GetLastErrorString",
+"GetPropertyState",
+"GetRTTI",
+"GetSorter",
+"GetViewerStrings",
+"IsRenderTargetGroupActive",
+"LockCount",
+"LockPrecacheCriticalSection",
+"LockSourceDataCriticalSection",
+"Message",
+"NiRenderer",
+"PackParticleStripUtil_GetVerts",
+"PrecacheGeometry",
+"QPosAdjust",
+"QRenderer",
+"SetEffectState",
+"SetErrorShader",
+"SetLastErrorString",
+"SetPosAdjust",
+"SetPropertyState",
+"SetSorter",
+"UnlockPrecacheCriticalSection",
+"UnlockSourceDataCriticalSection",
+"WaitRenderFinished",
+"Warning",
+"_SDMShutdown",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiRenderer"
+],
+"sizeof": 640,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"DoMinimalFlip"
+]
+],
+"xbox_name": "NiRenderer"
+},
+"NiShadeProperty": {
+"fields": {
+"iShaderPropertyType": [
+28,
+4,
+"int"
+],
+"m_uFlags": [
+24,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"GetBit",
+"GetDefault",
+"GetField",
+"GetRTTI",
+"GetShaderPropertyType",
+"GetSmooth",
+"GetType",
+"GetViewerStrings",
+"IsEqual",
+"IsEqualFast",
+"LinkObject",
+"LoadBinary",
+"NiShadeProperty",
+"RegisterStreamables",
+"SaveBinary",
+"SetBit",
+"SetField",
+"SetSmooth",
+"Type",
+"_SDMInit",
+"_SDMShutdown",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiShadeProperty"
+],
+"sizeof": 32,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiShadeProperty"
+},
+"NiShader": {
+"fields": {
+"m_bInitialized": [
+16,
+1,
+"bool"
+],
+"m_kName": [
+8,
+4,
+"NiFixedString"
+],
+"m_uiImplementation": [
+12,
+4,
+"unsigned"
+]
+},
+"nonvirtual_methods": [
+"DynamicCast",
+"GetImplementation",
+"GetName",
+"IsExactKindOf",
+"IsKindOf",
+"NiShader",
+"SetImplementation",
+"SetName",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiShader"
+],
+"sizeof": 20,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+2,
+"GetRTTI"
+],
+[
+3,
+"IsNode"
+],
+[
+4,
+"IsFadeNode"
+],
+[
+5,
+"IsMultiBoundNode"
+],
+[
+6,
+"IsGeometry"
+],
+[
+7,
+"IsTriBasedGeom"
+],
+[
+8,
+"IsTriStrips"
+],
+[
+9,
+"IsTriShape"
+],
+[
+10,
+"IsSegmentedTriShape"
+],
+[
+11,
+"IsResizableTriShape"
+],
+[
+12,
+"IsParticlesGeom"
+],
+[
+13,
+"IsLinesGeom"
+],
+[
+14,
+"IsBhkNiCollisionObject"
+],
+[
+15,
+"IsBhkBlendCollisionObject"
+],
+[
+16,
+"IsBhkRigidBody"
+],
+[
+17,
+"IsBhkLimitedHingeConstraint"
+],
+[
+18,
+"IsInitialized"
+],
+[
+19,
+"Initialize"
+],
+[
+20,
+"SetupGeometry"
+],
+[
+21,
+"PreProcessPipeline"
+],
+[
+22,
+"UpdatePipeline"
+],
+[
+23,
+"SetupRenderingPass"
+],
+[
+24,
+"SetupTransformations"
+],
+[
+25,
+"SetupBoneMatrices"
+],
+[
+26,
+"SetupShaderPrograms"
+],
+[
+27,
+"PrepareGeometryForRendering"
+],
+[
+28,
+"PostRender"
+],
+[
+29,
+"PostProcessPipeline"
+],
+[
+30,
+"SetupGeometryTextures"
+],
+[
+31,
+"SetupGeometryConstants"
+],
+[
+32,
+"SetupGeometryAlphaBlending"
+],
+[
+33,
+"SetupGeometryAlphaTesting"
+],
+[
+34,
+"SetupGeometryRenderStates"
+],
+[
+35,
+"PostGeometry"
+],
+[
+36,
+"FirstPass"
+],
+[
+37,
+"NextPass"
+],
+[
+38,
+"IsGenericallyConfigurable"
+],
+[
+39,
+"CreateShaderDeclaration"
+],
+[
+40,
+"AppendRenderPass"
+],
+[
+41,
+"SetAlphaOverride"
+],
+[
+42,
+"SetUsesNiRenderState"
+],
+[
+43,
+"SetGPUProgram"
+],
+[
+44,
+"CreateShaderConstantMap"
+],
+[
+45,
+"AppendTextureSampler"
+],
+[
+46,
+"GetShaderInstanceDesc"
+]
+],
+"xbox_name": "NiShader"
+},
+"NiSourceTexture": {
+"fields": {
+"cLooked": [
+67,
+1,
+"char"
+],
+"m_bLoadDirectToRendererHint": [
+65,
+1,
+"bool"
+],
+"m_bSrcRendererDataIsPersistent": [
+66,
+1,
+"bool"
+],
+"m_bStatic": [
+64,
+1,
+"bool"
+],
+"m_kFilename": [
+48,
+4,
+"NiFixedString"
+],
+"m_kPlatformFilename": [
+52,
+4,
+"NiFixedString"
+],
+"m_pFile": [
+68,
+4,
+"NiFile*"
+],
+"m_spPersistentSrcRendererData": [
+56,
+4,
+"NiPointer<NiPersistentSrcTextureRendererData>"
+],
+"m_spSrcPixelData": [
+60,
+4,
+"NiPointer<NiPixelData>"
+]
+},
+"nonvirtual_methods": [
+"Create",
+"CreateEmpty",
+"CreateObject",
+"Degrade",
+"GetDestroyAppDataFlag",
+"GetFile",
+"GetFilename",
+"GetHeight",
+"GetLoadDirectToRendererHint",
+"GetPersistentSourceRendererData",
+"GetPlatformSpecificFilename",
+"GetRTTI",
+"GetSourcePixelData",
+"GetSourceRendererDataIsPersistent",
+"GetStatic",
+"GetUseMipmapping",
+"GetUsePreloading",
+"GetViewerStrings",
+"GetWidth",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiSourceTexture",
+"PostLinkObject",
+"QLookHair",
+"QLookNormal",
+"RegisterStreamables",
+"ReplacePixelData",
+"SaveBinary",
+"SetDestroyAppDataFlag",
+"SetFilename",
+"SetLoadDirectToRendererHint",
+"SetLookHair",
+"SetLookNormal",
+"SetPersistentSourceRendererData",
+"SetSourceRendererDataIsPersistent",
+"SetStatic",
+"SetUseMipmapping",
+"SetUsePreloading",
+"Upgrade",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiSourceTexture"
+],
+"sizeof": 72,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+41,
+"LoadPixelDataFromFile"
+],
+[
+42,
+"DestroyAppPixelData"
+],
+[
+43,
+"CreateRendererData"
+]
+],
+"xbox_name": "NiSourceTexture"
+},
+"NiTexture": {
+"fields": {
+"m_kFormatPrefs": [
+24,
+12,
+"NiTexture::FormatPrefs"
+],
+"m_pkNext": [
+44,
+4,
+"NiTexture*"
+],
+"m_pkPrev": [
+40,
+4,
+"NiTexture*"
+],
+"m_pkRendererData": [
+36,
+4,
+"NiTexture::RendererData*"
+]
+},
+"nonvirtual_methods": [
+"AddTextureToList",
+"GetFlag",
+"GetFormatPreferences",
+"GetListHead",
+"GetListNext",
+"GetListPrev",
+"GetListTail",
+"GetMipmapByDefault",
+"GetPixelFormat",
+"GetRTTI",
+"GetRendererData",
+"GetViewerStrings",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"LockTextureList",
+"NiTexture",
+"QLoadMethod",
+"QState",
+"RegisterStreamables",
+"RemoveTextureFromList",
+"ReplaceRendererData",
+"SaveBinary",
+"SetFlag",
+"SetLoadMethod",
+"SetMipmapByDefault",
+"SetRendererData",
+"SetState",
+"UnlockTextureList",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiTexture"
+],
+"sizeof": 48,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+35,
+"Upgrade"
+],
+[
+36,
+"Degrade"
+],
+[
+37,
+"GetWidth"
+],
+[
+38,
+"GetHeight"
+],
+[
+39,
+"GetFilename"
+],
+[
+40,
+"GetMemorySize"
+]
+],
+"xbox_name": "NiTexture"
+},
+"NiTransform": {
+"fields": {
+"m_Rotate": [
+0,
+48,
+"NiMatrix3"
+],
+"m_Translate": [
+48,
+12,
+"NiPoint3"
+],
+"m_fScale": [
+60,
+4,
+"float"
+]
+},
+"nonvirtual_methods": [
+"Invert",
+"InvertNonUniform",
+"IsIdentity",
+"LoadBinary",
+"MakeIdentity",
+"NiTransform",
+"SaveBinary",
+"operator!=",
+"operator*"
+],
+"sizeof": 64,
+"virtuals": [],
+"xbox_name": "NiTransform"
+},
+"NiTriBasedGeom": {
+"fields": {},
+"nonvirtual_methods": [
+"CopyMembers",
+"GetActiveTriangleCount",
+"GetRTTI",
+"GetTriangleCount",
+"GetTriangleIndices",
+"GetViewerStrings",
+"IsEqual",
+"IsTriBasedGeom",
+"LinkObject",
+"LoadBinary",
+"NiTriBasedGeom",
+"RegisterStreamables",
+"SaveBinary",
+"SetActiveTriangleCount",
+"SetModelData",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiTriBasedGeom"
+],
+"sizeof": 240,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+60,
+"GetModelTriangle"
+]
+],
+"xbox_name": "NiTriBasedGeom"
+},
+"NiTriBasedGeomData": {
+"fields": {
+"m_usTriangles": [
+64,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"GetRTTI",
+"GetTriangleCount",
+"GetViewerStrings",
+"IsEqual",
+"LinkObject",
+"LoadBinary",
+"NiTriBasedGeomData",
+"RegisterStreamables",
+"SaveBinary",
+"SetTriangleCount",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiTriBasedGeomData"
+],
+"sizeof": 68,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+41,
+"SetActiveTriangleCount"
+],
+[
+42,
+"GetActiveTriangleCount"
+],
+[
+43,
+"GetTriangleIndices"
+],
+[
+44,
+"GetStripData"
+]
+],
+"xbox_name": "NiTriBasedGeomData"
+},
+"NiTriShape": {
+"fields": {},
+"nonvirtual_methods": [
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"GetModelTriangle",
+"GetRTTI",
+"GetTriList",
+"GetTriListLength",
+"GetViewerStrings",
+"IsEqual",
+"IsTriShape",
+"LinkObject",
+"LoadBinary",
+"NiTriShape",
+"OnlyRenderImmediate",
+"RegisterStreamables",
+"RenderImmediate",
+"SaveBinary",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiTriShape"
+],
+"sizeof": 240,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiTriShape"
+},
+"NiTriShapeData": {
+"fields": {
+"m_pkSNAMemoryBlocks": [
+84,
+4,
+"NiTriShapeData::SNAMemBlock*"
+],
+"m_pkSharedNormals": [
+76,
+4,
+"NiTriShapeData::SharedNormalArray*"
+],
+"m_pusTriList": [
+72,
+4,
+"unsigned short*"
+],
+"m_uiTriListLength": [
+68,
+4,
+"unsigned"
+],
+"m_usSharedNormalsArraySize": [
+80,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"CalculateNormals",
+"CreateObject",
+"GetRTTI",
+"GetStripData",
+"GetTriList",
+"GetTriListLength",
+"GetTriangleIndices",
+"GetViewerStrings",
+"IsEqual",
+"IsTriShapeData",
+"LetVerticesShareNormal",
+"LinkObject",
+"LoadBinary",
+"NiTriShapeData",
+"RegisterStreamables",
+"Replace",
+"SaveBinary",
+"SetData",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiTriShapeData"
+],
+"sizeof": 88,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiTriShapeData"
+},
+"NiTriStrips": {
+"fields": {},
+"nonvirtual_methods": [
+"CopyMembers",
+"CreateClone",
+"CreateObject",
+"GetModelTriangle",
+"GetRTTI",
+"GetViewerStrings",
+"IsEqual",
+"IsTriStrips",
+"LinkObject",
+"LoadBinary",
+"NiTriStrips",
+"OnlyRenderImmediate",
+"RegisterStreamables",
+"RenderImmediate",
+"SaveBinary",
+"__local_vftable_ctor_closure",
+"operator=",
+"~NiTriStrips"
+],
+"sizeof": 240,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "NiTriStrips"
+},
+"RadioConvTask": {
+"fields": {
+"pStation": [
+48,
+4,
+"FalloutRadio::FORadioStation*"
+]
+},
+"nonvirtual_methods": [
+"Finish",
+"GetDescription",
+"GetFileIndex",
+"RadioConvTask",
+"Run",
+"operator=",
+"~RadioConvTask"
+],
+"sizeof": 56,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+],
+[
+12,
+"Cancel"
+]
+],
+"xbox_name": "RadioConvTask"
+},
+"ScrapHeap": {
+"fields": {
+"pCurrentStackLoc": [
+4,
+4,
+"char*"
+],
+"pEndHeap": [
+8,
+4,
+"char*"
+],
+"pLastBlock": [
+12,
+4,
+"ScrapHeap::Header*"
+],
+"pMemHeap": [
+0,
+4,
+"char*"
+]
+},
+"nonvirtual_methods": [
+"Allocate",
+"CheckForLeaks",
+"Clean",
+"Deallocate",
+"GetAllocationCount",
+"Init",
+"IsHeapOf",
+"QAllocatedMemory",
+"ScrapHeap",
+"Size",
+"__vecDelDtor",
+"~ScrapHeap"
+],
+"sizeof": 16,
+"virtuals": [],
+"xbox_name": "ScrapHeap"
+},
+"ShadowSceneLight": {
+"fields": {
+"bAmbientLight": [
+245,
+1,
+"bool"
+],
+"bCastShadow": [
+236,
+1,
+"bool"
+],
+"bClipSpacePlanesReady": [
+520,
+1,
+"bool"
+],
+"bCubeShadowMap": [
+237,
+1,
+"bool"
+],
+"bDynamicLight": [
+252,
+1,
+"bool"
+],
+"bPointLight": [
+244,
+1,
+"bool"
+],
+"bPointPosition": [
+256,
+12,
+"NiPoint3"
+],
+"bShadowSpotlight": [
+280,
+1,
+"bool"
+],
+"bShowDebugTexture": [
+292,
+1,
+"bool"
+],
+"fLODDimmer": [
+208,
+4,
+"float"
+],
+"fLuminance": [
+12,
+4,
+"float"
+],
+"fShadowLODDimmer": [
+212,
+4,
+"float"
+],
+"fShadowLODDimmerElapsed": [
+220,
+4,
+"float"
+],
+"fShadowLODDimmerTarget": [
+216,
+4,
+"float"
+],
+"fSpotlightFOV": [
+284,
+4,
+"float"
+],
+"fSpotlightFalloff": [
+288,
+4,
+"float"
+],
+"iEnabledPasses": [
+8,
+4,
+"int"
+],
+"kGeomListFence": [
+312,
+4,
+"void*"
+],
+"kGeomListFenceObject": [
+316,
+4,
+"NiPointer<NiTriBasedGeom>"
+],
+"kMultiboundRooms": [
+528,
+16,
+"BSSimpleArray<BSMultiBoundNode *,1024>"
+],
+"kPortals": [
+544,
+16,
+"BSSimpleArray<BSPortal *,1024>"
+],
+"kProcessedNodes": [
+560,
+16,
+"BSSimpleArray<NiNode *,1024>"
+],
+"kShadowCameraPlanes": [
+324,
+100,
+"NiFrustumPlanes"
+],
+"kShadowProj": [
+144,
+64,
+"D3DXMATRIX"
+],
+"kShadowView": [
+80,
+64,
+"D3DXMATRIX"
+],
+"kViewProjection": [
+16,
+64,
+"D3DXMATRIX"
+],
+"lGeomList": [
+224,
+12,
+"NiTPointerList<NiPointer<NiTriBasedGeom> >"
+],
+"lRootList": [
+300,
+12,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"pPortalGraph": [
+576,
+4,
+"BSPortalGraph*"
+],
+"pfClipSpacePlanes": [
+424,
+96,
+"float[96 bytes]"
+],
+"spDynamicShadowMap": [
+268,
+4,
+"NiPointer<BSRenderedTexture>"
+],
+"spFrustumVis": [
+276,
+4,
+"NiPointer<NiAVObject>"
+],
+"spLight": [
+248,
+4,
+"NiPointer<NiLight>"
+],
+"spShadowAccumulator": [
+524,
+4,
+"NiPointer<BSShaderAccumulator>"
+],
+"spShadowCamera": [
+320,
+4,
+"NiPointer<NiCamera>"
+],
+"spShadowScene": [
+296,
+4,
+"NiPointer<NiAVObject>"
+],
+"spSpecularAttenuationTexture": [
+240,
+4,
+"NiPointer<NiTexture>"
+],
+"usFrustumCull": [
+272,
+2,
+"unsigned short"
+]
+},
+"nonvirtual_methods": [
+"AddObject",
+"AddTriGeom",
+"BoundWithinLightFrustum",
+"BoundWithinLightRadius",
+"ClearRenderPasses",
+"ClipSpacePlanesReady",
+"ComputeWeightedShadowLight",
+"CubeFaceFrustumFrustumIntersection",
+"Display",
+"FrustumFrustumIntersection",
+"GetAmbientLight",
+"GetCastShadow",
+"GetClipSpacePlanes",
+"GetDynamic",
+"GetDynamicPosition",
+"GetDynamicShadowMap",
+"GetFadeAmount",
+"GetFrustumCull",
+"GetFrustumPlanes",
+"GetLODDimmer",
+"GetLight",
+"GetLuminance",
+"GetLuminanceAtPoint",
+"GetLuminanceToBound",
+"GetPointLight",
+"GetShadowLODDimmer",
+"GetShadowScene",
+"GetSpotLightFOV",
+"GetSpotLightFalloff",
+"GetViewLuminanceAtPoint",
+"InsertUnusedFence",
+"IsCubeShadowMap",
+"IsFadedOut",
+"IsFadingIn",
+"IsFadingOut",
+"IsSpotLight",
+"MTRenderFrustumDepthMap",
+"MTSetupFrustumDepthMap",
+"MakeFrustumLines",
+"ParseObjectAddFrustum",
+"ParseObjectAddRadius",
+"ParseObjectRemove",
+"QPortalGraph",
+"QPortals",
+"QProcessedNodes",
+"QRooms",
+"QShowDebugTexture",
+"RemoveAllRoots",
+"RemoveAllTriShapes",
+"RemoveObject",
+"RemoveTriGeom",
+"RemoveUnusedGeom",
+"RenderCubeDepthMap",
+"RenderDepthMap",
+"RenderFrustumDepthMap",
+"SetCastShadow",
+"SetClipSpacePlanes",
+"SetCubeShadowMap",
+"SetDynamic",
+"SetDynamicPosition",
+"SetDynamicShadowMap",
+"SetFadeTarget",
+"SetLight",
+"SetPointLight",
+"SetPortalGraph",
+"SetShadowScene",
+"SetSpotLight",
+"SetSpotLightFOV",
+"SetSpotLightFalloff",
+"ShadowSceneLight",
+"ShowDebugTexture",
+"TestFrustumCull",
+"UpdateGeometryForShadowLight",
+"UpdateGeometryForShadowLight_Recurse",
+"UpdateLuminance",
+"__local_vftable_ctor_closure",
+"operator=",
+"~ShadowSceneLight"
+],
+"sizeof": 592,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "ShadowSceneLight"
+},
+"ShadowSceneNode": {
+"fields": {
+"bAllowLightRemoveQueues": [
+544,
+1,
+"bool"
+],
+"bDisableLightUpdate": [
+340,
+1,
+"bool"
+],
+"bFrustumAddedToVis": [
+208,
+1,
+"bool"
+],
+"bVisibleUnboundSpace": [
+512,
+1,
+"bool"
+],
+"bWireframe": [
+341,
+1,
+"bool"
+],
+"cSceneGraphIndex": [
+324,
+1,
+"unsigned char"
+],
+"fStoredFarClip": [
+212,
+4,
+"float"
+],
+"iCurrentCubeMapFace": [
+336,
+4,
+"int"
+],
+"kCompoundFrustum": [
+348,
+164,
+"BSCompoundFrustum"
+],
+"kEyePosition": [
+532,
+12,
+"NiPoint3"
+],
+"kLightingOffset": [
+520,
+12,
+"NiPoint3"
+],
+"kShadowLightActiveFence": [
+244,
+4,
+"void*"
+],
+"kShadowLightActiveFenceObject": [
+252,
+4,
+"NiPointer<ShadowSceneLight>"
+],
+"kShadowLightFadingInFence": [
+248,
+4,
+"void*"
+],
+"kShadowLightFadingInFenceObject": [
+256,
+4,
+"NiPointer<ShadowSceneLight>"
+],
+"kShadowLightListIterator": [
+240,
+4,
+"void*"
+],
+"lLightList": [
+216,
+12,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueAdd": [
+264,
+12,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueRemove": [
+276,
+12,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueUpdate": [
+288,
+12,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lObjectQueueUpdate": [
+300,
+12,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lObjectQueueUpdateActiveOnly": [
+312,
+12,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lShadowLightList": [
+228,
+12,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"pBSPortalGraph": [
+516,
+4,
+"BSPortalGraph*"
+],
+"pSunLight": [
+260,
+4,
+"ShadowSceneLight*"
+],
+"pWindowReflectionEnvMap": [
+328,
+4,
+"NiPointer<BSRenderedTexture>"
+],
+"spCubeMapCamera": [
+332,
+4,
+"NiPointer<BSCubeMapCamera>"
+],
+"spFog": [
+344,
+4,
+"NiPointer<BSFogProperty>"
+]
+},
+"nonvirtual_methods": [
+"AddAllLightsFromNode_Recurse",
+"AddLight",
+"AddObject",
+"AddQueuedLight",
+"AddQueuedShadowLight",
+"AddShadowLight",
+"BuildSharedCompoundFrustum",
+"ClearVisibilityData",
+"DisableAllShadowLights",
+"DisplayLights",
+"EnableTestLight",
+"FindAndCullLight",
+"FindAndCullLightRecurse",
+"GetActiveLightCount",
+"GetAverageLightPos",
+"GetDisableLightUpdate",
+"GetFirstLight",
+"GetFirstShadowLight",
+"GetFogProperty",
+"GetLight",
+"GetLightCount",
+"GetLuminanceAtPoint",
+"GetNextShadowLight",
+"GetRTTI",
+"GetSceneGraphIndex",
+"GetSunLight",
+"GetViewLuminanceAtPoint",
+"GetViewerStrings",
+"GetWindowReflectionEnvMap",
+"OnVisible",
+"PostOnVisible",
+"PreOnVisible",
+"ProcessAllQueuedLights",
+"ProcessQueuedLights",
+"QEyePosition",
+"QLightingOffset",
+"QPortalGraph",
+"QSelectedMultiBound",
+"QUnboundCompoundFrustum",
+"QVisibleUnboundSpace",
+"QWireframe",
+"ReleaseAllShadowMaps",
+"RemoveAllLights",
+"RemoveAllShadowLights",
+"RemoveGeometryFromPropertyLights",
+"RemoveLight",
+"RemoveLightsFromGeom",
+"RemoveObject",
+"RemoveObjectRecurse",
+"RemoveQueuedLight",
+"RemoveQueuedShadowLight",
+"RemoveShadowLight",
+"ReorderLightPriority",
+"SetDisableLightUpdate",
+"SetEyePosition",
+"SetFogProperty",
+"SetLightCastShadows",
+"SetLightingOffset",
+"SetPortalGraph",
+"SetSceneGraphIndex",
+"SetSelectedMultiBound",
+"SetSunLight",
+"SetWindowReflectionEnvMap",
+"ShadowSceneNode",
+"SortShadowLights",
+"ToggleWireframe",
+"UpdateDynamicLight",
+"UpdateDynamicShadows",
+"UpdateLight",
+"UpdateLightFrustumCull",
+"UpdateLightHavokCaster",
+"UpdateLighting",
+"UpdateMultiboundVisibility",
+"UpdateObjectLighting",
+"UpdateOcclusionPlaneVisibility",
+"UpdateQueuedDynamicLight",
+"UpdateQueuedLight",
+"UpdateQueuedObjectLighting",
+"UpdateQueuedObjectLightingList",
+"UpdateQueuedObjectLightingStart",
+"UpdateRoomAndPortalVisibility",
+"UpdateWindowReflections",
+"__local_vftable_ctor_closure",
+"operator=",
+"~ShadowSceneNode"
+],
+"sizeof": 560,
+"virtuals": [
+[
+0,
+"__vecDelDtor"
+]
+],
+"xbox_name": "ShadowSceneNode"
+},
+"TESDataHandler": {
+"fields": {
+"animObjects": [
+416,
+8,
+"BSSimpleList<TESObjectANIO *>"
+],
+"arrayAddonNodes": [
+492,
+16,
+"NiTPrimitiveArray<BGSAddonNode *>"
+],
+"arrayInteriorCells": [
+476,
+16,
+"NiTPrimitiveArray<TESObjectCELL *>"
+],
+"bAutoSaving": [
+1563,
+1,
+"bool"
+],
+"bCheckingModels": [
+1567,
+1,
+"bool"
+],
+"bClearingData": [
+1565,
+1,
+"bool"
+],
+"bDontRemoveIDs": [
+1569,
+1,
+"bool"
+],
+"bExportingPlugin": [
+1564,
+1,
+"bool"
+],
+"bHasDesiredFiles": [
+1566,
+1,
+"bool"
+],
+"bLoadingFiles": [
+1568,
+1,
+"bool"
+],
+"bMasterSave": [
+1560,
+1,
+"bool"
+],
+"bSaveLoad": [
+1562,
+1,
+"bool"
+],
+"bSaveLoadGame": [
+1561,
+1,
+"bool"
+],
+"cDLCFlags": [
+0,
+1,
+"char"
+],
+"iNextID": [
+520,
+4,
+"unsigned"
+],
+"iNumCompile": [
+536,
+4,
+"unsigned"
+],
+"listAcousticSpaces": [
+216,
+8,
+"BSSimpleList<BGSAcousticSpace *>"
+],
+"listAmmoEffects": [
+176,
+8,
+"BSSimpleList<TESAmmoEffect *>"
+],
+"listBadForms": [
+508,
+12,
+"NiTList<TESForm *>"
+],
+"listCameraShots": [
+120,
+8,
+"BSSimpleList<BGSCameraShot *>"
+],
+"listCaravanDecks": [
+192,
+8,
+"BSSimpleList<TESCaravanDeck *>"
+],
+"listCasinos": [
+184,
+8,
+"BSSimpleList<TESCasino *>"
+],
+"listChallenges": [
+152,
+8,
+"BSSimpleList<TESChallenge *>"
+],
+"listClasses": [
+128,
+8,
+"BSSimpleList<TESClass *>"
+],
+"listClimates": [
+24,
+8,
+"BSSimpleList<TESClimate *>"
+],
+"listCombatStyles": [
+288,
+8,
+"BSSimpleList<TESCombatStyle *>"
+],
+"listDebris": [
+368,
+8,
+"BSSimpleList<BGSDebris *>"
+],
+"listDehydration": [
+344,
+8,
+"BSSimpleList<BGSDehydrationStage *>"
+],
+"listEffectShaders": [
+312,
+8,
+"BSSimpleList<TESEffectShader *>"
+],
+"listEnchantmentItems": [
+56,
+8,
+"BSSimpleList<EnchantmentItem *>"
+],
+"listExplosions": [
+328,
+8,
+"BSSimpleList<BGSExplosion *>"
+],
+"listEyes": [
+88,
+8,
+"BSSimpleList<TESEyes *>"
+],
+"listFactions": [
+136,
+8,
+"BSSimpleList<TESFaction *>"
+],
+"listFiles": [
+528,
+8,
+"BSSimpleList<TESFile *>"
+],
+"listGlobals": [
+232,
+8,
+"BSSimpleList<TESGlobal *>"
+],
+"listHair": [
+80,
+8,
+"BSSimpleList<TESHair *>"
+],
+"listHeadParts": [
+72,
+8,
+"BSSimpleList<BGSHeadPart *>"
+],
+"listHunger": [
+352,
+8,
+"BSSimpleList<BGSHungerStage *>"
+],
+"listImageSpaceModifiers": [
+40,
+8,
+"BSSimpleList<TESImageSpaceModifier *>"
+],
+"listImageSpaces": [
+32,
+8,
+"BSSimpleList<TESImageSpace *>"
+],
+"listImpactData": [
+248,
+8,
+"BSSimpleList<BGSImpactData *>"
+],
+"listImpactDataSet": [
+256,
+8,
+"BSSimpleList<BGSImpactDataSet *>"
+],
+"listLandTexts": [
+112,
+8,
+"BSSimpleList<TESLandTexture *>"
+],
+"listLightingTemplates": [
+432,
+8,
+"BSSimpleList<BGSLightingTemplate *>"
+],
+"listListForms": [
+400,
+8,
+"BSSimpleList<BGSListForm *>"
+],
+"listLoadScreenTypes": [
+448,
+8,
+"BSSimpleList<TESLoadScreenType *>"
+],
+"listLoadScreens": [
+296,
+8,
+"BSSimpleList<TESLoadScreen *>"
+],
+"listMediaLocationControllers": [
+464,
+8,
+"BSSimpleList<MediaLocationController *>"
+],
+"listMediaSets": [
+456,
+8,
+"BSSimpleList<MediaSet *>"
+],
+"listMenuIcons": [
+408,
+8,
+"BSSimpleList<BGSMenuIcon *>"
+],
+"listMessages": [
+424,
+8,
+"BSSimpleList<BGSMessage *>"
+],
+"listMusicTypes": [
+440,
+8,
+"BSSimpleList<BGSMusicType *>"
+],
+"listNotes": [
+392,
+8,
+"BSSimpleList<BGSNote *>"
+],
+"listPackages": [
+8,
+8,
+"BSSimpleList<TESPackage *>"
+],
+"listPartData": [
+384,
+8,
+"BSSimpleList<BGSBodyPartData *>"
+],
+"listPerks": [
+376,
+8,
+"BSSimpleList<BGSPerk *>"
+],
+"listProjectiles": [
+320,
+8,
+"BSSimpleList<BGSProjectile *>"
+],
+"listQuests": [
+280,
+8,
+"BSSimpleList<TESQuest *>"
+],
+"listRaces": [
+96,
+8,
+"BSSimpleList<TESRace *>"
+],
+"listRadiation": [
+336,
+8,
+"BSSimpleList<BGSRadiationStage *>"
+],
+"listRagdolls": [
+224,
+8,
+"BSSimpleList<BGSRagdoll *>"
+],
+"listRecipeCategories": [
+168,
+8,
+"BSSimpleList<TESRecipeCategory *>"
+],
+"listRecipes": [
+160,
+8,
+"BSSimpleList<TESRecipe *>"
+],
+"listReputations": [
+144,
+8,
+"BSSimpleList<TESReputation *>"
+],
+"listScripts": [
+200,
+8,
+"BSSimpleList<Script *>"
+],
+"listSleepDeprevation": [
+360,
+8,
+"BSSimpleList<BGSSleepDeprevationStage *>"
+],
+"listSounds": [
+208,
+8,
+"BSSimpleList<TESSound *>"
+],
+"listSpellItems": [
+64,
+8,
+"BSSimpleList<SpellItem *>"
+],
+"listTopicInfos": [
+272,
+8,
+"BSSimpleList<TESTopicInfo *>"
+],
+"listTopics": [
+264,
+8,
+"BSSimpleList<TESTopic *>"
+],
+"listVoiceTypes": [
+240,
+8,
+"BSSimpleList<BGSVoiceType *>"
+],
+"listWater": [
+304,
+8,
+"BSSimpleList<TESWaterForm *>"
+],
+"listWeather": [
+48,
+8,
+"BSSimpleList<TESWeather *>"
+],
+"listWorldSpaces": [
+16,
+8,
+"BSSimpleList<TESWorldSpace *>"
+],
+"listZones": [
+104,
+8,
+"BSSimpleList<BGSEncounterZone *>"
+],
+"pActiveFile": [
+524,
+4,
+"TESFile*"
+],
+"pBarterContainer": [
+1576,
+4,
+"InventoryChanges*"
+],
+"pCateyeMobileShader": [
+1592,
+4,
+"TESEffectShader*"
+],
+"pFileIndex": [
+540,
+1020,
+"TESFile*[1020 bytes]"
+],
+"pItemDetectedShader": [
+1588,
+4,
+"TESEffectShader*"
+],
+"pObjectList": [
+4,
+4,
+"TESObjectList*"
+],
+"pRecipeContainer": [
+1580,
+4,
+"InventoryChanges*"
+],
+"pRegionDataManager": [
+1572,
+4,
+"TESRegionDataManager*"
+],
+"pRegionList": [
+472,
+4,
+"TESRegionList*"
+],
+"pSpotterShader": [
+1584,
+4,
+"TESEffectShader*"
+],
+"ucGameSettingsLoadState": [
+1570,
+1,
+"unsigned char"
+]
+},
+"nonvirtual_methods": [
+"AddAddonNode",
+"AddCompiledFile",
+"AddDownloadedContentToFileList",
+"AddFormToDataHandler",
+"AddQuest",
+"AddTopic",
+"AddTopicInfo",
+"AdvanceNextID",
+"AssignToCell",
+"BuildFileList",
+"CheckDismemberSkinInstanceRecurse",
+"CheckForNiRawImageData",
+"CheckIcons",
+"CheckModels",
+"CheckTexturesRecurse",
+"CleanUpBadForms",
+"ClearBarterContainer",
+"ClearDLCFlags",
+"ClearData",
+"ClearFileList",
+"ClearLoadedFormCount",
+"ClearRecipeContainer",
+"CloseAllTES",
+"CompileFiles",
+"ConstructObject",
+"ConstructObjectList",
+"CountCheckedFiles",
+"CountCompiled",
+"CountFiles",
+"CreateBarterContainer",
+"CreateExplosionAtLocation",
+"CreateFormOfType",
+"CreateProjectileAtLocation",
+"CreateRecipeContainer",
+"CreateReferenceAtLocation",
+"CreateReferenceInLoadedArea",
+"CreateThreadSafeFiles",
+"DataError",
+"DoesPotionMatch",
+"EnumReferencesCloseToPoint",
+"EnumReferencesCloseToRef",
+"FileCacheCompleteCallback",
+"FindClosestReference",
+"FindConnectedSmallSpace",
+"FindConnectedWorld",
+"FindEntryPoint",
+"FindFirstReference",
+"FindTeleportPathBetweenSmallSpaces",
+"FindTeleportPathBetweenWorlds",
+"FindTeleportPathFromSmallSpaceToWorld",
+"FixAllScriptIDs",
+"FlushSoundBuffers",
+"FormGroupLoadsInGame",
+"GenerateDefaultObjects",
+"GetAcousticSpaceList",
+"GetActiveFile",
+"GetActiveFileName",
+"GetAddonNode",
+"GetAddonNodeCount",
+"GetAmmoEffect",
+"GetAmmoEffectList",
+"GetAnimObject",
+"GetAnimObjectList",
+"GetAutoSaving",
+"GetBadFormList",
+"GetBarterContainer",
+"GetCameraShotList",
+"GetCaravanDeck",
+"GetCaravanDeckList",
+"GetCasino",
+"GetCasinoList",
+"GetCateyeShader",
+"GetCellByEditorID",
+"GetCellByIndex",
+"GetCellByNumericID",
+"GetCellCount",
+"GetCellFromCellCoord",
+"GetCellFromWorldCoord",
+"GetChallenge",
+"GetChallengeList",
+"GetCheckingModels",
+"GetClass",
+"GetClassList",
+"GetClearingData",
+"GetClimateList",
+"GetCombatStyle",
+"GetCombatStyleList",
+"GetCompiledFile",
+"GetDLCFlags",
+"GetDebris",
+"GetDebrisList",
+"GetDehydrationStageList",
+"GetDontRemoveIDs",
+"GetEffectShader",
+"GetEffectShaderList",
+"GetEnchantmentItemList",
+"GetExplosion",
+"GetExplosionList",
+"GetExtCellDataFromFileByEditorID",
+"GetEyesList",
+"GetFaction",
+"GetFactionList",
+"GetFileList",
+"GetFormName",
+"GetGameSettingsLoaded",
+"GetGlobal",
+"GetGlobalList",
+"GetHairList",
+"GetHasDesiredFiles",
+"GetHeadPartList",
+"GetHungerStageList",
+"GetImageSpaceList",
+"GetImageSpaceModifierList",
+"GetImpactDataList",
+"GetImpactDataSetList",
+"GetInteriorCellByIndex",
+"GetInteriorCellCount",
+"GetItemDetectedShader",
+"GetLandTextList",
+"GetLandTexture",
+"GetLightingTemplateList",
+"GetListFile",
+"GetListFormList",
+"GetLoadScreenList",
+"GetLoadScreenType",
+"GetLoadScreenTypeList",
+"GetLoadingFiles",
+"GetMasterSave",
+"GetMediaLocationControllerList",
+"GetMediaSetList",
+"GetMenuIconList",
+"GetMessage",
+"GetMessageList",
+"GetMusicTypeList",
+"GetNextFormID",
+"GetNextID",
+"GetNoteList",
+"GetNumDLCInstalled",
+"GetObjectCounts",
+"GetObjectList",
+"GetPackageList",
+"GetPartDataList",
+"GetPerk",
+"GetPerkList",
+"GetProjectile",
+"GetProjectileList",
+"GetQuest",
+"GetQuestList",
+"GetRace",
+"GetRaceList",
+"GetRadiationStageList",
+"GetRagdollList",
+"GetRecipe",
+"GetRecipeCategory",
+"GetRecipeCategoryList",
+"GetRecipeContainer",
+"GetRecipeList",
+"GetReference",
+"GetReferenceCounts",
+"GetRegionDataManager",
+"GetRegionList",
+"GetReputation",
+"GetReputationList",
+"GetSaveLoad",
+"GetSaveLoadGame",
+"GetScript",
+"GetScriptList",
+"GetSleepDeprevationStageList",
+"GetSound",
+"GetSoundList",
+"GetSpellItemList",
+"GetSpotterShader",
+"GetTopic",
+"GetTopicInfoList",
+"GetTopicList",
+"GetVoiceType",
+"GetVoiceTypeList",
+"GetWaterList",
+"GetWeatherList",
+"GetWorldSpaceForCell",
+"GetWorldSpaceList",
+"GetZoneList",
+"IsDLCFlagSet",
+"IsDLCPackageName",
+"IsFormIDCreated",
+"IsFormIDInUse",
+"IsSavingLoading",
+"LoadFilesInDirectory",
+"LoadForm",
+"NewCell",
+"NotUniqueID",
+"OutputModelSizeList",
+"PlaceInExterior",
+"PrintTextureInfo",
+"QArrayInteriorCells",
+"ReferenceBaseSearchEnumFunc",
+"ReleaseForm",
+"RemoveAddonNode",
+"RemoveDuplicateReferences",
+"RemoveIDFromDataHandler",
+"RemoveItemBarterContainer",
+"RemoveItemRecipeContainer",
+"RemoveListFile",
+"RemoveQuest",
+"RemoveTopic",
+"RemoveTopicInfo",
+"ResetOffsetData",
+"RunAllPersistentRefScripts",
+"SaveActiveData",
+"SaveForm",
+"SelectCell",
+"SetActiveFile",
+"SetAutoSaving",
+"SetCateyeShader",
+"SetCheckingModels",
+"SetClearingData",
+"SetDLCFlag",
+"SetDontRemoveIDs",
+"SetHasDesiredFiles",
+"SetItemDetectedShader",
+"SetLoadingFiles",
+"SetMasterFileLargeBuffer",
+"SetMasterSave",
+"SetNextFormID",
+"SetSaveLoad",
+"SetSaveLoadGame",
+"SetSpotterShader",
+"SortAllList",
+"SortInteriorCells",
+"SortScriptList",
+"TESDataHandler",
+"UnloadCell",
+"UpdateAutoCalcNPCs",
+"__vecDelDtor",
+"operator=",
+"~TESDataHandler"
+],
+"sizeof": 1596,
+"virtuals": [],
+"xbox_name": "TESDataHandler"
+},
+"TESForm": {
+"fields": {
+"cFormType": [
+4,
+1,
+"unsigned char"
+],
+"iFormFlags": [
+8,
+4,
+"unsigned"
+],
+"iFormID": [
+12,
+4,
+"unsigned"
+],
+"pSourceFiles": [
+16,
+8,
+"BSSimpleList<TESFile *>"
+]
+},
+"nonvirtual_methods": [
+"AddChunk",
+"AddChunkArray",
+"AddChunkArray16",
+"AddChunkArray32",
+"AddCompileIndex",
+"CanBeOnLocalMap",
+"ClearDataAllComponents",
+"ClearDataComponent",
+"ClearFiles",
+"CloseForm",
+"CompareAllComponents",
+"CompareComponent",
+"CompressSaveBuffer",
+"CopyAllComponents",
+"CopyComponent",
+"ExpandChunk",
+"ForceChange",
+"FormIDMatchesWithoutIndex",
+"FreeFormBuffer",
+"GetAltered",
+"GetBorderRegion",
+"GetChildCanUse",
+"GetDataSizeAdded",
+"GetDelete",
+"GetDeleted",
+"GetDestroyed",
+"GetDestructible",
+"GetDisableFade",
+"GetDisabled",
+"GetDisabledOrDeleted",
+"GetEmpty",
+"GetFile",
+"GetFileCount",
+"GetFileList",
+"GetFireOff",
+"GetFormBuffer",
+"GetFormBufferSize",
+"GetFormByEditorID",
+"GetFormByFullName",
+"GetFormByNumericID",
+"GetFormEditorIDLength",
+"GetFormFlags",
+"GetFormID",
+"GetFormIDAsSaved",
+"GetFormIDWithoutIndex",
+"GetFormType",
+"GetFormTypeFromFormString",
+"GetFormTypeString",
+"GetGlobalConstant",
+"GetHasResults",
+"GetIgnore",
+"GetIgnoreFriendlyHits",
+"GetInPlaceableWater",
+"GetInitialized",
+"GetLODTree",
+"GetLockMultiBound",
+"GetMaster",
+"GetMustBeVisibleDistant",
+"GetNoAIAcquire",
+"GetNoCollision",
+"GetOwnerMaster",
+"GetReflectedByAutoWater",
+"GetRefractedByAutoWater",
+"GetResetDestruct",
+"GetTemporary",
+"GetVATSTargetOverride",
+"InitializeDataAllComponents",
+"InitializeDataComponent",
+"InitializeFormDataStructures",
+"IsDefaultForm",
+"IsInFile",
+"IsRecentPCDrop",
+"IsStillLoading",
+"LoadData",
+"LoadForm",
+"LoadGameDataOLD",
+"LoadNumericID",
+"QEndianSwapOnSave",
+"ReleaseFormDataStructures",
+"RemoveFromDataStructures",
+"RunPostDuplicateProcess",
+"SaveData",
+"SaveGameDataOLD",
+"SaveNumericID",
+"SetBorderRegion",
+"SetChildCanUse",
+"SetDestroyed",
+"SetDestructible",
+"SetDisableFade",
+"SetDisabled",
+"SetEmpty",
+"SetEndianSwapOnSave",
+"SetFile",
+"SetFireOff",
+"SetFormFlags",
+"SetFormType",
+"SetGlobalConstant",
+"SetHasPLSpecTex",
+"SetHasResults",
+"SetIgnore",
+"SetIgnoreFriendlyHits",
+"SetInPlaceableWater",
+"SetInitialized",
+"SetLODTree",
+"SetLockMultiBound",
+"SetMaster",
+"SetMustBeVisibleDistant",
+"SetNoAIAcquire",
+"SetNoCollision",
+"SetObstacle",
+"SetRandomAnim",
+"SetRecentPCDrop",
+"SetReflectedByAutoWater",
+"SetRefractedByAutoWater",
+"SetResetDestruct",
+"SetStillLoading",
+"SetTemporary",
+"SetVATSTargetOverride",
+"StartForm",
+"TESForm",
+"__AddChunkData",
+"__SaveData",
+"__local_vftable_ctor_closure",
+"operator="
+],
+"sizeof": 24,
+"virtuals": [
+[
+4,
+"__vecDelDtor"
+],
+[
+4,
+"~TESForm"
+],
+[
+5,
+"InitializeData"
+],
+[
+6,
+"ClearData"
+],
+[
+7,
+"ProcessBeforeSave"
+],
+[
+8,
+"Load"
+],
+[
+9,
+"LoadPartial"
+],
+[
+10,
+"Save"
+],
+[
+11,
+"Save"
+],
+[
+12,
+"LoadEdit"
+],
+[
+13,
+"SaveEdit"
+],
+[
+14,
+"SavesBefore"
+],
+[
+15,
+"SavesBefore"
+],
+[
+16,
+"CreateDuplicateForm"
+],
+[
+17,
+"PostDuplicateProcess"
+],
+[
+18,
+"AddChange"
+],
+[
+19,
+"RemoveChange"
+],
+[
+20,
+"GetSaveSize"
+],
+[
+21,
+"SaveGame"
+],
+[
+22,
+"SaveGame"
+],
+[
+23,
+"LoadGame"
+],
+[
+24,
+"LoadGame"
+],
+[
+25,
+"InitLoadGame"
+],
+[
+26,
+"InitLoadGame"
+],
+[
+27,
+"FinishInitLoadGame"
+],
+[
+28,
+"Revert"
+],
+[
+29,
+"Revert"
+],
+[
+30,
+"LoadQueuedFormData"
+],
+[
+31,
+"FindInFileFast"
+],
+[
+32,
+"CheckSaveGame"
+],
+[
+33,
+"FinishLoadGame"
+],
+[
+34,
+"InitItem"
+],
+[
+35,
+"GetSavedFormType"
+],
+[
+36,
+"GetFormDetailedString"
+],
+[
+37,
+"GetQuestObject"
+],
+[
+38,
+"GetHasSpokenFlag"
+],
+[
+39,
+"GetHavokDeath"
+],
+[
+40,
+"GetRandomAnim"
+],
+[
+41,
+"GetNeedtoChangeProcess"
+],
+[
+42,
+"GetDangerous"
+],
+[
+43,
+"GetHasPLSpecTex"
+],
+[
+44,
+"GetObstacle"
+],
+[
+45,
+"GetContinuousBroadcast"
+],
+[
+46,
+"GetOnLocalMap"
+],
+[
+47,
+"SetOnLocalMap"
+],
+[
+48,
+"GetEmittanceColor"
+],
+[
+49,
+"SetDelete"
+],
+[
+50,
+"SetAltered"
+],
+[
+51,
+"SetQuestObject"
+],
+[
+52,
+"SetHasSpokenFlag"
+],
+[
+53,
+"SetHavokDeath"
+],
+[
+54,
+"SetNeedToChangeProcess"
+],
+[
+55,
+"SaveObjectBound"
+],
+[
+56,
+"LoadObjectBound"
+],
+[
+57,
+"IsBoundObject"
+],
+[
+58,
+"IsObject"
+],
+[
+59,
+"IsMagicItem"
+],
+[
+60,
+"IsReference"
+],
+[
+61,
+"IsArmorAddon"
+],
+[
+62,
+"IsActorBase"
+],
+[
+63,
+"IsMobileObject"
+],
+[
+64,
+"IsActor"
+],
+[
+65,
+"GetRefCount"
+],
+[
+66,
+"Copy"
+],
+[
+67,
+"Compare"
+],
+[
+68,
+"BelongsInGroup"
+],
+[
+69,
+"CreateGroupData"
+],
+[
+70,
+"IsParentForm"
+],
+[
+71,
+"IsParentFormTree"
+],
+[
+72,
+"IsFormTypeChild"
+],
+[
+73,
+"Activate"
+],
+[
+74,
+"SetFormID"
+],
+[
+75,
+"GetObjectTypeName"
+],
+[
+76,
+"GetFormEditorID"
+],
+[
+77,
+"SetFormEditorID"
+]
+],
+"xbox_name": "TESForm"
+},
+"TextureFile": {
+"fields": {
+"iType": [
+0,
+4,
+"int"
+],
+"pFilename": [
+4,
+32,
+"char[32 bytes]"
+]
+},
+"nonvirtual_methods": [
+"Endian"
+],
+"sizeof": 36,
+"virtuals": [],
+"xbox_name": "TextureFile"
+},
+"UVMap": {
+"fields": {
+"fU": [
+0,
+4,
+"float"
+],
+"fV": [
+4,
+4,
+"float"
+]
+},
+"nonvirtual_methods": [
+"Endian"
+],
+"sizeof": 8,
+"virtuals": [],
+"xbox_name": "UVMap"
+}
+},
+"rtti_xbox_sizes": {
+"AILinearTaskThread": 124,
+"AITaskThread": 124,
+"AbsorbEffect": 92,
+"AbstractHeap": 8436,
+"ActiveEffect": 72,
+"Actor": 436,
+"ActorMover": 136,
+"ActorPackageData": 4,
+"ActorPathHandler": 20,
+"ActorPathingMessageQueue": 28,
+"ActorUpdateTaskData": 60,
+"ActorValueInfo": 196,
+"ActorValueOwner": 4,
+"ActorsScriptTaskData": 64,
+"AlarmPackage": 136,
+"AlchemyItem": 216,
+"AnimIdle": 56,
+"AnimSequenceBase": 4,
+"AnimSequenceMultiple": 8,
+"AnimSequenceSingle": 8,
+"AnimationTaskData": 56,
+"Archive": 536,
+"ArchiveFile": 424,
+"ArrowProjectile": 200,
+"AssociatedItemEffect": 76,
+"Atmosphere": 28,
+"AttachDistant3DTask": 32,
+"AudioLoadTask": 56,
+"BGSAbilityPerkEntry": 12,
+"BGSAcousticSpace": 84,
+"BGSAcousticSpaceListener": 40,
+"BGSAddonNode": 96,
+"BGSAddonNodeSoundHandleExtra": 24,
+"BGSAmmoForm": 8,
+"BGSBipedModelList": 8,
+"BGSBodyPart": 176,
+"BGSBodyPartData": 116,
+"BGSCameraPath": 56,
+"BGSCameraShot": 120,
+"BGSCellNumericIDArrayMap": 16,
+"BGSClipRoundsForm": 8,
+"BGSConstructibleObject": 180,
+"BGSDebris": 36,
+"BGSDecalNode": 224,
+"BGSDefaultObjectManager": 160,
+"BGSDehydrationStage": 32,
+"BGSDestructibleObjectForm": 8,
+"BGSDistantObjectBlockLoadTask": 88,
+"BGSDistantTreeBlockLoadTask": 72,
+"BGSEncounterZone": 48,
+"BGSEntryPointFunctionData": 4,
+"BGSEntryPointFunctionDataActivateChoice": 96,
+"BGSEntryPointFunctionDataLeveledList": 8,
+"BGSEntryPointFunctionDataOneValue": 8,
+"BGSEntryPointFunctionDataTwoValue": 12,
+"BGSEntryPointPerkEntry": 20,
+"BGSEquipType": 8,
+"BGSExplosion": 168,
+"BGSHeadPart": 80,
+"BGSHungerStage": 32,
+"BGSIdleCollection": 16,
+"BGSIdleMarker": 64,
+"BGSImpactData": 120,
+"BGSImpactDataSet": 76,
+"BGSLightingTemplate": 68,
+"BGSListForm": 36,
+"BGSLoadFormBuffer": 48,
+"BGSLoadGameBuffer": 16,
+"BGSMenuIcon": 36,
+"BGSMessage": 64,
+"BGSMessageIcon": 16,
+"BGSMovableStatic": 116,
+"BGSMoviePlayer": 84,
+"BGSMusicType": 52,
+"BGSNote": 128,
+"BGSOffsetDataArray": 20,
+"BGSOpenCloseForm": 4,
+"BGSPerk": 80,
+"BGSPerkEntry": 8,
+"BGSPickupPutdownSounds": 12,
+"BGSPlaceableWater": 80,
+"BGSPreloadable": 4,
+"BGSPrimitive": 52,
+"BGSPrimitiveBox": 76,
+"BGSPrimitivePlane": 52,
+"BGSPrimitiveSphere": 52,
+"BGSProjectile": 208,
+"BGSQuestObjective": 36,
+"BGSQuestPerkEntry": 16,
+"BGSRadiationStage": 32,
+"BGSRagdoll": 328,
+"BGSReconstructCellBlocksMap": 24,
+"BGSReconstructCellSubBlocksMap": 16,
+"BGSReconstructCellsMap": 16,
+"BGSReconstructFormsInAllFilesMap": 52,
+"BGSReconstructFormsInFileMap": 28,
+"BGSReconstructFormsMap": 20,
+"BGSReconstructWorldSpacesMap": 16,
+"BGSRepairItemList": 8,
+"BGSSaveFormBuffer": 36,
+"BGSSaveGameBuffer": 20,
+"BGSSaveLoadChangesMap": 16,
+"BGSSaveLoadStatsMap": 28,
+"BGSSceneInfo": 72,
+"BGSSleepDeprevationStage": 32,
+"BGSStaticCollection": 80,
+"BGSTalkingActivator": 152,
+"BGSTerminal": 168,
+"BGSTerrainChunkLoadTask": 96,
+"BGSTextureModel": 24,
+"BGSTextureSet": 176,
+"BGSTouchSpellForm": 12,
+"BGSVoiceType": 36,
+"BGSZoneTargetListener": 8,
+"BSAnimGroupSequence": 120,
+"BSAnimNote": 16,
+"BSAnimNoteReceiver": 24,
+"BSAnimNotes": 16,
+"BSAttachPoints": 28,
+"BSAudio": 56,
+"BSAudioListener": 72,
+"BSAudioManager": 412,
+"BSAudioManagerThread": 80,
+"BSBlastNode": 224,
+"BSBlendTreadTransfInterpolator": 52,
+"BSBound": 36,
+"BSCacheDriveSystemUtility": 1068,
+"BSCoreMessage": 4,
+"BSCullingProcess": 352,
+"BSCustomSplatterExtraData": 28,
+"BSDamageStage": 224,
+"BSDebrisNode": 224,
+"BSDecalPlacementVectorExtraData": 64,
+"BSDiscBootSystemUtility": 80,
+"BSDismemberSkinInstance": 64,
+"BSExtraData": 12,
+"BSFaceGenAnimationData": 416,
+"BSFaceGenBaseMorphExtraData": 28,
+"BSFaceGenBinaryFile": 72,
+"BSFaceGenImage": 36,
+"BSFaceGenKeyframe": 12,
+"BSFaceGenKeyframeMultiple": 20,
+"BSFaceGenModel": 16,
+"BSFaceGenModelExtraData": 16,
+"BSFaceGenModelMap": 36,
+"BSFaceGenModelMap::Entry": 16,
+"BSFaceGenMorph": 4,
+"BSFaceGenMorphData": 8,
+"BSFaceGenMorphDataHair": 12,
+"BSFaceGenMorphDataHead": 24,
+"BSFaceGenMorphDifferential": 12,
+"BSFaceGenMorphStatistical": 16,
+"BSFaceGenNiNode": 304,
+"BSFadeNodeCuller": 288,
+"BSFile": 416,
+"BSFileCache": 100,
+"BSFrustumFOVController": 56,
+"BSFurnitureMarker": 28,
+"BSGameDataSystemUtility": 2128,
+"BSGameSound": 408,
+"BSGrabIKNote": 28,
+"BSLinearTaskThread": 80,
+"BSLookIKNote": 24,
+"BSMasterParticleSystem": 272,
+"BSMsgDialogSystemUtility": 8,
+"BSMultiBound": 16,
+"BSMultiBoundAABB": 36,
+"BSMultiBoundCapsule": 40,
+"BSMultiBoundNode": 224,
+"BSMultiBoundOBB": 96,
+"BSMultiBoundRoom": 288,
+"BSMultiBoundShape": 12,
+"BSMultiBoundSphere": 28,
+"BSMultiTargetTreadTransfController": 68,
+"BSNiAllocator": 4,
+"BSNiNode": 208,
+"BSNodeReferences": 24,
+"BSOcclusionPlane": 272,
+"BSPSysArrayEmitter": 108,
+"BSPSysMultiTargetEmitterCtlr": 100,
+"BSPSysSimpleColorModifier": 96,
+"BSPSysStripUpdateModifier": 28,
+"BSPackedAdditionalGeometryData": 52,
+"BSPackedAdditionalGeometryData::NiBSPackedAGDDataBlock": 16,
+"BSParallelTaskThread": 96,
+"BSParentVelocityModifier": 60,
+"BSParticleSystemManager": 224,
+"BSPlayerDistanceCheckController": 60,
+"BSPortal": 288,
+"BSPortalGraph": 120,
+"BSPortalSharedNode": 240,
+"BSRangeNode": 224,
+"BSReference": 12,
+"BSResizableTriShape": 272,
+"BSRotAccumTransfInterpolator": 88,
+"BSSaveDataSystemUtility": 72,
+"BSSceneGraph": 240,
+"BSScissorTriShape": 256,
+"BSSearchPath": 528,
+"BSSegmentedTriShape": 256,
+"BSShaderTextureSet": 64,
+"BSSplatterExtraData": 28,
+"BSStream": 1484,
+"BSStripPSysData": 144,
+"BSStripParticleSystem": 336,
+"BSSysInfoSystemUtility": 72,
+"BSSystemUtilitiesStrings": 36,
+"BSSystemUtility": 152,
+"BSTaskThread": 48,
+"BSTasklet": 8,
+"BSTaskletData": 8,
+"BSTaskletGroupData": 8,
+"BSTaskletManager": 20,
+"BSTaskletManagerCallback": 4,
+"BSTempEffect": 24,
+"BSTempEffectDebris": 36,
+"BSTempEffectGeometryDecal": 100,
+"BSTempEffectParticle": 144,
+"BSTempEffectSimpleDecal": 324,
+"BSTempNode": 224,
+"BSTempNodeManager": 224,
+"BSTextureData": 28,
+"BSTextureSet": 8,
+"BSThread": 52,
+"BSTreadTransfInterpolator": 36,
+"BSTreeModel": 80,
+"BSTreeNode": 304,
+"BSValueNode": 224,
+"BSWArray": 20,
+"BSWindModifier": 28,
+"BSXFlags": 16,
+"BackUpPackage": 140,
+"BackgroundCloneThread": 60,
+"BarterMenu": 288,
+"BaseExtraList": 32,
+"BaseFormComponent": 4,
+"BaseProcess": 48,
+"BeamProjectile": 384,
+"BlackJackMenu": 3696,
+"BlendSettingCollection": 276,
+"BookMenu": 60,
+"BoundItemEffect": 172,
+"CBillboardLeaf": 76,
+"CIdvCamera": 16,
+"CTreeEngine": 272,
+"CachedValuesOwner": 4,
+"CalmEffect": 76,
+"CaravanMenu": 3716,
+"CellMopp": 24,
+"ChameleonEffect": 76,
+"ChangesMap": 16,
+"CharGenMenu": 136,
+"Character": 456,
+"CheckLineOfSightFilterWater": 8,
+"CheckWithinMultiBoundTask": 40,
+"Clouds": 92,
+"CombatAction": 44,
+"CombatActionAcquireLineOfSight": 44,
+"CombatActionActivateCombatItem": 44,
+"CombatActionApproachTarget": 44,
+"CombatActionAttackGrenade": 44,
+"CombatActionAttackGrenadeFlushTarget": 44,
+"CombatActionAttackGrenadeFromCover": 44,
+"CombatActionAttackHandToHand": 44,
+"CombatActionAttackMelee": 44,
+"CombatActionAttackRanged": 44,
+"CombatActionAttackRangedExplosive": 44,
+"CombatActionAttackRangedExplosiveFromCover": 44,
+"CombatActionAttackRangedFromCover": 44,
+"CombatActionAvoidThreat": 44,
+"CombatActionDodge": 44,
+"CombatActionDrawWeapon": 44,
+"CombatActionFlee": 44,
+"CombatActionHide": 44,
+"CombatActionIgnoreBlockedTarget": 44,
+"CombatActionInvestigate": 44,
+"CombatActionMove": 44,
+"CombatActionMoveAndAttackGrenade": 44,
+"CombatActionMoveAndAttackRanged": 44,
+"CombatActionMoveAndAttackRangedExplosive": 44,
+"CombatActionMoveAndSwitchToMelee": 44,
+"CombatActionSearch": 44,
+"CombatActionSwitchWeapon": 44,
+"CombatActionUseCombatItem": 44,
+"CombatController": 392,
+"CombatCoverMap": 28,
+"CombatGoal": 28,
+"CombatGoalActivateCombatItem": 28,
+"CombatGoalAdvance": 28,
+"CombatGoalAmbush": 28,
+"CombatGoalAvoidThreats": 28,
+"CombatGoalCluster": 28,
+"CombatGoalFallBack": 28,
+"CombatGoalFindTarget": 28,
+"CombatGoalFlank": 28,
+"CombatGoalFlee": 28,
+"CombatGoalFlushTarget": 28,
+"CombatGoalGuard": 28,
+"CombatGoalHideFromTarget": 28,
+"CombatGoalKillTarget": 28,
+"CombatGoalReachDestination": 28,
+"CombatGoalStayInCombatArea": 28,
+"CombatGoalUseCombatItem": 28,
+"CombatGroupStrategy": 8,
+"CombatGroupStrategyAdvance": 8,
+"CombatGroupStrategyAmbush": 8,
+"CombatGroupStrategyFallBack": 8,
+"CombatGroupStrategyFlank": 8,
+"CombatPlanner": 8664,
+"CombatProcedure": 16,
+"CombatProcedureActivateObject": 28,
+"CombatProcedureAttackGrenade": 60,
+"CombatProcedureAttackLow": 32,
+"CombatProcedureAttackMelee": 136,
+"CombatProcedureAttackRanged": 72,
+"CombatProcedureBeInCover": 108,
+"CombatProcedureEngageTarget": 100,
+"CombatProcedureEvade": 24,
+"CombatProcedureHideFromTarget": 64,
+"CombatProcedureMove": 124,
+"CombatProcedureSearch": 64,
+"CombatProcedureSwitchWeapon": 24,
+"CombatProcedureUseCombatItem": 24,
+"CombatTargetMap": 16,
+"CombatThreatMap": 24,
+"CommandCreatureEffect": 72,
+"CommandEffect": 72,
+"CommandHumanoidEffect": 72,
+"CompanionWheelMenu": 136,
+"CompressedArchiveFile": 452,
+"ComputersMenu": 252,
+"ConcussionEffect": 76,
+"ContainerMenu": 268,
+"ContinuousBeamProjectile": 384,
+"Creature": 448,
+"CreditsMenu": 128,
+"CureEffect": 80,
+"DarknessEffect": 76,
+"DemoralizeEffect": 76,
+"DetailedActorPathHandler": 228,
+"DetectLifeEffect": 76,
+"DetectionTaskData": 64,
+"DialogMenu": 316,
+"DialoguePackage": 208,
+"DisintegrateArmorEffect": 76,
+"DisintegrateWeaponEffect": 72,
+"DispelEffect": 72,
+"DoorInPathFilter": 12,
+"EffectItemList": 16,
+"EffectSetting": 176,
+"EnchantmentItem": 68,
+"EscortActorPackageData": 24,
+"Explosion": 260,
+"ExteriorCellLoaderTask": 32,
+"ExteriorCellNewReferencesMap": 16,
+"ExtraAction": 20,
+"ExtraActivateLoopSound": 24,
+"ExtraActivateRef": 32,
+"ExtraActivateRefChildren": 24,
+"ExtraActorCause": 16,
+"ExtraAmmo": 20,
+"ExtraAnim": 16,
+"ExtraAnimNoteReceiver": 16,
+"ExtraAshPileRef": 16,
+"ExtraAudioBuoyMarker": 16,
+"ExtraAudioMarker": 16,
+"ExtraCannotWear": 12,
+"ExtraCell3D": 16,
+"ExtraCellAcousticSpace": 16,
+"ExtraCellCanopyShadowMask": 28,
+"ExtraCellClimate": 16,
+"ExtraCellImageSpace": 16,
+"ExtraCellImpactSwap": 16,
+"ExtraCellMusicType": 16,
+"ExtraCellWaterType": 16,
+"ExtraCharge": 16,
+"ExtraCollisionData": 16,
+"ExtraCombatStyle": 16,
+"ExtraContainerChanges": 16,
+"ExtraCount": 16,
+"ExtraCreatureAwakeSound": 24,
+"ExtraCreatureMovementSound": 24,
+"ExtraDataList": 32,
+"ExtraDecalRefs": 20,
+"ExtraDetachTime": 16,
+"ExtraDismemberedLimbs": 48,
+"ExtraDistantData": 24,
+"ExtraDroppedItemList": 20,
+"ExtraEditorID": 20,
+"ExtraEditorRefMoveData": 48,
+"ExtraEmittanceSource": 16,
+"ExtraEnableStateChildren": 20,
+"ExtraEnableStateParent": 20,
+"ExtraEncounterZone": 16,
+"ExtraFactionChanges": 16,
+"ExtraFollower": 16,
+"ExtraFollowerSwimBreadcrumbs": 40,
+"ExtraFriendHits": 28,
+"ExtraGhost": 12,
+"ExtraGlobal": 16,
+"ExtraGuardedRefData": 28,
+"ExtraHasNoRumors": 16,
+"ExtraHavok": 20,
+"ExtraHeadingTarget": 16,
+"ExtraHealth": 16,
+"ExtraHealthPerc": 16,
+"ExtraHotKey": 16,
+"ExtraIgnoredBySandbox": 12,
+"ExtraInfoGeneralTopic": 16,
+"ExtraItemDropper": 16,
+"ExtraLastFinishedSequence": 16,
+"ExtraLevCreaModifier": 16,
+"ExtraLeveledCreature": 20,
+"ExtraLeveledItem": 20,
+"ExtraLight": 16,
+"ExtraLinkedRef": 16,
+"ExtraLinkedRefChildren": 20,
+"ExtraLitWaterRefs": 20,
+"ExtraLock": 16,
+"ExtraMapMarker": 16,
+"ExtraMerchantContainer": 16,
+"ExtraModdingItem": 16,
+"ExtraModelSwap": 20,
+"ExtraMultiBound": 16,
+"ExtraMultiBoundData": 16,
+"ExtraMultiBoundRef": 16,
+"ExtraNavMeshPortal": 20,
+"ExtraNorthRotation": 16,
+"ExtraObjectHealth": 16,
+"ExtraOcclusionPlane": 16,
+"ExtraOcclusionPlaneRefData": 16,
+"ExtraOpenCloseActivateRef": 16,
+"ExtraOriginalReference": 16,
+"ExtraOwnership": 16,
+"ExtraPackage": 28,
+"ExtraPackageData": 16,
+"ExtraPackageStartLocation": 32,
+"ExtraPatrolRefData": 16,
+"ExtraPatrolRefInUseData": 16,
+"ExtraPersistentCell": 16,
+"ExtraPlayerCrimeList": 16,
+"ExtraPoison": 16,
+"ExtraPortal": 16,
+"ExtraPortalRefData": 16,
+"ExtraPrimitive": 16,
+"ExtraProcessMiddleLow": 16,
+"ExtraRadiation": 16,
+"ExtraRadioData": 28,
+"ExtraRadius": 16,
+"ExtraRagDollData": 16,
+"ExtraRandomTeleportMarker": 16,
+"ExtraRank": 16,
+"ExtraReferencePointer": 16,
+"ExtraReflectedRefs": 20,
+"ExtraReflectorRefs": 20,
+"ExtraRefractionProperty": 16,
+"ExtraRegionList": 16,
+"ExtraReservedMarkers": 16,
+"ExtraRoom": 16,
+"ExtraRoomRefData": 16,
+"ExtraRunOncePacks": 16,
+"ExtraSavedAnimation": 16,
+"ExtraSavedHavokData": 16,
+"ExtraSayToTopicInfo": 28,
+"ExtraSayTopicInfoOnceADay": 16,
+"ExtraScale": 16,
+"ExtraScript": 20,
+"ExtraSecuritronFace": 28,
+"ExtraSeed": 16,
+"ExtraSeenData": 16,
+"ExtraSound": 24,
+"ExtraSpecialRenderFlags": 20,
+"ExtraStartingPosition": 36,
+"ExtraStartingWorldOrCell": 16,
+"ExtraTalkingActor": 16,
+"ExtraTeleport": 16,
+"ExtraTerminalState": 16,
+"ExtraTimeLeft": 16,
+"ExtraTresPassPackage": 16,
+"ExtraUsedMarkers": 16,
+"ExtraUses": 16,
+"ExtraWaterLightRefs": 20,
+"ExtraWaterZoneMap": 32,
+"ExtraWeaponAttackSound": 24,
+"ExtraWeaponIdleSound": 24,
+"ExtraWeaponModFlags": 16,
+"ExtraWorn": 12,
+"ExtraWornLeft": 12,
+"ExtraXTarget": 16,
+"FOCollisionListener": 12,
+"FOIslandActivationListener": 8,
+"FOPipboyManager": 368,
+"FORenderedMenu": 216,
+"FORenderedMenuRaceSex": 384,
+"FORenderedTerminal": 240,
+"FindTriangleForLocationFilter": 4,
+"FlameProjectile": 384,
+"FleePackage": 172,
+"FrenzyEffect": 80,
+"FutBinaryFileC": 64,
+"GameSettingCollection": 288,
+"GrenadeProjectile": 384,
+"GridArray": 16,
+"GridCellArray": 40,
+"GuardActorPackageData": 20,
+"HUDMainMenu": 632,
+"HackingMenu": 476,
+"HavokError": 292,
+"HavokFileStreambufReader": 16,
+"HavokFileStreambufWriter": 16,
+"HavokStreambufFactory": 8,
+"HighActorCuller": 320,
+"HighProcess": 1132,
+"IBSAnimNoteReceiver": 4,
+"IDebugText": 4,
+"IMemoryHeap": 4,
+"IMemoryManagerFile": 4,
+"INIPrefSettingCollection": 276,
+"INISettingCollection": 276,
+"IOManager": 92,
+"IOTask": 24,
+"IdvFileError": 8,
+"ImageSpaceEffectParam": 36,
+"ImageSpaceModifierInstance": 28,
+"ImageSpaceModifierInstanceDOF": 48,
+"ImageSpaceModifierInstanceDRB": 68,
+"ImageSpaceModifierInstanceForm": 48,
+"ImageSpaceModifierInstanceRB": 56,
+"ImageSpaceModifierInstanceTemp": 32,
+"IngredientItem": 164,
+"IntSeenData": 44,
+"InterfacedClass": 4,
+"InteriorCellNewReferencesMap": 16,
+"InventoryMenu": 292,
+"InvisibilityEffect": 76,
+"ItemModMenu": 144,
+"LevelUpMenu": 204,
+"LightEffect": 76,
+"LimbConditionEffect": 80,
+"LipTask": 64,
+"ListBoxBase": 4,
+"LoadedAreaBound": 68,
+"LoadedReferenceMap": 24,
+"LoadingMenu": 1472,
+"LoadingMenuThread": 80,
+"LockEffect": 72,
+"LockPickMenu": 256,
+"LoveTesterMenu": 560,
+"LowProcess": 180,
+"MagicBallProjectile": 196,
+"MagicBoltProjectile": 216,
+"MagicCaster": 12,
+"MagicFogProjectile": 208,
+"MagicHitEffect": 40,
+"MagicItem": 28,
+"MagicItemForm": 52,
+"MagicItemObject": 76,
+"MagicModelHitEffect": 60,
+"MagicProjectile": 168,
+"MagicShaderHitEffect": 108,
+"MagicSprayProjectile": 168,
+"MagicTarget": 16,
+"MapMenu": 560,
+"MediaLocationController": 184,
+"MediaSet": 196,
+"MemoryHeap": 8440,
+"MemoryManagerFile": 44,
+"Menu": 40,
+"MessageHandler": 8,
+"MessageMenu": 148,
+"MiddleHighProcess": 604,
+"MiddleLowProcess": 200,
+"MissileProjectile": 384,
+"MobIterOperator": 8,
+"MobileObject": 136,
+"MobileObjectTaskletData": 56,
+"Moon": 124,
+"MovementTaskData": 60,
+"MoviePlayer": 84,
+"NavMesh": 264,
+"NavMeshInfoMap": 64,
+"NavMeshInfoSearch": 8348,
+"NavMeshPOVSearch": 8440,
+"NavMeshSearch": 8356,
+"NavMeshSearchClosePoint": 8348,
+"NavMeshSearchFlee": 8336,
+"NavMeshSearchHide": 8408,
+"NavMeshSearchLOS": 8352,
+"NavMeshSearchMaxCost": 8364,
+"NavMeshSearchSLPoint": 8452,
+"Ni2DBuffer": 20,
+"NiAVObject": 192,
+"NiAVObjectPalette": 8,
+"NiAccumulator": 12,
+"NiAdditionalGeometryData": 44,
+"NiAdditionalGeometryData::NiAGDDataBlock": 16,
+"NiAllocator": 4,
+"NiAlphaAccumulator": 52,
+"NiAlphaController": 56,
+"NiAlphaProperty": 28,
+"NiAmbientLight": 288,
+"NiBMPReader": 384,
+"NiBSBoneLODController": 76,
+"NiBSPNode": 240,
+"NiBSplineBasisData": 40,
+"NiBSplineColorInterpolator": 52,
+"NiBSplineCompColorInterpolator": 60,
+"NiBSplineCompFloatInterpolator": 44,
+"NiBSplineCompPoint3Interpolator": 52,
+"NiBSplineCompTransformInterpolator": 96,
+"NiBSplineData": 24,
+"NiBSplineFloatInterpolator": 36,
+"NiBSplineInterpolator": 28,
+"NiBSplinePoint3Interpolator": 44,
+"NiBSplineTransformInterpolator": 72,
+"NiBackToFrontAccumulator": 48,
+"NiBillboardNode": 224,
+"NiBinaryExtraData": 20,
+"NiBinaryStream": 16,
+"NiBlendAccumTransformInterpolator": 88,
+"NiBlendBoolInterpolator": 52,
+"NiBlendColorInterpolator": 68,
+"NiBlendFloatInterpolator": 52,
+"NiBlendInterpolator": 48,
+"NiBlendPoint3Interpolator": 64,
+"NiBlendQuaternionInterpolator": 64,
+"NiBlendTransformInterpolator": 48,
+"NiBoneLODController": 104,
+"NiBoolData": 24,
+"NiBoolInterpController": 56,
+"NiBoolInterpolator": 24,
+"NiBoolTimelineInterpolator": 32,
+"NiBooleanExtraData": 16,
+"NiBoundingVolume": 4,
+"NiBoxBV": 64,
+"NiBoxCapsuleIntersector": 80,
+"NiBoxSphereIntersector": 80,
+"NiCamera": 320,
+"NiCapsuleBV": 60,
+"NiCapsuleCapsuleIntersector": 76,
+"NiCapsuleSphereIntersector": 72,
+"NiCapsuleTriIntersector": 108,
+"NiCollisionData": 80,
+"NiCollisionObject": 12,
+"NiColorData": 24,
+"NiColorExtraData": 28,
+"NiColorExtraDataController": 64,
+"NiColorInterpolator": 36,
+"NiControllerManager": 124,
+"NiControllerSequence": 116,
+"NiCullingProcess": 288,
+"NiCullingProperty": 28,
+"NiD3DDefaultShader": 92,
+"NiD3DGPUProgramCache": 72,
+"NiD3DGeometryGroupManager": 28,
+"NiD3DHLSLPixelShader": 60,
+"NiD3DHLSLVertexShader": 72,
+"NiD3DPass": 104,
+"NiD3DPixelShader": 48,
+"NiD3DShader": 60,
+"NiD3DShaderConstantManager": 136,
+"NiD3DShaderConstantMap": 68,
+"NiD3DShaderDeclaration": 44,
+"NiD3DShaderFactory": 256,
+"NiD3DShaderInterface": 36,
+"NiD3DShaderProgram": 44,
+"NiD3DShaderProgramCreator": 4,
+"NiD3DShaderProgramCreatorAsm": 16,
+"NiD3DShaderProgramCreatorHLSL": 8,
+"NiD3DShaderProgramCreatorObj": 16,
+"NiD3DShaderProgramFactory": 28,
+"NiD3DVertexShader": 60,
+"NiDDSReader": 384,
+"NiDefaultAVObjectPalette": 28,
+"NiDepthStencilBuffer": 20,
+"NiDevImageConverter": 2560,
+"NiDirectionalLight": 304,
+"NiDitherProperty": 28,
+"NiDynamicEffect": 240,
+"NiDynamicGeometryGroup": 80,
+"NiExtraData": 12,
+"NiExtraDataController": 64,
+"NiFile": 116,
+"NiFlipController": 84,
+"NiFloatController": 60,
+"NiFloatData": 24,
+"NiFloatExtraData": 16,
+"NiFloatExtraDataController": 64,
+"NiFloatInterpController": 56,
+"NiFloatInterpolator": 24,
+"NiFloatsExtraData": 20,
+"NiFloatsExtraDataController": 72,
+"NiFloatsExtraDataPoint3Controller": 72,
+"NiFogProperty": 44,
+"NiFormArray": 24,
+"NiFragmentShaderInstanceDescriptor": 24,
+"NiGPUProgramCache": 60,
+"NiGPUProgramCache::NiGPUProgramDesc": 24,
+"NiGeomMorpherController": 68,
+"NiGeomMorpherUpdateTask": 20,
+"NiGeometry": 240,
+"NiGeometryBufferData": 80,
+"NiGeometryData": 64,
+"NiGeometryData::RendererData": 4,
+"NiGeometryGroup": 12,
+"NiGeometryGroupManager": 4,
+"NiGlobalConstantEntry": 24,
+"NiHalfSpaceBV": 32,
+"NiImageConverter": 1920,
+"NiImageReader": 256,
+"NiIntegerExtraData": 16,
+"NiIntegersExtraData": 20,
+"NiInterpController": 52,
+"NiInterpolator": 12,
+"NiIntersector": 56,
+"NiKeyBasedInterpolator": 12,
+"NiKeyframeManager": 72,
+"NiLODData": 8,
+"NiLODNode": 256,
+"NiLight": 288,
+"NiLightColorController": 60,
+"NiLightDimmerController": 56,
+"NiLines": 240,
+"NiLinesData": 68,
+"NiLookAtController": 60,
+"NiLookAtInterpolator": 68,
+"NiMaterial": 12,
+"NiMaterialColorController": 60,
+"NiMaterialLibrary": 12,
+"NiMaterialProperty": 76,
+"NiMaterialResource": 44,
+"NiMemStream": 36,
+"NiMeshPSysData": 152,
+"NiMeshParticleSystem": 352,
+"NiMorphData": 24,
+"NiMultiTargetTransformController": 64,
+"NiNIFImageReader": 1792,
+"NiNode": 208,
+"NiOBBLeaf": 152,
+"NiOBBNode": 140,
+"NiOBBRoot": 128,
+"NiObject": 8,
+"NiObjectNET": 24,
+"NiPSysAgeDeathModifier": 32,
+"NiPSysAirFieldAirFrictionCtlr": 64,
+"NiPSysAirFieldInheritVelocityCtlr": 64,
+"NiPSysAirFieldModifier": 104,
+"NiPSysAirFieldSpreadCtlr": 64,
+"NiPSysBombModifier": 56,
+"NiPSysBoundUpdateModifier": 32,
+"NiPSysBoxEmitter": 100,
+"NiPSysCollider": 44,
+"NiPSysColliderManager": 28,
+"NiPSysColorModifier": 36,
+"NiPSysCylinderEmitter": 96,
+"NiPSysData": 124,
+"NiPSysDragFieldModifier": 64,
+"NiPSysDragModifier": 52,
+"NiPSysEmitter": 84,
+"NiPSysEmitterCtlr": 92,
+"NiPSysEmitterCtlrData": 40,
+"NiPSysEmitterDeclinationCtlr": 64,
+"NiPSysEmitterDeclinationVarCtlr": 64,
+"NiPSysEmitterInitialRadiusCtlr": 64,
+"NiPSysEmitterLifeSpanCtlr": 64,
+"NiPSysEmitterPlanarAngleCtlr": 64,
+"NiPSysEmitterPlanarAngleVarCtlr": 64,
+"NiPSysEmitterSpeedCtlr": 64,
+"NiPSysFieldAttenuationCtlr": 64,
+"NiPSysFieldMagnitudeCtlr": 64,
+"NiPSysFieldMaxDistanceCtlr": 64,
+"NiPSysFieldModifier": 48,
+"NiPSysGravityFieldModifier": 72,
+"NiPSysGravityModifier": 64,
+"NiPSysGravityStrengthCtlr": 64,
+"NiPSysGrowFadeModifier": 44,
+"NiPSysInitialRotAngleCtlr": 64,
+"NiPSysInitialRotAngleVarCtlr": 64,
+"NiPSysInitialRotSpeedCtlr": 64,
+"NiPSysInitialRotSpeedVarCtlr": 64,
+"NiPSysMeshEmitter": 136,
+"NiPSysMeshEmitter::NiSkinnedEmitterData": 12,
+"NiPSysMeshUpdateModifier": 40,
+"NiPSysModifier": 24,
+"NiPSysModifierActiveCtlr": 64,
+"NiPSysModifierBoolCtlr": 64,
+"NiPSysModifierCtlr": 64,
+"NiPSysModifierFloatCtlr": 64,
+"NiPSysPlanarCollider": 304,
+"NiPSysPositionModifier": 24,
+"NiPSysRadialFieldModifier": 52,
+"NiPSysResetOnLoopCtlr": 56,
+"NiPSysRotationModifier": 56,
+"NiPSysSpawnModifier": 52,
+"NiPSysSphereEmitter": 92,
+"NiPSysSphericalCollider": 208,
+"NiPSysTurbulenceFieldModifier": 60,
+"NiPSysUpdateCtlr": 52,
+"NiPSysUpdateTask": 20,
+"NiPSysVolumeEmitter": 88,
+"NiPSysVortexFieldModifier": 60,
+"NiPalette": 36,
+"NiParticleMeshes": 256,
+"NiParticleMeshesData": 120,
+"NiParticleSystem": 336,
+"NiParticles": 240,
+"NiParticlesData": 112,
+"NiPathController": 100,
+"NiPathInterpolator": 92,
+"NiPersistentSrcTextureRendererData": 148,
+"NiPick::Results": 20,
+"NiPixelData": 116,
+"NiPoint3InterpController": 56,
+"NiPoint3Interpolator": 32,
+"NiPointLight": 304,
+"NiPosData": 24,
+"NiProperty": 24,
+"NiQuaternionInterpolator": 36,
+"NiRangeLODData": 40,
+"NiRefObject": 8,
+"NiRenderTargetGroup": 48,
+"NiRenderedCubeMap": 100,
+"NiRenderedTexture": 72,
+"NiRenderer": 640,
+"NiRollController": 60,
+"NiRotData": 24,
+"NiSCMExtraData": 48,
+"NiScreenElements": 240,
+"NiScreenElementsData": 112,
+"NiScreenGeometry": 240,
+"NiScreenGeometryData": 112,
+"NiScreenGeometryData::ScreenElement": 20,
+"NiScreenLODData": 48,
+"NiScreenPolygon": 28,
+"NiScreenSpaceCamera": 352,
+"NiScreenTexture": 32,
+"NiSearchPath": 528,
+"NiSequence": 52,
+"NiSequenceStreamHelper": 24,
+"NiShadeProperty": 32,
+"NiShader": 20,
+"NiShader::NiShaderInstanceDescriptor": 4,
+"NiShaderConstantMap": 12,
+"NiShaderConstantMapEntry": 56,
+"NiShaderDeclaration": 8,
+"NiShaderFactory": 36,
+"NiSingleInterpController": 56,
+"NiSingleShaderMaterial": 24,
+"NiSingleShaderMaterialLibrary": 20,
+"NiSkinData": 96,
+"NiSkinInstance": 52,
+"NiSkinPartition": 16,
+"NiSkinPartition::Partition": 44,
+"NiSortAdjustNode": 224,
+"NiSourceCubeMap": 76,
+"NiSourceTexture": 72,
+"NiSpecularProperty": 28,
+"NiSphereBV": 20,
+"NiSphereTriIntersector": 108,
+"NiSpotLight": 336,
+"NiStandardAllocator": 4,
+"NiStaticGeometryGroup": 28,
+"NiStencilProperty": 36,
+"NiStream": 1476,
+"NiStringExtraData": 16,
+"NiStringPalette": 20,
+"NiStringsExtraData": 20,
+"NiSwitchNode": 240,
+"NiSwitchStringExtraData": 24,
+"NiTGAReader": 384,
+"NiTask": 12,
+"NiTextKeyExtraData": 20,
+"NiTexture": 48,
+"NiTexture::RendererData": 96,
+"NiTextureEffect": 432,
+"NiTextureTransformController": 80,
+"NiTexturingProperty": 48,
+"NiTexturingProperty::BumpMap": 40,
+"NiTexturingProperty::Map": 16,
+"NiTexturingProperty::ParallaxMap": 20,
+"NiTexturingProperty::ShaderMap": 20,
+"NiTimeController": 52,
+"NiTransformController": 56,
+"NiTransformData": 44,
+"NiTransformInterpolator": 72,
+"NiTriBasedGeom": 240,
+"NiTriBasedGeomData": 68,
+"NiTriShape": 240,
+"NiTriShapeData": 88,
+"NiTriShapeDynamicData": 92,
+"NiTriStrips": 240,
+"NiTriStripsData": 80,
+"NiTriStripsDynamicData": 84,
+"NiUVController": 80,
+"NiUVData": 76,
+"NiUnionBV": 24,
+"NiUnsharedGeometryGroup": 12,
+"NiVectorExtraData": 28,
+"NiVertWeightsExtraData": 12,
+"NiVertexColorProperty": 28,
+"NiVisController": 56,
+"NiZBufferProperty": 28,
+"NightEyeEffect": 76,
+"NonActorMagicCaster": 36,
+"NonActorMagicTarget": 40,
+"Normal": 20,
+"NumericIDBufferMap": 16,
+"OEI::IO::IO_Thread": 52,
+"ObstacleData": 160,
+"ObstacleTaskData": 88,
+"ObstacleUndoData": 112,
+"OpenEffect": 72,
+"PArrayPoint": 12,
+"PackageUpdateTaskData": 68,
+"ParalysisEffect": 76,
+"PathBuilder::FindTriangleForLocationWaterFilter": 4,
+"PathSmootherPOVSearch": 8464,
+"Pathing::CheckLineOfSightFilter": 4,
+"PathingAvoidNodeArray": 24,
+"PathingCoverLocation": 84,
+"PathingLOSGridMap": 84,
+"PathingLOSMap": 80,
+"PathingLocation": 40,
+"PathingRequest": 176,
+"PathingRequestClosePoint": 184,
+"PathingRequestCover": 236,
+"PathingRequestCoveredMove": 268,
+"PathingRequestFlee": 180,
+"PathingRequestHide": 220,
+"PathingRequestLOS": 216,
+"PathingRequestOptimalLocation": 192,
+"PathingRequestSafeStraightLine": 188,
+"PathingSearchRayCast": 148,
+"PathingSolution": 68,
+"PathingTaskData": 80,
+"PatrolActorPackageData": 56,
+"PlayerCharacter": 3660,
+"PlayerMover": 160,
+"PlayerNameEntryMenu": 96,
+"PosGen": 20,
+"Precipitation": 24,
+"Projectile": 368,
+"ProjectileListener": 1632,
+"QuantityMenu": 68,
+"QueuedActor": 64,
+"QueuedAnimIdle": 64,
+"QueuedCharacter": 72,
+"QueuedChildren": 20,
+"QueuedCreature": 64,
+"QueuedFaceGenFile": 64,
+"QueuedFile": 40,
+"QueuedFileEntry": 48,
+"QueuedFileLoad": 56,
+"QueuedHead": 56,
+"QueuedHelmet": 296,
+"QueuedKF": 56,
+"QueuedMagicItem": 48,
+"QueuedModel": 72,
+"QueuedParents": 16,
+"QueuedPlayer": 72,
+"QueuedReference": 64,
+"QueuedReplacementKF": 64,
+"QueuedReplacementKFList": 56,
+"QueuedTexture": 56,
+"QueuedTree": 64,
+"QueuedTreeBillboard": 64,
+"QueuedTreeModel": 80,
+"RaceSexMenu": 384,
+"RadialTile": 72,
+"RadioConvTask": 56,
+"Random": 4,
+"ReanimateEffect": 112,
+"RecipeMenu": 260,
+"ReferenceObstacleArray": 28,
+"RegSettingCollection": 276,
+"RepairMenu": 140,
+"RepairServicesMenu": 160,
+"Reset3DMobIterator": 16,
+"RouletteMenu": 16404,
+"SPECIALBookMenu": 484,
+"SandBoxActorPackageData": 100,
+"SaveGameFile": 428,
+"SceneGraph": 240,
+"Script": 84,
+"ScriptEffect": 80,
+"SearchPackage": 420,
+"SeenData": 36,
+"Setting": 12,
+"ShieldEffect": 80,
+"Sky": 312,
+"SkyObject": 8,
+"SkyTask": 56,
+"SleepWaitMenu": 76,
+"SlotMachineMenu": 344,
+"SpecificItemCollector": 128,
+"SpectatorPackage": 180,
+"SpellItem": 68,
+"Stars": 16,
+"StartMenu": 460,
+"StartMenu::Option": 16,
+"StartMenu::OptionListBox": 48,
+"StartMenu::UserOption": 48,
+"StatsMenu": 676,
+"StatsMenu::NamedEffectsList": 12,
+"StatsMenu::StatusDataList": 12,
+"StatsMenu::StatusEffectList": 12,
+"SummonCreatureEffect": 116,
+"Sun": 44,
+"SunDamageEffect": 80,
+"SurgeryMenu": 400,
+"SymGen": 20,
+"SystemColorManager::HardSystemColor": 16,
+"SystemColorManager::SoftSystemColor": 16,
+"SystemColorManager::SystemColor": 12,
+"TES": 196,
+"TESAIForm": 32,
+"TESActorBase": 268,
+"TESActorBaseData": 52,
+"TESAmbushPackageData": 8,
+"TESAmmo": 220,
+"TESAmmoEffect": 48,
+"TESAnimGroup": 60,
+"TESAnimation": 12,
+"TESArrowTargetListener": 20,
+"TESAttackDamageForm": 8,
+"TESAttributes": 12,
+"TESBipedModelForm": 220,
+"TESBoundAnimObject": 48,
+"TESBoundObject": 48,
+"TESBoundTreeObject": 48,
+"TESCaravanCard": 188,
+"TESCaravanDeck": 44,
+"TESCaravanMoney": 204,
+"TESCasino": 544,
+"TESCasinoChips": 156,
+"TESChallenge": 124,
+"TESChildCell": 4,
+"TESClass": 96,
+"TESClimate": 88,
+"TESCombatStyle": 264,
+"TESContainer": 12,
+"TESCreature": 352,
+"TESDescription": 8,
+"TESDialoguePackageData": 32,
+"TESEatPackageData": 8,
+"TESEffectShader": 368,
+"TESEnchantableForm": 16,
+"TESEscortPackageData": 12,
+"TESEyes": 52,
+"TESFaction": 76,
+"TESFlora": 156,
+"TESFollowPackageData": 12,
+"TESForm": 24,
+"TESFullName": 12,
+"TESFurniture": 148,
+"TESGlobal": 40,
+"TESGrass": 104,
+"TESHair": 76,
+"TESHealthForm": 8,
+"TESIcon": 12,
+"TESIconTree": 12,
+"TESIdleForm": 84,
+"TESImageSpace": 176,
+"TESImageSpaceModifiableForm": 8,
+"TESImageSpaceModifier": 1840,
+"TESKey": 172,
+"TESLandTexture": 40,
+"TESLevCharacter": 112,
+"TESLevCreature": 112,
+"TESLevItem": 76,
+"TESLevSpell": 76,
+"TESLeveledList": 28,
+"TESLoadScreen": 64,
+"TESLoadScreenType": 112,
+"TESModel": 24,
+"TESModelAnim": 24,
+"TESModelList": 20,
+"TESModelPSA": 24,
+"TESModelRDT": 24,
+"TESModelTextureSwap": 32,
+"TESModelTree": 24,
+"TESNPC": 492,
+"TESObject": 36,
+"TESObjectACTI": 144,
+"TESObjectANIO": 60,
+"TESObjectARMA": 400,
+"TESObjectARMO": 400,
+"TESObjectBOOK": 196,
+"TESObjectCELL": 176,
+"TESObjectCLOT": 340,
+"TESObjectCONT": 156,
+"TESObjectDOOR": 144,
+"TESObjectIMOD": 176,
+"TESObjectLAND": 44,
+"TESObjectLIGH": 200,
+"TESObjectMISC": 172,
+"TESObjectREFR": 104,
+"TESObjectSTAT": 88,
+"TESObjectTREE": 148,
+"TESObjectWEAP": 904,
+"TESPackage": 128,
+"TESPackageData": 4,
+"TESPatrolPackageData": 8,
+"TESProduceForm": 12,
+"TESQuest": 108,
+"TESRace": 1252,
+"TESRaceForm": 8,
+"TESReactionForm": 16,
+"TESRecipe": 92,
+"TESRecipeCategory": 40,
+"TESRegion": 56,
+"TESRegionData": 8,
+"TESRegionDataGrass": 12,
+"TESRegionDataImposter": 16,
+"TESRegionDataLandscape": 12,
+"TESRegionDataManager": 8,
+"TESRegionDataMap": 16,
+"TESRegionDataSound": 32,
+"TESRegionDataWeather": 16,
+"TESRegionGrassObject": 12,
+"TESRegionGrassObjectList": 20,
+"TESRegionList": 16,
+"TESRegionObjectBase": 4,
+"TESReputation": 80,
+"TESScriptableForm": 12,
+"TESSkill": 96,
+"TESSound": 108,
+"TESSoundFile": 12,
+"TESSpellList": 20,
+"TESTexture": 12,
+"TESTexture1024": 12,
+"TESTopic": 72,
+"TESTopicInfo": 80,
+"TESTrapListener": 36,
+"TESUseItemPackageData": 8,
+"TESUseWeaponPackageData": 36,
+"TESValueForm": 8,
+"TESWaterForm": 404,
+"TESWaterListener": 64,
+"TESWeather": 876,
+"TESWeightForm": 8,
+"TESWindListener": 20,
+"TESWorldSpace": 236,
+"TargetEntry": 80,
+"TelekinesisEffect": 96,
+"TeleportDoorSearch": 8376,
+"Tile": 56,
+"Tile3D": 80,
+"Tile::Action": 12,
+"Tile::Extra": 20,
+"Tile::FloatAction": 16,
+"Tile::MenuStringMap": 20,
+"Tile::RefValueAction": 16,
+"TileImage": 72,
+"TileMenu": 64,
+"TileRect": 60,
+"TileText": 76,
+"TopicInfoArray": 24,
+"TraitMenu": 140,
+"TraitSelectMenu": 136,
+"TrapEntry": 24,
+"TrapTargetEntry": 80,
+"TrespassPackage": 156,
+"TurnUndeadEffect": 76,
+"TutorialMenu": 88,
+"Uniform": 4,
+"UpdateMasterPsysTaskletData": 32,
+"UseWeaponActorPackageData": 8,
+"VATSMenu": 324,
+"ValueAndConditionsEffect": 80,
+"ValueModifierEffect": 76,
+"VampirismEffect": 72,
+"VirtualActorPathHandler": 32,
+"WaterTargetEntry": 96,
+"WaterZone": 32,
+"WeaponObject": 44,
+"ZeroOverheadHeap": 32,
+"ZoneEntry": 24,
+"ahkpBreakableConstraintData": 40,
+"ahkpCharacterProxy": 208,
+"ahkpMalleableConstraintData": 32,
+"ahkpWorld": 864,
+"bhkAabbPhantom": 24,
+"bhkAcousticSpacePhantomCallbackShape": 16,
+"bhkAction": 16,
+"bhkAngularDashpotAction": 16,
+"bhkArrowTargetListener": 20,
+"bhkBallAndSocketConstraint": 16,
+"bhkBallSocketConstraintChain": 16,
+"bhkBinaryAction": 16,
+"bhkBlendCollisionObject": 44,
+"bhkBlendCollisionObjectAddRotation": 96,
+"bhkBlendController": 92,
+"bhkBoxShape": 20,
+"bhkBreakableConstraint": 16,
+"bhkBvTreeShape": 20,
+"bhkCachingShapePhantom": 24,
+"bhkCapsuleShape": 20,
+"bhkCharControllerShape": 20,
+"bhkCharacterController": 1616,
+"bhkCharacterListener": 112,
+"bhkCharacterListenerArrow": 1632,
+"bhkCharacterListenerSpell": 1632,
+"bhkCharacterPointCollector": 976,
+"bhkCharacterProxy": 992,
+"bhkCharacterStateClimbing": 8,
+"bhkCharacterStateFlying": 8,
+"bhkCharacterStateInAir": 12,
+"bhkCharacterStateJumping": 8,
+"bhkCharacterStateOnGround": 12,
+"bhkCharacterStateProjectile": 8,
+"bhkCharacterStateSwimming": 8,
+"bhkCollisionBox": 32,
+"bhkCollisionFilter": 48,
+"bhkCollisionObject": 20,
+"bhkConstraint": 16,
+"bhkConstraintChain": 16,
+"bhkContactListener": 4,
+"bhkConvexListShape": 20,
+"bhkConvexShape": 20,
+"bhkConvexSweepShape": 20,
+"bhkConvexTransformShape": 20,
+"bhkConvexVerticesShape": 20,
+"bhkCylinderShape": 20,
+"bhkDashpotAction": 16,
+"bhkEntity": 20,
+"bhkEntityListener": 20,
+"bhkExtendedMeshShape": 24,
+"bhkExtendedMeshShapeData": 16,
+"bhkExtraData": 36,
+"bhkFilteredCdBodyCollector": 276,
+"bhkFixedConstraint": 16,
+"bhkForceController": 96,
+"bhkGenericConstraint": 16,
+"bhkHeightFieldShape": 20,
+"bhkHingeConstraint": 16,
+"bhkHingeLimitsConstraint": 16,
+"bhkLimitedHingeConstraint": 16,
+"bhkLiquidAction": 64,
+"bhkListShape": 20,
+"bhkMalleableConstraint": 16,
+"bhkMemoryAllocator": 4,
+"bhkMoppBvTreeShape": 20,
+"bhkMotorAction": 16,
+"bhkMouseSpringAction": 16,
+"bhkMultiSphereShape": 20,
+"bhkNiCollisionObject": 20,
+"bhkNiTriStripsShape": 20,
+"bhkObstacleDeactivationListener": 4,
+"bhkObstacleRemovalListener": 4,
+"bhkOnExitCallback": 4,
+"bhkOnStartupCallback": 4,
+"bhkOrientHingedBodyAction": 16,
+"bhkPCollisionObject": 20,
+"bhkPackedNiTriStripsShape": 20,
+"bhkPhantom": 24,
+"bhkPlaneShape": 20,
+"bhkPoseArray": 24,
+"bhkPositionConstraintMotor": 36,
+"bhkPrismaticConstraint": 16,
+"bhkRagdollConstraint": 16,
+"bhkRagdollController": 720,
+"bhkRagdollLimitsConstraint": 16,
+"bhkRagdollPenetrationUtil": 48,
+"bhkRagdollShareData": 32,
+"bhkRagdollTemplate": 28,
+"bhkRagdollTemplateData": 64,
+"bhkRefObject": 12,
+"bhkRigidBody": 28,
+"bhkRigidBodyT": 64,
+"bhkSPCollisionObject": 20,
+"bhkSerializable": 16,
+"bhkShape": 20,
+"bhkShapeCollection": 20,
+"bhkShapePhantom": 24,
+"bhkSimpleShapePhantom": 24,
+"bhkSphereRepShape": 20,
+"bhkSphereShape": 20,
+"bhkSpringAction": 16,
+"bhkSpringDamperConstraintMotor": 28,
+"bhkStiffSpringConstraint": 16,
+"bhkTelekinesisListener": 28,
+"bhkTransformShape": 20,
+"bhkTrapListener": 24,
+"bhkTriSampledHeightFieldBvTreeShape": 20,
+"bhkTriangleShape": 20,
+"bhkUnaryAction": 16,
+"bhkVelocityConstraintMotor": 32,
+"bhkWaterListener": 20,
+"bhkWaterPhantomCallbackShape": 16,
+"bhkWheelConstraint": 16,
+"bhkWindListener": 20,
+"bhkWorld": 160,
+"bhkWorldCinfo": 240,
+"bhkWorldM": 208,
+"bhkWorldObject": 20,
+"hkBSHeightFieldShape": 112,
+"hkBallAndSocketConstraintCinfo": 20,
+"hkBallSocketChainCinfo": 44,
+"hkBaseObject": 4,
+"hkBreakableConstraintCinfo": 20,
+"hkCharControllerShape": 112,
+"hkConstraintCinfo": 20,
+"hkCpuJobThreadPool": 328,
+"hkDebugDisplay": 24,
+"hkDebugDisplayHandler": 4,
+"hkDebugDisplayProcess": 36,
+"hkDisplayCapsule": 144,
+"hkDisplayCylinder": 144,
+"hkDisplayGeometry": 96,
+"hkDisplaySerializeOStream": 16,
+"hkErrStream": 12,
+"hkError": 8,
+"hkFileSystem": 8,
+"hkFixedConstraintCinfo": 28,
+"hkFreeListAllocator": 2720,
+"hkFreeListAllocatorServer": 4,
+"hkFreeListMemorySystem": 13204,
+"hkGenericConstraintCinfo": 20,
+"hkHingeConstraintCinfo": 20,
+"hkHingeLimitsConstraintCinfo": 20,
+"hkLargeBlockAllocator": 196,
+"hkLeakDetectAllocator": 76,
+"hkLimitedHingeConstraintCinfo": 20,
+"hkLiquidAction": 48,
+"hkLocalFrameGroup": 12,
+"hkMalleableConstraintCinfo": 20,
+"hkMemoryAllocator": 4,
+"hkMemoryBlockServer": 8,
+"hkMemorySystem": 4,
+"hkMoppBvTreeShapeBase": 48,
+"hkNiTriStripsShape": 176,
+"hkNormalTriangleShape": 112,
+"hkOArchive": 16,
+"hkOrientHingedBodyAction": 96,
+"hkOstream": 12,
+"hkPackedNiTriStripsData": 48,
+"hkPackedNiTriStripsShape": 176,
+"hkPackfileWriter": 212,
+"hkPointToPathConstraintCinfo": 20,
+"hkPrismaticConstraintCinfo": 20,
+"hkProcess": 24,
+"hkProcessContext": 80,
+"hkProcessFactory": 28,
+"hkRagdollConstraintCinfo": 20,
+"hkRagdollLimitsConstraintCinfo": 20,
+"hkReferencedObject": 8,
+"hkScaledMoppBvTreeShape": 80,
+"hkSimpleLocalFrame": 112,
+"hkSolverAllocator": 320,
+"hkStackTracer": 12,
+"hkStatisticsCollector": 20,
+"hkStiffSpringConstraintCinfo": 20,
+"hkStreamReader": 8,
+"hkStreamWriter": 8,
+"hkSystemMemoryBlockServer": 20,
+"hkThreadMemory": 292,
+"hkVisualDebugger": 144,
+"hkWheelConstraintCinfo": 20,
+"hkaDetectRagdollPenetration": 40,
+"hkaFootPlacementIkSolver": 240,
+"hkaRagdollInstance": 48,
+"hkaRagdollRaycastInterface": 4,
+"hkaRaycastInterface": 4,
+"hkaSkeleton": 72,
+"hkaSkeletonMapper": 128,
+"hkpAabbPhantom": 224,
+"hkpAction": 24,
+"hkpActionListener": 4,
+"hkpAllCdBodyPairCollector": 276,
+"hkpAllCdPointCollector": 928,
+"hkpAllRayHitCollector": 800,
+"hkpAngularDashpotAction": 64,
+"hkpBallAndSocketConstraintData": 80,
+"hkpBallSocketChainData": 52,
+"hkpBinaryAction": 32,
+"hkpBoxShape": 48,
+"hkpBreakableConstraintData": 40,
+"hkpBroadPhase": 20,
+"hkpBroadPhaseCastCollector": 4,
+"hkpBroadPhaseListener": 4,
+"hkpBvAgent": 20,
+"hkpBvShape": 28,
+"hkpBvTreeAgent": 64,
+"hkpBvTreeShape": 20,
+"hkpCachingShapePhantom": 368,
+"hkpCapsuleShape": 64,
+"hkpCdBodyPairCollector": 8,
+"hkpCdPointCollector": 8,
+"hkpCharacterContext": 40,
+"hkpCharacterProxy": 192,
+"hkpCharacterProxyListener": 4,
+"hkpCharacterStateManager": 52,
+"hkpClosestCdPointCollector": 128,
+"hkpClosestRayHitCollector": 112,
+"hkpCollidableCollidableFilter": 4,
+"hkpCollisionDispatcher": 7760,
+"hkpCollisionFilter": 48,
+"hkpCollisionFilterList": 60,
+"hkpCompressedMeshShape": 240,
+"hkpConstraintChainInstance": 72,
+"hkpConstraintInstance": 56,
+"hkpConstraintListener": 4,
+"hkpConstraintMotor": 12,
+"hkpConstraintOwner": 24,
+"hkpContactListener": 4,
+"hkpConvexListShape": 80,
+"hkpConvexTransformShape": 96,
+"hkpConvexTransformShapeBase": 32,
+"hkpConvexVerticesShape": 112,
+"hkpCylinderShape": 96,
+"hkpDashpotAction": 96,
+"hkpEntity": 544,
+"hkpEntityActivationListener": 4,
+"hkpEntityListener": 4,
+"hkpExtendedMeshShape": 240,
+"hkpFixedBufferCdPointCollector": 24,
+"hkpGenericConstraintData": 88,
+"hkpGroupFilter": 256,
+"hkpHavokSnapshot::ConvertListener": 20,
+"hkpHingeConstraintData": 176,
+"hkpHingeLimitsData": 160,
+"hkpIslandActivationListener": 4,
+"hkpKeyframedRigidMotion": 288,
+"hkpLimitedForceConstraintMotor": 20,
+"hkpLimitedHingeConstraintData": 224,
+"hkpListShape": 112,
+"hkpMalleableConstraintData": 32,
+"hkpMaxSizeMotion": 288,
+"hkpMeshShape": 96,
+"hkpMoppBvTreeShape": 64,
+"hkpMoppCode": 48,
+"hkpMotion": 288,
+"hkpMotorAction": 64,
+"hkpMouseSpringAction": 96,
+"hkpMultiSphereShape": 160,
+"hkpPhantom": 164,
+"hkpPhantomCallbackShape": 16,
+"hkpPhantomListener": 4,
+"hkpPhantomOverlapListener": 4,
+"hkpPhysicsContext": 144,
+"hkpPhysicsContextWorldListener": 4,
+"hkpPhysicsSystem": 68,
+"hkpPlaneShape": 64,
+"hkpPointToPathConstraintData": 176,
+"hkpPositionConstraintMotor": 36,
+"hkpPrismaticConstraintData": 208,
+"hkpRagdollConstraintData": 320,
+"hkpRagdollLimitsData": 192,
+"hkpRayCollidableFilter": 4,
+"hkpRayHitCollector": 8,
+"hkpRayShapeCollectionFilter": 4,
+"hkpRigidBody": 544,
+"hkpSampledHeightFieldShape": 96,
+"hkpShape": 16,
+"hkpShapeCollection": 24,
+"hkpShapeCollectionFilter": 4,
+"hkpShapeContainer": 4,
+"hkpShapePhantom": 352,
+"hkpSimpleClosestContactCollector": 48,
+"hkpSimpleConstraintContactMgr": 128,
+"hkpSimpleConstraintContactMgr::Factory": 12,
+"hkpSimpleContactConstraintData": 48,
+"hkpSimpleShapePhantom": 368,
+"hkpSimpleWorldRayCaster": 64,
+"hkpSimulationIsland": 108,
+"hkpSingleShapeContainer": 8,
+"hkpSphereShape": 32,
+"hkpSpringAction": 96,
+"hkpSpringDamperConstraintMotor": 28,
+"hkpStiffSpringConstraintData": 80,
+"hkpStorageSampledHeightFieldShape": 128,
+"hkpSymmetricAgentFlipBodyCollector": 12,
+"hkpSymmetricAgentFlipCastCollector": 48,
+"hkpSymmetricAgentFlipCollector": 12,
+"hkpTransformShape": 112,
+"hkpTriSampledHeightFieldBvTreeShape": 48,
+"hkpTriSampledHeightFieldCollection": 64,
+"hkpTriangleShape": 96,
+"hkpUnaryAction": 28,
+"hkpVelocityConstraintMotor": 32,
+"hkpWheelConstraintData": 352,
+"hkpWorld": 848,
+"hkpWorldCinfo": 240,
+"hkpWorldDeletionListener": 4,
+"hkpWorldObject": 140,
+"hkpWorldRayCaster": 80,
+"std::__non_rtti_object": 8,
+"std::bad_alloc": 12,
+"std::bad_cast": 8,
+"std::bad_exception": 12,
+"std::bad_typeid": 8,
+"std::codecvt_base": 8,
+"std::ctype_base": 8,
+"std::exception": 12,
+"std::ios_base": 56,
+"std::ios_base::failure": 16,
+"std::length_error": 8,
+"std::locale::_Locimp": 32,
+"std::locale::facet": 8,
+"std::logic_error": 8,
+"std::out_of_range": 8,
+"std::runtime_error": 8,
+"type_info": 12
+},
+"search_log": {
+"BSWin32Audio": {
+"by_short_name": [],
+"exact": false,
+"note": "поиск по точному имени, имени без пространства имён и подстроке (без учёта регистра) среди полных определений классов/структур Xbox",
+"substring_matches": []
+},
+"BSWin32GameSound": {
+"by_short_name": [],
+"exact": false,
+"note": "поиск по точному имени, имени без пространства имён и подстроке (без учёта регистра) среди полных определений классов/структур Xbox",
+"substring_matches": []
+},
+"NiDX9Renderer": {
+"by_short_name": [],
+"exact": false,
+"note": "поиск по точному имени, имени без пространства имён и подстроке (без учёта регистра) среди полных определений классов/структур Xbox",
+"substring_matches": []
+}
+},
+"source": "Xbox 360 Fallout.pdb (Release Final), дамп llvm-pdbutil; выписка — только для перечисленных классов"
+}

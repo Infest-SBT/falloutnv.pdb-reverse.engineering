@@ -1,4 +1,4 @@
-# FalloutNV.pdb v0.6.3 — гибридная программа Xbox PDB ↔ PC, первая фаза (строгий и исследовательский PDB)
+# FalloutNV.pdb v0.6.4 — гибридная реконструкция Xbox ↔ PC: происхождение знания (строгий и исследовательский PDB)
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`.
 Оба PDB — с GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE) и теми же 138 171 публичными
@@ -6,8 +6,31 @@
 
 | Файл | SHA-256 | Что внутри |
 |---|---|---|
-| `FalloutNV.pdb` — **строгий** | `d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e` | 86 классов с исходными именами: **84 `Confirmed` + 2 `VerifiedPrefix`**, 875 записей типов: только доказанное; прототип слота — только если метод опознан по имени или прототип доказан по смыслу (**побайтно как в v0.6.2**) |
-| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками (побайтно как в v0.5.4–v0.6.2) |
+| `FalloutNV.pdb` — **строгий** | `d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e` | 86 классов с исходными именами: **84 `Confirmed` + 2 `VerifiedPrefix`**, 875 записей типов: только доказанное; прототип слота — только если метод опознан по имени или прототип доказан по смыслу (**побайтно как в v0.6.2–v0.6.3**) |
+| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками (побайтно как в v0.5.4–v0.6.3) |
+
+**v0.6.4 — происхождение знания (`provenance`, `Reconstructed`)** (ТЗ ред. 3 Андрея и Астры, «Гибридная
+реконструкция Xbox ↔ PC и происхождение доказательств»). Цель проекта — максимально полный PC FalloutNV.pdb для всего
+exe: что Xbox PDB даёт и PC подтверждает — переносится (маршрут A), тупики — свой реверс (маршрут B). Теперь у каждого
+утверждения в метаданных записано, **откуда оно**. **Оба PDB, заголовки, `.meta.json` и скрипты — побайтно как в
+v0.6.3** (выпуск только метаданных).
+- **Две независимые оси.** Доказанность (`Confirmed` / `VerifiedPrefix` / `Unclassified`, статусы полей и слотов) — как
+  была. Происхождение — новое: `xbox-verified` (есть в Xbox и проверено кодом PC), `pc-reconstructed` (выведено по PC;
+  в Xbox нет или другое), `hybrid` (Xbox-описание + PC-реконструкция), `unknown` (не установлено).
+- **По утверждениям, не по классам**: размер, раскладка vtable, смещение/ширина/тип каждого поля, тождество/очистка/
+  прототип/номер каждого слота. 8531 утверждение; подтверждённых по PC: 3484 `xbox-verified`, 121 `hybrid`,
+  137 `pc-reconstructed`. Классов с `reconstructed = true` — 24 (аудио, память, NiAVObject/NiNode, геометрия, рендер,
+  шейдеры). У функций — привязки к каждому слоту отдельно (ICF).
+- **Где:** `evidence/summary.json` → `classes[…].provenance`, `evidence/verification.json` → `functions[…].provenance`,
+  отчёт покрытия `evidence/provenance_coverage.csv`. Параллельной базы и приписок в именах нет.
+- **Проверки (fail closed):** каждая PC-ссылка сверяется с байтами exe; `xbox-verified` только при кандидате Xbox и
+  PC-факте; `missing` только после документированного поиска в Xbox; при нарушении ничего не пишется. 30 проверок,
+  14 из них — порча (`tools/test_provenance.py`).
+- **Перепись размеров по всему exe** (Research): 1065 классов по «выделение памяти → конструктор», 822 совпадают с Xbox,
+  87 отличаются, 102 только на PC; конфликтов 0 (`research_reconstruction/out/class_sizes.csv`).
+
+Подробно: `audit/provenance_migration.md` (правила, покрытие, 5 реальных примеров), `audit/diff_v063_v064.md`
+(что изменилось побайтно).
 
 **v0.6.3 — гибридная программа Xbox PDB ↔ PC Reconstruction, первая фаза** (ТЗ Андрея и Астры). **Оба PDB,
 заголовки, метаданные, доказательства и скрипты — побайтно как в v0.6.2**: по ТЗ первая фаза опубликованные PDB не
@@ -885,6 +908,10 @@ exe нужно один из них (оба называются `FalloutNV.pdb`
 
 ## Повторить проверку самому (нужны свой exe и PDB xNVSE)
 
+v0.6.4: происхождение повторяется после `evidence.py` и `verify_*.py`, до `verification.py`:
+`python3 tools/provenance.py out research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe
+research_reconstruction`, затем `tools/test_provenance.py` (порядок — `audit/provenance_migration.md`, раздел 9).
+
 v0.6.3: `research_reconstruction/` повторяется командой `bash research_reconstruction/run_all.sh FalloutNV.exe syms.tsv`
 (нужен ещё `unicorn` 2.1; см. `research_reconstruction/README_RU.md`).
 
@@ -905,8 +932,10 @@ python3 tools/test_windows_check.py FalloutNV.pdb fnv_types_v05.meta.json Fallou
 python3 -c "import csv;print(sum(r['status']=='MISMATCH' for r in csv.DictReader(open('out/evidence_vslots.csv',encoding='utf-8'))))"
 python3 tools/test_chaincheck.py FalloutNV.exe syms.tsv
 python3 tools/test_prefixview.py evidence/summary.json fnv_types_v05.h fnv_types_v05.meta.json
+python3 tools/provenance.py out research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction
 python3 tools/verification.py out FalloutNV.pdb research/FalloutNV.pdb syms.tsv FalloutNV.exe
 python3 tools/test_verification.py . syms.tsv FalloutNV.exe
+python3 tools/test_provenance.py evidence research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction
 python3 tools/test_cpp_guard.py fnv_types_v05.h
 python3 tools/test_slotproof.py FalloutNV.exe syms.tsv evidence tools/evidence_spec.json
 ```
@@ -1002,6 +1031,8 @@ Windows ещё не запускалось — журнал приёмки (вы
 
 ## Предыдущие версии
 
+- **v0.6.3** — гибридная программа Xbox PDB ↔ PC, первая фаза: `research_reconstruction/` (матрица закрытия,
+  fast-pass по RTTI всего exe, стенд Unicorn, три случая полного цикла, пассивный зонд). PDB — как в v0.6.2.
 - **v0.6.2** — закрытие Research перед Havok: реестр 80 вопросов, +6 полей, вывод очистки по вызывающим, опора
   «конец секции базового класса», политика строгого PDB. Дальше — гибридная программа (v0.6.3).
 - **v0.6.1** — по аудиту Астры v0.6: разбор не выходит за тело функции (P1), фасеты «ABI» и «семантика» разделены

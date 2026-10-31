@@ -1,6 +1,7 @@
 #!/bin/bash
 # Повтор всех результатов research_reconstruction из пакета: только PC exe, символы xNVSE (syms.tsv из PDB xNVSE,
-# tools/make_syms.py) и выписка методов Xbox для двух классов (cases/B01-B08_behavior_pairs/xbox_methods_extract.json).
+# tools/make_syms.py), выписка методов Xbox для двух классов (cases/B01-B08_behavior_pairs/xbox_methods_extract.json)
+# и выписка размеров Xbox (../tools/xbox_extract.json, v0.6.4).
 # usage: bash run_all.sh <FalloutNV.exe> <syms.tsv>       (запуск из любого места; пишет в свои out/ и cases/)
 set -e
 E=$(readlink -f "$1"); Y=$(readlink -f "$2")
@@ -24,5 +25,7 @@ py tools/fields_triage.py $PKG out/fastpass_fields.csv out/holder_slice.json out
 py tools/p3_triage.py $PKG out/rtti_census.json out/p3_triage.csv out/p3_summary.json > /dev/null
 py tools/strict_candidates.py $PKG out/fastpass_slots.csv $C1/evidence.json out/strict_candidates.csv > /dev/null
 py runtime_probe/selftest.py $E $Y runtime_probe/fnv_probe.dll out/probe_selftest.json > /dev/null
+py tools/size_census.py $E $Y out/rtti_census.json $PKG/tools/xbox_extract.json $PKG out/class_sizes.csv out/class_sizes.json > /dev/null
 py tools/closure_matrix.py $PKG out/fastpass_slots.csv out/fastpass_fields.csv out/vfamilies.json closure_matrix.csv $RR > /dev/null
 py tests/test_rr.py $E $Y $RR $PKG | tail -1
+py tests/test_size_census.py $E $Y $RR $PKG | tail -1

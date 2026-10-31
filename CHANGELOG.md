@@ -4,6 +4,31 @@
 проверенные по коду PC, поверх публичных имён из PDB xNVSE. Номер версии: `x.y` — новый раздел типов,
 `x.y.z` — исправления без нового раздела. Подробности каждой версии — в `README_RU.md` её коммита («vX.Y: …»).
 
+## [0.6.4] — 2026-10-31 — Происхождение знания: provenance / Reconstructed (ТЗ ред. 3)
+
+Выпуск метаданных: оба PDB, заголовки, .meta.json и scripts/ — побайтно как в v0.6.3. Статусы доказанности не
+изменились (84 Confirmed + 2 VerifiedPrefix; функции 1 + 2204).
+
+### Добавлено
+- Происхождение по утверждениям в существующих метаданных: `evidence/summary.json` → `classes[…].provenance`,
+  `evidence/verification.json` → `functions[…].provenance`. Ось независима от доказанности: `xbox-verified`,
+  `pc-reconstructed`, `hybrid`, `unknown`; отдельно `xbox_relation` и источник имени.
+- 8531 утверждение (размер, vtable, смещение/ширина/тип поля, тождество/очистка/прототип/номер слота); подтверждённых
+  по PC: 3484 xbox-verified, 121 hybrid, 137 pc-reconstructed. `reconstructed = true` у 24 классов. У функций —
+  происхождение каждой привязки к слоту (ICF).
+- `evidence/provenance_coverage.csv`, `audit/provenance_migration.md` (правила, покрытие, 5 реальных примеров),
+  `audit/diff_v063_v064.md`.
+- `tools/provenance.py` (fail closed: PC-ссылки сверяются с байтами exe, при нарушении ничего не пишется),
+  `tools/test_provenance.py` (30 проверок, 14 — порча), `tools/make_xbox_extract.py`, `tools/xbox_extract.json`.
+- Перепись размеров по всему exe (Research): 1065 классов «выделение → конструктор», 822 совпадают с Xbox,
+  87 отличаются, 102 только на PC; конфликтов 0; `research_reconstruction/tests/test_size_census.py` (19 проверок).
+
+### Изменено
+- `tools/verification.py`: добавляет `provenance` функции, если оно есть в summary.json; без новых ключей
+  verification.json равен v0.6.3.
+- `research_reconstruction/harness/emu.py`: необязательные `null_page` и `ecx_at_stop`/`esp_at_stop`; прежние
+  результаты — побайтно те же.
+
 ## [0.6.3] — 2026-10-26 — Гибридная программа Xbox PDB ↔ PC, первая фаза (ТЗ Андрея и Астры)
 
 Первая фаза: опубликованные PDB, заголовки, метаданные, evidence/ и scripts/ — побайтно как в v0.6.2 (по ТЗ перенос в

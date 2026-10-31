@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.6.3",
+ "package": "FalloutNV_PDB_v0.6.4",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -86,7 +86,9 @@
   "python3 tools/test_slotproof.py FalloutNV.exe syms.tsv evidence tools/evidence_spec.json  -> ИТОГ: всё прошло",
   "python3 tools/field_research.py evidence research/fnv_types_v05_research.meta.json tools/evidence_spec.json syms.tsv FalloutNV.exe out_scope.csv",
   "bash research_reconstruction/run_all.sh FalloutNV.exe syms.tsv  -> ИТОГ: всё прошло; файлы побайтно как в пакете",
-  "bash research_reconstruction/runtime_probe/build.sh  -> fnv_probe.dll побайтно как в пакете"
+  "bash research_reconstruction/runtime_probe/build.sh  -> fnv_probe.dll побайтно как в пакете",
+  "python3 tools/provenance.py out research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction  -> затем verification.py; diff -r out evidence пусто",
+  "python3 tools/test_provenance.py evidence research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction  -> ИТОГ: всё прошло"
  ],
  "windows_commands": [
   "python tools\\windows_check_pdb.py <FalloutNV.exe> . fnv_types_v05.meta.json",
@@ -511,7 +513,48 @@
    },
    "probe_selftest": "15/15",
    "probe_dll_sha256": "4129d42de31e01d4f85f7ef143ac26340b98473f9215a71eac0c3c2817c514b2",
-   "test_rr": "ИТОГ: всё прошло"
+   "test_rr": "ИТОГ: всё прошло",
+   "class_sizes": {
+    "classes": 1065,
+    "by_verdict": {
+     "size": 1065
+    },
+    "by_relation": {
+     "not-assessed": 54,
+     "materially-different": 87,
+     "matching": 822,
+     "missing": 102
+    },
+    "package_classes_checked": 22,
+    "package_mismatches": [],
+    "inheritance_violations": []
+   },
+   "test_size_census": "ИТОГ: всё прошло"
+  },
+  "provenance": {
+   "schema": 1,
+   "xbox_extract_sha256": "4824384dcf865601b925d8860c43b8f730c6ef88b611223e2ef78c10ad123c87",
+   "classes_by_origin": {
+    "xbox-verified": 62,
+    "hybrid": 24
+   },
+   "classes_reconstructed": 24,
+   "claims": 8531,
+   "claims_by_origin": {
+    "xbox-verified": 3484,
+    "unknown": 4789,
+    "pc-reconstructed": 137,
+    "hybrid": 121
+   },
+   "research_models": 85,
+   "functions_by_origin": {
+    "unknown": 623,
+    "xbox-verified": 1435,
+    "pc-reconstructed": 126,
+    "hybrid": 21
+   },
+   "coverage_rows": 8702,
+   "test_provenance": "ИТОГ: всё прошло"
   }
  },
  "verified_here": [
@@ -528,7 +571,8 @@
   "v0.6.2: этап Research — test_slotproof (вывод очистки по вызывающим, опора конца секции базы), независимая сверка опор end (audit/end_anchors_v062.md), охват поиска по полям (tools/field_research.py), реестр research_closure/",
   "v0.6.1: граница тела и ABI ≠ семантика — tools/test_slotproof.py (P1: ret соседней функции, команда через границу, переход за тело; P2: bool-константа, семантические фасеты), повтор всех доказательств v0.6 без изменений результатов, независимая сверка опор end (audit/end_anchors_v061.md)",
   "v0.6: доказательства слотов — tools/test_slotproof.py (синтетические тела, известные функции exe, воспроизведение каждой строки slot_proofs.csv, порча ручных доказательств), test_verification.py (перенос прототипа только при return_verified и args_verified)",
-  "v0.6.3: research_reconstruction — повтор всех результатов в чистой копии пакета (побайтно), test_rr.py, самопроверка зонда в эмуляторе (Unicorn; потоки и игра не моделируются); на Windows зонд не запускался"
+  "v0.6.3: research_reconstruction — повтор всех результатов в чистой копии пакета (побайтно), test_rr.py, самопроверка зонда в эмуляторе (Unicorn; потоки и игра не моделируются); на Windows зонд не запускался",
+  "v0.6.4: происхождение — пересчёт в чистой копии пакета побайтно; test_provenance.py (30, из них 14 порча), test_size_census.py (19); оба PDB побайтно как v0.6.3. На Windows и в настоящих Ghidra/IDA ничего не запускалось (скрипты не менялись)"
  ],
  "not_included": "дампы и файлы Xbox 360 PDB не распространяются; для перегенерации заголовков (gen_headers.py) они нужны, для пересборки PDB и всех проверок — нет",
  "files": {
@@ -537,8 +581,8 @@
    "bytes": 7172096
   },
   "README_RU.md": {
-   "sha256": "ee6f378402d47df7aa4c173d0831b0d73fe693c2d94b58bcea9691b3cdc1531a",
-   "bytes": 139290
+   "sha256": "2d27b8c16caa02b5f350fcba52bebd63fd0daa7fbb2544c07519b0730e0b6666",
+   "bytes": 143422
   },
   "audit/base_v061_sha256.txt": {
    "sha256": "3d4b1682e94cae122742d6ec29fd00160b54367cd6361d9b29b19400ec650647",
@@ -547,6 +591,14 @@
   "audit/base_v062_sha256.txt": {
    "sha256": "8f3baa907bd05611517c1da4b8002932a8fac27a8afba770651d628f0b120585",
    "bytes": 18093
+  },
+  "audit/base_v063_sha256.txt": {
+   "sha256": "43f7cda77e594f88e8d48744496685ca5520bf87b0d81c139c906eb0d5d04b5f",
+   "bytes": 29114
+  },
+  "audit/diff_v063_v064.md": {
+   "sha256": "0da7a8651e972313baf856b506ac29835493ea86dcfb97edda172d939e15580f",
+   "bytes": 3278
   },
   "audit/end_anchors_v061.md": {
    "sha256": "227cc0bce6924a0786c854eb853a55a5badd5b1699383dca726401dba11453c6",
@@ -584,9 +636,13 @@
    "sha256": "fe6ca6f03ca0723e528cfef36b2ff7148d2d8670a342801ada62a6e8c90887c3",
    "bytes": 1132
   },
+  "audit/provenance_migration.md": {
+   "sha256": "37dc45df3ba9cedfafbdc4cf173f5f8cc463312c79c891038fa8eeb72551fb8b",
+   "bytes": 20085
+  },
   "audit/repro_build.log": {
-   "sha256": "a2f8b03656eb33d18a9c33c9026dd424543d49a2e942f2fba7f0c529c014c9d8",
-   "bytes": 992
+   "sha256": "e0109809106f83a5ea2d66ba8410bb8639b1bc4eb67ab771d49b01d6195f1378",
+   "bytes": 1316
   },
   "audit/status_migration_v0511_v0512.md": {
    "sha256": "4c8aaa3ad9f3a96f84c83b54957dc78a2d976634bfd5a361a216e94642e28193",
@@ -628,9 +684,17 @@
    "sha256": "148cf7c1c302d65f30824448efc51fe47e604d49b8aed2f10db5763c50adadaa",
    "bytes": 7557
   },
+  "audit/test_provenance.log": {
+   "sha256": "07f3c722eb6a19d3fc3a208ccd363f8bead80fe38722ce62f55ec59d84530fe2",
+   "bytes": 3674
+  },
   "audit/test_rr.log": {
    "sha256": "bd5b706be37880f049c844ef9b05f2f15c006f6381f2b60a43b885facf810309",
    "bytes": 2391
+  },
+  "audit/test_size_census.log": {
+   "sha256": "7dc32ffe0905572ef2b9909ed3422ccaaf62d7b3d3912fcd97eaf893688e1903",
+   "bytes": 2152
   },
   "audit/test_slotproof.log": {
    "sha256": "c002855eb083af65d3c9dbb61b0240c64142fa62ca7dde099bc486aa6049ea53",
@@ -728,6 +792,10 @@
    "sha256": "19c9a347e2dbacdbd337e1885a8577d1a52274d8e62dd4c4214547459a91e415",
    "bytes": 10796
   },
+  "evidence/provenance_coverage.csv": {
+   "sha256": "9263047a6a68d6d6e31a94f906ef434b92fc57af361e356beadfe55dd43a014c",
+   "bytes": 689614
+  },
   "evidence/shader_type.csv": {
    "sha256": "367acfdbd9d21367f41ce04845c6cb22b09832b2ed771df38717f646d22fa2b8",
    "bytes": 2726
@@ -741,16 +809,16 @@
    "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "2eb6dad34488e6c983f1c90f67678b0721a9a0a7a60a52854bf860b0dfea6923",
-   "bytes": 1581174
+   "sha256": "4b43534ec614912ccf2a0b0ba3c01cee7467b52589885d6f6c1036ce08e54487",
+   "bytes": 4072637
   },
   "evidence/traced_provenance.csv": {
    "sha256": "4467487609e27d1497f49d0f14e2c5ac10f0c572dba56a2dc3b70a65b7e4f0ca",
    "bytes": 5834
   },
   "evidence/verification.json": {
-   "sha256": "cb8efb078c442d9140145b017374fcbfcd09fcd2a2f23e1e1f3154592642bff8",
-   "bytes": 4761894
+   "sha256": "85cc70c0e67657396f600365bb6f31bb9c5b7583bc85473d0eb76fb4a2f722db",
+   "bytes": 5712381
   },
   "evidence/verification_coverage.csv": {
    "sha256": "6a5169209852e1e06c58c9ab50d73c8c647d62b513fad74f32aa7d99d0ec9771",
@@ -813,8 +881,8 @@
    "bytes": 533
   },
   "research_reconstruction/README_RU.md": {
-   "sha256": "f8883a731acf32b27b6e9c89abcb2e04623e5848d5590deba2c5cce6b49a2681",
-   "bytes": 9406
+   "sha256": "d267b5cdbc006ad427e59ee0545daf79ac6c9c268c67f3f36fdd4f8e13ce30a2",
+   "bytes": 13626
   },
   "research_reconstruction/cases/A11_copy_to_members/cfg.txt": {
    "sha256": "abdceae0b42b59ad01f20d481277d6dd0615d1010eb654ea92c5acf7f38f32a1",
@@ -909,8 +977,16 @@
    "bytes": 92131
   },
   "research_reconstruction/harness/emu.py": {
-   "sha256": "d0736b8c99425e26daca46812bbe0fa9e91a51f5e13995c6be9500394447a5ab",
-   "bytes": 13287
+   "sha256": "4c2e23a0bcf5f5ee0ebc4d3e909064532bd3a840783bed887dcf7f5b3ede9d3e",
+   "bytes": 13798
+  },
+  "research_reconstruction/out/class_sizes.csv": {
+   "sha256": "07b7166e186670ceef25f123e7cb0c04f2b7ea87855111bfc1e02f0c13736c54",
+   "bytes": 274314
+  },
+  "research_reconstruction/out/class_sizes.json": {
+   "sha256": "98c5ebe00049f0145d406e3ec9d5d846de2f03dea95ef1517e7e8e92fad38b87",
+   "bytes": 882841
   },
   "research_reconstruction/out/fastpass_fields.csv": {
    "sha256": "57c39bdab58359140a662363c64f37783ca5ec8f4a8c32774941fc6aa4414f82",
@@ -953,8 +1029,8 @@
    "bytes": 152367
   },
   "research_reconstruction/run_all.sh": {
-   "sha256": "991784aecbfd31c8987646f5e1378e2975ee5ec3817e2e82834ea4d4662c19cf",
-   "bytes": 2415
+   "sha256": "e655989b2797ffe58070f8bcc7950e3de77aa180a1a7a1c35347ef9f1e3535b1",
+   "bytes": 2684
   },
   "research_reconstruction/runtime_probe/README_RU.md": {
    "sha256": "b9c158da7cb192fed124f5bbb6c27741a27fbdaae8ec034230ea81ed0de66f45",
@@ -987,6 +1063,10 @@
   "research_reconstruction/tests/test_rr.py": {
    "sha256": "806ac505db52171a8a621cc28afd6a8d65f7ac0bda7938eef5870ac430c6bebc",
    "bytes": 9328
+  },
+  "research_reconstruction/tests/test_size_census.py": {
+   "sha256": "b028cd0987e43dd79df5e09180f5695e5745f6f3f8e4d3daca67486c5d83ec99",
+   "bytes": 9746
   },
   "research_reconstruction/tools/cfgdump.py": {
    "sha256": "a0b6335f6758ba47a83901856d6272dd29d35abf1e21306d1a8bc183e6e8426a",
@@ -1023,6 +1103,10 @@
   "research_reconstruction/tools/rtti_census.py": {
    "sha256": "d1090ae5bacb101847b01b4432795bb2719293bfbc627b5948ec996b672737f1",
    "bytes": 6855
+  },
+  "research_reconstruction/tools/size_census.py": {
+   "sha256": "2d7471855d35d34fee2ceae4e54d0a9c9af11c45e1a598e4b58f67f6c87b9e9a",
+   "bytes": 17616
   },
   "research_reconstruction/tools/strict_candidates.py": {
    "sha256": "fe2a048f9d3c37ba536b9de90238e110e83952710ad652fb319972a2ce0bcba1",
@@ -1084,6 +1168,10 @@
    "sha256": "d3bce1eb01657b1d8d8d38fed8d4c0b76cd999dba39f16809aa39b7e73343662",
    "bytes": 1537
   },
+  "tools/make_xbox_extract.py": {
+   "sha256": "01cc622765e7b7361a08296a085d82665e1aca0ad4d4aefac4a5b785ed2c5e17",
+   "bytes": 6874
+  },
   "tools/merge_tpi.py": {
    "sha256": "3d20006336ddef41c0dbd97a798f8731d0d83a8f018e96c17dcf2a0aa5fa7e02",
    "bytes": 3606
@@ -1111,6 +1199,10 @@
   "tools/prefixview.py": {
    "sha256": "fa8b5bf5ba3c89b5af64805abcd6158a9590f7cac22421562600cf9206e91a70",
    "bytes": 9034
+  },
+  "tools/provenance.py": {
+   "sha256": "9b74253a00c9ee00aa9c47591e0e015992b95a3f90ffbe9c37d8ba8d3c6087b5",
+   "bytes": 35317
   },
   "tools/report_extras.py": {
    "sha256": "7a04019a2ac2a4458e39c7081598f0cb79dd44b909d60bb63779950538a25244",
@@ -1172,6 +1264,10 @@
    "sha256": "b0587e8690f3d242b9dd6d1f173aee64f3bb16298f7ada768a0fd16e27960e36",
    "bytes": 16239
   },
+  "tools/test_provenance.py": {
+   "sha256": "247326b3e7f0f205c795fddd2a47bd6113bea84656953a6f8cb60c6d944016a9",
+   "bytes": 10581
+  },
   "tools/test_slot_forward.py": {
    "sha256": "f6cc9467545db3e4f5649f428f249484eabc7d2f27765f100dffea2d827087e9",
    "bytes": 3453
@@ -1193,8 +1289,8 @@
    "bytes": 2560
   },
   "tools/verification.py": {
-   "sha256": "da2b991d58264405944a69cd0f7a55b1994e4ca879ca8f0fb73208b6503631ee",
-   "bytes": 30334
+   "sha256": "5410564d8a9d67cf5da567bb742ff3af270072e39dccddc24bb501f152e3cadb",
+   "bytes": 30891
   },
   "tools/verify_change_flags.py": {
    "sha256": "ef48facb6dbb0defae51b7278775ff4ed71e936cd57746b595b90bfe96710c0d",
@@ -1223,7 +1319,11 @@
   "tools/windows_check_pdb.py": {
    "sha256": "6483cdec4ffc7e9f7d749e8d361ab258f557686eb1c6da18bf7fdccc678f010c",
    "bytes": 18354
+  },
+  "tools/xbox_extract.json": {
+   "sha256": "4824384dcf865601b925d8860c43b8f730c6ef88b611223e2ef78c10ad123c87",
+   "bytes": 154772
   }
  },
- "changed_vs_v0.6.2": "гибридная программа Xbox PDB ↔ PC, первая фаза: оба PDB, заголовки, метаданные, evidence/ и scripts/ побайтно как в v0.6.2; новое — research_reconstruction/ (матрица закрытия, fast-pass по RTTI всего exe, стенд Unicorn, три случая полного цикла, поля/размеры/P3, пассивный зонд xNVSE — выключен по умолчанию)"
+ "changed_vs_v0.6.3": "выпуск метаданных (ТЗ ред. 3): оба PDB, заголовки, .meta.json и scripts/ побайтно как в v0.6.3; в evidence/summary.json и verification.json добавлено происхождение (provenance) по утверждениям, evidence/provenance_coverage.csv, tools/provenance.py, test_provenance.py, make_xbox_extract.py, xbox_extract.json; research_reconstruction/ — перепись размеров по всему exe (Research)"
 }
