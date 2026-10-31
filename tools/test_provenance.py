@@ -1,21 +1,24 @@
-"""v0.6.4–v0.6.5: тесты модели происхождения (ТЗ ред. 3, §5.6.7–5.6.9 и §11.5; аудит Астры v0.6.4, P1/P2) —
+"""v0.6.4–v0.6.6: тесты модели происхождения (ТЗ ред. 3, §5.6.7–5.6.9 и §11.5; аудит Астры v0.6.4, P1/P2) —
 положительные, fail-closed и обратная совместимость. v0.6.5: типизированные доказательства и контракт (порча байтов,
 владельца, операнда, vtable, ячейки, ret N, размера), происхождение фасетов функции по своим основаниям, вид
-отличия и область отрицательного поиска.
+отличия и область отрицательного поиска. v0.6.6 (аудит Астры v0.6.5): ret N и цепочка выделения по графу,
+ctor-alloc — только верхняя граница, ширина/направление из команды, совместная подмена журнала и доказательства,
+правило evidence.py «граница наследника — только по подтверждённому полю», удержание NiAlphaAccumulator.
 
 usage: python3 -I -B test_provenance.py <evidence_dir> <research meta.json> <xbox_extract.json> <FalloutNV.exe>
-                                        <research_reconstruction> [<evidence_dir v0.6.3 для сравнения>]
+                                        <research_reconstruction> <syms.tsv> [<evidence_dir прошлого выпуска>]
 
 evidence_dir — каталог с summary.json/verification.json ПОСЛЕ provenance.py и verification.py. Для сборки
-«исходного» summary.json (до происхождения) используется strip(): все прочие данные обязаны совпасть с v0.6.3.
+«исходного» summary.json (до происхождения) используется strip(). Сравнение с прошлым выпуском (v0.6.5): статусы,
+размеры, поля и слоты те же; отличаются только основания размеров (size_basis) по исправленному правилу.
 """
 import copy, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import provenance as P
 
 ev, meta_p, xbox_p, exe_p = sys.argv[1:5]
-rr = sys.argv[5] if len(sys.argv) > 5 else None
-old = sys.argv[6] if len(sys.argv) > 6 else None
+rr, syms = sys.argv[5], sys.argv[6]
+old = sys.argv[7] if len(sys.argv) > 7 else None
 fails = []
 
 
@@ -37,8 +40,8 @@ tmp = tempfile.mkdtemp()
 for f in os.listdir(ev):
     shutil.copy(os.path.join(ev, f), tmp)
 json.dump(base, open(os.path.join(tmp, 'summary.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-b0, S1, X1, exe1, ctx, meta = P.build(tmp, meta_p, xbox_p, exe_p, rr)
-b1, S2, _, _, _, _ = P.build(tmp, meta_p, xbox_p, exe_p, rr)
+b0, S1, X1, exe1, ctx, meta = P.build(tmp, meta_p, xbox_p, exe_p, rr, syms)
+b1, S2, _, _, _, _ = P.build(tmp, meta_p, xbox_p, exe_p, rr, syms)
 shutil.rmtree(tmp)
 
 # ---------- положительные
@@ -53,18 +56,21 @@ check('статусы классов не изменились (84 Confirmed + 2
       sorted(c['verification_status'] for c in S_pub['classes'].values()).count('Confirmed') == 84 and
       sorted(c['verification_status'] for c in S_pub['classes'].values()).count('VerifiedPrefix') == 2)
 if old:
-    So = json.load(open(os.path.join(old, 'summary.json'), encoding='utf-8'))
+    So = P.strip(json.load(open(os.path.join(old, 'summary.json'), encoding='utf-8')))
     Ro = json.load(open(os.path.join(old, 'verification.json'), encoding='utf-8'))
-    check('обратная совместимость: summary.json без provenance = v0.6.3', P.strip(S_pub) == So)
-    Rn = copy.deepcopy(R_pub)
-    Rn.pop('class_provenance', None)
-    for f in Rn['functions']:
-        f.pop('provenance', None)
-    Rn.pop('summary_sha256')
-    Ro2 = dict(Ro)
-    Ro2.pop('summary_sha256')
-    check('обратная совместимость: verification.json без provenance = v0.6.3 (this, apply_signature, споры — те же)',
-          Rn == Ro2)
+    Sn = P.strip(S_pub)
+    same_core = all(Sn['classes'][c][k] == So['classes'][c][k] for c in So['classes']
+                    for k in So['classes'][c] if k != 'size_basis')
+    check('прошлый выпуск → этот: все данные summary.json (статусы, размеры, поля, слоты) те же, кроме size_basis',
+          same_core and set(Sn['classes']) == set(So['classes']) and
+          {k: v for k, v in Sn.items() if k != 'classes'} == {k: v for k, v in So.items() if k != 'classes'})
+    ch = sorted(c for c in So['classes'] if Sn['classes'][c]['size_basis'] != So['classes'][c]['size_basis'])
+    check(f'size_basis изменился у {len(ch)} классов, size_status — ни у одного (NiAlphaAccumulator удержан)',
+          all(Sn['classes'][c]['size_status'] == So['classes'][c]['size_status'] for c in So['classes']) and
+          'NiAlphaAccumulator' in ch and Sn['classes']['NiAlphaAccumulator']['size_basis'] == ['held-pending-audit'])
+    strip_f = lambda f: {k: v for k, v in f.items() if k not in ('provenance', 'evidence_refs')}
+    check('verification.json: функции (без provenance и текста evidence_refs) = прошлый выпуск',
+          [strip_f(f) for f in R_pub['functions']] == [strip_f(f) for f in Ro['functions']])
 
 # ---------- реальные примеры (ТЗ §11.2)
 cl = lambda c, k: S_pub['classes'][c]['provenance']['claims'][k]
@@ -104,14 +110,27 @@ check('у каждого утверждения с установленным п
 check('ни одной ссылки «только адрес»: все pc_evidence — байты команды или dword',
       all(re.fullmatch(r'pc:0x[0-9A-F]{8}(:[0-9a-f]+|=u32:0x[0-9A-F]{8})', r) for c, k, cl in allc
           for r in cl.get('pc_evidence', [])))
-rej = sorted((c, k) for c, k, cl in allc if cl.get('rejected_proofs'))
-check('журнал размеров: 3 доказательства «граница наследника» по НЕподтверждённому полю отвергнуты с причиной '
-      '(NiRefObject, BSShaderLightingProperty, NiAlphaAccumulator); sizeof держится на других доказательствах',
-      rej == [('BSShaderLightingProperty', 'sizeof'), ('NiAlphaAccumulator', 'sizeof'), ('NiRefObject', 'sizeof')] and
-      all(S_pub['classes'][c]['provenance']['claims']['sizeof']['origin'] != 'unknown' for c, _ in rej))
-check('BSShaderLightingProperty sizeof 0x7C: выделение 0x7C (CreateClone) = конец последнего подтверждённого поля '
-      'kLightListFence (+0x78, 4) — alloc-bounds', any(p['kind'] == 'alloc-bounds' and p['last_field'] == 'kLightListFence'
-                                                     for p in cl('BSShaderLightingProperty', 'sizeof')['proofs']))
+import csv as _csv
+SZ = list(_csv.DictReader(open(os.path.join(ev, 'evidence_sizes.csv'), encoding='utf-8')))
+unc = sorted(r['class'] for r in SZ if r['evidence'] == 'subclass-boundary-unconfirmed')
+check('evidence.py: «граница наследника» по неподтверждённому полю не принимается (NiNode, NiRefObject, '
+      'BSShaderLightingProperty, NiAlphaAccumulator — 4 строки, accepted False)',
+      unc == ['BSShaderLightingProperty', 'NiAlphaAccumulator', 'NiNode', 'NiRefObject'] and
+      all(r['accepted'] == 'False' for r in SZ if r['evidence'] == 'subclass-boundary-unconfirmed'))
+check('BSShaderLightingProperty: основание размера — alloc-bounds (NiNew 0x7C в CreateClone → встроенная запись '
+      'vtable; конец поля kLightListFence +0x78..0x7C)', S_pub['classes']['BSShaderLightingProperty']['size_basis'] ==
+      ['alloc-bounds'] and any(p['kind'] == 'alloc-bounds' and p['link'] == 'inline' and
+                                 p['lower_basis'].get('field') == 'kLightListFence'
+                                 for p in cl('BSShaderLightingProperty', 'sizeof')['proofs']))
+na = cl('NiAlphaAccumulator', 'sizeof')
+check('NiAlphaAccumulator: статус удержан до решения аудитора — origin unknown, точной границы нет, причина записана',
+      na['origin'] == 'unknown' and na.get('size_bound') == 'none' and 'выравнивания' in na.get('status_held', ''))
+sb = [c for c, cc in S_pub['classes'].items() if cc['provenance']['claims'].get('sizeof', {}).get('size_bound') == 'upper-only']
+check(f'ctor-alloc — только верхняя граница: {len(sb)} классов без точного основания — origin sizeof unknown',
+      all(cl(c, 'sizeof')['origin'] == 'unknown' for c in sb) and
+      all(p['kind'] != 'ctor-alloc' or p['bound'].startswith('upper') for c, k, cl_ in allc for p in cl_.get('proofs', [])))
+rp = [p for c, k, cl_ in allc for p in cl_.get('proofs', []) if p['kind'] == 'ret-n']
+check(f'ret-n ({len(rp)}): все достижимые ret функции перечислены и дают одно N', all(p['rets'] for p in rp))
 fp = next(p for p in cl('BSAudioManager', 'fields.iMessageListIndex.offset')['proofs'])
 check('пример (а) — запись доказательства: команда → функция → this → операнд [reg+4] → поле',
       fp['kind'] == 'field-access' and fp['operand'] == 'mem-disp' and fp['access_off'] == '0x4' and
@@ -281,7 +300,9 @@ tamper('ctor-alloc: размер не совпадает с push', p7, use_expec
 
 def p8(S, R):
     cl_ = S['classes']['NiRefObject']['provenance']['claims']['sizeof']
-    cl_['proofs'].append(cl_['rejected_proofs'][0]['proof'])
+    cl_['proofs'].append({'kind': 'subclass-boundary', 'subclass': 'ShadowSceneLight', 'field': 'iEnabledPasses',
+                          'offset': '0x00000008', 'claim': 'ShadowSceneLight.fields.iEnabledPasses.offset',
+                          'journal': 'evidence/evidence_sizes.csv: NiRefObject subclass-boundary 0x8'})
 tamper('граница наследника по НЕподтверждённому полю возвращена в доказательства', p8, use_expected=False)
 
 
@@ -320,6 +341,68 @@ def f2(S, R):
     f = next(f for f in R['functions'] if f['original_name'] == 'BSGameSound::PriorityTest')
     f['provenance']['xbox_prototype'] = None
 tamper('фасет типов: xbox-verified без прототипа Xbox', f2, func=True)
+
+
+
+# ---------- v0.6.6: порча новых записей
+def q1(S, R):
+    # совместная подмена журнала и доказательства при тех же байтах exe: 4-байтное обращение объявлено 2-байтным
+    pr = next(p for p in S['classes']['BSAudioManager']['provenance']['claims']['fields.iMessageListIndex.offset']['proofs']
+              if p.get('operand_size') == 4)
+    k_ = (pr['journal_class'], pr['path'], pr['ref'][3:13])
+    ctx.fields[k_] = dict(ctx.fields[k_], access_size='2')
+    pr['access_size'], pr['operand_size'] = 2, 2
+
+
+def run_q1():
+    saved = copy.deepcopy(ctx.fields)
+    tamper('совместная подмена журнала и доказательства (ширина 4 → 2) при тех же байтах exe', q1, use_expected=False)
+    ctx.fields.clear()
+    ctx.fields.update(saved)
+
+
+run_q1()
+
+
+def q2(S, R):
+    pr = next(p for c in S['classes'].values() for cl_ in c['provenance']['claims'].values()
+              for p in cl_.get('proofs', []) if p['kind'] == 'field-access' and p.get('access') == 'read')
+    pr['access'] = 'write'
+tamper('направление обращения: чтение выдано за запись', q2, use_expected=False)
+
+
+def q3(S, R):
+    pr = next(p for c in S['classes'].values() for cl_ in c['provenance']['claims'].values()
+              for p in cl_.get('proofs', []) if p['kind'] == 'ret-n' and len(p['rets']) > 1)
+    pr['rets'] = pr['rets'][:1]
+tamper('ret-n: перечислены не все достижимые ret', q3, use_expected=False)
+
+
+def q4(S, R):
+    pr = next(p for c in S['classes'].values() for p in c['provenance']['claims'].get('sizeof', {}).get('proofs', [])
+              if p['kind'] == 'ctor-alloc' and p['link'] == 'ctor')
+    pr['link'] = 'inline'
+tamper('ctor-alloc: подменён вид связи блока с объектом', q4, use_expected=False)
+
+
+def q5(S, R):
+    pr = next(p for p in S['classes']['BSShaderLightingProperty']['provenance']['claims']['sizeof']['proofs']
+              if p['kind'] == 'alloc-bounds')
+    pr['lower_basis'] = dict(pr['lower_basis'], end='0x0000007C', field='bLightListChanged')
+tamper('alloc-bounds: нижняя граница по другому полю', q5, use_expected=False)
+
+
+def q6(S, R):
+    c_ = S['classes']['NiAlphaAccumulator']['provenance']['claims']['sizeof']
+    c_['origin'] = 'xbox-verified'
+tamper('удержанный размер NiAlphaAccumulator выдан за xbox-verified', q6, use_expected=False)
+
+
+def q7(S, R):
+    c_ = next(c for c, cc in S['classes'].items()
+              if cc['provenance']['claims'].get('sizeof', {}).get('size_bound') == 'upper-only')
+    S['classes'][c_]['provenance']['claims']['sizeof']['origin'] = 'xbox-verified'
+tamper('размер только по выделению (верхняя граница) выдан за точный xbox-verified', q7, use_expected=False)
 
 print('ИТОГ:', 'всё прошло' if not fails else f'ОШИБКИ: {len(fails)}')
 sys.exit(1 if fails else 0)

@@ -7,7 +7,7 @@
  "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
  "exe_id": "42fee7d6cd74e801",
  "image_base": "0x400000",
- "summary_sha256": "0f350539e5fa4efc278fa6937235f8879b7c126e08e1607196a5600696d6bf4d",
+ "summary_sha256": "4b977b5512f233e6208a5fa057648294ecd109c1d9c112e23e4deeb9cb39ff2d",
  "pdbs": {
   "strict": {
    "path": "FalloutNV.pdb",
@@ -172,7 +172,7 @@
   "BGSSaveLoadManager": {
    "origin": "hybrid",
    "reconstructed": true,
-   "xbox_relation": "materially-different"
+   "xbox_relation": "matching"
   },
   "BSAudio": {
    "origin": "hybrid",

@@ -1719,5 +1719,8 @@
     "verdict": "void-consistent"
    }
   }
+ },
+ "size_status_hold": {
+  "NiAlphaAccumulator": "граница наследника по BSShaderAccumulator::eAccumulationMode (+0x34) отвергнута — смещение поля не подтверждено. Машинно доказано 0x33 ≤ sizeof ≤ 0x34: последнее подтверждённое обращение m_bInterfaceSort (+0x32, 1 байт), выделение NiNew(0x34) в NiAlphaAccumulator::CreateObject с встроенной записью vtable класса. 0x34 следует только из выравнивания 4 (vptr, MSVC без #pragma pack(1)) — выравнивание на PC не доказано. Понижение до consistent убирает из строгого PDB NiAlphaAccumulator и наследника BSShaderAccumulator (политика: база должна быть строгой); готовый вариант — audit/strict_candidate_without_hold/. Решение — за аудитором."
  }
 }

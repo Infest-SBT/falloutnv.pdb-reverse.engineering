@@ -1462,6 +1462,131 @@ for cname, c in CLS.items():
                     if f'0x{f:X}' not in {k.upper().replace('0X', '0x') for k in excl}]})
 
 
+# v0.6.6 (аудит Астры v0.6.5, §3): граница наследника принимается только по ПОДТВЕРЖДЁННОМУ первому собственному
+# полю наследника (для вложенного объекта — его члену на смещении 0). Новое основание alloc-bounds: цепочка
+# «push N → аллокатор → указатель → this конструктора / встроенная запись vtable» (tools/allocchain.py, по графу,
+# must-alias) даёт sizeof ≤ N; нижняя граница — конец подтверждённого поля (класса или его баз) или подтверждённого
+# обращения метода класса по this, БЕЗ допущения о выравнивании; границы совпали ⇒ sizeof = N.
+# Статус размера может только сохраниться или понизиться: повышения в этом выпуске не применяются (только кандидат).
+import allocchain as _AC
+_IM = _AC.Img(img, B)
+SIZE_CHANGES = []
+
+
+def _fd_status(cl, path):
+    return (summary['classes'].get(cl, {}).get('field_details', {}).get(path) or {}).get('status')
+
+
+def _first_member_confirmed(sc_, fname_):
+    if _fd_status(sc_, fname_) == 'confirmed':
+        return True
+    fd_ = next((x for x in CLS.get(sc_, {}).get('fields', []) if x['name'] == fname_), None)
+    cur, path = (fd_ or {}).get('class_type') or (fd_ or {}).get('class_array_of'), fname_
+    for _ in range(3):
+        if cur not in CLS:
+            return False
+        z = [x for x in CLS[cur]['fields'] if x['off'] == 0]
+        if not z:
+            return False
+        path += '.' + z[0]['name']
+        if _fd_status(sc_, path) == 'confirmed':
+            return True
+        cur = z[0].get('class_type') or z[0].get('class_array_of')
+    return False
+
+
+def _lower_bound(cl):
+    best = None
+    for b_ in chain(cl):
+        for fd_ in CLS[b_]['fields']:
+            d_ = summary['classes'].get(b_, {}).get('field_details', {}).get(fd_['name']) or {}
+            if d_.get('status') == 'confirmed' and d_.get('offset_verified') and d_.get('width_verified') and fd_['size']:
+                e_ = fd_['off'] + fd_['size']
+                if best is None or e_ > best[0]:
+                    best = (e_, f"поле {b_}::{fd_['name']} кончается на 0x{e_:X}")
+    for r_ in field_rows:
+        if r_['class'] in chain(cl) and r_['status'] == 'confirmed' and r_['base_pointer'] == 'class-method-this' \
+                and r_['function_owner'] == r_['class'] and int(r_['access_size']) > 0:
+            e_ = int(r_['access_off'], 16) + int(r_['access_size'])
+            if best is None or e_ > best[0]:
+                best = (e_, f"обращение {r_['insn_va']} «{r_['insn']}» ({r_['pc_function']}) кончается на 0x{e_:X}")
+    return best
+
+
+for _cn in list(CLS):
+    _sc = summary['classes'].get(_cn)
+    if _sc is None:
+        continue
+    _rows = [r for r in sizes_rows if r['class'] == _cn]
+    _old = (_sc['size_status'], list(_sc['size_basis']))
+    _changed = False
+    for r in _rows:
+        m_ = re.match(r'первое собственное поле (.+)::(\S+) на 0x', r['details'])
+        if r['evidence'] == 'subclass-boundary' and r['accepted'] and m_ and not _first_member_confirmed(m_.group(1), m_.group(2)):
+            r['evidence'], r['accepted'] = 'subclass-boundary-unconfirmed', False
+            r['details'] += ' — v0.6.6: смещение этого поля НЕ подтверждено, граница не принимается'
+            _changed = True
+    # alloc-bounds: места выделения — свои ctor-alloc и ctor-alloc-derived других классов, где vtable — этого класса
+    _pushes = set()
+    for r in sizes_rows:
+        if (r['class'] == _cn and r['evidence'] == 'ctor-alloc') or \
+                (r['evidence'] == 'ctor-alloc-derived' and re.search(r'vtable ' + re.escape(_cn) + r' — ', r['details'])):
+            m2 = re.match(r'0x([0-9A-F]{8}) push', r['details'])
+            if m2:
+                _pushes.add(int(m2.group(1), 16))
+    _lb = _lower_bound(_cn)
+    _vt = _sc.get('vtable_va') or None
+    _meth = frozenset(x['va'] for x in _sc.get('methods', []))
+    if _lb and _lb[0] == CLS[_cn]['pc_size']:
+        for _pva in sorted(_pushes):
+            _cs = func_start(_pva)
+            _ch, _why = _AC.alloc_chain(_IM, _pva, _vt, _cs, func_end(_cs), func_end, _meth)
+            if _ch is None or _ch['size'] != _lb[0]:
+                continue
+            _ws = ', '.join(f'0x{a:08X}' for a in _ch['vt_writes'])
+            if _ch['link'] == 'inline':
+                _link = f'встроенная запись vtable по указателю {_ws}'
+            elif _ch['link'] == 'ctor':
+                _link = (f"this конструктора 0x{_ch['ctor']:08X} (вызов 0x{_ch['ctor_call']:08X}), запись vtable {_ws} "
+                         f"на всех путях")
+            else:
+                _link = (f"this метода класса 0x{_ch['ctor']:08X} (вызов 0x{_ch['ctor_call']:08X}; класс без vtable — "
+                         f"класс по символу метода, допущение)")
+            _acc = _old[0] == 'confirmed'
+            sizes_rows.append({'class': _cn, 'pc_sizeof': f"0x{CLS[_cn]['pc_size']:X}", 'evidence': 'alloc-bounds',
+                               'value': f"0x{_lb[0]:X}", 'match': True, 'accepted': _acc,
+                               'details': f"0x{_pva:08X} push 0x{_ch['size']:x}; call {_ch['allocator']} (0x{_ch['alloc_call']:08X}); "
+                                          f"указатель → {_link} ⇒ sizeof ≤ 0x{_ch['size']:X}; нижняя граница: {_lb[1]} ⇒ "
+                                          f"sizeof = 0x{_lb[0]:X}" + ('' if _acc else ' — v0.6.6: кандидат, статус не '
+                                                                         'повышается без решения аудитора')})
+            _changed = True
+            break
+    if _changed:
+        _acc_rows = [r for r in sizes_rows if r['class'] == _cn and r['accepted']]
+        _hold = spec.get('size_status_hold', {}).get(_cn)
+        if _sc['size_status'] == 'confirmed' and not _acc_rows and _hold:
+            # статус размера по новому правилу упал бы; понижение меняет строгий PDB — оно не применяется без
+            # решения аудитора, а держится открыто: основание «held-pending-audit», строка журнала с причиной
+            sizes_rows.append({'class': _cn, 'pc_sizeof': f"0x{CLS[_cn]['pc_size']:X}", 'evidence': 'held-pending-audit',
+                               'value': f"0x{CLS[_cn]['pc_size']:X}", 'match': True, 'accepted': False,
+                               'details': 'v0.6.6: по новому правилу размер НЕ подтверждён; статус удержан до решения '
+                                          'аудитора (evidence_spec.json size_status_hold): ' + _hold})
+            _sc['size_basis'] = ['held-pending-audit']
+            SIZE_CHANGES.append({'class': _cn, 'before': f'{_old[0]}: {"+".join(_old[1])}',
+                                 'after': 'confirmed: held-pending-audit (по правилу — consistent)'})
+            continue
+        if _sc['size_status'] == 'confirmed' and not _acc_rows:
+            _last = max(CLS[_cn]['fields'], key=lambda fd: fd['off']) if CLS[_cn]['fields'] else None
+            _sc['size_status'] = ('consistent' if _last and _sc['fields'].get(_last['name']) in ('confirmed', 'consistent')
+                                  else 'unverified')
+        _sc['size_basis'] = sorted({r['evidence'] for r in _acc_rows}) if _sc['size_status'] == 'confirmed' else \
+            sorted({r['evidence'] for r in _acc_rows})
+        if (_sc['size_status'], _sc['size_basis']) != _old:
+            SIZE_CHANGES.append({'class': _cn, 'before': f'{_old[0]}: {"+".join(_old[1])}',
+                                 'after': f"{_sc['size_status']}: {'+'.join(_sc['size_basis'])}"})
+print('v0.6.6 размеры: изменения основания/статуса —', SIZE_CHANGES)
+
+
 # v0.5: проверка сдвигом (layout_shift_test.csv). Смещение «confirmed» значит: по нему есть обращение нужной ширины.
 # Если подряд стоят поля одной ширины (dword, dword, dword…), раскладка, сдвинутая на 4 байта, объясняет те же
 # обращения так же хорошо, — так прошла бы ошибка «на PC пропущено одно поле» (так и было с

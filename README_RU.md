@@ -1,4 +1,4 @@
-# FalloutNV.pdb v0.6.5 — происхождение знания: доказательства по контракту (строгий и исследовательский PDB)
+# FalloutNV.pdb v0.6.6 — доказательства по графу потока управления (строгий и исследовательский PDB)
 
 **Для:** `FalloutNV.exe` 1.4.0.525 (GOG), SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c`.
 Оба PDB — с GUID `{91960891-62EE-4D29-BF48-E8D767B32DB9}`, age 1 (как у PDB xNVSE) и теми же 138 171 публичными
@@ -6,8 +6,21 @@
 
 | Файл | SHA-256 | Что внутри |
 |---|---|---|
-| `FalloutNV.pdb` — **строгий** | `d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e` | 86 классов с исходными именами: **84 `Confirmed` + 2 `VerifiedPrefix`**, 875 записей типов: только доказанное; прототип слота — только если метод опознан по имени или прототип доказан по смыслу (**побайтно как в v0.6.2–v0.6.4**) |
-| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками (побайтно как в v0.5.4–v0.6.4) |
+| `FalloutNV.pdb` — **строгий** | `d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e` | 86 классов с исходными именами: **84 `Confirmed` + 2 `VerifiedPrefix`**, 875 записей типов: только доказанное; прототип слота — только если метод опознан по имени или прототип доказан по смыслу (**побайтно как в v0.6.2–v0.6.5**) |
+| `research/FalloutNV.pdb` — исследовательский | `d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4` | все 86 классов, 1006 записей типов, с пометками (побайтно как в v0.5.4–v0.6.5) |
+
+**v0.6.6 — по аудиту Астры v0.6.5: доказательства по графу потока управления.** PDB, заголовки, `.meta.json` и
+скрипты — побайтно как в v0.6.5; `size_status` не изменился ни у одного класса.
+- **`ret N`** доказывается, только если все достижимые `ret` функции (граф, граница — следующий символ) дают одно N;
+  иначе — только журнал с записанной причиной.
+- **Выделение → объект:** указатель прослеживается по графу (must-alias) до `this` конструктора и записи vtable по
+  this на всех путях (`tools/allocchain.py`). Размер выделения — только верхняя граница sizeof; точный размер — если
+  совпала нижняя граница (конец подтверждённого поля или обращения), без допущения о выравнивании.
+- **Обращение к полю:** ширина и направление (чтение / запись / адрес) — из самой команды, база — от this по графу.
+- **`evidence.py`:** граница наследника — только по подтверждённому полю; новое основание `alloc-bounds` (24 класса,
+  без повышений). `NiAlphaAccumulator` удержан до решения аудитора (вариант без удержания —
+  `audit/strict_candidate_without_hold/`).
+- 13 размеров держатся только на верхней границе — список на пересмотр в `audit/proof_contract_v066.md`.
 
 **v0.6.5 — по аудиту Астры v0.6.4: доказательства по контракту.** Выпуск метаданных: оба PDB, заголовки,
 `.meta.json` и скрипты — побайтно как в v0.6.4, статусы те же.
@@ -946,10 +959,11 @@ python3 -c "import csv;print(sum(r['status']=='MISMATCH' for r in csv.DictReader
 python3 tools/test_chaincheck.py FalloutNV.exe syms.tsv
 python3 tools/test_prefixview.py evidence/summary.json fnv_types_v05.h fnv_types_v05.meta.json
 bash research_reconstruction/run_all.sh FalloutNV.exe syms.tsv      # v0.6.5: перепись RTTI и размеров нужна происхождению
-python3 tools/provenance.py out research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction
+python3 tools/provenance.py out research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction syms.tsv
 python3 tools/verification.py out FalloutNV.pdb research/FalloutNV.pdb syms.tsv FalloutNV.exe
 python3 tools/test_verification.py . syms.tsv FalloutNV.exe
-python3 tools/test_provenance.py evidence research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction
+python3 tools/test_provenance.py evidence research/fnv_types_v05_research.meta.json tools/xbox_extract.json FalloutNV.exe research_reconstruction syms.tsv
+python3 tools/test_cfg_proofs.py
 python3 tools/test_cpp_guard.py fnv_types_v05.h
 python3 tools/test_slotproof.py FalloutNV.exe syms.tsv evidence tools/evidence_spec.json
 ```
@@ -1045,6 +1059,8 @@ Windows ещё не запускалось — журнал приёмки (вы
 
 ## Предыдущие версии
 
+- **v0.6.5** — доказательства по контракту (типизированные записи, проверка по exe и журналам), фасеты функций,
+  вложенные типы Xbox, перепись: размер выделения + sizeof_status. PDB — как в v0.6.4.
 - **v0.6.4** — происхождение знания по утверждениям (`provenance`, `Reconstructed`) в существующих метаданных; перепись
   размеров по всему exe. PDB — как в v0.6.3.
 - **v0.6.3** — гибридная программа Xbox PDB ↔ PC, первая фаза: `research_reconstruction/` (матрица закрытия,

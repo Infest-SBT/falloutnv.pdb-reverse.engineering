@@ -1,5 +1,10 @@
 """v0.6.5 (аудит Астры v0.6.4, P1 «ссылки на байты и семантика утверждения»): типизированные доказательства
 (proof-records) для утверждений происхождения и КОНТРАКТ доказательств по видам утверждений.
+v0.6.6 (аудит Астры v0.6.5, P1-A/B/C, P2-D): ret-n — по графу потока управления (все достижимые ret, граница
+функции по символам); ctor-alloc и alloc-bounds — цепочка «выделение → указатель → this → запись vtable» по
+must-alias и всем путям (tools/allocchain.py), ctor-alloc доказывает только ВЕРХНЮЮ границу sizeof; alloc-bounds —
+нижняя граница по обращениям/полям без допущения о выравнивании; field-access — ширина операнда и направление
+(чтение/запись/чтение-изменение-запись/адрес) вычисляются из самой команды, база — must-alias от this.
 
 Совпадение байтов по `pc:VA` подтверждает только подлинность байтов. Запись доказательства говорит, ЧТО эта команда
 доказывает и при каких допущениях, а проверка (check) пересчитывает это по exe и журналам доказательств:
@@ -15,13 +20,19 @@
   vtable-rtti    vtable → [vtable−4] = COL (подпись 0, смещение 0) → TypeDescriptor → имя RTTI = имя класса.
   vtable-cell    ячейка vtable+4k = функция; vtable проверяемого класса — по RTTI (или символ xNVSE — это
                  записывается в vtable_basis).
-  ret-n          первая команда ret, достижимая линейно от входа функции (после цепочки jmp), — ret N, N = очистка.
+  ret-n          ВСЕ ret, достижимые от входа по графу (переходы обеих ветвей; call — возвращается) в пределах
+                 функции (до следующего символа), — ret N с одним N. Косвенный переход, выход в соседнюю функцию,
+                 int3/неразбираемый байт — не доказано (тогда только журнал cleanup-journal).
   cleanup-journal очистка выведена по хвостовому переходу / вызывающим (evidence_vslots.csv stack_basis) — журнал.
   composition    вложенный объект класса X по значению на +N: «add/lea reg, N» → вызов метода X с этим this;
                  член X подтверждён в самом X ⇒ член вложенного объекта на +N+смещение члена.
   slot-proof     семантический прототип — строка slot_proofs.csv с prototype_level = semantic.
-  ctor-alloc     push N → call аллокатора (ourMalloc / NiNew / MemoryManager::Allocate) → call конструктора,
-                 который пишет vtable класса по [this+0].
+  ctor-alloc     push N → call аллокатора → указатель (must-alias по графу вызывающей, ветка «объект не создан»
+                 не учитывается) → ecx при вызове конструктора на всех путях → запись vtable класса по this на всех
+                 путях конструктора (или встроенная запись vtable по указателю в вызывающей). Доказывает только
+                 sizeof ≤ N (размер выделения — верхняя граница).
+  alloc-bounds   цепочка ctor-alloc + нижняя граница: конец подтверждённого поля или обращения метода самого класса
+                 по this; границы совпали ⇒ точный sizeof. Выравнивание не предполагается.
   subclass-boundary  первое собственное поле наследника (база на смещении 0) на смещении N, смещение поля
                  подтверждено ⇒ sizeof базы = N.
   manual-reviewed размер доказан рассуждением (границы, шаг массива, вложение, кадр стека …): журнал
@@ -32,18 +43,22 @@ import csv, json, os, re, struct
 
 import capstone
 from capstone import x86
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import allocchain as AC                                  # noqa: E402
 
 ALLOCATORS = {0x00401000: 'ourMalloc', 0x00AA13E0: 'NiNew', 0x00AA3E40: 'MemoryManager::Allocate'}
 MANUAL_SIZE_KINDS = ('bounds', 'array-span', 'contained', 'index-stride', 'header-size', 'stack-frame',
                      'alloc-for-field', 'alloc-inline', 'array-new')
-MACHINE_KINDS = ('field-access', 'composition', 'vtable-rtti', 'vtable-symbol', 'vtable-cell', 'ret-n', 'ctor-alloc',
+MACHINE_KINDS = ('field-access', 'composition', 'vtable-rtti', 'vtable-symbol', 'vtable-cell', 'ret-n',
                  'subclass-boundary', 'alloc-bounds')
+UPPER_BOUND_KINDS = ('ctor-alloc',)      # v0.6.6: только верхняя граница sizeof — точный размер не доказывает
 JOURNAL_KINDS = ('cleanup-journal', 'slot-proof')
 
 # Контракт: вид утверждения → допустимые виды доказательств (нужно хотя бы одно проверенное).
 # Применяется к утверждениям с origin xbox-verified / pc-reconstructed / hybrid.
 CONTRACT = {
-    'sizeof': ('ctor-alloc', 'subclass-boundary', 'alloc-bounds', 'manual-reviewed'),
+    'sizeof': ('subclass-boundary', 'alloc-bounds', 'manual-reviewed'),      # v0.6.6: ctor-alloc — не точный
     'known_prefix_size': ('field-access',),
     'vtable.layout': ('vtable-rtti', 'vtable-symbol'),
     'fields.offset': ('field-access', 'composition'),
@@ -70,24 +85,53 @@ def h(v):
 class Ctx:
     """Всё, что нужно для построения и проверки доказательств: exe (байты + разбор), журналы, перепись RTTI."""
 
-    def __init__(self, exe, ev, meta, census, spec, sizes_census=None):
+    def __init__(self, exe, ev, meta, census, spec, sizes_census=None, syms=None):
         self.exe = exe
+        self.im = AC.Img(exe.img, exe.B)
+        starts = set()
+        for line in open(syms, encoding='utf-8') if syms else []:
+            starts.add(int(line.split('\t', 1)[0], 16))
+        self.starts = sorted(starts)
+        self.alias_cache = {}
         self.md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
         self.md.detail = True
         rd = lambda f: list(csv.DictReader(open(os.path.join(ev, f), encoding='utf-8')))
         self.fields = {}
+        self.own_access = {}                 # класс → [(конец обращения, строка)] — методы самого класса по this
         for r in rd('evidence_fields.csv'):
             if r['status'] in ('confirmed', 'consistent'):
                 self.fields[(r['class'], r['field'], r['insn_va'])] = r
+            if r['status'] == 'confirmed' and r['base_pointer'] == 'class-method-this' and \
+                    r['function_owner'] == r['class'] and int(r['access_size']) > 0:
+                self.own_access.setdefault(r['class'], []).append((int(r['access_off'], 16) + int(r['access_size']), r))
         self.alloc_sites = {}
         for x in (sizes_census or {}).get('sites', []):
             self.alloc_sites.setdefault(x['class'], []).append(x)
-        self.sizes = [r for r in rd('evidence_sizes.csv') if r['accepted'] == 'True']
+        self.sizes_all = rd('evidence_sizes.csv')
+        self.sizes = [r for r in self.sizes_all if r['accepted'] == 'True']
         self.vslots = {(r['class'], r['checked_on'], int(r['slot'])): r for r in rd('evidence_vslots.csv')}
         self.slot_proofs = {(r['class'], r['checked_on'], int(r['slot'])): r for r in rd('slot_proofs.csv')}
         self.meta = meta
         self.cen = census
         self.spec = spec
+
+    # -- границы функций (символы xNVSE: следующий символ — конец)
+    def func_end(self, f):
+        import bisect
+        i = bisect.bisect_right(self.starts, f)
+        return self.starts[i] if i < len(self.starts) else f + AC.LIMIT
+
+    def func_start(self, va):
+        import bisect
+        i = bisect.bisect_right(self.starts, va)
+        return self.starts[i - 1] if i else va
+
+    def this_alias(self, f):
+        """must-alias this (ecx на входе) по графу функции f — кэш."""
+        if f not in self.alias_cache:
+            A, _ = AC.alias_at(self.im, f, {'ecx'}, self.func_end(f))
+            self.alias_cache[f] = A or {}
+        return self.alias_cache[f]
 
     # -- exe
     def insn(self, va):
@@ -190,24 +234,62 @@ def operand_kind(i, off):
     return 'other', None
 
 
+def operand_facts(ctx, i, off, kind):
+    """Из самой команды: ширина операнда в байтах (0 — вычисление адреса) и направление: read / write /
+    read-modify-write / address (lea, add reg, imm — адрес, не чтение значения); регистр базы."""
+    if kind == 'imm' or i.mnemonic == 'lea':
+        base = None
+        for o in i.operands:
+            if o.type == x86.X86_OP_REG and (o.access & capstone.CS_AC_WRITE):
+                base = i.reg_name(o.reg)
+            if o.type == x86.X86_OP_MEM and o.mem.base:
+                base = i.reg_name(o.mem.base)
+        return 0, 'address', base
+    for o in i.operands:
+        if o.type == x86.X86_OP_MEM:
+            d = o.mem.disp & 0xFFFFFFFF
+            if kind == 'mem-abs' or d == off:
+                rd, wr = bool(o.access & capstone.CS_AC_READ), bool(o.access & capstone.CS_AC_WRITE)
+                if i.mnemonic in ('cmp', 'test', 'bt', 'push'):
+                    rd, wr = True, False
+                acc = 'read-modify-write' if rd and wr else 'write' if wr else 'read'
+                return o.size, acc, (i.reg_name(o.mem.base) if o.mem.base else None)
+    return None, None, None
+
+
 def field_proof(ctx, r):
     va = int(r['insn_va'], 16)
     i = ctx.insn(va)
     off = int(r['access_off'], 16)
     kind, base = operand_kind(i, off) if i else ('other', None)
+    osz, acc, breg = operand_facts(ctx, i, off, kind) if i else (None, None, None)
     p = {'kind': 'field-access', 'ref': f"pc:{h(va)}:{r['insn_bytes']}", 'journal_class': r['class'],
          'path': r['field'], 'function': r['pc_function'], 'func_va': r['func_va'], 'func_end': r['func_end'],
          'owner': r['function_owner'], 'this': r['base_pointer'], 'access_off': r['access_off'],
-         'access_size': int(r['access_size']), 'write': r['write'] == 'True', 'operand': kind}
+         'access_size': int(r['access_size']), 'write': r['write'] == 'True', 'operand': kind,
+         'operand_size': osz, 'access': acc}
     if base is not None:
         p['object_base'] = h(base)
+    if r['base_pointer'] in ('class-method-this', 'subclass-method-this') and kind in ('mem-disp', 'imm') and breg:
+        fv = int(r['func_va'], 16)
+        st = ctx.this_alias(fv).get(va)
+        p['base_chain'] = ('this: must-alias от ecx на входе функции' if st is not None and breg in st else
+                           'не прослежена')
+    asm = []
     if r['base_pointer'] in ('class-method-this', 'subclass-method-this'):
         rel = ctx.owner_relation(r['function_owner'], r['class'])
         p['owner_relation'] = rel
         if rel and 'вручную' in rel:
-            p['assumption'] = f'связь владельца функции с классом задана вручную: {rel}'
+            asm.append(f'связь владельца функции с классом задана вручную: {rel}')
+        if p.get('base_chain') == 'не прослежена':
+            asm.append('база обращения не прослежена до this по графу функции (журнал evidence.py)')
     else:
-        p['assumption'] = f"this по журналу: {r['base_pointer']}"
+        asm.append(f"this по журналу: {r['base_pointer']}")
+    if acc == 'address' and (p['write'] or p['access_size']):
+        asm.append('команда только вычисляет адрес поля; ширина/запись — по трассировке журнала (адрес передан '
+                   'дальше), командой не доказаны')
+    if asm:
+        p['assumption'] = '; '.join(asm)
     return p
 
 
@@ -258,83 +340,66 @@ def cell_proof(ctx, S, checked_on, k, fva):
 
 
 def entry_of(ctx, f, depth=0):
-    i = ctx.insn(f)
-    if i is not None and i.mnemonic == 'jmp' and i.operands[0].type == x86.X86_OP_IMM and depth < 4:
-        return entry_of(ctx, i.operands[0].imm & 0xFFFFFFFF, depth + 1)
-    return f
-
-
-def first_ret(ctx, f, limit=0x3000):
-    """Первая команда ret линейно от входа (после цепочки jmp); int3 / неразбираемый байт до неё — None."""
-    a = entry_of(ctx, f)
-    end = a + limit
-    while a < end:
-        i = ctx.insn(a)
-        if i is None or i.mnemonic in ('int3', 'hlt'):
-            return None
-        if i.mnemonic in ('ret', 'retn'):
-            return i
-        a += i.size
-    return None
+    return AC.entry_of(ctx.im, f)
 
 
 def ret_proof(ctx, fva, n):
-    i = first_ret(ctx, fva)
-    if i is None:
-        return None
-    got = i.operands[0].imm if i.operands else 0
-    if got != n:
-        return None
-    return {'kind': 'ret-n', 'ref': f'pc:{h(i.address)}:{bytes(i.bytes).hex()}', 'function': h(fva), 'n': n}
+    """(запись, None) или (None, причина). Все достижимые ret функции по графу — один и тот же ret n."""
+    e0 = entry_of(ctx, fva)
+    end = ctx.func_end(e0)
+    ns, addrs = AC.terminal_rets(ctx.im, e0, end)
+    if ns is None:
+        return None, addrs
+    if ns != {n}:
+        return None, f'достижимые ret дают {sorted(ns)}, а не {n}'
+    refs = [ctx.ref_insn(a) for a in addrs]
+    return {'kind': 'ret-n', 'ref': refs[0], 'function': h(fva), 'entry': h(e0), 'function_end': h(end), 'n': n,
+            'rets': refs}, None
 
 
-def ctor_writes_vtable(ctx, f, vt, limit=0x2000):
-    a = entry_of(ctx, f)
-    end = a + limit
-    while a < end:
-        i = ctx.insn(a)
-        if i is None or i.mnemonic in ('int3',):
-            return False
-        ops = i.operands
-        if i.mnemonic == 'mov' and len(ops) == 2 and ops[0].type == x86.X86_OP_MEM and ops[0].mem.disp == 0 and \
-                ops[0].mem.base and ops[1].type == x86.X86_OP_IMM and (ops[1].imm & 0xFFFFFFFF) == vt:
-            return True
-        if i.mnemonic in ('ret', 'retn'):
-            return False
-        a += i.size
-    return False
+def chain_proof(ctx, push_va, vt, kind='ctor-alloc', methods=frozenset()):
+    """Цепочка «выделение → объект класса» (allocchain.alloc_chain) → запись или (None, причина).
+    vt = None — класс без vtable: связь через метод класса (methods), это допущение (символы xNVSE)."""
+    cs = ctx.func_start(push_va)
+    ch, why = AC.alloc_chain(ctx.im, push_va, vt, cs, ctx.func_end(cs), ctx.func_end, frozenset(methods))
+    if ch is None:
+        return None, why
+    p = {'kind': kind, 'ref': ctx.ref_insn(push_va), 'size': h(ch['size']), 'allocator': ch['allocator'],
+         'alloc_call': ctx.ref_insn(ch['alloc_call']), 'link': ch['link'],
+         'vt_writes': [ctx.ref_insn(a) for a in ch['vt_writes']],
+         'null_branches_skipped': [h(a) for a in ch['null_branches_pruned']], 'caller': h(cs)}
+    if ch['link'] in ('ctor', 'ctor-method'):
+        p['ctor_call'] = ctx.ref_insn(ch['ctor_call'])
+        p['ctor'] = h(ch['ctor'])
+    if ch['link'] == 'ctor-method':
+        p['assumption'] = ('у класса нет vtable: блок уходит как this в функцию, которая — метод класса по символу '
+                           'xNVSE (summary.json methods); класс объекта — по имени метода')
+    return p, None
+
+
+def class_methods(S, cname):
+    return frozenset(m['va'] for m in (S['classes'].get(cname) or {}).get('methods', []))
 
 
 def size_proofs(ctx, cname, sc, S):
-    """Доказательства sizeof по принятым строкам evidence_sizes.csv класса."""
-    out = []
+    """Доказательства sizeof по принятым строкам evidence_sizes.csv класса. Возвращает (записи, несвязанные):
+    несвязанные — строки ctor-alloc журнала, цепочка которых не доказана (с причиной)."""
+    out, unlinked = [], []
     for r in [r for r in ctx.sizes if r['class'] == cname]:
         ev, val = r['evidence'], int(r['value'], 16)
         j = f"evidence/evidence_sizes.csv: {cname} {ev} {r['value']}"
         if ev == 'ctor-alloc':
             m = re.search(r'0x([0-9A-F]{8}) push', r['details'])
-            calls = re.findall(r'0x([0-9A-F]{8}) call', r['details'])
-            if not m or not calls:
+            if not m:
                 continue
-            pva = int(m.group(1), 16)
-            pi = ctx.insn(pva)
-            # вызов аллокатора — первая команда call после push
-            a, ci = pva, None
-            for _ in range(6):
-                x = ctx.insn(a)
-                if x is None:
-                    break
-                if x.mnemonic == 'call':
-                    ci = x
-                    break
-                a += x.size
-            cva = int(calls[-1], 16)
-            cc = ctx.insn(cva)
-            if pi is None or ci is None or cc is None or cc.mnemonic != 'call':
+            vt = sc.get('vtable_va')
+            p, why = chain_proof(ctx, int(m.group(1), 16), vt or None, methods=class_methods(S, cname))
+            if p is None:
+                unlinked.append({'journal': j, 'reason': why})
                 continue
-            out.append({'kind': 'ctor-alloc', 'ref': f'pc:{h(pva)}:{bytes(pi.bytes).hex()}', 'size': h(val),
-                        'alloc_call': f'pc:{h(ci.address)}:{bytes(ci.bytes).hex()}',
-                        'ctor_call': f'pc:{h(cva)}:{bytes(cc.bytes).hex()}', 'journal': j})
+            p['journal'] = j
+            p['bound'] = 'upper: sizeof ≤ размер выделения'
+            out.append(p)
         elif ev == 'subclass-boundary':
             m = re.search(r'первое собственное поле (\S+)::(\S+) на 0x([0-9A-Fa-f]+)', r['details'])
             if not m:
@@ -354,58 +419,60 @@ def size_proofs(ctx, cname, sc, S):
             if 'ДОПУЩЕНИЕ' in r['details']:
                 p['assumption'] = r['details'][r['details'].index('ДОПУЩЕНИЕ'):][:300]
             out.append(p)
-    return out
+    return out, unlinked
 
 
 def lower_bound(ctx, cname, S):
-    """Нижняя граница sizeof: конец последнего поля с подтверждёнными смещением и шириной, выровненный на align
-    класса (meta). (граница, поле) или (None, None)."""
-    fd = S['classes'][cname]['field_details']
+    """Нижняя граница sizeof БЕЗ допущения о выравнивании: наибольший конец (а) поля с подтверждёнными смещением и
+    шириной, (б) подтверждённого обращения метода самого класса по this. → (граница, основание) или (None, None)."""
     best = None
-    for f in ctx.meta[cname]['fields']:
-        d = fd.get(f['name']) or {}
-        if d.get('status') == 'confirmed' and d.get('offset_verified') and d.get('width_verified') and f.get('size'):
-            e = f['off'] + f['size']
+    for c in [cname] + ctx.meta_chain(cname):            # объект содержит базы (одиночное наследование meta, +0)
+        fd = (S['classes'].get(c) or {}).get('field_details', {})
+        for f in (ctx.meta.get(c) or {}).get('fields', []):
+            d = fd.get(f['name']) or {}
+            if d.get('status') == 'confirmed' and d.get('offset_verified') and d.get('width_verified') and f.get('size'):
+                e = f['off'] + f['size']
+                if best is None or e > best[0]:
+                    best = (e, {'kind': 'field', 'class': c, 'field': f['name'], 'end': h(e)})
+        for e, r in ctx.own_access.get(c, []):
             if best is None or e > best[0]:
-                best = (e, f['name'])
-    if best is None:
-        return None, None
-    al = ctx.meta[cname].get('align') or 1
-    return (best[0] + al - 1) // al * al, best[1]
+                best = (e, {'kind': 'access', 'class': c, 'ref': f"pc:{h(int(r['insn_va'], 16))}:{r['insn_bytes']}",
+                            'end': h(e), 'function': r['pc_function']})
+    return (best[0], best[1]) if best else (None, None)
 
 
 def alloc_bounds_proof(ctx, cname, S):
-    """sizeof ≤ размер выделения (new T выделяет не меньше sizeof(T)) и sizeof ≥ конец последнего подтверждённого
-    поля с выравниванием; если границы совпали — точный sizeof. Место выделения — из переписи (исполнение Unicorn:
-    блок уходит в конструктор / встроенный конструктор, который пишет vtable класса)."""
-    lo, fld = lower_bound(ctx, cname, S)
-    vt = S['classes'][cname].get('vtable_va')
-    if lo is None or not vt:
+    """sizeof ≤ размер выделения (цепочка выделение → объект класса доказана) и sizeof ≥ нижняя граница (поле или
+    обращение, без выравнивания); границы совпали ⇒ точный sizeof. Места выделения — из журнала (ctor-alloc) и
+    переписи (только адреса push; связь проверяется заново цепочкой)."""
+    lo, basis = lower_bound(ctx, cname, S)
+    vt = S['classes'][cname].get('vtable_va') or None
+    if lo is None or lo != S['classes'][cname]['pc_size']:
         return None
-    for x in sorted(ctx.alloc_sites.get(cname, []), key=lambda x: x['alloc_site']):
-        if x['size'] != lo or int(x['vtable'], 16) != vt:
+    pushes = set()
+    for r in ctx.sizes_all:
+        # свои ctor-alloc и ctor-alloc-derived других классов, где после конструктора базы — vtable этого класса
+        if (r['class'] == cname and r['evidence'] == 'ctor-alloc') or \
+                (r['evidence'] == 'ctor-alloc-derived' and re.search(r'vtable ' + re.escape(cname) + r' — ', r['details'])):
+            m = re.search(r'0x([0-9A-F]{8}) push', r['details'])
+            if m:
+                pushes.add(int(m.group(1), 16))
+    for x in ctx.alloc_sites.get(cname, []):
+        if x['size'] == lo:
+            pva = int(x['alloc_site'], 16)
+            for back in range(1, 16):
+                i = ctx.insn(pva - back)
+                if i is not None and i.address + i.size == pva and i.mnemonic == 'push':
+                    pushes.add(i.address)
+                    break
+    for pva in sorted(pushes):
+        p, _ = chain_proof(ctx, pva, vt, 'alloc-bounds', class_methods(S, cname))
+        if p is None or int(p['size'], 16) != lo:
             continue
-        pva = int(x['alloc_site'], 16)
-        m = re.match(r'0x([0-9A-F]{8}) ', x['vt_write'])
-        if not m:
-            continue
-        wva = int(m.group(1), 16)
-        # push N — последняя команда push перед вызовом аллокатора
-        a, push = pva - 1, None
-        for back in range(1, 16):
-            i = ctx.insn(pva - back)
-            if i is not None and i.address + i.size == pva and i.mnemonic == 'push':
-                push = i
-                break
-        ci, wi = ctx.insn(pva), ctx.insn(wva)
-        if push is None or ci is None or wi is None:
-            continue
-        return {'kind': 'alloc-bounds', 'ref': f'pc:{h(push.address)}:{bytes(push.bytes).hex()}',
-                'alloc_call': f'pc:{h(pva)}:{bytes(ci.bytes).hex()}', 'vt_write': f'pc:{h(wva)}:{bytes(wi.bytes).hex()}',
-                'extent': h(x['size']), 'last_field': fld, 'lower_bound': h(lo),
-                'align': ctx.meta[cname].get('align') or 1,
-                'assumption': 'блок выделения — объект класса: по переписи размеров (исполнение Unicorn, '
-                              'research_reconstruction/out/class_sizes.json)'}
+        p['extent'] = p.pop('size')
+        p['lower_bound'] = h(lo)
+        p['lower_basis'] = basis
+        return p
     return None
 
 
@@ -461,6 +528,22 @@ def check(ctx, S, cname, key, p, claims_of):
             return f'{ref}: операнд команды не задаёт смещение {p["access_off"]} ({kind})'
         if not (int(p['func_va'], 16) <= va < int(p['func_end'], 16)):
             return f'{ref}: команда вне функции {p["function"]}'
+        osz, acc, breg = operand_facts(ctx, i, off, kind)
+        if (osz, acc) != (p.get('operand_size'), p.get('access')):
+            return f'{ref}: ширина/направление по команде — {osz}/{acc}, в записи — {p.get("operand_size")}/{p.get("access")}'
+        # журнал обязан согласоваться с командой (независимо от записи доказательства): ширина и запись
+        # для вычисления адреса (lea / add reg, imm) ширина в журнале — ширина буфера, выведенная отдельно
+        # (buffer-size, api-pointer-arg …): команда её не доказывает, и для контракта ширины такое обращение не идёт
+        if acc != 'address' and p['access_size'] != osz:
+            return f'{ref}: журнал говорит ширину {p["access_size"]}, команда — {osz} ({acc})'
+        if acc != 'address' and p['write'] != (acc in ('write', 'read-modify-write')):
+            return f'{ref}: журнал говорит write={p["write"]}, команда — {acc}'
+        if 'base_chain' in p or (p['this'] in ('class-method-this', 'subclass-method-this') and kind in
+                                 ('mem-disp', 'imm') and breg):
+            st = ctx.this_alias(int(p['func_va'], 16)).get(va)
+            bc = ('this: must-alias от ecx на входе функции' if st is not None and breg in st else 'не прослежена')
+            if p.get('base_chain') != bc:
+                return f'{ref}: база обращения — {bc}, в записи — {p.get("base_chain")}'
         r = ctx.fields.get((p['journal_class'], p['path'], h(va)))
         if r is not None and r['status'] != p.get('journal_status', 'confirmed'):
             return f'{ref}: строка журнала со статусом {r["status"]}, а доказательство требует {p.get("journal_status", "confirmed")}'
@@ -529,9 +612,9 @@ def check(ctx, S, cname, key, p, claims_of):
                 return f'ячейка {ref}: RTTI vtable — {t[2]}, не {p["checked_on"]}'
         return None
     if k == 'ret-n':
-        q = ret_proof(ctx, int(p['function'], 16), p['n'])
+        q, why = ret_proof(ctx, int(p['function'], 16), p['n'])
         if q != p:
-            return f'{ref}: первая ret функции {p["function"]} — не ret {p["n"]}'
+            return f'ret {p["n"]} функции {p["function"]} не доказан по графу: {why or "запись не воспроизводится"}'
         return None
     if k == 'cleanup-journal':
         r = ctx.vslots.get((cname, p['checked_on'], p['slot']))
@@ -544,24 +627,15 @@ def check(ctx, S, cname, key, p, claims_of):
             return f'slot_proofs.csv {cname}/{p.get("checked_on")}/{p.get("slot")}: семантического доказательства нет'
         return None
     if k == 'ctor-alloc':
-        pi = ctx.insn(int(ref[3:13], 16))
-        if pi.mnemonic != 'push' or pi.operands[0].type != x86.X86_OP_IMM or h(pi.operands[0].imm & 0xFFFFFFFF) != p['size']:
-            return f'{ref}: не push {p["size"]}'
-        for nm in ('alloc_call', 'ctor_call'):
-            e = check(ctx, S, cname, key, {'kind': '_ref', 'ref': p[nm]}, claims_of)
-            if e:
-                return e
-        ci = ctx.insn(int(p['alloc_call'][3:13], 16))
-        if ci.mnemonic != 'call' or (ci.operands[0].imm & 0xFFFFFFFF) not in ALLOCATORS:
-            return f'{p["alloc_call"]}: не вызов аллокатора'
-        cc = ctx.insn(int(p['ctor_call'][3:13], 16))
-        vt = (S['classes'].get(cname) or {}).get('vtable_va')
-        if cc.mnemonic != 'call' or cc.operands[0].type != x86.X86_OP_IMM:
-            return f'{p["ctor_call"]}: не прямой вызов'
-        if vt and not ctor_writes_vtable(ctx, cc.operands[0].imm & 0xFFFFFFFF, vt):
-            return f'{p["ctor_call"]}: вызываемая функция не пишет vtable {cname}'
-        if int(p['size'], 16) != S['classes'][cname]['pc_size']:
-            return f'ctor-alloc {p["size"]} ≠ sizeof {cname}'
+        vt = (S['classes'].get(cname) or {}).get('vtable_va') or None
+        q, why = chain_proof(ctx, int(ref[3:13], 16), vt, methods=class_methods(S, cname))
+        if q is None:
+            return f'{ref}: цепочка выделение → объект {cname} не доказана: {why}'
+        q.update({'journal': p.get('journal'), 'bound': 'upper: sizeof ≤ размер выделения'})
+        if q != p:
+            return f'{ref}: цепочка выделения не воспроизводится'
+        if int(p['size'], 16) < S['classes'][cname]['pc_size']:
+            return f'ctor-alloc {p["size"]} меньше sizeof {cname}'
         return None
     if k == 'subclass-boundary':
         cls_ = claims_of(p['subclass']) or {}
@@ -590,17 +664,13 @@ def check(ctx, S, cname, key, p, claims_of):
         q = alloc_bounds_proof(ctx, cname, S)
         if q != p:
             return f'{ref}: границы выделения/полей не воспроизводятся'
-        pi, ci, wi = (ctx.insn(int(x[3:13], 16)) for x in (p['ref'], p['alloc_call'], p['vt_write']))
-        if pi.mnemonic != 'push' or pi.operands[0].type != x86.X86_OP_IMM or \
-                h(pi.operands[0].imm & 0xFFFFFFFF) != p['extent']:
-            return f'{ref}: не push {p["extent"]}'
-        if ci.mnemonic != 'call' or (ci.operands[0].imm & 0xFFFFFFFF) not in ALLOCATORS:
-            return f'{p["alloc_call"]}: не вызов аллокатора'
-        vt = S['classes'][cname].get('vtable_va')
-        if wi.mnemonic != 'mov' or wi.operands[1].type != x86.X86_OP_IMM or (wi.operands[1].imm & 0xFFFFFFFF) != vt:
-            return f'{p["vt_write"]}: не запись vtable {cname}'
         if not (p['extent'] == p['lower_bound'] == h(S['classes'][cname]['pc_size'])):
             return f'alloc-bounds: границы {p["lower_bound"]}..{p["extent"]} ≠ sizeof {cname}'
+        for rf in [p['alloc_call']] + p['vt_writes'] + ([p['ctor_call']] if 'ctor_call' in p else []) + \
+                ([p['lower_basis']['ref']] if p['lower_basis'].get('ref') else []):
+            e = check(ctx, S, cname, key, {'kind': '_ref', 'ref': rf}, claims_of)
+            if e:
+                return e
         return None
     if k == 'manual-reviewed':
         if p.get('evidence') not in MANUAL_SIZE_KINDS:
@@ -634,8 +704,9 @@ def contract_violations(ctx, S, cname, key, cl, claims_of, width=None, width_bas
         if need is not None and not any(p.get('kind') in need for p in cl.get('proofs', [])):
             out.append(f'{cname}.{key}: контракт — нужно доказательство вида {"/".join(need)}')
         if contract_key(key) == 'fields.width' and width is not None and list(width_basis) == ['access-width'] and \
-                not any(p.get('kind') == 'field-access' and p['access_size'] == width for p in cl.get('proofs', [])):
-            out.append(f'{cname}.{key}: контракт — нет обращения шириной {width}')
+                not any(p.get('kind') == 'field-access' and p.get('operand_size') == width and p.get('access') != 'address'
+                        for p in cl.get('proofs', [])):
+            out.append(f'{cname}.{key}: контракт — нет команды, читающей/пишущей операнд шириной {width}')
     refs = [r for p in cl.get('proofs', []) for r in proof_refs(p)]
     if cl.get('proofs') is not None and cl.get('pc_evidence', []) != refs[:3]:
         out.append(f'{cname}.{key}: pc_evidence не совпадает со ссылками доказательств')

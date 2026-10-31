@@ -21,7 +21,8 @@ reconstructed (агрегат класса) = есть хотя бы одно П
 research_models — модели и кандидаты research_reconstruction/ (поведение, тождество по правилу, гипотезы): у них свой
   reconstruction_state и verification «research»; на статусы и Strict они не влияют.
 
-usage: python3 -I -B provenance.py <evidence_dir> <research meta.json> <xbox_extract.json> <FalloutNV.exe> <research_reconstruction>
+usage: python3 -I -B provenance.py <evidence_dir> <research meta.json> <xbox_extract.json> <FalloutNV.exe> <research_reconstruction> <syms.tsv>
+  (v0.6.6: syms.tsv — границы функций для разбора по графу: ret N, цепочка выделения, база обращения)
   (v0.6.5: research_reconstruction обязателен — перепись RTTI и размеров нужны для проверки доказательств;
    рядом с provenance.py — proofs.py и evidence_spec.json)
   — пишет evidence/summary.json (только добавляет provenance) и evidence/provenance_coverage.csv; при нарушении
@@ -31,7 +32,7 @@ import copy, csv, hashlib, json, os, re, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import proofs as PR                                     # noqa: E402
 
-SCHEMA = 2      # v0.6.5: типизированные доказательства (proofs), контракт, difference_kind, область поиска
+SCHEMA = 3      # v0.6.6: ret-n/цепочка выделения по графу, ctor-alloc — верхняя граница, ширина/направление из команды; v0.6.5: типизированные доказательства (proofs), контракт, difference_kind, область поиска
 ORIGINS = ('xbox-verified', 'pc-reconstructed', 'hybrid', 'unknown')
 RELATIONS = ('matching', 'missing', 'materially-different', 'inconclusive', 'not-assessed')
 FORBIDDEN_NAME = re.compile(r'_(Reconstructed|Confirmed|VerifiedPrefix|Unclassified|Hybrid|XboxVerified)\b', re.I)
@@ -168,10 +169,13 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
         name_source.append('pc (символы xNVSE/RTTI; в Xbox не найден — xbox_extract.search_log)')
     # ---- sizeof
     basis = sc['size_basis'] if isinstance(sc['size_basis'], list) else [sc['size_basis']]
-    srefs = PR.size_proofs(ctx, cname, sc, S)
+    srefs, unlinked = PR.size_proofs(ctx, cname, sc, S)
     ab = PR.alloc_bounds_proof(ctx, cname, S) if sc['size_status'] == 'confirmed' else None
     if ab:
         srefs.insert(0, ab)
+    # v0.6.6: сначала доказательства точного размера, затем верхние границы (ctor-alloc)
+    srefs.sort(key=lambda p: (p['kind'] in PR.UPPER_BOUND_KINDS, ['alloc-bounds', 'subclass-boundary',
+                                                                    'manual-reviewed', 'ctor-alloc'].index(p['kind'])))
     srows = sorted({f"evidence/evidence_sizes.csv: {cname} {r['evidence']} {r['value']}" for r in sz.get(cname, [])})[:4]
     if sc['size_status'] == 'confirmed':
         if xc is None:
@@ -188,12 +192,18 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
                                      '+'.join(basis), srows)
     else:
         rep = sc.get('strict_representation') or {}
+        unlinked = []
         claims['engine_size_exact'] = claim('unknown', 'unproven', 'not-assessed', (), xc['sizeof'] if xc else None,
                                             f"границы {sc.get('engine_size_lower_bound')}..{sc.get('engine_size_upper_bound')}")
         if rep:
             claims['known_prefix_size'] = claim('xbox-verified' if xc else 'pc-reconstructed', 'confirmed',
                                                 'matching' if xc else 'missing', srefs, xc['sizeof'] if xc else None,
                                                 f"префикс {rep.get('representation_size')} байт: поля подтверждены")
+    if 'sizeof' in claims and unlinked:
+        claims['sizeof']['unlinked_allocations'] = unlinked
+    if 'sizeof' in claims and 'held-pending-audit' in basis:
+        # v0.6.6: по новому правилу evidence.py размер не подтверждён; статус удержан до решения аудитора
+        claims['sizeof']['status_held'] = (ctx.spec.get('size_status_hold') or {}).get(cname, 'held-pending-audit')
     # ---- vtable
     if sc.get('vtable_va'):
         vt = sc['vtable_va']
@@ -252,7 +262,7 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
                         assumption='поле подтверждено шагом индекса (index-stride); обращение — адрес элемента')
                    for r in rows if r.get('insn_bytes')]
         # сначала обращения нужной ширины (контракт ширины), затем по адресу
-        prs.sort(key=lambda p: (p.get('access_size') != size, p['ref']))
+        prs.sort(key=lambda p: (not (p.get('operand_size') == size and p.get('access') != 'address'), p['ref']))
         pc = prs[:3]
         src = d.get('source')
         if st in VERIFIED_FIELD and d.get('offset_verified'):
@@ -313,9 +323,10 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
             if 'callers' in sb:
                 refs = ['evidence/cleanup_inference.csv', 'research_reconstruction/out/vfamilies.json']
             n_ = int(row['expect_ret_n']) if row.get('expect_ret_n', '').isdigit() else row.get('expect_ret_n')
-            cp = PR.ret_proof(ctx, v['pc_func_va'], n_) if sb == 'ret' and isinstance(n_, int) else None
-            cpr = [cp] if cp else [{'kind': 'cleanup-journal', 'checked_on': v['checked_on'], 'slot': k,
-                                    'stack_basis': sb, 'n': n_}]
+            cp, why = PR.ret_proof(ctx, v['pc_func_va'], n_) if sb == 'ret' and isinstance(n_, int) else (None, None)
+            cpr = [cp] if cp else [dict({'kind': 'cleanup-journal', 'checked_on': v['checked_on'], 'slot': k,
+                                         'stack_basis': sb, 'n': n_},
+                                        **({'ret_cfg': f'по графу не доказано: {why}'} if why else {}))]
             claims[f'vslots.{k}.stack_cleanup'] = claim(
                 'xbox-verified', 'confirmed', 'matching', cpr, n_,
                 {'ret': 'ret N в теле', 'tail': 'хвостовой переход', 'callers': 'inferred-from-caller',
@@ -369,10 +380,8 @@ def screen_proofs(S, X, ctx, meta):
     for cname in sorted(S['classes']):
         p = S['classes'][cname]['provenance']
         for key, cl in p['claims'].items():
-            if not cl.get('proofs'):
-                continue
             ok, rej = [], []
-            for pr in cl['proofs']:
+            for pr in cl.get('proofs', []):
                 e = PR.check(ctx, S, cname, key, pr, claims_of)
                 (rej if e else ok).append(pr if not e else {'proof': pr, 'reason': e})
             if rej:
@@ -389,6 +398,11 @@ def screen_proofs(S, X, ctx, meta):
                 cl['origin'] = 'unknown'
                 cl['basis'] = (cl.get('basis', '') + '; ' if cl.get('basis') else '') + \
                     'контракт доказательств не выполнен — происхождение не установлено'
+        sc_ = p['claims'].get('sizeof')
+        if sc_ is not None:                  # v0.6.6: какая граница sizeof доказана (после проверки доказательств)
+            ks = {x['kind'] for x in sc_.get('proofs', [])}
+            sc_['size_bound'] = ('exact' if ks & set(PR.CONTRACT['sizeof']) else
+                                 'upper-only' if ks & set(PR.UPPER_BOUND_KINDS) else 'none')
         S['classes'][cname]['provenance'] = aggregate(p, X['classes'].get(cname))
 
 
@@ -487,7 +501,7 @@ def annotate_differences(cname, p, xc):
     p['difference_profile'] = dict(sorted(prof.items()))
 
 
-def build(ev, meta_p, xbox_p, exe_p, rr=None):
+def build(ev, meta_p, xbox_p, exe_p, rr=None, syms=None):
     S, meta, X, fr, sz, vs = load_inputs(ev, meta_p, xbox_p)
     exe = Exe(exe_p)
     if exe.sha != S['exe_sha256']:
@@ -501,7 +515,7 @@ def build(ev, meta_p, xbox_p, exe_p, rr=None):
     spec_p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'evidence_spec.json')
     csz = os.path.join(rr, 'out', 'class_sizes.json')
     ctx = PR.Ctx(exe, ev, meta, cen, json.load(open(spec_p, encoding='utf-8')),
-                 json.load(open(csz, encoding='utf-8')) if os.path.exists(csz) else None)
+                 json.load(open(csz, encoding='utf-8')) if os.path.exists(csz) else None, syms)
     base = copy.deepcopy(S)
     for c in S['classes'].values():
         c.pop('provenance', None)
@@ -527,7 +541,7 @@ def build(ev, meta_p, xbox_p, exe_p, rr=None):
         'research_models_from': 'research_reconstruction (модели — не применяются к статусам и Strict)' if models else None,
         'proof_contract': {k: list(v) for k, v in PR.CONTRACT.items()},
         'proof_kinds': {'machine': list(PR.MACHINE_KINDS), 'journal': list(PR.JOURNAL_KINDS),
-                        'manual': ['manual-reviewed']},
+                        'manual': ['manual-reviewed'], 'upper_bound': list(PR.UPPER_BOUND_KINDS)},
         'difference_classes': DIFF_KIND,
         'rtti_census_sha256': hashlib.sha256(open(os.path.join(rr, 'out', 'rtti_census.json'), 'rb').read()).hexdigest()}
     return base, S, X, exe, ctx, meta
@@ -747,9 +761,8 @@ def coverage_rows(S):
 
 
 def main():
-    ev, meta_p, xbox_p, exe_p = sys.argv[1:5]
-    rr = sys.argv[5] if len(sys.argv) > 5 else None
-    base, S, X, exe, ctx, meta = build(ev, meta_p, xbox_p, exe_p, rr)
+    ev, meta_p, xbox_p, exe_p, rr, syms = sys.argv[1:7]
+    base, S, X, exe, ctx, meta = build(ev, meta_p, xbox_p, exe_p, rr, syms)
     bad = validate(base, S, X, exe, ctx, meta)
     if bad:
         print('ОТКАЗ: происхождение не записано —', len(bad), 'нарушений')

@@ -3,8 +3,9 @@ OK   два пересчёта побайтно одинаковы (детерм
 OK   опубликованное происхождение проходит проверку и контракт доказательств (0 нарушений)
 OK   происхождение функций реестра совпадает с вычисленным по классам и выписке Xbox
 OK   статусы классов не изменились (84 Confirmed + 2 VerifiedPrefix)
-OK   обратная совместимость: summary.json без provenance = v0.6.3
-OK   обратная совместимость: verification.json без provenance = v0.6.3 (this, apply_signature, споры — те же)
+OK   прошлый выпуск → этот: все данные summary.json (статусы, размеры, поля, слоты) те же, кроме size_basis
+OK   size_basis изменился у 25 классов, size_status — ни у одного (NiAlphaAccumulator удержан)
+OK   verification.json: функции (без provenance и текста evidence_refs) = прошлый выпуск
 OK   пример (а) перенос Xbox: BSAudioManager::iMessageListIndex +0x4 — xbox-verified, matching
 OK   пример (б) PC-факт: MemoryManager +0x134 — pc-reconstructed, missing (в Xbox поля нет)
 OK   пример (б) PC-размер: BSAudioManager sizeof 0x188 — pc-reconstructed (Xbox 0x19C)
@@ -16,8 +17,11 @@ OK   внешнее основание (TESForm sizeof по xNVSE static_assert)
 OK   тип поля (type_verified=false) нигде не помечен проверенным
 OK   у каждого утверждения с установленным происхождением — типизированные доказательства по контракту
 OK   ни одной ссылки «только адрес»: все pc_evidence — байты команды или dword
-OK   журнал размеров: 3 доказательства «граница наследника» по НЕподтверждённому полю отвергнуты с причиной (NiRefObject, BSShaderLightingProperty, NiAlphaAccumulator); sizeof держится на других доказательствах
-OK   BSShaderLightingProperty sizeof 0x7C: выделение 0x7C (CreateClone) = конец последнего подтверждённого поля kLightListFence (+0x78, 4) — alloc-bounds
+OK   evidence.py: «граница наследника» по неподтверждённому полю не принимается (NiNode, NiRefObject, BSShaderLightingProperty, NiAlphaAccumulator — 4 строки, accepted False)
+OK   BSShaderLightingProperty: основание размера — alloc-bounds (NiNew 0x7C в CreateClone → встроенная запись vtable; конец поля kLightListFence +0x78..0x7C)
+OK   NiAlphaAccumulator: статус удержан до решения аудитора — origin unknown, точной границы нет, причина записана
+OK   ctor-alloc — только верхняя граница: 13 классов без точного основания — origin sizeof unknown
+OK   ret-n (1068): все достижимые ret функции перечислены и дают одно N
 OK   пример (а) — запись доказательства: команда → функция → this → операнд [reg+4] → поле
 OK   отличия от Xbox размечены видом: StateCritSection — layout-shift (abi-layout); MemoryManager +0x134 — pc-only-member (pc-only), с областью отрицательного поиска
 OK   фасет this: класс есть в Xbox, метода GetQuests у него в Xbox нет → this НЕ xbox-verified (pc-reconstructed, xbox_method пусто)
@@ -52,4 +56,11 @@ OK   отказ: missing без области отрицательного по
 OK   отказ: контракт: vtable.layout без доказательства vtable-rtti/vtable-symbol (2 нарушений)
 OK   отказ: фасет this: xbox-verified, хотя метода в Xbox нет (TESDataHandler::GetQuests) (2 нарушений)
 OK   отказ: фасет типов: xbox-verified без прототипа Xbox (3 нарушений)
+OK   отказ: совместная подмена журнала и доказательства (ширина 4 → 2) при тех же байтах exe (2 нарушений)
+OK   отказ: направление обращения: чтение выдано за запись (1 нарушений)
+OK   отказ: ret-n: перечислены не все достижимые ret (1 нарушений)
+OK   отказ: ctor-alloc: подменён вид связи блока с объектом (1 нарушений)
+OK   отказ: alloc-bounds: нижняя граница по другому полю (1 нарушений)
+OK   отказ: удержанный размер NiAlphaAccumulator выдан за xbox-verified (2 нарушений)
+OK   отказ: размер только по выделению (верхняя граница) выдан за точный xbox-verified (2 нарушений)
 ИТОГ: всё прошло

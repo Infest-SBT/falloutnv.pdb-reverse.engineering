@@ -1,0 +1,122 @@
+45d44
+< class BSOcclusionQuery;
+89d87
+< class NiAlphaAccumulator;
+2359,2424d2356
+< // NiAlphaAccumulator (Xbox PDB): Xbox sizeof 0x34, PC sizeof 0x34
+< class NiAlphaAccumulator : public NiBackToFrontAccumulator {
+< public:
+<     // поля
+<     bool m_bObserveNoSortHint;
+<     bool m_bSortByClosestPoint;
+<     bool m_bInterfaceSort;
+<     unsigned char _pad33[0x1];
+< };
+< // BSShaderAccumulator (Xbox PDB): Xbox sizeof 0x280, PC sizeof 0x280
+< class BSShaderAccumulator : public NiAlphaAccumulator {
+< public:
+<     virtual void FinishAccumulatingPreResolveDepth(); // слот 42
+<     virtual void FinishAccumulatingPostResolveDepth(); // слот 43
+<     virtual void _unverified_slot44(); // слот 44
+<     // поля
+<     alignas(4) unsigned char _unverified_eAccumulationMode[4]; // строгая сборка: не подтверждено (BSShaderAccumulator::etAccumulationMode)
+<     bool bWorldGeometry;
+<     unsigned char _unverified_bCacheGeometry[1]; // строгая сборка: не подтверждено (bool)
+<     bool bDoDepthPasses;
+<     unsigned char _pad3B[0x1];
+<     unsigned uiSunPixelCount;
+<     bool bWaitingForSunQueury;
+<     unsigned char _pad41[0x3];
+<     float fPercentSunOccludedStored;
+<     alignas(4) unsigned char pSunTests[60]; // SunOcclusionTest[60 bytes]
+<     bool bAccumulate;
+<     bool b1stPerson;
+<     bool bRenderNoShader;
+<     unsigned char _pad87[0x1];
+<     unsigned short usQueryCount;
+<     unsigned short usQuerySize;
+<     BSOcclusionQuery** ppOcclusionQuery;
+<     alignas(4) unsigned char pVolumetricFogGeometry[12]; // NiTPointerList<NiGeometry *>
+<     alignas(4) unsigned char pRenderedGeometryCache[80]; // BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>[80 bytes]
+<     alignas(4) unsigned char pRendered1stPersonGeometryCache[80]; // BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>[80 bytes]
+<     alignas(4) unsigned char spBoundTestGeometry[4]; // NiPointer<NiGeometry>
+<     alignas(4) unsigned char ReferenceVolumeList[12]; // NiTPointerList<ReferenceVolume *>
+<     unsigned uiLastOcclusionRef;
+<     bool bLastOcclusionResult;
+<     unsigned char _pad151[0x3];
+<     alignas(4) unsigned char kSilhouetteColor[16]; // NiColorA
+<     bool bWaterReflection;
+<     bool bWaterRefraction;
+<     bool bCellHasWater;
+<     bool bUnderWater;
+<     int iCurrentWaterHeight;
+<     bool bRenderDecals;
+<     unsigned char _pad16D[0x3];
+<     BSInstanceRendering* pInstanceRenderer;
+<     BSBatchRenderer* pBatchRenderer[2];
+<     unsigned* puicurrentPassA;
+<     int* picurrentBucketA;
+<     bool* pbcurrentFirstPassA;
+<     bool* pbcurrentActiveA;
+<     unsigned uiBatchRendererCount;
+<     unsigned uiBatchRendererPassCount;
+<     ShadowSceneNode* pActiveShadowSceneNode;
+<     alignas(4) unsigned char spWaterFogRenderTarget[4]; // NiPointer<BSRenderedTexture>
+<     int eRenderMode;
+<     alignas(4) unsigned char spShadowLight[4]; // NiPointer<ShadowSceneLight>
+<     BSShaderProperty::RenderPass kAlphaRenderPass;
+<     alignas(4) unsigned char kRoomSharedMap[16]; // NiTPointerMap<NiAVObject *,bool>
+<     unsigned char _pad1C4[0x3C];
+<     alignas(4) unsigned char BSCPSharedCrit[128]; // NiCriticalSection
+< };
+3576,3625d3507
+< static_assert(offsetof(NiAlphaAccumulator, m_bObserveNoSortHint) == 0x30, "NiAlphaAccumulator::m_bObserveNoSortHint");
+< static_assert(offsetof(NiAlphaAccumulator, m_bSortByClosestPoint) == 0x31, "NiAlphaAccumulator::m_bSortByClosestPoint");
+< static_assert(offsetof(NiAlphaAccumulator, m_bInterfaceSort) == 0x32, "NiAlphaAccumulator::m_bInterfaceSort");
+< static_assert(alignof(NiAlphaAccumulator) == 4, "alignof NiAlphaAccumulator: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(NiAlphaAccumulator) == 0x34, "sizeof NiAlphaAccumulator");
+< static_assert(offsetof(BSShaderAccumulator, _unverified_eAccumulationMode) == 0x34, "BSShaderAccumulator::_unverified_eAccumulationMode");
+< static_assert(offsetof(BSShaderAccumulator, bWorldGeometry) == 0x38, "BSShaderAccumulator::bWorldGeometry");
+< static_assert(offsetof(BSShaderAccumulator, _unverified_bCacheGeometry) == 0x39, "BSShaderAccumulator::_unverified_bCacheGeometry");
+< static_assert(offsetof(BSShaderAccumulator, bDoDepthPasses) == 0x3A, "BSShaderAccumulator::bDoDepthPasses");
+< static_assert(offsetof(BSShaderAccumulator, uiSunPixelCount) == 0x3C, "BSShaderAccumulator::uiSunPixelCount");
+< static_assert(offsetof(BSShaderAccumulator, bWaitingForSunQueury) == 0x40, "BSShaderAccumulator::bWaitingForSunQueury");
+< static_assert(offsetof(BSShaderAccumulator, fPercentSunOccludedStored) == 0x44, "BSShaderAccumulator::fPercentSunOccludedStored");
+< static_assert(offsetof(BSShaderAccumulator, pSunTests) == 0x48, "BSShaderAccumulator::pSunTests");
+< static_assert(offsetof(BSShaderAccumulator, bAccumulate) == 0x84, "BSShaderAccumulator::bAccumulate");
+< static_assert(offsetof(BSShaderAccumulator, b1stPerson) == 0x85, "BSShaderAccumulator::b1stPerson");
+< static_assert(offsetof(BSShaderAccumulator, bRenderNoShader) == 0x86, "BSShaderAccumulator::bRenderNoShader");
+< static_assert(offsetof(BSShaderAccumulator, usQueryCount) == 0x88, "BSShaderAccumulator::usQueryCount");
+< static_assert(offsetof(BSShaderAccumulator, usQuerySize) == 0x8A, "BSShaderAccumulator::usQuerySize");
+< static_assert(offsetof(BSShaderAccumulator, ppOcclusionQuery) == 0x8C, "BSShaderAccumulator::ppOcclusionQuery");
+< static_assert(offsetof(BSShaderAccumulator, pVolumetricFogGeometry) == 0x90, "BSShaderAccumulator::pVolumetricFogGeometry");
+< static_assert(offsetof(BSShaderAccumulator, pRenderedGeometryCache) == 0x9C, "BSShaderAccumulator::pRenderedGeometryCache");
+< static_assert(offsetof(BSShaderAccumulator, pRendered1stPersonGeometryCache) == 0xEC, "BSShaderAccumulator::pRendered1stPersonGeometryCache");
+< static_assert(offsetof(BSShaderAccumulator, spBoundTestGeometry) == 0x13C, "BSShaderAccumulator::spBoundTestGeometry");
+< static_assert(offsetof(BSShaderAccumulator, ReferenceVolumeList) == 0x140, "BSShaderAccumulator::ReferenceVolumeList");
+< static_assert(offsetof(BSShaderAccumulator, uiLastOcclusionRef) == 0x14C, "BSShaderAccumulator::uiLastOcclusionRef");
+< static_assert(offsetof(BSShaderAccumulator, bLastOcclusionResult) == 0x150, "BSShaderAccumulator::bLastOcclusionResult");
+< static_assert(offsetof(BSShaderAccumulator, kSilhouetteColor) == 0x154, "BSShaderAccumulator::kSilhouetteColor");
+< static_assert(offsetof(BSShaderAccumulator, bWaterReflection) == 0x164, "BSShaderAccumulator::bWaterReflection");
+< static_assert(offsetof(BSShaderAccumulator, bWaterRefraction) == 0x165, "BSShaderAccumulator::bWaterRefraction");
+< static_assert(offsetof(BSShaderAccumulator, bCellHasWater) == 0x166, "BSShaderAccumulator::bCellHasWater");
+< static_assert(offsetof(BSShaderAccumulator, bUnderWater) == 0x167, "BSShaderAccumulator::bUnderWater");
+< static_assert(offsetof(BSShaderAccumulator, iCurrentWaterHeight) == 0x168, "BSShaderAccumulator::iCurrentWaterHeight");
+< static_assert(offsetof(BSShaderAccumulator, bRenderDecals) == 0x16C, "BSShaderAccumulator::bRenderDecals");
+< static_assert(offsetof(BSShaderAccumulator, pInstanceRenderer) == 0x170, "BSShaderAccumulator::pInstanceRenderer");
+< static_assert(offsetof(BSShaderAccumulator, pBatchRenderer) == 0x174, "BSShaderAccumulator::pBatchRenderer");
+< static_assert(offsetof(BSShaderAccumulator, puicurrentPassA) == 0x17C, "BSShaderAccumulator::puicurrentPassA");
+< static_assert(offsetof(BSShaderAccumulator, picurrentBucketA) == 0x180, "BSShaderAccumulator::picurrentBucketA");
+< static_assert(offsetof(BSShaderAccumulator, pbcurrentFirstPassA) == 0x184, "BSShaderAccumulator::pbcurrentFirstPassA");
+< static_assert(offsetof(BSShaderAccumulator, pbcurrentActiveA) == 0x188, "BSShaderAccumulator::pbcurrentActiveA");
+< static_assert(offsetof(BSShaderAccumulator, uiBatchRendererCount) == 0x18C, "BSShaderAccumulator::uiBatchRendererCount");
+< static_assert(offsetof(BSShaderAccumulator, uiBatchRendererPassCount) == 0x190, "BSShaderAccumulator::uiBatchRendererPassCount");
+< static_assert(offsetof(BSShaderAccumulator, pActiveShadowSceneNode) == 0x194, "BSShaderAccumulator::pActiveShadowSceneNode");
+< static_assert(offsetof(BSShaderAccumulator, spWaterFogRenderTarget) == 0x198, "BSShaderAccumulator::spWaterFogRenderTarget");
+< static_assert(offsetof(BSShaderAccumulator, eRenderMode) == 0x19C, "BSShaderAccumulator::eRenderMode");
+< static_assert(offsetof(BSShaderAccumulator, spShadowLight) == 0x1A0, "BSShaderAccumulator::spShadowLight");
+< static_assert(offsetof(BSShaderAccumulator, kAlphaRenderPass) == 0x1A4, "BSShaderAccumulator::kAlphaRenderPass");
+< static_assert(offsetof(BSShaderAccumulator, kRoomSharedMap) == 0x1B4, "BSShaderAccumulator::kRoomSharedMap");
+< static_assert(offsetof(BSShaderAccumulator, BSCPSharedCrit) == 0x200, "BSShaderAccumulator::BSCPSharedCrit");
+< static_assert(alignof(BSShaderAccumulator) == 4, "alignof BSShaderAccumulator: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(BSShaderAccumulator) == 0x280, "sizeof BSShaderAccumulator");
