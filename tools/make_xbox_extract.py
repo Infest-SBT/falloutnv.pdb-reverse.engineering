@@ -7,6 +7,10 @@ usage: python3 -I -B make_xbox_extract.py <Fallout.types.txt> <research meta.jso
 Что выписывается:
   classes[имя из meta]: xbox_name, sizeof, fields {имя: [смещение, размер, тип]}, virtuals [[номер слота, имя]],
                          nonvirtual_methods [имена] — для 86 классов пакета;
+                         v0.6.5: nested_fields {путь: [смещение от начала класса, размер, тип, смещение в владельце,
+                         тип владельца]} — рекурсивно развёрнутые члены вложенных объектов (класс/структура/union по
+                         значению, массив таких — путь «имя[].член», элемент 0; члены баз вложенного класса — без имени
+                         базы в пути, как в C++); глубина ≤ 4, защита от циклов по номеру типа; указатели не раскрываются;
   search_log: документированный поиск классов, которых нет в Xbox (PC-only): точное имя, имя без пространства имён,
               подстроки — какие записи Xbox нашлись;
   rtti_xbox_sizes[имя RTTI]: sizeof класса Xbox с тем же именем (полное определение, не forward ref) — для переписи
@@ -101,6 +105,68 @@ def fields_of(name):
     return out
 
 
+def class_ti(ref, depth=0):
+    """Номер записи полного определения класса/структуры/union по ссылке на тип (через модификатор и forward ref);
+    для массива — (ti элемента, число элементов); иначе None."""
+    m = re.match(r'(0x[0-9A-F]+)(?: \((.*)\))?', ref.strip())
+    if not m or m.group(2) or depth > 8:
+        return None
+    ti = int(m.group(1), 16)
+    r = T.rec.get(ti)
+    if not r:
+        return None
+    k, n, ls = r
+    body = ' '.join(ls)
+    if k in ('LF_CLASS', 'LF_STRUCTURE', 'LF_UNION'):
+        if 'forward ref' in body:
+            ti = T.byname.get(n)
+            if ti is None:
+                return None
+        return ('obj', ti)
+    if k == 'LF_MODIFIER':
+        mm = re.search(r'referent = (0x[0-9A-F]+(?: \([^)]*\))?)', body)
+        return class_ti(mm.group(1), depth + 1) if mm else None
+    if k == 'LF_ARRAY':
+        mm = re.search(r'size: (\d+), index type: \S+(?: \([^)]*\))?, element type: (0x[0-9A-F]+(?: \([^)]*\))?)', body)
+        if mm:
+            el = class_ti(mm.group(2), depth + 1)
+            if el and el[0] == 'obj':
+                return ('arr', el[1])
+    return None
+
+
+def members(ti):
+    """[(имя, смещение, ссылка на тип)] членов класса ti, включая члены его баз (LF_BCLASS) со смещением базы."""
+    k, n, ls = T.rec[ti]
+    fl = re.search(r'field list: (0x[0-9A-F]+)', '\n'.join(ls))
+    if not fl:
+        return []
+    L = T.rec[int(fl.group(1), 16)][2]
+    out = []
+    for i, l in enumerate(L):
+        m = re.match(r'\s*- LF_MEMBER \[name = `(.*)`, Type = (0x[0-9A-F]+(?: \([^)]*\))?), offset = (\d+)', l)
+        if m:
+            out.append((m.group(1), int(m.group(3)), m.group(2)))
+            continue
+        if re.match(r'\s*- LF_BCLASS', l) and i + 1 < len(L):
+            mm = re.search(r'type = (0x[0-9A-F]+), offset = (\d+)', L[i + 1])
+            if mm:
+                b = class_ti(mm.group(1))
+                if b and b[0] == 'obj':
+                    out += [(nm, int(mm.group(2)) + o, t) for nm, o, t in members(b[1])]
+    return out
+
+
+def nested(ti, prefix, base_off, seen, depth, out):
+    for nm, o, t in members(ti):
+        path = f'{prefix}.{nm}'
+        tn = T.tname(t)
+        out[path] = [base_off + o, tsize(t), tn, o, T.rec[ti][1]]
+        c = class_ti(t)
+        if c and depth < 4 and c[1] not in seen:
+            nested(c[1], path + ('[]' if c[0] == 'arr' else ''), base_off + o, seen | {c[1]}, depth + 1, out)
+
+
 res = {'source': 'Xbox 360 Fallout.pdb (Release Final), дамп llvm-pdbutil; выписка — только для перечисленных классов',
        'classes': {}, 'search_log': {}, 'rtti_xbox_sizes': {}}
 for c in meta['classes']:
@@ -114,6 +180,13 @@ for c in meta['classes']:
                                  'note': 'поиск по точному имени, имени без пространства имён и подстроке '
                                          '(без учёта регистра) среди полных определений классов/структур Xbox'}
         continue
+    ti0 = T.byname[nm]
+    nf = {}
+    for nm2, o2, t2 in [(a, b, c) for a, b, c in members(ti0) if a in x['fields']]:
+        c = class_ti(t2)
+        if c:
+            nested(c[1], nm2 + ('[]' if c[0] == 'arr' else ''), o2, {ti0, c[1]}, 1, nf)
+    x['nested_fields'] = dict(sorted(nf.items()))
     res['classes'][nm] = x
 for rn in sorted(cen['classes']):
     ti = T.byname.get(rn)
@@ -122,6 +195,6 @@ for rn in sorted(cen['classes']):
         if mm:
             res['rtti_xbox_sizes'][rn] = int(mm.group(1))
 json.dump(res, open(out_p, 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
-print('классов', len(res['classes']), 'поиск', {k: (v['exact'], v['by_short_name'][:3], v['substring_matches'][:5])
+print('вложенных членов', sum(len(c['nested_fields']) for c in res['classes'].values()), 'классов', len(res['classes']), 'поиск', {k: (v['exact'], v['by_short_name'][:3], v['substring_matches'][:5])
                                                for k, v in res['search_log'].items()},
       'RTTI с размером Xbox', len(res['rtti_xbox_sizes']))

@@ -118,6 +118,92 @@
 "HeapFreeSubBucket[128 bytes]"
 ]
 },
+"nested_fields": {
+"CriticalSectionO.CriticalSection": [
+8408,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"BSCriticalSection"
+],
+"CriticalSectionO.CriticalSection.LockCount": [
+8424,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"CriticalSectionO.CriticalSection.OwningThread": [
+8432,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"CriticalSectionO.CriticalSection.RecursionCount": [
+8428,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"CriticalSectionO.CriticalSection.Synchronization": [
+8408,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"CriticalSectionO.CriticalSection.Synchronization.RawEvent": [
+8408,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"LargeFreeList.pHead": [
+8264,
+4,
+"FreeHeapBlock*",
+0,
+"FreeHeapBlockList"
+],
+"LargeFreeList.pTail": [
+8268,
+4,
+"FreeHeapBlock*",
+4,
+"FreeHeapBlockList"
+],
+"pSmallFreeList[].pHead": [
+68,
+4,
+"FreeHeapBlock*",
+0,
+"FreeHeapBlockList"
+],
+"pSmallFreeList[].pTail": [
+72,
+4,
+"FreeHeapBlock*",
+4,
+"FreeHeapBlockList"
+],
+"pSubBuckets[].iCount": [
+8280,
+4,
+"int",
+0,
+"HeapFreeSubBucket"
+],
+"pSubBuckets[].pFirst": [
+8284,
+4,
+"FreeHeapBlockList*",
+4,
+"HeapFreeSubBucket"
+]
+},
 "nonvirtual_methods": [
 "AbstractHeap",
 "AddBlockToFreeList",
@@ -220,6 +306,78 @@
 "TESForm*"
 ]
 },
+"nested_fields": {
+"Header.FormIDIndex": [
+20,
+3,
+"BGSNumericIDIndex",
+0,
+"BGSSaveLoadFormHeader"
+],
+"Header.FormIDIndex.cData1": [
+20,
+1,
+"unsigned char",
+0,
+"BGSNumericIDIndex"
+],
+"Header.FormIDIndex.cData2": [
+21,
+1,
+"unsigned char",
+1,
+"BGSNumericIDIndex"
+],
+"Header.FormIDIndex.cData3": [
+22,
+1,
+"unsigned char",
+2,
+"BGSNumericIDIndex"
+],
+"Header.FormInfo": [
+27,
+1,
+"BGSSaveLoadFormInfo",
+7,
+"BGSSaveLoadFormHeader"
+],
+"Header.FormInfo.cData": [
+27,
+1,
+"unsigned char",
+0,
+"BGSSaveLoadFormInfo"
+],
+"Header.cVersion": [
+28,
+1,
+"unsigned char",
+8,
+"BGSSaveLoadFormHeader"
+],
+"Header.iChangeFlags": [
+23,
+4,
+"BGSChangeFlags",
+3,
+"BGSSaveLoadFormHeader"
+],
+"Header.iChangeFlags.iFlags": [
+23,
+4,
+"int",
+0,
+"BGSChangeFlags"
+],
+"iOldChangeFlags.iFlags": [
+44,
+4,
+"int",
+0,
+"BGSChangeFlags"
+]
+},
 "nonvirtual_methods": [
 "BGSLoadFormBuffer",
 "GetActor",
@@ -273,6 +431,7 @@
 "char*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "AdvanceBuffer",
 "BGSLoadGameBuffer",
@@ -324,6 +483,71 @@
 "TESForm*"
 ]
 },
+"nested_fields": {
+"Header.FormIDIndex": [
+20,
+3,
+"BGSNumericIDIndex",
+0,
+"BGSSaveLoadFormHeader"
+],
+"Header.FormIDIndex.cData1": [
+20,
+1,
+"unsigned char",
+0,
+"BGSNumericIDIndex"
+],
+"Header.FormIDIndex.cData2": [
+21,
+1,
+"unsigned char",
+1,
+"BGSNumericIDIndex"
+],
+"Header.FormIDIndex.cData3": [
+22,
+1,
+"unsigned char",
+2,
+"BGSNumericIDIndex"
+],
+"Header.FormInfo": [
+27,
+1,
+"BGSSaveLoadFormInfo",
+7,
+"BGSSaveLoadFormHeader"
+],
+"Header.FormInfo.cData": [
+27,
+1,
+"unsigned char",
+0,
+"BGSSaveLoadFormInfo"
+],
+"Header.cVersion": [
+28,
+1,
+"unsigned char",
+8,
+"BGSSaveLoadFormHeader"
+],
+"Header.iChangeFlags": [
+23,
+4,
+"BGSChangeFlags",
+3,
+"BGSSaveLoadFormHeader"
+],
+"Header.iChangeFlags.iFlags": [
+23,
+4,
+"int",
+0,
+"BGSChangeFlags"
+]
+},
 "nonvirtual_methods": [
 "AddChange",
 "BGSSaveFormBuffer",
@@ -370,6 +594,7 @@
 "char*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "BGSSaveGameBuffer",
 "ClearPosition",
@@ -410,6 +635,7 @@
 },
 "BGSSaveLoadChangesMap": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "AddChangeFlags",
 "BGSSaveLoadChangesMap",
@@ -455,6 +681,43 @@
 "iChangeFlags": [
 3,
 4,
+"BGSChangeFlags"
+]
+},
+"nested_fields": {
+"FormIDIndex.cData1": [
+0,
+1,
+"unsigned char",
+0,
+"BGSNumericIDIndex"
+],
+"FormIDIndex.cData2": [
+1,
+1,
+"unsigned char",
+1,
+"BGSNumericIDIndex"
+],
+"FormIDIndex.cData3": [
+2,
+1,
+"unsigned char",
+2,
+"BGSNumericIDIndex"
+],
+"FormInfo.cData": [
+7,
+1,
+"unsigned char",
+0,
+"BGSSaveLoadFormInfo"
+],
+"iChangeFlags.iFlags": [
+3,
+4,
+"int",
+0,
 "BGSChangeFlags"
 ]
 },
@@ -542,6 +805,57 @@
 12,
 4,
 "BGSSaveLoadFormIDMap*"
+]
+},
+"nested_fields": {
+"FormBufferArray.iReservedSize": [
+48,
+4,
+"unsigned",
+12,
+"BSSimpleArray<BGSLoadFormBuffer *,1024>"
+],
+"FormBufferArray.iSize": [
+44,
+4,
+"unsigned",
+8,
+"BSSimpleArray<BGSLoadFormBuffer *,1024>"
+],
+"FormBufferArray.pBuffer": [
+40,
+4,
+"BGSLoadFormBuffer**",
+4,
+"BSSimpleArray<BGSLoadFormBuffer *,1024>"
+],
+"QueuedInitPackageLocationsActorMap.m_kAllocator": [
+64,
+4,
+"NiTMapBase<DFALL<NiTMapItem<unsigned int,Actor *> >,unsigned int,Actor *>::AntiBloatAllocator",
+12,
+"NiTMap<unsigned int,Actor *>"
+],
+"QueuedInitPackageLocationsActorMap.m_kAllocator.m_uiCount": [
+64,
+4,
+"unsigned",
+0,
+"NiTMapBase<DFALL<NiTMapItem<unsigned int,Actor *> >,unsigned int,Actor *>::AntiBloatAllocator"
+],
+"QueuedInitPackageLocationsActorMap.m_ppkHashTable": [
+60,
+4,
+"NiTMapItem<unsigned int,Actor *>**",
+8,
+"NiTMap<unsigned int,Actor *>"
+],
+"QueuedInitPackageLocationsActorMap.m_uiHashSize": [
+56,
+4,
+"unsigned",
+4,
+"NiTMap<unsigned int,Actor *>"
 ]
 },
 "nonvirtual_methods": [
@@ -710,6 +1024,7 @@
 "function*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "AddSaveGame",
 "Autosave",
@@ -848,6 +1163,29 @@
 52,
 4,
 "function*"
+]
+},
+"nested_fields": {
+"SynchTimer.iFlags": [
+28,
+4,
+"unsigned",
+8,
+"BSAudioSynchTimer"
+],
+"SynchTimer.iLastUpdateTime": [
+24,
+4,
+"unsigned",
+4,
+"BSAudioSynchTimer"
+],
+"SynchTimer.iMilliseconds": [
+20,
+4,
+"unsigned",
+0,
+"BSAudioSynchTimer"
 ]
 },
 "nonvirtual_methods": [
@@ -1215,6 +1553,498 @@
 "BSAudioManagerThread*"
 ]
 },
+"nested_fields": {
+"CacheCritSection.CriticalSection": [
+228,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"BSCriticalSection"
+],
+"CacheCritSection.CriticalSection.LockCount": [
+244,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheCritSection.CriticalSection.OwningThread": [
+252,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheCritSection.CriticalSection.RecursionCount": [
+248,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheCritSection.CriticalSection.Synchronization": [
+228,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheCritSection.CriticalSection.Synchronization.RawEvent": [
+228,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"CacheLoadTaskCritSection.CriticalSection": [
+284,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"BSCriticalSection"
+],
+"CacheLoadTaskCritSection.CriticalSection.LockCount": [
+300,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheLoadTaskCritSection.CriticalSection.OwningThread": [
+308,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheLoadTaskCritSection.CriticalSection.RecursionCount": [
+304,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheLoadTaskCritSection.CriticalSection.Synchronization": [
+284,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"CacheLoadTaskCritSection.CriticalSection.Synchronization.RawEvent": [
+284,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"CacheLoadTaskList.m_kAllocator": [
+320,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,AudioLoadTask *>::AntiBloatAllocator",
+8,
+"NiTPointerList<AudioLoadTask *>"
+],
+"CacheLoadTaskList.m_kAllocator.m_uiCount": [
+320,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,AudioLoadTask *>::AntiBloatAllocator"
+],
+"CacheLoadTaskList.m_pkHead": [
+312,
+4,
+"NiTListItem<AudioLoadTask *>*",
+0,
+"NiTPointerList<AudioLoadTask *>"
+],
+"CacheLoadTaskList.m_pkTail": [
+316,
+4,
+"NiTListItem<AudioLoadTask *>*",
+4,
+"NiTPointerList<AudioLoadTask *>"
+],
+"CachedSoundList.m_kAllocator": [
+156,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSGameSound *>::AntiBloatAllocator",
+8,
+"NiTPointerList<BSGameSound *>"
+],
+"CachedSoundList.m_kAllocator.m_uiCount": [
+156,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSGameSound *>::AntiBloatAllocator"
+],
+"CachedSoundList.m_pkHead": [
+148,
+4,
+"NiTListItem<BSGameSound *>*",
+0,
+"NiTPointerList<BSGameSound *>"
+],
+"CachedSoundList.m_pkTail": [
+152,
+4,
+"NiTListItem<BSGameSound *>*",
+4,
+"NiTPointerList<BSGameSound *>"
+],
+"FreeMessages.bBottomless": [
+40,
+1,
+"bool",
+4,
+"AudioMessageStack"
+],
+"FreeMessages.iCount": [
+36,
+4,
+"unsigned",
+0,
+"AudioMessageStack"
+],
+"FreeMessages.iTimeLastAllocated": [
+48,
+4,
+"unsigned",
+12,
+"AudioMessageStack"
+],
+"FreeMessages.pTop": [
+44,
+4,
+"BSSoundMessage*",
+8,
+"AudioMessageStack"
+],
+"FreeQueueMessages.bBottomless": [
+56,
+1,
+"bool",
+4,
+"AudioMessageStack"
+],
+"FreeQueueMessages.iCount": [
+52,
+4,
+"unsigned",
+0,
+"AudioMessageStack"
+],
+"FreeQueueMessages.iTimeLastAllocated": [
+64,
+4,
+"unsigned",
+12,
+"AudioMessageStack"
+],
+"FreeQueueMessages.pTop": [
+60,
+4,
+"BSSoundMessage*",
+8,
+"AudioMessageStack"
+],
+"GarbageMessages.bBottomless": [
+72,
+1,
+"bool",
+4,
+"AudioMessageStack"
+],
+"GarbageMessages.iCount": [
+68,
+4,
+"unsigned",
+0,
+"AudioMessageStack"
+],
+"GarbageMessages.iTimeLastAllocated": [
+80,
+4,
+"unsigned",
+12,
+"AudioMessageStack"
+],
+"GarbageMessages.pTop": [
+76,
+4,
+"BSSoundMessage*",
+8,
+"AudioMessageStack"
+],
+"MessageCritSection.CriticalSection": [
+172,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"BSCriticalSection"
+],
+"MessageCritSection.CriticalSection.LockCount": [
+188,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"MessageCritSection.CriticalSection.OwningThread": [
+196,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"MessageCritSection.CriticalSection.RecursionCount": [
+192,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"MessageCritSection.CriticalSection.Synchronization": [
+172,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"MessageCritSection.CriticalSection.Synchronization.RawEvent": [
+172,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"Messages[].m_kAllocator": [
+20,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSSoundMessage *>::AntiBloatAllocator",
+8,
+"NiTPointerList<BSSoundMessage *>"
+],
+"Messages[].m_kAllocator.m_uiCount": [
+20,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSSoundMessage *>::AntiBloatAllocator"
+],
+"Messages[].m_pkHead": [
+12,
+4,
+"NiTListItem<BSSoundMessage *>*",
+0,
+"NiTPointerList<BSSoundMessage *>"
+],
+"Messages[].m_pkTail": [
+16,
+4,
+"NiTListItem<BSSoundMessage *>*",
+4,
+"NiTPointerList<BSSoundMessage *>"
+],
+"MovingRefrList.m_kAllocator": [
+144,
+4,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,NiPointer<NiAVObject> >::AntiBloatAllocator",
+12,
+"NiTPointerMap<int,NiPointer<NiAVObject> >"
+],
+"MovingRefrList.m_kAllocator.m_uiCount": [
+144,
+4,
+"unsigned",
+0,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,NiPointer<NiAVObject> >::AntiBloatAllocator"
+],
+"MovingRefrList.m_ppkHashTable": [
+140,
+4,
+"NiTMapItem<int,NiPointer<NiAVObject> >**",
+8,
+"NiTPointerMap<int,NiPointer<NiAVObject> >"
+],
+"MovingRefrList.m_uiHashSize": [
+136,
+4,
+"unsigned",
+4,
+"NiTPointerMap<int,NiPointer<NiAVObject> >"
+],
+"ProcessingCritSection.CriticalSection": [
+256,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"BSCriticalSection"
+],
+"ProcessingCritSection.CriticalSection.LockCount": [
+272,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"ProcessingCritSection.CriticalSection.OwningThread": [
+280,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"ProcessingCritSection.CriticalSection.RecursionCount": [
+276,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"ProcessingCritSection.CriticalSection.Synchronization": [
+256,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"ProcessingCritSection.CriticalSection.Synchronization.RawEvent": [
+256,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"SoundList.m_kAllocator": [
+96,
+4,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSGameSound *>::AntiBloatAllocator",
+12,
+"NiTPointerMap<int,BSGameSound *>"
+],
+"SoundList.m_kAllocator.m_uiCount": [
+96,
+4,
+"unsigned",
+0,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSGameSound *>::AntiBloatAllocator"
+],
+"SoundList.m_ppkHashTable": [
+92,
+4,
+"NiTMapItem<int,BSGameSound *>**",
+8,
+"NiTPointerMap<int,BSGameSound *>"
+],
+"SoundList.m_uiHashSize": [
+88,
+4,
+"unsigned",
+4,
+"NiTPointerMap<int,BSGameSound *>"
+],
+"SoundStateMap.m_kAllocator": [
+112,
+4,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSSoundInfo *>::AntiBloatAllocator",
+12,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"SoundStateMap.m_kAllocator.m_uiCount": [
+112,
+4,
+"unsigned",
+0,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSSoundInfo *>::AntiBloatAllocator"
+],
+"SoundStateMap.m_ppkHashTable": [
+108,
+4,
+"NiTMapItem<int,BSSoundInfo *>**",
+8,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"SoundStateMap.m_uiHashSize": [
+104,
+4,
+"unsigned",
+4,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"StateCritSection.CriticalSection": [
+200,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"BSCriticalSection"
+],
+"StateCritSection.CriticalSection.LockCount": [
+216,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"StateCritSection.CriticalSection.OwningThread": [
+224,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"StateCritSection.CriticalSection.RecursionCount": [
+220,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"StateCritSection.CriticalSection.Synchronization": [
+200,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"StateCritSection.CriticalSection.Synchronization.RawEvent": [
+200,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"StateUpdateMap.m_kAllocator": [
+128,
+4,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSSoundInfo *>::AntiBloatAllocator",
+12,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"StateUpdateMap.m_kAllocator.m_uiCount": [
+128,
+4,
+"unsigned",
+0,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSSoundInfo *>::AntiBloatAllocator"
+],
+"StateUpdateMap.m_ppkHashTable": [
+124,
+4,
+"NiTMapItem<int,BSSoundInfo *>**",
+8,
+"NiTPointerMap<int,BSSoundInfo *>"
+],
+"StateUpdateMap.m_uiHashSize": [
+120,
+4,
+"unsigned",
+4,
+"NiTPointerMap<int,BSSoundInfo *>"
+]
+},
 "nonvirtual_methods": [
 "AddToCache",
 "AudioStringCompareFn",
@@ -1412,6 +2242,78 @@
 "unsigned"
 ]
 },
+"nested_fields": {
+"AlphaGroupList[].m_kAllocator": [
+128,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSBatchRenderer::GeometryGroup *>::AntiBloatAllocator",
+8,
+"NiTPointerList<BSBatchRenderer::GeometryGroup *>"
+],
+"AlphaGroupList[].m_kAllocator.m_uiCount": [
+128,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSBatchRenderer::GeometryGroup *>::AntiBloatAllocator"
+],
+"AlphaGroupList[].m_pkHead": [
+120,
+4,
+"NiTListItem<BSBatchRenderer::GeometryGroup *>*",
+0,
+"NiTPointerList<BSBatchRenderer::GeometryGroup *>"
+],
+"AlphaGroupList[].m_pkTail": [
+124,
+4,
+"NiTListItem<BSBatchRenderer::GeometryGroup *>*",
+4,
+"NiTPointerList<BSBatchRenderer::GeometryGroup *>"
+],
+"RenderPassMap.m_kAllocator": [
+24,
+4,
+"NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned int> >,unsigned int,unsigned int>::AntiBloatAllocator",
+12,
+"NiTMap<unsigned int,unsigned int>"
+],
+"RenderPassMap.m_kAllocator.m_uiCount": [
+24,
+4,
+"unsigned",
+0,
+"NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned int> >,unsigned int,unsigned int>::AntiBloatAllocator"
+],
+"RenderPassMap.m_ppkHashTable": [
+20,
+4,
+"NiTMapItem<unsigned int,unsigned int>**",
+8,
+"NiTMap<unsigned int,unsigned int>"
+],
+"RenderPassMap.m_uiHashSize": [
+16,
+4,
+"unsigned",
+4,
+"NiTMap<unsigned int,unsigned int>"
+],
+"kActivePassIndexList.m_item": [
+44,
+2,
+"unsigned short",
+0,
+"BSSimpleList<unsigned short>"
+],
+"kActivePassIndexList.m_pkNext": [
+48,
+4,
+"BSSimpleList<unsigned short>*",
+4,
+"BSSimpleList<unsigned short>"
+]
+},
 "nonvirtual_methods": [
 "BSBatchRenderer",
 "BeginPass",
@@ -1531,6 +2433,36 @@
 240,
 4,
 "void*"
+]
+},
+"nested_fields": {
+"ParentPortalList.m_item": [
+256,
+4,
+"BSPortal*",
+0,
+"BSSimpleList<BSPortal *>"
+],
+"ParentPortalList.m_pkNext": [
+260,
+4,
+"BSSimpleList<BSPortal *>*",
+4,
+"BSSimpleList<BSPortal *>"
+],
+"ParentRoomList.m_item": [
+248,
+4,
+"BSMultiBoundRoom*",
+0,
+"BSSimpleList<BSMultiBoundRoom *>"
+],
+"ParentRoomList.m_pkNext": [
+252,
+4,
+"BSSimpleList<BSMultiBoundRoom *>*",
+4,
+"BSSimpleList<BSMultiBoundRoom *>"
 ]
 },
 "nonvirtual_methods": [
@@ -1794,6 +2726,57 @@
 "vBeamEnd": [
 380,
 12,
+"NiPoint3"
+]
+},
+"nested_fields": {
+"QueuedMessages.m_kAllocator": [
+404,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSSoundMessage *>::AntiBloatAllocator",
+8,
+"NiTPointerList<BSSoundMessage *>"
+],
+"QueuedMessages.m_kAllocator.m_uiCount": [
+404,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,BSSoundMessage *>::AntiBloatAllocator"
+],
+"QueuedMessages.m_pkHead": [
+396,
+4,
+"NiTListItem<BSSoundMessage *>*",
+0,
+"NiTPointerList<BSSoundMessage *>"
+],
+"QueuedMessages.m_pkTail": [
+400,
+4,
+"NiTListItem<BSSoundMessage *>*",
+4,
+"NiTPointerList<BSSoundMessage *>"
+],
+"vBeamEnd.x": [
+380,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"vBeamEnd.y": [
+384,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"vBeamEnd.z": [
+388,
+4,
+"float",
+8,
 "NiPoint3"
 ]
 },
@@ -2069,6 +3052,15 @@
 92,
 4,
 "NiPointer<NiD3DPass>[4 bytes]"
+]
+},
+"nested_fields": {
+"spPass[].m_pObject": [
+92,
+4,
+"NiD3DPass*",
+0,
+"NiPointer<NiD3DPass>"
 ]
 },
 "nonvirtual_methods": [
@@ -2394,6 +3386,351 @@
 "unsigned short"
 ]
 },
+"nested_fields": {
+"BSCPSharedCrit.m_kCriticalSection": [
+512,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"NiCriticalSection"
+],
+"BSCPSharedCrit.m_kCriticalSection.LockCount": [
+528,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"BSCPSharedCrit.m_kCriticalSection.OwningThread": [
+536,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"BSCPSharedCrit.m_kCriticalSection.RecursionCount": [
+532,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"BSCPSharedCrit.m_kCriticalSection.Synchronization": [
+512,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"BSCPSharedCrit.m_kCriticalSection.Synchronization.RawEvent": [
+512,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"ReferenceVolumeList.m_kAllocator": [
+328,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,ReferenceVolume *>::AntiBloatAllocator",
+8,
+"NiTPointerList<ReferenceVolume *>"
+],
+"ReferenceVolumeList.m_kAllocator.m_uiCount": [
+328,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,ReferenceVolume *>::AntiBloatAllocator"
+],
+"ReferenceVolumeList.m_pkHead": [
+320,
+4,
+"NiTListItem<ReferenceVolume *>*",
+0,
+"NiTPointerList<ReferenceVolume *>"
+],
+"ReferenceVolumeList.m_pkTail": [
+324,
+4,
+"NiTListItem<ReferenceVolume *>*",
+4,
+"NiTPointerList<ReferenceVolume *>"
+],
+"kAlphaRenderPass.bFirstPass": [
+427,
+1,
+"bool",
+7,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.bLastPass": [
+428,
+1,
+"bool",
+8,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.eAccumulationHint": [
+426,
+1,
+"unsigned char",
+6,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.pGeometry": [
+420,
+4,
+"NiGeometry*",
+0,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.ppSceneLights": [
+432,
+4,
+"ShadowSceneLight**",
+12,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.ucExtraParam": [
+431,
+1,
+"unsigned char",
+11,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.ucMaxNumLights": [
+430,
+1,
+"unsigned char",
+10,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.ucNumLights": [
+429,
+1,
+"unsigned char",
+9,
+"BSShaderProperty::RenderPass"
+],
+"kAlphaRenderPass.usPassEnum": [
+424,
+2,
+"unsigned short",
+4,
+"BSShaderProperty::RenderPass"
+],
+"kRoomSharedMap.m_kAllocator": [
+448,
+4,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,NiAVObject *,bool>::AntiBloatAllocator",
+12,
+"NiTPointerMap<NiAVObject *,bool>"
+],
+"kRoomSharedMap.m_kAllocator.m_uiCount": [
+448,
+4,
+"unsigned",
+0,
+"NiTMapBase<NiTPointerAllocator<unsigned int>,NiAVObject *,bool>::AntiBloatAllocator"
+],
+"kRoomSharedMap.m_ppkHashTable": [
+444,
+4,
+"NiTMapItem<NiAVObject *,bool>**",
+8,
+"NiTPointerMap<NiAVObject *,bool>"
+],
+"kRoomSharedMap.m_uiHashSize": [
+440,
+4,
+"unsigned",
+4,
+"NiTPointerMap<NiAVObject *,bool>"
+],
+"kSilhouetteColor.a": [
+352,
+4,
+"float",
+12,
+"NiColorA"
+],
+"kSilhouetteColor.b": [
+348,
+4,
+"float",
+8,
+"NiColorA"
+],
+"kSilhouetteColor.g": [
+344,
+4,
+"float",
+4,
+"NiColorA"
+],
+"kSilhouetteColor.r": [
+340,
+4,
+"float",
+0,
+"NiColorA"
+],
+"pRendered1stPersonGeometryCache[].Allocator": [
+252,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator",
+16,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRendered1stPersonGeometryCache[].Allocator.uiCount": [
+252,
+4,
+"unsigned",
+0,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator"
+],
+"pRendered1stPersonGeometryCache[].pHead": [
+240,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::ListItem*",
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRendered1stPersonGeometryCache[].pNextFreeItem": [
+248,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::ListItem*",
+12,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRendered1stPersonGeometryCache[].pTail": [
+244,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::ListItem*",
+8,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRenderedGeometryCache[].Allocator": [
+172,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator",
+16,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRenderedGeometryCache[].Allocator.uiCount": [
+172,
+4,
+"unsigned",
+0,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator"
+],
+"pRenderedGeometryCache[].pHead": [
+160,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::ListItem*",
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRenderedGeometryCache[].pNextFreeItem": [
+168,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::ListItem*",
+12,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pRenderedGeometryCache[].pTail": [
+164,
+4,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::ListItem*",
+8,
+"BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>"
+],
+"pSunTests[].bWaiting": [
+76,
+1,
+"bool",
+4,
+"SunOcclusionTest"
+],
+"pSunTests[].fPercentOccluded": [
+80,
+4,
+"float",
+8,
+"SunOcclusionTest"
+],
+"pSunTests[].pOcclusionQuery": [
+72,
+4,
+"BSOcclusionQuery*",
+0,
+"SunOcclusionTest"
+],
+"pSunTests[].uiFrameCount": [
+88,
+4,
+"unsigned",
+16,
+"SunOcclusionTest"
+],
+"pSunTests[].uiPixelCount": [
+84,
+4,
+"unsigned",
+12,
+"SunOcclusionTest"
+],
+"pVolumetricFogGeometry.m_kAllocator": [
+152,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator",
+8,
+"NiTPointerList<NiGeometry *>"
+],
+"pVolumetricFogGeometry.m_kAllocator.m_uiCount": [
+152,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator"
+],
+"pVolumetricFogGeometry.m_pkHead": [
+144,
+4,
+"NiTListItem<NiGeometry *>*",
+0,
+"NiTPointerList<NiGeometry *>"
+],
+"pVolumetricFogGeometry.m_pkTail": [
+148,
+4,
+"NiTListItem<NiGeometry *>*",
+4,
+"NiTPointerList<NiGeometry *>"
+],
+"spBoundTestGeometry.m_pObject": [
+316,
+4,
+"NiGeometry*",
+0,
+"NiPointer<NiGeometry>"
+],
+"spShadowLight.m_pObject": [
+416,
+4,
+"ShadowSceneLight*",
+0,
+"NiPointer<ShadowSceneLight>"
+],
+"spWaterFogRenderTarget.m_pObject": [
+408,
+4,
+"BSRenderedTexture*",
+0,
+"NiPointer<BSRenderedTexture>"
+]
+},
 "nonvirtual_methods": [
 "AddAndUpdateBoundVolume",
 "AddShadowVolumeLight",
@@ -2552,6 +3889,36 @@
 112,
 4,
 "unsigned"
+]
+},
+"nested_fields": {
+"lLightList.m_kAllocator": [
+104,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::AntiBloatAllocator",
+8,
+"NiTPointerListSingleThread<ShadowSceneLight *>"
+],
+"lLightList.m_kAllocator.m_uiCount": [
+104,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::AntiBloatAllocator"
+],
+"lLightList.m_pkHead": [
+96,
+4,
+"NiTListItem<ShadowSceneLight *>*",
+0,
+"NiTPointerListSingleThread<ShadowSceneLight *>"
+],
+"lLightList.m_pkTail": [
+100,
+4,
+"NiTListItem<ShadowSceneLight *>*",
+4,
+"NiTPointerListSingleThread<ShadowSceneLight *>"
 ]
 },
 "nonvirtual_methods": [
@@ -2730,6 +4097,85 @@
 204,
 2,
 "unsigned short"
+]
+},
+"nested_fields": {
+"LandBlendParamsA.a": [
+160,
+4,
+"float",
+12,
+"NiColorA"
+],
+"LandBlendParamsA.b": [
+156,
+4,
+"float",
+8,
+"NiColorA"
+],
+"LandBlendParamsA.g": [
+152,
+4,
+"float",
+4,
+"NiColorA"
+],
+"LandBlendParamsA.r": [
+148,
+4,
+"float",
+0,
+"NiColorA"
+],
+"pHairTintColor.a": [
+144,
+4,
+"float",
+12,
+"NiColorA"
+],
+"pHairTintColor.b": [
+140,
+4,
+"float",
+8,
+"NiColorA"
+],
+"pHairTintColor.g": [
+136,
+4,
+"float",
+4,
+"NiColorA"
+],
+"pHairTintColor.r": [
+132,
+4,
+"float",
+0,
+"NiColorA"
+],
+"spTangentSpaceData.m_pObject": [
+212,
+4,
+"BSShaderPPLightingProperty::TangentSpaceData*",
+0,
+"NiPointer<BSShaderPPLightingProperty::TangentSpaceData>"
+],
+"spTexEffectData.m_pObject": [
+224,
+4,
+"BSShaderPPLightingProperty::TextureEffectData*",
+0,
+"NiPointer<BSShaderPPLightingProperty::TextureEffectData>"
+],
+"spTextureSet.m_pObject": [
+164,
+4,
+"BSTextureSet*",
+0,
+"NiPointer<BSTextureSet>"
 ]
 },
 "nonvirtual_methods": [
@@ -3005,6 +4451,7 @@
 "unsigned long[8 bytes]"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "BSShaderProperty",
 "CheckCreateConstAlphaRenderPassArray",
@@ -3163,6 +4610,7 @@
 "unsigned short"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "AllocateLightArray",
 "FreeLightArray",
@@ -3193,6 +4641,7 @@
 "unsigned"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "BSSoundHandle",
 "Clear",
@@ -3246,6 +4695,7 @@
 },
 "BaseFormComponent": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "BaseFormComponent",
 "operator="
@@ -3309,6 +4759,50 @@
 "TESObjectREFR*"
 ]
 },
+"nested_fields": {
+"Hndl.bAssumeSuccess": [
+8,
+1,
+"bool",
+4,
+"BSSoundHandle"
+],
+"Hndl.eState": [
+12,
+4,
+"BSSoundHandle::ASSUMED_STATE",
+8,
+"BSSoundHandle"
+],
+"Hndl.iSoundID": [
+4,
+4,
+"unsigned",
+0,
+"BSSoundHandle"
+],
+"StaticHndl.bAssumeSuccess": [
+20,
+1,
+"bool",
+4,
+"BSSoundHandle"
+],
+"StaticHndl.eState": [
+24,
+4,
+"BSSoundHandle::ASSUMED_STATE",
+8,
+"BSSoundHandle"
+],
+"StaticHndl.iSoundID": [
+16,
+4,
+"unsigned",
+0,
+"BSSoundHandle"
+]
+},
 "nonvirtual_methods": [
 "FORadioReceiver",
 "InitLoadGame",
@@ -3333,6 +4827,78 @@
 0,
 4,
 "TESObjectREFR*"
+]
+},
+"nested_fields": {
+"CurrentState.StationUsers": [
+28,
+8,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>",
+24,
+"FalloutRadio::StationState"
+],
+"CurrentState.StationUsers.m_item": [
+28,
+4,
+"FalloutRadio::FORadioReceiver*",
+0,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>"
+],
+"CurrentState.StationUsers.m_pkNext": [
+32,
+4,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>*",
+4,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>"
+],
+"CurrentState.cStationPower": [
+20,
+1,
+"unsigned char",
+16,
+"FalloutRadio::StationState"
+],
+"CurrentState.cTargetPower": [
+21,
+1,
+"unsigned char",
+17,
+"FalloutRadio::StationState"
+],
+"CurrentState.iCurrentItemDuration": [
+16,
+4,
+"int",
+12,
+"FalloutRadio::StationState"
+],
+"CurrentState.iCurrentItemStartTime": [
+12,
+4,
+"unsigned",
+8,
+"FalloutRadio::StationState"
+],
+"CurrentState.iStationFlags": [
+24,
+4,
+"unsigned",
+20,
+"FalloutRadio::StationState"
+],
+"CurrentState.pConvo": [
+4,
+4,
+"Conversation*",
+0,
+"FalloutRadio::StationState"
+],
+"CurrentState.pNextConvo": [
+8,
+4,
+"Conversation*",
+4,
+"FalloutRadio::StationState"
 ]
 },
 "nonvirtual_methods": [
@@ -3390,6 +4956,22 @@
 4,
 4,
 "Conversation*"
+]
+},
+"nested_fields": {
+"StationUsers.m_item": [
+24,
+4,
+"FalloutRadio::FORadioReceiver*",
+0,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>"
+],
+"StationUsers.m_pkNext": [
+28,
+4,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>*",
+4,
+"BSSimpleList<FalloutRadio::FORadioReceiver *>"
 ]
 },
 "nonvirtual_methods": [
@@ -3483,6 +5065,57 @@
 "NiPointer<NiTexturingProperty>[32 bytes]"
 ]
 },
+"nested_fields": {
+"ButtonIcons.iReservedSize": [
+80,
+4,
+"unsigned",
+12,
+"BSSimpleArray<ButtonIcon,1024>"
+],
+"ButtonIcons.iSize": [
+76,
+4,
+"unsigned",
+8,
+"BSSimpleArray<ButtonIcon,1024>"
+],
+"ButtonIcons.pBuffer": [
+72,
+4,
+"ButtonIcon*",
+4,
+"BSSimpleArray<ButtonIcon,1024>"
+],
+"IconAtlasTextureName.pString": [
+60,
+4,
+"char*",
+0,
+"BSStringT<char>"
+],
+"IconAtlasTextureName.sLen": [
+64,
+2,
+"unsigned short",
+4,
+"BSStringT<char>"
+],
+"IconAtlasTextureName.sMaxLen": [
+66,
+2,
+"unsigned short",
+6,
+"BSStringT<char>"
+],
+"pTextureData[].m_pObject": [
+12,
+4,
+"NiTexturingProperty*",
+0,
+"NiPointer<NiTexturingProperty>"
+]
+},
 "nonvirtual_methods": [
 "AddChar",
 "AddIcon",
@@ -3559,6 +5192,43 @@
 "BSStringT<char>"
 ]
 },
+"nested_fields": {
+"xLineWidths.m_item": [
+32,
+4,
+"int",
+0,
+"BSSimpleList<int>"
+],
+"xLineWidths.m_pkNext": [
+36,
+4,
+"BSSimpleList<int>*",
+4,
+"BSSimpleList<int>"
+],
+"xNewText.pString": [
+0,
+4,
+"char*",
+0,
+"BSStringT<char>"
+],
+"xNewText.sLen": [
+4,
+2,
+"unsigned short",
+4,
+"BSStringT<char>"
+],
+"xNewText.sMaxLen": [
+6,
+2,
+"unsigned short",
+6,
+"BSStringT<char>"
+]
+},
 "nonvirtual_methods": [
 "GetCharCount",
 "GetHeight",
@@ -3596,6 +5266,85 @@
 8,
 288,
 "TextureFile[288 bytes]"
+]
+},
+"nested_fields": {
+"pFontLetters[].fHeight": [
+336,
+4,
+"float",
+40,
+"FontLetter"
+],
+"pFontLetters[].fLeadingEdge": [
+340,
+4,
+"float",
+44,
+"FontLetter"
+],
+"pFontLetters[].fSpacing": [
+344,
+4,
+"float",
+48,
+"FontLetter"
+],
+"pFontLetters[].fTopEdge": [
+348,
+4,
+"float",
+52,
+"FontLetter"
+],
+"pFontLetters[].fWidth": [
+332,
+4,
+"float",
+36,
+"FontLetter"
+],
+"pFontLetters[].iTextureIndex": [
+296,
+4,
+"int",
+0,
+"FontLetter"
+],
+"pFontLetters[].pMapping": [
+300,
+32,
+"UVMap[32 bytes]",
+4,
+"FontLetter"
+],
+"pFontLetters[].pMapping[].fU": [
+300,
+4,
+"float",
+0,
+"UVMap"
+],
+"pFontLetters[].pMapping[].fV": [
+304,
+4,
+"float",
+4,
+"UVMap"
+],
+"pTextureFiles[].iType": [
+8,
+4,
+"int",
+0,
+"TextureFile"
+],
+"pTextureFiles[].pFilename": [
+12,
+32,
+"char[32 bytes]",
+4,
+"TextureFile"
 ]
 },
 "nonvirtual_methods": [
@@ -3643,6 +5392,22 @@
 "UVMap[32 bytes]"
 ]
 },
+"nested_fields": {
+"pMapping[].fU": [
+4,
+4,
+"float",
+0,
+"UVMap"
+],
+"pMapping[].fV": [
+8,
+4,
+"float",
+4,
+"UVMap"
+]
+},
 "nonvirtual_methods": [
 "Endian"
 ],
@@ -3663,6 +5428,7 @@
 "Font*[32 bytes]"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "CalculateStringDimensions",
 "CollectTo",
@@ -3735,6 +5501,57 @@
 "xFilename": [
 28,
 8,
+"BSStringT<char>"
+]
+},
+"nested_fields": {
+"xColor.a": [
+20,
+4,
+"float",
+12,
+"NiColorA"
+],
+"xColor.b": [
+16,
+4,
+"float",
+8,
+"NiColorA"
+],
+"xColor.g": [
+12,
+4,
+"float",
+4,
+"NiColorA"
+],
+"xColor.r": [
+8,
+4,
+"float",
+0,
+"NiColorA"
+],
+"xFilename.pString": [
+28,
+4,
+"char*",
+0,
+"BSStringT<char>"
+],
+"xFilename.sLen": [
+32,
+2,
+"unsigned short",
+4,
+"BSStringT<char>"
+],
+"xFilename.sMaxLen": [
+34,
+2,
+"unsigned short",
+6,
 "BSStringT<char>"
 ]
 },
@@ -3818,6 +5635,57 @@
 "BSStringT<char>"
 ]
 },
+"nested_fields": {
+"xColor.a": [
+20,
+4,
+"float",
+12,
+"NiColorA"
+],
+"xColor.b": [
+16,
+4,
+"float",
+8,
+"NiColorA"
+],
+"xColor.g": [
+12,
+4,
+"float",
+4,
+"NiColorA"
+],
+"xColor.r": [
+8,
+4,
+"float",
+0,
+"NiColorA"
+],
+"xNewText.pString": [
+56,
+4,
+"char*",
+0,
+"BSStringT<char>"
+],
+"xNewText.sLen": [
+60,
+2,
+"unsigned short",
+4,
+"BSStringT<char>"
+],
+"xNewText.sMaxLen": [
+62,
+2,
+"unsigned short",
+6,
+"BSStringT<char>"
+]
+},
 "nonvirtual_methods": [
 "GetColor",
 "GetDefaultFont",
@@ -3860,6 +5728,36 @@
 "xPages": [
 0,
 12,
+"NiTPointerList<FontManager::TextPage *>"
+]
+},
+"nested_fields": {
+"xPages.m_kAllocator": [
+8,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,FontManager::TextPage *>::AntiBloatAllocator",
+8,
+"NiTPointerList<FontManager::TextPage *>"
+],
+"xPages.m_kAllocator.m_uiCount": [
+8,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,FontManager::TextPage *>::AntiBloatAllocator"
+],
+"xPages.m_pkHead": [
+0,
+4,
+"NiTListItem<FontManager::TextPage *>*",
+0,
+"NiTPointerList<FontManager::TextPage *>"
+],
+"xPages.m_pkTail": [
+4,
+4,
+"NiTListItem<FontManager::TextPage *>*",
+4,
 "NiTPointerList<FontManager::TextPage *>"
 ]
 },
@@ -3932,6 +5830,36 @@
 "NiTPointerList<FontManager::CharData *>"
 ]
 },
+"nested_fields": {
+"xChars.m_kAllocator": [
+8,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,FontManager::CharData *>::AntiBloatAllocator",
+8,
+"NiTPointerList<FontManager::CharData *>"
+],
+"xChars.m_kAllocator.m_uiCount": [
+8,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,FontManager::CharData *>::AntiBloatAllocator"
+],
+"xChars.m_pkHead": [
+0,
+4,
+"NiTListItem<FontManager::CharData *>*",
+0,
+"NiTPointerList<FontManager::CharData *>"
+],
+"xChars.m_pkTail": [
+4,
+4,
+"NiTListItem<FontManager::CharData *>*",
+4,
+"NiTPointerList<FontManager::CharData *>"
+]
+},
 "nonvirtual_methods": [
 "AddChar",
 "NumChars",
@@ -3987,6 +5915,36 @@
 "NiTPointerList<FontManager::TextLine *>"
 ]
 },
+"nested_fields": {
+"xLines.m_kAllocator": [
+8,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,FontManager::TextLine *>::AntiBloatAllocator",
+8,
+"NiTPointerList<FontManager::TextLine *>"
+],
+"xLines.m_kAllocator.m_uiCount": [
+8,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,FontManager::TextLine *>::AntiBloatAllocator"
+],
+"xLines.m_pkHead": [
+0,
+4,
+"NiTListItem<FontManager::TextLine *>*",
+0,
+"NiTPointerList<FontManager::TextLine *>"
+],
+"xLines.m_pkTail": [
+4,
+4,
+"NiTListItem<FontManager::TextLine *>*",
+4,
+"NiTPointerList<FontManager::TextLine *>"
+]
+},
 "nonvirtual_methods": [
 "AddChar",
 "GetCharCountForFont",
@@ -4013,6 +5971,7 @@
 "FreeHeapBlock*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "FreeHeapBlock",
 "Init",
@@ -4044,6 +6003,7 @@
 "FreeHeapBlock*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [],
 "sizeof": 8,
 "virtuals": [],
@@ -4062,6 +6022,7 @@
 "HeapBlock*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "GetMem",
 "GetSize",
@@ -4097,6 +6058,7 @@
 "FreeHeapBlockList*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [],
 "sizeof": 8,
 "virtuals": [],
@@ -4104,6 +6066,7 @@
 },
 "IMemoryHeap": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "IMemoryHeap",
 "__local_vftable_ctor_closure",
@@ -4474,6 +6437,414 @@
 "NiPointer<NiScreenElementsData>"
 ]
 },
+"nested_fields": {
+"CurrentParameterData.pfBloomData": [
+80,
+12,
+"float[12 bytes]",
+60,
+"ImageSpaceParameterData"
+],
+"CurrentParameterData.pfCinematicData": [
+120,
+48,
+"float[48 bytes]",
+100,
+"ImageSpaceParameterData"
+],
+"CurrentParameterData.pfGetHitData": [
+92,
+12,
+"float[12 bytes]",
+72,
+"ImageSpaceParameterData"
+],
+"CurrentParameterData.pfHDRData": [
+20,
+60,
+"float[60 bytes]",
+0,
+"ImageSpaceParameterData"
+],
+"CurrentParameterData.pfNightEyeData": [
+104,
+16,
+"float[16 bytes]",
+84,
+"ImageSpaceParameterData"
+],
+"CurrentParameterData.uiCinematicsEnabled": [
+168,
+4,
+"unsigned",
+148,
+"ImageSpaceParameterData"
+],
+"CustomViewPort.m_bottom": [
+788,
+4,
+"float",
+12,
+"NiRect<float>"
+],
+"CustomViewPort.m_left": [
+776,
+4,
+"float",
+0,
+"NiRect<float>"
+],
+"CustomViewPort.m_right": [
+780,
+4,
+"float",
+4,
+"NiRect<float>"
+],
+"CustomViewPort.m_top": [
+784,
+4,
+"float",
+8,
+"NiRect<float>"
+],
+"DepthTexture.bForceAniso": [
+516,
+1,
+"bool",
+0,
+"ImageSpaceTexture"
+],
+"DepthTexture.bIsRenderedTexture": [
+517,
+1,
+"bool",
+1,
+"ImageSpaceTexture"
+],
+"DepthTexture.bIsTextureBorrowed": [
+518,
+1,
+"bool",
+2,
+"ImageSpaceTexture"
+],
+"DepthTexture.iClampMode": [
+528,
+4,
+"NiTexturingProperty::ClampMode",
+12,
+"ImageSpaceTexture"
+],
+"DepthTexture.iFilterMode": [
+524,
+4,
+"NiTexturingProperty::FilterMode",
+8,
+"ImageSpaceTexture"
+],
+"DepthTexture.pTexture": [
+520,
+4,
+"NiPointer<NiObject>",
+4,
+"ImageSpaceTexture"
+],
+"DepthTexture.pTexture.m_pObject": [
+520,
+4,
+"NiObject*",
+0,
+"NiPointer<NiObject>"
+],
+"WeatherParameterData[].pfBloomData": [
+240,
+12,
+"float[12 bytes]",
+60,
+"ImageSpaceParameterData"
+],
+"WeatherParameterData[].pfCinematicData": [
+280,
+48,
+"float[48 bytes]",
+100,
+"ImageSpaceParameterData"
+],
+"WeatherParameterData[].pfGetHitData": [
+252,
+12,
+"float[12 bytes]",
+72,
+"ImageSpaceParameterData"
+],
+"WeatherParameterData[].pfHDRData": [
+180,
+60,
+"float[60 bytes]",
+0,
+"ImageSpaceParameterData"
+],
+"WeatherParameterData[].pfNightEyeData": [
+264,
+16,
+"float[16 bytes]",
+84,
+"ImageSpaceParameterData"
+],
+"WeatherParameterData[].uiCinematicsEnabled": [
+328,
+4,
+"unsigned",
+148,
+"ImageSpaceParameterData"
+],
+"fCurrentDepthRadialBlurCenter.x": [
+740,
+4,
+"float",
+0,
+"NiPoint2"
+],
+"fCurrentDepthRadialBlurCenter.y": [
+744,
+4,
+"float",
+4,
+"NiPoint2"
+],
+"fCurrentRadialBlurCenter.x": [
+660,
+4,
+"float",
+0,
+"NiPoint2"
+],
+"fCurrentRadialBlurCenter.y": [
+664,
+4,
+"float",
+4,
+"NiPoint2"
+],
+"fWeatherRadialBlurCenter.x": [
+668,
+4,
+"float",
+0,
+"NiPoint2"
+],
+"fWeatherRadialBlurCenter.y": [
+672,
+4,
+"float",
+4,
+"NiPoint2"
+],
+"kFadeColor.a": [
+580,
+4,
+"float",
+12,
+"NiColorA"
+],
+"kFadeColor.b": [
+576,
+4,
+"float",
+8,
+"NiColorA"
+],
+"kFadeColor.g": [
+572,
+4,
+"float",
+4,
+"NiColorA"
+],
+"kFadeColor.r": [
+568,
+4,
+"float",
+0,
+"NiColorA"
+],
+"kRefractionTint.a": [
+772,
+4,
+"float",
+12,
+"NiColorA"
+],
+"kRefractionTint.b": [
+768,
+4,
+"float",
+8,
+"NiColorA"
+],
+"kRefractionTint.g": [
+764,
+4,
+"float",
+4,
+"NiColorA"
+],
+"kRefractionTint.r": [
+760,
+4,
+"float",
+0,
+"NiColorA"
+],
+"kTintColor.a": [
+544,
+4,
+"float",
+12,
+"NiColorA"
+],
+"kTintColor.b": [
+540,
+4,
+"float",
+8,
+"NiColorA"
+],
+"kTintColor.g": [
+536,
+4,
+"float",
+4,
+"NiColorA"
+],
+"kTintColor.r": [
+532,
+4,
+"float",
+0,
+"NiColorA"
+],
+"kWeatherFadeColor.a": [
+596,
+4,
+"float",
+12,
+"NiColorA"
+],
+"kWeatherFadeColor.b": [
+592,
+4,
+"float",
+8,
+"NiColorA"
+],
+"kWeatherFadeColor.g": [
+588,
+4,
+"float",
+4,
+"NiColorA"
+],
+"kWeatherFadeColor.r": [
+584,
+4,
+"float",
+0,
+"NiColorA"
+],
+"kWeatherTintColor.a": [
+560,
+4,
+"float",
+12,
+"NiColorA"
+],
+"kWeatherTintColor.b": [
+556,
+4,
+"float",
+8,
+"NiColorA"
+],
+"kWeatherTintColor.g": [
+552,
+4,
+"float",
+4,
+"NiColorA"
+],
+"kWeatherTintColor.r": [
+548,
+4,
+"float",
+0,
+"NiColorA"
+],
+"pEffectList.m_pBase": [
+8,
+4,
+"ImageSpaceEffect**",
+4,
+"NiTPrimitiveArray<ImageSpaceEffect *>"
+],
+"pEffectList.m_usESize": [
+16,
+2,
+"unsigned short",
+12,
+"NiTPrimitiveArray<ImageSpaceEffect *>"
+],
+"pEffectList.m_usGrowBy": [
+18,
+2,
+"unsigned short",
+14,
+"NiTPrimitiveArray<ImageSpaceEffect *>"
+],
+"pEffectList.m_usMaxSize": [
+12,
+2,
+"unsigned short",
+8,
+"NiTPrimitiveArray<ImageSpaceEffect *>"
+],
+"pEffectList.m_usSize": [
+14,
+2,
+"unsigned short",
+10,
+"NiTPrimitiveArray<ImageSpaceEffect *>"
+],
+"spMenuUnpackGeom.m_pObject": [
+512,
+4,
+"NiScreenElements*",
+0,
+"NiPointer<NiScreenElements>"
+],
+"spPartialScreenTriShape.m_pObject": [
+504,
+4,
+"NiScreenElements*",
+0,
+"NiPointer<NiScreenElements>"
+],
+"spScreenTriShape.m_pObject": [
+496,
+4,
+"NiScreenElements*",
+0,
+"NiPointer<NiScreenElements>"
+],
+"spScreenTriShapeData.m_pObject": [
+500,
+4,
+"NiScreenElementsData*",
+0,
+"NiPointer<NiScreenElementsData>"
+]
+},
 "nonvirtual_methods": [
 "AddEffect",
 "ApplyBlurRadiusParamModifier",
@@ -4582,6 +6953,106 @@
 "MTRenderingSystem::AccumTask[768 bytes]"
 ]
 },
+"nested_fields": {
+"TaskStageSema[].hSemaphore": [
+28,
+4,
+"void*",
+4,
+"BSMTRSemaphore"
+],
+"TaskStageSema[].iCount": [
+24,
+4,
+"volatile int",
+0,
+"BSMTRSemaphore"
+],
+"TaskStageSema[].iMaxCount": [
+32,
+4,
+"int",
+8,
+"BSMTRSemaphore"
+],
+"pTaskArray[].iBatchRendererIndex": [
+88,
+4,
+"int",
+28,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].kCullType": [
+84,
+4,
+"BSCullingProcess::BSCPCullingType",
+24,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].pFrustum": [
+64,
+4,
+"BSCompoundFrustum*",
+4,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].pSceneList1": [
+72,
+4,
+"NiTPointerListSingleThread<NiAVObject *>*",
+12,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].pSceneList2": [
+76,
+4,
+"NiTPointerListSingleThread<NiAVObject *>*",
+16,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].spAccum": [
+80,
+4,
+"NiPointer<BSShaderAccumulator>",
+20,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].spAccum.m_pObject": [
+80,
+4,
+"BSShaderAccumulator*",
+0,
+"NiPointer<BSShaderAccumulator>"
+],
+"pTaskArray[].spCamera": [
+60,
+4,
+"NiPointer<NiCamera>",
+0,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].spCamera.m_pObject": [
+60,
+4,
+"NiCamera*",
+0,
+"NiPointer<NiCamera>"
+],
+"pTaskArray[].spScene": [
+68,
+4,
+"NiPointer<NiAVObject>",
+8,
+"MTRenderingSystem::AccumTask"
+],
+"pTaskArray[].spScene.m_pObject": [
+68,
+4,
+"NiAVObject*",
+0,
+"NiPointer<NiAVObject>"
+]
+},
 "nonvirtual_methods": [
 "AddAccumTask",
 "AddThread",
@@ -4622,6 +7093,7 @@
 "bool"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "Allocate",
 "BlockIsOk",
@@ -4711,6 +7183,29 @@
 "IMemoryHeap**"
 ]
 },
+"nested_fields": {
+"kThreadScrapHeapMap.m_ppkHashTable": [
+284,
+4,
+"BSMapItem<unsigned long,ScrapHeap *>**",
+8,
+"BSMap<unsigned long,ScrapHeap *>"
+],
+"kThreadScrapHeapMap.m_uiCount": [
+288,
+4,
+"unsigned",
+12,
+"BSMap<unsigned long,ScrapHeap *>"
+],
+"kThreadScrapHeapMap.m_uiHashSize": [
+280,
+4,
+"unsigned",
+4,
+"BSMap<unsigned long,ScrapHeap *>"
+]
+},
 "nonvirtual_methods": [
 "AddPool",
 "Allocate",
@@ -4798,6 +7293,281 @@
 48,
 4,
 "unsigned"
+]
+},
+"nested_fields": {
+"m_kLocal.m_Rotate": [
+64,
+48,
+"NiMatrix3",
+0,
+"NiTransform"
+],
+"m_kLocal.m_Rotate.m_pEntry": [
+64,
+48,
+"NiPoint4[48 bytes]",
+0,
+"NiMatrix3"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_pt": [
+64,
+16,
+"float[16 bytes]",
+0,
+"NiPoint4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt": [
+64,
+16,
+"__vector4",
+0,
+"NiPoint4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.u": [
+64,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.v": [
+64,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.vector4_f32": [
+64,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.vector4_u32": [
+64,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.w": [
+76,
+4,
+"float",
+12,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.x": [
+64,
+4,
+"float",
+0,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.y": [
+68,
+4,
+"float",
+4,
+"__vector4"
+],
+"m_kLocal.m_Rotate.m_pEntry[].m_vfPt.z": [
+72,
+4,
+"float",
+8,
+"__vector4"
+],
+"m_kLocal.m_Translate": [
+112,
+12,
+"NiPoint3",
+48,
+"NiTransform"
+],
+"m_kLocal.m_Translate.x": [
+112,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"m_kLocal.m_Translate.y": [
+116,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"m_kLocal.m_Translate.z": [
+120,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"m_kLocal.m_fScale": [
+124,
+4,
+"float",
+60,
+"NiTransform"
+],
+"m_kPropertyList.m_kAllocator": [
+44,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<NiProperty> >"
+],
+"m_kPropertyList.m_kAllocator.m_uiCount": [
+44,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::AntiBloatAllocator"
+],
+"m_kPropertyList.m_pkHead": [
+36,
+4,
+"NiTListItem<NiPointer<NiProperty> >*",
+0,
+"NiTPointerList<NiPointer<NiProperty> >"
+],
+"m_kPropertyList.m_pkTail": [
+40,
+4,
+"NiTListItem<NiPointer<NiProperty> >*",
+4,
+"NiTPointerList<NiPointer<NiProperty> >"
+],
+"m_kWorld.m_Rotate": [
+128,
+48,
+"NiMatrix3",
+0,
+"NiTransform"
+],
+"m_kWorld.m_Rotate.m_pEntry": [
+128,
+48,
+"NiPoint4[48 bytes]",
+0,
+"NiMatrix3"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_pt": [
+128,
+16,
+"float[16 bytes]",
+0,
+"NiPoint4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt": [
+128,
+16,
+"__vector4",
+0,
+"NiPoint4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.u": [
+128,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.v": [
+128,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.vector4_f32": [
+128,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.vector4_u32": [
+128,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.w": [
+140,
+4,
+"float",
+12,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.x": [
+128,
+4,
+"float",
+0,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.y": [
+132,
+4,
+"float",
+4,
+"__vector4"
+],
+"m_kWorld.m_Rotate.m_pEntry[].m_vfPt.z": [
+136,
+4,
+"float",
+8,
+"__vector4"
+],
+"m_kWorld.m_Translate": [
+176,
+12,
+"NiPoint3",
+48,
+"NiTransform"
+],
+"m_kWorld.m_Translate.x": [
+176,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"m_kWorld.m_Translate.y": [
+180,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"m_kWorld.m_Translate.z": [
+184,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"m_kWorld.m_fScale": [
+188,
+4,
+"float",
+60,
+"NiTransform"
+],
+"m_spCollisionObject.m_pObject": [
+28,
+4,
+"NiCollisionObject*",
+0,
+"NiPointer<NiCollisionObject>"
 ]
 },
 "nonvirtual_methods": [
@@ -5012,6 +7782,7 @@
 "const NiCamera*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "GetRTTI",
@@ -5077,6 +7848,7 @@
 "bool"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "CreateClone",
@@ -5147,6 +7919,36 @@
 "NiGeometry**"
 ]
 },
+"nested_fields": {
+"m_kItems.m_kAllocator": [
+20,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator",
+8,
+"NiTPointerList<NiGeometry *>"
+],
+"m_kItems.m_kAllocator.m_uiCount": [
+20,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::AntiBloatAllocator"
+],
+"m_kItems.m_pkHead": [
+12,
+4,
+"NiTListItem<NiGeometry *>*",
+0,
+"NiTPointerList<NiGeometry *>"
+],
+"m_kItems.m_pkTail": [
+16,
+4,
+"NiTListItem<NiGeometry *>*",
+4,
+"NiTPointerList<NiGeometry *>"
+]
+},
 "nonvirtual_methods": [
 "ChoosePivot",
 "CopyMembers",
@@ -5194,6 +7996,29 @@
 "m_kCenter": [
 0,
 12,
+"NiPoint3"
+]
+},
+"nested_fields": {
+"m_kCenter.x": [
+0,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"m_kCenter.y": [
+4,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"m_kCenter.z": [
+8,
+4,
+"float",
+8,
 "NiPoint3"
 ]
 },
@@ -5252,6 +8077,85 @@
 "m_kViewFrustum": [
 256,
 28,
+"NiFrustum"
+]
+},
+"nested_fields": {
+"m_kPort.m_bottom": [
+304,
+4,
+"float",
+12,
+"NiRect<float>"
+],
+"m_kPort.m_left": [
+292,
+4,
+"float",
+0,
+"NiRect<float>"
+],
+"m_kPort.m_right": [
+296,
+4,
+"float",
+4,
+"NiRect<float>"
+],
+"m_kPort.m_top": [
+300,
+4,
+"float",
+8,
+"NiRect<float>"
+],
+"m_kViewFrustum.m_bOrtho": [
+280,
+1,
+"bool",
+24,
+"NiFrustum"
+],
+"m_kViewFrustum.m_fBottom": [
+268,
+4,
+"float",
+12,
+"NiFrustum"
+],
+"m_kViewFrustum.m_fFar": [
+276,
+4,
+"float",
+20,
+"NiFrustum"
+],
+"m_kViewFrustum.m_fLeft": [
+256,
+4,
+"float",
+0,
+"NiFrustum"
+],
+"m_kViewFrustum.m_fNear": [
+272,
+4,
+"float",
+16,
+"NiFrustum"
+],
+"m_kViewFrustum.m_fRight": [
+260,
+4,
+"float",
+4,
+"NiFrustum"
+],
+"m_kViewFrustum.m_fTop": [
+264,
+4,
+"float",
+8,
 "NiFrustum"
 ]
 },
@@ -5355,6 +8259,7 @@
 "unsigned"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "AddTextureStage",
 "ClosePass",
@@ -5484,6 +8389,71 @@
 28,
 4,
 "unsigned"
+]
+},
+"nested_fields": {
+"m_kStages.m_pBase": [
+36,
+4,
+"NiPointer<NiD3DTextureStage>*",
+4,
+"NiTObjectArray<NiPointer<NiD3DTextureStage> >"
+],
+"m_kStages.m_usESize": [
+44,
+2,
+"unsigned short",
+12,
+"NiTObjectArray<NiPointer<NiD3DTextureStage> >"
+],
+"m_kStages.m_usGrowBy": [
+46,
+2,
+"unsigned short",
+14,
+"NiTObjectArray<NiPointer<NiD3DTextureStage> >"
+],
+"m_kStages.m_usMaxSize": [
+40,
+2,
+"unsigned short",
+8,
+"NiTObjectArray<NiPointer<NiD3DTextureStage> >"
+],
+"m_kStages.m_usSize": [
+42,
+2,
+"unsigned short",
+10,
+"NiTObjectArray<NiPointer<NiD3DTextureStage> >"
+],
+"m_spPixelConstantMap.m_pObject": [
+52,
+4,
+"NiD3DShaderConstantMap*",
+0,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_spPixelShader.m_pObject": [
+68,
+4,
+"NiD3DPixelShader*",
+0,
+"NiPointer<NiD3DPixelShader>"
+],
+"m_spVertexConstantMap.m_pObject": [
+72,
+4,
+"NiD3DShaderConstantMap*",
+0,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_spVertexShader.m_pObject": [
+92,
+4,
+"NiD3DVertexShader*",
+0,
+"NiPointer<NiD3DVertexShader>"
 ]
 },
 "nonvirtual_methods": [
@@ -5620,6 +8590,29 @@
 "unsigned"
 ]
 },
+"nested_fields": {
+"m_spPixelConstantMap.m_pObject": [
+48,
+4,
+"NiD3DShaderConstantMap*",
+0,
+"NiPointer<NiD3DShaderConstantMap>"
+],
+"m_spShaderDecl.m_pObject": [
+40,
+4,
+"NiD3DShaderDeclaration*",
+0,
+"NiPointer<NiD3DShaderDeclaration>"
+],
+"m_spVertexConstantMap.m_pObject": [
+52,
+4,
+"NiD3DShaderConstantMap*",
+0,
+"NiPointer<NiD3DShaderConstantMap>"
+]
+},
 "nonvirtual_methods": [
 "DestroyRendererData",
 "FirstPass",
@@ -5711,6 +8704,7 @@
 "NiXenonRenderer*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "GetRTTI",
 "Initialize",
@@ -5801,6 +8795,36 @@
 "m_spSkinInstance": [
 224,
 4,
+"NiPointer<NiSkinInstance>"
+]
+},
+"nested_fields": {
+"m_PropertyState.m_aspProps": [
+192,
+28,
+"NiPointer<NiProperty>[28 bytes]",
+0,
+"NiPropertyState"
+],
+"m_PropertyState.m_aspProps[].m_pObject": [
+192,
+4,
+"NiProperty*",
+0,
+"NiPointer<NiProperty>"
+],
+"m_spModelData.m_pObject": [
+220,
+4,
+"NiGeometryData*",
+0,
+"NiPointer<NiGeometryData>"
+],
+"m_spSkinInstance.m_pObject": [
+224,
+4,
+"NiSkinInstance*",
+0,
 "NiPointer<NiSkinInstance>"
 ]
 },
@@ -5971,6 +8995,57 @@
 "unsigned short"
 ]
 },
+"nested_fields": {
+"m_kBound.m_fRadius": [
+28,
+4,
+"float",
+12,
+"NiBound"
+],
+"m_kBound.m_iRadiusAsInt": [
+28,
+4,
+"int",
+12,
+"NiBound"
+],
+"m_kBound.m_kCenter": [
+16,
+12,
+"NiPoint3",
+0,
+"NiBound"
+],
+"m_kBound.m_kCenter.x": [
+16,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"m_kBound.m_kCenter.y": [
+20,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"m_kBound.m_kCenter.z": [
+24,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"m_spAdditionalGeomData.m_pObject": [
+48,
+4,
+"NiAdditionalGeometryData*",
+0,
+"NiPointer<NiAdditionalGeometryData>"
+]
+},
 "nonvirtual_methods": [
 "AppendTextureSet",
 "ChoosePivot",
@@ -6076,6 +9151,78 @@
 "NiPoint4[48 bytes]"
 ]
 },
+"nested_fields": {
+"m_pEntry[].m_pt": [
+0,
+16,
+"float[16 bytes]",
+0,
+"NiPoint4"
+],
+"m_pEntry[].m_vfPt": [
+0,
+16,
+"__vector4",
+0,
+"NiPoint4"
+],
+"m_pEntry[].m_vfPt.u": [
+0,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.v": [
+0,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.vector4_f32": [
+0,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.vector4_u32": [
+0,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.w": [
+12,
+4,
+"float",
+12,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.x": [
+0,
+4,
+"float",
+0,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.y": [
+4,
+4,
+"float",
+4,
+"__vector4"
+],
+"m_pEntry[].m_vfPt.z": [
+8,
+4,
+"float",
+8,
+"__vector4"
+]
+},
 "nonvirtual_methods": [
 "Congruence",
 "Determinant",
@@ -6138,6 +9285,43 @@
 "m_kChildren": [
 192,
 16,
+"NiTObjectArray<NiPointer<NiAVObject> >"
+]
+},
+"nested_fields": {
+"m_kChildren.m_pBase": [
+196,
+4,
+"NiPointer<NiAVObject>*",
+4,
+"NiTObjectArray<NiPointer<NiAVObject> >"
+],
+"m_kChildren.m_usESize": [
+204,
+2,
+"unsigned short",
+12,
+"NiTObjectArray<NiPointer<NiAVObject> >"
+],
+"m_kChildren.m_usGrowBy": [
+206,
+2,
+"unsigned short",
+14,
+"NiTObjectArray<NiPointer<NiAVObject> >"
+],
+"m_kChildren.m_usMaxSize": [
+200,
+2,
+"unsigned short",
+8,
+"NiTObjectArray<NiPointer<NiAVObject> >"
+],
+"m_kChildren.m_usSize": [
+202,
+2,
+"unsigned short",
+10,
 "NiTObjectArray<NiPointer<NiAVObject> >"
 ]
 },
@@ -6237,6 +9421,7 @@
 },
 "NiObject": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "Clone",
 "CopyMembers",
@@ -6420,6 +9605,22 @@
 "unsigned short"
 ]
 },
+"nested_fields": {
+"m_kName.m_kHandle": [
+8,
+4,
+"char*",
+0,
+"NiFixedString"
+],
+"m_spControllers.m_pObject": [
+12,
+4,
+"NiTimeController*",
+0,
+"NiPointer<NiTimeController>"
+]
+},
 "nonvirtual_methods": [
 "AddExtraData",
 "CopyMembers",
@@ -6485,6 +9686,7 @@
 "float"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "ComponentProduct",
 "Cross",
@@ -6527,6 +9729,7 @@
 },
 "NiProperty": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "GetRTTI",
@@ -6566,6 +9769,15 @@
 "NiPointer<NiProperty>[28 bytes]"
 ]
 },
+"nested_fields": {
+"m_aspProps[].m_pObject": [
+0,
+4,
+"NiProperty*",
+0,
+"NiPointer<NiProperty>"
+]
+},
 "nonvirtual_methods": [
 "GetAlpha",
 "GetCulling",
@@ -6601,6 +9813,7 @@
 "unsigned"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "BETAVERSION_TEST_ClearRefCount",
 "DecRefCount",
@@ -6686,6 +9899,148 @@
 "unsigned"
 ]
 },
+"nested_fields": {
+"m_kPrecacheCriticalSection.m_kCriticalSection": [
+256,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"NiCriticalSection"
+],
+"m_kPrecacheCriticalSection.m_kCriticalSection.LockCount": [
+272,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kPrecacheCriticalSection.m_kCriticalSection.OwningThread": [
+280,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kPrecacheCriticalSection.m_kCriticalSection.RecursionCount": [
+276,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kPrecacheCriticalSection.m_kCriticalSection.Synchronization": [
+256,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kPrecacheCriticalSection.m_kCriticalSection.Synchronization.RawEvent": [
+256,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"m_kRendererLock.m_kCriticalSection": [
+128,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"NiCriticalSection"
+],
+"m_kRendererLock.m_kCriticalSection.LockCount": [
+144,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kRendererLock.m_kCriticalSection.OwningThread": [
+152,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kRendererLock.m_kCriticalSection.RecursionCount": [
+148,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kRendererLock.m_kCriticalSection.Synchronization": [
+128,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kRendererLock.m_kCriticalSection.Synchronization.RawEvent": [
+128,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"m_kSourceDataCriticalSection.m_kCriticalSection": [
+384,
+28,
+"_RTL_CRITICAL_SECTION",
+0,
+"NiCriticalSection"
+],
+"m_kSourceDataCriticalSection.m_kCriticalSection.LockCount": [
+400,
+4,
+"long",
+16,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kSourceDataCriticalSection.m_kCriticalSection.OwningThread": [
+408,
+4,
+"void*",
+24,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kSourceDataCriticalSection.m_kCriticalSection.RecursionCount": [
+404,
+4,
+"long",
+20,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kSourceDataCriticalSection.m_kCriticalSection.Synchronization": [
+384,
+16,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>",
+0,
+"_RTL_CRITICAL_SECTION"
+],
+"m_kSourceDataCriticalSection.m_kCriticalSection.Synchronization.RawEvent": [
+384,
+16,
+"unsigned long[16 bytes]",
+0,
+"_RTL_CRITICAL_SECTION::<unnamed-type-Synchronization>"
+],
+"m_spAccum.m_pObject": [
+8,
+4,
+"NiAccumulator*",
+0,
+"NiPointer<NiAccumulator>"
+],
+"m_spErrorShader.m_pObject": [
+20,
+4,
+"NiShader*",
+0,
+"NiPointer<NiShader>"
+]
+},
 "nonvirtual_methods": [
 "Check_BatchRendering",
 "Check_FrameState",
@@ -6759,6 +10114,7 @@
 "unsigned short"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "CreateClone",
@@ -6813,6 +10169,15 @@
 12,
 4,
 "unsigned"
+]
+},
+"nested_fields": {
+"m_kName.m_kHandle": [
+8,
+4,
+"char*",
+0,
+"NiFixedString"
 ]
 },
 "nonvirtual_methods": [
@@ -7065,6 +10430,36 @@
 "NiPointer<NiPixelData>"
 ]
 },
+"nested_fields": {
+"m_kFilename.m_kHandle": [
+48,
+4,
+"char*",
+0,
+"NiFixedString"
+],
+"m_kPlatformFilename.m_kHandle": [
+52,
+4,
+"char*",
+0,
+"NiFixedString"
+],
+"m_spPersistentSrcRendererData.m_pObject": [
+56,
+4,
+"NiPersistentSrcTextureRendererData*",
+0,
+"NiPointer<NiPersistentSrcTextureRendererData>"
+],
+"m_spSrcPixelData.m_pObject": [
+60,
+4,
+"NiPixelData*",
+0,
+"NiPointer<NiPixelData>"
+]
+},
 "nonvirtual_methods": [
 "Create",
 "CreateEmpty",
@@ -7154,6 +10549,29 @@
 "NiTexture::RendererData*"
 ]
 },
+"nested_fields": {
+"m_kFormatPrefs.m_eAlphaFmt": [
+28,
+4,
+"NiTexture::FormatPrefs::AlphaFormat",
+4,
+"NiTexture::FormatPrefs"
+],
+"m_kFormatPrefs.m_eMipMapped": [
+32,
+4,
+"NiTexture::FormatPrefs::MipFlag",
+8,
+"NiTexture::FormatPrefs"
+],
+"m_kFormatPrefs.m_ePixelLayout": [
+24,
+4,
+"NiTexture::FormatPrefs::PixelLayout",
+0,
+"NiTexture::FormatPrefs"
+]
+},
 "nonvirtual_methods": [
 "AddTextureToList",
 "GetFlag",
@@ -7239,6 +10657,106 @@
 "float"
 ]
 },
+"nested_fields": {
+"m_Rotate.m_pEntry": [
+0,
+48,
+"NiPoint4[48 bytes]",
+0,
+"NiMatrix3"
+],
+"m_Rotate.m_pEntry[].m_pt": [
+0,
+16,
+"float[16 bytes]",
+0,
+"NiPoint4"
+],
+"m_Rotate.m_pEntry[].m_vfPt": [
+0,
+16,
+"__vector4",
+0,
+"NiPoint4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.u": [
+0,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.v": [
+0,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.vector4_f32": [
+0,
+16,
+"float[16 bytes]",
+0,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.vector4_u32": [
+0,
+16,
+"unsigned[16 bytes]",
+0,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.w": [
+12,
+4,
+"float",
+12,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.x": [
+0,
+4,
+"float",
+0,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.y": [
+4,
+4,
+"float",
+4,
+"__vector4"
+],
+"m_Rotate.m_pEntry[].m_vfPt.z": [
+8,
+4,
+"float",
+8,
+"__vector4"
+],
+"m_Translate.x": [
+48,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"m_Translate.y": [
+52,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"m_Translate.z": [
+56,
+4,
+"float",
+8,
+"NiPoint3"
+]
+},
 "nonvirtual_methods": [
 "Invert",
 "InvertNonUniform",
@@ -7256,6 +10774,7 @@
 },
 "NiTriBasedGeom": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "GetActiveTriangleCount",
@@ -7297,6 +10816,7 @@
 "unsigned short"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "GetRTTI",
 "GetTriangleCount",
@@ -7339,6 +10859,7 @@
 },
 "NiTriShape": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "CreateClone",
@@ -7398,6 +10919,7 @@
 "unsigned short"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "CalculateNormals",
 "CreateObject",
@@ -7432,6 +10954,7 @@
 },
 "NiTriStrips": {
 "fields": {},
+"nested_fields": {},
 "nonvirtual_methods": [
 "CopyMembers",
 "CreateClone",
@@ -7469,6 +10992,7 @@
 "FalloutRadio::FORadioStation*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "Finish",
 "GetDescription",
@@ -7514,6 +11038,7 @@
 "char*"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "Allocate",
 "CheckForLeaks",
@@ -7723,6 +11248,610 @@
 272,
 2,
 "unsigned short"
+]
+},
+"nested_fields": {
+"bPointPosition.x": [
+256,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"bPointPosition.y": [
+260,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"bPointPosition.z": [
+264,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"kGeomListFenceObject.m_pObject": [
+316,
+4,
+"NiTriBasedGeom*",
+0,
+"NiPointer<NiTriBasedGeom>"
+],
+"kMultiboundRooms.iReservedSize": [
+540,
+4,
+"unsigned",
+12,
+"BSSimpleArray<BSMultiBoundNode *,1024>"
+],
+"kMultiboundRooms.iSize": [
+536,
+4,
+"unsigned",
+8,
+"BSSimpleArray<BSMultiBoundNode *,1024>"
+],
+"kMultiboundRooms.pBuffer": [
+532,
+4,
+"BSMultiBoundNode**",
+4,
+"BSSimpleArray<BSMultiBoundNode *,1024>"
+],
+"kPortals.iReservedSize": [
+556,
+4,
+"unsigned",
+12,
+"BSSimpleArray<BSPortal *,1024>"
+],
+"kPortals.iSize": [
+552,
+4,
+"unsigned",
+8,
+"BSSimpleArray<BSPortal *,1024>"
+],
+"kPortals.pBuffer": [
+548,
+4,
+"BSPortal**",
+4,
+"BSSimpleArray<BSPortal *,1024>"
+],
+"kProcessedNodes.iReservedSize": [
+572,
+4,
+"unsigned",
+12,
+"BSSimpleArray<NiNode *,1024>"
+],
+"kProcessedNodes.iSize": [
+568,
+4,
+"unsigned",
+8,
+"BSSimpleArray<NiNode *,1024>"
+],
+"kProcessedNodes.pBuffer": [
+564,
+4,
+"NiNode**",
+4,
+"BSSimpleArray<NiNode *,1024>"
+],
+"kShadowCameraPlanes.m_akCullingPlanes": [
+324,
+96,
+"NiPlane[96 bytes]",
+0,
+"NiFrustumPlanes"
+],
+"kShadowCameraPlanes.m_akCullingPlanes[].m_fConstant": [
+336,
+4,
+"float",
+12,
+"NiPlane"
+],
+"kShadowCameraPlanes.m_akCullingPlanes[].m_kNormal": [
+324,
+12,
+"NiPoint3",
+0,
+"NiPlane"
+],
+"kShadowCameraPlanes.m_akCullingPlanes[].m_kNormal.x": [
+324,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"kShadowCameraPlanes.m_akCullingPlanes[].m_kNormal.y": [
+328,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"kShadowCameraPlanes.m_akCullingPlanes[].m_kNormal.z": [
+332,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"kShadowCameraPlanes.m_uiActivePlanes": [
+420,
+4,
+"unsigned",
+96,
+"NiFrustumPlanes"
+],
+"kShadowProj._11": [
+144,
+4,
+"float",
+0,
+"D3DXMATRIX"
+],
+"kShadowProj._12": [
+148,
+4,
+"float",
+4,
+"D3DXMATRIX"
+],
+"kShadowProj._13": [
+152,
+4,
+"float",
+8,
+"D3DXMATRIX"
+],
+"kShadowProj._14": [
+156,
+4,
+"float",
+12,
+"D3DXMATRIX"
+],
+"kShadowProj._21": [
+160,
+4,
+"float",
+16,
+"D3DXMATRIX"
+],
+"kShadowProj._22": [
+164,
+4,
+"float",
+20,
+"D3DXMATRIX"
+],
+"kShadowProj._23": [
+168,
+4,
+"float",
+24,
+"D3DXMATRIX"
+],
+"kShadowProj._24": [
+172,
+4,
+"float",
+28,
+"D3DXMATRIX"
+],
+"kShadowProj._31": [
+176,
+4,
+"float",
+32,
+"D3DXMATRIX"
+],
+"kShadowProj._32": [
+180,
+4,
+"float",
+36,
+"D3DXMATRIX"
+],
+"kShadowProj._33": [
+184,
+4,
+"float",
+40,
+"D3DXMATRIX"
+],
+"kShadowProj._34": [
+188,
+4,
+"float",
+44,
+"D3DXMATRIX"
+],
+"kShadowProj._41": [
+192,
+4,
+"float",
+48,
+"D3DXMATRIX"
+],
+"kShadowProj._42": [
+196,
+4,
+"float",
+52,
+"D3DXMATRIX"
+],
+"kShadowProj._43": [
+200,
+4,
+"float",
+56,
+"D3DXMATRIX"
+],
+"kShadowProj._44": [
+204,
+4,
+"float",
+60,
+"D3DXMATRIX"
+],
+"kShadowProj.m": [
+144,
+64,
+"float[16 bytes][64 bytes]",
+0,
+"D3DXMATRIX"
+],
+"kShadowView._11": [
+80,
+4,
+"float",
+0,
+"D3DXMATRIX"
+],
+"kShadowView._12": [
+84,
+4,
+"float",
+4,
+"D3DXMATRIX"
+],
+"kShadowView._13": [
+88,
+4,
+"float",
+8,
+"D3DXMATRIX"
+],
+"kShadowView._14": [
+92,
+4,
+"float",
+12,
+"D3DXMATRIX"
+],
+"kShadowView._21": [
+96,
+4,
+"float",
+16,
+"D3DXMATRIX"
+],
+"kShadowView._22": [
+100,
+4,
+"float",
+20,
+"D3DXMATRIX"
+],
+"kShadowView._23": [
+104,
+4,
+"float",
+24,
+"D3DXMATRIX"
+],
+"kShadowView._24": [
+108,
+4,
+"float",
+28,
+"D3DXMATRIX"
+],
+"kShadowView._31": [
+112,
+4,
+"float",
+32,
+"D3DXMATRIX"
+],
+"kShadowView._32": [
+116,
+4,
+"float",
+36,
+"D3DXMATRIX"
+],
+"kShadowView._33": [
+120,
+4,
+"float",
+40,
+"D3DXMATRIX"
+],
+"kShadowView._34": [
+124,
+4,
+"float",
+44,
+"D3DXMATRIX"
+],
+"kShadowView._41": [
+128,
+4,
+"float",
+48,
+"D3DXMATRIX"
+],
+"kShadowView._42": [
+132,
+4,
+"float",
+52,
+"D3DXMATRIX"
+],
+"kShadowView._43": [
+136,
+4,
+"float",
+56,
+"D3DXMATRIX"
+],
+"kShadowView._44": [
+140,
+4,
+"float",
+60,
+"D3DXMATRIX"
+],
+"kShadowView.m": [
+80,
+64,
+"float[16 bytes][64 bytes]",
+0,
+"D3DXMATRIX"
+],
+"kViewProjection._11": [
+16,
+4,
+"float",
+0,
+"D3DXMATRIX"
+],
+"kViewProjection._12": [
+20,
+4,
+"float",
+4,
+"D3DXMATRIX"
+],
+"kViewProjection._13": [
+24,
+4,
+"float",
+8,
+"D3DXMATRIX"
+],
+"kViewProjection._14": [
+28,
+4,
+"float",
+12,
+"D3DXMATRIX"
+],
+"kViewProjection._21": [
+32,
+4,
+"float",
+16,
+"D3DXMATRIX"
+],
+"kViewProjection._22": [
+36,
+4,
+"float",
+20,
+"D3DXMATRIX"
+],
+"kViewProjection._23": [
+40,
+4,
+"float",
+24,
+"D3DXMATRIX"
+],
+"kViewProjection._24": [
+44,
+4,
+"float",
+28,
+"D3DXMATRIX"
+],
+"kViewProjection._31": [
+48,
+4,
+"float",
+32,
+"D3DXMATRIX"
+],
+"kViewProjection._32": [
+52,
+4,
+"float",
+36,
+"D3DXMATRIX"
+],
+"kViewProjection._33": [
+56,
+4,
+"float",
+40,
+"D3DXMATRIX"
+],
+"kViewProjection._34": [
+60,
+4,
+"float",
+44,
+"D3DXMATRIX"
+],
+"kViewProjection._41": [
+64,
+4,
+"float",
+48,
+"D3DXMATRIX"
+],
+"kViewProjection._42": [
+68,
+4,
+"float",
+52,
+"D3DXMATRIX"
+],
+"kViewProjection._43": [
+72,
+4,
+"float",
+56,
+"D3DXMATRIX"
+],
+"kViewProjection._44": [
+76,
+4,
+"float",
+60,
+"D3DXMATRIX"
+],
+"kViewProjection.m": [
+16,
+64,
+"float[16 bytes][64 bytes]",
+0,
+"D3DXMATRIX"
+],
+"lGeomList.m_kAllocator": [
+232,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiTriBasedGeom> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<NiTriBasedGeom> >"
+],
+"lGeomList.m_kAllocator.m_uiCount": [
+232,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiTriBasedGeom> >::AntiBloatAllocator"
+],
+"lGeomList.m_pkHead": [
+224,
+4,
+"NiTListItem<NiPointer<NiTriBasedGeom> >*",
+0,
+"NiTPointerList<NiPointer<NiTriBasedGeom> >"
+],
+"lGeomList.m_pkTail": [
+228,
+4,
+"NiTListItem<NiPointer<NiTriBasedGeom> >*",
+4,
+"NiTPointerList<NiPointer<NiTriBasedGeom> >"
+],
+"lRootList.m_kAllocator": [
+308,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lRootList.m_kAllocator.m_uiCount": [
+308,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::AntiBloatAllocator"
+],
+"lRootList.m_pkHead": [
+300,
+4,
+"NiTListItem<NiPointer<NiAVObject> >*",
+0,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lRootList.m_pkTail": [
+304,
+4,
+"NiTListItem<NiPointer<NiAVObject> >*",
+4,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"spDynamicShadowMap.m_pObject": [
+268,
+4,
+"BSRenderedTexture*",
+0,
+"NiPointer<BSRenderedTexture>"
+],
+"spFrustumVis.m_pObject": [
+276,
+4,
+"NiAVObject*",
+0,
+"NiPointer<NiAVObject>"
+],
+"spLight.m_pObject": [
+248,
+4,
+"NiLight*",
+0,
+"NiPointer<NiLight>"
+],
+"spShadowAccumulator.m_pObject": [
+524,
+4,
+"BSShaderAccumulator*",
+0,
+"NiPointer<BSShaderAccumulator>"
+],
+"spShadowCamera.m_pObject": [
+320,
+4,
+"NiCamera*",
+0,
+"NiPointer<NiCamera>"
+],
+"spShadowScene.m_pObject": [
+296,
+4,
+"NiAVObject*",
+0,
+"NiPointer<NiAVObject>"
+],
+"spSpecularAttenuationTexture.m_pObject": [
+240,
+4,
+"NiTexture*",
+0,
+"NiPointer<NiTexture>"
 ]
 },
 "nonvirtual_methods": [
@@ -7954,6 +12083,456 @@
 "spFog": [
 344,
 4,
+"NiPointer<BSFogProperty>"
+]
+},
+"nested_fields": {
+"kCompoundFrustum.bPrethreaded": [
+348,
+1,
+"bool",
+0,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.bSkipViewFrustum": [
+508,
+1,
+"bool",
+160,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.iFirstOp": [
+392,
+4,
+"int",
+44,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.iFreeOp": [
+388,
+4,
+"int",
+40,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.iFreePlane": [
+384,
+4,
+"int",
+36,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.kFunctionOperators": [
+368,
+16,
+"BSSimpleArray<BSCompoundFrustum::FunctionOp,1024>",
+20,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.kFunctionOperators.iReservedSize": [
+380,
+4,
+"unsigned",
+12,
+"BSSimpleArray<BSCompoundFrustum::FunctionOp,1024>"
+],
+"kCompoundFrustum.kFunctionOperators.iSize": [
+376,
+4,
+"unsigned",
+8,
+"BSSimpleArray<BSCompoundFrustum::FunctionOp,1024>"
+],
+"kCompoundFrustum.kFunctionOperators.pBuffer": [
+372,
+4,
+"BSCompoundFrustum::FunctionOp*",
+4,
+"BSSimpleArray<BSCompoundFrustum::FunctionOp,1024>"
+],
+"kCompoundFrustum.kPlanes": [
+352,
+16,
+"BSSimpleArray<NiFrustumPlanes,1024>",
+4,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.kPlanes.iReservedSize": [
+364,
+4,
+"unsigned",
+12,
+"BSSimpleArray<NiFrustumPlanes,1024>"
+],
+"kCompoundFrustum.kPlanes.iSize": [
+360,
+4,
+"unsigned",
+8,
+"BSSimpleArray<NiFrustumPlanes,1024>"
+],
+"kCompoundFrustum.kPlanes.pBuffer": [
+356,
+4,
+"NiFrustumPlanes*",
+4,
+"BSSimpleArray<NiFrustumPlanes,1024>"
+],
+"kCompoundFrustum.kViewFrustum": [
+396,
+100,
+"NiFrustumPlanes",
+48,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.kViewFrustum.m_akCullingPlanes": [
+396,
+96,
+"NiPlane[96 bytes]",
+0,
+"NiFrustumPlanes"
+],
+"kCompoundFrustum.kViewFrustum.m_akCullingPlanes[].m_fConstant": [
+408,
+4,
+"float",
+12,
+"NiPlane"
+],
+"kCompoundFrustum.kViewFrustum.m_akCullingPlanes[].m_kNormal": [
+396,
+12,
+"NiPoint3",
+0,
+"NiPlane"
+],
+"kCompoundFrustum.kViewFrustum.m_akCullingPlanes[].m_kNormal.x": [
+396,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"kCompoundFrustum.kViewFrustum.m_akCullingPlanes[].m_kNormal.y": [
+400,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"kCompoundFrustum.kViewFrustum.m_akCullingPlanes[].m_kNormal.z": [
+404,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"kCompoundFrustum.kViewFrustum.m_uiActivePlanes": [
+492,
+4,
+"unsigned",
+96,
+"NiFrustumPlanes"
+],
+"kCompoundFrustum.kViewPosition": [
+496,
+12,
+"NiPoint3",
+148,
+"BSCompoundFrustum"
+],
+"kCompoundFrustum.kViewPosition.x": [
+496,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"kCompoundFrustum.kViewPosition.y": [
+500,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"kCompoundFrustum.kViewPosition.z": [
+504,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"kEyePosition.x": [
+532,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"kEyePosition.y": [
+536,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"kEyePosition.z": [
+540,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"kLightingOffset.x": [
+520,
+4,
+"float",
+0,
+"NiPoint3"
+],
+"kLightingOffset.y": [
+524,
+4,
+"float",
+4,
+"NiPoint3"
+],
+"kLightingOffset.z": [
+528,
+4,
+"float",
+8,
+"NiPoint3"
+],
+"kShadowLightActiveFenceObject.m_pObject": [
+252,
+4,
+"ShadowSceneLight*",
+0,
+"NiPointer<ShadowSceneLight>"
+],
+"kShadowLightFadingInFenceObject.m_pObject": [
+256,
+4,
+"ShadowSceneLight*",
+0,
+"NiPointer<ShadowSceneLight>"
+],
+"lLightList.m_kAllocator": [
+224,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightList.m_kAllocator.m_uiCount": [
+224,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator"
+],
+"lLightList.m_pkHead": [
+216,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+0,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightList.m_pkTail": [
+220,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+4,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueAdd.m_kAllocator": [
+272,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueAdd.m_kAllocator.m_uiCount": [
+272,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator"
+],
+"lLightQueueAdd.m_pkHead": [
+264,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+0,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueAdd.m_pkTail": [
+268,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+4,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueRemove.m_kAllocator": [
+284,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueRemove.m_kAllocator.m_uiCount": [
+284,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator"
+],
+"lLightQueueRemove.m_pkHead": [
+276,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+0,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueRemove.m_pkTail": [
+280,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+4,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueUpdate.m_kAllocator": [
+296,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueUpdate.m_kAllocator.m_uiCount": [
+296,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator"
+],
+"lLightQueueUpdate.m_pkHead": [
+288,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+0,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lLightQueueUpdate.m_pkTail": [
+292,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+4,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lObjectQueueUpdate.m_kAllocator": [
+308,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lObjectQueueUpdate.m_kAllocator.m_uiCount": [
+308,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::AntiBloatAllocator"
+],
+"lObjectQueueUpdate.m_pkHead": [
+300,
+4,
+"NiTListItem<NiPointer<NiAVObject> >*",
+0,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lObjectQueueUpdate.m_pkTail": [
+304,
+4,
+"NiTListItem<NiPointer<NiAVObject> >*",
+4,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lObjectQueueUpdateActiveOnly.m_kAllocator": [
+320,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lObjectQueueUpdateActiveOnly.m_kAllocator.m_uiCount": [
+320,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::AntiBloatAllocator"
+],
+"lObjectQueueUpdateActiveOnly.m_pkHead": [
+312,
+4,
+"NiTListItem<NiPointer<NiAVObject> >*",
+0,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lObjectQueueUpdateActiveOnly.m_pkTail": [
+316,
+4,
+"NiTListItem<NiPointer<NiAVObject> >*",
+4,
+"NiTPointerList<NiPointer<NiAVObject> >"
+],
+"lShadowLightList.m_kAllocator": [
+236,
+4,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator",
+8,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lShadowLightList.m_kAllocator.m_uiCount": [
+236,
+4,
+"unsigned",
+0,
+"NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::AntiBloatAllocator"
+],
+"lShadowLightList.m_pkHead": [
+228,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+0,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"lShadowLightList.m_pkTail": [
+232,
+4,
+"NiTListItem<NiPointer<ShadowSceneLight> >*",
+4,
+"NiTPointerList<NiPointer<ShadowSceneLight> >"
+],
+"pWindowReflectionEnvMap.m_pObject": [
+328,
+4,
+"BSRenderedTexture*",
+0,
+"NiPointer<BSRenderedTexture>"
+],
+"spCubeMapCamera.m_pObject": [
+332,
+4,
+"BSCubeMapCamera*",
+0,
+"NiPointer<BSCubeMapCamera>"
+],
+"spFog.m_pObject": [
+344,
+4,
+"BSFogProperty*",
+0,
 "NiPointer<BSFogProperty>"
 ]
 },
@@ -8486,6 +13065,932 @@
 "unsigned char"
 ]
 },
+"nested_fields": {
+"animObjects.m_item": [
+416,
+4,
+"TESObjectANIO*",
+0,
+"BSSimpleList<TESObjectANIO *>"
+],
+"animObjects.m_pkNext": [
+420,
+4,
+"BSSimpleList<TESObjectANIO *>*",
+4,
+"BSSimpleList<TESObjectANIO *>"
+],
+"arrayAddonNodes.m_pBase": [
+496,
+4,
+"BGSAddonNode**",
+4,
+"NiTPrimitiveArray<BGSAddonNode *>"
+],
+"arrayAddonNodes.m_usESize": [
+504,
+2,
+"unsigned short",
+12,
+"NiTPrimitiveArray<BGSAddonNode *>"
+],
+"arrayAddonNodes.m_usGrowBy": [
+506,
+2,
+"unsigned short",
+14,
+"NiTPrimitiveArray<BGSAddonNode *>"
+],
+"arrayAddonNodes.m_usMaxSize": [
+500,
+2,
+"unsigned short",
+8,
+"NiTPrimitiveArray<BGSAddonNode *>"
+],
+"arrayAddonNodes.m_usSize": [
+502,
+2,
+"unsigned short",
+10,
+"NiTPrimitiveArray<BGSAddonNode *>"
+],
+"arrayInteriorCells.m_pBase": [
+480,
+4,
+"TESObjectCELL**",
+4,
+"NiTPrimitiveArray<TESObjectCELL *>"
+],
+"arrayInteriorCells.m_usESize": [
+488,
+2,
+"unsigned short",
+12,
+"NiTPrimitiveArray<TESObjectCELL *>"
+],
+"arrayInteriorCells.m_usGrowBy": [
+490,
+2,
+"unsigned short",
+14,
+"NiTPrimitiveArray<TESObjectCELL *>"
+],
+"arrayInteriorCells.m_usMaxSize": [
+484,
+2,
+"unsigned short",
+8,
+"NiTPrimitiveArray<TESObjectCELL *>"
+],
+"arrayInteriorCells.m_usSize": [
+486,
+2,
+"unsigned short",
+10,
+"NiTPrimitiveArray<TESObjectCELL *>"
+],
+"listAcousticSpaces.m_item": [
+216,
+4,
+"BGSAcousticSpace*",
+0,
+"BSSimpleList<BGSAcousticSpace *>"
+],
+"listAcousticSpaces.m_pkNext": [
+220,
+4,
+"BSSimpleList<BGSAcousticSpace *>*",
+4,
+"BSSimpleList<BGSAcousticSpace *>"
+],
+"listAmmoEffects.m_item": [
+176,
+4,
+"TESAmmoEffect*",
+0,
+"BSSimpleList<TESAmmoEffect *>"
+],
+"listAmmoEffects.m_pkNext": [
+180,
+4,
+"BSSimpleList<TESAmmoEffect *>*",
+4,
+"BSSimpleList<TESAmmoEffect *>"
+],
+"listBadForms.m_kAllocator": [
+516,
+4,
+"NiTListBase<DFALL<NiTListItem<TESForm *> >,TESForm *>::AntiBloatAllocator",
+8,
+"NiTList<TESForm *>"
+],
+"listBadForms.m_kAllocator.m_uiCount": [
+516,
+4,
+"unsigned",
+0,
+"NiTListBase<DFALL<NiTListItem<TESForm *> >,TESForm *>::AntiBloatAllocator"
+],
+"listBadForms.m_pkHead": [
+508,
+4,
+"NiTListItem<TESForm *>*",
+0,
+"NiTList<TESForm *>"
+],
+"listBadForms.m_pkTail": [
+512,
+4,
+"NiTListItem<TESForm *>*",
+4,
+"NiTList<TESForm *>"
+],
+"listCameraShots.m_item": [
+120,
+4,
+"BGSCameraShot*",
+0,
+"BSSimpleList<BGSCameraShot *>"
+],
+"listCameraShots.m_pkNext": [
+124,
+4,
+"BSSimpleList<BGSCameraShot *>*",
+4,
+"BSSimpleList<BGSCameraShot *>"
+],
+"listCaravanDecks.m_item": [
+192,
+4,
+"TESCaravanDeck*",
+0,
+"BSSimpleList<TESCaravanDeck *>"
+],
+"listCaravanDecks.m_pkNext": [
+196,
+4,
+"BSSimpleList<TESCaravanDeck *>*",
+4,
+"BSSimpleList<TESCaravanDeck *>"
+],
+"listCasinos.m_item": [
+184,
+4,
+"TESCasino*",
+0,
+"BSSimpleList<TESCasino *>"
+],
+"listCasinos.m_pkNext": [
+188,
+4,
+"BSSimpleList<TESCasino *>*",
+4,
+"BSSimpleList<TESCasino *>"
+],
+"listChallenges.m_item": [
+152,
+4,
+"TESChallenge*",
+0,
+"BSSimpleList<TESChallenge *>"
+],
+"listChallenges.m_pkNext": [
+156,
+4,
+"BSSimpleList<TESChallenge *>*",
+4,
+"BSSimpleList<TESChallenge *>"
+],
+"listClasses.m_item": [
+128,
+4,
+"TESClass*",
+0,
+"BSSimpleList<TESClass *>"
+],
+"listClasses.m_pkNext": [
+132,
+4,
+"BSSimpleList<TESClass *>*",
+4,
+"BSSimpleList<TESClass *>"
+],
+"listClimates.m_item": [
+24,
+4,
+"TESClimate*",
+0,
+"BSSimpleList<TESClimate *>"
+],
+"listClimates.m_pkNext": [
+28,
+4,
+"BSSimpleList<TESClimate *>*",
+4,
+"BSSimpleList<TESClimate *>"
+],
+"listCombatStyles.m_item": [
+288,
+4,
+"TESCombatStyle*",
+0,
+"BSSimpleList<TESCombatStyle *>"
+],
+"listCombatStyles.m_pkNext": [
+292,
+4,
+"BSSimpleList<TESCombatStyle *>*",
+4,
+"BSSimpleList<TESCombatStyle *>"
+],
+"listDebris.m_item": [
+368,
+4,
+"BGSDebris*",
+0,
+"BSSimpleList<BGSDebris *>"
+],
+"listDebris.m_pkNext": [
+372,
+4,
+"BSSimpleList<BGSDebris *>*",
+4,
+"BSSimpleList<BGSDebris *>"
+],
+"listDehydration.m_item": [
+344,
+4,
+"BGSDehydrationStage*",
+0,
+"BSSimpleList<BGSDehydrationStage *>"
+],
+"listDehydration.m_pkNext": [
+348,
+4,
+"BSSimpleList<BGSDehydrationStage *>*",
+4,
+"BSSimpleList<BGSDehydrationStage *>"
+],
+"listEffectShaders.m_item": [
+312,
+4,
+"TESEffectShader*",
+0,
+"BSSimpleList<TESEffectShader *>"
+],
+"listEffectShaders.m_pkNext": [
+316,
+4,
+"BSSimpleList<TESEffectShader *>*",
+4,
+"BSSimpleList<TESEffectShader *>"
+],
+"listEnchantmentItems.m_item": [
+56,
+4,
+"EnchantmentItem*",
+0,
+"BSSimpleList<EnchantmentItem *>"
+],
+"listEnchantmentItems.m_pkNext": [
+60,
+4,
+"BSSimpleList<EnchantmentItem *>*",
+4,
+"BSSimpleList<EnchantmentItem *>"
+],
+"listExplosions.m_item": [
+328,
+4,
+"BGSExplosion*",
+0,
+"BSSimpleList<BGSExplosion *>"
+],
+"listExplosions.m_pkNext": [
+332,
+4,
+"BSSimpleList<BGSExplosion *>*",
+4,
+"BSSimpleList<BGSExplosion *>"
+],
+"listEyes.m_item": [
+88,
+4,
+"TESEyes*",
+0,
+"BSSimpleList<TESEyes *>"
+],
+"listEyes.m_pkNext": [
+92,
+4,
+"BSSimpleList<TESEyes *>*",
+4,
+"BSSimpleList<TESEyes *>"
+],
+"listFactions.m_item": [
+136,
+4,
+"TESFaction*",
+0,
+"BSSimpleList<TESFaction *>"
+],
+"listFactions.m_pkNext": [
+140,
+4,
+"BSSimpleList<TESFaction *>*",
+4,
+"BSSimpleList<TESFaction *>"
+],
+"listFiles.m_item": [
+528,
+4,
+"TESFile*",
+0,
+"BSSimpleList<TESFile *>"
+],
+"listFiles.m_pkNext": [
+532,
+4,
+"BSSimpleList<TESFile *>*",
+4,
+"BSSimpleList<TESFile *>"
+],
+"listGlobals.m_item": [
+232,
+4,
+"TESGlobal*",
+0,
+"BSSimpleList<TESGlobal *>"
+],
+"listGlobals.m_pkNext": [
+236,
+4,
+"BSSimpleList<TESGlobal *>*",
+4,
+"BSSimpleList<TESGlobal *>"
+],
+"listHair.m_item": [
+80,
+4,
+"TESHair*",
+0,
+"BSSimpleList<TESHair *>"
+],
+"listHair.m_pkNext": [
+84,
+4,
+"BSSimpleList<TESHair *>*",
+4,
+"BSSimpleList<TESHair *>"
+],
+"listHeadParts.m_item": [
+72,
+4,
+"BGSHeadPart*",
+0,
+"BSSimpleList<BGSHeadPart *>"
+],
+"listHeadParts.m_pkNext": [
+76,
+4,
+"BSSimpleList<BGSHeadPart *>*",
+4,
+"BSSimpleList<BGSHeadPart *>"
+],
+"listHunger.m_item": [
+352,
+4,
+"BGSHungerStage*",
+0,
+"BSSimpleList<BGSHungerStage *>"
+],
+"listHunger.m_pkNext": [
+356,
+4,
+"BSSimpleList<BGSHungerStage *>*",
+4,
+"BSSimpleList<BGSHungerStage *>"
+],
+"listImageSpaceModifiers.m_item": [
+40,
+4,
+"TESImageSpaceModifier*",
+0,
+"BSSimpleList<TESImageSpaceModifier *>"
+],
+"listImageSpaceModifiers.m_pkNext": [
+44,
+4,
+"BSSimpleList<TESImageSpaceModifier *>*",
+4,
+"BSSimpleList<TESImageSpaceModifier *>"
+],
+"listImageSpaces.m_item": [
+32,
+4,
+"TESImageSpace*",
+0,
+"BSSimpleList<TESImageSpace *>"
+],
+"listImageSpaces.m_pkNext": [
+36,
+4,
+"BSSimpleList<TESImageSpace *>*",
+4,
+"BSSimpleList<TESImageSpace *>"
+],
+"listImpactData.m_item": [
+248,
+4,
+"BGSImpactData*",
+0,
+"BSSimpleList<BGSImpactData *>"
+],
+"listImpactData.m_pkNext": [
+252,
+4,
+"BSSimpleList<BGSImpactData *>*",
+4,
+"BSSimpleList<BGSImpactData *>"
+],
+"listImpactDataSet.m_item": [
+256,
+4,
+"BGSImpactDataSet*",
+0,
+"BSSimpleList<BGSImpactDataSet *>"
+],
+"listImpactDataSet.m_pkNext": [
+260,
+4,
+"BSSimpleList<BGSImpactDataSet *>*",
+4,
+"BSSimpleList<BGSImpactDataSet *>"
+],
+"listLandTexts.m_item": [
+112,
+4,
+"TESLandTexture*",
+0,
+"BSSimpleList<TESLandTexture *>"
+],
+"listLandTexts.m_pkNext": [
+116,
+4,
+"BSSimpleList<TESLandTexture *>*",
+4,
+"BSSimpleList<TESLandTexture *>"
+],
+"listLightingTemplates.m_item": [
+432,
+4,
+"BGSLightingTemplate*",
+0,
+"BSSimpleList<BGSLightingTemplate *>"
+],
+"listLightingTemplates.m_pkNext": [
+436,
+4,
+"BSSimpleList<BGSLightingTemplate *>*",
+4,
+"BSSimpleList<BGSLightingTemplate *>"
+],
+"listListForms.m_item": [
+400,
+4,
+"BGSListForm*",
+0,
+"BSSimpleList<BGSListForm *>"
+],
+"listListForms.m_pkNext": [
+404,
+4,
+"BSSimpleList<BGSListForm *>*",
+4,
+"BSSimpleList<BGSListForm *>"
+],
+"listLoadScreenTypes.m_item": [
+448,
+4,
+"TESLoadScreenType*",
+0,
+"BSSimpleList<TESLoadScreenType *>"
+],
+"listLoadScreenTypes.m_pkNext": [
+452,
+4,
+"BSSimpleList<TESLoadScreenType *>*",
+4,
+"BSSimpleList<TESLoadScreenType *>"
+],
+"listLoadScreens.m_item": [
+296,
+4,
+"TESLoadScreen*",
+0,
+"BSSimpleList<TESLoadScreen *>"
+],
+"listLoadScreens.m_pkNext": [
+300,
+4,
+"BSSimpleList<TESLoadScreen *>*",
+4,
+"BSSimpleList<TESLoadScreen *>"
+],
+"listMediaLocationControllers.m_item": [
+464,
+4,
+"MediaLocationController*",
+0,
+"BSSimpleList<MediaLocationController *>"
+],
+"listMediaLocationControllers.m_pkNext": [
+468,
+4,
+"BSSimpleList<MediaLocationController *>*",
+4,
+"BSSimpleList<MediaLocationController *>"
+],
+"listMediaSets.m_item": [
+456,
+4,
+"MediaSet*",
+0,
+"BSSimpleList<MediaSet *>"
+],
+"listMediaSets.m_pkNext": [
+460,
+4,
+"BSSimpleList<MediaSet *>*",
+4,
+"BSSimpleList<MediaSet *>"
+],
+"listMenuIcons.m_item": [
+408,
+4,
+"BGSMenuIcon*",
+0,
+"BSSimpleList<BGSMenuIcon *>"
+],
+"listMenuIcons.m_pkNext": [
+412,
+4,
+"BSSimpleList<BGSMenuIcon *>*",
+4,
+"BSSimpleList<BGSMenuIcon *>"
+],
+"listMessages.m_item": [
+424,
+4,
+"BGSMessage*",
+0,
+"BSSimpleList<BGSMessage *>"
+],
+"listMessages.m_pkNext": [
+428,
+4,
+"BSSimpleList<BGSMessage *>*",
+4,
+"BSSimpleList<BGSMessage *>"
+],
+"listMusicTypes.m_item": [
+440,
+4,
+"BGSMusicType*",
+0,
+"BSSimpleList<BGSMusicType *>"
+],
+"listMusicTypes.m_pkNext": [
+444,
+4,
+"BSSimpleList<BGSMusicType *>*",
+4,
+"BSSimpleList<BGSMusicType *>"
+],
+"listNotes.m_item": [
+392,
+4,
+"BGSNote*",
+0,
+"BSSimpleList<BGSNote *>"
+],
+"listNotes.m_pkNext": [
+396,
+4,
+"BSSimpleList<BGSNote *>*",
+4,
+"BSSimpleList<BGSNote *>"
+],
+"listPackages.m_item": [
+8,
+4,
+"TESPackage*",
+0,
+"BSSimpleList<TESPackage *>"
+],
+"listPackages.m_pkNext": [
+12,
+4,
+"BSSimpleList<TESPackage *>*",
+4,
+"BSSimpleList<TESPackage *>"
+],
+"listPartData.m_item": [
+384,
+4,
+"BGSBodyPartData*",
+0,
+"BSSimpleList<BGSBodyPartData *>"
+],
+"listPartData.m_pkNext": [
+388,
+4,
+"BSSimpleList<BGSBodyPartData *>*",
+4,
+"BSSimpleList<BGSBodyPartData *>"
+],
+"listPerks.m_item": [
+376,
+4,
+"BGSPerk*",
+0,
+"BSSimpleList<BGSPerk *>"
+],
+"listPerks.m_pkNext": [
+380,
+4,
+"BSSimpleList<BGSPerk *>*",
+4,
+"BSSimpleList<BGSPerk *>"
+],
+"listProjectiles.m_item": [
+320,
+4,
+"BGSProjectile*",
+0,
+"BSSimpleList<BGSProjectile *>"
+],
+"listProjectiles.m_pkNext": [
+324,
+4,
+"BSSimpleList<BGSProjectile *>*",
+4,
+"BSSimpleList<BGSProjectile *>"
+],
+"listQuests.m_item": [
+280,
+4,
+"TESQuest*",
+0,
+"BSSimpleList<TESQuest *>"
+],
+"listQuests.m_pkNext": [
+284,
+4,
+"BSSimpleList<TESQuest *>*",
+4,
+"BSSimpleList<TESQuest *>"
+],
+"listRaces.m_item": [
+96,
+4,
+"TESRace*",
+0,
+"BSSimpleList<TESRace *>"
+],
+"listRaces.m_pkNext": [
+100,
+4,
+"BSSimpleList<TESRace *>*",
+4,
+"BSSimpleList<TESRace *>"
+],
+"listRadiation.m_item": [
+336,
+4,
+"BGSRadiationStage*",
+0,
+"BSSimpleList<BGSRadiationStage *>"
+],
+"listRadiation.m_pkNext": [
+340,
+4,
+"BSSimpleList<BGSRadiationStage *>*",
+4,
+"BSSimpleList<BGSRadiationStage *>"
+],
+"listRagdolls.m_item": [
+224,
+4,
+"BGSRagdoll*",
+0,
+"BSSimpleList<BGSRagdoll *>"
+],
+"listRagdolls.m_pkNext": [
+228,
+4,
+"BSSimpleList<BGSRagdoll *>*",
+4,
+"BSSimpleList<BGSRagdoll *>"
+],
+"listRecipeCategories.m_item": [
+168,
+4,
+"TESRecipeCategory*",
+0,
+"BSSimpleList<TESRecipeCategory *>"
+],
+"listRecipeCategories.m_pkNext": [
+172,
+4,
+"BSSimpleList<TESRecipeCategory *>*",
+4,
+"BSSimpleList<TESRecipeCategory *>"
+],
+"listRecipes.m_item": [
+160,
+4,
+"TESRecipe*",
+0,
+"BSSimpleList<TESRecipe *>"
+],
+"listRecipes.m_pkNext": [
+164,
+4,
+"BSSimpleList<TESRecipe *>*",
+4,
+"BSSimpleList<TESRecipe *>"
+],
+"listReputations.m_item": [
+144,
+4,
+"TESReputation*",
+0,
+"BSSimpleList<TESReputation *>"
+],
+"listReputations.m_pkNext": [
+148,
+4,
+"BSSimpleList<TESReputation *>*",
+4,
+"BSSimpleList<TESReputation *>"
+],
+"listScripts.m_item": [
+200,
+4,
+"Script*",
+0,
+"BSSimpleList<Script *>"
+],
+"listScripts.m_pkNext": [
+204,
+4,
+"BSSimpleList<Script *>*",
+4,
+"BSSimpleList<Script *>"
+],
+"listSleepDeprevation.m_item": [
+360,
+4,
+"BGSSleepDeprevationStage*",
+0,
+"BSSimpleList<BGSSleepDeprevationStage *>"
+],
+"listSleepDeprevation.m_pkNext": [
+364,
+4,
+"BSSimpleList<BGSSleepDeprevationStage *>*",
+4,
+"BSSimpleList<BGSSleepDeprevationStage *>"
+],
+"listSounds.m_item": [
+208,
+4,
+"TESSound*",
+0,
+"BSSimpleList<TESSound *>"
+],
+"listSounds.m_pkNext": [
+212,
+4,
+"BSSimpleList<TESSound *>*",
+4,
+"BSSimpleList<TESSound *>"
+],
+"listSpellItems.m_item": [
+64,
+4,
+"SpellItem*",
+0,
+"BSSimpleList<SpellItem *>"
+],
+"listSpellItems.m_pkNext": [
+68,
+4,
+"BSSimpleList<SpellItem *>*",
+4,
+"BSSimpleList<SpellItem *>"
+],
+"listTopicInfos.m_item": [
+272,
+4,
+"TESTopicInfo*",
+0,
+"BSSimpleList<TESTopicInfo *>"
+],
+"listTopicInfos.m_pkNext": [
+276,
+4,
+"BSSimpleList<TESTopicInfo *>*",
+4,
+"BSSimpleList<TESTopicInfo *>"
+],
+"listTopics.m_item": [
+264,
+4,
+"TESTopic*",
+0,
+"BSSimpleList<TESTopic *>"
+],
+"listTopics.m_pkNext": [
+268,
+4,
+"BSSimpleList<TESTopic *>*",
+4,
+"BSSimpleList<TESTopic *>"
+],
+"listVoiceTypes.m_item": [
+240,
+4,
+"BGSVoiceType*",
+0,
+"BSSimpleList<BGSVoiceType *>"
+],
+"listVoiceTypes.m_pkNext": [
+244,
+4,
+"BSSimpleList<BGSVoiceType *>*",
+4,
+"BSSimpleList<BGSVoiceType *>"
+],
+"listWater.m_item": [
+304,
+4,
+"TESWaterForm*",
+0,
+"BSSimpleList<TESWaterForm *>"
+],
+"listWater.m_pkNext": [
+308,
+4,
+"BSSimpleList<TESWaterForm *>*",
+4,
+"BSSimpleList<TESWaterForm *>"
+],
+"listWeather.m_item": [
+48,
+4,
+"TESWeather*",
+0,
+"BSSimpleList<TESWeather *>"
+],
+"listWeather.m_pkNext": [
+52,
+4,
+"BSSimpleList<TESWeather *>*",
+4,
+"BSSimpleList<TESWeather *>"
+],
+"listWorldSpaces.m_item": [
+16,
+4,
+"TESWorldSpace*",
+0,
+"BSSimpleList<TESWorldSpace *>"
+],
+"listWorldSpaces.m_pkNext": [
+20,
+4,
+"BSSimpleList<TESWorldSpace *>*",
+4,
+"BSSimpleList<TESWorldSpace *>"
+],
+"listZones.m_item": [
+104,
+4,
+"BGSEncounterZone*",
+0,
+"BSSimpleList<BGSEncounterZone *>"
+],
+"listZones.m_pkNext": [
+108,
+4,
+"BSSimpleList<BGSEncounterZone *>*",
+4,
+"BSSimpleList<BGSEncounterZone *>"
+]
+},
 "nonvirtual_methods": [
 "AddAddonNode",
 "AddCompiledFile",
@@ -8748,6 +14253,22 @@
 "pSourceFiles": [
 16,
 8,
+"BSSimpleList<TESFile *>"
+]
+},
+"nested_fields": {
+"pSourceFiles.m_item": [
+16,
+4,
+"TESFile*",
+0,
+"BSSimpleList<TESFile *>"
+],
+"pSourceFiles.m_pkNext": [
+20,
+4,
+"BSSimpleList<TESFile *>*",
+4,
 "BSSimpleList<TESFile *>"
 ]
 },
@@ -9195,6 +14716,7 @@
 "char[32 bytes]"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "Endian"
 ],
@@ -9215,6 +14737,7 @@
 "float"
 ]
 },
+"nested_fields": {},
 "nonvirtual_methods": [
 "Endian"
 ],

@@ -21,13 +21,17 @@ reconstructed (агрегат класса) = есть хотя бы одно П
 research_models — модели и кандидаты research_reconstruction/ (поведение, тождество по правилу, гипотезы): у них свой
   reconstruction_state и verification «research»; на статусы и Strict они не влияют.
 
-usage: python3 -I -B provenance.py <evidence_dir> <research meta.json> <xbox_extract.json> <FalloutNV.exe> [<research_reconstruction>]
+usage: python3 -I -B provenance.py <evidence_dir> <research meta.json> <xbox_extract.json> <FalloutNV.exe> <research_reconstruction>
+  (v0.6.5: research_reconstruction обязателен — перепись RTTI и размеров нужны для проверки доказательств;
+   рядом с provenance.py — proofs.py и evidence_spec.json)
   — пишет evidence/summary.json (только добавляет provenance) и evidence/provenance_coverage.csv; при нарушении
     любого инварианта (validate) ничего не пишет и завершается с кодом 2.
 """
 import copy, csv, hashlib, json, os, re, struct, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import proofs as PR                                     # noqa: E402
 
-SCHEMA = 1
+SCHEMA = 2      # v0.6.5: типизированные доказательства (proofs), контракт, difference_kind, область поиска
 ORIGINS = ('xbox-verified', 'pc-reconstructed', 'hybrid', 'unknown')
 RELATIONS = ('matching', 'missing', 'materially-different', 'inconclusive', 'not-assessed')
 FORBIDDEN_NAME = re.compile(r'_(Reconstructed|Confirmed|VerifiedPrefix|Unclassified|Hybrid|XboxVerified)\b', re.I)
@@ -47,6 +51,11 @@ class Exe:
         pe = pefile.PE(data=data, fast_load=True)
         self.img = pe.get_memory_mapped_image()
         self.B = pe.OPTIONAL_HEADER.ImageBase
+        self.xsec = [(self.B + x.VirtualAddress, self.B + x.VirtualAddress + x.Misc_VirtualSize)
+                     for x in pe.sections if x.Characteristics & 0x20000000]
+
+    def sec_exec(self, va):
+        return any(a <= va < b for a, b in self.xsec)
 
     def inside(self, va, n=1):
         return self.B <= va and va + n <= self.B + len(self.img)
@@ -82,11 +91,13 @@ def check_evidence_ref(exe, ref):
 
 # ---------------------------------------------------------------- построение
 def claim(origin, verification, relation='not-assessed', pc=(), xbox=None, basis='', refs=()):
+    """pc — список записей доказательств (proofs.*) или пусто; pc_evidence — их точные ссылки (первые 3)."""
     c = {'origin': origin, 'verification': verification, 'xbox_relation': relation}
     if xbox is not None:
         c['xbox_candidate'] = xbox
     if pc:
-        c['pc_evidence'] = list(pc)[:3]
+        c['proofs'] = list(pc)[:3]
+        c['pc_evidence'] = [r for p in c['proofs'] for r in PR.proof_refs(p)][:3]
     if basis:
         c['basis'] = basis
     if refs:
@@ -128,7 +139,25 @@ def size_refs(rows, exe):
     return sorted(set(out))[:3]
 
 
-def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
+def pc_nested(meta, cname, path):
+    """Смещение от начала класса и размер вложенного члена «a.b», «a[].b» по метаданным PC (элемент 0 массива)."""
+    cur, off = cname, 0
+    segs = path.split('.')
+    for i, seg in enumerate(segs):
+        nm = seg.replace('[]', '')
+        f = next((x for x in (meta.get(cur) or {}).get('fields', []) if x['name'] == nm), None)
+        if f is None:
+            return None, None
+        off += f['off']
+        if i == len(segs) - 1:
+            return off, f.get('size')
+        cur = f.get('class_type') or f.get('class_array_of')
+        if cur is None:
+            return None, None
+    return None, None
+
+
+def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
     xc = X['classes'].get(cname)
     search = X['search_log'].get(cname)
     claims = {}
@@ -139,7 +168,10 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
         name_source.append('pc (символы xNVSE/RTTI; в Xbox не найден — xbox_extract.search_log)')
     # ---- sizeof
     basis = sc['size_basis'] if isinstance(sc['size_basis'], list) else [sc['size_basis']]
-    srefs = size_refs(sz.get(cname, []), exe)
+    srefs = PR.size_proofs(ctx, cname, sc, S)
+    ab = PR.alloc_bounds_proof(ctx, cname, S) if sc['size_status'] == 'confirmed' else None
+    if ab:
+        srefs.insert(0, ab)
     srows = sorted({f"evidence/evidence_sizes.csv: {cname} {r['evidence']} {r['value']}" for r in sz.get(cname, [])})[:4]
     if sc['size_status'] == 'confirmed':
         if xc is None:
@@ -166,7 +198,8 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
     if sc.get('vtable_va'):
         vt = sc['vtable_va']
         moved = [v for v in mc.get('vslots', []) if v.get('xbox_slot') is not None and v['xbox_slot'] != v['slot']]
-        ref = [f'pc:0x{vt:08X}']
+        vp = PR.vtable_proof(ctx, vt, cname)
+        ref = [vp] if vp else []
         if xc is None:
             claims['vtable.layout'] = claim('pc-reconstructed', 'confirmed', 'missing', ref, None, 'vtable PC (RTTI/символ)',
                                             ['xbox_extract.json: search_log'])
@@ -182,7 +215,11 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
     for fname, d in sorted(sc['field_details'].items()):
         f = mf.get(fname) or {}
         off, size = f.get('off', 0 if fname == '<vftable>' else None), f.get('size', 4 if fname == '<vftable>' else None)
+        if not f and '.' in fname:
+            off, size = pc_nested(ctx.meta, cname, fname)      # v0.6.5: вложенный член — по метаданным PC
         xf = (xc or {}).get('fields', {}).get(fname)
+        if xf is None and xc is not None and fname in xc.get('nested_fields', {}):
+            xf = xc['nested_fields'][fname][:3]                  # v0.6.5: вложенные члены Xbox (выписка)
         if fname == '<vftable>' and xc is not None:
             xf = [0, 4, 'vfptr']
         st = d['status']
@@ -206,7 +243,17 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
                     if key[0] == '*any*' and key[1] in conts and pat.search(key[2]):
                         rows += rs
             rows.sort(key=lambda r: r['insn_va'])
-        pc = [_ev_insn(int(r['insn_va'], 16), r['insn_bytes']) for r in rows[:3] if r.get('insn_bytes')]
+        prs = [PR.field_proof(ctx, r) for r in rows if r.get('status') == 'confirmed' and r.get('insn_bytes')]
+        if not prs and d.get('composition') == 'proved':
+            prs = PR.composition_proofs(ctx, cname, fname, d, S)
+        if not prs and (d.get('width_basis') or []) == ['index-stride']:
+            # поле подтверждено шагом индекса (evidence.py): обращение — адрес элемента (строка журнала consistent)
+            prs = [dict(PR.field_proof(ctx, r), journal_status='consistent',
+                        assumption='поле подтверждено шагом индекса (index-stride); обращение — адрес элемента')
+                   for r in rows if r.get('insn_bytes')]
+        # сначала обращения нужной ширины (контракт ширины), затем по адресу
+        prs.sort(key=lambda p: (p.get('access_size') != size, p['ref']))
+        pc = prs[:3]
         src = d.get('source')
         if st in VERIFIED_FIELD and d.get('offset_verified'):
             if src in ('own', 'undescribed'):
@@ -249,10 +296,9 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
         proof = v.get('proof') or {}
         vt_of = S['classes'].get(v['checked_on'], {}).get('vtable_va')
         cell = []
-        if vt_of and v.get('pc_func_va') and exe.inside(vt_of + 4 * k, 4):
-            cell = [f"pc:0x{vt_of + 4 * k:08X}=u32:0x{v['pc_func_va']:08X}"]
-        elif v.get('pc_func_va'):
-            cell = [f"pc:0x{v['pc_func_va']:08X}"]      # vtable проверяемого класса вне 86 (символ xNVSE) — адрес функции
+        if v.get('pc_func_va'):
+            cp = PR.cell_proof(ctx, S, v['checked_on'], k, v['pc_func_va'])
+            cell = [cp] if cp else []
         if st in ('name+stack', 'name') or (st == 'semantics' and proof.get('slot_identity') == 'name'):
             ident = claim('xbox-verified', 'name', 'matching', cell, v['name'],
                           'имя PC-символа (xNVSE) у адреса слота = имя Xbox для слота')
@@ -266,8 +312,12 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
             refs = []
             if 'callers' in sb:
                 refs = ['evidence/cleanup_inference.csv', 'research_reconstruction/out/vfamilies.json']
+            n_ = int(row['expect_ret_n']) if row.get('expect_ret_n', '').isdigit() else row.get('expect_ret_n')
+            cp = PR.ret_proof(ctx, v['pc_func_va'], n_) if sb == 'ret' and isinstance(n_, int) else None
+            cpr = [cp] if cp else [{'kind': 'cleanup-journal', 'checked_on': v['checked_on'], 'slot': k,
+                                    'stack_basis': sb, 'n': n_}]
             claims[f'vslots.{k}.stack_cleanup'] = claim(
-                'xbox-verified', 'confirmed', 'matching', cell, int(row['expect_ret_n']) if row.get('expect_ret_n', '').isdigit() else row.get('expect_ret_n'),
+                'xbox-verified', 'confirmed', 'matching', cpr, n_,
                 {'ret': 'ret N в теле', 'tail': 'хвостовой переход', 'callers': 'inferred-from-caller',
                  'tail+callers': 'хвостовой переход + inferred-from-caller'}.get(sb, sb), refs)
         else:
@@ -275,7 +325,9 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
                                                          int(row['expect_ret_n']) if row.get('expect_ret_n', '').isdigit() else row.get('expect_ret_n'), st)
         lvl = proof.get('prototype_level')
         if lvl == 'semantic':
-            claims[f'vslots.{k}.prototype'] = claim('xbox-verified', 'semantic', 'matching', cell, v['decl'],
+            claims[f'vslots.{k}.prototype'] = claim('xbox-verified', 'semantic', 'matching',
+                                                    [{'kind': 'slot-proof', 'checked_on': v['checked_on'], 'slot': k}],
+                                                    v['decl'],
                                                     'прототип Xbox доказан семантически')
         else:
             claims[f'vslots.{k}.prototype'] = claim('unknown', lvl or ('abi-only' if st == 'name+stack' else st),
@@ -286,11 +338,16 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
                                                 'имя по Xbox, номер слота на PC другой')
     if 'known_prefix_size' in claims:
         pcs = [e for key, cl in sorted(claims.items()) if key.startswith('fields.') and key.endswith('.offset')
-               and cl['origin'] != 'unknown' for e in cl.get('pc_evidence', [])]
-        claims['known_prefix_size']['pc_evidence'] = pcs[:3]
+               and cl['origin'] != 'unknown' for e in cl.get('proofs', [])]
+        claims['known_prefix_size']['proofs'] = pcs[:3]
+        claims['known_prefix_size']['pc_evidence'] = [r for p in pcs[:3] for r in PR.proof_refs(p)][:3]
         claims['known_prefix_size']['evidence_refs'] = ['evidence/summary.json: verified_prefix_checks',
                                                         'evidence/verified_prefix_candidates.csv']
-    # ---- агрегат
+    return aggregate({'name_source': name_source, 'claims': claims}, xc)
+
+
+def aggregate(p, xc):
+    claims = p['claims']
     verified = [c for c in claims.values() if c['origin'] != 'unknown']
     origins = {c['origin'] for c in verified}
     agg = ('unknown' if not origins else origins.pop() if len(origins) == 1 else 'hybrid')
@@ -300,7 +357,39 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S):
            'materially-different' if any(c['xbox_relation'] == 'materially-different' for c in verified) else 'matching')
     return {'origin': agg,
             'reconstructed': any(c['origin'] in ('pc-reconstructed', 'hybrid') for c in verified),
-            'xbox_relation': rel, 'name_source': name_source, 'claims': claims}
+            'xbox_relation': rel, 'name_source': p['name_source'], 'claims': claims,
+            **{k: v for k, v in p.items() if k not in ('origin', 'reconstructed', 'xbox_relation', 'name_source', 'claims')}}
+
+
+def screen_proofs(S, X, ctx, meta):
+    """Каждое доказательство проверяется (proofs.check). Неверные не выбрасываются молча: переносятся в
+    rejected_proofs с причиной. Если после этого контракт вида утверждения не выполнен — происхождение утверждения
+    становится unknown (статус доказанности не меняется: это решение проекта о строгом PDB, не о происхождении)."""
+    claims_of = lambda c: ((S['classes'].get(c) or {}).get('provenance') or {}).get('claims')
+    for cname in sorted(S['classes']):
+        p = S['classes'][cname]['provenance']
+        for key, cl in p['claims'].items():
+            if not cl.get('proofs'):
+                continue
+            ok, rej = [], []
+            for pr in cl['proofs']:
+                e = PR.check(ctx, S, cname, key, pr, claims_of)
+                (rej if e else ok).append(pr if not e else {'proof': pr, 'reason': e})
+            if rej:
+                cl['proofs'] = ok
+                cl['rejected_proofs'] = rej
+                cl['pc_evidence'] = [r for x in ok for r in PR.proof_refs(x)][:3]
+                if not cl['pc_evidence']:
+                    cl.pop('pc_evidence')
+                if not ok:
+                    cl.pop('proofs')
+            need = PR.CONTRACT.get(PR.contract_key(key))
+            if cl['origin'] != 'unknown' and need and not any(x.get('kind') in need for x in cl.get('proofs', [])):
+                cl['origin_without_contract'] = cl['origin']
+                cl['origin'] = 'unknown'
+                cl['basis'] = (cl.get('basis', '') + '; ' if cl.get('basis') else '') + \
+                    'контракт доказательств не выполнен — происхождение не установлено'
+        S['classes'][cname]['provenance'] = aggregate(p, X['classes'].get(cname))
 
 
 def research_models(rr, S):
@@ -358,28 +447,90 @@ def research_models(rr, S):
     return out
 
 
+DIFF_KIND = {  # вид отличия от Xbox → класс отличия (аудит Астры v0.6.4, P2)
+    'layout-shift': 'abi-layout', 'size': 'abi-layout', 'width-change': 'abi-layout', 'vtable-order': 'abi-layout',
+    'pc-only-member': 'pc-only', 'pc-only-class': 'pc-only'}
+SCOPE_CLASS = ('точное имя класса, имя без пространства имён и подстрока (без учёта регистра) среди полных определений '
+               'классов/структур Xbox (xbox_extract.json search_log)')
+SCOPE_MEMBER = 'точное имя члена среди членов верхнего уровня класса {x} в выписке Xbox (один класс; базы не просматривались)'
+SCOPE_NOTE = 'отсутствие совпадения по имени в просмотренной области — не доказательство отсутствия эквивалента под другим именем'
+PR_DIFF = DIFF_KIND
+
+
+def annotate_differences(cname, p, xc):
+    """difference_kind / difference_class у утверждений с отличием от Xbox; область отрицательного поиска у missing;
+    профиль отличий класса."""
+    prof = {}
+    for key, cl in p['claims'].items():
+        rel = cl.get('xbox_relation')
+        if rel not in ('materially-different', 'missing') or cl['origin'] == 'unknown':
+            continue
+        ck = PR.contract_key(key)
+        if xc is None:
+            kind = 'pc-only-class'
+        elif ck in ('sizeof', 'known_prefix_size'):
+            kind = 'size'
+        elif ck == 'fields.offset':
+            kind = 'layout-shift' if cl['origin'] == 'hybrid' else 'pc-only-member'
+        elif ck == 'fields.width':
+            kind = 'width-change' if rel == 'materially-different' else 'pc-only-member'
+        elif ck in ('vtable.layout', 'vslots.index'):
+            kind = 'vtable-order'
+        else:
+            kind = 'pc-only-member'
+        cl['difference_kind'] = kind
+        cl['difference_class'] = DIFF_KIND[kind]
+        if rel == 'missing':
+            cl['xbox_search_scope'] = (SCOPE_CLASS if xc is None else SCOPE_MEMBER.format(x=xc['xbox_name'])) + \
+                '; ' + SCOPE_NOTE
+        prof[kind] = prof.get(kind, 0) + 1
+    p['difference_profile'] = dict(sorted(prof.items()))
+
+
 def build(ev, meta_p, xbox_p, exe_p, rr=None):
     S, meta, X, fr, sz, vs = load_inputs(ev, meta_p, xbox_p)
     exe = Exe(exe_p)
     if exe.sha != S['exe_sha256']:
         raise ProvenanceError(f'exe {exe.sha} не тот, для которого summary.json')
+    if not rr or not os.path.exists(os.path.join(rr, 'out', 'rtti_census.json')):
+        raise ProvenanceError('нужна research_reconstruction/out/rtti_census.json (перепись RTTI exe для проверки '
+                              'доказательств)')
+    cen = json.load(open(os.path.join(rr, 'out', 'rtti_census.json'), encoding='utf-8'))
+    if cen.get('exe_sha256') != exe.sha:
+        raise ProvenanceError('перепись RTTI сделана не по этому exe')
+    spec_p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'evidence_spec.json')
+    csz = os.path.join(rr, 'out', 'class_sizes.json')
+    ctx = PR.Ctx(exe, ev, meta, cen, json.load(open(spec_p, encoding='utf-8')),
+                 json.load(open(csz, encoding='utf-8')) if os.path.exists(csz) else None)
     base = copy.deepcopy(S)
     for c in S['classes'].values():
         c.pop('provenance', None)
     S.pop('provenance_schema', None)
     models = research_models(rr, S)
     for cname in sorted(S['classes']):
-        p = class_provenance(cname, S['classes'][cname], meta[cname], X, fr, sz, vs, exe, S)
+        p = class_provenance(cname, S['classes'][cname], meta[cname], X, fr, sz, vs, exe, S, ctx)
         if cname in models:
             p['research_models'] = models[cname]
         S['classes'][cname]['provenance'] = p
+    screen_proofs(S, X, ctx, meta)
+    for cname in sorted(S['classes']):          # отличия и область поиска — после проверки доказательств
+        p = S['classes'][cname]['provenance']
+        for cl in p['claims'].values():
+            for k in ('difference_kind', 'difference_class', 'xbox_search_scope'):
+                cl.pop(k, None)
+        annotate_differences(cname, p, X['classes'].get(cname))
     S['provenance_schema'] = {
         'version': SCHEMA, 'origins': list(ORIGINS), 'xbox_relations': list(RELATIONS),
         'independent_of': 'verification_status и статусы полей/слотов: происхождение их не меняет',
         'xbox_extract': os.path.basename(xbox_p),
         'xbox_extract_sha256': hashlib.sha256(open(xbox_p, 'rb').read()).hexdigest(),
-        'research_models_from': 'research_reconstruction (модели — не применяются к статусам и Strict)' if models else None}
-    return base, S, X, exe
+        'research_models_from': 'research_reconstruction (модели — не применяются к статусам и Strict)' if models else None,
+        'proof_contract': {k: list(v) for k, v in PR.CONTRACT.items()},
+        'proof_kinds': {'machine': list(PR.MACHINE_KINDS), 'journal': list(PR.JOURNAL_KINDS),
+                        'manual': ['manual-reviewed']},
+        'difference_classes': DIFF_KIND,
+        'rtti_census_sha256': hashlib.sha256(open(os.path.join(rr, 'out', 'rtti_census.json'), 'rb').read()).hexdigest()}
+    return base, S, X, exe, ctx, meta
 
 
 # ---------------------------------------------------------------- проверка (fail closed)
@@ -391,10 +542,12 @@ def strip(S):
     return T
 
 
-def validate(base, S, X, exe, expected=None):
+def validate(base, S, X, exe, ctx, meta, expected=None):
     """Список нарушений (пусто — можно писать). base — summary.json до добавления происхождения; expected — то, что
-    вычисляет build (для проверки, что ручная правка не подменила вычисленное)."""
+    вычисляет build (для проверки, что ручная правка не подменила вычисленное). v0.6.5: каждое доказательство
+    проверяется по exe и журналам (proofs.check), контракт по видам утверждений — proofs.CONTRACT."""
     bad = []
+    claims_of = lambda c: ((S['classes'].get(c) or {}).get('provenance') or {}).get('claims')
     if strip(S) != strip(base):
         bad.append('происхождение изменило прежние данные summary.json (статусы/поля/слоты)')
     for cname, c in S['classes'].items():
@@ -413,10 +566,19 @@ def validate(base, S, X, exe, expected=None):
                 bad.append(f'{cname}.{key}: origin {o!r} вне словаря')
             if cl.get('xbox_relation') not in RELATIONS:
                 bad.append(f'{cname}.{key}: xbox_relation {cl.get("xbox_relation")!r} вне словаря')
-            if o in ('pc-reconstructed', 'hybrid', 'xbox-verified') and not cl.get('pc_evidence') and \
-                    not key.startswith('fields.<vftable>') and cl.get('verification') != 'confirmed-external':
-                if not (key in ('sizeof', 'known_prefix_size') and cl.get('evidence_refs')):
-                    bad.append(f'{cname}.{key}: origin {o} без PC-доказательства')
+            if o in ('pc-reconstructed', 'hybrid', 'xbox-verified') and not cl.get('proofs'):
+                bad.append(f'{cname}.{key}: origin {o} без PC-доказательства (proofs)')
+            width, wb = None, ()
+            if key.startswith('fields.') and key.endswith('.width'):
+                mf = {f['name']: f for f in meta[cname]['fields']}
+                width = (mf.get(key[7:-6]) or {}).get('size')
+                wb = (c['field_details'].get(key[7:-6]) or {}).get('width_basis') or ()
+            bad += PR.contract_violations(ctx, S, cname, key, cl, claims_of, width, wb)
+            if cl.get('xbox_relation') in ('materially-different', 'missing') and o != 'unknown':
+                if PR_DIFF.get(cl.get('difference_kind')) != cl.get('difference_class') or not cl.get('difference_kind'):
+                    bad.append(f'{cname}.{key}: отличие от Xbox без difference_kind/difference_class')
+                if cl.get('xbox_relation') == 'missing' and SCOPE_NOTE not in (cl.get('xbox_search_scope') or ''):
+                    bad.append(f'{cname}.{key}: missing без области отрицательного поиска')
             if o == 'xbox-verified' and cl.get('xbox_candidate') is None and not key.endswith('.layout'):
                 bad.append(f'{cname}.{key}: xbox-verified без кандидата Xbox')
             if o == 'pc-reconstructed' and cl.get('xbox_relation') == 'missing':
@@ -446,8 +608,45 @@ def validate(base, S, X, exe, expected=None):
 
 
 # ---------------------------------------------------------------- функции (для verification.py)
-def function_provenance(fn, summary):
-    """Происхождение фасетов функции реестра — по утверждениям классов (binding-specific при ICF)."""
+def load_xbox(summary, tools_dir):
+    """Выписка Xbox, по которой строилось происхождение: имя и sha256 — из provenance_schema (fail closed)."""
+    sch = summary.get('provenance_schema') or {}
+    p = os.path.join(tools_dir, sch.get('xbox_extract', ''))
+    data = open(p, 'rb').read()
+    if hashlib.sha256(data).hexdigest() != sch.get('xbox_extract_sha256'):
+        raise ProvenanceError(f'{p}: sha256 не совпадает с provenance_schema.xbox_extract_sha256')
+    return json.loads(data.decode('utf-8'))
+
+
+def xbox_method(fn, X):
+    """Поиск метода функции в выписке Xbox для класса this (или класса из имени, если this не установлен).
+    Возвращает (класс, найден_ли, область_поиска). Область поиска — точное имя метода (без класса) среди
+    виртуальных и невиртуальных методов ОДНОГО класса Xbox из выписки; другие классы и другие имена не ищутся."""
+    nm = fn.get('original_name') or ''
+    if '::' not in nm:
+        return None, None, 'имя без класса'
+    cls_name, meth = nm.rsplit('::', 1)
+    cls = fn.get('this_class') or cls_name
+    if cls in X.get('search_log', {}):
+        return cls, False, 'xbox-class-missing (документированный поиск класса: xbox_extract.json search_log)'
+    x = X.get('classes', {}).get(cls)
+    if x is None:
+        return cls, None, 'класса нет в выписке Xbox (не оценивалось)'
+    names = {n for _, n in x['virtuals']} | set(x['nonvirtual_methods'])
+    return cls, meth in names, f'xbox_extract.json: {cls}.virtuals + nonvirtual_methods, точное имя «{meth}»'
+
+
+def function_provenance(fn, summary, X):
+    """Происхождение фасетов функции реестра (v0.6.5, по аудиту Астры v0.6.4 P1): каждый фасет — по СВОЕМУ
+    основанию, а не по наличию класса в Xbox.
+      bindings[k]       — по утверждениям слота класса (vslots.k.identity / stack_cleanup / prototype);
+      this_origin       — this подтверждён на PC (this_supported) И метод с этим именем объявлен у класса this в Xbox
+                          → xbox-verified; this подтверждён, а метода у класса Xbox нет (поиск в выписке класса) или
+                          класса нет в Xbox → pc-reconstructed (PC-факт, Xbox его не описывает); класс не оценивался
+                          или this не подтверждён → unknown;
+      return/argument   — тип подтверждён (флаг реестра) И есть прототип Xbox (semantic_bindings.decl с xbox_name) →
+                          xbox-verified; подтверждён без прототипа Xbox → pc-reconstructed; иначе unknown.
+    Статусы доказанности не читаются для решения и не меняются."""
     C = summary['classes']
     binds = []
     for o in fn.get('owners', []):
@@ -460,32 +659,54 @@ def function_provenance(fn, summary):
                       'binding_origin': cl.get(f'vslots.{k}.identity', {}).get('origin', 'unknown'),
                       'abi_origin': cl.get(f'vslots.{k}.stack_cleanup', {}).get('origin', 'unknown'),
                       'prototype_origin': cl.get(f'vslots.{k}.prototype', {}).get('origin', 'unknown')})
-    tc = fn.get('this_class')
-    this_origin = 'unknown'
-    if fn.get('this_supported') and tc in C:
-        po = (C[tc].get('provenance') or {})
-        this_origin = ('pc-reconstructed' if po.get('xbox_relation') == 'missing' else 'xbox-verified')
-    agg = sorted({b['binding_origin'] for b in binds} | ({this_origin} if this_origin != 'unknown' else set()))
+    xcls, found, scope = xbox_method(fn, X)
+    if not fn.get('this_supported'):
+        this_origin, this_rel = 'unknown', 'not-assessed'
+    elif found:
+        this_origin, this_rel = 'xbox-verified', 'matching'
+    elif found is False:
+        this_origin, this_rel = 'pc-reconstructed', 'missing'
+    else:
+        this_origin, this_rel = 'unknown', 'not-assessed'
+    xproto = [b.get('decl') for b in fn.get('semantic_bindings', []) if b.get('xbox_name') and b.get('decl')]
+
+    def typed(flag):
+        if flag is not True:
+            return 'unknown'
+        return 'xbox-verified' if xproto else 'pc-reconstructed'
+    rt, at = typed(fn.get('return_type_verified')), typed(fn.get('argument_types_verified'))
+    agg = sorted({b['binding_origin'] for b in binds} | {this_origin, rt, at})
     agg = [a for a in agg if a != 'unknown']
     return {'name_source': fn.get('original_name_source') or 'unknown',
-            'this_origin': this_origin, 'bindings': binds,
-            'return_type_origin': 'xbox-verified' if fn.get('return_type_verified') is True else 'unknown',
-            'argument_types_origin': 'xbox-verified' if fn.get('argument_types_verified') is True else 'unknown',
+            'xbox_method': (f'{xcls}::{fn["original_name"].rsplit("::", 1)[1]}' if found else None),
+            'xbox_method_search': scope,
+            'this_origin': this_origin, 'this_xbox_relation': this_rel,
+            'this_pc_basis': fn.get('this_basis') if fn.get('this_supported') else None,
+            'bindings': binds,
+            'return_type_origin': rt, 'argument_types_origin': at,
+            'xbox_prototype': xproto[0] if xproto and (rt != 'unknown' or at != 'unknown') else None,
             'origin': 'unknown' if not agg else agg[0] if len(agg) == 1 else 'hybrid',
             'reconstructed': any(a in ('pc-reconstructed', 'hybrid') for a in agg)}
 
 
-def validate_functions(reg, summary):
-    """Происхождение фасетов функций реестра: пересчитывается по summary.json и сравнивается (fail closed)."""
+def validate_functions(reg, summary, X):
+    """Происхождение фасетов функций реестра: пересчитывается по summary.json и выписке Xbox и сравнивается
+    (fail closed). Дополнительно: xbox-verified у this только при найденном методе Xbox, у типов — только при
+    прототипе Xbox."""
     bad = []
     for fn in reg.get('functions', []):
         p = fn.get('provenance')
         if p is None:
             bad.append(f"{fn['va']}: нет provenance")
             continue
-        exp = function_provenance(fn, summary)
+        exp = function_provenance(fn, summary, X)
         if p != exp:
             bad.append(f"{fn['va']} {fn['original_name']}: provenance функции не совпадает с вычисленным по классам")
+        if p.get('this_origin') == 'xbox-verified' and not p.get('xbox_method'):
+            bad.append(f"{fn['va']}: this xbox-verified без найденного метода Xbox")
+        for k in ('return_type_origin', 'argument_types_origin'):
+            if p.get(k) == 'xbox-verified' and not p.get('xbox_prototype'):
+                bad.append(f"{fn['va']}: {k} xbox-verified без прототипа Xbox")
         for b in p.get('bindings', []):
             for k in ('binding_origin', 'abi_origin', 'prototype_origin'):
                 if b.get(k) not in ORIGINS:
@@ -497,28 +718,39 @@ def validate_functions(reg, summary):
 
 # ---------------------------------------------------------------- отчёт покрытия
 def coverage_rows(S):
+    """Строка на класс, на утверждение и на модель research. v0.6.5: виды доказательств (машинные / журнал /
+    ручные), отвергнутые доказательства, вид отличия от Xbox."""
     rows = []
+    E = {'proof_kinds': '', 'proof_contract': '', 'rejected_proofs': '', 'difference_kind': '', 'difference_class': ''}
     for cname in sorted(S['classes']):
         p = S['classes'][cname]['provenance']
         rows.append({'entity': cname, 'claim': '(класс)', 'origin': p['origin'], 'verification':
                      S['classes'][cname].get('verification_status'), 'xbox_relation': p['xbox_relation'],
-                     'pc_evidence': '', 'reconstructed': p['reconstructed']})
+                     'pc_evidence': '', 'reconstructed': p['reconstructed'], **E,
+                     'difference_kind': ' '.join(f'{k}:{v}' for k, v in p.get('difference_profile', {}).items())})
         for key, cl in p['claims'].items():
+            kinds = sorted({x['kind'] for x in cl.get('proofs', [])})
+            lvl = ('' if not kinds else 'machine' if any(k in PR.MACHINE_KINDS for k in kinds) else
+                   'journal' if any(k in PR.JOURNAL_KINDS for k in kinds) else 'manual')
             rows.append({'entity': cname, 'claim': key, 'origin': cl['origin'], 'verification': cl['verification'],
                          'xbox_relation': cl['xbox_relation'], 'pc_evidence': len(cl.get('pc_evidence', [])),
-                         'reconstructed': cl['origin'] in ('pc-reconstructed', 'hybrid')})
+                         'reconstructed': cl['origin'] in ('pc-reconstructed', 'hybrid'),
+                         'proof_kinds': ' '.join(kinds), 'proof_contract': lvl,
+                         'rejected_proofs': len(cl.get('rejected_proofs', [])) or '',
+                         'difference_kind': cl.get('difference_kind', ''),
+                         'difference_class': cl.get('difference_class', '')})
         for m in p.get('research_models', []):
             rows.append({'entity': cname, 'claim': 'research:' + m['claim'], 'origin': m['origin'],
                          'verification': m['verification'], 'xbox_relation': '', 'pc_evidence': '',
-                         'reconstructed': m['origin'] in ('pc-reconstructed', 'hybrid')})
+                         'reconstructed': m['origin'] in ('pc-reconstructed', 'hybrid'), **E})
     return rows
 
 
 def main():
     ev, meta_p, xbox_p, exe_p = sys.argv[1:5]
     rr = sys.argv[5] if len(sys.argv) > 5 else None
-    base, S, X, exe = build(ev, meta_p, xbox_p, exe_p, rr)
-    bad = validate(base, S, X, exe)
+    base, S, X, exe, ctx, meta = build(ev, meta_p, xbox_p, exe_p, rr)
+    bad = validate(base, S, X, exe, ctx, meta)
     if bad:
         print('ОТКАЗ: происхождение не записано —', len(bad), 'нарушений')
         for b in bad[:30]:

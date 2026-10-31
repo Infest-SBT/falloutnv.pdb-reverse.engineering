@@ -47,6 +47,7 @@ SCHEMA = 6          # v0.6.1: фасеты ABI / семантика, prototype_l
                     # v0.6: доказательства слотов (summary vslots.proof), фасеты привязки return_verified / args_verified
 STATUSES = ('Confirmed', 'VerifiedPrefix')
 IMAGE_BASE = 0x400000
+_XBOX = [None]   # v0.6.5: выписка Xbox для происхождения функций (загружается один раз)
 FACETS = ('address', 'this_supported', 'stack_bytes', 'name_binding', 'name_class', 'calling_convention', 'prototype',
           'return_type', 'argument_types')
 NAME_BINDING = ('matched', 'unassessed', 'alias', 'icf-shared', 'name-conflict')
@@ -282,7 +283,9 @@ def build(summary, ev_dir, syms_path, exe_path, pdbs, common, cross_class=None):
         if any('provenance' in S[c] for c in S):           # v0.6.4: происхождение фасетов (статус не меняет)
             sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
             import provenance as _prov
-            rec['provenance'] = _prov.function_provenance(rec, summary)
+            if _XBOX[0] is None:                            # v0.6.5: выписка Xbox — по provenance_schema (sha256)
+                _XBOX[0] = _prov.load_xbox(summary, os.path.dirname(os.path.abspath(__file__)))
+            rec['provenance'] = _prov.function_provenance(rec, summary, _XBOX[0])
         funcs.append(rec)
         cov.append({'id': key['rva'], 'original_name': name0, 'kind': 'function', 'status': status,
                     'verified': ' '.join(rec['verified_facets']), 'unverified': ' '.join(rec['unverified_facets']),

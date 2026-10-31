@@ -1,6 +1,6 @@
 138171 symbols
 классы: {'hybrid': 24, 'xbox-verified': 62}
-утверждения: {'pc-reconstructed': 137, 'xbox-verified': 3484, 'unknown': 4789, 'hybrid': 121}
+утверждения: {'pc-reconstructed': 140, 'xbox-verified': 3575, 'unknown': 4679, 'hybrid': 137}
 модели research: 85
 классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2204} функций unclassified: 0 публичных символов вне реестра: 135966
 EVIDENCE-IDENTICAL
