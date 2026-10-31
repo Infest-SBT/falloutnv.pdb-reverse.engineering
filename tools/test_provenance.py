@@ -1,16 +1,20 @@
-"""v0.6.4–v0.6.6: тесты модели происхождения (ТЗ ред. 3, §5.6.7–5.6.9 и §11.5; аудит Астры v0.6.4, P1/P2) —
+"""v0.6.4–v0.6.7: тесты модели происхождения (ТЗ ред. 3, §5.6.7–5.6.9 и §11.5; аудит Астры v0.6.4, P1/P2) —
 положительные, fail-closed и обратная совместимость. v0.6.5: типизированные доказательства и контракт (порча байтов,
 владельца, операнда, vtable, ячейки, ret N, размера), происхождение фасетов функции по своим основаниям, вид
 отличия и область отрицательного поиска. v0.6.6 (аудит Астры v0.6.5): ret N и цепочка выделения по графу,
 ctor-alloc — только верхняя граница, ширина/направление из команды, совместная подмена журнала и доказательства,
-правило evidence.py «граница наследника — только по подтверждённому полю», удержание NiAlphaAccumulator.
+правило evidence.py «граница наследника — только по подтверждённому полю». v0.6.7 (аудит Астры v0.6.6): удержаний
+нет; ctor-alloc и ctor-alloc-derived в evidence.py — только верхняя граница; новый вид sized-delete; допущения графа
+(cfg_assumptions) в каждом доказательстве по графу; 9 классов честно понижены (список EXPECTED_DOWN).
 
 usage: python3 -I -B test_provenance.py <evidence_dir> <research meta.json> <xbox_extract.json> <FalloutNV.exe>
                                         <research_reconstruction> <syms.tsv> [<evidence_dir прошлого выпуска>]
 
 evidence_dir — каталог с summary.json/verification.json ПОСЛЕ provenance.py и verification.py. Для сборки
-«исходного» summary.json (до происхождения) используется strip(). Сравнение с прошлым выпуском (v0.6.5): статусы,
-размеры, поля и слоты те же; отличаются только основания размеров (size_basis) по исправленному правилу.
+«исходного» summary.json (до происхождения) используется strip(). Сравнение с прошлым выпуском (v0.6.6): поля, слоты,
+размеры (pc_size) и всё прочее те же; разрешены ТОЛЬКО перечисленные изменения: size_basis у любого класса;
+у 9 классов EXPECTED_DOWN — size_status, verification_status, strict, strict_fields; у NiGeometry — strict_fields
+(член m_PropertyState типа NiPropertyState в строгой сборке стал непрозрачным).
 """
 import copy, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -52,25 +56,61 @@ check('опубликованное происхождение проходит 
       P.validate(base, S_pub, X, exe, ctx, meta, S1) == [])
 check('происхождение функций реестра совпадает с вычисленным по классам и выписке Xbox',
       P.validate_functions(R_pub, S_pub, X) == [])
-check('статусы классов не изменились (84 Confirmed + 2 VerifiedPrefix)',
-      sorted(c['verification_status'] for c in S_pub['classes'].values()).count('Confirmed') == 84 and
-      sorted(c['verification_status'] for c in S_pub['classes'].values()).count('VerifiedPrefix') == 2)
+# v0.6.7 (аудит v0.6.6, P0): точный размер этих классов не доказан независимым признаком — честное понижение
+EXPECTED_DOWN = {'MemoryHeap': 'consistent', 'BGSSaveLoadGame': 'consistent', 'BGSSaveLoadManager': 'consistent',
+                 'FalloutRadio::FORadioStation': 'unverified', 'RadioConvTask': 'consistent', 'Font': 'consistent',
+                 'FontManager': 'consistent', 'FontManager::CharData': 'consistent', 'NiPropertyState': 'consistent'}
+vs_ = [c['verification_status'] for c in S_pub['classes'].values()]
+check('статусы классов: 75 Confirmed + 2 VerifiedPrefix (было 84 + 2; 9 понижены по P0)',
+      vs_.count('Confirmed') == 75 and vs_.count('VerifiedPrefix') == 2)
+check('понижены ровно 9 классов EXPECTED_DOWN, все вне строгой сборки',
+      sorted(c for c, cc in S_pub['classes'].items() if cc['verification_status'] not in ('Confirmed', 'VerifiedPrefix')
+             and not cc['strict'] and c in EXPECTED_DOWN) == sorted(EXPECTED_DOWN) and
+      all(S_pub['classes'][c]['size_status'] == st for c, st in EXPECTED_DOWN.items()))
+check('удержаний нет: ни size_status_hold, ни held-pending-audit, ни status_held',
+      'size_status_hold' not in ctx.spec and
+      not any('held-pending-audit' in cc['size_basis'] for cc in S_pub['classes'].values()) and
+      not any('status_held' in cl_ for cc in S_pub['classes'].values() for cl_ in cc['provenance']['claims'].values()))
+check('схема происхождения 4 (v0.6.7)', S_pub['provenance_schema']['version'] == 4)
 if old:
     So = P.strip(json.load(open(os.path.join(old, 'summary.json'), encoding='utf-8')))
     Ro = json.load(open(os.path.join(old, 'verification.json'), encoding='utf-8'))
     Sn = P.strip(S_pub)
-    same_core = all(Sn['classes'][c][k] == So['classes'][c][k] for c in So['classes']
-                    for k in So['classes'][c] if k != 'size_basis')
-    check('прошлый выпуск → этот: все данные summary.json (статусы, размеры, поля, слоты) те же, кроме size_basis',
-          same_core and set(Sn['classes']) == set(So['classes']) and
+    # у понижённого класса меняются производные от статуса размера поля (строгость, область проверки, операции)
+    DOWN_KEYS = {'size_status', 'verification_status', 'strict', 'strict_fields', 'exact_size_confirmed',
+                 'allowed_operations', 'provisional', 'field_type_verification', 'verification_scope',
+                 'method_verification', 'compositions'}
+    ALLOWED = lambda c: ({'size_basis'} | (DOWN_KEYS if c in EXPECTED_DOWN else set()) |
+                         ({'strict_fields', 'compositions'} if c == 'NiGeometry' else set()))
+    diff_ = sorted((c, k) for c in So['classes'] for k in set(So['classes'][c]) | set(Sn['classes'][c])
+                   if Sn['classes'][c].get(k) != So['classes'][c].get(k) and k not in ALLOWED(c))
+    check('прошлый выпуск → этот: всё в summary.json то же, кроме разрешённых изменений (size_basis; 9 понижений; '
+          'NiGeometry.strict_fields)' + (f' — ЛИШНЕЕ: {diff_[:5]}' if diff_ else ''),
+          not diff_ and set(Sn['classes']) == set(So['classes']) and
           {k: v for k, v in Sn.items() if k != 'classes'} == {k: v for k, v in So.items() if k != 'classes'})
-    ch = sorted(c for c in So['classes'] if Sn['classes'][c]['size_basis'] != So['classes'][c]['size_basis'])
-    check(f'size_basis изменился у {len(ch)} классов, size_status — ни у одного (NiAlphaAccumulator удержан)',
-          all(Sn['classes'][c]['size_status'] == So['classes'][c]['size_status'] for c in So['classes']) and
-          'NiAlphaAccumulator' in ch and Sn['classes']['NiAlphaAccumulator']['size_basis'] == ['held-pending-audit'])
+    ch = sorted(c for c in So['classes'] if Sn['classes'][c]['size_status'] != So['classes'][c]['size_status'])
+    check(f'size_status изменился ровно у 9 классов EXPECTED_DOWN (confirmed → consistent/unverified)',
+          ch == sorted(EXPECTED_DOWN) and all(So['classes'][c]['size_status'] == 'confirmed' for c in ch))
+    gf = sorted(set(So['classes']['NiGeometry']['strict_fields']) - set(Sn['classes']['NiGeometry']['strict_fields']))
+    check('NiGeometry: из строгих полей ушёл только m_PropertyState.m_aspProps (тип NiPropertyState понижен)',
+          gf == ['m_PropertyState.m_aspProps'] and set(Sn['classes']['NiGeometry']['strict_fields']) <=
+          set(So['classes']['NiGeometry']['strict_fields']))
+    cc_ = [(c, k) for c in So['classes'] for k in set(So['classes'][c]['compositions']) | set(Sn['classes'][c]['compositions'])
+           if So['classes'][c]['compositions'].get(k) != Sn['classes'][c]['compositions'].get(k)]
+    check('вложения: изменился только признак strict у вложений понижённых типов (NiGeometry.m_PropertyState, '
+          'FORadioStation.CurrentState), доказательства вложения те же',
+          sorted(cc_) == [('FalloutRadio::FORadioStation', 'CurrentState'), ('NiGeometry', 'm_PropertyState')] and
+          all({x: y for x, y in So['classes'][c]['compositions'][k].items() if x != 'strict'} ==
+              {x: y for x, y in Sn['classes'][c]['compositions'][k].items() if x != 'strict'} for c, k in cc_))
     strip_f = lambda f: {k: v for k, v in f.items() if k not in ('provenance', 'evidence_refs')}
-    check('verification.json: функции (без provenance и текста evidence_refs) = прошлый выпуск',
-          [strip_f(f) for f in R_pub['functions']] == [strip_f(f) for f in Ro['functions']])
+    strip_a = lambda f: {k: v for k, v in strip_f(f).items() if k != 'apply_this'}
+    ach = [(fo, fn) for fo, fn in zip(Ro['functions'], R_pub['functions']) if fo.get('apply_this') != fn.get('apply_this')]
+    check('verification.json: функции (без provenance и текста evidence_refs) = прошлый выпуск, кроме apply_this.strict '
+          f'методов понижённых классов ({len(ach)}: строгий this снят, research тот же)',
+          [strip_a(f) for f in R_pub['functions']] == [strip_a(f) for f in Ro['functions']] and
+          len(R_pub['functions']) == len(Ro['functions']) and
+          all(fn['apply_this'] == {'strict': None, 'research': fo['apply_this']['research']} and
+              fo['apply_this']['strict'] in EXPECTED_DOWN for fo, fn in ach))
 
 # ---------- реальные примеры (ТЗ §11.2)
 cl = lambda c, k: S_pub['classes'][c]['provenance']['claims'][k]
@@ -118,13 +158,28 @@ check('evidence.py: «граница наследника» по неподтв�
       unc == ['BSShaderLightingProperty', 'NiAlphaAccumulator', 'NiNode', 'NiRefObject'] and
       all(r['accepted'] == 'False' for r in SZ if r['evidence'] == 'subclass-boundary-unconfirmed'))
 check('BSShaderLightingProperty: основание размера — alloc-bounds (NiNew 0x7C в CreateClone → встроенная запись '
-      'vtable; конец поля kLightListFence +0x78..0x7C)', S_pub['classes']['BSShaderLightingProperty']['size_basis'] ==
-      ['alloc-bounds'] and any(p['kind'] == 'alloc-bounds' and p['link'] == 'inline' and
+      'vtable; конец поля kLightListFence +0x78..0x7C)', 'alloc-bounds' in S_pub['classes']['BSShaderLightingProperty']['size_basis']
+      and any(p['kind'] == 'alloc-bounds' and p['link'] == 'inline' and
                                  p['lower_basis'].get('field') == 'kLightListFence'
                                  for p in cl('BSShaderLightingProperty', 'sizeof')['proofs']))
 na = cl('NiAlphaAccumulator', 'sizeof')
-check('NiAlphaAccumulator: статус удержан до решения аудитора — origin unknown, точной границы нет, причина записана',
-      na['origin'] == 'unknown' and na.get('size_bound') == 'none' and 'выравнивания' in na.get('status_held', ''))
+check('NiAlphaAccumulator: удержания нет; точный размер 0x34 — по удаляющему деструктору (sized-delete), не по '
+      'выравниванию: «push 0x34; push this; call NiDelete», запись vtable по this',
+      na.get('size_bound') == 'exact' and S_pub['classes']['NiAlphaAccumulator']['size_basis'] == ['sized-delete'] and
+      any(p['kind'] == 'sized-delete' and p['size'] == '0x00000034' and p['binding'] == 'vt-write'
+          and p['vtable_basis'] == 'RTTI' for p in na['proofs']))
+sdp = [(c, p) for c, k, cl_ in allc if k == 'sizeof' for p in cl_.get('proofs', []) if p['kind'] == 'sized-delete']
+check(f'sized-delete ({len(sdp)}): размер = sizeof класса, связь функции слота 0 с классом записана, допущения записаны',
+      len(sdp) == 29 and all(int(p['size'], 16) == S_pub['classes'][c]['pc_size'] and p['binding'] in ('vt-write', 'dtor')
+                             and p['vt_writes'] and len(p['cfg_assumptions']) == 7 for c, p in sdp))
+gp = [p for c, k, cl_ in allc for p in cl_.get('proofs', []) if p['kind'] in ('ret-n', 'ctor-alloc', 'alloc-bounds')]
+check(f'допущения графа (call возвращается, граница по символам) записаны в каждом доказательстве по графу ({len(gp)})',
+      all(set(P.PR.CFG_ASSUMPTIONS) <= set(p.get('cfg_assumptions', ())) for p in gp))
+check('ret-n не доказывает соглашение о вызове и типы: поле proves у каждой записи',
+      all(p['proves'] == P.PR.RET_PROVES for p in gp if p['kind'] == 'ret-n'))
+ev_sz = [r for r in SZ if r['evidence'] in ('ctor-alloc', 'ctor-alloc-derived')]
+check(f'evidence.py: ни одна строка ctor-alloc/ctor-alloc-derived ({len(ev_sz)}) не принята как точный размер',
+      all(r['accepted'] == 'False' for r in ev_sz))
 sb = [c for c, cc in S_pub['classes'].items() if cc['provenance']['claims'].get('sizeof', {}).get('size_bound') == 'upper-only']
 check(f'ctor-alloc — только верхняя граница: {len(sb)} классов без точного основания — origin sizeof unknown',
       all(cl(c, 'sizeof')['origin'] == 'unknown' for c in sb) and
@@ -393,16 +448,39 @@ tamper('alloc-bounds: нижняя граница по другому полю',
 
 
 def q6(S, R):
-    c_ = S['classes']['NiAlphaAccumulator']['provenance']['claims']['sizeof']
-    c_['origin'] = 'xbox-verified'
-tamper('удержанный размер NiAlphaAccumulator выдан за xbox-verified', q6, use_expected=False)
+    pr = next(p for p in S['classes']['NiAlphaAccumulator']['provenance']['claims']['sizeof']['proofs']
+              if p['kind'] == 'sized-delete')
+    pr['size'] = '0x00000033'
+tamper('sized-delete: подменён размер освобождения (0x34 → 0x33)', q6, use_expected=False)
+
+
+def q8(S, R):
+    pr = next(p for p in S['classes']['BSFadeNode']['provenance']['claims']['sizeof']['proofs']
+              if p['kind'] == 'sized-delete')
+    pr['binding'], pr['vt_writes'] = 'vt-write', pr['vt_writes'][:0]
+tamper('sized-delete: подменена связь функции слота 0 с классом', q8, use_expected=False)
+
+
+def q9(S, R):
+    pr = next(p for c in S['classes'].values() for cl_ in c['provenance']['claims'].values()
+              for p in cl_.get('proofs', []) if p['kind'] == 'field-access' and 'cfg_assumptions' in p)
+    del pr['cfg_assumptions']
+tamper('field-access: из записи убраны допущения графа (cfg_assumptions)', q9, use_expected=False)
+
+
+def q10(S, R):
+    pr = next(p for c in S['classes'].values() for cl_ in c['provenance']['claims'].values()
+              for p in cl_.get('proofs', []) if p['kind'] == 'ret-n')
+    pr['proves'] = 'соглашение __thiscall и типы параметров'
+tamper('ret-n: запись выдаёт себя за доказательство соглашения о вызове', q10, use_expected=False)
 
 
 def q7(S, R):
-    c_ = next(c for c, cc in S['classes'].items()
-              if cc['provenance']['claims'].get('sizeof', {}).get('size_bound') == 'upper-only')
-    S['classes'][c_]['provenance']['claims']['sizeof']['origin'] = 'xbox-verified'
-tamper('размер только по выделению (верхняя граница) выдан за точный xbox-verified', q7, use_expected=False)
+    c_ = S['classes']['BSFadeNode']['provenance']['claims']['sizeof']
+    c_['proofs'] = [p for p in c_['proofs'] if p['kind'] == 'ctor-alloc']
+    c_['pc_evidence'] = [p['ref'] for p in c_['proofs']][:3]
+tamper('размер только по выделению (верхняя граница) выдан за точный (pc-reconstructed без sized-delete)', q7,
+       use_expected=False)
 
 print('ИТОГ:', 'всё прошло' if not fails else f'ОШИБКИ: {len(fails)}')
 sys.exit(1 if fails else 0)

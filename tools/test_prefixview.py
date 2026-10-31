@@ -123,10 +123,13 @@ if len(sys.argv) > 3:
     check('классов VerifiedPrefix: 2', len(views) == 2 and all(
         v.get('verification_status') == 'VerifiedPrefix' for v in views.values()), ', '.join(sorted(views)))
     full = [c for c, v in S.items() if v.get('strict')]
-    check('классов Confirmed в строгом: 84', len(full) == 84 and all(
+    check('классов Confirmed в строгом: 75 (v0.6.7: 9 понижены по P0)', len(full) == 75 and all(
         S[c].get('verification_status') == 'Confirmed' for c in full), str(len(full)))
-    check('у каждого из 86 классов ровно один статус Confirmed/VerifiedPrefix', len(S) == 86 and all(
-        v.get('verification_status') in ('Confirmed', 'VerifiedPrefix') for v in S.values()))
+    DOWN9 = ('BGSSaveLoadGame', 'BGSSaveLoadManager', 'FalloutRadio::FORadioStation', 'Font', 'FontManager', 'FontManager::CharData', 'MemoryHeap', 'NiPropertyState', 'RadioConvTask')
+    check('из 86 классов у 77 ровно один статус Confirmed/VerifiedPrefix; 9 понижённых — без статуса и вне строгого',
+          len(S) == 86 and all(v.get('verification_status') in ('Confirmed', 'VerifiedPrefix') for c, v in S.items()
+                               if c not in DOWN9) and
+          all(S[c].get('verification_status') is None and not S[c].get('strict') for c in DOWN9))
     check('суффикса _VerifiedPrefix нет ни в заголовке, ни в meta.json, ни в summary.json',
           '_VerifiedPrefix' not in H and '_VerifiedPrefix' not in open(meta_p, encoding='utf-8').read()
           and '_VerifiedPrefix' not in open(summ_p, encoding='utf-8').read())

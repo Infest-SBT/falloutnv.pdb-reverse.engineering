@@ -1678,7 +1678,7 @@ public:
     alignas(4) unsigned char CriticalSectionO[24]; // BSCriticalSection | PC: confirmed
 };
 // MemoryHeap (Xbox PDB): Xbox sizeof 0x20F8, PC sizeof 0x20F4
-// PC: sizeof 0x20F4 — confirmed; alignof 4; vtable 0x010A28FC
+// PC: sizeof 0x20F4 — consistent; alignof 4; vtable 0x010A28FC; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class MemoryHeap : public AbstractHeap {
 public:
     // поля
@@ -1778,7 +1778,7 @@ public:
     unsigned iOldChangeFlags; // BGSChangeFlags | PC: confirmed
 };
 // BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
-// PC: sizeof 0x24C — confirmed; alignof 4
+// PC: sizeof 0x24C — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class BGSSaveLoadGame {
 public:
     // поля
@@ -1801,7 +1801,7 @@ public:
     unsigned char _pad249[0x3];
 };
 // BGSSaveLoadManager (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4
+// PC: sizeof 0x38 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class BGSSaveLoadManager {
 public:
     // поля
@@ -1867,7 +1867,7 @@ public:
     alignas(4) unsigned char StationUsers[8]; // BSSimpleList<FalloutRadio::FORadioReceiver *> | PC: confirmed
 };
 // FalloutRadio::FORadioStation (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4
+// PC: sizeof 0x24 — unverified; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 struct FalloutRadio::FORadioStation {
 public:
     // поля
@@ -1875,7 +1875,7 @@ public:
     FalloutRadio::StationState CurrentState;
 };
 // RadioConvTask (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 8; vtable 0x0107CF18
+// PC: sizeof 0x38 — consistent; alignof 8; vtable 0x0107CF18; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class RadioConvTask {
 public:
     virtual ~RadioConvTask(); // слот 0 | PC: name+stack (0x837290)
@@ -1932,7 +1932,7 @@ public:
     FontLetter pFontLetters[256]; // PC: confirmed
 };
 // Font (Xbox PDB): Xbox sizeof 0x54, PC sizeof 0x54
-// PC: sizeof 0x54 — confirmed; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (поля без подтверждения: iLineOverlap)
+// PC: sizeof 0x54 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён, поля без подтверждения: iLineOverlap)
 class Font {
 public:
     class TextData;
@@ -1965,7 +1965,7 @@ public:
     alignas(4) unsigned char xLineWidths[8]; // BSSimpleList<int> | PC: confirmed
 };
 // FontManager (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
-// PC: sizeof 0x24 — confirmed; alignof 4
+// PC: sizeof 0x24 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class FontManager {
 public:
     enum enumCharTypes { eSTART_TAG = 1, eEND_TAG = 2, eWHITESPACE = 4, eQUOTE = 8, eEQUAL = 16, eEOF = 32 }; // (Xbox PDB), значения проверены на PC
@@ -1980,7 +1980,7 @@ public:
     unsigned char _pad21[0x3];
 };
 // FontManager::CharData (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
-// PC: sizeof 0x38 — confirmed; alignof 4
+// PC: sizeof 0x38 — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class FontManager::CharData {
 public:
     // поля
@@ -2348,7 +2348,7 @@ public:
     BSShaderProperty::RenderPass* pRenderDepthPass; // PC: confirmed
 };
 // NiPropertyState (Xbox PDB): Xbox sizeof 0x1C, PC sizeof 0x1C
-// PC: sizeof 0x1C — confirmed; alignof 4
+// PC: sizeof 0x1C — consistent; alignof 4; ПРЕДВАРИТЕЛЬНЫЙ класс (размер не подтверждён)
 class NiPropertyState {
 public:
     // поля

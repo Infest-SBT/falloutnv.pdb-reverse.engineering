@@ -35,6 +35,11 @@ must-alias и всем путям (tools/allocchain.py), ctor-alloc доказы
                  по this; границы совпали ⇒ точный sizeof. Выравнивание не предполагается.
   subclass-boundary  первое собственное поле наследника (база на смещении 0) на смещении N, смещение поля
                  подтверждено ⇒ sizeof базы = N.
+  sized-delete   v0.6.7: удаляющий деструктор — функция слота 0 первичной vtable класса (vtable по RTTI): на пути
+                 «push N; push this; call NiDelete» (освобождение с размером), функция пишет vtable класса по this
+                 сама или вызывает деструктор, который пишет её на всех путях, и освобождение идёт только после этого.
+                 Правило C++ для классового operator delete(void*, size_t): передаётся размер удаляемого объекта ⇒
+                 sizeof = N. Независимо от выделения (другой код, другое правило).
   manual-reviewed размер доказан рассуждением (границы, шаг массива, вложение, кадр стека …): журнал
                  evidence_sizes.csv + опорные команды (байты сверены, разбор команды — тот же). Это НЕ машинный
                  вывод: в отчёте покрытия считается отдельно.
@@ -51,14 +56,22 @@ ALLOCATORS = {0x00401000: 'ourMalloc', 0x00AA13E0: 'NiNew', 0x00AA3E40: 'MemoryM
 MANUAL_SIZE_KINDS = ('bounds', 'array-span', 'contained', 'index-stride', 'header-size', 'stack-frame',
                      'alloc-for-field', 'alloc-inline', 'array-new')
 MACHINE_KINDS = ('field-access', 'composition', 'vtable-rtti', 'vtable-symbol', 'vtable-cell', 'ret-n',
-                 'subclass-boundary', 'alloc-bounds')
+                 'subclass-boundary', 'alloc-bounds', 'sized-delete')
+# v0.6.7 (аудит Астры v0.6.6, P2): допущения разбора по графу записываются в каждое применённое доказательство
+CFG_ASSUMPTIONS = ('call возвращается: невозвращающиеся вызовы не моделируются',
+                   'граница функции — следующий символ xNVSE (лишний или пропущенный символ меняет границу)')
+ALIAS_ASSUMPTIONS = CFG_ASSUMPTIONS + (
+    'push/call пишут ниже esp, а не в живые ячейки [ebp±d] кадра',
+    'адрес кадра попадает в чужой код только через ebp/esp этой функции (lea, копия); по [ebp+X] доступны адреса ≥ X',
+    'xor r, ebp/esp — только шифрование cookie /GS; результат не используется как адрес')
+RET_PROVES = 'только очистку стека N байт при выходе; соглашение о вызове, число и типы параметров не доказывает'
 UPPER_BOUND_KINDS = ('ctor-alloc',)      # v0.6.6: только верхняя граница sizeof — точный размер не доказывает
 JOURNAL_KINDS = ('cleanup-journal', 'slot-proof')
 
 # Контракт: вид утверждения → допустимые виды доказательств (нужно хотя бы одно проверенное).
 # Применяется к утверждениям с origin xbox-verified / pc-reconstructed / hybrid.
 CONTRACT = {
-    'sizeof': ('subclass-boundary', 'alloc-bounds', 'manual-reviewed'),      # v0.6.6: ctor-alloc — не точный
+    'sizeof': ('subclass-boundary', 'alloc-bounds', 'sized-delete', 'manual-reviewed'),   # ctor-alloc — не точный
     'known_prefix_size': ('field-access',),
     'vtable.layout': ('vtable-rtti', 'vtable-symbol'),
     'fields.offset': ('field-access', 'composition'),
@@ -87,11 +100,11 @@ class Ctx:
 
     def __init__(self, exe, ev, meta, census, spec, sizes_census=None, syms=None):
         self.exe = exe
-        self.im = AC.Img(exe.img, exe.B)
         starts = set()
         for line in open(syms, encoding='utf-8') if syms else []:
             starts.add(int(line.split('\t', 1)[0], 16))
         self.starts = sorted(starts)
+        self.im = AC.Img(exe.img, exe.B, starts if syms else None)   # v0.6.7: переходник — только к началу функции
         self.alias_cache = {}
         self.md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
         self.md.detail = True
@@ -275,6 +288,8 @@ def field_proof(ctx, r):
         st = ctx.this_alias(fv).get(va)
         p['base_chain'] = ('this: must-alias от ecx на входе функции' if st is not None and breg in st else
                            'не прослежена')
+        if p['base_chain'] != 'не прослежена':
+            p['cfg_assumptions'] = list(ALIAS_ASSUMPTIONS)
     asm = []
     if r['base_pointer'] in ('class-method-this', 'subclass-method-this'):
         rel = ctx.owner_relation(r['function_owner'], r['class'])
@@ -345,7 +360,8 @@ def entry_of(ctx, f, depth=0):
 
 def ret_proof(ctx, fva, n):
     """(запись, None) или (None, причина). Все достижимые ret функции по графу — один и тот же ret n."""
-    e0 = entry_of(ctx, fva)
+    th = AC.thunk_chain(ctx.im, fva)
+    e0 = th[-1]
     end = ctx.func_end(e0)
     ns, addrs = AC.terminal_rets(ctx.im, e0, end)
     if ns is None:
@@ -353,8 +369,12 @@ def ret_proof(ctx, fva, n):
     if ns != {n}:
         return None, f'достижимые ret дают {sorted(ns)}, а не {n}'
     refs = [ctx.ref_insn(a) for a in addrs]
-    return {'kind': 'ret-n', 'ref': refs[0], 'function': h(fva), 'entry': h(e0), 'function_end': h(end), 'n': n,
-            'rets': refs}, None
+    p = {'kind': 'ret-n', 'ref': refs[0], 'function': h(fva), 'entry': h(e0), 'function_end': h(end), 'n': n,
+         'rets': refs, 'proves': RET_PROVES, 'cfg_assumptions': list(CFG_ASSUMPTIONS)}
+    if len(th) > 1:
+        p['thunks'] = [ctx.ref_insn(a) for a in th[:-1]]
+        p['cfg_assumptions'].append('переходник: jmp к началу функции по символам xNVSE')
+    return p, None
 
 
 def chain_proof(ctx, push_va, vt, kind='ctor-alloc', methods=frozenset()):
@@ -367,7 +387,8 @@ def chain_proof(ctx, push_va, vt, kind='ctor-alloc', methods=frozenset()):
     p = {'kind': kind, 'ref': ctx.ref_insn(push_va), 'size': h(ch['size']), 'allocator': ch['allocator'],
          'alloc_call': ctx.ref_insn(ch['alloc_call']), 'link': ch['link'],
          'vt_writes': [ctx.ref_insn(a) for a in ch['vt_writes']],
-         'null_branches_skipped': [h(a) for a in ch['null_branches_pruned']], 'caller': h(cs)}
+         'null_branches_skipped': [h(a) for a in ch['null_branches_pruned']], 'caller': h(cs),
+         'cfg_assumptions': list(ALIAS_ASSUMPTIONS)}
     if ch['link'] in ('ctor', 'ctor-method'):
         p['ctor_call'] = ctx.ref_insn(ch['ctor_call'])
         p['ctor'] = h(ch['ctor'])
@@ -385,7 +406,8 @@ def size_proofs(ctx, cname, sc, S):
     """Доказательства sizeof по принятым строкам evidence_sizes.csv класса. Возвращает (записи, несвязанные):
     несвязанные — строки ctor-alloc журнала, цепочка которых не доказана (с причиной)."""
     out, unlinked = [], []
-    for r in [r for r in ctx.sizes if r['class'] == cname]:
+    # v0.6.7: ctor-alloc — верхняя граница; строки журнала больше не «приняты», но как граница используются
+    for r in [r for r in ctx.sizes_all if r['class'] == cname and (r['accepted'] == 'True' or r['evidence'] == 'ctor-alloc')]:
         ev, val = r['evidence'], int(r['value'], 16)
         j = f"evidence/evidence_sizes.csv: {cname} {ev} {r['value']}"
         if ev == 'ctor-alloc':
@@ -399,6 +421,13 @@ def size_proofs(ctx, cname, sc, S):
                 continue
             p['journal'] = j
             p['bound'] = 'upper: sizeof ≤ размер выделения'
+            out.append(p)
+        elif ev == 'sized-delete':
+            p, why = sized_delete_proof(ctx, cname, S)
+            if p is None or int(p['size'], 16) != val:
+                unlinked.append({'journal': j, 'reason': why or 'размер не совпал'})
+                continue
+            p['journal'] = j
             out.append(p)
         elif ev == 'subclass-boundary':
             m = re.search(r'первое собственное поле (\S+)::(\S+) на 0x([0-9A-Fa-f]+)', r['details'])
@@ -420,6 +449,35 @@ def size_proofs(ctx, cname, sc, S):
                 p['assumption'] = r['details'][r['details'].index('ДОПУЩЕНИЕ'):][:300]
             out.append(p)
     return out, unlinked
+
+
+def sized_delete_proof(ctx, cname, S):
+    """v0.6.7: точный sizeof по удаляющему деструктору (allocchain.sized_delete). → (запись, None) или (None, причина)."""
+    vt = (S['classes'].get(cname) or {}).get('vtable_va')
+    if not vt:
+        return None, 'нет vtable'
+    t = ctx.rtti_of_vtable(vt)
+    if t is not None and demangle_simple(t[2]) == cname:
+        vb = {'vtable_basis': 'RTTI', 'col': h(t[0]), 'type_descriptor': h(t[1]), 'rtti_name': t[2]}
+    elif t is None and [x['va'] for x in (ctx.cen.get('vtables_by_sym') or {}).get(cname) or []] == [h(vt)]:
+        vb = {'vtable_basis': 'символ xNVSE ??_7 (RTTI у vtable нет)'}
+    else:
+        return None, 'vtable не принадлежит классу ни по RTTI, ни по единственному символу xNVSE'
+    f0 = ctx.exe.u32(vt)
+    sd, why = AC.sized_delete(ctx.im, f0, vt, ctx.func_end(f0), ctx.func_end)
+    if sd is None:
+        return None, why
+    p = {'kind': 'sized-delete', 'ref': ctx.ref_insn(sd['push_size']), 'size': h(sd['size']), 'vtable': h(vt), **vb,
+         'slot0': f'pc:{h(vt)}=u32:{h(f0)}',
+         'push_this': ctx.ref_insn(sd['push_this']), 'delete_calls': [ctx.ref_insn(a) for a in sd['delete_calls']],
+         'deleter': sd['deleter'], 'binding': sd['binding'], 'vt_writes': [ctx.ref_insn(a) for a in sd['vt_writes']],
+         'cfg_assumptions': list(ALIAS_ASSUMPTIONS) + [
+             'NiDelete(p, n) — освобождение с размером: по символу xNVSE; тело передаёт n в Deallocate менеджера памяти',
+             'правило C++: удаляющий деструктор класса T передаёт классовому operator delete(void*, size_t) sizeof(T)']}
+    if sd['binding'] == 'dtor':
+        p['dtor_call'] = ctx.ref_insn(sd['dtor_call'])
+        p['dtor'] = h(sd['dtor'])
+    return p, None
 
 
 def lower_bound(ctx, cname, S):
@@ -544,6 +602,8 @@ def check(ctx, S, cname, key, p, claims_of):
             bc = ('this: must-alias от ecx на входе функции' if st is not None and breg in st else 'не прослежена')
             if p.get('base_chain') != bc:
                 return f'{ref}: база обращения — {bc}, в записи — {p.get("base_chain")}'
+            if bc != 'не прослежена' and p.get('cfg_assumptions') != list(ALIAS_ASSUMPTIONS):
+                return f'{ref}: в записи нет допущений разбора по графу (cfg_assumptions)'
         r = ctx.fields.get((p['journal_class'], p['path'], h(va)))
         if r is not None and r['status'] != p.get('journal_status', 'confirmed'):
             return f'{ref}: строка журнала со статусом {r["status"]}, а доказательство требует {p.get("journal_status", "confirmed")}'
@@ -668,6 +728,21 @@ def check(ctx, S, cname, key, p, claims_of):
             return f'alloc-bounds: границы {p["lower_bound"]}..{p["extent"]} ≠ sizeof {cname}'
         for rf in [p['alloc_call']] + p['vt_writes'] + ([p['ctor_call']] if 'ctor_call' in p else []) + \
                 ([p['lower_basis']['ref']] if p['lower_basis'].get('ref') else []):
+            e = check(ctx, S, cname, key, {'kind': '_ref', 'ref': rf}, claims_of)
+            if e:
+                return e
+        return None
+    if k == 'sized-delete':
+        q, why = sized_delete_proof(ctx, cname, S)
+        if q is None:
+            return f'{ref}: удаляющий деструктор не доказан: {why}'
+        q['journal'] = p.get('journal')
+        if q != p:
+            return f'{ref}: доказательство по удаляющему деструктору не воспроизводится'
+        if int(p['size'], 16) != S['classes'][cname]['pc_size']:
+            return f'sized-delete {p["size"]} ≠ sizeof {cname}'
+        for rf in [p['push_this'], p['slot0']] + p['delete_calls'] + p['vt_writes'] + \
+                ([p['dtor_call']] if 'dtor_call' in p else []):
             e = check(ctx, S, cname, key, {'kind': '_ref', 'ref': rf}, claims_of)
             if e:
                 return e

@@ -32,10 +32,12 @@ _md.detail = True
 
 
 class Img:
-    """Образ exe: img — байты образа (memory-mapped), B — база. Кэш разобранных команд."""
+    """Образ exe: img — байты образа (memory-mapped), B — база. Кэш разобранных команд.
+    starts — множество начал функций по символам xNVSE (для подтверждения переходников); None — нет символов."""
 
-    def __init__(self, img, B):
+    def __init__(self, img, B, starts=None):
         self.img, self.B, self.c = img, B, {}
+        self.starts = frozenset(starts) if starts is not None else None
 
     def insn(self, va):
         if va in self.c:
@@ -49,11 +51,25 @@ class Img:
         return self.c[va]
 
 
+def thunk_chain(im, f, depth=0):
+    """v0.6.7 (аудит v0.6.6): цепочка подтверждённых переходников от f. Переход «jmp imm» в начале функции считается
+    переходником, только если его цель — начало другой функции по символам xNVSE (im.starts). Иначе (символов нет,
+    цель внутри своей или чужой функции) вход — сама f: обход идёт по jmp и выход за область — отказ."""
+    out = [f]
+    starts = getattr(im, 'starts', None)
+    while len(out) <= 4:
+        i = im.insn(out[-1])
+        if i is None or i.mnemonic != 'jmp' or i.operands[0].type != x86.X86_OP_IMM:
+            break
+        t = i.operands[0].imm & 0xFFFFFFFF
+        if not starts or t not in starts or t in out:
+            break
+        out.append(t)
+    return out
+
+
 def entry_of(im, f, depth=0):
-    i = im.insn(f)
-    if i is not None and i.mnemonic == 'jmp' and i.operands[0].type == x86.X86_OP_IMM and depth < 4:
-        return entry_of(im, i.operands[0].imm & 0xFFFFFFFF, depth + 1)
-    return f
+    return thunk_chain(im, f)[-1]
 
 
 def _succ(i):
@@ -73,8 +89,14 @@ def _succ(i):
     return [nxt], None
 
 
+def _crosses(i, end):
+    """v0.6.7: команда не помещается в область функции целиком (её байты заходят за границу)."""
+    return i.address + i.size > end
+
+
 def terminal_rets(im, f, end=None, limit=LIMIT):
-    """Все достижимые ret функции (после цепочки jmp в начале). Возвращает ({N}, [адреса]) или (None, причина)."""
+    """Все достижимые ret функции (после цепочки подтверждённых переходников). → ({N}, [адреса]) или (None, причина).
+    Каждая команда пути должна целиком лежать в [вход, конец)."""
     a0 = entry_of(im, f)
     end = end or a0 + limit
     seen, work, ns, addrs = set(), [a0], set(), []
@@ -88,6 +110,8 @@ def terminal_rets(im, f, end=None, limit=LIMIT):
         i = im.insn(a)
         if i is None:
             return None, f'неразбираемый байт по 0x{a:08X}'
+        if _crosses(i, end):
+            return None, f'команда 0x{a:08X}..0x{a + i.size:08X} заходит за границу функции 0x{end:08X}'
         s, ex = _succ(i)
         if ex == 'ret':
             ns.add(i.operands[0].imm if i.operands else 0)
@@ -102,8 +126,8 @@ def terminal_rets(im, f, end=None, limit=LIMIT):
 
 
 def reaches_all(im, start, targets, end, skip_taken=frozenset()):
-    """Из start нельзя дойти до выхода (ret / уход из области / косвенный переход), минуя targets.
-    skip_taken — адреса jcc, ветку «переход выполнен» которых не учитывать (объект не создан)."""
+    """Из start нельзя дойти до выхода (ret / уход из области / косвенный переход / команда за границей), минуя
+    targets. skip_taken — адреса jcc, ветку «переход выполнен» которых не учитывать (объект не создан)."""
     T = set(targets)
     if not T:
         return False
@@ -116,7 +140,7 @@ def reaches_all(im, start, targets, end, skip_taken=frozenset()):
             return False
         seen.add(a)
         i = im.insn(a)
-        if i is None:
+        if i is None or _crosses(i, end):
             return False
         s, ex = _succ(i)
         if ex:
@@ -127,78 +151,217 @@ def reaches_all(im, start, targets, end, skip_taken=frozenset()):
     return True
 
 
+_FULL = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'ebx', 'cl': 'ecx', 'ch': 'ecx',
+         'cx': 'ecx', 'dl': 'edx', 'dh': 'edx', 'dx': 'edx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp', 'sp': 'esp',
+         'sil': 'esi', 'dil': 'edi', 'bpl': 'ebp', 'spl': 'esp'}
+REG32 = frozenset(('eax', 'ebx', 'ecx', 'edx', 'esi', 'edi', 'ebp', 'esp'))
+# команды, у которых первый операнд-регистр НЕ записывается (для запасного правила, если regs_access недоступен)
+NOWRITE = frozenset(('cmp', 'test', 'push', 'bt', 'nop', 'call', 'ret', 'retn', 'int3', 'hlt', 'ud2'))
+
+
+def _full(i, op):
+    """(имя полного 32-битного регистра, это сам 32-битный регистр?) для операнда-регистра."""
+    n = i.reg_name(op.reg)
+    return _FULL.get(n, n), n in REG32
+
+
 def _slot(i, op):
+    """Место для must-alias: 32-битный регистр или 4-байтная ячейка [ebp±d]. Частичный регистр (al, ax…) или ячейка
+    другой ширины местом не является (указатель там лежать не может)."""
     if op.type == x86.X86_OP_REG:
-        return i.reg_name(op.reg)
-    if op.type == x86.X86_OP_MEM and op.mem.base and i.reg_name(op.mem.base) == 'ebp' and not op.mem.index:
+        n = i.reg_name(op.reg)
+        return n if n in REG32 else None
+    if op.type == x86.X86_OP_MEM and op.mem.base and i.reg_name(op.mem.base) == 'ebp' and not op.mem.index and \
+            getattr(op, 'size', 4) == 4:
         return f'[ebp{op.mem.disp:+d}]'
     return None
 
 
-_FULL = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'ebx', 'cl': 'ecx', 'ch': 'ecx',
-         'cx': 'ecx', 'dl': 'edx', 'dh': 'edx', 'dx': 'edx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp'}
+INF = 1 << 40              # «адрес кадра не утёк»
 
 
-def _transfer(i, st, zero):
-    """Перенос множества мест через команду. zero — регистры с нулём (для сравнения с нулём)."""
+class St:
+    """Состояние потока: места указателя (st), нулевые 32-битные регистры (zero), ebp — указатель кадра этой функции
+    на всех путях (frame: после «mov ebp, esp», до записи в ebp), наименьшее смещение утёкшего адреса кадра (esc:
+    после «lea r, [ebp+X]» объект по [ebp+X] и выше может писаться чужим кодом; −INF — утёк весь кадр)."""
+    __slots__ = ('st', 'zero', 'frame', 'esc')
+
+    def __init__(self, st=(), zero=(), frame=False, esc=INF):
+        self.st, self.zero, self.frame, self.esc = frozenset(st), frozenset(zero), frame, esc
+
+    def key(self):
+        return self.st, self.zero, self.frame, self.esc
+
+    def meet(self, o):
+        """Слияние путей: места и нули — пересечение (must), кадр — и там и там, утечка — наихудшая (min)."""
+        return St(self.st & o.st, self.zero & o.zero, self.frame and o.frame, min(self.esc, o.esc))
+
+
+def _kill_reg(st, zero, full):
+    """Запись в регистр (полный или частичный) стирает полный регистр; запись в ebp стирает все ячейки [ebp±d]."""
+    st.discard(full)
+    zero.discard(full)
+    if full == 'ebp':
+        _kill_stack(st)
+
+
+def _kill_stack(st, lo=-INF):
+    """Стереть ячейки [ebp+d], байты которых [d, d+4) заходят в область от lo вверх (по умолчанию — все)."""
+    for k in [k for k in st if k.startswith('[')]:
+        if int(k[4:-1]) + 4 > lo:
+            st.discard(k)
+
+
+def _base(i, o):
+    return i.reg_name(o.mem.base) if o.mem.base else None
+
+
+def _mem_write(i, o, st, esc):
+    """Запись в память (v0.6.7, закрытый отказ):
+      [ebp+d] без индекса — стирает перекрытые ячейки;
+      по отслеживаемому указателю (база в st: this с входа или новый блок) — кадр этой функции не задевает;
+      абсолютный адрес (без базы и индекса) — глобальная память, кадр не задевает;
+      через esp или с индексом от ebp — стирает все ячейки;
+      через любую другую базу — стирает ячейки не ниже утёкшего адреса кадра (esc)."""
+    b = _base(i, o)
+    if b == 'ebp' and not o.mem.index:
+        lo, hi = o.mem.disp, o.mem.disp + max(1, getattr(o, 'size', 4))
+        for k in [k for k in st if k.startswith('[ebp')]:
+            d = int(k[4:-1])
+            if d < hi and lo < d + 4:
+                st.discard(k)
+    elif b is None and not o.mem.index:
+        return
+    elif b == 'esp' or (o.mem.index and i.reg_name(o.mem.index) in ('ebp', 'esp')) or b == 'ebp':
+        _kill_stack(st)
+    elif b in st and not o.mem.index:
+        return
+    else:
+        _kill_stack(st, esc)
+
+
+def _escape(i, S_):
+    """Утечка адреса кадра: lea r, [ebp+X] → X; lea r, [esp+X] / копия ebp или esp в регистр/память/стек → весь кадр.
+    Пока ebp не указатель кадра (frame False), ячеек нет и утечка по ebp не считается (кроме esp)."""
     m, ops = i.mnemonic, i.operands
-    st, zero = set(st), set(zero)
-    if m == 'mov' and len(ops) == 2:
-        d, s = _slot(i, ops[0]), _slot(i, ops[1])
-        if d is not None:
-            st.discard(d)
-            zero.discard(d)
-            if s in st:
-                st.add(d)
-            if ops[1].type == x86.X86_OP_IMM and ops[1].imm == 0 and ops[0].type == x86.X86_OP_REG:
-                zero.add(d)
-        return st, zero
+    esc = S_.esc
+    if m == 'lea' and len(ops) == 2 and ops[1].type == x86.X86_OP_MEM:
+        b = _base(i, ops[1])
+        ix = i.reg_name(ops[1].mem.index) if ops[1].mem.index else None
+        if b == 'esp' or ix == 'esp':
+            return -INF
+        if (b == 'ebp' or ix == 'ebp') and S_.frame:
+            return min(esc, ops[1].mem.disp if b == 'ebp' and not ix else -INF)
+        return esc
+    if m == 'mov' and len(ops) == 2 and ops[0].type == x86.X86_OP_REG and i.reg_name(ops[0].reg) == 'ebp':
+        return esc                          # mov ebp, esp — установка кадра, не утечка
     if m == 'xor' and len(ops) == 2 and ops[0].type == x86.X86_OP_REG and ops[1].type == x86.X86_OP_REG and \
-            ops[0].reg == ops[1].reg:
-        r = i.reg_name(ops[0].reg)
-        st.discard(r)
-        zero.add(r)
-        return st, zero
+            i.reg_name(ops[1].reg) in ('ebp', 'esp') and i.reg_name(ops[0].reg) not in ('ebp', 'esp'):
+        return esc                          # cookie /GS: xor r, ebp/esp — допущение GS_COOKIE (не адрес)
+    for o in ops[1:] if m in ('mov', 'xchg', 'add', 'sub', 'or', 'and', 'xor') else ops:
+        if o.type == x86.X86_OP_REG and i.reg_name(o.reg) in ('esp', 'ebp') and \
+                (i.reg_name(o.reg) == 'esp' or S_.frame) and m not in ('push', 'pop', 'cmp', 'test'):
+            return -INF
+    if m == 'push' and ops and ops[0].type == x86.X86_OP_REG and i.reg_name(ops[0].reg) in ('esp', 'ebp') and \
+            (i.reg_name(ops[0].reg) == 'esp' or S_.frame):
+        return -INF
+    return esc
+
+
+def _transfer(i, S_):
+    """Перенос состояния через команду.
+    v0.6.7 (аудит v0.6.6, P1): запись в частичный регистр (al/ah/ax… — mov, movzx, setcc, неявные записи) стирает
+    полный регистр; ячейки [ebp±d] — только при ebp = указатель кадра этой функции; запись в ebp стирает ячейки;
+    call и запись через неотслеживаемую базу стирают ячейки не ниже утёкшего адреса кадра; недоступный разбор
+    записей команды — закрытый отказ (стирается всё)."""
+    m, ops = i.mnemonic, i.operands
+    st, zero, frame = set(S_.st), set(S_.zero), S_.frame
+    esc = _escape(i, S_)
     if m == 'call':
         st -= {'eax', 'ecx', 'edx'}
         zero -= {'eax', 'ecx', 'edx'}
-        return st, zero
+        _kill_stack(st, esc)                # вызываемая функция пишет в кадр только по утёкшему адресу
+        return St(st, zero, frame, esc)
+    if m == 'mov' and len(ops) == 2:
+        d, s = ops
+        if d.type == x86.X86_OP_REG:
+            full, is32 = _full(i, d)
+            src = _slot(i, s) if (s.type != x86.X86_OP_MEM or frame) else None
+            had, srczero = src in st, src in zero
+            _kill_reg(st, zero, full)
+            if full == 'ebp':
+                frame = s.type == x86.X86_OP_REG and i.reg_name(s.reg) == 'esp'
+                if frame:
+                    esc = INF               # новый кадр: прежние утечки относились к другому значению ebp
+            if is32 and full != 'esp':              # ebp как обычный регистр (не кадр) тоже место указателя
+                if had:
+                    st.add(full)
+                if (s.type == x86.X86_OP_IMM and s.imm == 0) or (src in REG32 and srczero):
+                    zero.add(full)
+            return St(st, zero, frame, esc)
+        if d.type == x86.X86_OP_MEM:
+            src = _slot(i, s)
+            had = src in st and src in REG32
+            _mem_write(i, d, st, esc)
+            k = _slot(i, d) if frame else None
+            if k is not None and had:
+                st.add(k)
+            return St(st, zero, frame, esc)
+    if m in ('xor', 'sub') and len(ops) == 2 and ops[0].type == x86.X86_OP_REG and ops[1].type == x86.X86_OP_REG and \
+            ops[0].reg == ops[1].reg:
+        full, is32 = _full(i, ops[0])
+        _kill_reg(st, zero, full)
+        if full == 'ebp':
+            frame = False
+        if is32:
+            zero.add(full)
+        return St(st, zero, frame, esc)
     try:
         _, w = i.regs_access()
-        for r in w:
-            n = i.reg_name(r)
-            n = _FULL.get(n, n)
-            st.discard(n)
-            zero.discard(n)
+        names = {i.reg_name(r) for r in w}
     except Exception:
-        pass
-    for o in ops:                          # запись в [ebp±d] (кроме mov) стирает место
-        if o.type == x86.X86_OP_MEM and (o.access & capstone.CS_AC_WRITE):
-            k = _slot(i, o)
-            if k:
-                st.discard(k)
-    return st, zero
+        return St((), (), False, -INF)      # закрытый отказ: записи команды неизвестны
+    for o in ops:                            # явные операнды-регистры с записью (и запасное правило по первому)
+        if o.type == x86.X86_OP_REG and (getattr(o, 'access', 0) & capstone.CS_AC_WRITE):
+            names.add(i.reg_name(o.reg))
+    if ops and ops[0].type == x86.X86_OP_REG and m not in NOWRITE and not m.startswith('j'):
+        names.add(i.reg_name(ops[0].reg))
+    if m == 'xchg':
+        names |= {i.reg_name(o.reg) for o in ops if o.type == x86.X86_OP_REG}
+    for n in names:
+        f_ = _FULL.get(n, n)
+        _kill_reg(st, zero, f_)
+        if f_ == 'ebp':
+            frame = False                   # pop ebp, leave, add ebp… — ebp больше не указатель кадра
+    for o in ops:
+        if o.type == x86.X86_OP_MEM and (getattr(o, 'access', 0) & capstone.CS_AC_WRITE or
+                                         (o is ops[0] and m not in NOWRITE and m not in ('lea',) and
+                                          not getattr(o, 'access', 0))):
+            _mem_write(i, o, st, esc)
+    return St(st, zero, frame, esc)
 
 
-def _is_null_cmp(i, st, zero):
+def _is_null_cmp(i, S_):
+    """Сравнение указателя (32 бита) с нулём: test r, r; cmp r/[ebp±d], 0; cmp r, z / cmp z, r (z — нуль)."""
+    st, zero = S_.st, S_.zero
     m, ops = i.mnemonic, i.operands
     if m == 'test' and len(ops) == 2 and ops[0].type == x86.X86_OP_REG and ops[1].type == x86.X86_OP_REG and \
-            ops[0].reg == ops[1].reg and i.reg_name(ops[0].reg) in st:
+            ops[0].reg == ops[1].reg and _slot(i, ops[0]) in st:
         return True
     if m == 'cmp' and len(ops) == 2:
         a, b = _slot(i, ops[0]), _slot(i, ops[1])
-        if a in st and ((ops[1].type == x86.X86_OP_IMM and ops[1].imm == 0) or b in zero):
+        if a is not None and a in st and ((ops[1].type == x86.X86_OP_IMM and ops[1].imm == 0) or b in zero):
             return True
-        if b in st and a in zero:
+        if b is not None and b in st and a in zero:
             return True
     return False
 
 
-def alias_at(im, start, seed, end, null_prune=False, zero0=frozenset()):
-    """Must-alias: {адрес команды: места с указателем на входе в неё} по всем достижимым командам; пересечение на
-    слиянии путей. null_prune — у je/jz, которой непосредственно предшествует сравнение указателя с нулём, ветка
-    «переход выполнен» (объект не создан) не учитывается. Возвращает (карта, множество таких jcc) или (None, причина)."""
-    IN = {start: (frozenset(seed), frozenset(zero0))}
+def _flow(im, start, seed, end, null_prune=False, init=None):
+    """Прямой поток данных: IN[адрес] = St на ВСЕХ путях от start (слияние — St.meet). init — состояние кадра/нулей на
+    входе (seed заменяет места указателя). → (IN, отсечённые jcc) или (None, причина). Команда за концом — отказ."""
+    s0 = init or St()
+    IN = {start: St(seed, s0.zero, s0.frame, s0.esc)}
     prev = {}                              # адрес команды → адрес предыдущей по проходу (fallthrough)
     work, pruned, it = [start], set(), 0
     while work:
@@ -206,21 +369,23 @@ def alias_at(im, start, seed, end, null_prune=False, zero0=frozenset()):
         if it > 200000:
             return None, 'слишком много итераций'
         a = work.pop()
-        st, zero = IN[a]
+        cur = IN[a]
         if not (start <= a < end):
             continue
         i = im.insn(a)
         if i is None:
             return None, f'неразбираемый байт по 0x{a:08X}'
+        if _crosses(i, end):
+            return None, f'команда 0x{a:08X}..0x{a + i.size:08X} заходит за границу 0x{end:08X}'
         s, ex = _succ(i)
         if ex:
             continue                      # ret / выход / косвенный переход: достижимость проверяет reaches_all
-        nst, nzero = _transfer(i, st, zero)
+        val = _transfer(i, cur)
         cut = False
         if null_prune and i.mnemonic in ('je', 'jz') and len(s) == 2 and a in prev:
             c = prev[a]
             ci = im.insn(c)
-            if ci is not None and c in IN and _is_null_cmp(ci, IN[c][0], IN[c][1]):
+            if ci is not None and c in IN and _is_null_cmp(ci, IN[c]):
                 cut = True
                 pruned.add(a)
         for k, t in enumerate(s):
@@ -228,29 +393,42 @@ def alias_at(im, start, seed, end, null_prune=False, zero0=frozenset()):
                 continue
             if k == 0 and t == i.address + i.size:
                 prev[t] = a
-            val = (frozenset(nst), frozenset(nzero))
             if t in IN:
                 old = IN[t]
-                new = (old[0] & val[0], old[1] & val[1])
-                if new != old:
+                new = old.meet(val)
+                if new.key() != old.key():
                     IN[t] = new
                     work.append(t)
             else:
                 IN[t] = val
                 work.append(t)
-    return {a: v[0] for a, v in IN.items() if start <= a < end}, pruned
+    return IN, pruned
 
 
-def zero_regs(im, f, end):
-    """Регистры, обнулённые линейно от f до end и после этого не переписанные (для «cmp p, ebx» при ebx = 0)."""
-    zero, a = set(), f
-    while a < end:
-        i = im.insn(a)
-        if i is None:
-            break
-        _, zero = _transfer(i, set(), zero)
-        a += i.size
-    return zero
+def alias_at(im, start, seed, end, null_prune=False, init=None):
+    """Must-alias: {адрес команды: места с указателем на входе в неё} по всем достижимым командам; пересечение на
+    слиянии путей. null_prune — у je/jz, которой непосредственно предшествует сравнение указателя с нулём, ветка
+    «переход выполнен» (объект не создан) не учитывается. Возвращает (карта, множество таких jcc) или (None, причина)."""
+    IN, pruned = _flow(im, start, seed, end, null_prune, init)
+    if IN is None:
+        return None, pruned
+    return {a: v.st for a, v in IN.items() if start <= a < end}, pruned
+
+
+def state_at(im, f, target, end):
+    """v0.6.7: состояние кадра на входе в target по всем путям от входа функции f (must-zero нулей, указатель кадра,
+    утечка адреса кадра). Недостижимый target или отказ разбора — закрытое состояние (нулей нет, кадра нет, утёк весь)."""
+    IN, _ = _flow(im, f, set(), end)
+    if IN is None or target not in IN:
+        return St((), (), False, -INF)
+    v = IN[target]
+    return St((), v.zero, v.frame, v.esc)
+
+
+def zero_regs(im, f, target, end):
+    """v0.6.7 (аудит v0.6.6, P2): регистры, равные нулю на ВСЕХ путях от входа функции f до команды target (must-zero
+    по графу, а не линейный проход). Недостижимый target или отказ разбора — пустое множество (закрытый отказ)."""
+    return state_at(im, f, target, end).zero
 
 
 def vptr_writes(im, f, vt, end=None, limit=LIMIT):
@@ -302,7 +480,7 @@ def alloc_chain(im, push_va, vt, caller_start, caller_end, ctor_end=None, method
     if call is None or call.operands[0].type != x86.X86_OP_IMM or (call.operands[0].imm & 0xFFFFFFFF) not in ALLOCATORS:
         return None, 'за push нет вызова аллокатора'
     s0 = call.address + call.size
-    A, pruned = alias_at(im, s0, {'eax'}, caller_end, null_prune=True, zero0=zero_regs(im, caller_start, s0))
+    A, pruned = alias_at(im, s0, {'eax'}, caller_end, null_prune=True, init=state_at(im, caller_start, s0, caller_end))
     if A is None:
         return None, pruned
     # 4а: встроенная запись vtable в вызывающей
@@ -353,3 +531,95 @@ def alloc_chain(im, push_va, vt, caller_start, caller_end, ctor_end=None, method
                     'ctor': e0, 'vt_writes': W, 'null_branches_pruned': sorted(pruned)}, None
         return None, f'первый вызов с this = блок (0x{cva:08X}) не пишет vtable класса по this на всех путях'
     return None, 'указатель не доходит до записи vtable класса / вызова конструктора на всех путях'
+
+
+SIZED_DELETERS = {0x00AA1460: 'NiDelete'}
+
+
+def sized_delete(im, f, vt, end, func_end, deleters=None):
+    """v0.6.7 (аудит v0.6.6, P0): точный sizeof по удаляющему деструктору — второй признак, независимый от выделения.
+    f — функция слота 0 первичной vtable класса (vt). Доказательство:
+      1. в f на некотором пути — «push N; push R; call D» подряд, D — освобождение с размером (NiDelete(p, n)),
+         R — this (must-alias от ecx на входе f);
+      2. f принадлежит классу: в f на всех путях до этого вызова запись vt по this, ИЛИ вызов (ecx = this на всех
+         путях) деструктора, который пишет vt по this на всех путях от своего входа.
+    Правило C++ ([expr.delete]): классовому operator delete(void*, size_t) передаётся размер удаляемого объекта;
+    удаляющий деструктор класса T передаёт sizeof(T). → dict или (None, причина)."""
+    deleters = deleters or SIZED_DELETERS
+    A, _ = alias_at(im, f, {'ecx'}, end)
+    if A is None:
+        return None, _
+    found = []
+    for va in sorted(A):
+        i = im.insn(va)
+        if i is None or i.mnemonic != 'call' or i.operands[0].type != x86.X86_OP_IMM or \
+                (i.operands[0].imm & 0xFFFFFFFF) not in deleters:
+            continue
+        # две команды перед вызовом: push imm N; push R (по ходу — fallthrough-предшественники)
+        prev = [a for a in A if (lambda q: q is not None and q.address + q.size == va)(im.insn(a))]
+        if len(prev) != 1:
+            continue
+        p2 = im.insn(prev[0])
+        prev1 = [a for a in A if (lambda q: q is not None and q.address + q.size == p2.address)(im.insn(a))]
+        if len(prev1) != 1:
+            continue
+        p1 = im.insn(prev1[0])
+        if p2.mnemonic != 'push' or p2.operands[0].type != x86.X86_OP_REG or _slot(p2, p2.operands[0]) not in A[p2.address]:
+            continue
+        if p1.mnemonic != 'push' or p1.operands[0].type != x86.X86_OP_IMM:
+            continue
+        found.append((p1.address, p2.address, va, p1.operands[0].imm & 0xFFFFFFFF))
+    if not found:
+        return None, 'нет «push N; push this; call освобождение с размером» в функции слота 0'
+    Ns = {x[3] for x in found}
+    if len(Ns) != 1:
+        return None, f'разные размеры освобождения: {sorted(Ns)}'
+    calls = [x[2] for x in found]
+    W = vptr_writes(im, f, vt, end)
+    if W and reaches_all(im, f, W, end):
+        own = {'binding': 'vt-write', 'vt_writes': W}
+    else:
+        own = None
+        for va in sorted(A):
+            i = im.insn(va)
+            if i is None or i.mnemonic != 'call' or i.operands[0].type != x86.X86_OP_IMM or 'ecx' not in A[va]:
+                continue
+            t = i.operands[0].imm & 0xFFFFFFFF
+            if t in deleters or not reaches_all(im, f, [va], end):
+                continue
+            d0 = entry_of(im, t)
+            de = func_end(d0)
+            Wd = vptr_writes(im, d0, vt, de)
+            if Wd and reaches_all(im, d0, Wd, de):
+                own = {'binding': 'dtor', 'dtor_call': va, 'dtor': d0, 'vt_writes': Wd}
+            break                      # первый вызов с this на всех путях — деструктор; иначе связи нет
+        if own is None:
+            return None, 'функция слота 0 не пишет vtable класса по this ни сама, ни через вызванный деструктор'
+    # путь к освобождению должен проходить через связь (запись vt / вызов деструктора) — освобождение после неё
+    gate = own['vt_writes'] if own['binding'] == 'vt-write' else [own['dtor_call']]
+    for c in calls:
+        if not _all_paths_through(im, f, c, gate, end):
+            return None, f'освобождение 0x{c:08X} достижимо, минуя деструктор/запись vtable'
+    return dict(size=Ns.pop(), push_size=found[0][0], push_this=found[0][1], delete_calls=calls,
+                deleter=deleters[im.insn(calls[0]).operands[0].imm & 0xFFFFFFFF], **own), None
+
+
+def _all_paths_through(im, start, target, gate, end):
+    """Каждый путь от start до target проходит через одну из gate (нет пути в обход)."""
+    G = set(gate)
+    seen, work = set(), [start]
+    while work:
+        a = work.pop()
+        if a in G or a in seen:
+            continue
+        if a == target:
+            return False
+        if not (start <= a < end):
+            continue
+        seen.add(a)
+        i = im.insn(a)
+        if i is None or _crosses(i, end):
+            return False
+        s, ex = _succ(i)
+        work += s
+    return True

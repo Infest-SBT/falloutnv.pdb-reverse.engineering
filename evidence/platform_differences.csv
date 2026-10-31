@@ -3,20 +3,20 @@ kind,item,xbox,pc,basis,consequence
 размер класса,BSAudioManager,0x19C,0x188,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 размер класса,HeapBlock,0x10,0x8,confirmed: header-size,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 размер класса,AbstractHeap,0x20F4,0x20F0,confirmed: subclass-boundary,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,MemoryHeap,0x20F8,0x20F4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,MemoryHeap,0x20F8,0x20F4,consistent: —,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 размер класса,MemoryManager,0x134,0x138,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,BGSSaveLoadManager,0x30,0x38,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,BGSSaveLoadManager,0x30,0x38,consistent: —,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 размер класса,NiTransform,0x40,0x34,confirmed: contained,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiAVObject,0xC0,0x9C,confirmed: subclass-boundary,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiNode,0xD0,0xAC,"confirmed: ctor-alloc, subclass-boundary",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,BSFadeNode,0x110,0xE4,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,BSShaderPPLightingProperty,0x108,0x104,"confirmed: alloc-bounds, ctor-alloc, ctor-alloc-derived",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiGeometry,0xF0,0xC4,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiTriBasedGeom,0xF0,0xC4,confirmed: bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiTriShape,0xF0,0xC4,"confirmed: alloc-bounds, ctor-alloc",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiTriStrips,0xF0,0xC4,"confirmed: alloc-bounds, ctor-alloc",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,NiCamera,0x140,0x114,"confirmed: alloc-bounds, ctor-alloc",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
-размер класса,ShadowSceneNode,0x230,0x200,confirmed: ctor-alloc,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiAVObject,0xC0,0x9C,"confirmed: sized-delete, subclass-boundary",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiNode,0xD0,0xAC,"confirmed: sized-delete, subclass-boundary",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,BSFadeNode,0x110,0xE4,confirmed: sized-delete,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,BSShaderPPLightingProperty,0x108,0x104,"confirmed: alloc-bounds, sized-delete",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiGeometry,0xF0,0xC4,"confirmed: bounds, sized-delete",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTriBasedGeom,0xF0,0xC4,"confirmed: bounds, sized-delete",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTriShape,0xF0,0xC4,confirmed: alloc-bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiTriStrips,0xF0,0xC4,confirmed: alloc-bounds,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,NiCamera,0x140,0x114,"confirmed: alloc-bounds, sized-delete",sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
+размер класса,ShadowSceneNode,0x230,0x200,confirmed: sized-delete,sizeof и смещения из Xbox PDB на PC неверны — брать из этого PDB
 поле только PC,MemoryManager::iMainThreadMemoryProblemPassSignal,нет,+0x134 (unsigned),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
 поле только PC,BGSSaveLoadManager::bShouldSystemSave,нет,+0x11 (bool),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
 поле только PC,BGSSaveLoadManager::sSystemSaveName,нет,+0x30 (BSStringT<char>),confirmed; имя наше (own),на Xbox поля нет; размер класса на PC больше
@@ -29,10 +29,10 @@ kind,item,xbox,pc,basis,consequence
 размер/выравнивание типа,NiCriticalSection,,"0x80; в классах — на смещениях, кратных 0x80 (выравнивание объекта в памяти не заявляется)","блок 0x80 байт; обнаружены смещения блоков внутри классов, кратные 0x80, с пустыми промежутками перед ними: NiRenderer — +0x80/+0x100/+0x180, BSShaderAccumulator — +0x200 при sizeof 0x280 (смещения подтверждены обращениями PC). Почему так (выравнивание типа у компилятора, явные заполнители или особая структура) — не установлено; выравнивание самого объекта в памяти на 128 не доказано (обычное выделение его не гарантирует). В PDB alignof NiRenderer и BSShaderAccumulator = 4, alignas(128) не вводится",
 поля класса,BSShaderPPLightingProperty,см. Xbox PDB,sizeof 0x104,"sizeof 0x104 (CreateObject 0x00B68D92 и CreateClone выделяют 0x104). На PC массив spTextures — 6 указателей, а не 7 (конструктор 0x00B66F50 обходит ровно 6 массивов текстур с +0xAC), поэтому все поля после него на 4 байта раньше, чем на Xbox, в том же порядке: pSpecularExponent +0xC4 (конструктор пишет 0x1E в оба байта), usLandscapeTextures +0xC8 (GetLandscapeTextureCount 0x00B671F0 читает word [ecx+0xC8]), pbGlossMap +0xCC, spTangentSpaceData +0xD0 (StoreExtraDataPointers 0x00539F20), TextureClampMode +0xD8 (GetClampNI 0x00B671C0), spTexEffectData +0xDC (SetTexEffectData 0x00B675C0), fRefractionPower +0xE0 (SetRefractionStrength 0x00B66700), fParallaxOccMaxPasses +0xE8 (SetMaxParallaxPasses 0x0068C8B0), fTerrainTexOffsetX/Y/Fade +0xF0/+0xF4/+0xF8 (SetLODTexParams 0x006FB940), pRenderDepthPass +0x100 (GetDepthPass 0x00B66E20)",смещения и размер из Xbox PDB для этих полей на PC неверны
 поля класса,HeapBlock,см. Xbox PDB,sizeof 0x8,"на PC заголовок блока кучи — 8 байт, а не 0x10, как на Xbox: AbstractHeap::BaseFree получает блок как «указатель − 8» (0x00AA9913 sub ecx, 8), учитывает размер блока + 8 (0x00AA992A add ecx, 8); AbstractHeap::BaseAllocate: следующий блок = блок + размер + 8 (0x00AA9316 lea eax, [edx + ecx + 8]). Поля pPrevious/iMemSize те же; на Xbox заголовок добит до 16 байт",смещения и размер из Xbox PDB для этих полей на PC неверны
-класс только PC,BSWin32GameSound : BSGameSound,нет,0x230,"confirmed: alloc-bounds, ctor-alloc; поля по коду PC (own)","Аналог на Xbox — BSXenonGameSound (XAudio2), раскладка другая. Тип COM-полей — по набору вызываемых слотов vtable (DirectSound API)"
+класс только PC,BSWin32GameSound : BSGameSound,нет,0x230,confirmed: alloc-bounds; поля по коду PC (own),"Аналог на Xbox — BSXenonGameSound (XAudio2), раскладка другая. Тип COM-полей — по набору вызываемых слотов vtable (DirectSound API)"
 класс только PC,BSWin32Audio : BSAudio,нет,0xA4,confirmed: bounds; поля по коду PC (own),Единственный объект — BSWin32Audio::Instance (0x011F7080)
 раскладка класса,NiMatrix3,0x30,0x24,confirmed: array-span,"на Xbox 3 строки по 16 байт (NiPoint4, выравнивание под VMX), на PC — 3×3 float подряд, построчно"
-класс только PC,NiDX9Renderer : NiRenderer,нет,0xB80,confirmed: ctor-alloc; поля по коду PC (own),Рендерер DirectX 9 (только PC): описаны только поля с однозначным назначением по коду PC — геттеры xNVSE и вызовы через указатели; остальные ~0x800 байт не разобраны. Единственный объект — *NiRenderer::ms_pkRenderer (0x011F4748).
+класс только PC,NiDX9Renderer : NiRenderer,нет,0xB80,confirmed: sized-delete; поля по коду PC (own),Рендерер DirectX 9 (только PC): описаны только поля с однозначным назначением по коду PC — геттеры xNVSE и вызовы через указатели; остальные ~0x800 байт не разобраны. Единственный объект — *NiRenderer::ms_pkRenderer (0x011F4748).
 значение перечисления,MemoryPasses::MP_FREE_UNUSED_POOL_PAGES,нет,6,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
 значение перечисления,MemoryPasses::MP_ALLOW_OVER_HEAP,6,7,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен
 значение перечисления,MemoryPasses::MP_COMPLETELY_OUT,7,8,evidence/memory_passes.csv,значение на PC другое — Xbox-номер неверен

@@ -1469,7 +1469,7 @@ for cname, c in CLS.items():
 # обращения метода класса по this, БЕЗ допущения о выравнивании; границы совпали ⇒ sizeof = N.
 # Статус размера может только сохраниться или понизиться: повышения в этом выпуске не применяются (только кандидат).
 import allocchain as _AC
-_IM = _AC.Img(img, B)
+_IM = _AC.Img(img, B, starts)          # v0.6.7: переходник подтверждается только началом функции по символам
 SIZE_CHANGES = []
 
 
@@ -1526,6 +1526,40 @@ for _cn in list(CLS):
             r['evidence'], r['accepted'] = 'subclass-boundary-unconfirmed', False
             r['details'] += ' — v0.6.6: смещение этого поля НЕ подтверждено, граница не принимается'
             _changed = True
+    # v0.6.7 (аудит Астры v0.6.6, P0): ctor-alloc — только верхняя граница (sizeof ≤ N), точный размер не подтверждает
+    for r in _rows:
+        if r['evidence'] in ('ctor-alloc', 'ctor-alloc-derived') and r['accepted']:
+            r['accepted'] = False
+            r['details'] += (' — v0.6.7: только верхняя граница (sizeof ≤ размер выделения), точный размер не подтверждает'
+                             if r['evidence'] == 'ctor-alloc' else
+                             ' — v0.6.7: выделение наследника — только верхняя граница (sizeof ≤ sizeof наследника ≤ N)')
+            _changed = True
+    # v0.6.7: удаляющий деструктор (слот 0 первичной vtable по RTTI) — «push N; push this; call NiDelete» и связь
+    # функции с классом (запись vtable по this сама или через деструктор на всех путях) ⇒ sizeof = N по правилу C++
+    # для классового operator delete(void*, size_t). Независимо от выделения. Без повышения статуса.
+    _vt_r = _rtti_vtable(_cn)
+    _vt_b = 'RTTI'
+    if _vt_r is None and VT_SYM.get(_cn) and VT_SYM[_cn] == _sc.get('vtable_va'):
+        _vt_r, _vt_b = VT_SYM[_cn], 'символ xNVSE'
+    if _vt_r and _vt_r == (_sc.get('vtable_va') or None):
+        _f0 = u32(_vt_r)
+        _sd, _sdwhy = _AC.sized_delete(_IM, _f0, _vt_r, func_end(_f0), func_end)
+        if _sd is not None:
+            _m = _sd['size'] == CLS[_cn]['pc_size']
+            _acc = _m and _old[0] == 'confirmed'
+            _bind = (f"запись vtable по this {', '.join(f'0x{a:08X}' for a in _sd['vt_writes'])}" if _sd['binding'] == 'vt-write'
+                     else f"вызов деструктора 0x{_sd['dtor']:08X} (0x{_sd['dtor_call']:08X}), запись vtable по this "
+                          f"{', '.join(f'0x{a:08X}' for a in _sd['vt_writes'])} на всех путях")
+            sizes_rows.append({'class': _cn, 'pc_sizeof': f"0x{CLS[_cn]['pc_size']:X}", 'evidence': 'sized-delete',
+                               'value': f"0x{_sd['size']:X}", 'match': _m, 'accepted': _acc,
+                               'details': f"слот 0 vtable 0x{_vt_r:08X} ({_vt_b}) = 0x{_f0:08X}; 0x{_sd['push_size']:08X} push "
+                                          f"0x{_sd['size']:x}; 0x{_sd['push_this']:08X} push this; call {_sd['deleter']} "
+                                          f"({', '.join(f'0x{a:08X}' for a in _sd['delete_calls'])}); связь с классом: {_bind} "
+                                          f"⇒ sizeof = 0x{_sd['size']:X}" + ('' if _m else ' — НЕ СОВПАДАЕТ с размером PC') +
+                                          ('' if _acc or not _m else ' — кандидат, статус не повышается')})
+            if not _m:
+                print(f'v0.6.7 ВНИМАНИЕ: sized-delete {_cn}: 0x{_sd["size"]:X} ≠ 0x{CLS[_cn]["pc_size"]:X}')
+            _changed = True
     # alloc-bounds: места выделения — свои ctor-alloc и ctor-alloc-derived других классов, где vtable — этого класса
     _pushes = set()
     for r in sizes_rows:
@@ -1563,19 +1597,18 @@ for _cn in list(CLS):
             break
     if _changed:
         _acc_rows = [r for r in sizes_rows if r['class'] == _cn and r['accepted']]
-        _hold = spec.get('size_status_hold', {}).get(_cn)
-        if _sc['size_status'] == 'confirmed' and not _acc_rows and _hold:
-            # статус размера по новому правилу упал бы; понижение меняет строгий PDB — оно не применяется без
-            # решения аудитора, а держится открыто: основание «held-pending-audit», строка журнала с причиной
-            sizes_rows.append({'class': _cn, 'pc_sizeof': f"0x{CLS[_cn]['pc_size']:X}", 'evidence': 'held-pending-audit',
-                               'value': f"0x{CLS[_cn]['pc_size']:X}", 'match': True, 'accepted': False,
-                               'details': 'v0.6.6: по новому правилу размер НЕ подтверждён; статус удержан до решения '
-                                          'аудитора (evidence_spec.json size_status_hold): ' + _hold})
-            _sc['size_basis'] = ['held-pending-audit']
-            SIZE_CHANGES.append({'class': _cn, 'before': f'{_old[0]}: {"+".join(_old[1])}',
-                                 'after': 'confirmed: held-pending-audit (по правилу — consistent)'})
-            continue
+        # v0.6.7 (аудит v0.6.6, P0): удержаний нет — статус размера падает честно
+        assert not spec.get('size_status_hold'), 'v0.6.7: size_status_hold запрещён (аудит v0.6.6)'
         if _sc['size_status'] == 'confirmed' and not _acc_rows:
+            _ub = [int(r['value'], 16) for r in sizes_rows if r['class'] == _cn and r['evidence'] == 'ctor-alloc'
+                   and int(r['value'], 16) == CLS[_cn]['pc_size']]
+            _lb2 = _lower_bound(_cn)
+            sizes_rows.append({'class': _cn, 'pc_sizeof': f"0x{CLS[_cn]['pc_size']:X}", 'evidence': 'bounds-only',
+                               'value': f"0x{CLS[_cn]['pc_size']:X}", 'match': True, 'accepted': False,
+                               'details': f"v0.6.7: точный размер не доказан; нижняя граница "
+                                          f"{f'0x{_lb2[0]:X} ({_lb2[1]})' if _lb2 else 'нет'}, верхняя "
+                                          f"{f'0x{min(_ub):X} (выделение, ctor-alloc)' if _ub else 'нет'}; "
+                                          f"независимого признака точного размера нет — статус понижен"})
             _last = max(CLS[_cn]['fields'], key=lambda fd: fd['off']) if CLS[_cn]['fields'] else None
             _sc['size_status'] = ('consistent' if _last and _sc['fields'].get(_last['name']) in ('confirmed', 'consistent')
                                   else 'unverified')

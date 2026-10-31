@@ -1,0 +1,285 @@
+21d20
+< class BGSReconstructFormsInAllFilesMap;
+25d23
+< class BGSSaveLoadFile;
+27,32d24
+< class BGSSaveLoadFormIDMap;
+< class BGSSaveLoadGame;
+< class BGSSaveLoadHistory;
+< class BGSSaveLoadManager;
+< class BGSSaveLoadQueuedSubBufferMap;
+< class BGSSaveLoadReferencesMap;
+39d30
+< class BSFileEntry;
+64d54
+< class Font;
+67d56
+< class FontManager;
+84d72
+< class MemoryHeap;
+150,152d137
+< class QueuedChildren;
+< class QueuedParents;
+< class RadioConvTask;
+176c161,172
+<     struct FORadioStation;
+---
+> };
+> class Font { // (Xbox PDB) только область имён: на PC описаны лишь вложенные типы
+> public:
+>     class TextData;
+> };
+> class FontManager { // (Xbox PDB) только область имён: на PC описаны лишь вложенные типы
+> public:
+>     enum enumCharTypes { eSTART_TAG = 1, eEND_TAG = 2, eWHITESPACE = 4, eQUOTE = 8, eEQUAL = 16, eEOF = 32 }; // (Xbox PDB), значения проверены на PC
+>     class TextLine;
+>     class TextPage;
+>     class TextDoc;
+>     class TextData;
+1567,1574d1562
+< // MemoryHeap (Xbox PDB): Xbox sizeof 0x20F8, PC sizeof 0x20F4
+< class MemoryHeap : public AbstractHeap {
+< public:
+<     // поля
+<     bool bSupportsSwapping;
+<     bool bDeletingHeap;
+<     unsigned char _pad20F2[0x2];
+< };
+1664,1712d1651
+< // BGSSaveLoadGame (Xbox PDB): Xbox sizeof 0x24C, PC sizeof 0x24C
+< class BGSSaveLoadGame {
+< public:
+<     // поля
+<     BGSSaveLoadChangesMap* pChangesMap;
+<     BGSSaveLoadChangesMap* pOldChangesMap;
+<     BGSSaveLoadFormIDMap* pFormIDMap;
+<     BGSSaveLoadFormIDMap* pWorldspaceFormIDMap;
+<     BGSSaveLoadReferencesMap* pReferencesMap;
+<     BGSSaveLoadQueuedSubBufferMap* pQueuedSubBuffersMap;
+<     void* pChangedFormIDMap;
+<     BGSSaveLoadHistory* pHistory;
+<     BGSReconstructFormsInAllFilesMap* pReconstructForms;
+<     alignas(4) unsigned char FormBufferArray[16]; // BSSimpleArray<BGSLoadFormBuffer *,1024>
+<     alignas(4) unsigned char QueuedInitPackageLocationsActorMap[16]; // NiTMap<unsigned int,Actor *>
+<     unsigned char cFileIndexArray[255];
+<     unsigned char cReverseFileIndexArray[255];
+<     unsigned char _pad242[0x2];
+<     unsigned iGlobalFlags;
+<     unsigned char cCurrentMinorVersion;
+<     unsigned char _pad249[0x3];
+< };
+< // BGSSaveLoadManager (Xbox PDB): Xbox sizeof 0x30, PC sizeof 0x38
+< class BGSSaveLoadManager {
+< public:
+<     // поля
+<     void* pSaveGameList;
+<     unsigned iSaveGameCount;
+<     unsigned iCurrentSaveGameNumber;
+<     bool bSimulatedMode;
+<     bool bAutosaveDisabledForDiskspace;
+<     bool bhandledCorrupt;
+<     unsigned char cQueuedAutosave;
+<     unsigned char cQueuedForceSave;
+<     bool bShouldSystemSave; // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду
+<     unsigned char _pad12[0x2];
+<     char* pMostRecentSaveGame;
+<     int iMostRecentSaveGameDeviceID;
+<     bool bSysUtilHasSaveData;
+<     unsigned char _pad1D[0x3];
+<     BGSSaveLoadFile* pSaveLoadFile;
+<     bool bReturnedFromSysUtil;
+<     bool bSysUtilLoadDataComplete;
+<     bool bStartMenuLoading;
+<     unsigned char _pad27[0x1];
+<     void* pSysUtilSaveCompleteCallback;
+<     void* pSysUtilLoadCompleteCallback;
+<     alignas(4) unsigned char sSystemSaveName[8]; // BSStringT<char> // own: поля нет в Xbox PDB, имя наше, найдено по PC-коду
+< };
+1748,1771d1686
+< // FalloutRadio::FORadioStation (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
+< struct FalloutRadio::FORadioStation {
+< public:
+<     // поля
+<     TESObjectREFR* pStation;
+<     FalloutRadio::StationState CurrentState;
+< };
+< // RadioConvTask (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
+< class RadioConvTask {
+< public:
+<     virtual ~RadioConvTask(); // слот 0
+<     // поля
+<     int iRefCount;
+<     int eState;
+<     __int64 Key;
+<     int eContext;
+<     alignas(4) unsigned char spParent[4]; // NiPointer<QueuedFile>
+<     QueuedChildren* pChildren;
+<     QueuedParents* pAdditionalParents;
+<     char* pFileName;
+<     BSFileEntry* pFileEntry;
+<     FalloutRadio::FORadioStation* pStation;
+<     unsigned char _pad34[0x4];
+< };
+1807,1823d1721
+< // Font (Xbox PDB): Xbox sizeof 0x54, PC sizeof 0x54
+< class Font {
+< public:
+<     class TextData;
+<     // поля
+<     unsigned short iRefCount;
+<     unsigned char _pad2[0x2];
+<     char* pFontFile;
+<     int iFontNum;
+<     alignas(4) unsigned char pTextureData[32]; // NiPointer<NiTexturingProperty>[32 bytes]
+<     float fFontHeight;
+<     float fMaxDrop;
+<     alignas(4) unsigned char _unverified_iLineOverlap[4]; // строгая сборка: не подтверждено (int)
+<     FontData* pFontData;
+<     alignas(4) unsigned char IconAtlasTextureName[8]; // BSStringT<char>
+<     alignas(4) unsigned char ButtonIcons[16]; // BSSimpleArray<ButtonIcon,1024>
+< };
+1838,1867d1735
+< // FontManager (Xbox PDB): Xbox sizeof 0x24, PC sizeof 0x24
+< class FontManager {
+< public:
+<     enum enumCharTypes { eSTART_TAG = 1, eEND_TAG = 2, eWHITESPACE = 4, eQUOTE = 8, eEQUAL = 16, eEOF = 32 }; // (Xbox PDB), значения проверены на PC
+<     class CharData;
+<     class TextLine;
+<     class TextPage;
+<     class TextDoc;
+<     class TextData;
+<     // поля
+<     Font* pFont[8];
+<     bool bUseNewFonts;
+<     unsigned char _pad21[0x3];
+< };
+< // FontManager::CharData (Xbox PDB): Xbox sizeof 0x38, PC sizeof 0x38
+< class FontManager::CharData {
+< public:
+<     // поля
+<     int iFontIndex;
+<     unsigned char cChar;
+<     unsigned char _pad5[0x3];
+<     alignas(4) unsigned char xColor[16]; // NiColorA
+<     int iJustification;
+<     alignas(4) unsigned char xFilename[8]; // BSStringT<char>
+<     int iWidth;
+<     int iRise;
+<     int iDrop;
+<     int iLeadingEdge;
+<     int iX;
+< };
+2205,2210d2072
+< // NiPropertyState (Xbox PDB): Xbox sizeof 0x1C, PC sizeof 0x1C
+< class NiPropertyState {
+< public:
+<     // поля
+<     alignas(4) unsigned char m_aspProps[28]; // NiPointer<NiProperty>[28 bytes]
+< };
+2270c2132
+<     NiPropertyState m_PropertyState;
+---
+>     alignas(4) unsigned char _unverified_m_PropertyState[28]; // строгая сборка: не подтверждено (NiPropertyState)
+3130,3135d2991
+< static_assert(offsetof(MemoryHeap, bSupportsSwapping) == 0x20F0, "MemoryHeap::bSupportsSwapping");
+< static_assert(offsetof(MemoryHeap, bDeletingHeap) == 0x20F1, "MemoryHeap::bDeletingHeap");
+< static_assert(alignof(MemoryHeap) == 4, "alignof MemoryHeap: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(MemoryHeap) == 0x20F4, "sizeof MemoryHeap");
+< static_assert(sizeof(MemoryHeap) == 0x20F4, "PC-проверка sizeof MemoryHeap");
+< static_assert(offsetof(MemoryHeap, bSupportsSwapping) == 0x20F0, "PC-проверка MemoryHeap::bSupportsSwapping");
+3192,3231d3047
+< static_assert(offsetof(BGSSaveLoadGame, pChangesMap) == 0x0, "BGSSaveLoadGame::pChangesMap");
+< static_assert(offsetof(BGSSaveLoadGame, pOldChangesMap) == 0x4, "BGSSaveLoadGame::pOldChangesMap");
+< static_assert(offsetof(BGSSaveLoadGame, pFormIDMap) == 0x8, "BGSSaveLoadGame::pFormIDMap");
+< static_assert(offsetof(BGSSaveLoadGame, pWorldspaceFormIDMap) == 0xC, "BGSSaveLoadGame::pWorldspaceFormIDMap");
+< static_assert(offsetof(BGSSaveLoadGame, pReferencesMap) == 0x10, "BGSSaveLoadGame::pReferencesMap");
+< static_assert(offsetof(BGSSaveLoadGame, pQueuedSubBuffersMap) == 0x14, "BGSSaveLoadGame::pQueuedSubBuffersMap");
+< static_assert(offsetof(BGSSaveLoadGame, pChangedFormIDMap) == 0x18, "BGSSaveLoadGame::pChangedFormIDMap");
+< static_assert(offsetof(BGSSaveLoadGame, pHistory) == 0x1C, "BGSSaveLoadGame::pHistory");
+< static_assert(offsetof(BGSSaveLoadGame, pReconstructForms) == 0x20, "BGSSaveLoadGame::pReconstructForms");
+< static_assert(offsetof(BGSSaveLoadGame, FormBufferArray) == 0x24, "BGSSaveLoadGame::FormBufferArray");
+< static_assert(offsetof(BGSSaveLoadGame, QueuedInitPackageLocationsActorMap) == 0x34, "BGSSaveLoadGame::QueuedInitPackageLocationsActorMap");
+< static_assert(offsetof(BGSSaveLoadGame, cFileIndexArray) == 0x44, "BGSSaveLoadGame::cFileIndexArray");
+< static_assert(offsetof(BGSSaveLoadGame, cReverseFileIndexArray) == 0x143, "BGSSaveLoadGame::cReverseFileIndexArray");
+< static_assert(offsetof(BGSSaveLoadGame, iGlobalFlags) == 0x244, "BGSSaveLoadGame::iGlobalFlags");
+< static_assert(offsetof(BGSSaveLoadGame, cCurrentMinorVersion) == 0x248, "BGSSaveLoadGame::cCurrentMinorVersion");
+< static_assert(alignof(BGSSaveLoadGame) == 4, "alignof BGSSaveLoadGame: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(BGSSaveLoadGame) == 0x24C, "sizeof BGSSaveLoadGame");
+< static_assert(sizeof(BGSSaveLoadGame) == 0x24C, "PC-проверка sizeof BGSSaveLoadGame");
+< static_assert(offsetof(BGSSaveLoadManager, pSaveGameList) == 0x0, "BGSSaveLoadManager::pSaveGameList");
+< static_assert(offsetof(BGSSaveLoadManager, iSaveGameCount) == 0x4, "BGSSaveLoadManager::iSaveGameCount");
+< static_assert(offsetof(BGSSaveLoadManager, iCurrentSaveGameNumber) == 0x8, "BGSSaveLoadManager::iCurrentSaveGameNumber");
+< static_assert(offsetof(BGSSaveLoadManager, bSimulatedMode) == 0xC, "BGSSaveLoadManager::bSimulatedMode");
+< static_assert(offsetof(BGSSaveLoadManager, bAutosaveDisabledForDiskspace) == 0xD, "BGSSaveLoadManager::bAutosaveDisabledForDiskspace");
+< static_assert(offsetof(BGSSaveLoadManager, bhandledCorrupt) == 0xE, "BGSSaveLoadManager::bhandledCorrupt");
+< static_assert(offsetof(BGSSaveLoadManager, cQueuedAutosave) == 0xF, "BGSSaveLoadManager::cQueuedAutosave");
+< static_assert(offsetof(BGSSaveLoadManager, cQueuedForceSave) == 0x10, "BGSSaveLoadManager::cQueuedForceSave");
+< static_assert(offsetof(BGSSaveLoadManager, bShouldSystemSave) == 0x11, "BGSSaveLoadManager::bShouldSystemSave");
+< static_assert(offsetof(BGSSaveLoadManager, pMostRecentSaveGame) == 0x14, "BGSSaveLoadManager::pMostRecentSaveGame");
+< static_assert(offsetof(BGSSaveLoadManager, iMostRecentSaveGameDeviceID) == 0x18, "BGSSaveLoadManager::iMostRecentSaveGameDeviceID");
+< static_assert(offsetof(BGSSaveLoadManager, bSysUtilHasSaveData) == 0x1C, "BGSSaveLoadManager::bSysUtilHasSaveData");
+< static_assert(offsetof(BGSSaveLoadManager, pSaveLoadFile) == 0x20, "BGSSaveLoadManager::pSaveLoadFile");
+< static_assert(offsetof(BGSSaveLoadManager, bReturnedFromSysUtil) == 0x24, "BGSSaveLoadManager::bReturnedFromSysUtil");
+< static_assert(offsetof(BGSSaveLoadManager, bSysUtilLoadDataComplete) == 0x25, "BGSSaveLoadManager::bSysUtilLoadDataComplete");
+< static_assert(offsetof(BGSSaveLoadManager, bStartMenuLoading) == 0x26, "BGSSaveLoadManager::bStartMenuLoading");
+< static_assert(offsetof(BGSSaveLoadManager, pSysUtilSaveCompleteCallback) == 0x28, "BGSSaveLoadManager::pSysUtilSaveCompleteCallback");
+< static_assert(offsetof(BGSSaveLoadManager, pSysUtilLoadCompleteCallback) == 0x2C, "BGSSaveLoadManager::pSysUtilLoadCompleteCallback");
+< static_assert(offsetof(BGSSaveLoadManager, sSystemSaveName) == 0x30, "BGSSaveLoadManager::sSystemSaveName");
+< static_assert(alignof(BGSSaveLoadManager) == 4, "alignof BGSSaveLoadManager: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(BGSSaveLoadManager) == 0x38, "sizeof BGSSaveLoadManager");
+< static_assert(sizeof(BGSSaveLoadManager) == 0x38, "PC-проверка sizeof BGSSaveLoadManager");
+3256,3271d3071
+< static_assert(offsetof(FalloutRadio::FORadioStation, pStation) == 0x0, "FalloutRadio::FORadioStation::pStation");
+< static_assert(offsetof(FalloutRadio::FORadioStation, CurrentState) == 0x4, "FalloutRadio::FORadioStation::CurrentState");
+< static_assert(alignof(FalloutRadio::FORadioStation) == 4, "alignof FalloutRadio::FORadioStation: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(FalloutRadio::FORadioStation) == 0x24, "sizeof FalloutRadio::FORadioStation");
+< static_assert(offsetof(RadioConvTask, iRefCount) == 0x8, "RadioConvTask::iRefCount");
+< static_assert(offsetof(RadioConvTask, eState) == 0xC, "RadioConvTask::eState");
+< static_assert(offsetof(RadioConvTask, Key) == 0x10, "RadioConvTask::Key");
+< static_assert(offsetof(RadioConvTask, eContext) == 0x18, "RadioConvTask::eContext");
+< static_assert(offsetof(RadioConvTask, spParent) == 0x1C, "RadioConvTask::spParent");
+< static_assert(offsetof(RadioConvTask, pChildren) == 0x20, "RadioConvTask::pChildren");
+< static_assert(offsetof(RadioConvTask, pAdditionalParents) == 0x24, "RadioConvTask::pAdditionalParents");
+< static_assert(offsetof(RadioConvTask, pFileName) == 0x28, "RadioConvTask::pFileName");
+< static_assert(offsetof(RadioConvTask, pFileEntry) == 0x2C, "RadioConvTask::pFileEntry");
+< static_assert(offsetof(RadioConvTask, pStation) == 0x30, "RadioConvTask::pStation");
+< static_assert(alignof(RadioConvTask) == 8, "alignof RadioConvTask: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(RadioConvTask) == 0x38, "sizeof RadioConvTask");
+3295,3306d3094
+< static_assert(offsetof(Font, iRefCount) == 0x0, "Font::iRefCount");
+< static_assert(offsetof(Font, pFontFile) == 0x4, "Font::pFontFile");
+< static_assert(offsetof(Font, iFontNum) == 0x8, "Font::iFontNum");
+< static_assert(offsetof(Font, pTextureData) == 0xC, "Font::pTextureData");
+< static_assert(offsetof(Font, fFontHeight) == 0x2C, "Font::fFontHeight");
+< static_assert(offsetof(Font, fMaxDrop) == 0x30, "Font::fMaxDrop");
+< static_assert(offsetof(Font, _unverified_iLineOverlap) == 0x34, "Font::_unverified_iLineOverlap");
+< static_assert(offsetof(Font, pFontData) == 0x38, "Font::pFontData");
+< static_assert(offsetof(Font, IconAtlasTextureName) == 0x3C, "Font::IconAtlasTextureName");
+< static_assert(offsetof(Font, ButtonIcons) == 0x44, "Font::ButtonIcons");
+< static_assert(alignof(Font) == 4, "alignof Font: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(Font) == 0x54, "sizeof Font");
+3317,3332d3104
+< static_assert(offsetof(FontManager, pFont) == 0x0, "FontManager::pFont");
+< static_assert(offsetof(FontManager, bUseNewFonts) == 0x20, "FontManager::bUseNewFonts");
+< static_assert(alignof(FontManager) == 4, "alignof FontManager: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(FontManager) == 0x24, "sizeof FontManager");
+< static_assert(offsetof(FontManager::CharData, iFontIndex) == 0x0, "FontManager::CharData::iFontIndex");
+< static_assert(offsetof(FontManager::CharData, cChar) == 0x4, "FontManager::CharData::cChar");
+< static_assert(offsetof(FontManager::CharData, xColor) == 0x8, "FontManager::CharData::xColor");
+< static_assert(offsetof(FontManager::CharData, iJustification) == 0x18, "FontManager::CharData::iJustification");
+< static_assert(offsetof(FontManager::CharData, xFilename) == 0x1C, "FontManager::CharData::xFilename");
+< static_assert(offsetof(FontManager::CharData, iWidth) == 0x24, "FontManager::CharData::iWidth");
+< static_assert(offsetof(FontManager::CharData, iRise) == 0x28, "FontManager::CharData::iRise");
+< static_assert(offsetof(FontManager::CharData, iDrop) == 0x2C, "FontManager::CharData::iDrop");
+< static_assert(offsetof(FontManager::CharData, iLeadingEdge) == 0x30, "FontManager::CharData::iLeadingEdge");
+< static_assert(offsetof(FontManager::CharData, iX) == 0x34, "FontManager::CharData::iX");
+< static_assert(alignof(FontManager::CharData) == 4, "alignof FontManager::CharData: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(FontManager::CharData) == 0x38, "sizeof FontManager::CharData");
+3496,3498d3267
+< static_assert(offsetof(NiPropertyState, m_aspProps) == 0x0, "NiPropertyState::m_aspProps");
+< static_assert(alignof(NiPropertyState) == 4, "alignof NiPropertyState: следует из типов полей (MSVC x86)");
+< static_assert(sizeof(NiPropertyState) == 0x1C, "sizeof NiPropertyState");
+3527c3296
+< static_assert(offsetof(NiGeometry, m_PropertyState) == 0x9C, "NiGeometry::m_PropertyState");
+---
+> static_assert(offsetof(NiGeometry, _unverified_m_PropertyState) == 0x9C, "NiGeometry::_unverified_m_PropertyState");

@@ -1,4 +1,13 @@
 kind,va,rva,original_name,symbol_kind,status,reason
+class,,,BGSSaveLoadGame,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,BGSSaveLoadManager,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,FalloutRadio::FORadioStation,type,unclassified,"нет основания: strict=False, size_status=unverified, представления нет"
+class,,,Font,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,FontManager,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,FontManager::CharData,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,MemoryHeap,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,NiPropertyState,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
+class,,,RadioConvTask,type,unclassified,"нет основания: strict=False, size_status=consistent, представления нет"
 public-symbol,0x00401000,0x00001000,ourMalloc,function,unclassified,not-in-registry
 public-symbol,0x00401030,0x00001030,ourFree,function,unclassified,not-in-registry
 public-symbol,0x00401050,0x00001050,"void `eh vector ctor iterator'(void *, unsigned int, unsigned int, void (__thiscall *)(void *), void (__thiscall *)(void *))",function,unclassified,not-in-registry

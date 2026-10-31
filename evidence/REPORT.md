@@ -8,89 +8,89 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 |---|---|---|---|---|---|---|
 | `BaseFormComponent` | 0x4 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 0 / 2 / 0 / 0 / 2 / 0 / 0 |
 | `TESForm` | 0x18 | confirmed | external | да | 4 / 0 / 0 / 0 | 6 / 34 / 0 / 0 / 38 / 0 / 0 |
-| `TESDataHandler` | 0x63C | confirmed | alloc-bounds, ctor-alloc | да | 86 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `TESDataHandler` | 0x63C | confirmed | alloc-bounds | да | 86 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BSGameSound` | 0x198 | confirmed | subclass-boundary | да | 37 / 0 / 0 / 0 | 4 / 23 / 0 / 0 / 1 / 0 / 0 |
-| `BSWin32GameSound` | 0x230 | confirmed | alloc-bounds, ctor-alloc | да | 29 / 0 / 0 / 0 | 3 / 24 / 0 / 0 / 1 / 0 / 0 |
+| `BSWin32GameSound` | 0x230 | confirmed | alloc-bounds | да | 29 / 0 / 0 / 0 | 3 / 24 / 0 / 0 / 1 / 0 / 0 |
 | `BSAudio` | 0x38 | confirmed | subclass-boundary | да | 14 / 0 / 0 / 0 | 2 / 3 / 0 / 0 / 3 / 0 / 0 |
 | `BSWin32Audio` | 0xA4 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 2 / 3 / 0 / 0 / 3 / 0 / 0 |
 | `BSAudioManager` | 0x188 | confirmed | bounds | да | 45 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
-| `BSSoundHandle` | 0xC | confirmed | alloc-bounds, ctor-alloc | да | 3 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BSSoundHandle` | 0xC | confirmed | alloc-bounds | да | 3 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `HeapBlock` | 0x8 | confirmed | header-size | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlock` | 0x10 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FreeHeapBlockList` | 0x8 | confirmed | array-span | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `IMemoryHeap` | 0x4 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 1 / 7 / 0 / 0 / 4 / 0 / 0 |
 | `HeapFreeSubBucket` | 0x8 | confirmed | index-stride | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `AbstractHeap` | 0x20F0 | confirmed | subclass-boundary | да | 24 / 0 / 0 / 0 | 1 / 17 / 0 / 0 / 0 / 0 / 0 |
-| `MemoryHeap` | 0x20F4 | confirmed | ctor-alloc | да | 2 / 0 / 0 / 0 | 1 / 17 / 0 / 0 / 0 / 0 / 0 |
-| `ScrapHeap` | 0x10 | confirmed | alloc-bounds, ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `MemoryHeap` | 0x20F4 | consistent | — | нет | 2 / 0 / 0 / 0 | 1 / 17 / 0 / 0 / 0 / 0 / 0 |
+| `ScrapHeap` | 0x10 | confirmed | alloc-bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MemoryManager` | 0x138 | confirmed | bounds | да | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveLoadFormHeader` | 0x9 | consistent | last-field | нет | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveGameBuffer` | 0x14 | confirmed | subclass-boundary | да | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `BGSSaveFormBuffer` | 0x24 | confirmed | stack-frame | да (−4 полей) | 5 / 0 / 0 / 0 | 1 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `BGSLoadGameBuffer` | 0x10 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
-| `BGSLoadFormBuffer` | 0x30 | confirmed | alloc-bounds, ctor-alloc | да (−4 полей) | 9 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadGame` | 0x24C | confirmed | ctor-alloc | да | 15 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadManager` | 0x38 | confirmed | ctor-alloc | да | 19 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BGSSaveLoadChangesMap` | 0x10 | confirmed | alloc-bounds, ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
-| `FalloutRadio::FORadioReceiver` | 0x20 | confirmed | alloc-bounds, ctor-alloc | да (−1 полей) | 10 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSLoadFormBuffer` | 0x30 | confirmed | alloc-bounds | да (−4 полей) | 9 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadGame` | 0x24C | consistent | — | нет | 15 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadManager` | 0x38 | consistent | — | нет | 19 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BGSSaveLoadChangesMap` | 0x10 | confirmed | alloc-bounds | да | 4 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
+| `FalloutRadio::FORadioReceiver` | 0x20 | confirmed | alloc-bounds | да (−1 полей) | 10 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FalloutRadio::StationState` | 0x20 | confirmed | contained | да | 8 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FalloutRadio::FORadioStation` | 0x24 | confirmed | ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `RadioConvTask` | 0x38 | confirmed | ctor-alloc | да | 11 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
+| `FalloutRadio::FORadioStation` | 0x24 | unverified | — | нет | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `RadioConvTask` | 0x38 | consistent | — | нет | 11 / 0 / 0 / 0 | 0 / 1 / 0 / 0 / 0 / 0 / 0 |
 | `UVMap` | 0x8 | confirmed | array-span | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontLetter` | 0x38 | confirmed | index-stride | да (−1 полей) | 6 / 1 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `TextureFile` | 0x24 | confirmed | index-stride | да (−2 полей) | 0 / 1 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontData` | 0x3928 | confirmed | alloc-for-field | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `Font` | 0x54 | confirmed | ctor-alloc | да (−1 полей) | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `Font` | 0x54 | consistent | — | нет | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `Font::TextData` | 0x28 | confirmed | stack-frame | да (−1 полей) | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FontManager` | 0x24 | confirmed | ctor-alloc | да | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FontManager::CharData` | 0x38 | confirmed | alloc-bounds, ctor-alloc | да | 10 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FontManager::TextLine` | 0x30 | confirmed | alloc-bounds, ctor-alloc | да (−1 полей) | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `FontManager::TextPage` | 0x44 | confirmed | alloc-bounds, ctor-alloc | да (−1 полей) | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FontManager` | 0x24 | consistent | — | нет | 2 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FontManager::CharData` | 0x38 | consistent | — | нет | 10 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FontManager::TextLine` | 0x30 | confirmed | alloc-bounds | да (−1 полей) | 9 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `FontManager::TextPage` | 0x44 | confirmed | alloc-bounds | да (−1 полей) | 7 / 0 / 1 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextDoc` | 0x18 | confirmed | alloc-inline | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `FontManager::TextData` | 0x40 | consistent | last-field | нет | 12 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiRefObject` | 0x8 | confirmed | subclass-boundary | да | 2 / 0 / 0 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
 | `NiObject` | 0x8 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 0 / 18 / 0 / 0 / 17 / 0 / 0 |
-| `NiObjectNET` | 0x18 | confirmed | ctor-alloc-derived, subclass-boundary | да | 5 / 0 / 0 / 0 | 2 / 15 / 0 / 0 / 18 / 0 / 0 |
+| `NiObjectNET` | 0x18 | confirmed | sized-delete, subclass-boundary | да | 5 / 0 / 0 / 0 | 2 / 15 / 0 / 0 / 18 / 0 / 0 |
 | `NiPoint3` | 0xC | confirmed | array-span | да | 3 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiMatrix3` | 0x24 | confirmed | array-span | да | 1 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `NiTransform` | 0x34 | confirmed | contained | да | 5 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `NiBound` | 0x10 | confirmed | alloc-bounds, ctor-alloc | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `NiAVObject` | 0x9C | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 4 / 31 / 0 / 1 / 19 / 0 / 0 |
-| `NiNode` | 0xAC | confirmed | ctor-alloc, subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 40 / 0 / 1 / 19 / 0 / 0 |
-| `BSFadeNode` | 0xE4 | confirmed | ctor-alloc | да | 12 / 0 / 0 / 0 | 4 / 40 / 0 / 1 / 19 / 0 / 0 |
+| `NiBound` | 0x10 | confirmed | alloc-bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `NiAVObject` | 0x9C | confirmed | sized-delete, subclass-boundary | да | 11 / 0 / 0 / 0 | 4 / 31 / 0 / 1 / 19 / 0 / 0 |
+| `NiNode` | 0xAC | confirmed | sized-delete, subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 40 / 0 / 1 / 19 / 0 / 0 |
+| `BSFadeNode` | 0xE4 | confirmed | sized-delete | да | 12 / 0 / 0 / 0 | 4 / 40 / 0 / 1 / 19 / 0 / 0 |
 | `NiProperty` | 0x18 | confirmed | subclass-boundary | да | 0 / 0 / 0 / 0 | 2 / 16 / 0 / 0 / 19 / 0 / 0 |
 | `NiShadeProperty` | 0x20 | confirmed | alloc-bounds, subclass-boundary | да | 2 / 0 / 0 / 0 | 2 / 16 / 0 / 0 / 19 / 0 / 0 |
-| `BSShaderProperty` | 0x60 | confirmed | alloc-bounds, ctor-alloc, subclass-boundary | да | 15 / 0 / 0 / 0 | 9 / 17 / 0 / 0 / 23 / 0 / 0 |
-| `BSShaderProperty::RenderPass` | 0x10 | confirmed | alloc-bounds, ctor-alloc | да | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `BSShaderLightingProperty` | 0x7C | confirmed | alloc-bounds | да | 5 / 0 / 0 / 0 | 5 / 25 / 0 / 0 / 21 / 0 / 0 |
-| `BSShaderPPLightingProperty` | 0x104 | confirmed | alloc-bounds, ctor-alloc, ctor-alloc-derived | да (−3 полей) | 20 / 0 / 3 / 0 | 7 / 42 / 0 / 0 / 22 / 0 / 0 |
-| `NiPropertyState` | 0x1C | confirmed | ctor-alloc | да | 1 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
-| `NiGeometryData` | 0x40 | confirmed | subclass-boundary | да | 17 / 0 / 0 / 0 | 3 / 18 / 0 / 0 / 20 / 0 / 0 |
-| `NiTriBasedGeomData` | 0x44 | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 20 / 0 / 0 |
-| `NiTriShapeData` | 0x58 | confirmed | alloc-bounds, ctor-alloc | да | 5 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 20 / 0 / 0 |
-| `NiGeometry` | 0xC4 | confirmed | bounds | да | 4 / 0 / 0 / 0 | 5 / 34 / 0 / 2 / 19 / 0 / 0 |
-| `NiTriBasedGeom` | 0xC4 | confirmed | bounds | да | 0 / 0 / 0 / 0 | 7 / 35 / 0 / 2 / 17 / 0 / 0 |
-| `NiTriShape` | 0xC4 | confirmed | alloc-bounds, ctor-alloc | да | 0 / 0 / 0 / 0 | 6 / 35 / 0 / 2 / 18 / 0 / 0 |
-| `NiTriStrips` | 0xC4 | confirmed | alloc-bounds, ctor-alloc | да | 0 / 0 / 0 / 0 | 6 / 35 / 0 / 2 / 18 / 0 / 0 |
-| `NiCamera` | 0x114 | confirmed | alloc-bounds, ctor-alloc | да | 6 / 0 / 0 / 0 | 3 / 28 / 0 / 1 / 23 / 0 / 0 |
-| `NiTexture` | 0x30 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 4 / 18 / 0 / 0 / 19 / 0 / 0 |
-| `NiSourceTexture` | 0x48 | confirmed | alloc-bounds, ctor-alloc | да | 9 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 19 / 0 / 0 |
-| `NiAccumulator` | 0xC | confirmed | subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 14 / 0 / 0 / 23 / 0 / 0 |
-| `NiBackToFrontAccumulator` | 0x30 | confirmed | alloc-bounds, subclass-boundary | да | 7 / 0 / 0 / 0 | 3 / 16 / 0 / 0 / 23 / 0 / 0 |
-| `NiAlphaAccumulator` | 0x34 | confirmed | held-pending-audit | да | 3 / 0 / 0 / 0 | 2 / 18 / 0 / 0 / 22 / 0 / 0 |
-| `BSShaderAccumulator` | 0x280 | confirmed | ctor-alloc | да (−2 полей) | 49 / 0 / 2 / 0 | 2 / 20 / 0 / 0 / 23 / 0 / 0 |
-| `BSBatchRenderer` | 0x98 | confirmed | alloc-bounds, ctor-alloc | да | 13 / 0 / 0 / 0 | 2 / 13 / 0 / 0 / 22 / 0 / 0 |
-| `NiRenderer` | 0x280 | confirmed | subclass-boundary | да | 11 / 0 / 0 / 0 | 2 / 11 / 0 / 0 / 23 / 0 / 0 |
-| `NiDX9Renderer` | 0xB80 | confirmed | ctor-alloc | да (−1 полей) | 26 / 1 / 0 / 0 | 2 / 11 / 0 / 0 / 23 / 0 / 0 |
-| `NiShader` | 0x14 | confirmed | ctor-alloc, subclass-boundary | да | 3 / 0 / 0 / 0 | 29 / 6 / 0 / 0 / 12 / 0 / 0 |
-| `NiD3DShaderInterface` | 0x24 | confirmed | subclass-boundary | да | 4 / 0 / 0 / 0 | 23 / 24 / 0 / 0 / 12 / 0 / 0 |
-| `NiD3DShader` | 0x3C | confirmed | subclass-boundary | да | 7 / 0 / 0 / 0 | 23 / 25 / 0 / 0 / 12 / 0 / 0 |
-| `NiD3DDefaultShader` | 0x5C | confirmed | subclass-boundary | да | 9 / 0 / 0 / 0 | 23 / 28 / 0 / 0 / 9 / 0 / 0 |
-| `BSShader` | 0x6C | confirmed | bounds, subclass-boundary | да | 4 / 0 / 0 / 0 | 26 / 48 / 0 / 0 / 5 / 0 / 0 |
+| `BSShaderProperty` | 0x60 | confirmed | alloc-bounds, sized-delete, subclass-boundary | да | 15 / 0 / 0 / 0 | 9 / 17 / 0 / 0 / 23 / 0 / 0 |
+| `BSShaderProperty::RenderPass` | 0x10 | confirmed | alloc-bounds | да | 9 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `BSShaderLightingProperty` | 0x7C | confirmed | alloc-bounds, sized-delete | да | 5 / 0 / 0 / 0 | 5 / 25 / 0 / 0 / 21 / 0 / 0 |
+| `BSShaderPPLightingProperty` | 0x104 | confirmed | alloc-bounds, sized-delete | да (−3 полей) | 20 / 0 / 3 / 0 | 7 / 42 / 0 / 0 / 22 / 0 / 0 |
+| `NiPropertyState` | 0x1C | consistent | — | нет | 1 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `NiGeometryData` | 0x40 | confirmed | sized-delete, subclass-boundary | да | 17 / 0 / 0 / 0 | 3 / 18 / 0 / 0 / 20 / 0 / 0 |
+| `NiTriBasedGeomData` | 0x44 | confirmed | sized-delete, subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 20 / 0 / 0 |
+| `NiTriShapeData` | 0x58 | confirmed | alloc-bounds, sized-delete | да | 5 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 20 / 0 / 0 |
+| `NiGeometry` | 0xC4 | confirmed | bounds, sized-delete | да (−1 полей) | 4 / 0 / 0 / 0 | 5 / 34 / 0 / 2 / 19 / 0 / 0 |
+| `NiTriBasedGeom` | 0xC4 | confirmed | bounds, sized-delete | да | 0 / 0 / 0 / 0 | 7 / 35 / 0 / 2 / 17 / 0 / 0 |
+| `NiTriShape` | 0xC4 | confirmed | alloc-bounds | да | 0 / 0 / 0 / 0 | 6 / 35 / 0 / 2 / 18 / 0 / 0 |
+| `NiTriStrips` | 0xC4 | confirmed | alloc-bounds | да | 0 / 0 / 0 / 0 | 6 / 35 / 0 / 2 / 18 / 0 / 0 |
+| `NiCamera` | 0x114 | confirmed | alloc-bounds, sized-delete | да | 6 / 0 / 0 / 0 | 3 / 28 / 0 / 1 / 23 / 0 / 0 |
+| `NiTexture` | 0x30 | confirmed | sized-delete, subclass-boundary | да | 4 / 0 / 0 / 0 | 4 / 18 / 0 / 0 / 19 / 0 / 0 |
+| `NiSourceTexture` | 0x48 | confirmed | alloc-bounds, sized-delete | да | 9 / 0 / 0 / 0 | 4 / 21 / 0 / 0 / 19 / 0 / 0 |
+| `NiAccumulator` | 0xC | confirmed | sized-delete, subclass-boundary | да | 1 / 0 / 0 / 0 | 4 / 14 / 0 / 0 / 23 / 0 / 0 |
+| `NiBackToFrontAccumulator` | 0x30 | confirmed | alloc-bounds, sized-delete, subclass-boundary | да | 7 / 0 / 0 / 0 | 3 / 16 / 0 / 0 / 23 / 0 / 0 |
+| `NiAlphaAccumulator` | 0x34 | confirmed | sized-delete | да | 3 / 0 / 0 / 0 | 2 / 18 / 0 / 0 / 22 / 0 / 0 |
+| `BSShaderAccumulator` | 0x280 | confirmed | sized-delete | да (−2 полей) | 49 / 0 / 2 / 0 | 2 / 20 / 0 / 0 / 23 / 0 / 0 |
+| `BSBatchRenderer` | 0x98 | confirmed | alloc-bounds, sized-delete | да | 13 / 0 / 0 / 0 | 2 / 13 / 0 / 0 / 22 / 0 / 0 |
+| `NiRenderer` | 0x280 | confirmed | sized-delete, subclass-boundary | да | 11 / 0 / 0 / 0 | 2 / 11 / 0 / 0 / 23 / 0 / 0 |
+| `NiDX9Renderer` | 0xB80 | confirmed | sized-delete | да (−1 полей) | 26 / 1 / 0 / 0 | 2 / 11 / 0 / 0 / 23 / 0 / 0 |
+| `NiShader` | 0x14 | confirmed | sized-delete, subclass-boundary | да | 3 / 0 / 0 / 0 | 29 / 6 / 0 / 0 / 12 / 0 / 0 |
+| `NiD3DShaderInterface` | 0x24 | confirmed | sized-delete, subclass-boundary | да | 4 / 0 / 0 / 0 | 23 / 24 / 0 / 0 / 12 / 0 / 0 |
+| `NiD3DShader` | 0x3C | confirmed | sized-delete, subclass-boundary | да | 7 / 0 / 0 / 0 | 23 / 25 / 0 / 0 / 12 / 0 / 0 |
+| `NiD3DDefaultShader` | 0x5C | confirmed | sized-delete, subclass-boundary | да | 9 / 0 / 0 / 0 | 23 / 28 / 0 / 0 / 9 / 0 / 0 |
+| `BSShader` | 0x6C | confirmed | bounds, sized-delete, subclass-boundary | да | 4 / 0 / 0 / 0 | 26 / 48 / 0 / 0 / 5 / 0 / 0 |
 | `NiD3DPass` | 0x68 | confirmed | array-new | да | 21 / 0 / 0 / 0 | 0 / 4 / 0 / 0 / 0 / 0 / 0 |
-| `ShadowSceneNode` | 0x200 | confirmed | ctor-alloc | да (−2 полей) | 30 / 0 / 2 / 0 | 3 / 40 / 0 / 1 / 20 / 0 / 0 |
-| `ShadowSceneLight` | 0x250 | confirmed | ctor-alloc | да (−1 полей) | 39 / 0 / 1 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
-| `ImageSpaceManager` | 0x31C | confirmed | alloc-bounds, ctor-alloc | да | 61 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
+| `ShadowSceneNode` | 0x200 | confirmed | sized-delete | да (−2 полей) | 30 / 0 / 2 / 0 | 3 / 40 / 0 / 1 / 20 / 0 / 0 |
+| `ShadowSceneLight` | 0x250 | confirmed | sized-delete | да (−1 полей) | 39 / 0 / 1 / 0 | 0 / 2 / 0 / 0 / 0 / 0 / 0 |
+| `ImageSpaceManager` | 0x31C | confirmed | alloc-bounds | да | 61 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 | `MTRenderingSystem` | 0x33C | confirmed | bounds | да | 4 / 0 / 0 / 0 | 0 / 0 / 0 / 0 / 0 / 0 / 0 |
 
 ## Типы полей
@@ -158,11 +158,11 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 строгий PDB (v0.4.2, v0.5): класс допускается, если его размер confirmed и допущены все базовые классы; в допущенном классе типизировано поле, только если его смещение confirmed И ширина подтверждена хотя бы одним основанием из width_basis_kinds (width_verified), либо поле — непрозрачные байты (blob); вложенный объект класса типизирован, только если композиция доказана (метод вложенного класса вызывается с this+смещение в ECX или первым аргументом на стеке; для POD-структуры без vtable — раскладкой: по ширине подтверждены хотя бы два её подполя, или единственное, если поле у неё одно, и нет противоречий) и сам вложенный класс допущен; в классе, раскладка которого на PC отличается от Xbox, не типизируется поле, для которого раскладка, сдвинутая на 4/8 байт, объясняет код PC не хуже (layout_shift_test.csv, AMBIGUOUS); поле, у которого вид типа противоречит командам PC (type_status CONFLICT), не типизируется; остальное — байты _unverified_<имя>; слоты vtable с прототипом — только semantics и name+stack.
 
-Не допущены полным классом: `BGSSaveLoadFormHeader` (consistent; в строгом — только представление подтверждённой части под тем же именем, VerifiedPrefix), `FontManager::TextData` (consistent; в строгом — только представление подтверждённой части под тем же именем, VerifiedPrefix).
+Не допущены полным классом: `MemoryHeap` (consistent), `BGSSaveLoadFormHeader` (consistent; в строгом — только представление подтверждённой части под тем же именем, VerifiedPrefix), `BGSSaveLoadGame` (consistent), `BGSSaveLoadManager` (consistent), `FalloutRadio::FORadioStation` (unverified), `RadioConvTask` (consistent), `Font` (consistent), `FontManager` (consistent), `FontManager::CharData` (consistent), `FontManager::TextData` (consistent; в строгом — только представление подтверждённой части под тем же именем, VerifiedPrefix), `NiPropertyState` (consistent).
 
 Функции, прочитанные не до конца (лимит 0x10000 байт): нет.
 
-Строк в evidence_fields.csv: 8856, evidence_vslots.csv: 4993, evidence_sizes.csv: 480.
+Строк в evidence_fields.csv: 8856, evidence_vslots.csv: 4993, evidence_sizes.csv: 516.
 
 Итого: f_confirmed=885, f_consistent=3, f_unverified=14, v_name=13, v_name+stack=953, v_semantics=251, v_stub=670
 
@@ -208,7 +208,7 @@ FalloutNV.exe SHA-256 `42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9
 
 ## Статусы доказанности и представления VerifiedPrefix (v0.5.11–v0.5.12)
 
-verification_status классов (v0.5.12): Confirmed — 84, VerifiedPrefix — 2. Статус — свойство метаданных (summary.json), имя класса не меняется; реестр функций — verification.json. В строгий PDB: классов Confirmed (размер и раскладка) 84 + VerifiedPrefix 2. VerifiedPrefix — тип под ИСХОДНЫМ именем класса только с подтверждёнными полями известной начальной части; точный размер объекта на PC не доказан (известны нижняя и верхняя границы). Это НЕ доказанная полная структура: sizeof типа — нижняя граница, а не размер объекта игры. **Нельзя** по нему выделять память под объект игры, создавать массивы, копировать объект, передавать по значению, вызывать конструктор или деструктор игры. Можно — обращаться к подтверждённым полям уже существующего объекта игры по указателю. Сам класс остаётся в research с прежним size_status. Решение пересчитывается при каждом прогоне (prefixview.evaluate); любое невыполненное условие снимает представление. Отрицательный поиск — «не обнаружено в исследованном коде», не доказательство отсутствия; охват — строки «охват поиска» в CSV.
+verification_status классов (v0.5.12): Confirmed — 75, VerifiedPrefix — 2, unclassified — 9. Статус — свойство метаданных (summary.json), имя класса не меняется; реестр функций — verification.json. В строгий PDB: классов Confirmed (размер и раскладка) 75 + VerifiedPrefix 2. VerifiedPrefix — тип под ИСХОДНЫМ именем класса только с подтверждёнными полями известной начальной части; точный размер объекта на PC не доказан (известны нижняя и верхняя границы). Это НЕ доказанная полная структура: sizeof типа — нижняя граница, а не размер объекта игры. **Нельзя** по нему выделять память под объект игры, создавать массивы, копировать объект, передавать по значению, вызывать конструктор или деструктор игры. Можно — обращаться к подтверждённым полям уже существующего объекта игры по указателю. Сам класс остаётся в research с прежним size_status. Решение пересчитывается при каждом прогоне (prefixview.evaluate); любое невыполненное условие снимает представление. Отрицательный поиск — «не обнаружено в исследованном коде», не доказательство отсутствия; охват — строки «охват поиска» в CSV.
 
 | класс | имя в строгом PDB | size_status класса | границы | решение | условия | просмотрено функций |
 |---|---|---|---|---|---|---|

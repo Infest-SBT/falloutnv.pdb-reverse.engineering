@@ -7,11 +7,11 @@
  "exe_sha256": "42fee7d6cd74e801372aa89c8f71c974cebd3c20ec9ad43d1465b8fa9646b49c",
  "exe_id": "42fee7d6cd74e801",
  "image_base": "0x400000",
- "summary_sha256": "4b977b5512f233e6208a5fa057648294ecd109c1d9c112e23e4deeb9cb39ff2d",
+ "summary_sha256": "b3c4a9444a27b7c76c758438b161c14ca50bdaf660db0c2035452116f52d1381",
  "pdbs": {
   "strict": {
    "path": "FalloutNV.pdb",
-   "sha256": "d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e"
+   "sha256": "57428a4bd16a89bf9100c2b28f4a788ee2ea9c5f96d6b59e1f5a66116f738140"
   },
   "research": {
    "path": "research/FalloutNV.pdb",
@@ -48,8 +48,8 @@
   "BGSSaveGameBuffer": "Confirmed",
   "BGSSaveLoadChangesMap": "Confirmed",
   "BGSSaveLoadFormHeader": "VerifiedPrefix",
-  "BGSSaveLoadGame": "Confirmed",
-  "BGSSaveLoadManager": "Confirmed",
+  "BGSSaveLoadGame": null,
+  "BGSSaveLoadManager": null,
   "BSAudio": "Confirmed",
   "BSAudioManager": "Confirmed",
   "BSBatchRenderer": "Confirmed",
@@ -66,14 +66,14 @@
   "BSWin32GameSound": "Confirmed",
   "BaseFormComponent": "Confirmed",
   "FalloutRadio::FORadioReceiver": "Confirmed",
-  "FalloutRadio::FORadioStation": "Confirmed",
+  "FalloutRadio::FORadioStation": null,
   "FalloutRadio::StationState": "Confirmed",
-  "Font": "Confirmed",
+  "Font": null,
   "Font::TextData": "Confirmed",
   "FontData": "Confirmed",
   "FontLetter": "Confirmed",
-  "FontManager": "Confirmed",
-  "FontManager::CharData": "Confirmed",
+  "FontManager": null,
+  "FontManager::CharData": null,
   "FontManager::TextData": "VerifiedPrefix",
   "FontManager::TextDoc": "Confirmed",
   "FontManager::TextLine": "Confirmed",
@@ -85,7 +85,7 @@
   "IMemoryHeap": "Confirmed",
   "ImageSpaceManager": "Confirmed",
   "MTRenderingSystem": "Confirmed",
-  "MemoryHeap": "Confirmed",
+  "MemoryHeap": null,
   "MemoryManager": "Confirmed",
   "NiAVObject": "Confirmed",
   "NiAccumulator": "Confirmed",
@@ -106,7 +106,7 @@
   "NiObjectNET": "Confirmed",
   "NiPoint3": "Confirmed",
   "NiProperty": "Confirmed",
-  "NiPropertyState": "Confirmed",
+  "NiPropertyState": null,
   "NiRefObject": "Confirmed",
   "NiRenderer": "Confirmed",
   "NiShadeProperty": "Confirmed",
@@ -119,7 +119,7 @@
   "NiTriShape": "Confirmed",
   "NiTriShapeData": "Confirmed",
   "NiTriStrips": "Confirmed",
-  "RadioConvTask": "Confirmed",
+  "RadioConvTask": null,
   "ScrapHeap": "Confirmed",
   "ShadowSceneLight": "Confirmed",
   "ShadowSceneNode": "Confirmed",
@@ -3608,7 +3608,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -6270,7 +6270,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -7382,7 +7382,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -8376,7 +8376,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -37032,7 +37032,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -37951,7 +37951,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -38190,7 +38190,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -38908,7 +38908,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -40340,7 +40340,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -42725,7 +42725,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -45705,7 +45705,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FontManager",
+    "strict": null,
     "research": "FontManager"
    },
    "apply_signature": {
@@ -46078,7 +46078,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -46237,7 +46237,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -48400,7 +48400,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FalloutRadio::FORadioStation",
+    "strict": null,
     "research": "FalloutRadio::FORadioStation"
    },
    "apply_signature": {
@@ -48480,7 +48480,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "RadioConvTask",
+    "strict": null,
     "research": "RadioConvTask"
    },
    "apply_signature": {
@@ -48730,7 +48730,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "RadioConvTask",
+    "strict": null,
     "research": "RadioConvTask"
    },
    "apply_signature": {
@@ -50024,7 +50024,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50262,7 +50262,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50421,7 +50421,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50501,7 +50501,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50581,7 +50581,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50741,7 +50741,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50821,7 +50821,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -50901,7 +50901,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -51301,7 +51301,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -51461,7 +51461,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -51541,7 +51541,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -51701,7 +51701,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -51781,7 +51781,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -51940,7 +51940,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52099,7 +52099,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52179,7 +52179,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52418,7 +52418,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52498,7 +52498,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52578,7 +52578,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52737,7 +52737,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52817,7 +52817,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52897,7 +52897,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -52977,7 +52977,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53057,7 +53057,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53137,7 +53137,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53533,7 +53533,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53613,7 +53613,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53693,7 +53693,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53773,7 +53773,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -53853,7 +53853,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -54013,7 +54013,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -54093,7 +54093,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadGame",
+    "strict": null,
     "research": "BGSSaveLoadGame"
    },
    "apply_signature": {
@@ -54413,7 +54413,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -54888,7 +54888,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -54968,7 +54968,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -55206,7 +55206,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -55286,7 +55286,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56077,7 +56077,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56157,7 +56157,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56237,7 +56237,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56317,7 +56317,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56397,7 +56397,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56477,7 +56477,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -56557,7 +56557,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -57190,7 +57190,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -57270,7 +57270,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -57350,7 +57350,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -57430,7 +57430,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "BGSSaveLoadManager",
+    "strict": null,
     "research": "BGSSaveLoadManager"
    },
    "apply_signature": {
@@ -65980,7 +65980,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66139,7 +66139,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66219,7 +66219,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66299,7 +66299,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66379,7 +66379,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66466,7 +66466,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66546,7 +66546,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66713,7 +66713,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66793,7 +66793,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66873,7 +66873,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -66953,7 +66953,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -67033,7 +67033,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -67113,7 +67113,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -67351,7 +67351,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FontManager",
+    "strict": null,
     "research": "FontManager"
    },
    "apply_signature": {
@@ -67596,7 +67596,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FontManager",
+    "strict": null,
     "research": "FontManager"
    },
    "apply_signature": {
@@ -68269,7 +68269,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "Font",
+    "strict": null,
     "research": "Font"
    },
    "apply_signature": {
@@ -68507,7 +68507,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FontManager::CharData",
+    "strict": null,
     "research": "FontManager::CharData"
    },
    "apply_signature": {
@@ -68587,7 +68587,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FontManager::CharData",
+    "strict": null,
     "research": "FontManager::CharData"
    },
    "apply_signature": {
@@ -68667,7 +68667,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "FontManager::CharData",
+    "strict": null,
     "research": "FontManager::CharData"
    },
    "apply_signature": {
@@ -73101,7 +73101,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "NiPropertyState",
+    "strict": null,
     "research": "NiPropertyState"
    },
    "apply_signature": {
@@ -103942,7 +103942,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "NiPropertyState",
+    "strict": null,
     "research": "NiPropertyState"
    },
    "apply_signature": {
@@ -104022,7 +104022,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "NiPropertyState",
+    "strict": null,
     "research": "NiPropertyState"
    },
    "apply_signature": {
@@ -104102,7 +104102,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "NiPropertyState",
+    "strict": null,
     "research": "NiPropertyState"
    },
    "apply_signature": {
@@ -104182,7 +104182,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "NiPropertyState",
+    "strict": null,
     "research": "NiPropertyState"
    },
    "apply_signature": {
@@ -115655,7 +115655,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -115751,7 +115751,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -115863,7 +115863,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -115976,7 +115976,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116089,7 +116089,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116201,7 +116201,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116313,7 +116313,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116425,7 +116425,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116537,7 +116537,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116643,7 +116643,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116741,7 +116741,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116839,7 +116839,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -116944,7 +116944,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -117468,7 +117468,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -117548,7 +117548,7 @@
     "argument_types"
    ],
    "apply_this": {
-    "strict": "MemoryHeap",
+    "strict": null,
     "research": "MemoryHeap"
    },
    "apply_signature": {
@@ -206582,8 +206582,9 @@
  ],
  "coverage": {
   "classes": {
-   "Confirmed": 84,
-   "VerifiedPrefix": 2
+   "Confirmed": 75,
+   "VerifiedPrefix": 2,
+   "unclassified": 9
   },
   "functions": {
    "Confirmed": 1,

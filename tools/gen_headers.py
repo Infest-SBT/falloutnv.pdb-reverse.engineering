@@ -67,6 +67,15 @@ DROP = {k: set(v) for k, v in spec.get('drop_vslots', {}).items()}
 EXTRA = spec.get('extra_fields', {})
 ASSERTS = spec.get('asserts', {})
 ENUMS = spec.get('enums', [])
+
+
+def nested_enum_line(e):
+    """Строка объявления вложенного enum (значения из Xbox PDB, проверены на PC)."""
+    en = e.split('::', 1)[1]
+    eti = T.byname['enum ' + e]
+    fl = re.search(r'field list: (0x[0-9A-F]+)', ' '.join(rec(eti)[2]))
+    vals = re.findall(r'LF_ENUMERATE \[(\w+) = (-?\d+)\]', ' '.join(rec(int(fl.group(1), 16))[2]))
+    return f'    enum {en} {{ ' + ', '.join(f'{a} = {v}' for a, v in vals) + ' }; // (Xbox PDB), значения проверены на PC'
 GENUMS = spec.get('global_enums', {})
 PACKED = set(spec.get('packed', []))
 VALUE_AS = spec.get('value_as', {})
@@ -572,11 +581,7 @@ for cls in CLASSES:
     if cls == 'BSSoundHandle' or any(e.startswith(cls + '::') for e in ENUMS):
         for e in ENUMS:
             if e.startswith(cls + '::'):
-                en = e.split('::', 1)[1]
-                eti = T.byname['enum ' + e]
-                fl = re.search(r'field list: (0x[0-9A-F]+)', ' '.join(rec(eti)[2]))
-                vals = re.findall(r'LF_ENUMERATE \[(\w+) = (-?\d+)\]', ' '.join(rec(int(fl.group(1), 16))[2]))
-                lines.insert(3, f'    enum {en} {{ ' + ', '.join(f'{a} = {v}' for a, v in vals) + ' }; // (Xbox PDB), значения проверены на PC')
+                lines.insert(3, nested_enum_line(e))
     lines.append('};')
     if packed:
         lines = ['#pragma pack(push, 1) // на Xbox и PC этот заголовок упакован (sizeof 9, поле по смещению 3)'] + lines + ['#pragma pack(pop)']
@@ -604,10 +609,12 @@ hdr += ['// Сгенерировано gen_headers.py. Источник раск
 hdr += [('class' if n in PCC else 'struct' if (n in T.byname and T.rec[T.byname[n]][0] == 'LF_STRUCTURE') or n not in T.byname else 'class')
         + f' {n};' for n in sorted((fwd | declared) - set(VALUE_TYPES)) if '::' not in n]
 # области имён вложенных классов, которые сами не описываются (FalloutRadio — класс только со статическими членами)
-for scope in sorted({n.split('::')[0] for n in declared if '::' in n} - declared):
+# v0.6.7: вложенные enum класса, который сам не описан (ушёл из строгой сборки), остаются в области имён
+for scope in sorted({n.split('::')[0] for n in list(declared) + list(ENUMS) if '::' in n} - declared):
     sk = 'struct' if T.rec[T.byname[scope]][0] == 'LF_STRUCTURE' else 'class'
     inner = [n for n in CLASSES if n.startswith(scope + '::')]
     hdr.append(f'{sk} {scope} {{ // (Xbox PDB) только область имён: на PC описаны лишь вложенные типы\npublic:\n' +
+               ''.join(nested_enum_line(e) + '\n' for e in ENUMS if e.startswith(scope + '::')) +
                ''.join(f"    {'struct' if T.rec[T.byname[n]][0] == 'LF_STRUCTURE' else 'class'} {n.split('::', 1)[1]};\n" for n in inner) + '};')
 hdr += [f'struct {n} {{ alignas({xalign(n)}) unsigned char _opaque[0x{sz:X}]; }}; // (Xbox PDB) передаётся по значению; поля не описаны'
         for n, sz in sorted(VALUE_TYPES.items())]

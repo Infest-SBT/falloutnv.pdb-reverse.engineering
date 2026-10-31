@@ -60,9 +60,15 @@ if len(sys.argv) > 3:
     pub = json.load(open(os.path.join(ev, 'verification.json'), encoding='utf-8'))
     check('реестр пересобран из evidence/ и PDB — совпадает с опубликованным verification.json', reg == pub)
     cls = S0['classes']
-    check('у каждого из 86 классов ровно один статус',
-          len(cls) == 86 and all(c.get('verification_status') in V.STATUSES for c in cls.values())
-          and reg['classes'] == {k: v['verification_status'] for k, v in cls.items()})
+    # v0.6.7 (аудит Астры v0.6.6, P0): 9 классов без независимого признака точного размера понижены — вне двухстатусного
+    # реестра (coverage_gaps: unclassified), только research; список — audit/sizeof_evidence_reaudit.csv
+    DOWN9 = ('BGSSaveLoadGame', 'BGSSaveLoadManager', 'FalloutRadio::FORadioStation', 'Font', 'FontManager', 'FontManager::CharData', 'MemoryHeap', 'NiPropertyState', 'RadioConvTask')
+    check('из 86 классов: 77 с одним статусом (75 Confirmed + 2 VerifiedPrefix), 9 понижённых по P0 v0.6.7 — без '
+          'статуса (coverage_gaps, unclassified)',
+          len(cls) == 86 and sorted(k for k, c in cls.items() if c.get('verification_status') is None) == sorted(DOWN9)
+          and all(c.get('verification_status') in V.STATUSES for k, c in cls.items() if k not in DOWN9)
+          and reg['classes'] == {k: v['verification_status'] for k, v in cls.items()}
+          and sorted(g['original_name'] for g in gaps if g['kind'] == 'class' and g['status'] == 'unclassified') == sorted(DOWN9))
     plan, _ = common['build_plan'](S0, False, False)
     vas = [int(f['va'], 16) for f in reg['functions']]
     check('каждая функция плана — в реестре ровно один раз, статус из двух',
@@ -131,8 +137,9 @@ if len(sys.argv) > 3:
     # тело теперь у слотов нескольких иерархий: конфликт this); список — audit/status_migration_v0514_v06.md
     # v0.6.2: +3 — RegisterStreamables (NiObject, NiAlphaAccumulator) и NiGeometry::OnVisible: очистка стека выведена
     # по прямым вызовам, слот своего класса стал name+stack (audit/status_migration_v061_v062.md)
-    check('назначения this: v0.5.14 (1458 / 1459) + 23 (v0.6) − 1 конфликт + 3 (v0.6.2) — строгий 1483, research 1484',
-          (n_s, n_r) == (1483, 1484), f'{n_s} / {n_r}')
+    # v0.6.7: −103 строгих this — методы 9 понижённых классов (полного типа в строгом PDB нет); research тот же
+    check('назначения this: v0.5.14 (1458 / 1459) + 23 (v0.6) − 1 конфликт + 3 (v0.6.2) − 103 (v0.6.7, понижения) — '
+          'строгий 1380, research 1484', (n_s, n_r) == (1380, 1484), f'{n_s} / {n_r}')
     SIX = ['0x007AF430', '0x00833150', '0x00A815C0', '0x00B807C0', '0x00BE0CE0', '0x00C9A420']
     check('v0.5.14 A: шесть межклассовых адресов из аудита — this и прототип не назначаются, имена те же',
           all(FA[v]['name_class_relation'] == 'other-class' and FA[v]['name_class_verified'] is False
@@ -165,7 +172,7 @@ if len(sys.argv) > 3:
           and reg['coverage']['public_symbols_total'] == pubn and len(gp) == reg['coverage']['public_symbols_not_in_registry'],
           f'{len(gp)} из {pubn}')
     cv = list(csv.DictReader(open(os.path.join(ev, 'verification_coverage.csv'), encoding='utf-8')))
-    check('verification_coverage.csv: все классы и функции реестра', len(cv) == len(reg['functions']) + 86
+    check('verification_coverage.csv: все классы со статусом (77) и функции реестра', len(cv) == len(reg['functions']) + 77
           and cv == [{k: str(v) for k, v in row.items()} for row in cov])
 
     # чувствительность 1: слот semantics понижен до name+stack — функция VerifiedPrefix, прототип снят, имя то же

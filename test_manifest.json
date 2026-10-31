@@ -1,5 +1,5 @@
 {
- "package": "FalloutNV_PDB_v0.6.6",
+ "package": "FalloutNV_PDB_v0.6.7",
  "target_exe": {
   "name": "FalloutNV.exe",
   "version": "1.4.0.525 (GOG)",
@@ -26,25 +26,25 @@
  "output_pdbs": {
   "FalloutNV.pdb": {
    "kind": "strict (по умолчанию)",
-   "sha256": "d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e",
-   "tpi_records": 875,
-   "tpi_range": "0x1000..0x136A включительно",
-   "classes": 84,
-   "full_classes": 84,
+   "sha256": "57428a4bd16a89bf9100c2b28f4a788ee2ea9c5f96d6b59e1f5a66116f738140",
+   "tpi_records": 825,
+   "tpi_range": "0x1000..0x1338 включительно",
+   "classes": 75,
+   "full_classes": 75,
    "verified_prefix_classes": [
     "BGSSaveLoadFormHeader",
     "FontManager::TextData"
    ],
-   "statistics": "84 Confirmed + 2 VerifiedPrefix (имена исходные)",
+   "statistics": "75 Confirmed + 2 VerifiedPrefix (имена исходные)",
    "enums": 8,
    "streams": 12,
-   "header_static_asserts": 1052,
+   "header_static_asserts": 959,
    "unverified_slots": 158,
-   "typed_slots_semantics": 251,
+   "typed_slots_semantics": 250,
    "masked_fields": 18,
-   "typed_fields": 861,
-   "typed_fields_width_verified": 644,
-   "typed_fields_blob": 217
+   "typed_fields": 782,
+   "typed_fields_width_verified": 577,
+   "typed_fields_blob": 205
   },
   "research/FalloutNV.pdb": {
    "kind": "research",
@@ -100,7 +100,7 @@
   "evidence_dir": "out/ побайтно равно evidence/ (26 файлов)",
   "pdb_vs_meta": "ИТОГ: всё совпадает (оба PDB)",
   "rebuilt_pdb_sha256": {
-   "FalloutNV.pdb": "d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e",
+   "FalloutNV.pdb": "57428a4bd16a89bf9100c2b28f4a788ee2ea9c5f96d6b59e1f5a66116f738140",
    "research/FalloutNV.pdb": "d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4"
   },
   "rebuilt_scripts": "scripts/ побайтно равно результату build.py",
@@ -110,11 +110,12 @@
    "unverified": 14
   },
   "sizes": {
-   "confirmed": 84,
-   "consistent": 2
+   "confirmed": 75,
+   "consistent": 10,
+   "unverified": 1
   },
-  "strict_admitted_classes": 84,
-  "provisional_classes_research": 14,
+  "strict_admitted_classes": 75,
+  "provisional_classes_research": 22,
   "truncated_functions": 0,
   "change_flags": {
    "confirmed": 67,
@@ -145,13 +146,13 @@
   "apply_plan": {
    "strict": {
     "addresses": 2205,
-    "this_candidates": 1514,
+    "this_candidates": "не пересчитывалось в v0.6.7; после реестра — after_registry_gate.this",
     "semantics_prototypes": 20,
     "conflicts": 38,
     "full_type_applied": "this только полных классов",
     "prefix_view_applied": 0,
     "after_registry_gate": {
-     "this": 1483,
+     "this": 1380,
      "prototypes": 1
     }
    },
@@ -188,28 +189,35 @@
     "not-checked": 10
    },
    "float": {
-    "consistent": 110,
+    "consistent": 108,
     "not-checked": 16
    },
    "int": {
-    "not-checked": 293,
-    "consistent": 36
+    "not-checked": 258,
+    "consistent": 31
    },
    "pointer": {
-    "consistent": 92,
-    "not-checked": 87
+    "consistent": 74,
+    "not-checked": 80
    },
-   "blob": 217,
-   "width_verified": 644,
-   "pointer_target_verified": [
-    "Font::pFontData"
-   ],
+   "blob": 205,
+   "width_verified": 577,
+   "pointer_target_verified": [],
    "type_verified": "всегда false",
    "CONFLICT": 0
   },
   "not_admitted": [
+   "MemoryHeap",
    "BGSSaveLoadFormHeader",
-   "FontManager::TextData"
+   "BGSSaveLoadGame",
+   "BGSSaveLoadManager",
+   "FalloutRadio::FORadioStation",
+   "RadioConvTask",
+   "Font",
+   "FontManager",
+   "FontManager::CharData",
+   "FontManager::TextData",
+   "NiPropertyState"
   ],
   "new_classes_v05": 44,
   "vslot_status": {
@@ -399,8 +407,9 @@
   "test_prefixview": "67/67 (27 случаев отказа)",
   "verification": {
    "classes": {
-    "Confirmed": 84,
-    "VerifiedPrefix": 2
+    "Confirmed": 75,
+    "VerifiedPrefix": 2,
+    "unclassified": 9
    },
    "functions": {
     "Confirmed": 1,
@@ -409,7 +418,7 @@
    "functions_unclassified": 0,
    "public_symbols_not_in_registry": 135966,
    "apply_this": {
-    "strict": 1483,
+    "strict": 1380,
     "research": 1484
    },
    "apply_signature": {
@@ -419,14 +428,14 @@
    "pdbs": {
     "strict": {
      "path": "FalloutNV.pdb",
-     "sha256": "d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e"
+     "sha256": "57428a4bd16a89bf9100c2b28f4a788ee2ea9c5f96d6b59e1f5a66116f738140"
     },
     "research": {
      "path": "research/FalloutNV.pdb",
      "sha256": "d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4"
     }
    },
-   "summary_sha256": "2eb6dad34488e6c983f1c90f67678b0721a9a0a7a60a52854bf860b0dfea6923"
+   "summary_sha256": "b3c4a9444a27b7c76c758438b161c14ca50bdaf660db0c2035452116f52d1381"
   },
   "slot_proofs": {
    "checks": {
@@ -536,7 +545,7 @@
    "test_size_census": "ИТОГ: всё прошло"
   },
   "provenance": {
-   "schema": 3,
+   "schema": 4,
    "xbox_extract_sha256": "e86415e9255fc5a5d1dfb6069b23c6febffdf2c4e972d1244ea8478479c358da",
    "classes_by_origin": {
     "xbox-verified": 62,
@@ -545,9 +554,9 @@
    "classes_reconstructed": 24,
    "claims": 8531,
    "claims_by_origin": {
-    "xbox-verified": 3566,
-    "unknown": 4693,
-    "pc-reconstructed": 135,
+    "xbox-verified": 3568,
+    "unknown": 4688,
+    "pc-reconstructed": 138,
     "hybrid": 137
    },
    "research_models": 85,
@@ -560,23 +569,24 @@
    "coverage_rows": 8702,
    "test_provenance": "ИТОГ: всё прошло",
    "proofs_by_kind": {
-    "subclass-boundary": 30,
+    "subclass-boundary": 29,
     "vtable-rtti": 43,
     "field-access": 3892,
     "vtable-cell": 1911,
     "ret-n": 1068,
     "cleanup-journal": 136,
-    "alloc-bounds": 24,
-    "ctor-alloc": 62,
+    "alloc-bounds": 23,
+    "ctor-alloc": 37,
     "slot-proof": 1,
     "manual-reviewed": 24,
     "composition": 67,
+    "sized-delete": 29,
     "vtable-symbol": 9
    },
    "rejected_proofs": 0,
    "contract_level": {
-    "machine": 3678,
-    "manual": 23,
+    "machine": 3686,
+    "manual": 20,
     "journal": 137
    },
    "functions_this_origin": {
@@ -585,14 +595,52 @@
     "pc-reconstructed": 383
    },
    "size_bound": {
-    "exact": 69,
-    "none": 2,
-    "upper-only": 13
+    "exact": 74,
+    "none": 1
    },
-   "size_status_hold": [
-    "NiAlphaAccumulator"
+   "size_status_hold": [],
+   "sized_delete_classes": [
+    "BSBatchRenderer",
+    "BSFadeNode",
+    "BSShader",
+    "BSShaderAccumulator",
+    "BSShaderLightingProperty",
+    "BSShaderPPLightingProperty",
+    "BSShaderProperty",
+    "NiAVObject",
+    "NiAccumulator",
+    "NiAlphaAccumulator",
+    "NiBackToFrontAccumulator",
+    "NiCamera",
+    "NiD3DDefaultShader",
+    "NiD3DShader",
+    "NiD3DShaderInterface",
+    "NiDX9Renderer",
+    "NiGeometry",
+    "NiGeometryData",
+    "NiNode",
+    "NiObjectNET",
+    "NiRenderer",
+    "NiShader",
+    "NiSourceTexture",
+    "NiTexture",
+    "NiTriBasedGeom",
+    "NiTriBasedGeomData",
+    "NiTriShapeData",
+    "ShadowSceneLight",
+    "ShadowSceneNode"
    ],
-   "strict_candidate_without_hold_pdb_sha256": "83508c2ce09b7f9cdaad20a2b9bd1acb9cb4405594c6b79d5f7a36112c873cf5",
+   "downgraded_v067": [
+    "BGSSaveLoadGame",
+    "BGSSaveLoadManager",
+    "FalloutRadio::FORadioStation",
+    "Font",
+    "FontManager",
+    "FontManager::CharData",
+    "MemoryHeap",
+    "NiPropertyState",
+    "RadioConvTask"
+   ],
    "test_cfg_proofs": "ИТОГ: всё прошло",
    "xbox_nested_members": 770
   }
@@ -614,17 +662,18 @@
   "v0.6.3: research_reconstruction — повтор всех результатов в чистой копии пакета (побайтно), test_rr.py, самопроверка зонда в эмуляторе (Unicorn; потоки и игра не моделируются); на Windows зонд не запускался",
   "v0.6.4: происхождение — пересчёт в чистой копии пакета побайтно; test_provenance.py (30, из них 14 порча), test_size_census.py (19); оба PDB побайтно как v0.6.3. На Windows и в настоящих Ghidra/IDA ничего не запускалось (скрипты не менялись)",
   "v0.6.5: происхождение схемы 2 — пересчёт в чистой копии пакета побайтно; test_provenance.py (54, из них 28 порча), test_size_census.py (27); оба PDB побайтно как v0.6.4. На Windows и в настоящих Ghidra/IDA ничего не запускалось (скрипты не менялись)",
-  "v0.6.6: evidence/ пересчитан исправленным evidence.py и повторён в чистой копии побайтно; test_cfg_proofs.py (15), test_provenance.py (65, из них 35 порча); оба PDB побайтно как v0.6.5. На Windows и в настоящих Ghidra/IDA ничего не запускалось (скрипты не менялись)"
+  "v0.6.6: evidence/ пересчитан исправленным evidence.py и повторён в чистой копии побайтно; test_cfg_proofs.py (15), test_provenance.py (65, из них 35 порча); оба PDB побайтно как v0.6.5. На Windows и в настоящих Ghidra/IDA ничего не запускалось (скрипты не менялись)",
+  "v0.6.7: evidence/ пересчитан, строгий PDB пересобран по новой summary.json; в чистой копии evidence, оба PDB, скрипты, research_reconstruction — побайтно; test_cfg_proofs.py (64), test_provenance.py (77, из них 38 порча); на Windows, в настоящих Ghidra/IDA и в игре ничего не запускалось"
  ],
  "not_included": "дампы и файлы Xbox 360 PDB не распространяются; для перегенерации заголовков (gen_headers.py) они нужны, для пересборки PDB и всех проверок — нет",
  "files": {
   "FalloutNV.pdb": {
-   "sha256": "d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e",
-   "bytes": 7172096
+   "sha256": "57428a4bd16a89bf9100c2b28f4a788ee2ea9c5f96d6b59e1f5a66116f738140",
+   "bytes": 7168000
   },
   "README_RU.md": {
-   "sha256": "c80b71ef5181c62901724d16b541fec7a7f883c9fa45923eb5a69f969a597fc6",
-   "bytes": 147930
+   "sha256": "db3f325fe2bbd02b1515510c8c084334622f93f8bcacccd2027c653de5478e9c",
+   "bytes": 150536
   },
   "audit/base_v061_sha256.txt": {
    "sha256": "3d4b1682e94cae122742d6ec29fd00160b54367cd6361d9b29b19400ec650647",
@@ -649,6 +698,10 @@
   "audit/diff_v065_v066.md": {
    "sha256": "7cb44dba1b555f7a1ba4b09c31101b8ea4f51dc5a9d7b9114d92e039bfd0b3c0",
    "bytes": 6343
+  },
+  "audit/diff_v066_v067.md": {
+   "sha256": "a98cfbd9bb8b7a30b20ad9d16b50cf70064b4502b615f3d5a3fe2bf42c23d96d",
+   "bytes": 13918
   },
   "audit/end_anchors_v061.md": {
    "sha256": "227cc0bce6924a0786c854eb853a55a5badd5b1699383dca726401dba11453c6",
@@ -686,6 +739,10 @@
    "sha256": "fe6ca6f03ca0723e528cfef36b2ff7148d2d8670a342801ada62a6e8c90887c3",
    "bytes": 1132
   },
+  "audit/msf_streams_strict_v066_v067.txt": {
+   "sha256": "97e40fe5f85741903f7a60b7ee7ad5c29d1ead17bef7424694e853d6699db5f8",
+   "bytes": 1132
+  },
   "audit/proof_contract_v065.md": {
    "sha256": "61e4bc814196e11350bedbcfe88ee9fce774562e5430ae08d96382fe237057b3",
    "bytes": 18601
@@ -694,13 +751,25 @@
    "sha256": "3f878cac9c68f73d2f7483dc1469d0d9348a24a8d84b29f5f80bf59a9a791f77",
    "bytes": 13822
   },
+  "audit/proof_contract_v067.md": {
+   "sha256": "74d92cd2afd8a348a95fa5b427499f699b6f265f7043d6b2ab02f8f19b7e098b",
+   "bytes": 22989
+  },
+  "audit/proofs_diff_v066_v067.md": {
+   "sha256": "2b3b841d7d92cd911007bb6d75fad608c4639f3631b60569eea40184857158bc",
+   "bytes": 9375
+  },
   "audit/provenance_migration.md": {
    "sha256": "37dc45df3ba9cedfafbdc4cf173f5f8cc463312c79c891038fa8eeb72551fb8b",
    "bytes": 20085
   },
   "audit/repro_build.log": {
-   "sha256": "2096d759bd7301f33f886be98aaac3df023a54c170aaab0ba00f81d3be001fb4",
-   "bytes": 1346
+   "sha256": "7719a0f898de2651790dfa363c65a44913b28a96777bf78d56175cbdfbb962d4",
+   "bytes": 1365
+  },
+  "audit/sizeof_evidence_reaudit.csv": {
+   "sha256": "8a0473670f7d9864bd04970233f9a913c04b76f4fb85647dd552e151b0348264",
+   "bytes": 9031
   },
   "audit/status_migration_v0511_v0512.md": {
    "sha256": "4c8aaa3ad9f3a96f84c83b54957dc78a2d976634bfd5a361a216e94642e28193",
@@ -726,36 +795,20 @@
    "sha256": "ea009c28c4c96ca0b5ff2b10d4a0a76f95ac0d1535b2a0676211ceadd69aa396",
    "bytes": 2540
   },
-  "audit/strict_candidate_without_hold/FalloutNV.pdb": {
-   "sha256": "83508c2ce09b7f9cdaad20a2b9bd1acb9cb4405594c6b79d5f7a36112c873cf5",
-   "bytes": 7168000
-  },
-  "audit/strict_candidate_without_hold/README_RU.md": {
-   "sha256": "220ac17e53ac357e54be52aac500bc077618740ec5a2757f49e8a0c55d489eb3",
-   "bytes": 3912
-  },
-  "audit/strict_candidate_without_hold/fnv_types_v05.cpp": {
-   "sha256": "9ac45ed789ad29fffbf4ce088a8b758980a5061f96271158627b359263fc9ca3",
-   "bytes": 4866
-  },
-  "audit/strict_candidate_without_hold/fnv_types_v05.h": {
-   "sha256": "3ef6e4a371b252465a99560c3e8e2bc7e11c4d4ea95afb299018fec41ecb9bf3",
-   "bytes": 242000
-  },
-  "audit/strict_candidate_without_hold/header.diff": {
-   "sha256": "fbf3590e6a209d15daa5d33feb5911fb24d2ba29c2a583b262119c8d7927a458",
-   "bytes": 9116
+  "audit/strict_header_raw_v066_v067.diff": {
+   "sha256": "43c27146ed1d886d2f34229cb12d6381f22e868941dabbd0d5ced2e0ea670afb",
+   "bytes": 16043
   },
   "audit/test_cfg_proofs.log": {
-   "sha256": "7d3f8658b410d96981f26f0667c085d6da5e2c03e72782f53f933a547853e1ea",
-   "bytes": 1708
+   "sha256": "df670d205f2ef02f5d3ebef471a98e341aeb1769c72d3459baf66f61865cd9b5",
+   "bytes": 7696
   },
   "audit/test_cpp_guard.log": {
    "sha256": "c9267675d2fb95c7a1df3b7c3ec448f42e4273f75ef5ca5971f8853ebd32e179",
    "bytes": 2059
   },
   "audit/test_ghidra_mock.log": {
-   "sha256": "fbbba54a14d5f6b4091457d673d29d376fb6753deabd3f5d036cee068803d8d7",
+   "sha256": "503aaa46097864f21726bbd3d46b45f487d8f149f63782cbcd6ad4744cbe5ef3",
    "bytes": 8252
   },
   "audit/test_ida_mock.log": {
@@ -763,12 +816,12 @@
    "bytes": 1525
   },
   "audit/test_prefixview.log": {
-   "sha256": "148cf7c1c302d65f30824448efc51fe47e604d49b8aed2f10db5763c50adadaa",
-   "bytes": 7557
+   "sha256": "2bb76da4db9bc414dc59693a90ab3bcdbf9e91a825610ea39b11f167bd8a8ea0",
+   "bytes": 7659
   },
   "audit/test_provenance.log": {
-   "sha256": "13c3f4f706bf4364835d372d9c3f29634f870813ee268df2873ed16abdc9d033",
-   "bytes": 8824
+   "sha256": "302da38a2db4667d21b053e68f4ced002bfaf3954740097e89c83d3764fb0061",
+   "bytes": 10787
   },
   "audit/test_rr.log": {
    "sha256": "bd5b706be37880f049c844ef9b05f2f15c006f6381f2b60a43b885facf810309",
@@ -783,8 +836,8 @@
    "bytes": 8350
   },
   "audit/test_verification.log": {
-   "sha256": "9318b8ea10a57857b4ed9b9eb4b4cebc2f41e23abb8598d9b383615a71c1ae5b",
-   "bytes": 4580
+   "sha256": "7d70512766bf712c6215b8f76e93d4483d8c75434abb6ff3d60fcf0d56f94a81",
+   "bytes": 4757
   },
   "audit/tpi_diff_research_v0511_v0512.txt": {
    "sha256": "5f75ca8236aa957d0d0dd82b38e60141fbbadaaa11db47cbf080e1fa90268099",
@@ -806,9 +859,13 @@
    "sha256": "6ad76e90347479eddc24e4e3b4b2d942c30b3d6c0ffd7e286893f3637be5dee3",
    "bytes": 104194
   },
+  "audit/tpi_diff_strict_v066_v067.txt": {
+   "sha256": "42cb88966d446b929d95dfcd36e7cd6ce8854c55789f156614e57f87764fd1ff",
+   "bytes": 17880
+  },
   "evidence/REPORT.md": {
-   "sha256": "5610440e07998568b2e73a9016addbbd85f3a02f9a5cd8032fa75a19a4b02f09",
-   "bytes": 36479
+   "sha256": "7c63ea300fe13176a7423137ffda5b95b26fd5fe8b223986584a2da8509f67cf",
+   "bytes": 36759
   },
   "evidence/accessor_anchors.csv": {
    "sha256": "35ea2bf45e5b6f969590e23570ba276327d49b0d6000b89ae2510898708690c4",
@@ -827,16 +884,16 @@
    "bytes": 11118
   },
   "evidence/coverage_gaps.csv": {
-   "sha256": "6ee659d947f15949375a3f8227a00c4563d1c6fc5273839f45976ad9298fbc35",
-   "bytes": 13596288
+   "sha256": "227671ff88a2ef0dc98152a85a18b316aafa420846a899131ed380ba67b37260",
+   "bytes": 13597584
   },
   "evidence/evidence_fields.csv": {
    "sha256": "59f2b0fad7d6b541b9da3e4e7283ec300c4ff51c204961da0ee48e4b8bedb322",
    "bytes": 1991851
   },
   "evidence/evidence_sizes.csv": {
-   "sha256": "4411631691d252be79622d7b7d1b73ab02bae90e32faf00d38bc9100df0f78dc",
-   "bytes": 107013
+   "sha256": "84c187932acc88ad4fc1029834e917f74997c8c72926236139bb925ebfd96cd0",
+   "bytes": 160516
   },
   "evidence/evidence_vslots.csv": {
    "sha256": "655ac20460b7429f1e8105f90dead9654afc0982a39d578a414aeca2eefee4ae",
@@ -871,12 +928,12 @@
    "bytes": 61008
   },
   "evidence/platform_differences.csv": {
-   "sha256": "41f13a936d2c8d32a88a222f2e9e0787e5ddfb9277324c7bb39f125dbef90360",
-   "bytes": 10874
+   "sha256": "3f5bae1babdf84d29027a5d29ec169db54ad2738b5d74ea5dbfc721fac829494",
+   "bytes": 10860
   },
   "evidence/provenance_coverage.csv": {
-   "sha256": "02f7c4c4e61a6d7ca8556c80bdfdeefdaebf62c408a65751dcb7df3ee1c00d8a",
-   "bytes": 822015
+   "sha256": "b8b4153bd3ad4a335523ce79630329227c195d393d107453b675c291f086c686",
+   "bytes": 822356
   },
   "evidence/shader_type.csv": {
    "sha256": "367acfdbd9d21367f41ce04845c6cb22b09832b2ed771df38717f646d22fa2b8",
@@ -891,20 +948,20 @@
    "bytes": 4277
   },
   "evidence/summary.json": {
-   "sha256": "4b977b5512f233e6208a5fa057648294ecd109c1d9c112e23e4deeb9cb39ff2d",
-   "bytes": 7697839
+   "sha256": "b3c4a9444a27b7c76c758438b161c14ca50bdaf660db0c2035452116f52d1381",
+   "bytes": 11047673
   },
   "evidence/traced_provenance.csv": {
    "sha256": "4467487609e27d1497f49d0f14e2c5ac10f0c572dba56a2dc3b70a65b7e4f0ca",
    "bytes": 5834
   },
   "evidence/verification.json": {
-   "sha256": "caed417b427dbb58229276878db12a8d49821d4e87c392cb14eb59a3aebc6e61",
-   "bytes": 6326211
+   "sha256": "0c5216d61f1ac6619beefea6ad446cc6ad26f8053db1f564a2bfc28b5092b5c8",
+   "bytes": 6325005
   },
   "evidence/verification_coverage.csv": {
-   "sha256": "c444dba851e1336e0844d24a9a7d8a653faf5d30aee51a6d8ec2b0a9594f818a",
-   "bytes": 1302823
+   "sha256": "d29950cb341e48687c57444e9bc9ca9eb6ac39a57a586249429f1551c026445c",
+   "bytes": 1300208
   },
   "evidence/verified_prefix_candidates.csv": {
    "sha256": "12677a07c4e001425a873fc0a50473f0ad292499aad915934914155602003ad5",
@@ -915,20 +972,20 @@
    "bytes": 7736
   },
   "fnv_types_v05.h": {
-   "sha256": "3f95053f3c964be1215d1a150ff798dadc620421c8de29b97b479eca244b064d",
-   "bytes": 297038
+   "sha256": "e655ba4203f7ae586baf40d13b540c4b9d8a44e9b7ecb4601efc9e9e745da6af",
+   "bytes": 280285
   },
   "fnv_types_v05.meta.json": {
-   "sha256": "337aab3e1294be1d3ae005b9b2e0448cc87338fa6760170d4bb9d19a94315ebd",
-   "bytes": 346986
+   "sha256": "8ed4b0dfb217ed28f62f01612d804cb4f54edbc29adf28bb5f3eef31c852ef07",
+   "bytes": 325165
   },
   "research/FalloutNV.pdb": {
    "sha256": "d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4",
    "bytes": 7180288
   },
   "research/fnv_types_v05_research.h": {
-   "sha256": "e352e70ba18634aa3b948f328ed615fecf1dd49600713d3b99b265275f334db9",
-   "bytes": 280152
+   "sha256": "1b429d6900b54ec32c76113081704a160a28a10160b982f5ecd20b7a744db6f1",
+   "bytes": 280891
   },
   "research/fnv_types_v05_research.meta.json": {
    "sha256": "f06044b34ee8d81f42b8d40b10ea0311da9fa16b655afdac783e519610fb37d6",
@@ -1207,8 +1264,8 @@
    "bytes": 38831
   },
   "tools/allocchain.py": {
-   "sha256": "0f1c62ab764c87fa07912b7918cbb8520f9b2b4468c9e27d6e02c66fda0fc6a5",
-   "bytes": 17292
+   "sha256": "f455d90a72154004f594ad6b939f70f59c862090ce1e666e8e6bcfb85284ecca",
+   "bytes": 34391
   },
   "tools/annotate_header.py": {
    "sha256": "d972f8936a7b1ab3ccbba63a20c5915ec90928b61371e81a481d88e181e85e97",
@@ -1219,28 +1276,28 @@
    "bytes": 40494
   },
   "tools/evidence.py": {
-   "sha256": "3cdf109a32166c9be08508fe4364bc410b761e4a2b76c536b911ae8599d95c93",
-   "bytes": 173960
+   "sha256": "6bbb1126c9685a8dcec15e2cfb7f0d6ebfbd44c50f56515d189c4422e5ffedf1",
+   "bytes": 177220
   },
   "tools/evidence_spec.json": {
-   "sha256": "3c94ba6459962c7b5ec5500a932c534baa21aa0b026ffe97ec77691e1c5ddee9",
-   "bytes": 54377
+   "sha256": "5e87749bf670821093330a7810151dde35284a6e297406011b7721b2621e798d",
+   "bytes": 53381
   },
   "tools/field_research.py": {
    "sha256": "abc008c9aa5fffc8ccb127ecec11828398e58bf25d3f14c5c3c1cdffc024387b",
    "bytes": 6619
   },
   "tools/fnv_types_v05.cpp": {
-   "sha256": "2ff887f672d5e1087be99751a45b23d4cd01e798cf50f572f9d0caf86440f5e3",
-   "bytes": 4980
+   "sha256": "870bea795bacf69bba31628842ceac0721d5a8939b0e83180aef39c53b6897de",
+   "bytes": 4530
   },
   "tools/fnv_types_v05_research.cpp": {
    "sha256": "5c410dfc95aae98d9bd0c451a5731348bbea8cdcc77d8d66cf6a11c144ae669f",
    "bytes": 4841
   },
   "tools/gen_headers.py": {
-   "sha256": "ae33f5e5062b15c51164fea4b1e85ebcea29930194485a7c5e090911c77e4085",
-   "bytes": 44737
+   "sha256": "73697d80209b9091e3f0d11e674b0130309d2ce7e830cdb47292221e43126bec",
+   "bytes": 45174
   },
   "tools/infer_own_fields.py": {
    "sha256": "07aac094a75b3357e3831908cc859d561fe93cf60a6ab1a2f1e1a9b80b8a3871",
@@ -1287,12 +1344,12 @@
    "bytes": 9034
   },
   "tools/proofs.py": {
-   "sha256": "a5f0af154f9697493bef6ef86e5dace88c4e2e37742722154cb16ed1d2f23c72",
-   "bytes": 44358
+   "sha256": "7404a663dd875fadac3fe30d0f94640cfe96cc4c0f062e09966050cce3c09fe3",
+   "bytes": 50511
   },
   "tools/provenance.py": {
-   "sha256": "ac10efcf3f0b6e5cf4927af2345f4b82ccdb7338f40677699cdc078d9beaf8ee",
-   "bytes": 53582
+   "sha256": "32457805042e52d4cd950b2e8463ef29d59c6d1f86cbaf824981e810fee38097",
+   "bytes": 53602
   },
   "tools/report_extras.py": {
    "sha256": "7a04019a2ac2a4458e39c7081598f0cb79dd44b909d60bb63779950538a25244",
@@ -1343,8 +1400,8 @@
    "bytes": 70004
   },
   "tools/test_cfg_proofs.py": {
-   "sha256": "8c8dee02f17720132579fcef38646ef73b986269d0768d478064f8bdc6c323ab",
-   "bytes": 6565
+   "sha256": "9ef26d18cfb5cef41fb24b0e727c56d6ea0286dbc701f686f1ed72b14a2eaf66",
+   "bytes": 19733
   },
   "tools/test_chaincheck.py": {
    "sha256": "2c2769d2ead2d793985a17ce9c128520836c7b64c30c6c543ff76e4d39c2e79f",
@@ -1355,12 +1412,12 @@
    "bytes": 5012
   },
   "tools/test_prefixview.py": {
-   "sha256": "b0587e8690f3d242b9dd6d1f173aee64f3bb16298f7ada768a0fd16e27960e36",
-   "bytes": 16239
+   "sha256": "e54df4e6a042f3e5f68e5bbd4d929623a373e2f2cb7f5ce2533d3e8ad7424162",
+   "bytes": 16678
   },
   "tools/test_provenance.py": {
-   "sha256": "75e10739acd3a0e849f266be1b4eda81c82536b446707e6f207fa76b6b404b5f",
-   "bytes": 26021
+   "sha256": "ae3de288bf8a0fba600f37bba91969c688e8e8adb832b6872758ef202b8dabd2",
+   "bytes": 33355
   },
   "tools/test_slot_forward.py": {
    "sha256": "f6cc9467545db3e4f5649f428f249484eabc7d2f27765f100dffea2d827087e9",
@@ -1371,8 +1428,8 @@
    "bytes": 25188
   },
   "tools/test_verification.py": {
-   "sha256": "5e6f359fdd2e17cb3bb4a17b91da12e3ff1fc1967351c6671e10b60e0913f94c",
-   "bytes": 17265
+   "sha256": "4115f17d3c3af56f8860cc2267f66e16671997a742e710e215d69b4c12f18946",
+   "bytes": 18398
   },
   "tools/test_windows_check.py": {
    "sha256": "285bdc6127020971164b6988f8ee7ff47a121b724aa975d89741659ed571e1f6",
@@ -1419,5 +1476,5 @@
    "bytes": 231084
   }
  },
- "changed_vs_v0.6.5": "по аудиту Астры v0.6.5: оба PDB, заголовки, .meta.json и scripts/ побайтно как в v0.6.5; size_status не изменился ни у одного класса; ret-n и цепочка выделения — по графу (tools/allocchain.py), ctor-alloc — только верхняя граница, alloc-bounds без выравнивания, ширина/направление из команды; evidence.py: граница наследника только по подтверждённому полю, alloc-bounds (24 класса), NiAlphaAccumulator удержан (вариант без удержания — audit/strict_candidate_without_hold/)"
+ "changed_vs_v0.6.6": "по аудиту Астры v0.6.6 (мини-этап P0/P1/P2): ctor-alloc и ctor-alloc-derived — только верхняя граница; удержаний нет; новый признак точного размера sized-delete (29 классов, все совпали); 9 классов без второго признака понижены и ушли из строгого PDB (research тот же); allocchain: частичные регистры, граница команды, переходники по символам, must-zero по графу, модель кадра с утечкой адреса; допущения графа в каждом доказательстве; ret-n — только очистка стека"
 }

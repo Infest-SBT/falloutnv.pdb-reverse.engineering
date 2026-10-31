@@ -32,8 +32,8 @@ OK   тип сохраняется, если вид подтверждён ко�
 OK   bool без подтверждения → unsigned char 
 OK   непрозрачные байты: выравнивание по смещению, не больше alignof представления 
 OK   классов VerifiedPrefix: 2 BGSSaveLoadFormHeader, FontManager::TextData
-OK   классов Confirmed в строгом: 84 84
-OK   у каждого из 86 классов ровно один статус Confirmed/VerifiedPrefix 
+OK   классов Confirmed в строгом: 75 (v0.6.7: 9 понижены по P0) 75
+OK   из 86 классов у 77 ровно один статус Confirmed/VerifiedPrefix; 9 понижённых — без статуса и вне строгого 
 OK   суффикса _VerifiedPrefix нет ни в заголовке, ни в meta.json, ни в summary.json 
 OK   BGSSaveLoadFormHeader: strict=false, размер не confirmed, exact_size_confirmed=false, границы прежние consistent
 OK   BGSSaveLoadFormHeader: имя представления — исходное 

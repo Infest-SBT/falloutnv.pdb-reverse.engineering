@@ -1,16 +1,16 @@
 138171 symbols
 классы: {'hybrid': 24, 'xbox-verified': 62}
-утверждения: {'pc-reconstructed': 135, 'xbox-verified': 3566, 'unknown': 4693, 'hybrid': 137}
+утверждения: {'pc-reconstructed': 138, 'xbox-verified': 3568, 'unknown': 4688, 'hybrid': 137}
 модели research: 85
-классы: {'Confirmed': 84, 'VerifiedPrefix': 2} функции: {'Confirmed': 1, 'VerifiedPrefix': 2204} функций unclassified: 0 публичных символов вне реестра: 135966
+классы: {'Confirmed': 75, 'VerifiedPrefix': 2, 'unclassified': 9} функции: {'Confirmed': 1, 'VerifiedPrefix': 2204} функций unclassified: 0 публичных символов вне реестра: 135966
 EVIDENCE-IDENTICAL
-TPI: типов 875 (индексы 0x1000..0x136A включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
+TPI: типов 825 (индексы 0x1000..0x1338 включительно), хэш-поток 11, aux 65535; потоков 12 -> s_final.pdb
 TPI: типов 1006 (индексы 0x1000..0x13ED включительно), хэш-поток 11, aux 65535; потоков 12 -> r_final.pdb
 PDBS-IDENTICAL
 SCRIPTS-IDENTICAL
 ИТОГ: всё совпадает
 ИТОГ: всё совпадает
-d6b06d2f97e82b08d06ec7ef34bb17f741a9ac3fe4f1f9282bbe2495c89b505e  FalloutNV.pdb
+57428a4bd16a89bf9100c2b28f4a788ee2ea9c5f96d6b59e1f5a66116f738140  FalloutNV.pdb
 d0cb8d90eb142052901de4c9fc86e21fc0d5ac2c2289758532fdd7a309cb23e4  research/FalloutNV.pdb
 ИТОГ: всё прошло
 ИТОГ: всё прошло (31 проверок)

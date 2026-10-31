@@ -32,7 +32,7 @@ import copy, csv, hashlib, json, os, re, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import proofs as PR                                     # noqa: E402
 
-SCHEMA = 3      # v0.6.6: ret-n/цепочка выделения по графу, ctor-alloc — верхняя граница, ширина/направление из команды; v0.6.5: типизированные доказательства (proofs), контракт, difference_kind, область поиска
+SCHEMA = 4      # v0.6.7: вид sized-delete, допущения графа (cfg_assumptions) в доказательствах, без удержаний; v0.6.6: ret-n/цепочка выделения по графу, ctor-alloc — верхняя граница, ширина/направление из команды; v0.6.5: типизированные доказательства (proofs), контракт, difference_kind, область поиска
 ORIGINS = ('xbox-verified', 'pc-reconstructed', 'hybrid', 'unknown')
 RELATIONS = ('matching', 'missing', 'materially-different', 'inconclusive', 'not-assessed')
 FORBIDDEN_NAME = re.compile(r'_(Reconstructed|Confirmed|VerifiedPrefix|Unclassified|Hybrid|XboxVerified)\b', re.I)
@@ -174,8 +174,9 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
     if ab:
         srefs.insert(0, ab)
     # v0.6.6: сначала доказательства точного размера, затем верхние границы (ctor-alloc)
-    srefs.sort(key=lambda p: (p['kind'] in PR.UPPER_BOUND_KINDS, ['alloc-bounds', 'subclass-boundary',
-                                                                    'manual-reviewed', 'ctor-alloc'].index(p['kind'])))
+    srefs.sort(key=lambda p: (p['kind'] in PR.UPPER_BOUND_KINDS, ['alloc-bounds', 'sized-delete',
+                                                                    'subclass-boundary', 'manual-reviewed',
+                                                                    'ctor-alloc'].index(p['kind'])))
     srows = sorted({f"evidence/evidence_sizes.csv: {cname} {r['evidence']} {r['value']}" for r in sz.get(cname, [])})[:4]
     if sc['size_status'] == 'confirmed':
         if xc is None:
@@ -201,9 +202,7 @@ def class_provenance(cname, sc, mc, X, fr, sz, vs, exe, S, ctx):
                                                 f"префикс {rep.get('representation_size')} байт: поля подтверждены")
     if 'sizeof' in claims and unlinked:
         claims['sizeof']['unlinked_allocations'] = unlinked
-    if 'sizeof' in claims and 'held-pending-audit' in basis:
-        # v0.6.6: по новому правилу evidence.py размер не подтверждён; статус удержан до решения аудитора
-        claims['sizeof']['status_held'] = (ctx.spec.get('size_status_hold') or {}).get(cname, 'held-pending-audit')
+    assert 'held-pending-audit' not in basis, 'v0.6.7: удержание статуса размера запрещено (аудит v0.6.6)'
     # ---- vtable
     if sc.get('vtable_va'):
         vt = sc['vtable_va']
